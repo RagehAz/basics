@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_c_mexico</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect width="33.33" height="100" fill="#6da544"/>
+        <rect x="66.67" width="33.33" height="100" fill="#d80027"/>
+        <path d="M40.63,50a9.38,9.38,0,0,0,18.76,0V46.87H40.63Z" fill="#6da544"/>
+        <path d="M62.5,43.75H53.12a3.13,3.13,0,1,0-6.26,0H37.5a3.22,3.22,0,0,0,3.23,3.13h-.1A3.13,3.13,0,0,0,43.76,50a3.13,3.13,0,0,0,3.13,3.13h6.25A3.13,3.13,0,0,0,56.27,50a3.13,3.13,0,0,0,3.13-3.13h-.1A3.21,3.21,0,0,0,62.5,43.75Z" fill="#ff9811"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

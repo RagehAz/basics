@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_c_panama</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <path d="M50,50v50H0V50H50Z" fill="#0052b4"/>
+        <path d="M100,0V50H50V0Z" fill="#d80027"/>
+        <polygon points="25 12.59 28.08 22.07 38.04 22.07 29.98 27.93 33.06 37.41 25 31.55 16.94 37.41 20.02 27.93 11.96 22.07 21.92 22.07 25 12.59" fill="#0052b4"/>
+        <polygon points="75 62.59 78.08 72.07 88.04 72.07 79.98 77.93 83.06 87.41 75 81.55 66.94 87.41 70.02 77.93 61.96 72.07 71.92 72.07 75 62.59" fill="#d80027"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_cr_aruba</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#338af3"/>
+        <polygon points="21.17 28.83 12.5 25 21.17 21.17 25 12.5 28.83 21.17 37.5 25 28.83 28.83 25 37.5 21.17 28.83" fill="#f0f0f0"/>
+        <polygon points="25 17.28 27.36 22.64 32.72 25 27.36 27.36 25 32.72 22.64 27.36 17.28 25 22.64 22.64 25 17.28" fill="#d80027"/>
+        <g>
+          <rect y="58.7" width="100" height="4.35" fill="#ffda44"/>
+          <rect y="67.39" width="100" height="4.35" fill="#ffda44"/>
+        </g>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

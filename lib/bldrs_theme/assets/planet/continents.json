@@ -1,0 +1,59 @@
+{
+
+  "Asia":{
+    "name":"Asia",
+    "regions":{
+      "Southern Asia":{"continent":"Asia","name":"Southern Asia","countriesIDs":["afg","bgd","btn","ind","irn","lka","mdv","npl","pak"]},
+      "Western Asia":{"continent":"Asia","name":"Western Asia","countriesIDs":["are","arm","aze","bhr","cyp","geo","irq","isr","jor","kwt","lbn","omn","pse","qat","sau","syr","tur","yem"]},
+      "South-eastern Asia":{"continent":"Asia","name":"South-eastern Asia","countriesIDs":["brn","idn","khm","lao","mmr","mys","phl","sgp","tha","tls","vnm"]},
+      "Eastern Asia":{"continent":"Asia","name":"Eastern Asia","countriesIDs":["chn","hkg","jpn","kor","mac","mng","prk","twn"]},
+      "Central Asia":{"continent":"Asia","name":"Central Asia","countriesIDs":["kaz","kgz","tjk","tkm","uzb"]}
+    }
+  },
+
+  "Europe":{
+    "name":"Europe",
+    "regions":{
+      "Northern Europe":{"continent":"Europe","name":"Northern Europe","countriesIDs":["dnk","est","fin","fro","gbr","imn","irl","isl","jey","ltu","lva","nor","swe"]},
+      "Eastern Europe":{"continent":"Europe","name":"Eastern Europe","countriesIDs":["bgr","blr","cze","hun","mda","pol","rou","rus","svk","ukr"]},
+      "Southern Europe":{"continent":"Europe","name":"Southern Europe","countriesIDs":["alb","and","bih","esp","gib","grc","hrv","ita","mkd","mlt","mne","prt","smr","srb","svn","vat","xks"]},
+      "Western Europe":{"continent":"Europe","name":"Western Europe","countriesIDs":["aut","bel","che","deu","fra","lie","lux","mco","nld"]}
+    }
+  },
+
+  "Africa":{
+    "name":"Africa",
+    "regions":{
+      "Northern Africa":{"continent":"Africa","name":"Northern Africa","countriesIDs":["dza","egy","lby","mar","sdn","tun"]},
+      "Western Africa":{"continent":"Africa","name":"Western Africa","countriesIDs":["ben","bfa","civ","cpv","gha","gin","gmb","gnb","lbr","mli","mrt","ner","nga","sen","shn","sle","tgo"]},
+      "Eastern Africa":{"continent":"Africa","name":"Eastern Africa","countriesIDs":["bdi","com","dji","eri","eth","ken","mdg","moz","mus","mwi","myt","reu","rwa","som","ssd","syc","tza","uga","zmb","zwe"]},
+      "Middle Africa":{"continent":"Africa","name":"Middle Africa","countriesIDs":["ago","caf","cmr","cod","cog","gab","gnq","stp","tcd"]},
+      "Southern Africa":{"continent":"Africa","name":"Southern Africa","countriesIDs":["bwa","lso","nam","swz","zaf"]}}},
+
+  "North America":{
+    "name":"North America",
+    "regions":{
+      "Northern America":{"continent":"North America","name":"Northern America","countriesIDs":["bmu","can","grl","usa"]}
+    }
+  },
+
+  "South America": {
+    "name":"South America",
+    "regions":{
+      "South America":{"continent":"South America","name":"South America","countriesIDs":["arg","bol","bra","chl","col","ecu","flk","guf","guy","per","pry","sgs","sur","ury","ven"]},
+      "Central America":{"continent":"South America","name":"Central America","countriesIDs":["blz","cri","gtm","hnd","mex","nic","pan","slv"]},
+      "Caribbean":{"continent":"South America","name":"Caribbean","countriesIDs":["abw","atg","bhs","brb","cub","cuw","cym","dma","dom","glp","grd","hti","jam","kna","lca","mtq","pri","tca","tto","vct"]}
+    }
+  },
+
+  "Oceania":{
+    "name":"Oceania",
+    "regions":{
+      "Australia and New Zealand":{"continent":"Oceania","name":"Australia and New Zealand","countriesIDs":["aus","nzl"]},
+      "Polynesia":{"continent":"Oceania","name":"Polynesia","countriesIDs":["asm","cok","pyf","ton","tuv","wlf","wsm"]},
+      "Melanesia":{"continent":"Oceania","name":"Melanesia","countriesIDs":["fji","ncl","png","slb","vut"]},
+      "Micronesia":{"continent":"Oceania","name":"Micronesia","countriesIDs":["fsm","gum","kir","mhl","mnp","plw"]}
+    }
+  }
+
+}

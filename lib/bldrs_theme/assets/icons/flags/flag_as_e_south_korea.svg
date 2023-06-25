@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_as_e_south_korea</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#fff"/>
+        <path d="M68.45,50c0,4.61-8.26,16.14-18.45,16.14S31.55,54.61,31.55,50a18.45,18.45,0,0,1,36.9,0Z" fill="#d80027"/>
+        <path d="M68.45,50a18.45,18.45,0,0,1-36.9,0" fill="#0052b4"/>
+        <rect x="70.18" y="63.19" width="6.92" height="4.61" transform="translate(-24.74 71.26) rotate(-45)"/>
+        <rect x="62.03" y="71.34" width="6.92" height="4.61" transform="translate(-32.89 67.88) rotate(-45)"/>
+        <rect x="79.97" y="72.96" width="6.92" height="4.61" transform="translate(-28.79 81.04) rotate(-45)"/>
+        <rect x="71.81" y="81.12" width="6.92" height="4.61" transform="translate(-36.94 77.66) rotate(-45)"/>
+        <rect x="75.08" y="68.07" width="6.92" height="4.61" transform="translate(-26.76 76.15) rotate(-45)"/>
+        <rect x="66.92" y="76.23" width="6.92" height="4.61" transform="translate(-34.92 72.77) rotate(-45)"/>
+        <rect x="72.15" y="16.32" width="4.61" height="18.45" transform="translate(3.75 60.13) rotate(-45)"/>
+        <rect x="63.19" y="22.9" width="4.61" height="6.92" transform="translate(0.55 54.03) rotate(-45)"/>
+        <rect x="71.34" y="31.05" width="4.61" height="6.92" transform="translate(-2.83 62.18) rotate(-45)"/>
+        <rect x="72.96" y="13.12" width="4.61" height="6.92" transform="translate(10.33 58.08) rotate(-45)"/>
+        <rect x="81.12" y="21.27" width="4.61" height="6.92" transform="translate(6.95 66.23) rotate(-45)"/>
+        <rect x="18.35" y="70.13" width="4.61" height="18.45" transform="translate(-50.06 37.84) rotate(-45)"/>
+        <rect x="27.31" y="75.07" width="4.61" height="6.92" transform="translate(-46.86 43.94) rotate(-45)"/>
+        <rect x="19.16" y="66.92" width="4.61" height="6.92" transform="translate(-43.48 35.79) rotate(-45)"/>
+        <rect x="28.13" y="60.34" width="4.61" height="18.45" transform="translate(-40.28 41.9) rotate(-45)"/>
+        <rect x="11.43" y="18.35" width="18.45" height="4.61" transform="translate(-8.55 20.65) rotate(-45)"/>
+        <rect x="16.32" y="23.24" width="18.45" height="4.61" transform="translate(-10.58 25.54) rotate(-45)"/>
+        <rect x="21.21" y="28.13" width="18.45" height="4.61" transform="translate(-12.61 30.43) rotate(-45)"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

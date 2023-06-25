@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_c_el_salvador</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <g>
+          <rect width="100" height="33.33" fill="#0052b4"/>
+          <rect y="66.67" width="100" height="33.33" fill="#0052b4"/>
+        </g>
+        <polygon points="42.78 51.56 50 39.06 57.22 51.56 42.78 51.56" fill="#ffda44"/>
+        <polygon points="59.38 55.69 50 60.38 40.63 55.69 40.63 49.44 59.38 49.44 59.38 55.69" fill="#6da544"/>
+        <path d="M58.84,39.6l-3.31,3.31a7.81,7.81,0,1,1-11,0L41.18,39.6a12.51,12.51,0,1,0,17.66,0Z" fill="#ffda44"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

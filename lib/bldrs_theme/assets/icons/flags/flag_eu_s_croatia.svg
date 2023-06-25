@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_eu_s_croatia</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect width="100" height="33.33" fill="#d80027"/>
+        <rect y="66.67" width="100" height="33.33" fill="#0052b4"/>
+        <g>
+          <polygon points="62 36.83 54 36.83 55.33 26.83 60.67 22.83 66 26.83 66 34.83 62 36.83" fill="#338af3"/>
+          <polygon points="38 36.83 46 36.83 44.67 26.83 39.33 22.83 34 26.83 34 34.83 38 36.83" fill="#338af3"/>
+        </g>
+        <polygon points="55.33 36.83 44.67 36.83 44.67 26.83 50 22.83 55.33 26.83 55.33 36.83" fill="#0052b4"/>
+        <path d="M34,34.83v22a16,16,0,0,0,6.43,12.81l2.8-.7,3.54,3.56a15.92,15.92,0,0,0,6.45,0l4-3.36,2.32.5A16,16,0,0,0,66,56.83v-22Z" fill="#f0f0f0"/>
+        <g>
+          <rect x="34" y="34.83" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="46.8" y="34.83" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="59.6" y="34.83" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="40.4" y="41.23" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="53.2" y="41.23" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="34" y="47.62" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="40.4" y="54.02" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="46.8" y="47.62" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="59.6" y="47.62" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="53.2" y="54.02" width="6.4" height="6.4" fill="#d80027"/>
+          <rect x="46.8" y="60.42" width="6.4" height="6.4" fill="#d80027"/>
+          <path d="M40.4,60.42h-6a15.94,15.94,0,0,0,3.11,6.4H40.4v-6.4Z" fill="#d80027"/>
+          <path d="M59.6,66.82h2.88a15.94,15.94,0,0,0,3.11-6.4h-6v6.4Z" fill="#d80027"/>
+          <path d="M40.4,66.82v2.8a15.92,15.92,0,0,0,6.4,2.88V66.82Z" fill="#d80027"/>
+          <path d="M53.2,66.82V72.5a15.92,15.92,0,0,0,6.4-2.88v-2.8Z" fill="#d80027"/>
+        </g>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

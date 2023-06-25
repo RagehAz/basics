@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_sa_paraguay</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect width="100" height="33.33" fill="#d80027"/>
+        <rect y="66.67" width="100" height="33.33" fill="#0052b4"/>
+        <path d="M60.76,37.26l-4,4a9.51,9.51,0,1,1-13.46,0l-4-4a15.22,15.22,0,1,0,21.52,0Z" fill="#6da544"/>
+        <polygon points="50 42.31 51.42 46.67 56 46.67 52.29 49.37 53.71 53.73 50 51.03 46.29 53.73 47.71 49.37 44 46.67 48.58 46.67 50 42.31" fill="#ffda44"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

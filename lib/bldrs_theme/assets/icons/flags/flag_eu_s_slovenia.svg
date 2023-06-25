@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_eu_s_slovenia</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect y="33.33" width="100" height="33.33" fill="#0052b4"/>
+        <rect y="66.67" width="100" height="33.33" fill="#d80027"/>
+        <path d="M45.63,38.41V41.3c0,6.66-8.7,8.7-8.7,8.7s-8.7-2-8.7-8.7V38.41l0-8.64,17.39-.05Z" fill="#f0f0f0"/>
+        <path d="M49.42,37.77v4.16c0,9.55-12.48,12.48-12.48,12.48S24.46,51.48,24.46,41.93V37.77l0-12.38,25-.08Z" fill="#0052b4"/>
+        <path d="M49.42,37.77v4.16c0,9.55-12.48,12.48-12.48,12.48S24.46,51.48,24.46,41.93V37.77l4.16,4.16,8.32-6.24,8.32,6.24Z" fill="#f0f0f0"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

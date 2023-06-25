@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_af_w_mauritania</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <path d="M0,0H100V100H0Z" fill="#cd2a3e"/>
+        <path d="M0,15H100V85H0Z" fill="#006233"/>
+        <path d="M81.25,32.21a31.25,31.25,0,0,1-62.5,0,32.3,32.3,0,1,0,62.5,0Z" fill="#ffc400"/>
+        <path d="M50,19.54l-2.81,8.64H38.11l7.35,5.34-2.81,8.63L50,36.82l7.35,5.33-2.81-8.63,7.35-5.34H52.81Z" fill="#ffc400"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

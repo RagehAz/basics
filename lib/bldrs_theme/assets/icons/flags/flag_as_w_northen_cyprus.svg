@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_as_w_northen_cyprus</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <g>
+          <rect y="16.3" width="100" height="6.52" fill="#d80027"/>
+          <rect y="75" width="100" height="6.52" fill="#d80027"/>
+          <polygon points="45.73 43.9 48.47 47.67 52.9 46.24 50.16 50 52.89 53.77 48.47 52.33 45.73 56.1 45.73 51.44 41.3 50 45.73 48.56 45.73 43.9" fill="#d80027"/>
+          <path d="M38.27,59.42a9.42,9.42,0,1,1,4.48-17.71,11.59,11.59,0,1,0,0,16.58A9.39,9.39,0,0,1,38.27,59.42Z" fill="#d80027"/>
+        </g>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

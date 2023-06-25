@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_c_nicaragua</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect width="100" height="33.33" fill="#338af3"/>
+        <rect y="66.67" width="100" height="33.33" fill="#338af3"/>
+        <path d="M50,37.5A12.5,12.5,0,1,0,62.5,50,12.5,12.5,0,0,0,50,37.5Zm0,19.64A7.14,7.14,0,1,1,57.14,50,7.14,7.14,0,0,1,50,57.14Z" fill="#ffda44"/>
+        <polygon points="56.19 51.79 50 50 43.81 51.79 41.75 55.36 58.25 55.36 56.19 51.79" fill="#0052b4"/>
+        <polygon points="50 41.07 45.88 48.21 50 50 54.12 48.21 50 41.07" fill="#338af3"/>
+        <polygon points="43.81 51.79 56.19 51.79 54.12 48.21 45.88 48.21 43.81 51.79" fill="#6da544"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

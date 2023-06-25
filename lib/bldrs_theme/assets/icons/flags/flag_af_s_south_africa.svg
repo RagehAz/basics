@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_af_s_south_africa</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <polygon points="22.27 50 0 16.58 0 83.43 22.27 50"/>
+        <polygon points="31.48 50 0 2.74 0 16.58 22.27 50 0 83.43 0 97.24 31.48 50" fill="#ffda44"/>
+        <path d="M99.58,59.78h0c0-.13.15-.25.42-.38V40.22H43.48L16.67,0H0V2.74L31.48,50,0,97.24V100H16.67L43.48,59.78Z" fill="#6da544"/>
+        <polygon points="98.28 69.57 46.18 69.57 25.89 100 100 100 100 69.57 98.28 69.57" fill="#0052b4"/>
+        <polygon points="98.28 30.43 100 30.43 100 0 25.89 0 46.18 30.43 98.28 30.43" fill="#d80027"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

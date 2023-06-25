@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_as_s_iran</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <rect width="100" height="33.33" fill="#6da544"/>
+        <rect y="66.67" width="100" height="33.33" fill="#d80027"/>
+        <g>
+          <rect x="8.7" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="17.39" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="26.09" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="34.78" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="43.48" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="52.17" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="60.87" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="69.57" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="78.26" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="86.96" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="95.65" y="30.43" width="4.35" height="5.87" fill="#f0f0f0"/>
+          <rect x="8.7" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="17.39" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="26.09" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="34.78" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="43.48" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="52.17" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="60.87" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="69.57" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="78.26" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="86.96" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+          <rect x="95.65" y="63.8" width="4.35" height="5.76" fill="#f0f0f0"/>
+        </g>
+        <path d="M62.45,40h-5c0,.55.07,1.11.07,1.67A19,19,0,0,1,55,51.53a9.08,9.08,0,0,1-2.46,2.65V40h-5V54.18A9.08,9.08,0,0,1,45,51.53a19,19,0,0,1-2.54-9.86c0-.56,0-1.12.07-1.67h-5c0,.55,0,1.1,0,1.67C37.5,52,43,60,50,60s12.5-8,12.5-18.33C62.5,41.1,62.48,40.55,62.45,40Z" fill="#d80027"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_af_n_algeria</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#496e2d"/>
+        <rect x="50" width="50" height="100" fill="#f0f0f0"/>
+        <g>
+          <polygon points="62.38 39.21 57.77 45.57 50.29 43.15 54.91 49.5 50.3 55.86 57.77 53.43 62.39 59.78 62.39 51.92 69.86 49.49 62.39 47.07 62.38 39.21" fill="#d80027"/>
+          <path d="M55,65.9A15.9,15.9,0,1,1,62.52,36a19.56,19.56,0,1,0,0,28A15.91,15.91,0,0,1,55,65.9Z" fill="#d80027"/>
+        </g>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

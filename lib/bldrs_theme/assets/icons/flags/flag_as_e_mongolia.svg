@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_as_e_mongolia</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#0052b4"/>
+        <g>
+          <rect width="33.33" height="100" fill="#a2001d"/>
+          <rect x="66.67" width="33.33" height="100" fill="#a2001d"/>
+        </g>
+        <g>
+          <rect x="23.25" y="52.75" width="3.66" height="14.65" fill="#ffda44"/>
+          <rect x="8.6" y="52.75" width="3.66" height="14.65" fill="#ffda44"/>
+          <circle cx="17.75" cy="58.24" r="3.66" fill="#ffda44"/>
+          <circle cx="17.75" cy="45.42" r="1.83" fill="#ffda44"/>
+          <rect x="14.09" y="63.73" width="7.32" height="3.66" fill="#ffda44"/>
+          <rect x="14.09" y="49.08" width="7.32" height="3.66" fill="#ffda44"/>
+          <polygon points="17.75 32.61 19.05 36.6 23.25 36.6 19.85 39.06 21.15 43.05 17.75 40.59 14.36 43.05 15.65 39.06 12.26 36.6 16.46 36.6 17.75 32.61" fill="#ffda44"/>
+        </g>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

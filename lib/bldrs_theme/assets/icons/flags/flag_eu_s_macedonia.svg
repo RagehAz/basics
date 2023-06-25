@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_eu_s_republic_of_macedonia_or__north_macedonia</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#ffda44"/>
+        <g>
+          <polygon points="86.67 100 50 50 57.69 100 86.67 100" fill="#d80027"/>
+          <polygon points="13.33 0 50 50 42.31 0 13.33 0" fill="#d80027"/>
+          <polygon points="42.31 100 50 50 13.33 100 42.31 100" fill="#d80027"/>
+          <polygon points="0 42.31 50 50 0 13.33 0 42.31" fill="#d80027"/>
+          <polygon points="0 86.67 50 50 0 57.69 0 86.67" fill="#d80027"/>
+          <polygon points="100 13.33 50 50 100 42.31 100 13.33" fill="#d80027"/>
+          <polygon points="57.69 0 50 50 86.67 0 57.69 0" fill="#d80027"/>
+          <polygon points="100 57.69 50 50 100 86.67 100 57.69" fill="#d80027"/>
+          <circle cx="50" cy="50" r="16.3" fill="#d80027"/>
+        </g>
+        <circle cx="50" cy="50" r="12.23" fill="#ffda44"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

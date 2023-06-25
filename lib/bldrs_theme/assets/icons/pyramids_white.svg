@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.0" id="pyramids" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 256 80" enable-background="new 0 0 256 80" xml:space="preserve">
+<g id="Khofo">
+	<polygon id="foside" fill="#0F0F0F" points="112.9,80 181.8,13.6 158.9,80 	"/>
+	<polygon id="foface" fill="#FFFFFF" points="158.9,80 181.8,13.6 256,80 	"/>
+</g>
+<g id="Khafre">
+	<polygon id="kface" fill="#FFFFFF" points="72.1,80 107.8,0 194.9,80 	"/>
+	<polygon id="kside" fill="#0F0F0F" points="72.1,80 107.8,0 27.6,80 	"/>
+	<path id="kshadow2" opacity="0.2" fill="#0F0F0F" enable-background="new    " d="M169.3,49.8l-1.8,5.1l-14.6-13.4l5.1-4.9
+		L169.3,49.8z M169.3,49.8l-1.8,5.1L194.9,80h10.6L169.3,49.8z"/>
+	<polygon id="kshadow1" opacity="0.1" fill="#0F0F0F" enable-background="new    " points="107.8,0 152.9,41.5 158,36.6 	"/>
+</g>
+<g id="Mankuare">
+	<polygon id="mface" fill="#FFFFFF" points="110.9,80 54,25.4 26.4,80 	"/>
+	<polygon id="mside" fill="#0F0F0F" points="0,80 54,25.4 26.4,80 	"/>
+	<path id="mshadow2" opacity="0.2" fill="#0F0F0F" enable-background="new    " d="M84.8,51.5l-1.1,2.4L68.4,39.2l1.9-1.9L84.8,51.5
+		z M84.8,51.5l-1.1,2.4L110.9,80h5.3L84.8,51.5z"/>
+	<polygon id="mshadow1" opacity="0.1" fill="#0F0F0F" enable-background="new    " points="70.4,37.3 54,25.4 68.4,39.2 	"/>
+</g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_na_c_guatemala</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#f0f0f0"/>
+        <g>
+          <rect width="33.33" height="100" fill="#338af3"/>
+          <rect x="66.67" width="33.33" height="100" fill="#338af3"/>
+        </g>
+        <polygon points="59.39 56 53.31 49.93 59.1 44.14 58.84 41.09 57.18 39.43 50 46.61 42.82 39.43 41.16 41.09 40.9 44.14 46.69 49.93 40.61 56 43.92 59.32 50 53.24 56.08 59.32 59.39 56" fill="#acabb1"/>
+        <path d="M58.84,41.09,55.53,44.4a7.81,7.81,0,1,1-11,0l-3.31-3.31a12.51,12.51,0,1,0,17.66,0Z" fill="#6da544"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="a">
+      <path d="M73.3,100H26.7A26.63,26.63,0,0,1,0,73.3V26.7A26.63,26.63,0,0,1,26.7,0H73.4A26.61,26.61,0,0,1,100,26.7V73.4A26.61,26.61,0,0,1,73.3,100Z" fill="none"/>
+    </clipPath>
+  </defs>
+  <title>flag_eu_e_moldova</title>
+  <g clip-path="url(#a)">
+    <g>
+      <g>
+        <rect width="100" height="100" fill="#ffda44"/>
+        <rect width="33.33" height="100" fill="#0052b4"/>
+        <rect x="66.67" width="33.33" height="100" fill="#d80027"/>
+        <path d="M63,42h-9a4.08,4.08,0,0,0-8.16,0H37a4.13,4.13,0,0,0,4.14,4H41a4,4,0,0,0,4,4A4,4,0,0,0,48.25,54l-3.16,7.14a13,13,0,0,0,9.82,0L51.75,54A4,4,0,0,0,55,50a4,4,0,0,0,4-4H58.9A4.13,4.13,0,0,0,63,42Z" fill="#ff9811"/>
+        <polygon points="50 47.55 44.7 50 44.7 54.89 50 58.15 55.3 54.89 55.3 50 50 47.55" fill="#0052b4"/>
+        <rect x="44.7" y="45.11" width="10.6" height="4.89" fill="#d80027"/>
+      </g>
+      <g>
+        <path d="M10.39,74.25V25.75A26.64,26.64,0,0,1,30.24,0H0V100H30.24A26.66,26.66,0,0,1,10.39,74.25Z" opacity="0.2" style="isolation: isolate"/>
+        <path d="M89.61,25.75V74.24A26.64,26.64,0,0,1,69.76,100H100V0H69.76A26.66,26.66,0,0,1,89.61,25.75Z" fill="#fff" opacity="0.1" style="isolation: isolate"/>
+      </g>
+    </g>
+  </g>
+</svg>
