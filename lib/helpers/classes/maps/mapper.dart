@@ -463,12 +463,12 @@ class Mapper {
   }
   // --------------------
   /// AI TESTED
-  static List<Map<String, dynamic>> replaceMapInMapsWithSameIDField({
-    required List<Map<String, dynamic>>? baseMaps,
+  static List<Map<String, dynamic>?> replaceMapInMapsWithSameIDField({
+    required List<Map<String, dynamic>?>? baseMaps,
     required Map<String, dynamic>? mapToReplace,
     String idFieldName = 'id',
   }){
-    final List<Map<String, dynamic>> _output = <Map<String,dynamic>>[...?baseMaps];
+    final List<Map<String, dynamic>?> _output = <Map<String,dynamic>?>[...?baseMaps];
 
     // Mapper.blogMap(mapToReplace, invoker: 'replaceMapInMapsWithSameIDField');
 
@@ -477,15 +477,23 @@ class Mapper {
 
       final int _index = _output.indexWhere((map){
 
-        final dynamic _baseIDValue = map[idFieldName];
-        final dynamic _replaceIDValue = mapToReplace[idFieldName];
-
-        if (_baseIDValue != null && _replaceIDValue != null){
-          return _baseIDValue == _replaceIDValue;
-        }
-        else {
+        if (map == null){
           return false;
         }
+        else {
+
+          final dynamic _baseIDValue = map[idFieldName];
+          final dynamic _replaceIDValue = mapToReplace[idFieldName];
+
+          if (_baseIDValue != null && _replaceIDValue != null){
+            return _baseIDValue == _replaceIDValue;
+          }
+          else {
+            return false;
+          }
+
+        }
+
 
       });
 
