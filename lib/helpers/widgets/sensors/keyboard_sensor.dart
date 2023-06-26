@@ -11,7 +11,7 @@ class KeyboardSensor extends StatefulWidget {
   super.key
   });  // -----------------------------------------------------------------------------
   final Widget? child;
-  final Widget Function(bool isVisible, Widget? child) builder;
+  final Widget Function({required bool isVisible, required Widget? child}) builder;
   // -----------------------------------------------------------------------------
   @override
   State<KeyboardSensor> createState() => _KeyboardSensorState();
@@ -57,7 +57,7 @@ class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObse
         child: widget.child ?? const SizedBox(),
         builder: (_, bool isVisible, Widget? child){
 
-          return widget.builder(isVisible, child);
+          return widget.builder(isVisible: isVisible, child: child);
 
         },
     );

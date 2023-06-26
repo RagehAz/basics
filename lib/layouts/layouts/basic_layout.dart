@@ -20,7 +20,7 @@ class BasicLayout extends StatelessWidget {
   final bool canGoBack;
   final Future<void> Function()? onBack;
   final Key? scaffoldKey;
-  final Function(bool isConnected)? onConnectivityChanged;
+  final Function({required bool isConnected})? onConnectivityChanged;
   final bool safeAreaIsOn;
   // --------------------
   Future<void> _onBack(BuildContext context) async {

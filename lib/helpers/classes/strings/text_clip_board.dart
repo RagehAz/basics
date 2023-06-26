@@ -22,7 +22,7 @@ class TextClipBoard {
 
         await Clipboard.setData(
         ClipboardData(
-          text: copy,
+          text: copy!,
         )
     );
 

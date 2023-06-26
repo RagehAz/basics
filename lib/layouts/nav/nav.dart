@@ -3,7 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
-
+// -----------------------------------------------------------------------------
+export 'package:page_transition/page_transition.dart';
+// -----------------------------------------------------------------------------
 class Nav {
   // -----------------------------------------------------------------------------
 

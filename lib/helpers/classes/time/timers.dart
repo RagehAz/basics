@@ -653,7 +653,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
       return 0;
     }
 
-    final differenceInSeconds = (to.difference(from)).inSeconds;
+    final differenceInSeconds = to.difference(from).inSeconds;
     final differenceInMonths = differenceInSeconds / 2629746;
     return differenceInMonths.floor();
   }

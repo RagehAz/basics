@@ -24,8 +24,8 @@ class SkyStars extends StatelessWidget {
       return SizedBox(
         width: Scale.screenWidth(context),
         height: Scale.screenHeight(context),
-        child: Stack(
-          children: const <Widget>[
+        child: const Stack(
+          children: <Widget>[
 
             StarsLayer(
               numberOfStars: 1,
