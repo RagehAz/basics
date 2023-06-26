@@ -11,7 +11,7 @@ class SuperImageBox extends StatelessWidget {
     this.backgroundColor,
     this.corners,
     this.greyscale = false,
-    super.key
+    super.key,
   }); 
   /// --------------------------------------------------------------------------
   final double? width;
