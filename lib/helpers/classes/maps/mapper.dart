@@ -1012,7 +1012,7 @@ class Mapper {
   // --------------------
   /// AI TESTED
   static bool checkMapsContainMapWithID({
-    required List<Map<String, dynamic>>? maps,
+    required List<Map<String, dynamic>?>? maps,
     required Map<String, dynamic>? map,
     String idFieldName = 'id',
   }){
@@ -1022,8 +1022,15 @@ class Mapper {
     if (checkCanLoopList(maps) == true && map != null){
 
       final int _index = maps!.indexWhere((maw){
-        final bool _condition = maw[idFieldName] == map[idFieldName];
-        return _condition;
+
+        if (maw == null){
+          return false;
+        }
+        else {
+          final bool _condition = maw[idFieldName] == map[idFieldName];
+          return _condition;
+        }
+
       });
 
       /// IF FOUND

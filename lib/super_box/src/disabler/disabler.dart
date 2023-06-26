@@ -6,8 +6,9 @@ class Disabler extends StatelessWidget {
     required this.isDisabled,
     required this.child,
     this.disabledOpacity = 0.5,
-      super.key
+    super.key
   });
+
   final bool isDisabled;
   final Widget child;
   final double disabledOpacity;
