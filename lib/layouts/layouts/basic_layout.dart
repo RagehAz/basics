@@ -18,7 +18,7 @@ class BasicLayout extends StatelessWidget {
   final Widget body;
   final Color backgroundColor;
   final bool canGoBack;
-  final Function onBack;
+  final Function? onBack;
   final Key? scaffoldKey;
   final Function({required bool isConnected})? onConnectivityChanged;
   final bool safeAreaIsOn;
