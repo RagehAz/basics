@@ -1,5 +1,3 @@
-
-
 import 'package:basics/animators/widgets/widget_fader.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +16,7 @@ class PullToRefresh extends StatelessWidget {
         super.key
   }); 
   /// --------------------------------------------------------------------------
-  final Future<void> Function()? onRefresh;
+  final Function? onRefresh;
   final bool fadeOnBuild;
   final Widget child;
   final Color circleColor;

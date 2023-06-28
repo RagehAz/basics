@@ -481,7 +481,7 @@ class DialogButton extends StatelessWidget {
   final Color textColor;
   final double width;
   final Color color;
-  final Future<void> Function()? onTap;
+  final Function? onTap;
   final bool italic;
   final bool appIsLTR;
   final TextDirection textDirection;

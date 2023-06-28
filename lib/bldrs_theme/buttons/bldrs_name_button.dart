@@ -13,7 +13,7 @@ class BldrsNameButton extends StatelessWidget {
     super.key
   }); 
   /// --------------------------------------------------------------------------
-  final Future<void> Function()? onTap;
+  final Function? onTap;
   final double? size;
   final EdgeInsets? margins;
   final double? iconSizeFactor;

@@ -23,7 +23,7 @@ class MaxBounceNavigator extends StatefulWidget {
   final double? boxDistance;
   final int numberOfScreens;
   final Widget child;
-  final Future<void> Function()? onNavigate;
+  final Function? onNavigate;
   final Key? notificationListenerKey;
   final Axis axis;
   final bool isOn;

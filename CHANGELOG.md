@@ -1,6 +1,7 @@
 
 ---
 
+### 1.0.5 : fixed functions in constructors
 ### 1.0.4 : packages versioning updates
 ### 1.0.3 : fixes in ConnectivityBuilder and exported PageTransition
 ### 1.0.2 : fixes in replaceMapInMapsWithSameIDField
