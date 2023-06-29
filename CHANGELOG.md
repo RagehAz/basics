@@ -1,6 +1,7 @@
 
 ---
 
+### 1.0.8 : more fixes
 ### 1.0.7 : added boolIsTrue
 ### 1.0.6 : null safety fixes
 ### 1.0.5 : fixed functions in constructors

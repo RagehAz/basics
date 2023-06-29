@@ -249,7 +249,7 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMap({
-    required String objectID,
+    required String? objectID,
     required String docName,
     required String primaryKey,
   }) async {
@@ -307,12 +307,12 @@ class LDBOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> checkMapExists({
     required String? id,
-    required String? docName,
-    required String? primaryKey,
+    required String docName,
+    required String primaryKey,
   }) async {
     bool _exists = false;
 
-    if (id != null && docName != null && primaryKey != null) {
+    if (id != null) {
       _exists = await Sembast.checkMapExists(
         docName: docName,
         id: id,
