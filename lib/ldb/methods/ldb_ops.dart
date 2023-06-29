@@ -264,7 +264,7 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMaps ({
-    required List<String> ids,
+    required List<String>? ids,
     required String docName,
     required String primaryKey,
   }) async {

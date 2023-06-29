@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:basics/helpers/classes/checks/tracers.dart';
@@ -463,12 +461,12 @@ class Mapper {
   }
   // --------------------
   /// AI TESTED
-  static List<Map<String, dynamic>?> replaceMapInMapsWithSameIDField({
-    required List<Map<String, dynamic>?>? baseMaps,
+  static List<Map<String, dynamic>>? replaceMapInMapsWithSameIDField({
+    required List<Map<String, dynamic>>? baseMaps,
     required Map<String, dynamic>? mapToReplace,
     String idFieldName = 'id',
   }){
-    final List<Map<String, dynamic>?> _output = <Map<String,dynamic>?>[...?baseMaps];
+    final List<Map<String, dynamic>> _output = <Map<String,dynamic>>[...?baseMaps];
 
     // Mapper.blogMap(mapToReplace, invoker: 'replaceMapInMapsWithSameIDField');
 
@@ -477,10 +475,10 @@ class Mapper {
 
       final int _index = _output.indexWhere((map){
 
-        if (map == null){
-          return false;
-        }
-        else {
+        // if (map == null){
+        //   return false;
+        // }
+        // else {
 
           final dynamic _baseIDValue = map[idFieldName];
           final dynamic _replaceIDValue = mapToReplace[idFieldName];
@@ -492,7 +490,7 @@ class Mapper {
             return false;
           }
 
-        }
+        // }
 
 
       });
@@ -1020,7 +1018,7 @@ class Mapper {
   // --------------------
   /// AI TESTED
   static bool checkMapsContainMapWithID({
-    required List<Map<String, dynamic>?>? maps,
+    required List<Map<String, dynamic>>? maps,
     required Map<String, dynamic>? map,
     String idFieldName = 'id',
   }){
@@ -1031,13 +1029,13 @@ class Mapper {
 
       final int _index = maps!.indexWhere((maw){
 
-        if (maw == null){
-          return false;
-        }
-        else {
+        // if (maw == null){
+        //   return false;
+        // }
+        // else {
           final bool _condition = maw[idFieldName] == map[idFieldName];
           return _condition;
-        }
+        // }
 
       });
 
@@ -1053,14 +1051,14 @@ class Mapper {
   // --------------------
   /// AI TESTED
   static bool checkMapsContainIdenticalMap({
-    required List<Map<String, dynamic>?> maps,
+    required List<Map<String, dynamic>>? maps,
     required Map<String, dynamic>? map,
   }) {
     bool _contain = false;
 
     if (checkCanLoopList(maps) == true && map != null){
 
-      for (final Map<String, dynamic>? _map in maps){
+      for (final Map<String, dynamic>? _map in maps!){
 
         final bool _identical = checkMapsAreIdentical(
           map1: map,
@@ -1120,7 +1118,7 @@ class Mapper {
 
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
-  static void blogMap(Map<dynamic, dynamic>? map, {String invoker = ''}) {
+  static void blogMap(Map<String, dynamic>? map, {String invoker = ''}) {
 
     if (map != null){
 
@@ -1219,7 +1217,7 @@ class Mapper {
   // --------------------
   /// AI TESTED
   static List<String> getKeysHavingThisValue({
-    required Map<String, String?>? map,
+    required Map<String, String>? map,
     required String? value,
   }){
     final List<String> _output = <String>[];
@@ -1248,14 +1246,14 @@ class Mapper {
   }
   // --------------------
   /// AI TESTED
-  static Map<String, String?>? insertPairInMapWithStringValue({
-    required Map<String, String?>? map,
+  static Map<String, String>? insertPairInMapWithStringValue({
+    required Map<String, String>? map,
     required String? key,
-    required String? value,
+    required String value,
     required bool overrideExisting, // otherwise will keep existing pair
   }) {
 
-    Map<String, String?>? _result = <String, String?>{};
+    Map<String, String>? _result = <String, String>{};
 
     if (map != null){
       _result = map;
@@ -1281,12 +1279,12 @@ class Mapper {
   }
   // --------------------
   /// AI TESTED
-  static Map<String, String?>? combineStringStringMap({
-    required Map<String, String?>? baseMap,
-    required Map<String, String?>? insert,
+  static Map<String, String>? combineStringStringMap({
+    required Map<String, String>? baseMap,
+    required Map<String, String>? insert,
     required bool replaceDuplicateKeys,
   }){
-    Map<String, String?>? _output = {};
+    Map<String, String>? _output = {};
 
     if (baseMap != null){
 
@@ -1300,12 +1298,14 @@ class Mapper {
 
           for (final String key in _keys){
 
-            _output = insertPairInMapWithStringValue(
-              map: _output,
-              key: key,
-              value: insert[key],
-              overrideExisting: replaceDuplicateKeys,
-            );
+            if (insert[key] != null){
+              _output = insertPairInMapWithStringValue(
+                map: _output,
+                key: key,
+                value: insert[key]!,
+                overrideExisting: replaceDuplicateKeys,
+              );
+            }
 
           }
 
@@ -1319,9 +1319,9 @@ class Mapper {
   }
   // --------------------
   ///
-  static Map<String, String?>? getStringStringMapFromImmutableMapStringObject(dynamic object){
+  static Map<String, String>? getStringStringMapFromImmutableMapStringObject(dynamic object){
 
-    Map<String, String?>? _output = {};
+    Map<String, String>? _output = {};
 
     if (object != null){
 
