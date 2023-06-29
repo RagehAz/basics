@@ -16,7 +16,7 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> insertMap({
-    required Map<String, Object?>? input,
+    required Map<String, dynamic>? input,
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
@@ -33,9 +33,9 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> insertMaps({
-    required List<Map<String, Object?>> inputs,
-    required String docName,
-    required String primaryKey,
+    required List<Map<String, dynamic>>? inputs,
+    required String? docName,
+    required String? primaryKey,
     bool allowDuplicateIDs = false,
   }) async {
 
@@ -54,10 +54,10 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static dynamic readField({
-    required String docName,
-    required String id,
-    required String fieldName,
-    required String primaryKey,
+    required String? docName,
+    required String? id,
+    required String? fieldName,
+    required String? primaryKey,
   }) async {
 
     final Map<String, dynamic>? map = await readMap(
@@ -103,9 +103,9 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readMaps({
-    required List<String> ids,
-    required String docName,
-    required String primaryKey,
+    required List<String>? ids,
+    required String? docName,
+    required String? primaryKey,
   }) async {
 
     final List<Map<String, dynamic>> _maps = await Sembast.readMaps(
@@ -118,11 +118,11 @@ class LDBOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> readAllMaps({
-    required String docName,
+  static Future<List<Map<String, dynamic>>> readAllMaps({
+    required String? docName,
   }) async {
 
-    final List<Map<String, Object?>> _result = await Sembast.readAll(
+    final List<Map<String, dynamic>> _result = await Sembast.readAll(
       docName: docName,
     );
 
@@ -130,14 +130,14 @@ class LDBOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, Object?>?> searchFirstMap({
-    required String sortFieldName,
-    required String searchFieldName,
+  static Future<Map<String, dynamic>?> searchFirstMap({
+    required String? sortFieldName,
+    required String? searchFieldName,
     required dynamic searchValue,
-    required String docName,
+    required String? docName,
   }) async {
 
-    final Map<String, Object?>? _result = await Sembast.findFirst(
+    final Map<String, dynamic>? _result = await Sembast.findFirst(
       docName: docName,
       fieldToSortBy: sortFieldName,
       searchField: searchFieldName,
@@ -150,15 +150,15 @@ class LDBOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchAllMaps({
-    required String fieldToSortBy,
-    required String searchField,
+  static Future<List<Map<String, dynamic>>> searchAllMaps({
+    required String? fieldToSortBy,
+    required String? searchField,
     required bool fieldIsList,
     required dynamic searchValue,
-    required String docName,
+    required String? docName,
   }) async {
 
-    final List<Map<String, Object?>> _result = await Sembast.search(
+    final List<Map<String, dynamic>> _result = await Sembast.search(
       docName: docName,
       fieldToSortBy: fieldToSortBy,
       fieldIsList: fieldIsList,
@@ -168,17 +168,17 @@ class LDBOps {
 
     // blog('searchMaps : _result : $_result');
 
-    final List<Map<String, Object?>> _fixedMaps = _result; //_decipherSembastMapsToFirebaseMaps
+    final List<Map<String, dynamic>> _fixedMaps = _result; //_decipherSembastMapsToFirebaseMaps
     // (_result);
 
     return _fixedMaps;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchPhrasesDoc({
+  static Future<List<Map<String, dynamic>>> searchPhrasesDoc({
     required dynamic searchValue,
-    required String docName,
-    required String langCode,
+    required String? docName,
+    required String? langCode,
   }) async {
 
     // blog('receiving value : $searchValue');
@@ -205,11 +205,11 @@ class LDBOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchLDBDocTrigram({
+  static Future<List<Map<String, dynamic>>> searchLDBDocTrigram({
     required dynamic searchValue,
-    required String docName,
-    required String searchField,
-    required String primaryKey,
+    required String? docName,
+    required String? searchField,
+    required String? primaryKey,
   }) async {
 
     /// NOTE : REQUIRES ( Phrase.cipherMixedLangPhrasesToMap ) cipher for 'phrases' field
@@ -226,11 +226,11 @@ class LDBOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchMultipleValues({
-    required String docName,
-    required String fieldToSortBy,
-    required String searchField,
-    required List<Object> searchObjects,
+  static Future<List<Map<String, dynamic>>> searchMultipleValues({
+    required String? docName,
+    required String? fieldToSortBy,
+    required String? searchField,
+    required List<Object>? searchObjects,
   }) async {
 
     final List<Map<String, Object?>> _result = await Sembast.searchMultiple(
@@ -250,8 +250,8 @@ class LDBOps {
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMap({
     required String? objectID,
-    required String docName,
-    required String primaryKey,
+    required String? docName,
+    required String? primaryKey,
   }) async {
 
     await Sembast.deleteMap(
@@ -265,8 +265,8 @@ class LDBOps {
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMaps ({
     required List<String>? ids,
-    required String docName,
-    required String primaryKey,
+    required String? docName,
+    required String? primaryKey,
   }) async {
 
     await Sembast.deleteMaps(
@@ -293,7 +293,7 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteAllMapsAtOnce({
-    required String docName,
+    required String? docName,
   }) async {
 
     await Sembast.deleteAllAtOnce(docName: docName);
@@ -307,8 +307,8 @@ class LDBOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> checkMapExists({
     required String? id,
-    required String docName,
-    required String primaryKey,
+    required String? docName,
+    required String? primaryKey,
   }) async {
     bool _exists = false;
 

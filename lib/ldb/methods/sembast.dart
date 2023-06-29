@@ -561,7 +561,7 @@ class Sembast  {
         fieldToSortBy != null
     ){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_doc != null && _db != null){
