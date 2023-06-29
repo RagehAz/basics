@@ -190,7 +190,7 @@ class Mapper {
   }
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
-  static Map<String, String?>? createStringStringMap({
+  static Map<String, String>? createStringStringMap({
     required Map? hashMap,
     required bool stringifyNonStrings,
   }){
