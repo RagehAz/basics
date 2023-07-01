@@ -46,14 +46,14 @@ class Nav {
   static Future<dynamic> goToNewScreen({
     required BuildContext context,
     required Widget screen,
-    PageTransitionType pageTransitionType = PageTransitionType.bottomToTop,
+    PageTransitionType? pageTransitionType,
     Widget? childCurrent,
   }) async {
 
     final dynamic _result = await Navigator.push(
       context,
       PageTransition<dynamic>(
-        type: pageTransitionType,
+        type: pageTransitionType ?? PageTransitionType.bottomToTop,
         childCurrent: childCurrent,
         child: screen,
         // duration: Ratioz.durationFading200,
