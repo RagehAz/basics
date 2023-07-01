@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 2.0.0
+version: 2.0.1
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -46,4 +46,50 @@ dev_dependencies:
     sdk: flutter
   lint: ^1.0.0
 # --------------------------------------------------------------------------------
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "lib/bldrs_theme/assets/aw/aw_bldrs_app_icon.png"
+  adaptive_icon_background: "lib/bldrs_theme/assets/aw/aw_bldrs_app_icon.png"
+  adaptive_icon_foreground: "lib/bldrs_theme/assets/aw/aw_bldrs_app_icon.png"
+# --------------------------------------------------------------------------------
 flutter:
+  uses-material-design: true
+  assets:
+    - lib/bldrs_theme/assets/
+    - lib/bldrs_theme/assets/aw/
+    - lib/bldrs_theme/assets/icons/
+    - lib/bldrs_theme/assets/icons/flags/
+    - lib/bldrs_theme/assets/languages/
+    - lib/bldrs_theme/assets/planet/
+    - lib/bldrs_theme/assets/sounds/
+# --------------------------------------------------------------------------------
+  fonts:
+    - family: BldrsHeadlineFont
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/bldrs_font_bold.ttf
+
+    - family: BldrsBodyFont
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/bldrs_font_regular.ttf
+
+    - family: EnglishHeadline
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
+
+    - family: EnglishBody
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/english/Roboto_Thin.ttf
+        - asset: lib/bldrs_theme/assets/fonts/english/Roboto_ThinItalic.ttf
+
+    - family: ArabicHeadline
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
+
+    - family: ArabicBody
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/arabic/Tajawal_Light.ttf
+        - asset: lib/bldrs_theme/assets/fonts/arabic/Tajawal_Regular.ttf
+        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
+# --------------------------------------------------------------------------------
