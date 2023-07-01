@@ -14,7 +14,7 @@ void main() {
     /// this method will fail to be used here
     /// as it uses the below path, which only works when used in other
     /// projects depending on bldrs_theme package
-    /// final String _path = 'packages/bldrs_theme/$bldrsThemeAsset';
+    /// final String _path = 'packages/basics/bldrs_theme/$bldrsThemeAsset';
     /// so in order to check the method [Iconz.checkAssetExists]
     /// an altered path is used here
     ///

@@ -31,9 +31,9 @@ class Iconz {
   // static const String bldrsTheme = 'bldrs_theme';
   // -----------------------------------------------------------------------------
   /// DIRECTORY TO PACKAGE
-  static const String packageDirectory = 'packages/bldrs_theme';
+  static const String packageDirectory = 'packages/basics/bldrs_theme';
   /// DIRECTORY TO LIB
-  static const String libDirectory = 'packages/bldrs_theme/lib';
+  static const String libDirectory = 'packages/basics/bldrs_theme/lib';
   // --------------------
   static const String iconDirectory = '$libDirectory/assets/icons';
   static const String _artworkPath = '$libDirectory/assets/aw';

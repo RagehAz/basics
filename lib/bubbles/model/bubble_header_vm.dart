@@ -22,7 +22,7 @@ class BubbleHeaderVM {
     this.font,
     this.headlineHighlight,
     this.headlineHeight = 30,
-    this.moreButtonIcon = 'packages/bldrs_theme/bubbles/assets/icons/gi_more.svg',
+    this.moreButtonIcon = 'packages/basics/bldrs_theme/bubbles/assets/icons/gi_more.svg',
     this.moreButtonIconSizeFactor = 0.6,
     this.textDirection = TextDirection.ltr,
     this.appIsLTR = true,
