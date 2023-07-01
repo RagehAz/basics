@@ -51,7 +51,7 @@ class TextFieldBubble extends StatelessWidget {
     this.pasteText = 'Paste',
     this.loadingColor = const Color.fromARGB(255, 255, 255, 255),
     this.obscuredActiveColor = const Color.fromARGB(255, 255, 255, 255),
-    this.obscuredIcon = 'packages/basics/bldrs_theme/bubbles/assets/icons/gi_views.svg',
+    this.obscuredIcon = 'packages/basics/lib/bldrs_theme/bubbles/assets/icons/gi_views.svg',
 
     this.fieldTextHeight = 30,
     this.fieldTextColor = const Color.fromARGB(255, 255, 255, 255),
