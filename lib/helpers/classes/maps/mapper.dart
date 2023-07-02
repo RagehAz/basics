@@ -1431,5 +1431,26 @@ class Mapper {
 
     return _output;
   }
+  // --------------------
+  static int superLength(dynamic list){
+    int _output = 0;
+
+    if (list is List<dynamic>){
+      if (checkCanLoopList(list) == true){
+        _output = list.length;
+      }
+    }
+    else if (list is String? || list is String){
+      _output = list?.length;
+    }
+    else if (list is int || list is int?){
+      _output = list ?? 0;
+    }
+    else if (list is double || list is double?){
+      _output = list?.toInt();
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 }

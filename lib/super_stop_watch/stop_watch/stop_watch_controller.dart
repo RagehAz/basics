@@ -38,7 +38,7 @@ class StopWatchController {
   /// TESTED : WORKS PERFECT
   void start() {
 
-    timer.onExecute.add(StopWatchExecute.start);
+    timer.onStartTimer();
 
     onStart?.call();
 
@@ -47,7 +47,7 @@ class StopWatchController {
   /// TESTED : WORKS PERFECT
   void pause() {
 
-    timer.onExecute.add(StopWatchExecute.stop);
+    timer.onStopTimer();
 
     onPause?.call();
 
@@ -56,7 +56,9 @@ class StopWatchController {
   /// TESTED : WORKS PERFECT
   void lap() {
 
-    timer.onExecute.add(StopWatchExecute.lap);
+    // timer.onExecute.add(StopWatchExecute.lap);
+
+    timer.onAddLap();
 
     onLap?.call();
 
@@ -65,7 +67,7 @@ class StopWatchController {
   /// TESTED : WORKS PERFECT
   void stop() {
 
-    timer.onExecute.add(StopWatchExecute.reset);
+    timer.onResetTimer();
 
     onStop?.call();
 

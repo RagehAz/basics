@@ -726,4 +726,20 @@ class Numeric {
 
   }
   // -----------------------------------------------------------------------------
+
+  static double divide({
+    /// بسط
+    required num? dividend,
+    /// مقام
+    required num? divisor,
+  }){
+    double _output = 0;
+
+    if (dividend != null && divisor != null){
+      _output = dividend / divisor;
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

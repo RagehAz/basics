@@ -252,8 +252,8 @@ class Stringer {
 
   // --------------------
   /// AI TESTED
-  static List<String?> sortAlphabetically(List<String?>? inputList) {
-    List<String?> _output = <String?>[];
+  static List<String> sortAlphabetically(List<String>? inputList) {
+    List<String> _output = <String>[];
 
     if (Mapper.checkCanLoopList(inputList) == true) {
       inputList!.sort((String? a, String? b){
@@ -272,7 +272,7 @@ class Stringer {
         }
       });
 
-      _output = <String?>[...inputList];
+      _output = <String>[...inputList];
 
     }
 
@@ -494,9 +494,9 @@ class Stringer {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String?> blogStringsListsDifferences({
-    required List<String?>? strings1,
-    required List<String?>? strings2,
+  static List<String> blogStringsListsDifferences({
+    required List<String>? strings1,
+    required List<String>? strings2,
     String? list1Name,
     String? list2Name,
   }){

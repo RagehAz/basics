@@ -2,13 +2,14 @@
 import 'dart:async';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-typedef ConnectivityBuilder = Widget Function({
-  required bool? connected,
-  required Widget? child,
-});
+typedef ConnectivityBuilder = Widget Function(
+bool connected,
+Widget? child,
+);
 
 /*
 // -----------------------------------------------------------------------------
@@ -60,7 +61,7 @@ class ConnectivitySensor extends StatelessWidget {
   /// --------------------------------------------------------------------------
   final Widget? child;
   final ConnectivityBuilder? builder;
-  final Function({required bool isConnected})? onConnectivityChanged;
+  final Function(bool isConnected)? onConnectivityChanged;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -70,8 +71,8 @@ class ConnectivitySensor extends StatelessWidget {
     }
     else {
       return _TheSensor(
-        onConnectivityChanged: onConnectivityChanged ?? ({required bool? isConnected}){},
-        builder: builder ?? ({required bool? connected, required Widget? child}){
+        onConnectivityChanged: onConnectivityChanged,
+        builder: builder ?? (bool? connected, Widget? child){
           return child ?? const SizedBox();
         },
         child: child ?? const SizedBox(),
@@ -93,7 +94,7 @@ class _TheSensor extends StatefulWidget {
   /// --------------------------------------------------------------------------
   final Widget? child;
   final ConnectivityBuilder? builder;
-  final Function({required bool isConnected})? onConnectivityChanged;
+  final Function(bool isConnected)? onConnectivityChanged;
   /// --------------------------------------------------------------------------
   @override
   _TheSensorState createState() => _TheSensorState();
@@ -145,7 +146,7 @@ class _TheSensorState extends State<_TheSensor> {
       );
 
       if (widget.onConnectivityChanged != null){
-        await widget.onConnectivityChanged!(isConnected: _connected);
+        await widget.onConnectivityChanged!(_connected);
       }
 
     }
@@ -166,7 +167,7 @@ class _TheSensorState extends State<_TheSensor> {
 
       /// IF PROVIDER VALUE IS NOT UPDATED
       if (widget.onConnectivityChanged != null){
-        await widget.onConnectivityChanged!(isConnected: isConnected);
+        await widget.onConnectivityChanged!(isConnected);
       }
 
     }
@@ -181,7 +182,7 @@ class _TheSensorState extends State<_TheSensor> {
     }
 
     else if (_isConnected == null){
-      return widget.builder!(connected: false, child: widget.child ?? const SizedBox());
+      return widget.builder!(false, widget.child ?? const SizedBox());
     }
 
     else {
@@ -190,7 +191,7 @@ class _TheSensorState extends State<_TheSensor> {
           valueListenable: _isConnected!,
           child: widget.child,
           builder: (_, bool? connected, Widget? child){
-            return widget.builder!(connected: connected, child: child);
+            return widget.builder!(Mapper.boolIsTrue(connected), child);
           }
           );
 

@@ -594,15 +594,15 @@ void main(){
     });
 
     test('sorts a list of mixed case strings alphabetically', () {
-      final input = ['Apple', 'banana', 'Carrot', 'Dates', null];
-      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates', null];
+      final input = ['Apple', 'banana', 'Carrot', 'Dates'];
+      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates'];
       final output = Stringer.sortAlphabetically(input);
       expect(output, expectedOutput);
     });
 
     test('sorts a list of mixed case strings alphabetically2', () {
-      final input = ['Apple', null, 'banana', 'Carrot', 'Dates',];
-      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates', null];
+      final input = ['Apple', 'banana', 'Carrot', 'Dates',];
+      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates'];
       final output = Stringer.sortAlphabetically(input);
       expect(output, expectedOutput);
     });
