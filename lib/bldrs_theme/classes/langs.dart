@@ -30,7 +30,7 @@ class BldrsThemeLangs {
     }
 
     else {
-      return 'packages/basics/super_stop_watch/bldrs_theme/assets/languages/$langCode.json';
+      return 'packages/basics/lib/bldrs_theme/assets/languages/$langCode.json';
     }
 
   }

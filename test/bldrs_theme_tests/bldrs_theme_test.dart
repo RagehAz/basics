@@ -14,7 +14,7 @@ void main() {
     /// this method will fail to be used here
     /// as it uses the below path, which only works when used in other
     /// projects depending on bldrs_theme package
-    /// final String _path = 'packages/basics/super_stop_watch/bldrs_theme/$bldrsThemeAsset';
+    /// final String _path = 'packages/basics/lib/bldrs_theme/$bldrsThemeAsset';
     /// so in order to check the method [Iconz.checkAssetExists]
     /// an altered path is used here
     ///
@@ -38,11 +38,11 @@ void main() {
     final bool existsWithAlteredPath = await checkAssetExistsWithAlteredPathForTesting(icon);
     expect(existsWithAlteredPath, false);
 
-    const String icon2 = 'super_stop_watch/assets/icons/gi_play.svg';
+    const String icon2 = 'lib/assets/icons/gi_play.svg';
     final bool exists2 = await checkAssetExistsWithAlteredPathForTesting(icon2);
     expect(exists2, false);
 
-    const String icon3 = 'super_stop_watch/assets/icons/gi_bzzzzzz.jpg';
+    const String icon3 = 'lib/assets/icons/gi_bzzzzzz.jpg';
     final bool exists3 = await checkAssetExistsWithAlteredPathForTesting(icon3);
     expect(exists3, false);
 
@@ -64,7 +64,7 @@ void main() {
     final bool exists = await Iconz.checkAssetExists(icon);
     expect(exists, true);
 
-    const String icon2 = 'super_stop_watch/assets/icons/gi_bzzzzzz.jpg';
+    const String icon2 = 'lib/assets/icons/gi_bzzzzzz.jpg';
     final bool exists2 = await Iconz.checkAssetExists(icon2);
     expect(exists2, false);
 

@@ -49,7 +49,7 @@ class TileBubble extends StatelessWidget {
   final Widget? child;
   final List<String>? bulletPoints;
   final Color? bubbleColor;
-  final String Function()? validator;
+  final String? Function()? validator;
   final bool autoValidate;
   final bool appIsLTR;
   final TextDirection textDirection;

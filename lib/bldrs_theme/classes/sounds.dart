@@ -11,7 +11,7 @@ class BldrsThemeSounds {
   /// SOUND FX
 
   // --------------------
-  static const String _soundsPath = 'packages/basics/super_stop_watch/bldrs_theme/assets/sounds';
+  static const String _soundsPath = 'packages/basics/lib/bldrs_theme/assets/sounds';
   // --------------------
   static const String whip_high = '$_soundsPath/whip_high.mp3';
   static const String whip_long = '$_soundsPath/whip_long.mp3';

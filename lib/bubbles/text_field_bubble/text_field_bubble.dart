@@ -1,5 +1,6 @@
 
 
+import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/bubbles/bubble/bubble.dart';
 import 'package:basics/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/bubbles/tile_bubble/tile_bubble.dart';
@@ -51,7 +52,7 @@ class TextFieldBubble extends StatelessWidget {
     this.pasteText = 'Paste',
     this.loadingColor = const Color.fromARGB(255, 255, 255, 255),
     this.obscuredActiveColor = const Color.fromARGB(255, 255, 255, 255),
-    this.obscuredIcon = 'packages/basics/super_stop_watch/bldrs_theme/bubbles/assets/icons/gi_views.svg',
+    this.obscuredIcon = Iconz.viewsIcon,
 
     this.fieldTextHeight = 30,
     this.fieldTextColor = const Color.fromARGB(255, 255, 255, 255),

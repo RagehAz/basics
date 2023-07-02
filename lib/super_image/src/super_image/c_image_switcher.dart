@@ -175,7 +175,7 @@ class ImageSwitcher extends StatelessWidget {
         return WebsafeSvg.asset(
             pic,
             fit: _boxFit,
-            colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.color),
+            colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
             width: width,
             height: height,
             package: package
