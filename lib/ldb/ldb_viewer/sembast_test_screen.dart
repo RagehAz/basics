@@ -76,9 +76,11 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   /// CRUD
 
   // --------------------
-  List<Map<String, Object?>>? _maps;
+  List<Map<String, dynamic>>? _maps;
   // --------------------
   Future<void> _createRandomMap() async {
+
+    blog('SembastTestScreen._createRandomMap');
 
     final Map<String, dynamic> _map = {
       'id' : 'x${Numeric.createRandomIndex(listLength: 10)}',
@@ -116,9 +118,11 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   // --------------------
   Future<void> _readAllMaps() async {
 
-    final List<Map<String, Object?>> _readMaps = await LDBOps.readAllMaps(
+    final List<Map<String, dynamic>> _readMaps = await LDBOps.readAllMaps(
       docName: _docName,
     );
+
+    Mapper.blogMaps(_readMaps);
 
     setState(() {
       _maps = _readMaps;

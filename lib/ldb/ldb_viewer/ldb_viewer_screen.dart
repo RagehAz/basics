@@ -30,7 +30,7 @@ class LDBViewerScreen extends StatefulWidget {
   /// --------------------------------------------------------------------------
   static List<Widget> rows({
     required BuildContext context,
-    required List<Map<String, Object?>>? maps,
+    required List<Map<String, dynamic>>? maps,
     required ValueChanged<Map<String, dynamic>>? onRowOptionsTap,
     /// if there is field with name ['color']
     bool userColorField = false,
@@ -39,7 +39,7 @@ class LDBViewerScreen extends StatefulWidget {
     final double _screenWidth = Scale.screenWidth(context);
     final bool _bubbleIsOn = onRowOptionsTap != null;
 
-    if (Mapper.checkCanLoopList(maps) == true){
+    if (Mapper.checkCanLoopList(maps) == false){
       return <Widget>[];
     }
     else {
@@ -154,9 +154,9 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
     super.dispose();
   }
   // -----------------------------------------------------------------------------
-  List<Map<String, Object?>>? _maps;
+  List<Map<String, dynamic>>? _maps;
   Future<void> _readSembast() async {
-    final List<Map<String, Object?>> _sembastMaps = await LDBOps.readAllMaps(
+    final List<Map<String, dynamic>> _sembastMaps = await LDBOps.readAllMaps(
       docName: widget.ldbDocName,
     );
 

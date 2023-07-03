@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -75,7 +76,7 @@ class Sembast  {
    */
   // -----------------------------------------------------------------------------
   /// static const String _storeName = 'blah';
-  /// final StoreRef<int, Map<String, Object?>> _doc = intMapStoreFactory.store(_storeName);
+  /// final StoreRef<int, Map<String, dynamic>> _doc = intMapStoreFactory.store(_storeName);
   /// Future<Database> get _db async => await AppDatabase.instance.database;
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -85,7 +86,7 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static StoreRef<int, Map<String, Object?>> _getStore({
+  static StoreRef<int, Map<String, dynamic>> _getStore({
     required String? docName,
   }) {
     return intMapStoreFactory.store(docName);
@@ -97,7 +98,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _addMap({
-    required Map<String, Object?>? map,
+    required Map<String, dynamic>? map,
     required String? docName,
   }) async {
 
@@ -106,7 +107,7 @@ class Sembast  {
       /// NOTE : this ignores if there is an existing map with same ID
       final Database? _db = await _getDB();
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
         docName: docName,
       );
 
@@ -114,8 +115,7 @@ class Sembast  {
         await _doc?.add(_db, map);
       }
 
-      // final String _id = LDBDoc.getPrimaryKey(docName);
-      // blog('SEMBAST : _addMap : added to ($docName) : map has (${map.keys.length}) keys : (${map[_id]})');
+      // blog('SEMBAST : _addMap : added to ($docName) : map has (${map.keys.length}) : _db : $_db');
 
     }
 
@@ -123,7 +123,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _addMaps({
-    required List<Map<String, Object?>>? maps,
+    required List<Map<String, dynamic>>? maps,
     required String? docName,
   }) async {
     /// NOTE : this allows duplicate IDs
@@ -131,7 +131,7 @@ class Sembast  {
     if (Mapper.checkCanLoopList(maps) == true && docName != null) {
 
       final Database? _db = await _getDB();
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
         docName: docName,
       );
 
@@ -145,7 +145,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> _updateExistingMap({
-    required Map<String, Object?>? map,
+    required Map<String, dynamic>? map,
     required String? docName,
     required String? primaryKey,
   }) async {
@@ -155,7 +155,7 @@ class Sembast  {
       final Database? _db = await _getDB();
 
       if (_db != null){
-        final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+        final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
           docName: docName,
         );
 
@@ -182,7 +182,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> insert({
-    required Map<String, Object?>? map,
+    required Map<String, dynamic>? map,
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
@@ -195,6 +195,8 @@ class Sembast  {
     map != null &&
     docName != null
     ){
+
+      // blog('SEMBAST : insert : docName : $docName : primaryKey : $primaryKey : allowDuplicateIDs : $allowDuplicateIDs');
 
       if (allowDuplicateIDs == true){
         await _addMap(
@@ -236,7 +238,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> insertAll({
-    required List<Map<String, Object?>>? maps,
+    required List<Map<String, dynamic>>? maps,
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
@@ -309,13 +311,13 @@ class Sembast  {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map <String, Object?>>> readMaps({
+  static Future<List<Map <String, dynamic>>> readMaps({
     required String? docName,
     required List<String>? ids,
     required String? primaryKeyName,
   }) async {
 
-    List<Map<String, Object?>> _output = [];
+    List<Map<String, dynamic>> _output = [];
 
     if (
       docName != null &&
@@ -323,7 +325,7 @@ class Sembast  {
       primaryKeyName != null
     ){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
         docName: docName,
       );
 
@@ -335,13 +337,13 @@ class Sembast  {
           filter: Filter.inList(primaryKeyName, ids!),
         );
 
-        final List<RecordSnapshot<int, Map<String, Object?>>> _recordSnapshots =
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots =
         await _doc.find(
           _db,
           finder: _finder,
         );
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, Object?>> snapshot) {
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
           return snapshot.value;
         }).toList();
 
@@ -354,24 +356,24 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> readAll({
+  static Future<List<Map<String, dynamic>>> readAll({
     required String? docName,
   }) async {
-    List<Map<String, Object?>> _output = [];
+    List<Map<String, dynamic>> _output = [];
 
     /// TASK : THIS METHOD IS VERY SLOW IN FETCHING PHRASES
 
     if (docName != null) {
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_db != null && _doc != null) {
-        final List<RecordSnapshot<int, Map<String, Object?>>> _recordSnapshots = await _doc.find(
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
           _db,
           // finder: _finder,
         );
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, Object?>> snapshot) {
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
           return snapshot.value;
         }).toList();
       }
@@ -382,16 +384,16 @@ class Sembast  {
 
   // --------------------
   /*
-  static Future<List<Map<String, Object?>>> readAllNewMethod({
+  static Future<List<Map<String, dynamic>>> readAllNewMethod({
     required String docName,
   }) async {
 
-    final StoreRef<int, Map<String, Object?>> _doc = _getStore(docName: docName);
+    final StoreRef<int, Map<String, dynamic>> _doc = _getStore(docName: docName);
     final Database _db = await _getDB();
 
-    final QueryRef<int, Map<String, Object?>> _query = _doc.query();
+    final QueryRef<int, Map<String, dynamic>> _query = _doc.query();
 
-    final List<RecordSnapshot<int, Map<String, Object?>>> _snaps = await _query.getSnapshots(_db);
+    final List<RecordSnapshot<int, Map<String, dynamic>>> _snaps = await _query.getSnapshots(_db);
 
     final List<Map<String, dynamic>> _maps = [];
 
@@ -404,14 +406,14 @@ class Sembast  {
  */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchArrays({
+  static Future<List<Map<String, dynamic>>> searchArrays({
     required String? fieldToSortBy,
     required String? searchField,
     required dynamic searchValue,
     required String? docName,
   }) async {
 
-    List<Map<String, Object?>> _output = [];
+    List<Map<String, dynamic>> _output = [];
 
     if (
         fieldToSortBy != null &&
@@ -420,7 +422,7 @@ class Sembast  {
         docName != null
     ){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_doc != null && _db != null){
@@ -432,7 +434,7 @@ class Sembast  {
         ],
       );
 
-      final List<RecordSnapshot<int, Map<String, Object?>>> _recordSnapshots = await _doc.find(
+      final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
         _db,
         finder: _finder,
       );
@@ -449,7 +451,7 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> search({
+  static Future<List<Map<String, dynamic>>> search({
     required String? fieldToSortBy,
     required String? searchField,
     required bool? fieldIsList,
@@ -457,7 +459,7 @@ class Sembast  {
     required String? docName,
   }) async {
 
-    List<Map<String, Object?>> _output = [];
+    List<Map<String, dynamic>> _output = [];
 
     if (
         fieldToSortBy != null &&
@@ -467,7 +469,7 @@ class Sembast  {
         docName != null
     ){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_doc != null && _db != null) {
@@ -477,7 +479,7 @@ class Sembast  {
           sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
         );
 
-        final List<RecordSnapshot<int, Map<String, Object?>>> _recordSnapshots = await _doc.find(
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
           _db,
           finder: _finder,
         );
@@ -491,7 +493,7 @@ class Sembast  {
         // blog('_finder : $_finder');
         // blog('_recordSnapshots : $_recordSnapshots');
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, Object?>> snapshot) {
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
           return snapshot.value;
         }).toList();
       }
@@ -501,13 +503,13 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, Object?>?> findFirst({
+  static Future<Map<String, dynamic>?> findFirst({
     required String? fieldToSortBy,
     required String? searchField,
     required dynamic searchValue,
     required String? docName,
   }) async {
-    Map<String, Object?>? _output;
+    Map<String, dynamic>? _output;
 
     if (
         fieldToSortBy != null &&
@@ -516,7 +518,7 @@ class Sembast  {
         docName != null
     ) {
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_doc != null && _db != null) {
@@ -530,7 +532,7 @@ class Sembast  {
 
         // blog('_finder is : $_finder');
 
-        final RecordSnapshot<int, Map<String, Object?>>? _recordSnapshot = await _doc.findFirst(
+        final RecordSnapshot<int, Map<String, dynamic>>? _recordSnapshot = await _doc.findFirst(
           _db,
           finder: _finder,
         );
@@ -546,13 +548,13 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, Object?>>> searchMultiple({
+  static Future<List<Map<String, dynamic>>> searchMultiple({
     required String? docName,
     required String? searchField,
-    required List<Object>? searchObjects,
+    required List<dynamic>? searchObjects,
     required String? fieldToSortBy,
   }) async {
-    List<Map<String, Object?>> _output = [];
+    List<Map<String, dynamic>> _output = [];
 
     if (
         docName != null &&
@@ -567,16 +569,16 @@ class Sembast  {
       if (_doc != null && _db != null){
 
         final Finder _finder = Finder(
-          filter: Filter.inList(searchField, searchObjects ?? []),
+          filter: Filter.inList(searchField, <Object>[...?searchObjects]),
           sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
         );
 
-        final List<RecordSnapshot<int, Map<String, Object?>>> _recordSnapshots = await _doc.find(
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
           _db,
           finder: _finder,
         );
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, Object?>> snapshot) {
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
           return snapshot.value;
         }).toList();
       }
@@ -602,7 +604,7 @@ class Sembast  {
       /// NOTE : Deletes all maps with the given primary key,
       /// as LDB allows duplicate maps of same ID "same value of the primary key"
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
           docName: docName
       );
       final Database? _db = await _getDB();
@@ -640,7 +642,7 @@ class Sembast  {
         docName != null
     ){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
         docName: docName,
       );
 
@@ -672,7 +674,7 @@ class Sembast  {
     required String docName,
   }) async {
 
-    final List<Map<String, Object?>> _allMaps = await readAll(
+    final List<Map<String, dynamic>> _allMaps = await readAll(
       docName: docName,
     );
 
@@ -710,7 +712,7 @@ class Sembast  {
 
     if (docName != null){
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
           docName: docName
       );
 
@@ -738,7 +740,7 @@ class Sembast  {
 
     if (docName != null && id != null && primaryKey != null) {
 
-      final StoreRef<int, Map<String, Object?>>? _doc = _getStore(docName: docName);
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_doc != null && _db != null) {

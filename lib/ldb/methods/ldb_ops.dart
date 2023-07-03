@@ -230,10 +230,10 @@ class LDBOps {
     required String? docName,
     required String? fieldToSortBy,
     required String? searchField,
-    required List<Object>? searchObjects,
+    required List<dynamic>? searchObjects,
   }) async {
 
-    final List<Map<String, Object?>> _result = await Sembast.searchMultiple(
+    final List<Map<String, dynamic>> _result = await Sembast.searchMultiple(
       docName: docName,
       searchField: searchField,
       searchObjects: searchObjects,
