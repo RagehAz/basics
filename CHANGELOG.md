@@ -1,6 +1,7 @@
 
 ---
 
+### 2.0.6 : Ready for publishing
 ### 2.0.0 : All bldrs_theme paths are fixed
 ### 1.0.10 : fixes
 ### 1.0.9 : fixes

@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 2.0.4
+version: 2.0.6
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -37,10 +37,6 @@ dependencies:
   package_info_plus: ^4.0.2
   intl: ^0.18.0
   stop_watch_timer: ^2.0.0
-  # ------------------------------------
-#  bldrs_theme:
-#    git:
-#      url: https://github.com/RagehAz/bldrs_theme.git
   # ------------------------------------
 dev_dependencies:
   flutter_test:
