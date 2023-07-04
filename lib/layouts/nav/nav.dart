@@ -102,9 +102,18 @@ class Nav {
   static Future<void> pushNamedAndRemoveAllBelow({
     required BuildContext context,
     required String goToRoute,
+    bool closeAppOnFinish = true,
   }) async {
 
-    await Navigator.of(context).pushNamedAndRemoveUntil(goToRoute, (Route<dynamic> route) => false);
+    final dynamic _result = await Navigator.of(context).pushNamedAndRemoveUntil(
+            goToRoute,
+            (Route<dynamic> route) => false
+    );
+
+    if (closeAppOnFinish == true){
+      blog('pushNamedAndRemoveAllBelow : _result: $_result');
+      await closeApp();
+    }
 
   }
   // --------------------
@@ -172,7 +181,7 @@ class Nav {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> closeApp(BuildContext context) async {
+  static Future<void> closeApp() async {
     await SystemNavigator.pop();
   }
   // --------------------
