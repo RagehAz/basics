@@ -4,6 +4,7 @@ class CopyrightsLine extends StatelessWidget {
   // --------------------------------------------------------------------------
   const CopyrightsLine({
     required this.isArabic,
+    required this.companyName,
     this.textHeight = 20,
     this.textColor = Colorz.white255,
     this.text,
@@ -14,16 +15,18 @@ class CopyrightsLine extends StatelessWidget {
   final Color textColor;
   final bool isArabic;
   final String? text;
+  final String companyName;
   // --------------------------------------------------------------------------
   String _getLine({
     required bool isArabic,
+    required String companyName,
   }){
 
     if (isArabic) {
-      return '© 2023 NET.BLDRS.LLC. جميع الحقوق محفوظة.';
+      return '© 2023 $companyName. جميع الحقوق محفوظة.';
     }
     else {
-      return 'Copyright © 2023 NET.BLDRS.LLC. All rights reserved.';
+      return 'Copyright © 2023 $companyName. All rights reserved.';
     }
 
   }
@@ -37,6 +40,7 @@ class CopyrightsLine extends StatelessWidget {
       child: SuperText(
         text: text ?? _getLine(
           isArabic: isArabic,
+          companyName: companyName,
         ),
         textHeight: textHeight,
         font: BldrsThemeFonts.fontBldrsBodyFont,
