@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 2.0.6
+version: 3.0.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -37,7 +37,14 @@ dependencies:
   package_info_plus: ^4.0.2
   intl: ^0.18.0
   stop_watch_timer: ^2.0.0
-  # ------------------------------------
+# ------------------------------------
+  just_audio: ^0.9.34
+  crop_your_image: ^0.7.4
+  video_player: ^2.6.1
+  youtube_player_flutter: ^8.1.2
+  wechat_assets_picker: ^8.4.3
+  youtube_metadata: ^1.0.1
+# ------------------------------------
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -16,3 +16,21 @@
 ### 1.0.0 : combined all of them
 
 ---
+
+---
+
+#### MEDIATOR Includes :- 
+
+### Models
+* Dimensions();
+* CaptionModel();
+* VideoModel();
+
+### Widgets
+* SuperVideoPlayer();
+
+### Helpers
+* PicMaker();
+* Sounder();
+
+---
