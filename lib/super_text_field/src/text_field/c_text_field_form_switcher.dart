@@ -11,6 +11,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
     required this.isFormField,
     required this.controller,
     required this.hintText,
+    required this.hintTextDirection,
     required this.autoFocus,
     required this.focusNode,
     required this.counterIsOn,
@@ -71,6 +72,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
   final bool isFormField;
   final TextEditingController? controller;
   final String? hintText;
+  final TextDirection? hintTextDirection;
   final bool autoFocus;
   final FocusNode? focusNode;
   final bool counterIsOn;
@@ -218,6 +220,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
     final InputDecoration _inputDecoration = SuperTextFieldController.createDecoration(
       textHeight: _textHeight,
       hintText: hintText, // ?? '...' TASK : TAKE CARE OF DEFAULT DOTS
+      hintTextDirection: hintTextDirection,
       textItalic: textItalic,
       corners: corners,
       fieldColor: fieldColor,

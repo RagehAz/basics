@@ -142,6 +142,7 @@ class SuperTextFieldController {
     required Color focusedErrorBorderColor,
     required Color errorBorderColor,
     required String? font,
+    required TextDirection? hintTextDirection,
   }){
 
     final double _textHeight = textHeight ?? 20;
@@ -154,6 +155,7 @@ class SuperTextFieldController {
         textItalic: textItalic,
         font: font,
       ),
+      hintTextDirection: hintTextDirection,
       alignLabelWithHint: true,
       contentPadding: textPadding ?? const EdgeInsets.all(10),
 

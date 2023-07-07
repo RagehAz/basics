@@ -23,6 +23,7 @@ class SuperTextField extends StatefulWidget {
 
     /// text
     this.textDirection,
+    this.hintTextDirection,
     this.centered = false,
     this.maxLines = 7,
     this.minLines = 1,
@@ -88,6 +89,7 @@ class SuperTextField extends StatefulWidget {
 
   /// text
   final TextDirection? textDirection;
+  final TextDirection? hintTextDirection;
   final bool centered;
   final int? maxLines;
   final int? minLines;
@@ -234,6 +236,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
   Widget _getTextField({
     required bool isObscured,
     required TextDirection textDirection,
+    required TextDirection? hintTextDirection,
   }){
 
     return TextFormFieldSwitcher(
@@ -252,6 +255,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
       textInputType: widget.textInputType,
       /// text
       textDirection: textDirection,
+      hintTextDirection: hintTextDirection ?? textDirection,
       appIsLTR: widget.appIsLTR,
       obscured: isObscured,
       minLines: widget.minLines,
@@ -324,6 +328,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
 
                   return _getTextField(
                     textDirection: _concludedTextDirection,
+                    hintTextDirection: widget.hintTextDirection ?? _concludedTextDirection,
                     isObscured: _isObscured,
                   );
 
@@ -335,6 +340,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
             else {
               return _getTextField(
                 textDirection: _concludedTextDirection,
+                hintTextDirection: widget.hintTextDirection ?? _concludedTextDirection,
                 isObscured: false,
               );
             }

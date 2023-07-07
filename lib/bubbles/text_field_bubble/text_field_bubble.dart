@@ -38,6 +38,7 @@ class TextFieldBubble extends StatelessWidget {
     this.leadingIconSizeFactor = 1,
     this.pasteFunction,
     this.fieldTextDirection,
+    this.hintTextDirection,
     this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
     this.onBubbleTap,
     this.isLoading = false,
@@ -102,6 +103,7 @@ class TextFieldBubble extends StatelessWidget {
   final double? leadingIconSizeFactor;
   final Function? pasteFunction;
   final TextDirection? fieldTextDirection;
+  final TextDirection? hintTextDirection;
   final Color bubbleColor;
   final Function? onBubbleTap;
   final bool isLoading;
@@ -340,6 +342,7 @@ class TextFieldBubble extends StatelessWidget {
                       width: fieldWidth,
                       isFormField: isFormField,
                       textDirection: fieldTextDirection,
+                      hintTextDirection: hintTextDirection,
                       hintText: hintText,
                       counterIsOn: counterIsOn,
                       textInputType: keyboardTextInputType,

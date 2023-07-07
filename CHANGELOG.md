@@ -1,6 +1,8 @@
 
 ---
 
+### 3.0.1 : Added hintTextDirection field in SuperTextField widget
+### 3.0.0 : Added Mediators to the package
 ### 2.0.6 : Ready for publishing
 ### 2.0.0 : All bldrs_theme paths are fixed
 ### 1.0.10 : fixes
@@ -14,8 +16,6 @@
 ### 1.0.2 : fixes in replaceMapInMapsWithSameIDField
 ### 1.0.1 : updated checkMapsContainMapWithID
 ### 1.0.0 : combined all of them
-
----
 
 ---
 
