@@ -19,6 +19,7 @@ part 'src/terms_screen.dart';
 // --------------------
 /// DISCLAIMER
 part 'src/text_widgets/legal_disclaimer_line.dart';
+part 'src/text_widgets/copyright_line.dart';
 // --------------------
 /// TEXT WIDGETS
 part 'src/text_widgets/small_text.dart';

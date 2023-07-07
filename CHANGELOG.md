@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.2 : Added Copyrights Lines
 ### 3.0.1 : Added hintTextDirection field in SuperTextField widget
 ### 3.0.0 : Added Mediators to the package
 ### 2.0.6 : Ready for publishing
