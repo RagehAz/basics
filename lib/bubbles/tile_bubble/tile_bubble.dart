@@ -28,7 +28,7 @@ class TileBubble extends StatelessWidget {
     this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
     this.validator,
     this.autoValidate = true,
-    this.textDirection = TextDirection.ltr,
+    this.textDirection,
     this.appIsLTR = true,
     this.focusNode,
     this.font,
@@ -52,7 +52,7 @@ class TileBubble extends StatelessWidget {
   final String? Function()? validator;
   final bool autoValidate;
   final bool appIsLTR;
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
   final String? font;
   final FocusNode? focusNode;
   final int bulletPointsMaxLines;
@@ -153,6 +153,7 @@ class TileBubble extends StatelessWidget {
             font: font,
             textDirection: textDirection,
             appIsLTR: appIsLTR,
+            centered: false,
           ),
         ),
 
@@ -168,7 +169,7 @@ class TileBubble extends StatelessWidget {
             textHeight: 20,
             boxWidth: _childWidth,
             appIsLTR: appIsLTR,
-            textDirection: textDirection,
+            textDirection: textDirection ?? TextDirection.ltr,
             maxLines: bulletPointsMaxLines,
             font: font,
           ),
@@ -199,7 +200,7 @@ class TileBubble extends StatelessWidget {
                     centered: false,
                     weight: FontWeight.w100,
                     margins: 5,
-                    textDirection: textDirection,
+                    textDirection: textDirection ?? TextDirection.ltr,
                     appIsLTR: appIsLTR,
                     font: font,
                   ),

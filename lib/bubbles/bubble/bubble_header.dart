@@ -75,22 +75,23 @@ class BubbleHeader extends StatelessWidget {
             ),
 
           /// --- HEADLINE
-          Container(
-            width: _headlineWidth,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SuperText(
-              text: viewModel!.headlineText,
-              textColor: viewModel!.headlineColor,
-              textHeight: viewModel!.headlineHeight,
-              maxLines: 3,
-              centered: viewModel!.centered,
-              redDot: viewModel!.redDot,
-              margins: const EdgeInsets.only(bottom: BubbleHeaderVM.verseBottomMargin),
-              highlight: viewModel!.headlineHighlight,
-              font: viewModel!.font,
-              textDirection: viewModel!.textDirection,
-              appIsLTR: viewModel!.appIsLTR,
+          SuperText(
+            boxWidth: _headlineWidth,
+            text: viewModel!.headlineText,
+            textColor: viewModel!.headlineColor,
+            textHeight: viewModel!.headlineHeight,
+            maxLines: 3,
+            centered: viewModel!.centered,
+            redDot: viewModel!.redDot,
+            margins: const EdgeInsets.only(
+                bottom: BubbleHeaderVM.verseBottomMargin,
+              left: 10,
+              right: 10,
             ),
+            highlight: viewModel!.headlineHighlight,
+            font: viewModel!.font,
+            textDirection: viewModel!.textDirection,
+            appIsLTR: viewModel!.appIsLTR,
           ),
 
           const Expanded(

@@ -134,7 +134,7 @@ class Bubble extends StatelessWidget {
     (areTopCentered == true ? Aligner.top(appIsLTR: appIsLTR) : Aligner.center(appIsLTR: appIsLTR));
     // --------------------
     final Widget _bubbleContents = _BubbleContents(
-      width: width,
+      width: _bubbleWidth,
       childrenCentered: childrenCentered,
       columnChildren: columnChildren,
       headerViewModel: bubbleHeaderVM,
