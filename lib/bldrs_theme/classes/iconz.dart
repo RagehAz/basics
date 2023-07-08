@@ -245,6 +245,7 @@ class Iconz {
   static const String contEurope = '$iconDirectory/cont_europe.svg';
   static const String contNorthAmerica = '$iconDirectory/cont_north_america.svg';
   static const String contSouthAmerica = '$iconDirectory/cont_south_america.svg';
+  static const String planet = '$iconDirectory/planet.png';
   // --------------------
   static const String onGooglePlay = '$iconDirectory/on_google_play.png';
   static const String onAppStore = '$iconDirectory/on_app_store.png';
