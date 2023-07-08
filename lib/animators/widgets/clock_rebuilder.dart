@@ -8,7 +8,8 @@ class ClockRebuilder extends StatefulWidget {
     this.builder,
     this.duration,
   super.key
-  });/// --------------------------------------------------------------------------
+  });
+  /// --------------------------------------------------------------------------
   final Widget? child;
   final Duration? duration;
   final DateTime startTime;
@@ -16,7 +17,7 @@ class ClockRebuilder extends StatefulWidget {
   /// --------------------------------------------------------------------------
   @override
   _ClockRebuilderState createState() => _ClockRebuilderState();
-/// --------------------------------------------------------------------------
+  /// --------------------------------------------------------------------------
 }
 
 class _ClockRebuilderState extends State<ClockRebuilder> {
@@ -77,43 +78,39 @@ class _ClockRebuilderState extends State<ClockRebuilder> {
     bool addPostFrameCallBack = false,
     Function? onFinish,
     bool shouldHaveListeners = false,
-  }){
+  }) {
+    if (mounted == true) {
+      // blog('setNotifier : setting to ${value.toString()}');
 
-  if (mounted == true){
-    // blog('setNotifier : setting to ${value.toString()}');
+      if (notifier != null) {
+        if (value != notifier.value) {
 
-    if (notifier != null){
+          /// ignore: invalid_use_of_protected_member
+          if (shouldHaveListeners == false || notifier.hasListeners == true) {
 
-      if (value != notifier.value){
+            if (addPostFrameCallBack == true) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                notifier.value = value;
+                if (onFinish != null) {
+                  onFinish();
+                }
+              });
+            }
 
-        /// ignore: invalid_use_of_protected_member
-        if (shouldHaveListeners == false || notifier.hasListeners == true){
-
-          if (addPostFrameCallBack == true){
-            WidgetsBinding.instance.addPostFrameCallback((_){
-              notifier.value  = value;
-              if(onFinish != null){
+            else {
+              notifier.value = value;
+              if (onFinish != null) {
                 onFinish();
               }
-            });
-          }
-
-          else {
-            notifier.value  = value;
-            if(onFinish != null){
-              onFinish();
             }
+
           }
 
         }
-
       }
-
     }
-
   }
 
-}
   // --------------------
   /// TESTED : WORKS PERFECT
   int? calculateTimeDifferenceInSeconds({

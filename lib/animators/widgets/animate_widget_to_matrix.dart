@@ -14,8 +14,9 @@ class AnimateWidgetToMatrix extends StatelessWidget {
     this.onAnimationEnds,
     this.replayOnRebuild = false,
     this.repeat = true,
-  super.key
-  });/// --------------------------------------------------------------------------
+    super.key
+  });
+  /// --------------------------------------------------------------------------
   final Widget child;
   final Matrix4? matrix;
   final Duration duration;

@@ -11,7 +11,8 @@ class ValueBox extends StatelessWidget {
     required this.value,
     this.color = Colorz.bloodTest,
   super.key
-  });/// --------------------------------------------------------------------------
+  });
+  /// --------------------------------------------------------------------------
   final String dataKey;
   final dynamic value;
   final Color color;

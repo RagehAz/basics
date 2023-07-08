@@ -89,7 +89,7 @@ class _AnimatedFade extends StatefulWidget {
   /// --------------------------------------------------------------------------
   @override
   _AnimatedFadeState createState() => _AnimatedFadeState();
-/// --------------------------------------------------------------------------
+  /// --------------------------------------------------------------------------
 }
 
 class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderStateMixin {
@@ -257,5 +257,5 @@ class _StillFade extends StatelessWidget {
     );
 
   }
-/// --------------------------------------------------------------------------
+  /// --------------------------------------------------------------------------
 }

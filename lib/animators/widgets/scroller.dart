@@ -8,7 +8,8 @@ class Scroller extends StatelessWidget {
     this.controller,
     this.isOn = true,
   super.key
-  });// --------------------
+  });
+  // --------------------
   final Widget child;
   final ScrollController? controller;
   final bool isOn;
@@ -66,8 +67,6 @@ class Scroller extends StatelessWidget {
   /// --------------------------------------------------------------------------
 }
 
-// --------------------------------------------------------------------------
-
 class _StatelessScrollBar extends StatelessWidget {
   // --------------------------------------------------------------------------
   const _StatelessScrollBar({
@@ -90,8 +89,6 @@ class _StatelessScrollBar extends StatelessWidget {
   }
   // --------------------------------------------------------------------------
 }
-
-// --------------------------------------------------------------------------
 
 class _StatefulScrollBar extends StatefulWidget {
   // --------------------------------------------------------------------------
@@ -128,5 +125,3 @@ class _StatefulScrollBarState extends State<_StatefulScrollBar> {
   }
   // --------------------------------------------------------------------------
 }
-
-// --------------------------------------------------------------------------
