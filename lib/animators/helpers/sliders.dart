@@ -9,6 +9,7 @@ enum SwipeDirection {
   freeze,
 }
 
+/// => TAMAM
 class Sliders {
   // -----------------------------------------------------------------------------
 
@@ -19,7 +20,7 @@ class Sliders {
   /// SLIDE TO
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<int> slideToNextAndGetNewIndex({
     required PageController? pageController,
     required int? numberOfSlides,
@@ -44,7 +45,7 @@ class Sliders {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<int> slideToBackAndGetNewIndex({
     required PageController? pageController,
     required int currentSlide,
@@ -72,7 +73,7 @@ class Sliders {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> slideToNext({
     required PageController? pageController,
     required int numberOfSlides,
@@ -90,7 +91,7 @@ class Sliders {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> slideToBackFrom({
     required PageController? pageController,
     required int currentSlide,
@@ -111,20 +112,6 @@ class Sliders {
     }
 
   }
-  // --------------------
-  /// never used
-  /*
-  //   Future<void> snapToBack(PageController slidingController, int currentSlide) async {
-  //
-  //   if (currentSlide == 0){
-  //     blog('can not slide back');
-  //   }
-  //
-  //   else {
-  //     await slidingController.jumpToPage(currentSlide - 1);
-  //   }
-  // }
-  */
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> slideToIndex({
@@ -171,6 +158,7 @@ class Sliders {
   /// SNAP TO
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static void snapTo({
     required PageController? pageController,
     required int currentSlide
@@ -182,11 +170,24 @@ class Sliders {
       );
     }
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+    static void snapToBack(PageController slidingController, int currentSlide) {
+
+    if (currentSlide == 0){
+      blog('can not slide back');
+    }
+
+    else {
+      slidingController.jumpToPage(currentSlide - 1);
+    }
+  }
   // -----------------------------------------------------------------------------
 
   /// CONCLUDERS
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static SwipeDirection slidingDecision(int numberOfSlides, int currentSlide) {
 
     if (numberOfSlides == 0){
@@ -207,6 +208,7 @@ class Sliders {
 
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<void> slidingAction({
     required PageController slidingController,
     required int numberOfSlides,
@@ -244,25 +246,10 @@ class Sliders {
   }
   // -----------------------------------------------------------------------------
 
-  /// FUCK YOU
-
-  // --------------------
-  /*
-  static ScrollPhysics superScroller({
-    required bool trigger,
-  }) {
-    return trigger == true ?
-    const BouncingScrollPhysics()
-        :
-    const NeverScrollableScrollPhysics();
-  }
-   */
-  // -----------------------------------------------------------------------------
-
   /// CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkIsAtTop(ScrollController? scrollController) {
     if (scrollController == null) {
       return false;
@@ -271,9 +258,8 @@ class Sliders {
       return scrollController.offset == scrollController.position.minScrollExtent;
     }
   }
-
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkIsAtBottom(ScrollController? scrollController) {
     if (scrollController == null){
       return false;
@@ -283,7 +269,7 @@ class Sliders {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool? checkIsGoingDown(ScrollController? scrollController) {
     bool? _goingDown;
 
@@ -295,12 +281,12 @@ class Sliders {
     return _goingDown;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkIsGoingUp(ScrollController scrollController) {
     return scrollController.position.userScrollDirection == ScrollDirection.reverse;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkIsAtPercentFromTop({
     required ScrollController? scrollController,
     required double percent,
@@ -317,7 +303,7 @@ class Sliders {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkCanSlide({
     required ScrollUpdateNotification? details,
     required double boxDistance,
@@ -357,7 +343,7 @@ class Sliders {
   /// SCROLL TO
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> scrollTo({
     required ScrollController? controller,
     required double offset,
@@ -517,5 +503,5 @@ class Sliders {
     }
 
   }
-// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

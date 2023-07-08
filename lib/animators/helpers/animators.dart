@@ -1,6 +1,6 @@
 import 'package:basics/animators/helpers/sliders.dart';
 import 'package:flutter/material.dart';
-
+/// => TAMAM
 class Animators {
   // -----------------------------------------------------------------------------
 
