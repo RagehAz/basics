@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.7 : added TextMod.capitalizeFirstLetter method
 ### 3.0.6 : added app version builder widget
 ### 3.0.4 : Bubble fixes
 ### 3.0.2 : Added Copyrights Lines

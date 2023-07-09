@@ -843,6 +843,36 @@ class TextMod {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// CASING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? capitalizeFirstLetter({
+    required String? input,
+    required bool lowerCaseTheRest,
+  }) {
+
+    if (input == null || input.isEmpty == true) {
+      return input;
+    }
+
+    else {
+
+    String _rest;
+
+    if (lowerCaseTheRest == true){
+      _rest = input.substring(1).toLowerCase();
+    }
+
+    else {
+      _rest = input.substring(1);
+    }
+
+      return input[0].toUpperCase() + _rest;
+    }
+
+}  // -----------------------------------------------------------------------------
 }
 
 /*
