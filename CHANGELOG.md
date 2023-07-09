@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.6 : added app version builder widget
 ### 3.0.4 : Bubble fixes
 ### 3.0.2 : Added Copyrights Lines
 ### 3.0.1 : Added hintTextDirection field in SuperTextField widget
