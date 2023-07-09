@@ -36,5 +36,5 @@ class AppVersionBuilder extends StatelessWidget {
         );
 
   }
-
+  // -----------------------------------------------------------------------------
 }
