@@ -1,5 +1,3 @@
-
-
 import 'package:basics/animators/helpers/sliders.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/nav/nav.dart';
@@ -17,8 +15,9 @@ class MaxBounceNavigator extends StatefulWidget {
     this.axis = Axis.vertical,
     this.isOn = true,
     this.slideLimitRatio = 0.18,
+    this.onlyBack = true,
     super.key
-  }); 
+  });
   /// --------------------------------------------------------------------------
   final double? boxDistance;
   final int numberOfScreens;
@@ -28,6 +27,7 @@ class MaxBounceNavigator extends StatefulWidget {
   final Axis axis;
   final bool isOn;
   final double slideLimitRatio;
+  final bool onlyBack;
   /// --------------------------------------------------------------------------
   @override
   _MaxBounceNavigatorState createState() => _MaxBounceNavigatorState();
@@ -61,17 +61,17 @@ class _MaxBounceNavigatorState extends State<MaxBounceNavigator> {
     }
   }
   // --------------------
-  bool _goesBackOnlyCheck() {
-    bool _goesBack;
-
-    if (widget.axis == Axis.vertical) {
-      _goesBack = true;
-    } else {
-      _goesBack = false;
-    }
-
-    return _goesBack;
-  }
+  // bool _goesBackOnlyCheck() {
+  //   bool _goesBack;
+  //
+  //   if (widget.axis == Axis.vertical) {
+  //     _goesBack = true;
+  //   } else {
+  //     _goesBack = false;
+  //   }
+  //
+  //   return _goesBack;
+  // }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,6 @@ class _MaxBounceNavigatorState extends State<MaxBounceNavigator> {
       final double _height = widget.boxDistance ?? Scale.screenHeight(context);
       final double _width = widget.boxDistance ?? Scale.screenHeight(context);
       final double _boxDistance = widget.axis == Axis.vertical ? _height : _width;
-      final bool _goesBackOnly = _goesBackOnlyCheck();
 
       return NotificationListener<ScrollUpdateNotification>(
         key: widget.notificationListenerKey,
@@ -92,7 +91,7 @@ class _MaxBounceNavigatorState extends State<MaxBounceNavigator> {
             details: details,
             boxDistance: _boxDistance,
             numberOfBoxes: widget.numberOfScreens,
-            goesBackOnly: _goesBackOnly,
+            goesBackOnly: widget.onlyBack,
             axis: widget.axis,
             slideLimitRatio: widget.slideLimitRatio,
           );

@@ -318,10 +318,12 @@ class Sliders {
     }
 
     else {
+
       final double _offset = details.metrics.pixels;
       final double _limitRatio = slideLimitRatio;
       final double _backLimit = boxDistance * _limitRatio * (-1);
-      final double _nextLimit = (boxDistance * (numberOfBoxes - 1)) + (_backLimit * (-1));
+      final double _nextLimit = details.metrics.maxScrollExtent - (_backLimit*2);
+      // blog('offset: $_offset : backLimit: $_backLimit : nextLimit: $_nextLimit');
 
       if (details.metrics.axis != axis) {
         return false;
