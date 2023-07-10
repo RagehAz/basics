@@ -43,12 +43,17 @@ void setNotifier({
   bool addPostFrameCallBack = false,
   Function? onFinish,
   bool shouldHaveListeners = false,
+  String? invoker,
 }){
 
   if (mounted == true){
     // blog('setNotifier : setting to ${value.toString()}');
 
     if (notifier != null){
+
+      if (invoker != null){
+        blog('-> setNotifier($invoker) : $value != <${notifier.value.runtimeType}>${notifier.value} ? ${value != notifier.value}');
+      }
 
       if (value != notifier.value){
 

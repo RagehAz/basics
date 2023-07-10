@@ -88,7 +88,9 @@ class _LocalAssetCheckerState extends State<LocalAssetChecker> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
+
     if (_isInit && mounted) {
+      _isInit = false; // good
 
       _triggerLoading(setTo: true).then((_) async {
 
@@ -104,8 +106,8 @@ class _LocalAssetCheckerState extends State<LocalAssetChecker> {
 
       });
 
-      _isInit = false;
     }
+
     super.didChangeDependencies();
   }
   // --------------------

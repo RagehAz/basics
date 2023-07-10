@@ -100,15 +100,17 @@ class _CroppingScreenState extends State<CroppingScreen> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
 
-    if (_isInit) {
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
       // _triggerLoading(setTo: true).then((_) async {
       //
       //   await _triggerLoading(setTo: false);
       // });
     }
-    _isInit = false;
+
+    super.didChangeDependencies();
   }
   // --------------------
   @override

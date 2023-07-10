@@ -184,7 +184,9 @@ class _FilteredImageState extends State<_FilteredImage> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
-    if (_isInit) {
+
+    if (_isInit && mounted) {
+      _isInit = false; // good
 
       if (widget.filterModel != null){
 
@@ -207,7 +209,7 @@ class _FilteredImageState extends State<_FilteredImage> {
       }
 
     }
-    _isInit = false;
+
     super.didChangeDependencies();
   }
   // --------------------

@@ -138,14 +138,18 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
 
-    if (_isInit) {
+
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
       _triggerLoading(setTo: true).then((_) async {
         await _readSembast();
       });
+
     }
-    _isInit = false;
+
+    super.didChangeDependencies();
   }
   // --------------------
   @override

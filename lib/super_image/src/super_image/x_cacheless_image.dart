@@ -51,7 +51,9 @@ class _CachelessImageState extends State<CachelessImage> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
+
     if (_isInit && mounted) {
+      _isInit = false; // good
 
       if (Mapper.checkCanLoopList(widget.bytes) == true){
         _triggerLoading(setTo: true).then((_) async {
@@ -62,8 +64,8 @@ class _CachelessImageState extends State<CachelessImage> {
         });
       }
 
-      _isInit = false;
     }
+
     super.didChangeDependencies();
   }
   // --------------------

@@ -52,9 +52,10 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   bool _isInit = true;
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
 
-    if (_isInit) {
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
       _triggerLoading(setTo: true).then((_) async {
 
         await _deleteAll();
@@ -63,7 +64,8 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
         await _triggerLoading(setTo: false);
       });
     }
-    _isInit = false;
+
+    super.didChangeDependencies();
   }
   // --------------------
   @override
