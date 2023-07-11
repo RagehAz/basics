@@ -237,5 +237,8 @@
   "bldrsWillRestart": "Bldr.net 将重新启动",
   "bldrsUnderConstruction": "Bldr.net 正在建设中",
   "somethingWentWrong": "出现了问题",
+  "yes": "是的",
+  "no": "不",
+  "ok": "好",
   "xxxEND" : "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }

@@ -237,5 +237,8 @@
   "bldrsWillRestart": "Bldr.net se reiniciará",
   "bldrsUnderConstruction": "Bldr.net está en construcción",
   "somethingWentWrong": "Algo salió mal",
+  "yes": "Sí",
+  "no": "No",
+  "ok": "Ok",
   "xxxEND" : "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }
