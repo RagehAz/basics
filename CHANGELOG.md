@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.10 : added new Words
 ### 3.0.8 : fixes in didChangeDependencies
 ### 3.0.7 : added TextMod.capitalizeFirstLetter method
 ### 3.0.6 : added app version builder widget

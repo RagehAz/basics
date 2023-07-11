@@ -234,5 +234,8 @@
   "newUpdateAvailable" : "有新版本可用",
   "pleaseUpdateToContinue" : "请更新应用以继续",
   "updateApp" : "更新应用",
+  "bldrsWillRestart": "Bldr.net 将重新启动",
+  "bldrsUnderConstruction": "Bldr.net 正在建设中",
+  "somethingWentWrong": "出现了问题",
   "xxxEND" : "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }

@@ -234,5 +234,8 @@
   "newUpdateAvailable" : "تحديث جديد متاح",
   "pleaseUpdateToContinue" : "يرجى تحديث التطبيق للمتابعة",
   "updateApp" : "قم بتحديث التطبيق",
+  "bldrsWillRestart": "بلدرز.نت سيقوم بإعادة التشغيل",
+  "bldrsUnderConstruction" : "بلدرز.نت قيد الإنشاء حاليا",
+  "somethingWentWrong": "حدث خطأ ما",
   "xxxEND" : "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }

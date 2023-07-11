@@ -234,5 +234,8 @@
   "newUpdateAvailable": "A new App update is available",
   "pleaseUpdateToContinue": "Please update the app to continue",
   "updateApp" : "Update the App",
+  "bldrsWillRestart": "Bldr.net will restart",
+  "bldrsUnderConstruction" : "Bldrs.net is under construction",
+  "somethingWentWrong": "Something went wrong",
   "xxxEND": "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }

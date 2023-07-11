@@ -234,5 +234,8 @@
   "newUpdateAvailable" : "Neues Update verfügbar",
   "pleaseUpdateToContinue" : "Bitte aktualisieren Sie die App, um fortzufahren",
   "updateApp" : "Aktualisiere die App",
+  "bldrsWillRestart": "Bldr.net wird neu starten",
+  "bldrsUnderConstruction": "Bldr.net befindet sich im Bau",
+  "somethingWentWrong": "Etwas ist schiefgelaufen",
   "xxxEND" : "o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o"
 }
