@@ -17,10 +17,10 @@ class Sky extends StatelessWidget {
     required SkyType skyType,
   }){
 
-    if (skyType == SkyType.night){
+    if (skyType == SkyType.night || skyType == SkyType.nightStars){
       return <Color>[Colorz.skyLightBlue, Colorz.skyDarkBlue];
     }
-    else if (skyType == SkyType.black){
+    else if (skyType == SkyType.black || skyType == SkyType.blackStars){
       return <Color>[Colorz.blackSemi230, Colorz.blackSemi230];
     }
     else {

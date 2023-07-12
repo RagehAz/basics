@@ -64,7 +64,7 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
   @override
   void didUpdateWidget(covariant BubbleSwitcher oldWidget) {
 
-    if (oldWidget.switchIsOn != widget.switchIsOn){
+    // if (oldWidget.switchIsOn != widget.switchIsOn){
 
       setNotifier(
           notifier: _isOn,
@@ -72,7 +72,7 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
           value: widget.switchIsOn,
       );
 
-    }
+    // }
 
     super.didUpdateWidget(oldWidget);
   }
@@ -118,17 +118,17 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
               /// FUNCTIONS
               // onFocusChange: ,
               value: isOn,
-              onChanged: (bool val){
-
-                setNotifier(
-                    notifier: _isOn,
-                    mounted: mounted,
-                    value: val,
-                );
+              onChanged: (bool val) async {
 
                 if (widget.onSwitch != null){
                   widget.onSwitch?.call(val);
                 }
+
+                setNotifier(
+                  notifier: _isOn,
+                  mounted: mounted,
+                  value: val,
+                );
 
               },
             );
