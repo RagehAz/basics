@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
@@ -16,7 +17,7 @@ class CroppingScreen extends StatefulWidget {
   /// -----------------------------------------------------------------------------
   const CroppingScreen({
     required this.bytezz,
-    this.confirmText = 'Crop',
+    this.confirmText = 'Continue',
     this.appIsLTR = true,
     this.aspectRatio = 1,
     super.key
@@ -179,6 +180,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
           /// CROPPER FOOTER
           CropperFooter(
+            loading: _loading,
             appIsLTR: widget.appIsLTR,
             confirmText: widget.confirmText,
             screenHeight: _screenHeight,

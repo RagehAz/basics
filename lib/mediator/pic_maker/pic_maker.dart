@@ -13,9 +13,11 @@ import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:image/image.dart' as img;
@@ -59,7 +61,7 @@ class PicMaker {
 
   // -----------------------------------------------------------------------------
 
-  /// PICK IMAGE FROM GALLERY
+  /// SINGLE GALLERY IMAGE PIC
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -74,28 +76,88 @@ class PicMaker {
   }) async {
     Uint8List? _bytes;
 
-    final List<AssetEntity> _assets = selectedAsset == null ?
-    <AssetEntity>[]
-        :
-    <AssetEntity>[selectedAsset];
+    if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
+      _bytes = await _pickWindowsOrWebImage(
+        context: context,
+        aspectRatio: aspectRatio,
+        cropAfterPick: cropAfterPick,
+        appIsLTR: appIsLTR,
+        confirmText: confirmText,
+        resizeToWidth: resizeToWidth,
+      );
+    }
 
-    final List<Uint8List> _bytezz = await pickAndCropMultiplePics(
-      context: context,
-      maxAssets: 1,
-      selectedAssets: _assets,
-      cropAfterPick: cropAfterPick,
-      aspectRatio: aspectRatio,
-      resizeToWidth: resizeToWidth,
-      confirmText: confirmText,
-      appIsLTR: appIsLTR,
-    );
+    else {
 
-    if (Mapper.checkCanLoopList(_bytezz) == true){
-      _bytes = _bytezz.first;
+      final List<AssetEntity> _assets = selectedAsset == null ?
+      <AssetEntity>[]
+          :
+      <AssetEntity>[selectedAsset];
+
+      final List<Uint8List> _bytezz = await pickAndCropMultiplePics(
+        context: context,
+        maxAssets: 1,
+        selectedAssets: _assets,
+        cropAfterPick: cropAfterPick,
+        aspectRatio: aspectRatio,
+        resizeToWidth: resizeToWidth,
+        confirmText: confirmText,
+        appIsLTR: appIsLTR,
+      );
+
+      if (Mapper.checkCanLoopList(_bytezz) == true){
+        _bytes = _bytezz.first;
+      }
+
     }
 
     return _bytes;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> _pickWindowsOrWebImage({
+    required BuildContext context,
+    required double aspectRatio,
+    required bool cropAfterPick,
+    double? resizeToWidth,
+    String confirmText = 'Crop',
+    bool appIsLTR = true,
+  }) async {
+
+      final ImagePicker _picker = ImagePicker();
+
+      final XFile? _file = await _picker.pickImage(
+        source: ImageSource.gallery,
+      );
+
+      Uint8List? _bytes = await _file?.readAsBytes();
+
+          /// RESIZE
+      if (resizeToWidth != null && _bytes != null){
+        _bytes = await resizePic(
+          bytes: _bytes,
+          finalWidth: resizeToWidth,
+          // isFlyerRatio: isFlyerRatio,
+        );
+      }
+
+      /// CROP
+      if (cropAfterPick == true && _bytes != null){
+        _bytes = await cropPic(
+          context: context,
+          bytes: _bytes,
+          aspectRatio: aspectRatio,
+          appIsLTR: appIsLTR,
+          confirmText: confirmText,
+        );
+      }
+
+      return _bytes;
+    }
+  // -----------------------------------------------------------------------------
+
+  /// MULTI GALLERY IMAGES PICK
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>> pickAndCropMultiplePics({
@@ -116,6 +178,15 @@ class PicMaker {
       selectedAssets: selectedAssets,
     );
 
+    /// RESIZE
+    if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
+      _bytezz = await resizePics(
+        bytezz: _bytezz,
+        resizeToWidth: resizeToWidth,
+        // isFlyerRatio: isFlyerRatio,
+      );
+    }
+
     /// CROP
     if (cropAfterPick == true && Mapper.checkCanLoopList(_bytezz) == true){
       _bytezz = await cropPics(
@@ -124,15 +195,6 @@ class PicMaker {
         aspectRatio: aspectRatio,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
-      );
-    }
-
-    /// RESIZE
-    if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
-      _bytezz = await resizePics(
-        bytezz: _bytezz,
-        resizeToWidth: resizeToWidth,
-        // isFlyerRatio: isFlyerRatio,
       );
     }
 

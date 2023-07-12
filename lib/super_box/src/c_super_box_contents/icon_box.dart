@@ -40,63 +40,55 @@ class SuperBoxIcon extends StatelessWidget {
       width: height,
       height: height,
       alignment: Alignment.topCenter,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+      child: Container(
+        width: height,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: corners,
+          // color: Colorz.BloodTest
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
 
-          /// ICON
-          Container(
-            width: height,
-            height: height,
-            decoration: BoxDecoration(
-              borderRadius: corners,
-              // color: Colorz.BloodTest
+            BoxIcon(
+              icon: icon,
+              loading: loading,
+              size: height,
+              corners: corners,
+              greyscale: greyScale,
+              iconColor: iconColor,
+              iconSizeFactor: iconSizeFactor,
+              backgroundColor: backgroundColor,
+              package: package,
+              isDisabled: isDisabled,
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
 
-                BoxIcon(
-                  icon: icon,
-                  loading: loading,
-                  size: height,
-                  corners: corners,
-                  greyscale: greyScale,
-                  iconColor: iconColor,
-                  iconSizeFactor: iconSizeFactor,
-                  backgroundColor: backgroundColor,
-                  package: package,
-                  isDisabled: isDisabled,
+            /// --- BUTTON BLACK LAYER IF GREYED OUT
+            if (greyScale == true && icon != null && ObjectCheck.objectIsSVG(icon) == false)
+              Container(
+                height: _jpgGraphicWidth,
+                width: _jpgGraphicWidth,
+                decoration: BoxDecoration(
+                  // color: Colorz.Yellow,
+                  borderRadius: corners,
+                  gradient: const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[
+                        Color.fromARGB(80, 0, 0, 0),
+                        Color.fromARGB(125, 0, 0, 0),
+                      ],
+                      stops: <double>[
+                        0.5,
+                        1
+                      ]),
                 ),
+              ),
 
-                /// --- BUTTON BLACK LAYER IF GREYED OUT
-                if (greyScale == true && icon != null && ObjectCheck.objectIsSVG(icon) == false)
-                  Container(
-                    height: _jpgGraphicWidth,
-                    width: _jpgGraphicWidth,
-                    decoration: BoxDecoration(
-                      // color: Colorz.Yellow,
-                      borderRadius: corners,
-                      gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[
-                            Color.fromARGB(80, 0, 0, 0),
-                            Color.fromARGB(125, 0, 0, 0),
-                          ],
-                          stops: <double>[
-                            0.5,
-                            1
-                          ]),
-                    ),
-                  ),
+          ],
 
-              ],
-
-            ),
-          ),
-
-        ],
+        ),
       ),
     );
   }

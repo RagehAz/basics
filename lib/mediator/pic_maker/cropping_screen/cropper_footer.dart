@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/super_box/super_box.dart';
@@ -19,6 +20,7 @@ class CropperFooter extends StatelessWidget {
     required this.screenHeight,
     required this.appIsLTR,
     required this.confirmText,
+    required this.loading,
     super.key
   });
   // -----------------------------------------------------------------------------
@@ -30,6 +32,7 @@ class CropperFooter extends StatelessWidget {
   final double screenHeight;
   final bool appIsLTR;
   final String confirmText;
+  final ValueNotifier<bool> loading;
   // --------------------
   static const double imagesSpacing = 5;
   // --------------------
@@ -69,6 +72,7 @@ class CropperFooter extends StatelessWidget {
             children: <Widget>[
 
               /// MINI PICTURES
+              if (Mapper.superLength(bytezz) > 1)
               SizedBox(
                 width: _screenWidth,
                 height: _imagesFooterHeight,
@@ -127,15 +131,21 @@ class CropperFooter extends StatelessWidget {
             appIsLTR: appIsLTR,
             inverse: true,
           ),
-          child: SuperBox(
-            height: _miniImageHeight,
-            text: confirmText,
-            onTap: onCropImages,
-            appIsLTR: appIsLTR,
-            textScaleFactor: 0.7,
-            textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
-            textItalic: true,
-            margins: 10,
+          child: ValueListenableBuilder(
+            valueListenable: loading,
+            builder: (_, bool loading, Widget? child) {
+              return SuperBox(
+                height: _miniImageHeight,
+                text: confirmText,
+                onTap: onCropImages,
+                appIsLTR: appIsLTR,
+                textScaleFactor: 0.7,
+                textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
+                textItalic: true,
+                margins: 10,
+                loading: loading,
+              );
+            }
           ),
         ),
       ),

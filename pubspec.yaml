@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 3.0.13
+version: 3.0.14
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -44,6 +44,7 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   wechat_assets_picker: ^8.4.3
   youtube_metadata: ^1.0.1
+  image_picker: ^1.0.1
 # ------------------------------------
 dev_dependencies:
   flutter_test:

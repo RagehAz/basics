@@ -96,48 +96,45 @@ class CropperPages extends StatelessWidget {
             else {
 
               return KeepAlivePage(
-                child: SizedBox(
+                child: Container(
                   key: PageStorageKey<String>('image_$index'),
                   width: _screenWidth,
                   height: _imageSpaceHeight,
-                  // color: Colorz.bloodTest,
+                  alignment: Alignment.center,
                   child: Crop(
                     image: originalBytezz![index],
                     controller: controllers[index],
                     onCropped: (dynamic image) async {
                       croppedImages.value![index] = image;
-                    },
+                      },
                     aspectRatio: aspectRatio,
                     // fixArea: false,
-                    // withCircleUi: false,
-                    // initialSize: 0.5,
+                    // withCircleUi: true,
+                    initialSize: 0.95,
                     // initialArea: Rect.fromLTWH(240, 212, 800, 600),
                     // initialAreaBuilder: (rect) => Rect.fromLTRB(
                     //     rect.left + 24, rect.top + 32, rect.right - 24, rect.bottom - 32
                     // ),
                     baseColor: Colorz.black255,
                     maskColor: Colorz.black150,
-                    // radius: 0,
+                    // radius: 30, // crop area corners
                     onMoved: (Rect newRect) {
                       _updateCropStatus(
                         index: index,
                         status: CropStatus.cropping,
                         mounted: mounted,
                       );
-
-                    },
+                      },
                     onStatusChanged: (CropStatus status) {
-
                       _updateCropStatus(
                         index: index,
                         status: status,
                         mounted: mounted,
                       );
-
-                    },
+                      },
                     cornerDotBuilder: (double size, EdgeAlignment edgeAlignment){
                       return const CropperCorner();
-                    },
+                      },
                     // interactive: false,
                     // fixArea: true,
                   ),
