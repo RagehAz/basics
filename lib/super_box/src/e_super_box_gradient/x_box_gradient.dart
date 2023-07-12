@@ -16,18 +16,21 @@ class BoxGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      key: const ValueKey<String>('DreamBoxGradient'),
-      height: height,
-      width: width,
-      decoration: BoxDecoration(
-        // color: Colorz.Grey,
-        borderRadius: corners,
-        gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: <Color>[Color.fromARGB(0, 0, 0, 0), Color.fromARGB(125, 0, 0, 0)],
-            stops: <double>[0.5, 0.95]),
+    return ClipRRect(
+      borderRadius: corners,
+      child: Container(
+        key: const ValueKey<String>('DreamBoxGradient'),
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          // color: Colorz.Grey,
+          borderRadius: corners,
+          gradient: const LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[Color.fromARGB(0, 0, 0, 0), Color.fromARGB(125, 0, 0, 0)],
+              stops: <double>[0.5, 0.95]),
+        ),
       ),
     );
 

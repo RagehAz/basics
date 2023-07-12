@@ -23,23 +23,31 @@ class BoxHighlight extends StatelessWidget {
       corners: _height * 0.6,
     );
 
-    return Container(
-      key: const ValueKey<String>('DreamBoxHighlight'),
-      width: width,
-      height: _height * 0.27,
-      decoration: BoxDecoration(
-        // color: Colorz.White,
-        borderRadius:_borders,
-        boxShadow: <BoxShadow>[
+    return ClipRRect(
+      borderRadius: _borders,
+      child: Container(
+        width: width,
+        height: _height,
+        alignment: Alignment.topCenter,
+        child: Container(
+          key: const ValueKey<String>('DreamBoxHighlight'),
+          width: width,
+          height: _height * 0.27,
+          decoration: BoxDecoration(
+            // color: Colorz.White,
+            borderRadius:_borders,
+            boxShadow: <BoxShadow>[
 
-          CustomBoxShadow(
-              color: const Color.fromARGB(50, 255, 255, 255),
-              offset: Offset(0, _height * -0.33),
-              blurRadius: _height * 0.2,
+              CustomBoxShadow(
+                  color: const Color.fromARGB(50, 255, 255, 255),
+                  offset: Offset(0, _height * -0.33),
+                  blurRadius: _height * 0.2,
+              ),
+
+            ],
+
           ),
-
-        ],
-
+        ),
       ),
     );
 

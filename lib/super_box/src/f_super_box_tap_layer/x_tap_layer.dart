@@ -21,6 +21,8 @@ class TapLayer extends StatelessWidget {
     this.corners,
     this.child,
     this.boxColor,
+    this.alignment,
+    this.margin,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -38,6 +40,8 @@ class TapLayer extends StatelessWidget {
   final BorderRadius? corners;
   final Color? boxColor;
   final Widget? child;
+  final EdgeInsets? margin;
+  final Alignment? alignment;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   Future<void> onBoxTap() async {
@@ -91,7 +95,17 @@ class TapLayer extends StatelessWidget {
         onTapDown == null &&
         onLongTap == null
     ){
-      return child ?? const SizedBox();
+      return _TapBox(
+        key: const ValueKey<String>('DreamBoxTapLayer_e'),
+        width: width,
+        height: height,
+        boxColor: boxColor,
+        hasMaterial: false,
+        corners: corners ?? BorderRadius.circular(0),
+        margin: margin,
+        alignment: alignment,
+        child: child,
+      );
     }
 
     /// IS DISABLED
@@ -99,7 +113,17 @@ class TapLayer extends StatelessWidget {
 
       /// NO DISABLED TAP
       if (onDisabledTap == null){
-        return child ?? const SizedBox();
+        return _TapBox(
+          key: const ValueKey<String>('DreamBoxTapLayer_e'),
+          width: width,
+          height: height,
+          boxColor: boxColor,
+          hasMaterial: false,
+          corners: corners ?? BorderRadius.circular(0),
+          margin: margin,
+          alignment: alignment,
+          child: child,
+        );
       }
 
       /// DISABLED TAP
@@ -112,6 +136,8 @@ class TapLayer extends StatelessWidget {
           boxColor: boxColor,
           hasMaterial: false,
           corners: corners ?? BorderRadius.circular(0),
+          margin: margin,
+          alignment: alignment,
           child: GestureDetector(
               onTap: () => onDisabledTap!(),
               child: child,
@@ -128,12 +154,13 @@ class TapLayer extends StatelessWidget {
 
       final Widget _theInkWell = InkWell(
         splashColor: isDisabled == true ? const Color.fromARGB(20, 255, 255, 255) : splashColor,
+        highlightColor: Colorz.black20,
         onTap: _canTap() == true ? () => onBoxTap() : null,
         onTapCancel: onTapCancel == null ? null : () => onTapCancel!(),
         onLongPress: onLongTap == null ? null : () => onLongTap!(),
         onDoubleTap: onDoubleTap == null ? null : () => onDoubleTap!(),
         borderRadius: _corners,
-        hoverColor: Colorz.white20,
+        hoverColor: Colorz.white10,
         // overlayColor: ,
         // highlightColor: ,
         // key: ,
@@ -168,6 +195,8 @@ class TapLayer extends StatelessWidget {
           corners: _corners,
           width: width,
           height: height,
+          margin: margin,
+          alignment: alignment,
           child: Material(
             color: const Color.fromARGB(0, 255, 255, 255),
             borderRadius: _corners,
@@ -185,6 +214,8 @@ class TapLayer extends StatelessWidget {
           height: height,
           corners: _corners,
           boxColor: boxColor,
+          margin: margin,
+          alignment: alignment,
           child: GestureDetector(
             // onLongPress: onLongTap,
             onTapDown: onTapDown == null ? null : (TapDownDetails details) => onTapDown?.call(),
@@ -207,9 +238,11 @@ class _TapBox extends StatelessWidget {
     required this.width,
     required this.height,
     required this.corners,
-    required this.child,
     required this.boxColor,
     required this.hasMaterial,
+    required this.alignment,
+    required this.margin,
+    this.child,
     super.key,
   });
 
@@ -219,26 +252,12 @@ class _TapBox extends StatelessWidget {
   final Widget? child;
   final Color? boxColor;
   final bool hasMaterial;
+  final Alignment? alignment;
+  final EdgeInsets? margin;
 
   @override
   Widget build(BuildContext context) {
 
-    if (boxColor == null){
-
-      return SizedBox(
-        key: const ValueKey<String>('_TapBox_a'),
-        width: width,
-        height: height,
-        child: hasMaterial == false ? child : Material(
-          color: const Color.fromARGB(0, 255, 255, 255),
-          borderRadius: corners,
-          child: child,
-        ),
-      );
-
-    }
-
-    else {
       return Container(
         key: const ValueKey<String>('_TapBox_b'),
         width: width,
@@ -247,13 +266,14 @@ class _TapBox extends StatelessWidget {
           borderRadius: corners,
           color: boxColor,
         ),
+        alignment: alignment,
+        margin: margin,
         child: hasMaterial == false ? child : Material(
           color: const Color.fromARGB(0, 255, 255, 255),
           borderRadius: corners,
           child: child,
         ),
       );
-    }
 
   }
 

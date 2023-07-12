@@ -117,6 +117,14 @@ class SuperBox extends StatelessWidget {
       boxColor: color,
       greyScale: greyscale,
       borderRadius: _borderRadius,
+      splashColor: splashColor,
+      onTap: onTap,
+      onTapUp: onTapUp,
+      onTapDown: onTapDown,
+      onTapCancel: onTapCancel,
+      onDisabledTap: onDisabledTap,
+      onLongTap: onLongTap,
+      onDoubleTap: onDoubleTap,
       children: <Widget>[
 
         // /// --- BLUR LAYER
@@ -187,22 +195,6 @@ class SuperBox extends StatelessWidget {
             width: width,
             height: height,
             corners: _borderRadius,
-          ),
-
-        /// RIPPLE & TAP LAYER
-        if (onTap != null || onDisabledTap != null || onLongTap != null || onDoubleTap != null)
-          TapLayer(
-            width: width,
-            height: height,
-            splashColor: splashColor,
-            onTap: onTap,
-            onTapUp: onTapUp,
-            onTapDown: onTapDown,
-            onTapCancel: onTapCancel,
-            isDisabled: isDisabled,
-            onDisabledTap: onDisabledTap,
-            onLongTap: onLongTap,
-            onDoubleTap: onDoubleTap,
           ),
 
       ],
