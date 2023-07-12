@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.13 : updated super box and tap layer performance
 ### 3.0.11 : fixes in night sky and bubble switcher
 ### 3.0.10 : added new Words
 ### 3.0.8 : fixes in didChangeDependencies
