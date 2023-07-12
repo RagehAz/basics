@@ -39,44 +39,47 @@ class BulletPoints extends StatelessWidget {
       final double screenWidth = MediaQuery.of(context).size.width;
       final double _boxWidth = boxWidth ?? (screenWidth - 20);
 
-      return Column(
-        crossAxisAlignment: centered == true ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-        children: <Widget>[
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Column(
+          crossAxisAlignment: centered == true ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          children: <Widget>[
 
-          /// TEXTS
+            /// TEXTS
 
-          ...List.generate(bulletPoints!.length, (index){
+            ...List.generate(bulletPoints!.length, (index){
 
-            return SizedBox(
-              width: _boxWidth,
-              child: SuperText(
-                text: bulletPoints![index],
-                margins: 0,
-                textHeight: textHeight,
-                maxLines: maxLines,
-                centered: centered,
-                textColor: textColor,
-                italic: true,
-                weight: FontWeight.w100,
-                leadingDot: true,
-                appIsLTR: appIsLTR,
-                textDirection: textDirection,
-                font: font,
-              ),
-            );
+              return SizedBox(
+                width: _boxWidth,
+                child: SuperText(
+                  text: bulletPoints![index],
+                  margins: 0,
+                  textHeight: textHeight,
+                  maxLines: maxLines,
+                  centered: centered,
+                  textColor: textColor,
+                  italic: true,
+                  weight: FontWeight.w100,
+                  leadingDot: true,
+                  appIsLTR: appIsLTR,
+                  textDirection: textDirection,
+                  font: font,
+                ),
+              );
 
-          }),
+            }),
 
-          /// BOTTOM LINE
-          if (showBottomLine == true)
-          Container(
-            width: _boxWidth - 20,
-            height: 0.5,
-            color: textColor,
-            margin: const EdgeInsets.symmetric(vertical: 10),
-          ),
+            /// BOTTOM LINE
+            if (showBottomLine == true)
+            Container(
+              width: _boxWidth - 20,
+              height: 0.5,
+              color: textColor,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+            ),
 
-        ],
+          ],
+        ),
       );
 
     }

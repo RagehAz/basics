@@ -281,6 +281,7 @@ class TextFieldBubble extends StatelessWidget {
                 boxWidth: _bubbleWidth,
                 bulletPoints: bulletPoints,
                 font: bulletPointsFont,
+                showBottomLine: false,
               ),
             ),
 
