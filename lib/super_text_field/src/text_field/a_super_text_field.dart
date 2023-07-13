@@ -162,7 +162,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
 
     _scrollController = widget.scrollController ?? ScrollController();
 
-    SuperTextFieldController.setNotifier(
+    setNotifier(
         notifier: _textDirection,
         mounted: mounted,
         value: TextDir.autoSwitchTextDirection(
@@ -217,7 +217,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
   void _onTextChanged(String? val) {
 
     if (val != null) {
-      SuperTextFieldController.setNotifier(
+      setNotifier(
         notifier: _textDirection,
         mounted: mounted,
         value: TextDir.autoSwitchTextDirection(

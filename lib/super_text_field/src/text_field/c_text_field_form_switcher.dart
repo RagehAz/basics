@@ -180,7 +180,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    final double _textHeight = textHeight ?? 20;
+    final double _textHeight = (textHeight ?? 20) * 0.95;
     // --------------------
     final TextStyle _style = createTextStyle(
       /// DUNNO
