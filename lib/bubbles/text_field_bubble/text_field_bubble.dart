@@ -275,7 +275,7 @@ class TextFieldBubble extends StatelessWidget {
             Disabler(
               isDisabled: isDisabled,
               child: BulletPoints(
-                textHeight: fieldTextHeight * 0.8,
+                textHeight: fieldTextHeight * 0.9,
                 appIsLTR: bubbleHeaderVM.appIsLTR,
                 textDirection: bubbleHeaderVM.textDirection,
                 boxWidth: _bubbleWidth,

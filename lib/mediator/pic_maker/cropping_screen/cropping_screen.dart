@@ -1,9 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
-import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
