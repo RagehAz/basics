@@ -9,6 +9,7 @@ class FloatingList extends StatelessWidget {
     this.mainAxisAlignment,
     this.scrollDirection = Axis.vertical,
     this.padding = EdgeInsets.zero,
+    this.boxAlignment = Alignment.center,
     this.width,
     this.height,
     this.physics = const BouncingScrollPhysics(),
@@ -23,6 +24,7 @@ class FloatingList extends StatelessWidget {
   final double? width;
   final double? height;
   final ScrollPhysics physics;
+  final Alignment? boxAlignment;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class FloatingList extends StatelessWidget {
         constraints: BoxConstraints(
           minHeight: height ?? Scale.screenHeight(context),
         ),
-        alignment: Alignment.center,
+        alignment: boxAlignment,
         padding: padding,
         child:
         scrollDirection == Axis.vertical ?

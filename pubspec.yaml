@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 3.0.14
+version: 3.0.15
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------

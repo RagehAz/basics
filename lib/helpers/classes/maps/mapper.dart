@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
+import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:collection/collection.dart';
 
 /// => AI TESTED
@@ -1209,6 +1210,55 @@ class Mapper {
     }
 
     blog('blogMapsListsDifferences : END');
+  }
+  // --------------------
+  /// MANUALLY TESTED : WORKS PERFECT
+  static void blogMapsDifferences({
+    required Map<String, dynamic>? map1,
+    required Map<String, dynamic>? map2,
+    required String invoker,
+  }){
+    blog('||| $invoker |||||||||||||||||||||||||||||||||||| blogMapsDifferences : START --------o');
+
+    if (map1 == null){
+      blog('||| map1 is null');
+    }
+
+    if (map2 == null){
+      blog('||| map2 is null');
+    }
+
+    if (map1 != null && map2 != null){
+
+      final List<String> _keys1 = map1.keys.toList();
+      final List<String> _keys2 = map2.keys.toList();
+
+      if (_keys1.length != _keys2.length){
+        blog('||| maps lengths are not identical : map1{ ${_keys1.length} keys } : map2{ ${_keys2.length} keys }');
+      }
+
+      final List<String> _allKeys = Stringer.addStringsToStringsIfDoNotContainThem(
+          listToTake: _keys1,
+          listToAdd: _keys2,
+      );
+
+      if (checkCanLoopList(_allKeys) == false){
+        blog('||| both maps are not null but dead empty');
+      }
+      else {
+        for (final String key in _allKeys){
+          final dynamic value2 = map2[key];
+          final dynamic value1 = map1[key];
+          final bool _identical = value1 == value2;
+          final String _identicalArrow = _identical == true ? '' : 'x--->';
+          final String _identicalString = _identical == true ? '=' : '!=';
+          blog('||| $_identicalArrow   [$key] : [$_identicalString] : 1[$value1] : 2[$value2]');
+        }
+      }
+
+    }
+
+    blog('||| $invoker |||||||||||||||||||||||||||||||||||| blogMapsDifferences : END --------o');
   }
   // -----------------------------------------------------------------------------
 

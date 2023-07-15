@@ -1,4 +1,5 @@
 import 'package:basics/animators/helpers/sliders.dart';
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,7 @@ class _MaxBounceNavigatorState extends State<MaxBounceNavigator> {
             slideLimitRatio: widget.slideLimitRatio,
           );
 
-          // blog('_canSlide : $_canSlide : _canNavigate : $_canNavigate');
+          blog('_canSlide : $_canSlide : _canNavigate : $_canNavigate');
 
           if (_canSlide == true && _canNavigate == true) {
             navigate();

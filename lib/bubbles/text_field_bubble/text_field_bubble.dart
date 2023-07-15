@@ -224,6 +224,21 @@ class TextFieldBubble extends StatelessWidget {
     return _fieldWidth;
   }
   // -----------------------------------------------------------------------------
+  MainAxisAlignment _rowAlignment(){
+
+    if (
+        bubbleHeaderVM.appIsLTR == false
+        &&
+        bubbleHeaderVM.textDirection == TextDirection.rtl
+    ){
+      return MainAxisAlignment.end;
+    }
+    else {
+      return MainAxisAlignment.start;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
@@ -297,6 +312,7 @@ class TextFieldBubble extends StatelessWidget {
 
                 /// TEXT FIELD
                 Row(
+                  mainAxisAlignment: _rowAlignment(),
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
@@ -417,8 +433,10 @@ class TextFieldBubble extends StatelessWidget {
                   SuperBox(
                     height: fieldHeight,
                     width: pasteButtonWidth,
-                    text: pasteText,
-                    textScaleFactor: 0.5,
+                    // text: pasteText,
+                    icon: Iconz.paste,
+                    iconSizeFactor: 0.5,
+                    textScaleFactor: 0.5 / 0.6,
                     textWeight: FontWeight.w100,
                     textItalic: true,
                     color: const Color.fromARGB(10, 255, 255, 255),
