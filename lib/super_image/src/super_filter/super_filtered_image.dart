@@ -4,10 +4,10 @@ part of super_image;
 class SuperFilteredImage extends StatelessWidget {
   // -----------------------------------------------------------------------------
   const SuperFilteredImage({
-    required this.filterModel,
     required this.width,
     required this.height,
     required this.pic,
+    this.filterModel,
     // this.opacity,
     this.boxFit = BoxFit.cover,
     this.scale = 1,

@@ -161,12 +161,12 @@ class Sliders {
   /// TESTED : WORKS PERFECT
   static void snapTo({
     required PageController? pageController,
-    required int currentSlide
+    required int toIndex,
   }) {
 
     if (pageController != null) {
       pageController.jumpToPage(
-        currentSlide,
+        toIndex,
       );
     }
   }

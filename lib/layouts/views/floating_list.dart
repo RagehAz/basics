@@ -1,3 +1,4 @@
+import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,9 @@ class FloatingList extends StatelessWidget {
     this.width,
     this.height,
     this.physics = const BouncingScrollPhysics(),
-        super.key
+    this.boxCorners,
+    this.boxColor,
+    super.key
   }); 
   /// --------------------------------------------------------------------------
   final List<Widget>? columnChildren;
@@ -25,6 +28,8 @@ class FloatingList extends StatelessWidget {
   final double? height;
   final ScrollPhysics physics;
   final Alignment? boxAlignment;
+  final dynamic boxCorners;
+  final Color? boxColor;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,10 @@ class FloatingList extends StatelessWidget {
         width: width ?? Scale.screenWidth(context),
         constraints: BoxConstraints(
           minHeight: height ?? Scale.screenHeight(context),
+        ),
+        decoration: BoxDecoration(
+          color: boxColor,
+          borderRadius: Borderers.superCorners(corners: boxCorners),
         ),
         alignment: boxAlignment,
         padding: padding,

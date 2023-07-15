@@ -278,6 +278,14 @@ class PicMaker {
 
       List<Uint8List> _bytezz = <Uint8List>[_bytes];
 
+      /// RESIZE
+      if (resizeToWidth != null){
+        _bytezz = await resizePics(
+          bytezz: _bytezz,
+          resizeToWidth: resizeToWidth,
+        );
+      }
+
       /// CROP
       if (cropAfterPick == true){
         _bytezz = await cropPics(
@@ -286,14 +294,6 @@ class PicMaker {
           aspectRatio: aspectRatio,
           confirmText: confirmText,
           appIsLTR: appIsLTR,
-        );
-      }
-
-      /// RESIZE
-      if (resizeToWidth != null){
-        _bytezz = await resizePics(
-          bytezz: _bytezz,
-          resizeToWidth: resizeToWidth,
         );
       }
 
