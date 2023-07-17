@@ -34,20 +34,20 @@ class FloatingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    return SingleChildScrollView(
-      physics: physics,
-      scrollDirection: scrollDirection,
-      child: Container(
-        width: width ?? Scale.screenWidth(context),
-        constraints: BoxConstraints(
-          minHeight: height ?? Scale.screenHeight(context),
-        ),
-        decoration: BoxDecoration(
-          color: boxColor,
-          borderRadius: Borderers.superCorners(corners: boxCorners),
-        ),
-        alignment: boxAlignment,
-        padding: padding,
+    return Container(
+      width: width ?? Scale.screenWidth(context),
+      constraints: BoxConstraints(
+        minHeight: height ?? Scale.screenHeight(context),
+      ),
+      decoration: BoxDecoration(
+        color: boxColor,
+        borderRadius: Borderers.superCorners(corners: boxCorners),
+      ),
+      alignment: boxAlignment,
+      padding: padding,
+      child: SingleChildScrollView(
+        physics: physics,
+        scrollDirection: scrollDirection,
         child:
         scrollDirection == Axis.vertical ?
         Column(
@@ -66,7 +66,7 @@ class FloatingList extends StatelessWidget {
           children: <Widget>[
             ...?columnChildren,
           ],
-        )
+        ),
       ),
     );
     // --------------------

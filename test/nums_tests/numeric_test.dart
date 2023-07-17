@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_redundant_argument_values
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math' as math;
@@ -1112,6 +1113,99 @@ void main() {
       final result = Numeric.pythagorasHypotenuse(side: null, side2: 3);
       expect(result, isNull);
     });
+  });
+  // -----------------------------------------------------------------------------
+
+  /// pythagorasHypotenuse
+
+  // --------------------
+  group('Numeric - getClosestInt', () {
+
+    test('Test value less than 0', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = -0.5;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, equals(numbers.first));
+    });
+
+    test('Test value greater than 1', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = 1.5;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, 1);
+    });
+
+
+    test('Test value greater than 1', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = 1.51;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, 2);
+    });
+
+
+    test('Test value within range', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = 2.7;
+
+      blog('sa');
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, 3);
+    });
+
+    test('Test value within range', () {
+      const List<int> numbers = [1, 3, 4, 5];
+      const double value = 2;
+
+      blog('sa');
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, 1);
+    });
+
+    test('Test value equal to first element', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = 3.51;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, 4);
+    });
+
+    test('Test value equal to last element', () {
+      const List<int> numbers = [1, 2, 3, 4, 5];
+      const double value = 5;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, equals(numbers.last));
+    });
+
+    test('Test empty list', () {
+      const List<int> numbers = [];
+      const double value = 0.5;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, equals(null));
+    });
+
+    test('Test single element list', () {
+      const List<int> numbers = [1];
+      const double value = 0.5;
+
+      final int? result = Numeric.getClosestInt(ints: numbers, value: value);
+
+      expect(result, equals(numbers.first));
+    });
+
   });
   // -----------------------------------------------------------------------------
 }

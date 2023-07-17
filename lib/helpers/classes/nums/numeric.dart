@@ -742,4 +742,39 @@ class Numeric {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// RANGER
+
+  // --------------------
+  /// AI TESTED
+  static int? getClosestInt({
+    required List<int> ints,
+    required double value,
+  }) {
+
+    if (ints.isEmpty){
+      return null;
+    }
+    else {
+      int _closest = ints.first;
+      final double _value = value;
+      double difference = modulus(_value - _closest)!;
+
+      for (final int in ints){
+
+        final double _diff = modulus(_value - int)!;
+
+        if (_diff < difference){
+          difference = _diff;
+          _closest = int;
+        }
+
+      }
+
+      return _closest;
+    }
+
+
+}
+  // -----------------------------------------------------------------------------
 }
