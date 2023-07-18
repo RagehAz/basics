@@ -34,42 +34,85 @@ class FloatingList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    return Container(
-      width: width ?? Scale.screenWidth(context),
-      constraints: BoxConstraints(
-        minHeight: height ?? Scale.screenHeight(context),
-      ),
-      decoration: BoxDecoration(
-        color: boxColor,
-        borderRadius: Borderers.superCorners(corners: boxCorners),
-      ),
-      alignment: boxAlignment,
-      child: SingleChildScrollView(
+    if (scrollDirection == Axis.vertical){
+      return SingleChildScrollView(
         physics: physics,
         scrollDirection: scrollDirection,
-        padding: padding,
-        child:
-        scrollDirection == Axis.vertical ?
-        Column(
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: <Widget>[
-            ...?columnChildren,
-          ],
-        )
+        child: Container(
+          width: width ?? Scale.screenWidth(context),
+          constraints: BoxConstraints(
+            minHeight: height ?? Scale.screenHeight(context),
+          ),
+          decoration: BoxDecoration(
+            color: boxColor,
+            borderRadius: Borderers.superCorners(corners: boxCorners),
+          ),
+          alignment: boxAlignment,
+          padding: padding,
+          child:
+          scrollDirection == Axis.vertical ?
+          Column(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: <Widget>[
+              ...?columnChildren,
+            ],
+          )
 
-            :
+              :
 
-        Row(
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-          children: <Widget>[
-            ...?columnChildren,
-          ],
+          Row(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: <Widget>[
+              ...?columnChildren,
+            ],
+          )
         ),
-      ),
-    );
+      );
+    }
+    // --------------------
+    else {
+
+      /// CAUTION : IF YOU CHANGE THIS,, IT IMPACTS ShelfSlidesPart() WIDGET, TAKE CARE
+      return SingleChildScrollView(
+        physics: physics,
+        scrollDirection: scrollDirection,
+        child: Container(
+          width: width ?? Scale.screenWidth(context),
+          constraints: BoxConstraints(
+            minHeight: height ?? Scale.screenHeight(context),
+          ),
+          decoration: BoxDecoration(
+            color: boxColor,
+            borderRadius: Borderers.superCorners(corners: boxCorners),
+          ),
+          alignment: boxAlignment,
+          padding: padding,
+          child:
+          scrollDirection == Axis.vertical ?
+          Column(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: <Widget>[
+              ...?columnChildren,
+            ],
+          )
+
+              :
+
+          Row(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+            children: <Widget>[
+              ...?columnChildren,
+            ],
+          )
+        ),
+      );
+
+    }
     // --------------------
   }
-/// --------------------------------------------------------------------------
+  /// --------------------------------------------------------------------------
 }
