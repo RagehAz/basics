@@ -78,6 +78,7 @@ abstract class Colorz {
   // --------------------
   static const Color grey50 = Color.fromARGB(50, 121, 121, 121);
   static const Color grey80 = Color.fromARGB(80, 121, 121, 121);
+  static const Color grey150 = Color.fromARGB(150, 121, 121, 121);
   static const Color grey255 = Color.fromARGB(255, 200, 200, 200);
   // --------------------
   static const Color lightGrey255 = Color.fromARGB(255, 220, 220, 220);

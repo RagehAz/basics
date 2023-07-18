@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.19 : fixes added int to roman numerals
 ### 3.0.16 : fixes
 ### 3.0.15 : Added ticker line bubble
 ### 3.0.14 : fixes in cropping screen

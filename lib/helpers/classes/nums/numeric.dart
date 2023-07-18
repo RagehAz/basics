@@ -219,6 +219,90 @@ class Numeric {
     );
 
   }
+  // --------------------
+  /// AI TESTED
+  static String formatToRomanA(int number) {
+    // Define mappings for Roman numerals and their corresponding values.
+    final Map<String, int> romanNumerals = {
+      'M': 1000,
+      'CM': 900,
+      'D': 500,
+      'CD': 400,
+      'C': 100,
+      'XC': 90,
+      'L': 50,
+      'XL': 40,
+      'X': 10,
+      'IX': 9,
+      'V': 5,
+      'IV': 4,
+      'I': 1,
+    };
+
+    // Check if the input number is within the valid range (1 to 3999).
+    if (number < 1 || number > 3999) {
+      return '';
+    }
+
+    // Initialize an empty string to store the Roman numeral representation.
+    String result = '';
+
+    // Use a local variable to perform calculations.
+    int remainingValue = number;
+
+    // Iterate through the Roman numerals mapping and build the Roman numeral string.
+    romanNumerals.forEach((numeral, value) {
+      while (remainingValue >= value) {
+        // Append the Roman numeral to the result.
+        result += numeral;
+        // Subtract the value of the Roman numeral from the remainingValue.
+        remainingValue -= value;
+      }
+    });
+
+    return result;
+}
+  // --------------------
+  /// AI TESTED
+  static String formatToRomanB(int input) {
+    const List<int> arabianRomanNumbers = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+
+    const List<String> romanNumbers = [
+      'M',
+      'CM',
+      'D',
+      'CD',
+      'C',
+      'XC',
+      'L',
+      'XL',
+      'X',
+      'IX',
+      'V',
+      'IV',
+      'I'
+    ];
+
+    var num = input;
+
+    if (num < 0) {
+      return '';
+    } else if (num == 0) {
+      return '';
+    }
+
+    final builder = StringBuffer();
+    for (var a = 0; a < arabianRomanNumbers.length; a++) {
+      final times = (num / arabianRomanNumbers[a])
+          .truncate(); // equals 1 only when arabianRomanNumbers[a] = num
+      // executes n times where n is the number of times you have to add
+      // the current roman number value to reach current num.
+      builder.write(romanNumbers[a] * times);
+      num -= times * arabianRomanNumbers[a]; // subtract previous roman number value from num
+    }
+
+    return builder.toString();
+  }
   // -----------------------------------------------------------------------------
 
   /// TRANSFORMERS

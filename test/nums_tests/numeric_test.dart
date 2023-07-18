@@ -1208,4 +1208,68 @@ void main() {
 
   });
   // -----------------------------------------------------------------------------
+
+  /// ROMAN
+
+  // --------------------
+  group('Numeric.formatToRomanA', () {
+    test('Test zero input', () {
+      expect(Numeric.formatToRomanA(0), '');
+    });
+
+    test('Test negative input', () {
+      expect(Numeric.formatToRomanA(-10), '');
+    });
+
+    test('Test single digit input', () {
+      expect(Numeric.formatToRomanA(3), 'III');
+    });
+
+    test('Test random input 1', () {
+      expect(Numeric.formatToRomanA(23), 'XXIII');
+    });
+
+    test('Test random input 2', () {
+      expect(Numeric.formatToRomanA(49), 'XLIX');
+    });
+
+    test('Test random input 3', () {
+      expect(Numeric.formatToRomanA(128), 'CXXVIII');
+    });
+
+    test('Test maximum input', () {
+      expect(Numeric.formatToRomanA(3999), 'MMMCMXCIX');
+    });
+  });
+  // --------------------
+  group('Numeric.formatToRomanB', () {
+    test('Test zero input', () {
+      expect(Numeric.formatToRomanB(0), '');
+    });
+
+    test('Test negative input', () {
+      expect(Numeric.formatToRomanB(-10), '');
+    });
+
+    test('Test single digit input', () {
+      expect(Numeric.formatToRomanB(3), 'III');
+    });
+
+    test('Test random input 1', () {
+      expect(Numeric.formatToRomanB(23), 'XXIII');
+    });
+
+    test('Test random input 2', () {
+      expect(Numeric.formatToRomanB(49), 'XLIX');
+    });
+
+    test('Test random input 3', () {
+      expect(Numeric.formatToRomanB(128), 'CXXVIII');
+    });
+
+    test('Test maximum input', () {
+      expect(Numeric.formatToRomanB(3999), 'MMMCMXCIX');
+    });
+  });
+  // -----------------------------------------------------------------------------
 }
