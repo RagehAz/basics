@@ -44,10 +44,10 @@ class FloatingList extends StatelessWidget {
         borderRadius: Borderers.superCorners(corners: boxCorners),
       ),
       alignment: boxAlignment,
-      padding: padding,
       child: SingleChildScrollView(
         physics: physics,
         scrollDirection: scrollDirection,
+        padding: padding,
         child:
         scrollDirection == Axis.vertical ?
         Column(

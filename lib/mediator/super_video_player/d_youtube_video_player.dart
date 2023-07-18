@@ -153,6 +153,7 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
             pic: _coverURL,
             width: _width,
             height: _height,
+            loading: false,
             corners: VideoBox.getCorners(
               width: _width,
             ),

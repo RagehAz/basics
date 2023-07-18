@@ -7,6 +7,7 @@ class SuperFilteredImage extends StatelessWidget {
     required this.width,
     required this.height,
     required this.pic,
+    required this.loading,
     this.filterModel,
     // this.opacity,
     this.boxFit = BoxFit.cover,
@@ -24,6 +25,7 @@ class SuperFilteredImage extends StatelessWidget {
   final double scale;
   final bool canUseFilter;
   final dynamic corners;
+  final bool loading;
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class SuperFilteredImage extends StatelessWidget {
         fit: boxFit,
         scale: scale,
         corners: corners,
+        loading: loading,
       );
 
     }
@@ -162,23 +165,11 @@ class _FilteredImage extends StatefulWidget {
 class _FilteredImageState extends State<_FilteredImage> {
   // -----------------------------------------------------------------------------
   ui.Image? _uiImage;
-  // -----------------------------------------------------------------------------
-  /// --- LOADING
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
-  // --------------------
-  Future<void> _triggerLoading({required bool setTo}) async {
-    setNotifier(
-      notifier: _loading,
-      mounted: mounted,
-      value: setTo,
-    );
-  }
+  bool _loading = true;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
-
-    // _uiImage = widget.pic;
   }
   // --------------------
   bool _isInit = true;
@@ -190,7 +181,7 @@ class _FilteredImageState extends State<_FilteredImage> {
 
       if (widget.filterModel != null){
 
-        _triggerLoading(setTo: true).then((_) async {
+        asyncInSync(() async {
 
           final ui.Image? uiImage = await _FilteredImage.processImage(
             input: widget.pic,
@@ -200,10 +191,10 @@ class _FilteredImageState extends State<_FilteredImage> {
           if (mounted){
             setState(() {
               _uiImage = uiImage;
+              _loading = false;
             });
           }
 
-          await _triggerLoading(setTo: false);
         });
 
       }
@@ -243,10 +234,15 @@ class _FilteredImageState extends State<_FilteredImage> {
     ImageFilterModel.checkFiltersAreIdentical(filter1: widget.filterModel, filter2: oldWidget.filterModel) == false
     ) {
 
+      setState(() {
+        _loading = true;
+      });
+
       unawaited(getUiImageFromDynamic(widget.pic).then((ui.Image? uiImage){
         if (mounted == true){
           setState(() {
             _uiImage = uiImage;
+            _loading = false;
           });
         }
       }));
@@ -258,7 +254,6 @@ class _FilteredImageState extends State<_FilteredImage> {
   // --------------------
   @override
   void dispose(){
-    _loading.dispose();
     super.dispose();
   }
   // -----------------------------------------------------------------------------
@@ -288,6 +283,7 @@ class _FilteredImageState extends State<_FilteredImage> {
         fit: widget.boxFit,
         scale: widget.scale,
         corners: widget.corners,
+        loading: _loading,
       );
     }
 
@@ -301,6 +297,7 @@ class _FilteredImageState extends State<_FilteredImage> {
           fit: widget.boxFit,
           scale: widget.scale,
           corners: widget.corners,
+          loading: _loading,
         ),
       );
     }

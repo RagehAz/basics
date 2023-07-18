@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
@@ -128,7 +129,6 @@ class ImageSwitcher extends StatelessWidget {
 
       /// LOADING
       if (loading == true){
-
         return InfiniteLoadingBox(
           width: width!,
           height: height!,

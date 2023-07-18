@@ -24,6 +24,7 @@ class CropperCorner extends StatelessWidget {
         width: 10,
         height: 10,
         pic: Iconz.plus,
+        loading: false,
       ),
     );
 

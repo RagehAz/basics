@@ -110,6 +110,7 @@ class CropperFooter extends StatelessWidget {
                             width: _miniImageWidth,
                             height: _miniImageWidth,
                             pic: bytezz[index],
+                            loading: false, //loading,
                           ),
                         ),
                       ),

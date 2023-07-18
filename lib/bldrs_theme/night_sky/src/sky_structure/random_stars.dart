@@ -26,6 +26,7 @@ class RandomStar extends StatelessWidget {
         height: size,
         pic: Iconz.star,
         iconColor: color,
+        loading: false,
       ),
     );
     // --------------------

@@ -109,6 +109,7 @@ class StoreButton extends StatelessWidget {
               corners: _corners,
               greyscale: isDisabled,
               pic: getGraphic(storeType: storeType),
+              loading: false,
             ),
           ),
 
