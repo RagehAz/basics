@@ -1,6 +1,7 @@
 
 ---
 
+### 3.0.20 : updated scroll behaviour to support mouse, stylus and anything that scrolls + floating list update
 ### 3.0.19 : fixes added int to roman numerals
 ### 3.0.16 : fixes
 ### 3.0.15 : Added ticker line bubble

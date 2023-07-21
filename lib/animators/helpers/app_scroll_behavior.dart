@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 /// => TAMAM
 class AppScrollBehavior extends MaterialScrollBehavior {
+
+  const AppScrollBehavior();
   /// LETS WINDOWS LISTEN TO SWIPES/DRAGS GESTURES
   /// AND SHOULD BE PLACED IN THE TOP MOST MATERIAL APP
   ///  return MaterialApp(
@@ -12,9 +14,12 @@ class AppScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override
   Set<PointerDeviceKind> get dragDevices => {
-    PointerDeviceKind.touch,
     PointerDeviceKind.mouse,
-    // etc.
+    PointerDeviceKind.touch,
+    PointerDeviceKind.stylus,
+    PointerDeviceKind.invertedStylus,
+    PointerDeviceKind.trackpad,
+    PointerDeviceKind.unknown,
   };
 
 }

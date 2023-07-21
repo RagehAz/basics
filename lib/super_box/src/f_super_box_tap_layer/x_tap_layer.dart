@@ -9,7 +9,7 @@ class TapLayer extends StatelessWidget {
   const TapLayer({
     required this.width,
     required this.height,
-    required this.onTap,
+    this.onTap,
     this.splashColor,
     this.onTapUp,
     this.onTapDown,

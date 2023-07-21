@@ -49,25 +49,13 @@ class FloatingList extends StatelessWidget {
           ),
           alignment: boxAlignment,
           padding: padding,
-          child:
-          scrollDirection == Axis.vertical ?
-          Column(
+          child: Column(
             mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
             crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
             children: <Widget>[
               ...?columnChildren,
             ],
-          )
-
-              :
-
-          Row(
-            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-            children: <Widget>[
-              ...?columnChildren,
-            ],
-          )
+          ),
         ),
       );
     }
@@ -79,9 +67,9 @@ class FloatingList extends StatelessWidget {
         physics: physics,
         scrollDirection: scrollDirection,
         child: Container(
-          width: width ?? Scale.screenWidth(context),
+          height: height ?? Scale.screenHeight(context),
           constraints: BoxConstraints(
-            minHeight: height ?? Scale.screenHeight(context),
+            minWidth: width ?? Scale.screenWidth(context),
           ),
           decoration: BoxDecoration(
             color: boxColor,
@@ -89,25 +77,13 @@ class FloatingList extends StatelessWidget {
           ),
           alignment: boxAlignment,
           padding: padding,
-          child:
-          scrollDirection == Axis.vertical ?
-          Column(
+          child: Row(
             mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
             crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
             children: <Widget>[
               ...?columnChildren,
             ],
-          )
-
-              :
-
-          Row(
-            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-            children: <Widget>[
-              ...?columnChildren,
-            ],
-          )
+          ),
         ),
       );
 

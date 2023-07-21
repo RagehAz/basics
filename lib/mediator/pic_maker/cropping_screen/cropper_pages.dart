@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:basics/animators/helpers/app_scroll_behavior.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
@@ -69,15 +70,14 @@ class CropperPages extends StatelessWidget {
       child: PageView.builder(
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
+          scrollBehavior: const AppScrollBehavior(),
           itemCount: originalBytezz?.length,
           onPageChanged: (int index){
-
             setNotifier(
                 notifier: currentImageIndex,
                 mounted: mounted,
                 value: index,
             );
-
           },
           itemBuilder: (_, int index){
 
