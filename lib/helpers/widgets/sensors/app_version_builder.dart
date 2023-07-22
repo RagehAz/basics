@@ -6,10 +6,12 @@ class AppVersionBuilder extends StatelessWidget {
   // -----------------------------------------------------------------------------
   const AppVersionBuilder({
     required this.builder,
+    required this.versionShouldBe,
     super.key,
   });
   // --------------------
-  final Widget Function(BuildContext context, String version) builder;
+  final String? versionShouldBe;
+  final Widget Function(BuildContext context,bool shouldUpdate, String version) builder;
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECTLY
   static Future<String> detectAppVersion() async {
@@ -31,7 +33,8 @@ class AppVersionBuilder extends StatelessWidget {
     return FutureBuilder(
         future: detectAppVersion(),
         builder: (context, AsyncSnapshot<String> text) {
-          return builder(context, text.data ?? '0.0.0');
+          final bool _shouldUpdate = versionShouldBe != null && versionShouldBe != text.data;
+          return builder(context, _shouldUpdate, text.data ?? '0.0.0');
         }
         );
 

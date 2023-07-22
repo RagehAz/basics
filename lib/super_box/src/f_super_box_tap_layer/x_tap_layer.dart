@@ -23,6 +23,7 @@ class TapLayer extends StatelessWidget {
     this.boxColor,
     this.alignment,
     this.margin,
+    this.borderColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -42,6 +43,7 @@ class TapLayer extends StatelessWidget {
   final Widget? child;
   final EdgeInsets? margin;
   final Alignment? alignment;
+  final Color? borderColor;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   Future<void> onBoxTap() async {
@@ -104,6 +106,7 @@ class TapLayer extends StatelessWidget {
         corners: corners ?? BorderRadius.circular(0),
         margin: margin,
         alignment: alignment,
+        borderColor: borderColor,
         child: child,
       );
     }
@@ -122,6 +125,7 @@ class TapLayer extends StatelessWidget {
           corners: corners ?? BorderRadius.circular(0),
           margin: margin,
           alignment: alignment,
+          borderColor: borderColor,
           child: child,
         );
       }
@@ -138,6 +142,7 @@ class TapLayer extends StatelessWidget {
           corners: corners ?? BorderRadius.circular(0),
           margin: margin,
           alignment: alignment,
+          borderColor: borderColor,
           child: GestureDetector(
               onTap: () => onDisabledTap!(),
               child: child,
@@ -197,6 +202,7 @@ class TapLayer extends StatelessWidget {
           height: height,
           margin: margin,
           alignment: alignment,
+          borderColor: borderColor,
           child: Material(
             color: const Color.fromARGB(0, 255, 255, 255),
             borderRadius: _corners,
@@ -216,6 +222,7 @@ class TapLayer extends StatelessWidget {
           boxColor: boxColor,
           margin: margin,
           alignment: alignment,
+          borderColor: borderColor,
           child: GestureDetector(
             // onLongPress: onLongTap,
             onTapDown: onTapDown == null ? null : (TapDownDetails details) => onTapDown?.call(),
@@ -242,6 +249,7 @@ class _TapBox extends StatelessWidget {
     required this.hasMaterial,
     required this.alignment,
     required this.margin,
+    required this.borderColor,
     this.child,
     super.key,
   });
@@ -254,6 +262,7 @@ class _TapBox extends StatelessWidget {
   final bool hasMaterial;
   final Alignment? alignment;
   final EdgeInsets? margin;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +272,12 @@ class _TapBox extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-          borderRadius: corners,
-          color: boxColor,
+            borderRadius: corners,
+            color: boxColor,
+            border: borderColor == null ? null : Border.all(
+              color: borderColor!,
+              width: 0.5,
+            )
         ),
         alignment: alignment,
         margin: margin,
