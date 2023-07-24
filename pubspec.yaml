@@ -45,6 +45,7 @@ dependencies:
   wechat_assets_picker: ^8.4.3
   youtube_metadata: ^1.0.1
   image_picker: ^1.0.1
+  flutter_image_compress: ^2.0.4
 # ------------------------------------
 dev_dependencies:
   flutter_test:
