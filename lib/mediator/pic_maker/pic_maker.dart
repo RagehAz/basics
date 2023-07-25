@@ -702,37 +702,25 @@ class PicMaker {
   }
   // -----------------------------------------------------------------------------
 
-  /// IMAGE QUALITY
+  /// CYPHERS
 
   // --------------------
-  /*
-  static int concludeImageQuality(PicType picType) {
-    switch (picType) {
-      case PicType.userPic:return 100;break;
-      case PicType.authorPic:return 100;break;
-      case PicType.bzLogo:return 100;break;
-      case PicType.slideHighRes:return 100;break;
-      case PicType.slideLowRes:return 80;break;
-      case PicType.dum:return 100;break;
-      case PicType.askPic:return 100;break;
-      case PicType.notiBanner:return 100;break;
-      default:return 100;
+  /// TESTED : WORKS PERFECT
+  static String cipherPicMakerType(PicMakerType type){
+    switch (type){
+      case PicMakerType.cameraImage:  return 'camera';
+      case PicMakerType.galleryImage: return 'gallery';
     }
   }
   // --------------------
-  static double concludeImageMaxWidth(PicType picType) {
-    switch (picType) {
-      case PicType.userPic:return 150;break;
-      case PicType.authorPic:return 150;break;
-      case PicType.bzLogo:return 150;break;
-      case PicType.slideHighRes:return 1000;break;
-      case PicType.slideLowRes:return 150;break;
-      case PicType.dum:return 150;break;
-      case PicType.askPic:return 150;break;
-      default:return 200;
+  /// TESTED : WORKS PERFECT
+  static PicMakerType? decipherPicMakerType(String? type){
+    switch (type){
+      case 'camera':  return PicMakerType.cameraImage;
+      case 'gallery': return PicMakerType.galleryImage;
+      default: return null;
     }
   }
-   */
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
