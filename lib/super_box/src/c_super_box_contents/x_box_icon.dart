@@ -10,6 +10,7 @@ class BoxIcon extends StatelessWidget {
     required this.size,
     required this.corners,
     required this.greyscale,
+    required this.solidGreyScale,
     required this.iconColor,
     required this.iconSizeFactor,
     required this.backgroundColor,
@@ -23,6 +24,7 @@ class BoxIcon extends StatelessWidget {
   final double? size;
   final BorderRadius? corners;
   final bool greyscale;
+  final bool solidGreyScale;
   final Color? iconColor;
   final double? iconSizeFactor;
   final Color? backgroundColor;
@@ -56,9 +58,11 @@ class BoxIcon extends StatelessWidget {
         iconColor: _iconColor,
         loading: loading,
         greyscale: greyscale,
+        solidGreyScale: solidGreyScale,
         corners: corners,
         backgroundColor: backgroundColor,
         package: package,
+        // fit: ,
       );
     }
 

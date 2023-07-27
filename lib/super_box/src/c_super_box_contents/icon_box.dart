@@ -12,6 +12,7 @@ class SuperBoxIcon extends StatelessWidget {
     required this.loading,
     required this.iconColor,
     required this.greyScale,
+    required this.solidGreyScale,
     required this.iconSizeFactor,
     required this.backgroundColor,
     required this.package,
@@ -25,6 +26,7 @@ class SuperBoxIcon extends StatelessWidget {
   final bool loading;
   final Color? iconColor;
   final bool greyScale;
+  final bool solidGreyScale;
   final double? iconSizeFactor;
   final Color? backgroundColor;
   final String? package;
@@ -57,6 +59,7 @@ class SuperBoxIcon extends StatelessWidget {
               size: height,
               corners: corners,
               greyscale: greyScale,
+              solidGreyScale: solidGreyScale,
               iconColor: iconColor,
               iconSizeFactor: iconSizeFactor,
               backgroundColor: backgroundColor,
