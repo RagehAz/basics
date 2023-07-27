@@ -25,6 +25,7 @@ class TheBoxOfSuperBox extends StatelessWidget {
     required this.onDisabledTap,
     required this.onLongTap,
     required this.onDoubleTap,
+    required this.borderColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -45,6 +46,7 @@ class TheBoxOfSuperBox extends StatelessWidget {
   final Function? onDisabledTap;
   final Function? onLongTap;
   final Function? onDoubleTap;
+  final Color? borderColor;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,7 @@ class TheBoxOfSuperBox extends StatelessWidget {
         onLongTap: onLongTap,
         onDoubleTap: onDoubleTap,
         corners: borderRadius,
+        borderColor: borderColor,
         child: Stack(
           alignment: Alignment.center,
           children: children,

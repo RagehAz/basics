@@ -49,6 +49,7 @@ class SuperBox extends StatelessWidget {
     this.package,
     this.textFont,
     this.letterSpacing,
+    this.borderColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -99,6 +100,7 @@ class SuperBox extends StatelessWidget {
   final String? package;
   final String? textFont;
   final double? letterSpacing;
+  final Color? borderColor;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -125,6 +127,7 @@ class SuperBox extends StatelessWidget {
       onDisabledTap: onDisabledTap,
       onLongTap: onLongTap,
       onDoubleTap: onDoubleTap,
+      borderColor: borderColor,
       children: <Widget>[
 
         // /// --- BLUR LAYER

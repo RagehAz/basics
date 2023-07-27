@@ -6,6 +6,7 @@ class SuperImageBox extends StatelessWidget {
     required this.child,
     required this.width,
     required this.height,
+    required this.solidGreyScale,
     this.boxFit = BoxFit.cover,
     this.scale = 1,
     this.backgroundColor,
@@ -22,6 +23,20 @@ class SuperImageBox extends StatelessWidget {
   final dynamic corners;
   final bool greyscale;
   final Widget? child;
+  final bool solidGreyScale;
+  /// --------------------------------------------------------------------------
+  static ColorFilter getGreyScaleFilter({
+    required bool solidGrey,
+  }){
+
+    if (solidGrey == true){
+      return const ColorFilter.mode(Colorz.white80, BlendMode.srcIn);
+    }
+    else {
+      return const ColorFilter.mode(Colorz.white200, BlendMode.color);
+    }
+
+  }
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,7 @@ class SuperImageBox extends StatelessWidget {
           corners: corners,
         ),
         child: ColorFiltered(
-          colorFilter: ColorFilter.mode(greyscale == true ? Colorz.grey150 : Colorz.nothing, BlendMode.srcIn),
+          colorFilter: getGreyScaleFilter(solidGrey: solidGreyScale),
           child: Container(
             width: width,
             height: height,
