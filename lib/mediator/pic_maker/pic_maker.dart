@@ -42,6 +42,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 enum PicMakerType {
   cameraImage,
   galleryImage,
+  generated,
 }
 
 enum PicType {
@@ -710,14 +711,16 @@ class PicMaker {
     switch (type){
       case PicMakerType.cameraImage:  return 'camera';
       case PicMakerType.galleryImage: return 'gallery';
+      case PicMakerType.generated: return 'generated';
     }
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static PicMakerType? decipherPicMakerType(String? type){
     switch (type){
-      case 'camera':  return PicMakerType.cameraImage;
-      case 'gallery': return PicMakerType.galleryImage;
+      case 'camera':  return    PicMakerType.cameraImage;
+      case 'gallery': return    PicMakerType.galleryImage;
+      case 'generated': return  PicMakerType.generated;
       default: return null;
     }
   }

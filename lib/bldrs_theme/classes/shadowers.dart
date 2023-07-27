@@ -1,4 +1,3 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
 
 class CustomBoxShadow extends BoxShadow {
@@ -41,14 +40,15 @@ class Shadower {
   /// CONSTANTS
 
   // --------------------
-  static const BoxShadow basicOuterShadow = CustomBoxShadow(
-      color: Colorz.black200,
-      blurRadius: 10,
-      style: BlurStyle.outer
-  );
+  static const BoxShadow? basicOuterShadow = null;
+  // CustomBoxShadow(
+  //     color: Colorz.black200,
+  //     blurRadius: 10,
+  //     style: BlurStyle.outer
+  // );
   // --------------------
   static const List<BoxShadow> appBarShadow = <BoxShadow>[
-    basicOuterShadow,
+    // basicOuterShadow,
   ];
   // -----------------------------------------------------------------------------
 
@@ -56,11 +56,11 @@ class Shadower {
 
   // --------------------
   static const List<BoxShadow> flyerZoneShadow = <BoxShadow>[
-    CustomBoxShadow(
-        color: Colorz.black230,
-        blurRadius: 5,
-        style: BlurStyle.outer
-    ),
+    // CustomBoxShadow(
+    //     color: Colorz.black230,
+    //     blurRadius: 5,
+    //     style: BlurStyle.outer
+    // ),
   ];
   // --------------------
   /*

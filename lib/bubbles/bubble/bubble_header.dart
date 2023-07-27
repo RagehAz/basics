@@ -72,6 +72,7 @@ class BubbleHeader extends StatelessWidget {
               bubble: viewModel!.leadingIconIsBubble,
               onTap: viewModel!.onLeadingIconTap,
               textFont: viewModel!.font,
+              loading: viewModel!.loading,
             ),
 
           /// --- HEADLINE

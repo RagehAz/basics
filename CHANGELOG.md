@@ -1,6 +1,7 @@
 
 ---
 
+### 3.1.1 : Bubble has loading now
 ### 3.1.0 : added image compression functionality to picMaker
 ### 3.0.21 : upgrades
 ### 3.0.20 : updated scroll behaviour to support mouse, stylus and anything that scrolls + floating list update

@@ -34,6 +34,7 @@ class BubbleHeaderVM {
     this.switchDisabledTrackColor = const Color.fromARGB(80, 20, 20, 35),
     this.letterSpacing,
     this.wordSpacing,
+    this.loading = false,
   });
   // -----------------------------------------------------------------------------
   final double? headerWidth;
@@ -65,6 +66,7 @@ class BubbleHeaderVM {
   final Color? switchTrackColor;
   final double? letterSpacing;
   final double? wordSpacing;
+  final bool loading;
   // -----------------------------------------------------------------------------
 
   /// CONSTANTS
@@ -109,6 +111,7 @@ class BubbleHeaderVM {
     TextDirection? textDirection,
     double? letterSpacing,
     double? wordSpacing,
+    bool? loading,
   }){
     return BubbleHeaderVM(
       headerWidth: headerWidth ?? this.headerWidth,
@@ -140,6 +143,7 @@ class BubbleHeaderVM {
       appIsLTR: appIsLTR ?? this.appIsLTR,
       letterSpacing: letterSpacing ?? this.letterSpacing,
       wordSpacing: wordSpacing ?? this.wordSpacing,
+      loading: loading ?? this.loading,
     );
   }
   // -----------------------------------------------------------------------------
@@ -195,7 +199,8 @@ class BubbleHeaderVM {
           model1.appIsLTR == model2.appIsLTR &&
           model1.textDirection == model2.textDirection &&
           model1.letterSpacing == model2.letterSpacing &&
-          model1.wordSpacing == model2.wordSpacing
+          model1.wordSpacing == model2.wordSpacing &&
+          model1.loading == model2.loading
 
       // ValueChanged<bool> onSwitchTap
       // Function onMoreButtonTap
@@ -266,6 +271,7 @@ class BubbleHeaderVM {
       appIsLTR.hashCode^
       textDirection.hashCode^
       letterSpacing.hashCode^
+      loading.hashCode^
       wordSpacing.hashCode;
   // -----------------------------------------------------------------------------
 }
