@@ -47,6 +47,8 @@ class Iconz {
   static const String blackGradient = '$_artworkPath/black_gradient.svg';
   static const String headerShadow = '$_artworkPath/header_shadow.svg';
   static const String footerShadow = '$_artworkPath/footer_shadow.svg';
+  static const String mailJunkScreenshot = '$_artworkPath/aw_junk_mail.jpg';
+  static const String mailSpamScreenshot = '$_artworkPath/aw_spam_mail.jpg';
 
   static const String welcomeToBldrsBanner_22x18 = '$_artworkPath/welcome.svg'; /// w22 * h18
   // --------------------
@@ -448,6 +450,8 @@ class Iconz {
       planet: true,
       onGooglePlay: true,
       onAppStore: true,
+      mailJunkScreenshot: true,
+      mailSpamScreenshot: true,
     };
 
     return _all.keys.toList();
