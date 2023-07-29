@@ -255,7 +255,7 @@ class PicMaker {
 
         for (final AssetEntity asset in pickedAssets!){
 
-          final Uint8List? _bytes = await Floaters.getUint8ListFromFile(await asset.file);
+          final Uint8List? _bytes = await Floaters.getBytesFromFile(await asset.file);
 
           if (_bytes != null){
             _output.add(_bytes);
@@ -424,7 +424,7 @@ class PicMaker {
 
       else {
         final File? _file = await entity.file;
-        final Uint8List? _bytes = await Floaters.getUint8ListFromFile(_file);
+        final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
         return _bytes;
       }
 
@@ -528,7 +528,7 @@ class PicMaker {
           )!.floor(),
         );
 
-        _output = Floaters.getUint8ListFromImgImage(_imgImage);
+        _output = Floaters.getBytesFromImgImage(_imgImage);
       }
 
     }

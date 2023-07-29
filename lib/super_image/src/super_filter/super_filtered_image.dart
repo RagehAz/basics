@@ -100,7 +100,7 @@ class _FilteredImage extends StatefulWidget {
 
       Uint8List? _bytes = input is Uint8List ? input
           :
-      await Floaters.getUint8ListFromUiImage(_output);
+      await Floaters.getBytesFromUiImage(_output);
 
       if (_bytes != null){
 

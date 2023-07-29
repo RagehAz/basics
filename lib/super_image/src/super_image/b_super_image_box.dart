@@ -6,12 +6,12 @@ class SuperImageBox extends StatelessWidget {
     required this.child,
     required this.width,
     required this.height,
-    required this.solidGreyScale,
     this.boxFit = BoxFit.cover,
     this.scale = 1,
     this.backgroundColor,
     this.corners,
     this.greyscale = false,
+    this.solidGreyScale = false,
     super.key,
   }); 
   /// --------------------------------------------------------------------------

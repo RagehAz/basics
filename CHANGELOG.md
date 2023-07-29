@@ -1,6 +1,7 @@
 
 ---
 
+### 3.1.3 : refactors in floaters
 ### 3.1.2 : Adjusted SuperImage greyScale and added solidGreyScale parameter
 ### 3.1.1 : Bubble has loading now
 ### 3.1.0 : added image compression functionality to picMaker

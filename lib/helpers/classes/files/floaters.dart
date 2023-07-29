@@ -120,7 +120,7 @@ class Floaters {
     img.Image? _image;
 
     if (file != null){
-      final Uint8List? uint = await Floaters.getUint8ListFromFile(file);
+      final Uint8List? uint = await Floaters.getBytesFromFile(file);
       _image = await Floaters.getImgImageFromUint8List(uint);
     }
 
@@ -210,11 +210,11 @@ static img.Image decodeToImgImage({
 */
   // -----------------------------------------------------------------------------
 
-  /// uInt8List
+  /// Uint8List
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Uint8List? getUint8ListFromByteData(ByteData? byteData) {
+  static Uint8List? getBytesFromByteData(ByteData? byteData) {
 
     if (byteData == null){
       return null;
@@ -241,7 +241,7 @@ static img.Image decodeToImgImage({
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> getUint8ListFromFile(File? file) async {
+  static Future<Uint8List?> getBytesFromFile(File? file) async {
     Uint8List? _uInt;
 
     if (file != null){
@@ -252,12 +252,12 @@ static img.Image decodeToImgImage({
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> getUint8ListsFromFiles(List<File>? files) async {
+  static Future<List<Uint8List>> getBytezzFromFiles(List<File>? files) async {
     final List<Uint8List> _screenShots = <Uint8List>[];
 
     if (kIsWeb == false && Mapper.checkCanLoopList(files) == true) {
       for (final File file in files!) {
-        final Uint8List? _uInt = await getUint8ListFromFile(file);
+        final Uint8List? _uInt = await getBytesFromFile(file);
         if (_uInt != null){
           _screenShots.add(_uInt);
         }
@@ -267,7 +267,46 @@ static img.Image decodeToImgImage({
     return _screenShots;
   }
   // --------------------
-  static Future<Uint8List?> getUint8ListFromRasterURL({
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> getBytesFromUiImage(ui.Image? uiImage) async {
+    Uint8List? uInt;
+
+    if (uiImage != null){
+
+      final ByteData? _byteData = await getByteDataFromUiImage(uiImage);
+
+      if (_byteData != null){
+        uInt = Floaters.getBytesFromByteData(_byteData);
+      }
+
+    }
+
+    return uInt;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Uint8List? getBytesFromImgImage(img.Image? imgImage) {
+    Uint8List? uInt;
+
+    if (imgImage != null){
+      uInt = img.encodeJpg(imgImage,
+        // quality: 100, // default
+      );
+    }
+
+    return uInt;
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Future<Uint8List?> getBytesFromImgImageAsync(img.Image? imgImage) async {
+    Uint8List? uInt;
+    if (imgImage != null){
+      uInt = getBytesFromImgImage(imgImage);
+    }
+    return uInt;
+  }
+  // --------------------
+    static Future<Uint8List?> getBytesFromRasterURL({
     required int? width,
     required int? height,
     required String? urlAsset,
@@ -312,47 +351,8 @@ static img.Image decodeToImgImage({
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> getUint8ListFromUiImage(ui.Image? uiImage) async {
-    Uint8List? uInt;
-
-    if (uiImage != null){
-
-      final ByteData? _byteData = await getByteDataFromUiImage(uiImage);
-
-      if (_byteData != null){
-        uInt = Floaters.getUint8ListFromByteData(_byteData);
-      }
-
-    }
-
-    return uInt;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Uint8List? getUint8ListFromImgImage(img.Image? imgImage) {
-    Uint8List? uInt;
-
-    if (imgImage != null){
-      uInt = img.encodeJpg(imgImage,
-        // quality: 100, // default
-      );
-    }
-
-    return uInt;
-  }
-  // --------------------
   /// TASK : TEST ME
-  static Future<Uint8List?> getUint8ListFromImgImageAsync(img.Image? imgImage) async{
-    Uint8List? uInt;
-    if (imgImage != null){
-      uInt = getUint8ListFromImgImage(imgImage);
-    }
-    return uInt;
-  }
-  // --------------------
-  /// TASK : TEST ME
-  static Future<Uint8List?> getUint8ListFromURL(String? url) async {
+  static Future<Uint8List?> getBytesFromURL(String? url) async {
     Uint8List? _uints;
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
@@ -376,7 +376,7 @@ static img.Image decodeToImgImage({
 
     /// IS URL
     if (ObjectCheck.isAbsoluteURL(image) == true) {
-      final Uint8List? _uints = await getUint8ListFromURL(image);
+      final Uint8List? _uints = await getBytesFromURL(image);
       if (_uints == null) {
         return null;
       }
@@ -406,7 +406,7 @@ static img.Image decodeToImgImage({
   }
   // --------------------
   /// TASK : TEST ME
-  static String? getBase64FromUint8List(Uint8List? bytes){
+  static String? getBase64FromBytes(Uint8List? bytes){
     String? _output;
     if (Mapper.checkCanLoopList(bytes) == true){
       _output = base64Encode(bytes!);
@@ -466,7 +466,7 @@ static img.Image decodeToImgImage({
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<int>? getIntsFromUint8List(Uint8List? uInt){
+  static List<int>? getIntsFromBytes(Uint8List? uInt){
     List<int>? _ints;
 
     if (uInt != null){
@@ -506,7 +506,7 @@ static img.Image decodeToImgImage({
   }
   // -----------------------------------------------------------------------------
 
-  /// DOUBLEs : List<double>
+  /// DOUBLE s : List<double>
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -550,16 +550,85 @@ static img.Image decodeToImgImage({
       0, 0, 1, 0, 0,
       0, 0, 0, 1, 0,
     ];
+  // -----------------------------------------------------------------------------
+
+  /// GET BYTES FROM LOCAL ASSETS
+
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> getUint8ListFromLocalSVGAsset(String? asset) async {
+  static Future<List<Uint8List>?> getBytezzFromLocalRasterImages({
+    required List<String>? localAssets,
+    int width = 100,
+  }) async {
+    final List<Uint8List> _outputs = <Uint8List>[];
+
+    if (Mapper.checkCanLoopList(localAssets) == true){
+
+      for (final String asset in localAssets!){
+
+        final Uint8List? _bytes = await getBytesFromLocalAsset(
+          localAsset: asset,
+          width: width,
+        );
+
+        if (_bytes != null){
+          _outputs.add(_bytes);
+        }
+
+      }
+
+    }
+
+    return _outputs;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> getBytesFromLocalAsset({
+    required String? localAsset,
+    int width = 100,
+  }) async {
+    Uint8List? _bytes;
+
+    if (localAsset != null) {
+      await tryAndCatch(
+          invoker: 'getBytesFromLocalRasterAsset',
+          functions: () async {
+
+            /// IF SVG
+            if (ObjectCheck.objectIsSVG(localAsset) == true) {
+              _bytes = await Floaters._getBytesFromLocalSVGAsset(localAsset);
+            }
+
+            /// ANYTHING ELSE
+            else {
+              _bytes = await Floaters._getBytesFromLocalRasterAsset(
+                asset: localAsset,
+                width: width,
+              );
+            }
+
+            // /// ASSIGN UINT TO FILE
+            // if (Mapper.checkCanLoopList(_uInt) == true){
+            //   _bytes = await getFileFromUint8List(
+            //     uInt8List: _uInt,
+            //     fileName: Floaters.getLocalAssetName(localAsset),
+            //   );
+            // }
+          });
+    }
+
+    return _bytes;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> _getBytesFromLocalSVGAsset(String? asset) async {
     Uint8List? _output;
 
     if (TextCheck.isEmpty(asset) == false){
 
       // final String? _fileName = getLocalAssetName(asset);
       final ByteData? byteData = await Floaters.getByteDataFromPath(asset);
-      final Uint8List? _raw = Floaters.getUint8ListFromByteData(byteData);
+      final Uint8List? _raw = Floaters.getBytesFromByteData(byteData);
 
       if (_raw != null){
 
@@ -592,7 +661,7 @@ static img.Image decodeToImgImage({
         final double _height = _info.size.height;
         final ui.Image _image = await _info.picture.toImage(_width.toInt(), _height.toInt());
 
-        _output = await Floaters.getUint8ListFromUiImage(_image);
+        _output = await Floaters.getBytesFromUiImage(_image);
 
       }
 
@@ -602,7 +671,7 @@ static img.Image decodeToImgImage({
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> getUint8ListFromLocalRasterAsset({
+  static Future<Uint8List?> _getBytesFromLocalRasterAsset({
     required String? asset,
     required int? width
   }) async {
@@ -632,80 +701,6 @@ static img.Image decodeToImgImage({
     }
 
     return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// GET BYTES
-
-  // --------------------
-  /// TASK : TEST ME
-  static Future<List<Uint8List>?> getBytezzFromLocalRasterImages({
-    required List<String>? localAssets,
-    int width = 100,
-  }) async {
-    final List<Uint8List> _outputs = <Uint8List>[];
-
-    if (Mapper.checkCanLoopList(localAssets) == true){
-
-      await Future.wait(<Future>[
-
-        ...List.generate(localAssets!.length, (index){
-
-          return getBytesFromLocalRasterAsset(
-            localAsset: localAssets[index],
-            width: width,
-          ).then((Uint8List? output){
-
-            if (output != null){
-              _outputs.add(output);
-            }
-
-          });
-
-        }),
-
-      ]);
-
-    }
-
-    return _outputs;
-  }
-  // --------------------
-  /// TASK : TEST ME
-  static Future<Uint8List?> getBytesFromLocalRasterAsset({
-    required String? localAsset,
-    int width = 100,
-  }) async {
-    Uint8List? _bytes;
-
-    if (localAsset != null) {
-      await tryAndCatch(
-          invoker: 'getBytesFromLocalRasterAsset',
-          functions: () async {
-            /// IF SVG
-            if (ObjectCheck.objectIsSVG(localAsset) == true) {
-              _bytes = await Floaters.getUint8ListFromLocalSVGAsset(localAsset);
-            }
-
-            /// ANYTHING ELSE
-            else {
-              _bytes = await Floaters.getUint8ListFromLocalRasterAsset(
-                asset: localAsset,
-                width: width,
-              );
-            }
-
-            // /// ASSIGN UINT TO FILE
-            // if (Mapper.checkCanLoopList(_uInt) == true){
-            //   _bytes = await getFileFromUint8List(
-            //     uInt8List: _uInt,
-            //     fileName: Floaters.getLocalAssetName(localAsset),
-            //   );
-            // }
-          });
-    }
-
-    return _bytes;
   }
   // -----------------------------------------------------------------------------
 }

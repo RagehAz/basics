@@ -119,7 +119,7 @@ class Dimensions {
       // -----------------------------------------------------------o
       if (_isURL == true) {
         // final File _file = await Filers.getFileFromURL(image);
-        _uInt8List = await Floaters.getUint8ListFromURL(image);
+        _uInt8List = await Floaters.getBytesFromURL(image);
         // _uInt8List = _file.readAsBytesSync();
         // await null;
         blog('superDimensions : image : $image');
@@ -138,7 +138,7 @@ class Dimensions {
       // --------------------------o
       else if (_isFile == true) {
         // blog('_isFile staring aho : $_isFile');
-        _uInt8List = await Floaters.getUint8ListFromFile(image);
+        _uInt8List = await Floaters.getBytesFromFile(image);
         // blog('_uInt8List : $_uInt8List');
         _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
         // blog('_decodedImage : $_decodedImage');

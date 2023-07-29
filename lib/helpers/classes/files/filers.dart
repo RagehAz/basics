@@ -103,7 +103,7 @@ class Filers {
 
     else {
 
-      final Uint8List? _uInts = Floaters.getUint8ListFromByteData(byteData);
+      final Uint8List? _uInts = Floaters.getBytesFromByteData(byteData);
       return writeUint8ListOnFile(
         file: file,
         uint8list: _uInts,
@@ -388,7 +388,7 @@ class Filers {
 
     else {
 
-      final Uint8List? _uIntAgain = Floaters.getUint8ListFromImgImage(imgImage);
+      final Uint8List? _uIntAgain = Floaters.getBytesFromImgImage(imgImage);
 
       return Filers.getFileFromUint8List(
           uInt8List: _uIntAgain,
