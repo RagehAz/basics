@@ -30,7 +30,7 @@ class SuperImageBox extends StatelessWidget {
   }){
 
     if (solidGrey == true){
-      return const ColorFilter.mode(Colorz.white80, BlendMode.srcIn);
+      return const ColorFilter.mode(Colorz.white50, BlendMode.srcIn);
     }
     else {
       return const ColorFilter.mode(Colorz.white200, BlendMode.color);

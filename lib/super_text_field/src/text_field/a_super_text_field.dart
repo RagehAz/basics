@@ -190,6 +190,10 @@ class _SuperTextFieldState extends State<SuperTextField> {
 
     }
 
+    // if (widget.textColor != oldWidget.textColor){
+    //   setState(() {});
+    // }
+
     super.didUpdateWidget(oldWidget);
   }
   // --------------------

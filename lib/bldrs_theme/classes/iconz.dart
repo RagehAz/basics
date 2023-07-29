@@ -251,6 +251,7 @@ class Iconz {
   // --------------------
   static const String onGooglePlay = '$iconDirectory/on_google_play.png';
   static const String onAppStore = '$iconDirectory/on_app_store.png';
+  static const String anonymousUser = '$iconDirectory/gi_anonymous_user.svg';
   // -----------------------------------------------------------------------------
   static List<String> allIconz(){
 
@@ -452,10 +453,10 @@ class Iconz {
       onAppStore: true,
       mailJunkScreenshot: true,
       mailSpamScreenshot: true,
+      anonymousUser: true,
     };
 
     return _all.keys.toList();
-
   }
   // -----------------------------------------------------------------------------
 }
