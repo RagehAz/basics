@@ -46,6 +46,7 @@ dependencies:
   youtube_metadata: ^1.0.1
   image_picker: ^1.0.1
   flutter_image_compress: ^2.0.4
+  android_path_provider: ^0.3.0
 # ------------------------------------
 dev_dependencies:
   flutter_test:

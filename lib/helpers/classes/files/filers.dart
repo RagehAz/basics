@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:android_path_provider/android_path_provider.dart';
+import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/file_size_unit.dart';
@@ -240,6 +242,21 @@ class Filers {
 
     }
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> downloadDirectory() async {
+    String? _output;
+
+    if (DeviceChecker.deviceIsAndroid() == true){
+      _output = await AndroidPathProvider.downloadsPath;
+    }
+    else {
+      final Directory? downloadsDirectory = await getDownloadsDirectory();
+      _output = downloadsDirectory?.path;
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

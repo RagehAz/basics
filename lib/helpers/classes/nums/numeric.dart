@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:basics/helpers/classes/checks/tracers.dart';
+
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 
@@ -497,8 +497,6 @@ class Numeric {
     required double? number,
   }) {
     final double? _fractions = getFractions(number: number);
-
-    blog(_fractions);
 
     if (number == null || _fractions == null) {
       return null;

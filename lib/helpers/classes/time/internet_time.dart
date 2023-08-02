@@ -143,7 +143,11 @@ class InternetTime{
       invoker: 'getInternetUTCTime',
     );
 
-    if (_response != null){
+    if (
+        _response != null &&
+        // _response.body != null &&
+        _response.statusCode == 200
+    ){
 
       final Map<String, dynamic> _map = json.decode(_response.body);
       _output = InternetTime.decipher(_map);
