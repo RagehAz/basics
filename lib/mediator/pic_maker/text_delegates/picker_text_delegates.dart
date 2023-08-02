@@ -159,15 +159,15 @@ class ItalianAssetPickerTextDelegate extends AssetPickerTextDelegate {
 
   @override
   String get viewingLimitedAssetsTip =>
-      'Visualizza solo gli elementi e gli album accessibili all\'app.';
+      "Visualizza solo gli elementi e gli album accessibili all'app.";
 
   @override
   String get changeAccessibleLimitedAssets =>
       'Clicca per aggiornare gli elementi accessibili';
 
   @override
-  String get accessAllTip => 'L\'app può accedere solo ad alcuni elementi nel dispositivo. '
-      'Vai alle impostazioni del sistema e permetti all\'app di accedere a tutti gli elementi nel dispositivo.';
+  String get accessAllTip => "L'app può accedere solo ad alcuni elementi nel dispositivo. "
+      "Vai alle impostazioni del sistema e permetti all'app di accedere a tutti gli elementi nel dispositivo.";
 
   @override
   String get goToSystemSettings => 'Vai alle impostazioni del sistema';

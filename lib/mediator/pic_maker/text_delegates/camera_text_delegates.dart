@@ -472,7 +472,7 @@ class FrenchCameraPickerTextDelegate extends CameraPickerTextDelegate {
   String get sActionShootingButtonTooltip => 'Bouton de prise de vue';
 
   @override
-  String get sActionStopRecordingHint => 'Arrêter l\'enregistrement';
+  String get sActionStopRecordingHint => "Arrêter l'enregistrement";
 
   @override
   String sCameraLensDirectionLabel(CameraLensDirection value) {
