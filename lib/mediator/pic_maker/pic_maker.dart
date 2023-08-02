@@ -23,6 +23,9 @@ import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+
+import 'text_delegates/camera_text_delegates.dart';
+import 'text_delegates/picker_text_delegates.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING
@@ -73,6 +76,7 @@ class PicMaker {
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
+    required String langCode,
     double? finalWidth,
     int? compressionQuality,
     AssetEntity? selectedAsset,
@@ -110,6 +114,7 @@ class PicMaker {
         confirmText: confirmText,
         appIsLTR: appIsLTR,
         onlyCompress: onlyCompress,
+        langCode: langCode,
       );
 
       if (Mapper.checkCanLoopList(_bytezz) == true){
@@ -171,12 +176,13 @@ class PicMaker {
     required BuildContext context,
     required double aspectRatio,
     required bool cropAfterPick,
+    required bool appIsLTR,
+    required String langCode,
     double? finalWidth,
     int? compressionQuality,
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     String confirmText = 'Crop',
-    bool appIsLTR = true,
     bool onlyCompress = false,
   }) async {
 
@@ -185,6 +191,7 @@ class PicMaker {
       context: context,
       maxAssets: maxAssets,
       selectedAssets: selectedAssets,
+      langCode: langCode,
     );
 
     /// RESIZE
@@ -223,6 +230,7 @@ class PicMaker {
   static Future<List<Uint8List>> _pickMultiplePics({
     required BuildContext context,
     required int maxAssets,
+    required String langCode,
     List<AssetEntity>? selectedAssets,
   }) async {
 
@@ -242,10 +250,10 @@ class PicMaker {
           context: context,
           maxAssets: maxAssets,
           selectedAssets: selectedAssets,
+          langCode: langCode,
           // titleTextStyle: ,
           // textStyle: ,
           // titleTextSpacing: ,
-          locale: const Locale('en'),
           // gridCount: ,
           // pageSize: ,
         ),
@@ -280,6 +288,7 @@ class PicMaker {
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
+    required String langCode,
     double? finalWidth,
     int? compressionQuality,
     String confirmText = 'Crop',
@@ -291,6 +300,7 @@ class PicMaker {
     /// SHOOT
     final Uint8List? _bytes = await _shootCameraPic(
       context: context,
+      langCode: langCode,
     );
 
     /// RESIZE -> COMPRESS -> CROP
@@ -339,7 +349,7 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> _shootCameraPic({
     required BuildContext context,
-    String langCode = 'en',
+    required String langCode,
   }) async {
 
     final bool _canShoot = await PermitProtocol.fetchCameraPermit(
@@ -385,10 +395,7 @@ class PicMaker {
           // preferredLensDirection: CameraLensDirection.back, // DEFAULT
 
           /// THEME - TEXTS
-          textDelegate: langCode == 'ar' ?
-          const ArabicCameraPickerTextDelegate()
-          :
-          const EnglishCameraPickerTextDelegate(),
+          textDelegate: getCameraTextDelegateByLangCode(langCode),
 
           // theme: ThemeData.dark(),
 
@@ -761,7 +768,7 @@ class PicMaker {
     required BuildContext context,
     required int maxAssets,
     required List<AssetEntity>? selectedAssets,
-    Locale? locale,
+    required String? langCode,
     TextStyle? textStyle,
     int gridCount = 3,
     int pageSize = 12,
@@ -907,7 +914,7 @@ class PicMaker {
           // brightness: Brightness.light,
         ),
       ),
-      textDelegate: assetPickerTextDelegateFromLocale(locale),
+      textDelegate: getPickerTextDelegateByLangCode(langCode),
       /// SCROLLING
       // keepScrollOffset: false,
       // specialItemPosition: SpecialItemPosition.none,
@@ -1003,122 +1010,3 @@ class PicMaker {
   // -----------------------------------------------------------------------------
 }
 
-/// => TAMAM TRANSLATE_THE_WORLD
-class ArabicCameraPickerTextDelegate extends CameraPickerTextDelegate {
-
-  /// Text delegate implements with Arabic.
-
-  const ArabicCameraPickerTextDelegate();
-
-  @override
-  String get languageCode => 'ar';
-
-  @override
-  String get confirm => 'تأكيد';
-
-  @override
-  String get shootingTips => 'اضغط للتصوير';
-
-  @override
-  String get shootingWithRecordingTips =>
-      'اضغط لتصوير صورة، و اضغط طويلا لتسجيل فيديو';
-
-  @override
-  String get shootingOnlyRecordingTips => 'اضغط طويلا لتسجيل فيديو';
-
-  @override
-  String get shootingTapRecordingTips => 'اضغط لتسجيل فيديو';
-
-  @override
-  String get loadFailed => 'فشلت عميلة التحميل';
-
-  @override
-  String get loading => 'جاري التحميل ...';
-
-  @override
-  String get saving => 'جاري الحفظ ...';
-
-  @override
-  String get sActionManuallyFocusHint => 'تعديل البؤرة يدويا';
-
-  @override
-  String get sActionPreviewHint => 'عرض';
-
-  @override
-  String get sActionRecordHint => 'تسجيل';
-
-  @override
-  String get sActionShootHint => 'صور صورة';
-
-  @override
-  String get sActionShootingButtonTooltip => 'زر التصوير';
-
-  @override
-  String get sActionStopRecordingHint => 'إيقاف التسجيل';
-
-  @override
-  String sCameraLensDirectionLabel(CameraLensDirection value){
-    if (value == CameraLensDirection.back){
-      return 'الكاميرا الخلفية';
-    }
-    else if (value == CameraLensDirection.front){
-      return 'الكاميرا الأمامية';
-    }
-    else {
-      return 'الكاميرا';
-    }
-  }
-
-  @override
-  String? sCameraPreviewLabel(CameraLensDirection? value) {
-    if (value == null) {
-      return null;
-    }
-    if (sCameraLensDirectionLabel(value) == CameraLensDirection.front.name){
-      return 'عرض الكاميرا الأمامية';
-    }
-    else if (sCameraLensDirectionLabel(value) == CameraLensDirection.back.name){
-      return 'عرض الكاميرا الخلفية';
-    }
-    else {
-      return 'عرض الكاميرا';
-    }
-
-  }
-
-  @override
-  String sFlashModeLabel(FlashMode mode){
-
-    if (mode == FlashMode.always){
-      return 'فلاش مستمر';
-    }
-    else if (mode == FlashMode.auto){
-      return 'فلاش أوتوماتيكي';
-    }
-    else if (mode == FlashMode.off){
-      return 'بدون فلاش';
-    }
-    else if (mode == FlashMode.torch){
-      return 'فلاش متقطع';
-    }
-    else {
-      return 'فلاش';
-    }
-  }
-
-  @override
-  String sSwitchCameraLensDirectionLabel(CameraLensDirection value){
-
-    if (value == CameraLensDirection.back){
-      return 'التحويل للكاميرا الخلفية';
-    }
-    else if (value == CameraLensDirection.front){
-      return 'التحويل للكاميرا الأمامية';
-    }
-    else {
-      return 'تحويل الكاميرا';
-    }
-
-  }
-
-}
