@@ -13,7 +13,8 @@ class BulletPoints extends StatelessWidget {
     this.textDirection = TextDirection.ltr,
     this.font,
     this.maxLines = 10,
-        super.key
+    this.showDots = true,
+    super.key,
   }); 
   /// --------------------------------------------------------------------------
   final List<String>? bulletPoints;
@@ -26,6 +27,7 @@ class BulletPoints extends StatelessWidget {
   final TextDirection textDirection;
   final String? font;
   final int maxLines;
+  final bool showDots;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class BulletPoints extends StatelessWidget {
                   textColor: textColor,
                   italic: true,
                   weight: FontWeight.w100,
-                  leadingDot: true,
+                  leadingDot: showDots,
                   appIsLTR: appIsLTR,
                   textDirection: textDirection,
                   font: font,

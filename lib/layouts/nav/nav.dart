@@ -56,7 +56,7 @@ class Nav {
         type: pageTransitionType ?? PageTransitionType.bottomToTop,
         childCurrent: childCurrent,
         child: screen,
-        // duration: Ratioz.durationFading200,
+        duration: const Duration(milliseconds: 300),
         // reverseDuration: Ratioz.durationFading200,
         curve: Curves.fastOutSlowIn,
         alignment: Alignment.bottomCenter,
