@@ -14,24 +14,18 @@ class BldrsThemeLangs {
     'en',
     'ar',
     'es',
-    'fr',
-    'zh',
-    'de',
     'it',
+    'fr',
+    'de',
+    'zh',
   ];
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
-  static String? getLangFilePath({
+  static String getLangFilePath({
     required String? langCode,
   }){
-
-    if (langCode == null) {
-      return null;
-    }
-
-    else {
-      return 'packages/basics/lib/bldrs_theme/assets/languages/$langCode.json';
-    }
+    final String _langCode = langCode ?? 'en';
+    return 'packages/basics/lib/bldrs_theme/assets/languages/$_langCode.json';
 
   }
   // -----------------------------------------------------------------------------
