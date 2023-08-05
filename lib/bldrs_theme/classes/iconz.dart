@@ -49,8 +49,18 @@ class Iconz {
   static const String footerShadow = '$_artworkPath/footer_shadow.svg';
   static const String mailJunkScreenshot = '$_artworkPath/aw_junk_mail.jpg';
   static const String mailSpamScreenshot = '$_artworkPath/aw_spam_mail.jpg';
-
+  // --------------------
   static const String welcomeToBldrsBanner_22x18 = '$_artworkPath/welcome.svg'; /// w22 * h18
+  // --------------------
+  /// THE SEVEN
+  static const String theSevenBack = '$_artworkPath/the_seven_back.svg';
+  static const String theSevenDesigners = '$_artworkPath/the_seven_designers.svg';
+  static const String theSevenContractors = '$_artworkPath/the_seven_contractors.svg';
+  static const String theSevenArtisans = '$_artworkPath/the_seven_artisans.svg';
+  static const String theSevenManufacturers = '$_artworkPath/the_seven_manufacturers.svg';
+  static const String theSevenSuppliers = '$_artworkPath/the_seven_suppliers.svg';
+  static const String theSevenDevelopers = '$_artworkPath/the_seven_developers.svg';
+  static const String theSevenBrokers = '$_artworkPath/the_seven_brokers.svg';
   // --------------------
   /// COMMUNICATION
   static const String comApple = '$iconDirectory/com_apple.svg';
