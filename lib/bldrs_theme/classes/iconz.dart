@@ -464,6 +464,15 @@ class Iconz {
       mailJunkScreenshot: true,
       mailSpamScreenshot: true,
       anonymousUser: true,
+
+      theSevenBack: true,
+      theSevenDesigners: true,
+      theSevenContractors: true,
+      theSevenArtisans: true,
+      theSevenManufacturers: true,
+      theSevenSuppliers: true,
+      theSevenDevelopers: true,
+      theSevenBrokers: true,
     };
 
     return _all.keys.toList();
