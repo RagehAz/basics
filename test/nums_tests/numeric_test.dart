@@ -1077,6 +1077,23 @@ void main() {
       expect(result, equals(0));
     });
 
+    test('xxxxx', () {
+      final a = Numeric.reverseIndex(listLength: 7, index: 0);
+      expect(a, equals(6));
+      final b = Numeric.reverseIndex(listLength: 7, index: 1);
+      expect(b, equals(5));
+      final c = Numeric.reverseIndex(listLength: 7, index: 2);
+      expect(c, equals(4));
+      final d = Numeric.reverseIndex(listLength: 7, index: 3);
+      expect(d, equals(3));
+      final e = Numeric.reverseIndex(listLength: 7, index: 4);
+      expect(e, equals(2));
+      final f = Numeric.reverseIndex(listLength: 7, index: 5);
+      expect(f, equals(1));
+      final g = Numeric.reverseIndex(listLength: 7, index: 6);
+      expect(g, equals(0));
+    });
+
   });
   // -----------------------------------------------------------------------------
 
@@ -1269,6 +1286,36 @@ void main() {
 
     test('Test maximum input', () {
       expect(Numeric.formatToRomanB(3999), 'MMMCMXCIX');
+    });
+  });
+  // -----------------------------------------------------------------------------
+
+  /// ROMAN
+
+  // --------------------
+  group('Numeric.move360Degree', () {
+    test('Adding positive angle within range', () {
+      expect(Numeric.move360Degree(source360Degree: 45, moveBy360Degree: 30), 75);
+    });
+    test('Subtracting positive angle within range', () {
+      expect(Numeric.move360Degree(source360Degree: 180, moveBy360Degree: -45), 135);
+    });
+    test('Adding angle that wraps around (>= 360)', () {
+      expect(Numeric.move360Degree(source360Degree: 320, moveBy360Degree: 60), 20);
+    });
+    test('Subtracting angle that wraps around (< 0)', () {
+      expect(Numeric.move360Degree(source360Degree: 20, moveBy360Degree: -30), 350);
+    });
+    test('Adding negative angle within range', () {
+      expect(Numeric.move360Degree(source360Degree: 300, moveBy360Degree: -40), 260);
+    });
+    test('Subtracting negative angle within range', () {
+      expect(Numeric.move360Degree(source360Degree: 90, moveBy360Degree: -75), 15);
+    });
+    test('Null inputs should return null', () {
+      expect(Numeric.move360Degree(source360Degree: null, moveBy360Degree: 90), null);
+      expect(Numeric.move360Degree(source360Degree: 180, moveBy360Degree: null), null);
+      expect(Numeric.move360Degree(source360Degree: null, moveBy360Degree: null), null);
     });
   });
   // -----------------------------------------------------------------------------

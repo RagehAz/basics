@@ -417,6 +417,28 @@ class TextFieldBubble extends StatelessWidget {
                           },
                       ),
 
+                    if (pasteFunction != null)
+                      const SizedBox(width: 5,),
+
+                    if (pasteFunction != null)
+                      SuperBox(
+                        height: fieldHeight,
+                        width: pasteButtonWidth,
+                        // text: pasteText,
+                        icon: Iconz.paste,
+                        iconSizeFactor: 0.5,
+                        textScaleFactor: 0.5 / 0.6,
+                        textWeight: FontWeight.w100,
+                        textItalic: true,
+                        color: const Color.fromARGB(10, 255, 255, 255),
+                        onTap: pasteFunction,
+                        appIsLTR: bubbleHeaderVM.appIsLTR,
+                        textDirection: bubbleHeaderVM.textDirection,
+                        textFont: bubbleHeaderVM.font,
+                        // package: bubbleHeaderVM.package,
+                        letterSpacing: bubbleHeaderVM.letterSpacing,
+                      ),
+
                   ],
                 ),
 
@@ -428,26 +450,6 @@ class TextFieldBubble extends StatelessWidget {
                     color: loadingColor,
                   ),
 
-                /// TASK : MOVE PASTE BUTTON TO BE INSIDE THE ROW ABOVE JUST LIKE CONTACTS BUBBLE
-                if (pasteFunction != null)
-                  SuperBox(
-                    height: fieldHeight,
-                    width: pasteButtonWidth,
-                    // text: pasteText,
-                    icon: Iconz.paste,
-                    iconSizeFactor: 0.5,
-                    textScaleFactor: 0.5 / 0.6,
-                    textWeight: FontWeight.w100,
-                    textItalic: true,
-                    color: const Color.fromARGB(10, 255, 255, 255),
-                    onTap: pasteFunction,
-                    appIsLTR: bubbleHeaderVM.appIsLTR,
-                    textDirection: bubbleHeaderVM.textDirection,
-                    textFont: bubbleHeaderVM.font,
-                    // package: bubbleHeaderVM.package,
-                    letterSpacing: bubbleHeaderVM.letterSpacing,
-
-                  ),
 
               ],
             ),

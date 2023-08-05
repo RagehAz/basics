@@ -685,6 +685,77 @@ class Numeric {
       return degree * ( math.pi / 180 );
     }
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? radianToDegree(double? radians) {
+    if (radians == null) {
+      return null;
+    }
+    else {
+      return radians * (180 / math.pi);
+    }
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? radianTo360Degree(double? radians) {
+
+    final double? _degree = radianToDegree(radians);
+
+    if (_degree == null){
+      return null;
+    }
+    else if (_degree < 0){
+      return 360 + _degree;
+    }
+    else {
+      return _degree;
+    }
+
+}
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? degreeTo360Degree(double? degree) {
+
+    if (degree == null){
+      return null;
+    }
+    else if (degree < 0){
+      return 360 + degree;
+    }
+    else {
+      return degree;
+    }
+
+}
+  // --------------------
+  /// AI TESTED
+  static double? move360Degree({
+    required double? source360Degree,
+    required double? moveBy360Degree,
+  }) {
+
+    if (source360Degree == null || moveBy360Degree == null) {
+      return null;
+    }
+
+    else {
+
+      final double _after = source360Degree + moveBy360Degree;
+
+      if (_after < 0) {
+        return 360 - (-_after % 360); // Correct the result for negative values
+      }
+
+      else if (_after >= 360) {
+        return _after % 360; // Correct the result for values >= 360
+      }
+
+      else {
+        return _after;
+      }
+
+    }
+  }
   // -----------------------------------------------------------------------------
 
   /// BINARY SEARCH
@@ -809,6 +880,10 @@ class Numeric {
   }
   // -----------------------------------------------------------------------------
 
+  /// DIVISION
+
+  // --------------------
+  ///
   static double divide({
     /// بسط
     required num? dividend,
@@ -822,6 +897,35 @@ class Numeric {
     }
 
     return _output;
+  }
+  // --------------------
+  ///
+  static double? getDivisionRemainder({
+    required double? dividend,
+    required double? divisor
+  }) {
+
+    if (dividend == null || divisor == null){
+      return null;
+    }
+    else {
+      final double remainder = dividend % divisor; // Modulo operator to get the remainder
+      return remainder;
+    }
+  }
+  // --------------------
+  ///
+  static int? getDivisionQuotient({
+    required double? dividend,
+    required double? divisor
+  }) {
+    if (dividend == null || divisor == null){
+      return null;
+    }
+    else {
+      final int quotient = dividend ~/ divisor; // Integer division to get the quotient
+      return quotient;
+    }
   }
   // -----------------------------------------------------------------------------
 
