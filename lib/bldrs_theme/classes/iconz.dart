@@ -61,6 +61,7 @@ class Iconz {
   static const String theSevenSuppliers = '$_artworkPath/the_seven_suppliers.svg';
   static const String theSevenDevelopers = '$_artworkPath/the_seven_developers.svg';
   static const String theSevenBrokers = '$_artworkPath/the_seven_brokers.svg';
+  static const String theSevenOwners = '$_artworkPath/the_seven_owners.svg';
   // --------------------
   /// COMMUNICATION
   static const String comApple = '$iconDirectory/com_apple.svg';
