@@ -1319,4 +1319,42 @@ void main() {
     });
   });
   // -----------------------------------------------------------------------------
+  group('Numeric getNextIndex tests', () {
+
+    test('Test case 1: Next index when not at the last', () {
+      final int? result = Numeric.getNextIndex(listLength: 5, currentIndex: 2, loop: false);
+      expect(result, 3);
+    });
+
+    test('Test case 2: Next index when at the last with loop enabled', () {
+      final int? result = Numeric.getNextIndex(listLength: 4, currentIndex: 3, loop: true);
+      expect(result, 0);
+    });
+
+    test('Test case 3: Next index when at the last with loop disabled', () {
+      final int? result = Numeric.getNextIndex(listLength: 4, currentIndex: 3, loop: false);
+      expect(result, 3);
+    });
+
+    test('Test case 4: Next index with null list length', () {
+      final int? result = Numeric.getNextIndex(listLength: null, currentIndex: 2, loop: false);
+      expect(result, null);
+    });
+
+    test('Test case 5: Next index with null current index', () {
+      final int? result = Numeric.getNextIndex(listLength: 5, currentIndex: null, loop: false);
+      expect(result, null);
+    });
+
+    test('Test case 6: Next index with null list length and current index', () {
+      final int? result = Numeric.getNextIndex(listLength: null, currentIndex: null, loop: false);
+      expect(result, null);
+    });
+
+    test('Test case 7: Next index with loop disabled at last element', () {
+      final int? result = Numeric.getNextIndex(listLength: 3, currentIndex: 2, loop: false);
+      expect(result, 2);
+    });
+  });
+  // -----------------------------------------------------------------------------
 }

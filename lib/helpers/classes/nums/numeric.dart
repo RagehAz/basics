@@ -854,6 +854,43 @@ class Numeric {
     }
 
   }
+  // --------------------
+  /// AI TESTED
+  static int? getNextIndex({
+    required int? listLength,
+    required int? currentIndex,
+    required bool loop,
+  }){
+    int? _output;
+
+    if (listLength == null || currentIndex == null){
+      _output = null;
+    }
+    else {
+
+      final bool _isAtLast = currentIndex + 1 == listLength;
+
+      /// AT LAST
+      if (_isAtLast == true){
+
+        if (loop == true){
+          _output = 0;
+        }
+        else {
+          _output = currentIndex;
+        }
+
+      }
+
+      /// IN THE MIDDLE
+      else {
+        _output = currentIndex + 1;
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// PYTHAGORAS
