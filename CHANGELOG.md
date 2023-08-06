@@ -1,7 +1,8 @@
 
 ---
 
-### 3.2.3: can control bullet points dots + fixes keda fuck you
+### 3.2.5 : new translations
+### 3.2.3 : can control bullet points dots + fixes keda fuck you
 ### 3.2.0 : translated the camera and asset pickers
 ### 3.1.3 : refactors in floaters
 ### 3.1.2 : Adjusted SuperImage greyScale and added solidGreyScale parameter
