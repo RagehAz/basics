@@ -1472,10 +1472,10 @@ class Mapper {
   /// BOOL
 
   // --------------------
-  static bool boolIsTrue(bool? value){
+  static bool boolIsTrue(dynamic value){
     bool _output = false;
 
-    if (value != null){
+    if (value != null && value is bool){
       _output = value;
     }
 

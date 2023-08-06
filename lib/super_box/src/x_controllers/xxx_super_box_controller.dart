@@ -128,7 +128,7 @@ class SuperBoxController {
     }
 
     else if (icon == null) {
-      _centered = true;
+      _centered = verseCentered;
     }
 
     else {
