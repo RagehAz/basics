@@ -114,6 +114,15 @@ class Iconz {
   static const String bxOwnerOn = '$iconDirectory/ft_owner_on.svg';
   static const String bxOwnerOff = '$iconDirectory/ft_owner_off.svg';
   // --------------------
+  /// BZ TYPE
+  static const String bzTypeArtisan = '$iconDirectory/bz_type_artisan.svg';
+  static const String bzTypeBroker = '$iconDirectory/bz_type_broker.svg';
+  static const String bzTypeContractor = '$iconDirectory/bz_type_contractor.svg';
+  static const String bzTypeDesigner = '$iconDirectory/bz_type_designer.svg';
+  static const String bzTypeDeveloper = '$iconDirectory/bz_type_developer.svg';
+  static const String bzTypeManufacturer = '$iconDirectory/bz_type_manufacturer.svg';
+  static const String bzTypeSupplier = '$iconDirectory/bz_type_supplier.svg';
+  // --------------------
   /// GENERAL ICONS
   static const String back = '$iconDirectory/gi_back.svg';
   static const String backArabic = '$iconDirectory/gi_back_arabic.svg';
@@ -474,6 +483,15 @@ class Iconz {
       theSevenSuppliers: true,
       theSevenDevelopers: true,
       theSevenBrokers: true,
+
+      bzTypeArtisan: true,
+      bzTypeBroker: true,
+      bzTypeContractor: true,
+      bzTypeDesigner: true,
+      bzTypeDeveloper: true,
+      bzTypeManufacturer: true,
+      bzTypeSupplier: true,
+
     };
 
     return _all.keys.toList();

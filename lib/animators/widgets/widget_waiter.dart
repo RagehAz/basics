@@ -21,7 +21,7 @@ class WidgetWaiter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (isOn == false){
+    if (isOn == false || waitDuration == Duration.zero){
       return child;
     }
 
