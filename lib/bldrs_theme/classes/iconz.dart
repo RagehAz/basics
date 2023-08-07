@@ -237,7 +237,7 @@ class Iconz {
   static const String paypal  = '$iconDirectory/gi_paypal.svg';
   static const String visa  = '$iconDirectory/gi_visa.svg';
   static const String love  = '$iconDirectory/gi_love.svg';
-  static const String pfd = '$iconDirectory/gi_pdf.svg';
+  static const String pdf = '$iconDirectory/gi_pdf.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
   // --------------------
   /// PYRAMIDS
@@ -443,7 +443,7 @@ class Iconz {
       paypal: true,
       visa: true,
       love: true,
-      pfd: true,
+      pdf: true,
       hidden: true,
       pyramidsYellow: true,
       pyramidsWhite: true,
