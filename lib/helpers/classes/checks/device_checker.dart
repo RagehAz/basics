@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
@@ -8,6 +7,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 
 /// => TAMAM
 class DeviceChecker {
@@ -111,14 +111,18 @@ class DeviceChecker {
 
     /// IS IOS
     else if (deviceIsIOS() == true) {
-      final IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
-      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+      // final IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+      // return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+      final String _deviceID = await FlutterUdid.consistentUdid;
+      return _deviceID;
     }
 
     /// IS ANDROID
     else if(deviceIsAndroid() == true) {
-      final AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
-      return androidDeviceInfo.id; // unique ID on Android
+      // final AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+      // return androidDeviceInfo.id; // unique ID on Android
+      final String _deviceID = await FlutterUdid.consistentUdid;
+      return _deviceID;
     }
 
     /// NOT ANDROID + NOT IOS

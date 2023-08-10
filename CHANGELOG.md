@@ -1,6 +1,7 @@
 
 ---
 
+### 4.0.1 : user FlutterUdid package to get deviceID better
 ### 4.0.0 : launching Bldrs V2.0
 ### 3.2.5 : new translations
 ### 3.2.3 : can control bullet points dots + fixes keda fuck you

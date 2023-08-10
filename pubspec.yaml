@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 4.0.0
+version: 4.0.1
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -47,6 +47,7 @@ dependencies:
   image_picker: ^1.0.1
   flutter_image_compress: ^2.0.4
   android_path_provider: ^0.3.0
+  flutter_udid: ^2.0.1
 # ------------------------------------
 dev_dependencies:
   flutter_test:
