@@ -1,6 +1,7 @@
 
 ---
 
+### 4.0.2 : added platform icons + fixed old icons
 ### 4.0.1 : user FlutterUdid package to get deviceID better
 ### 4.0.0 : launching Bldrs V2.0
 ### 3.2.5 : new translations

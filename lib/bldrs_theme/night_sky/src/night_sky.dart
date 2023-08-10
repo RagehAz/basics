@@ -23,6 +23,9 @@ class Sky extends StatelessWidget {
     else if (skyType == SkyType.black || skyType == SkyType.blackStars){
       return <Color>[Colorz.blackSemi230, Colorz.blackSemi230];
     }
+    else if (skyType == SkyType.stars){
+      return <Color>[Colorz.black255, Colorz.black255];
+    }
     else {
       return <Color>[Colorz.skyDarkBlue, Colorz.skyDarkBlue];
     }
@@ -39,6 +42,9 @@ class Sky extends StatelessWidget {
     }
     else if (skyType == SkyType.night || skyType == SkyType.black){
       return null;
+    }
+    else if (skyType == SkyType.stars){
+      return Colorz.black255;
     }
     else {
       return Colorz.skyDarkBlue;
@@ -84,7 +90,12 @@ class Sky extends StatelessWidget {
         ),
       ),
       child: SkyStars(
-        starsAreOn: skyType == SkyType.blackStars || skyType == SkyType.nightStars,
+        starsAreOn: skyType == SkyType.blackStars
+            ||
+            skyType == SkyType.nightStars
+            ||
+            skyType == SkyType.stars
+        ,
       ),
     );
   }

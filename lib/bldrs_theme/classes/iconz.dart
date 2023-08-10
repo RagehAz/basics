@@ -79,7 +79,7 @@ class Iconz {
   static const String comYoutube = '$iconDirectory/com_youtube.svg';
   static const String comTikTok = '$iconDirectory/com_tiktok.svg';
   static const String comPinterest = '$iconDirectory/com_pinterest.svg';
-  static const String comGooglePlus = '$iconDirectory/com_google_plus.svg';
+  static const String comGoogleLogo = '$iconDirectory/com_google_logo.svg';
   // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';
@@ -122,6 +122,12 @@ class Iconz {
   static const String bzTypeDeveloper = '$iconDirectory/bz_type_developer.svg';
   static const String bzTypeManufacturer = '$iconDirectory/bz_type_manufacturer.svg';
   static const String bzTypeSupplier = '$iconDirectory/bz_type_supplier.svg';
+
+  static const String platformAndroid = '$iconDirectory/platform_android.svg';
+  static const String platformIOS = '$iconDirectory/platform_ios.svg';
+  static const String platformMACOS = '$iconDirectory/platform_macos.svg';
+  static const String platformWindows = '$iconDirectory/platform_windows.svg';
+  static const String platformWeb = '$iconDirectory/platform_web.svg';
   // --------------------
   /// GENERAL ICONS
   static const String back = '$iconDirectory/gi_back.svg';
@@ -300,7 +306,7 @@ class Iconz {
       comYoutube: true,
       comTikTok: true,
       comPinterest: true,
-      comGooglePlus: true,
+      comGoogleLogo: true,
       dvBlankSVG: true,
       dvGouran: true,
       dvRageh: true,
@@ -491,6 +497,12 @@ class Iconz {
       bzTypeDeveloper: true,
       bzTypeManufacturer: true,
       bzTypeSupplier: true,
+
+      platformAndroid: true,
+      platformIOS: true,
+      platformMACOS: true,
+      platformWindows: true,
+      platformWeb: true,
 
     };
 
