@@ -47,6 +47,7 @@ class Nav {
     required BuildContext context,
     required Widget screen,
     PageTransitionType? pageTransitionType,
+    Duration? duration,
     Widget? childCurrent,
   }) async {
 
@@ -56,8 +57,8 @@ class Nav {
         type: pageTransitionType ?? PageTransitionType.bottomToTop,
         childCurrent: childCurrent,
         child: screen,
-        duration: const Duration(milliseconds: 300),
-        // reverseDuration: Ratioz.durationFading200,
+        duration: duration ?? const Duration(milliseconds: 300),
+        reverseDuration: duration ?? const Duration(milliseconds: 300),
         curve: Curves.fastOutSlowIn,
         alignment: Alignment.bottomCenter,
       ),
