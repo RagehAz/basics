@@ -123,21 +123,21 @@ class ImageSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (pic != null && pic != '' && width != null && height != null){
-
-      final BoxFit _boxFit = boxFit ?? BoxFit.cover;
-
-      /// LOADING
-      if (loading == true){
-        return InfiniteLoadingBox(
+    /// LOADING
+    if (loading == true){
+      return InfiniteLoadingBox(
           width: width!,
           height: height!,
           color: backgroundColor,
         );
-      }
+    }
+
+    else if (pic != null && pic != '' && width != null && height != null){
+
+      final BoxFit _boxFit = boxFit ?? BoxFit.cover;
 
       /// URL
-      else if (ObjectCheck.isAbsoluteURL(pic) == true){
+      if (ObjectCheck.isAbsoluteURL(pic) == true){
 
         return Image.network(
           pic.trim(),
