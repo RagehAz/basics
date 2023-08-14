@@ -63,6 +63,10 @@ class Iconz {
   static const String theSevenBrokers = '$_artworkPath/the_seven_brokers.svg';
   static const String theSevenOwners = '$_artworkPath/the_seven_owners.svg';
   // --------------------
+  /// BOX SHADOW
+  static const String boxShadowBlack = '$_artworkPath/box_shadow_black.svg'; // 1:1
+  static const String boxShadowWhite = '$_artworkPath/box_shadow_white.svg'; // 1:1
+  // --------------------
   /// COMMUNICATION
   static const String comApple = '$iconDirectory/com_apple.svg';
   static const String comEmail = '$iconDirectory/com_email.svg';
@@ -489,6 +493,9 @@ class Iconz {
       theSevenSuppliers: true,
       theSevenDevelopers: true,
       theSevenBrokers: true,
+
+      boxShadowBlack: true,
+      boxShadowWhite: true,
 
       bzTypeArtisan: true,
       bzTypeBroker: true,

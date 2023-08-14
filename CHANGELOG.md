@@ -1,6 +1,7 @@
 
 ---
 
+### 4.0.4 : updating super box highlights + removed the expensive CustomBoxShadow
 ### 4.0.3 : SuperImage prioritizes responding to loading parameter 
 ### 4.0.2 : added platform icons + fixed old icons
 ### 4.0.1 : user FlutterUdid package to get deviceID better

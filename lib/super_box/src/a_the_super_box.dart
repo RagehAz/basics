@@ -189,19 +189,19 @@ class SuperBox extends StatelessWidget {
 
         /// HIGHLIGHT
         if (bubble == true)
-          BoxHighlight(
+          BoxHighlights(
               width: width,
               height: height,
               corners: _borderRadius
           ),
 
-        /// GRADIENT
-        if (bubble == true)
-          BoxGradient(
-            width: width,
-            height: height,
-            corners: _borderRadius,
-          ),
+        // /// GRADIENT
+        // if (bubble == true)
+        //   BoxGradient(
+        //     width: width,
+        //     height: height,
+        //     corners: _borderRadius,
+        //   ),
 
       ],
     );

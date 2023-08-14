@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
 
+
+/// CAUTION : SUPER EXPENSIVE : MY RECOMMENDATION : NEVER USE IT
+/*
 class CustomBoxShadow extends BoxShadow {
   /// --------------------------------------------------------------------------
   const CustomBoxShadow({
@@ -29,3 +31,4 @@ class CustomBoxShadow extends BoxShadow {
   }
 /// --------------------------------------------------------------------------
 }
+*/
