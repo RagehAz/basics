@@ -132,15 +132,6 @@ class SuperBox extends StatelessWidget {
       borderColor: borderColor,
       children: <Widget>[
 
-        // /// --- BLUR LAYER
-        // if (blur != null)
-        //   BlurLayer(
-        //     width: width,
-        //     height: height,
-        //     blur: blur,
-        //     borders: _cornersAsBorderRadius,
-        //   ),
-
         /// CHILD
         if (subChild != null)
           SuperBoxChild(
@@ -194,14 +185,6 @@ class SuperBox extends StatelessWidget {
               height: height,
               corners: _borderRadius
           ),
-
-        // /// GRADIENT
-        // if (bubble == true)
-        //   BoxGradient(
-        //     width: width,
-        //     height: height,
-        //     corners: _borderRadius,
-        //   ),
 
       ],
     );

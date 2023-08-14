@@ -30,7 +30,7 @@ class BoxHighlights extends StatelessWidget {
         return _HighLightLayers(
           key: key,
           width: width!,
-          height: height,
+          height: height!,
         );
       }
 
@@ -40,7 +40,7 @@ class BoxHighlights extends StatelessWidget {
           child: _HighLightLayers(
             key: key,
             width: width!,
-            height: height,
+            height: height!,
           ),
         );
       }
@@ -51,6 +51,7 @@ class BoxHighlights extends StatelessWidget {
   /// --------------------------------------------------------------------------
 }
 
+/// => TAMAM
 class _HighLightLayers extends StatelessWidget {
   // --------------------------------------------------------------------------
   const _HighLightLayers({
@@ -60,61 +61,45 @@ class _HighLightLayers extends StatelessWidget {
   });
   // --------------------
   final double width;
-  final double? height;
+  final double height;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
-    final double _targetHeight = height ?? 0;
-    final double _targetWidth = width;
-    final double _graphicWidth = _targetHeight;
-    // const ColorFilter? _colorFilter = ColorFilter.mode(Colorz.white80, BlendMode.srcATop);
-
     return Transform.scale(
       /// SCALE . graphicWidth = targetWidth
-      scaleX: _targetWidth / _graphicWidth,
+      scaleX: width / height,
       child: Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
 
           /// WHITE
           Container(
-            width: _targetWidth,
-            height: _targetHeight,
+            width: width,
+            height: height,
             alignment: Alignment.topCenter,
             child: WebsafeSvg.asset(
               Iconz.boxShadowWhite,
-              // BoxHighlights.getWhiteHighlight(
-              //   width: _targetWidth,
-              //   height: _targetHeight,
-              // ),
               fit: BoxFit.fitWidth,
-              width: _targetWidth,
-              height: _targetHeight,
+              width: height,
+              height: height,
               alignment: Alignment.topCenter,
-              // colorFilter: const ColorFilter.mode(Colorz.red230, BlendMode.srcIn),
             ),
-
           ),
 
           /// BLACK
           Positioned(
             bottom: -1,
             child: Container(
-              width: _targetWidth,
-              height: _targetHeight,
+              width: width,
+              height: height,
               alignment: Alignment.bottomCenter,
               child: WebsafeSvg.asset(
                 Iconz.boxShadowBlack,
-                  // BoxHighlights.getBlackHighlight(
-                  //   width: _targetWidth,
-                  //   height: height,
-                  // ),
-                  fit: BoxFit.fitWidth,
-                  width: _targetWidth,
-                  height: _targetHeight,
-                  alignment: Alignment.bottomCenter,
-                  // colorFilter: const ColorFilter.mode(Colorz.red230, BlendMode.srcIn),
+                fit: BoxFit.fitWidth,
+                width: height,
+                height: height,
+                alignment: Alignment.bottomCenter,
               ),
 
             ),
