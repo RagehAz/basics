@@ -918,6 +918,7 @@ void main(){
   }); // -----------------------------------------------------------------------------
 
   // -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 
   /// MANUAL OLD TESTS : STRINGS ADDED AND REMOVED
 
@@ -987,6 +988,50 @@ void main(){
       expect(_modified, <String>['talata', 'arba3a']);
     });
     // -----------------------------------------------------------------------------
+  });
+  // -----------------------------------------------------------------------------
+
+  /// GET RANDOM STRINGS
+
+  // --------------------
+  group('Stringer.getRandomUniqueStrings', () {
+    test('Returns empty list when input list is empty', () {
+      final result = Stringer.getRandomUniqueStrings(strings: [], count: 5);
+      expect(result, isEmpty);
+    });
+
+    test('Returns empty list when count is zero', () {
+      final result = Stringer.getRandomUniqueStrings(strings: ['a', 'b', 'c'], count: 0);
+      expect(result, isEmpty);
+    });
+
+    test('Returns entire list when count is greater than input list length', () {
+      final result = Stringer.getRandomUniqueStrings(strings: ['x', 'y'], count: 3);
+      expect(result.length, 2);
+    });
+
+    test('Returns unique random strings within count', () {
+      final inputStrings = ['a', 'b', 'c', 'd', 'e'];
+      final result = Stringer.getRandomUniqueStrings(strings: inputStrings, count: 3);
+      expect(result.length, 3);
+    });
+
+    test('Does not include duplicate strings in the output', () {
+      final inputStrings = ['a', 'a', 'b', 'b', 'c'];
+      final result = Stringer.getRandomUniqueStrings(strings: inputStrings, count: 3);
+      expect(result.length, 3);
+    });
+
+    test('blah', () {
+      final result = Stringer.getRandomUniqueStrings(strings: ['x'], count: 5);
+      expect(result.length, 1);
+    });
+
+    test('Returned list length is less than or equal to count', () {
+      final inputStrings = ['a', 'b', 'c', 'd', 'e'];
+      final result = Stringer.getRandomUniqueStrings(strings: inputStrings, count: 10);
+      expect(result.length, lessThanOrEqualTo(10));
+    });
   });
   // -----------------------------------------------------------------------------
 }

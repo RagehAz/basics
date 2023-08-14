@@ -362,6 +362,19 @@ void main() {
 
       expect(result, lessThan(listLength));
     });
+
+    test('WILL NEVER FAIL', () {
+      const int listLength = 5;
+
+      for (int i = 0; i<500; i++){
+
+        final int result = Numeric.createRandomIndex(listLength: listLength);
+        expect(result, lessThan(listLength));
+
+      }
+
+    });
+
   });
   // -----------------------------------------------------------------------------
 

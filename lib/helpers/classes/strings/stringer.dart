@@ -750,4 +750,63 @@ class Stringer {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// RANDOMS
+
+  // --------------------
+  /// AI TESTED
+  static List<String> getRandomUniqueStrings({
+    required List<String> strings,
+    required int count,
+  }){
+    List<String> _output = [];
+
+    if (Mapper.checkCanLoopList(strings) == true && count > 0){
+
+      final List<String> _cleaned = cleanDuplicateStrings(strings: strings);
+       int _maxLength = _cleaned.length;
+
+       /// NEED LESS THAN WHAT WE HAVE
+       if (count < _maxLength){
+         for (int i = 0; i < count; i++){
+           _output.add(_cleaned[i]);
+         }
+       }
+
+       ///
+       else {
+
+         void _loop(){
+           for (int i = 0; i < _maxLength; i++){
+
+             final int _randomIndex = Numeric.createRandomIndex(
+               listLength: _maxLength,
+             );
+
+             _output = Stringer.addStringToListIfDoesNotContainIt(
+               strings: _output,
+               stringToAdd: _cleaned[_randomIndex],
+             );
+
+           }
+         }
+
+         for (int x = 0; x < 30; x++){
+
+           if (_output.length < count){
+             _loop();
+           }
+           else {
+             break;
+           }
+
+         }
+
+       }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }
