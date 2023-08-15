@@ -2,15 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:android_path_provider/android_path_provider.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
+import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/file_size_unit.dart';
 import 'package:basics/helpers/classes/files/floaters.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
+import 'package:basics/helpers/classes/permissions/permits.dart';
 import 'package:basics/helpers/classes/rest/rest.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -119,6 +122,48 @@ class Filers {
     return File(xFile.path);
   }
    */
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> exportJSON({
+    required BuildContext context,
+    required Map<String, dynamic> map,
+    required String fileName,
+    String exportToPath = '/storage/emulated/0/Misc'
+  }) async {
+    bool _success = false;
+
+    final String _fileName = '$fileName.json';
+
+    final File? _file = await Filers.createNewEmptyFile(
+      fileName: _fileName,
+      // useTemporaryDirectory: false,
+    );
+
+    await tryAndCatch(
+        functions: () async {
+          final String jsonString = jsonEncode(map);
+          await _file!.writeAsString(jsonString);
+        },
+    );
+
+    final bool _can = await Permit.requestPermission(
+      context: context,
+      permission: Permission.storage,
+    );
+
+    if (_can == true){
+      await tryAndCatch(
+        invoker: 'exportJSON',
+        functions: () async {
+          await _file?.copy('$exportToPath/$_fileName');
+          _success = true;
+          },
+
+      );
+    }
+
+    return _success;
+  }
   // -----------------------------------------------------------------------------
 
   /// FILE PATH

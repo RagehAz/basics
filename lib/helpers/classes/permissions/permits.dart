@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+export 'package:permission_handler/permission_handler.dart';
+
 
 /// => TAMAM
 class Permit {
