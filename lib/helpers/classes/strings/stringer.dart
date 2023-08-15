@@ -764,7 +764,7 @@ class Stringer {
     if (Mapper.checkCanLoopList(strings) == true && count > 0){
 
       final List<String> _cleaned = cleanDuplicateStrings(strings: strings);
-       int _maxLength = _cleaned.length;
+       final int _maxLength = _cleaned.length;
 
        /// NEED LESS THAN WHAT WE HAVE
        if (count < _maxLength){
