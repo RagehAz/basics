@@ -17,7 +17,7 @@ class BoxGradient extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ClipRRect(
-      borderRadius: corners,
+      borderRadius: corners ?? BorderRadius.zero,
       child: Container(
         key: const ValueKey<String>('DreamBoxGradient'),
         height: height,

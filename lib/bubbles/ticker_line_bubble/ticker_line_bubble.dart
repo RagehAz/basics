@@ -27,7 +27,7 @@ class TickerLineBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     // --------------------
     return ClipRRect(
-      borderRadius: corners,
+      borderRadius: corners ?? Borderers.constantCornersAll10,
       child: Container(
         width: width,
         height: 50,

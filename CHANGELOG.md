@@ -1,6 +1,7 @@
 
 ---
 
+### 4.0.7 : updated Flutter
 ### 4.0.5 : added getRandomUniqueStrings
 ### 4.0.4 : updating super box highlights + removed the expensive CustomBoxShadow
 ### 4.0.3 : SuperImage prioritizes responding to loading parameter 

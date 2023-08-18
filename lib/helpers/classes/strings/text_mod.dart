@@ -639,7 +639,7 @@ class TextMod {
 
     if (Mapper.checkCanLoopList(list) == true){
       final Map<String, dynamic> _result = <String, dynamic>{
-        for (String string in list!) string: true
+        for (final String string in list!) string: true
       };
       return _result;
     }
