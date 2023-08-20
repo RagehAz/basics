@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 4.0.7
+version: 5.0.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/typers.git
 # --------------------------------------------------------------------------------
@@ -68,9 +68,10 @@ flutter:
     - lib/bldrs_theme/assets/
     - lib/bldrs_theme/assets/aw/
     - lib/bldrs_theme/assets/icons/
-    - lib/bldrs_theme/assets/icons/flags/
     - lib/bldrs_theme/assets/languages/
     - lib/bldrs_theme/assets/planet/
+    - lib/bldrs_theme/assets/planet/flags/
+    - lib/bldrs_theme/assets/planet/cities/
     - lib/bldrs_theme/assets/sounds/
 # --------------------------------------------------------------------------------
   fonts:

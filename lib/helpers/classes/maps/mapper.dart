@@ -1472,6 +1472,7 @@ class Mapper {
   /// BOOL
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static bool boolIsTrue(dynamic value){
     bool _output = false;
 
@@ -1482,6 +1483,7 @@ class Mapper {
     return _output;
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   static int superLength(dynamic list){
     int _output = 0;
 
@@ -1498,6 +1500,43 @@ class Mapper {
     }
     else if (list is double || list is double?){
       _output = list?.toInt();
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// REAL - FIRE MAPPERS
+
+  // --------------------
+  static List<String> getStringsFromTheDamnThing(dynamic thing){
+    List<String> _output = [];
+
+    if (thing != null){
+
+      if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
+        _output =  Stringer.getStringsFromDynamics(dynamics: thing);
+      }
+      else if (thing.runtimeType.toString() == '_Map<String, dynamic>'){
+        final Map<String, dynamic> _map = thing;
+        final List<String> _keys = _map.keys.toList();
+        for (final String key in _keys){
+          if (_map[key] is String){
+            _output.add(_map[key]);
+          }
+        }
+      }
+      else if (thing.runtimeType.toString() == 'List<dynamic>') {
+        final List<dynamic> things = thing;
+        for (final dynamic item in things) {
+          if (item is String) {
+            _output.add(item);
+          }
+        }
+      }
+      else {
+        assert(thing == null, 'getStringsFromTheDamnThing something is wrong here ${thing.runtimeType}');
+      }
     }
 
     return _output;

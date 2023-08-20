@@ -1,0 +1,457 @@
+{
+  "btn+gasa": {
+    "en": {
+      "value": "Gasa",
+      "trigram": [
+        "gasa",
+        "gas",
+        "asa"
+      ]
+    }
+  },
+  "btn+jakar": {
+    "en": {
+      "value": "Jakar",
+      "trigram": [
+        "jakar",
+        "jak",
+        "aka",
+        "kar",
+        "jaka",
+        "akar"
+      ]
+    }
+  },
+  "btn+haa": {
+    "en": {
+      "value": "Haa",
+      "trigram": [
+        "haa"
+      ]
+    }
+  },
+  "btn+daga": {
+    "en": {
+      "value": "Daga",
+      "trigram": [
+        "daga",
+        "dag",
+        "aga"
+      ]
+    }
+  },
+  "btn+paro": {
+    "en": {
+      "value": "Paro",
+      "trigram": [
+        "paro",
+        "par",
+        "aro"
+      ]
+    }
+  },
+  "btn+mongar": {
+    "en": {
+      "value": "Mongar",
+      "trigram": [
+        "mongar",
+        "mon",
+        "ong",
+        "nga",
+        "gar",
+        "mong",
+        "onga",
+        "ngar",
+        "monga",
+        "ongar"
+      ]
+    }
+  },
+  "btn+lhuentse": {
+    "en": {
+      "value": "Lhuentse",
+      "trigram": [
+        "lhuentse",
+        "lhu",
+        "hue",
+        "uen",
+        "ent",
+        "nts",
+        "tse",
+        "lhue",
+        "huen",
+        "uent",
+        "ents",
+        "ntse",
+        "lhuen",
+        "huent",
+        "uents",
+        "entse"
+      ]
+    }
+  },
+  "btn+pemagatshel": {
+    "en": {
+      "value": "Pemagatshel",
+      "trigram": [
+        "pemagatshel",
+        "pem",
+        "ema",
+        "mag",
+        "aga",
+        "gat",
+        "ats",
+        "tsh",
+        "she",
+        "hel",
+        "pema",
+        "emag",
+        "maga",
+        "agat",
+        "gats",
+        "atsh",
+        "tshe",
+        "shel",
+        "pemag",
+        "emaga",
+        "magat",
+        "agats",
+        "gatsh",
+        "atshe",
+        "tshel"
+      ]
+    }
+  },
+  "btn+thimphu": {
+    "en": {
+      "value": "Thimphu",
+      "trigram": [
+        "thimphu",
+        "thi",
+        "him",
+        "imp",
+        "mph",
+        "phu",
+        "thim",
+        "himp",
+        "imph",
+        "mphu",
+        "thimp",
+        "himph",
+        "imphu"
+      ]
+    }
+  },
+  "btn+zhemgang": {
+    "en": {
+      "value": "Zhemgang",
+      "trigram": [
+        "zhemgang",
+        "zhe",
+        "hem",
+        "emg",
+        "mga",
+        "gan",
+        "ang",
+        "zhem",
+        "hemg",
+        "emga",
+        "mgan",
+        "gang",
+        "zhemg",
+        "hemga",
+        "emgan",
+        "mgang"
+      ]
+    }
+  },
+  "btn+tsimasham": {
+    "en": {
+      "value": "Tsimasham",
+      "trigram": [
+        "tsimasham",
+        "tsi",
+        "sim",
+        "ima",
+        "mas",
+        "ash",
+        "sha",
+        "ham",
+        "tsim",
+        "sima",
+        "imas",
+        "mash",
+        "asha",
+        "sham",
+        "tsima",
+        "simas",
+        "imash",
+        "masha",
+        "asham"
+      ]
+    }
+  },
+  "btn+tsirang": {
+    "en": {
+      "value": "Tsirang",
+      "trigram": [
+        "tsirang",
+        "tsi",
+        "sir",
+        "ira",
+        "ran",
+        "ang",
+        "tsir",
+        "sira",
+        "iran",
+        "rang",
+        "tsira",
+        "siran",
+        "irang"
+      ]
+    }
+  },
+  "btn+samdrup_jongkhar": {
+    "en": {
+      "value": "Samdrup Jongkhar",
+      "trigram": [
+        "samdrup",
+        "jongkhar",
+        "sam",
+        "amd",
+        "mdr",
+        "dru",
+        "rup",
+        "up ",
+        "p j",
+        " jo",
+        "jon",
+        "ong",
+        "ngk",
+        "gkh",
+        "kha",
+        "har",
+        "samd",
+        "amdr",
+        "mdru",
+        "drup",
+        "rup ",
+        "up j",
+        "p jo",
+        " jon",
+        "jong",
+        "ongk",
+        "ngkh",
+        "gkha",
+        "khar",
+        "samdr",
+        "amdru",
+        "mdrup",
+        "drup ",
+        "rup j",
+        "up jo",
+        "p jon",
+        " jong",
+        "jongk",
+        "ongkh",
+        "ngkha",
+        "gkhar"
+      ]
+    }
+  },
+  "btn+samtse": {
+    "en": {
+      "value": "Samtse",
+      "trigram": [
+        "samtse",
+        "sam",
+        "amt",
+        "mts",
+        "tse",
+        "samt",
+        "amts",
+        "mtse",
+        "samts",
+        "amtse"
+      ]
+    }
+  },
+  "btn+trashi_yangtse": {
+    "en": {
+      "value": "Trashi Yangtse",
+      "trigram": [
+        "trashi",
+        "yangtse",
+        "tra",
+        "ras",
+        "ash",
+        "shi",
+        "hi ",
+        "i y",
+        " ya",
+        "yan",
+        "ang",
+        "ngt",
+        "gts",
+        "tse",
+        "tras",
+        "rash",
+        "ashi",
+        "shi ",
+        "hi y",
+        "i ya",
+        " yan",
+        "yang",
+        "angt",
+        "ngts",
+        "gtse",
+        "trash",
+        "rashi",
+        "ashi ",
+        "shi y",
+        "hi ya",
+        "i yan",
+        " yang",
+        "yangt",
+        "angts",
+        "ngtse"
+      ]
+    }
+  },
+  "btn+punakha": {
+    "en": {
+      "value": "Punakha",
+      "trigram": [
+        "punakha",
+        "pun",
+        "una",
+        "nak",
+        "akh",
+        "kha",
+        "puna",
+        "unak",
+        "nakh",
+        "akha",
+        "punak",
+        "unakh",
+        "nakha"
+      ]
+    }
+  },
+  "btn+trongsa": {
+    "en": {
+      "value": "Trongsa",
+      "trigram": [
+        "trongsa",
+        "tro",
+        "ron",
+        "ong",
+        "ngs",
+        "gsa",
+        "tron",
+        "rong",
+        "ongs",
+        "ngsa",
+        "trong",
+        "rongs",
+        "ongsa"
+      ]
+    }
+  },
+  "btn+sarpang": {
+    "en": {
+      "value": "Sarpang",
+      "trigram": [
+        "sarpang",
+        "sar",
+        "arp",
+        "rpa",
+        "pan",
+        "ang",
+        "sarp",
+        "arpa",
+        "rpan",
+        "pang",
+        "sarpa",
+        "arpan",
+        "rpang"
+      ]
+    }
+  },
+  "btn+wangdue_phodrang": {
+    "en": {
+      "value": "Wangdue Phodrang",
+      "trigram": [
+        "wangdue",
+        "phodrang",
+        "wan",
+        "ang",
+        "ngd",
+        "gdu",
+        "due",
+        "ue ",
+        "e p",
+        " ph",
+        "pho",
+        "hod",
+        "odr",
+        "dra",
+        "ran",
+        "wang",
+        "angd",
+        "ngdu",
+        "gdue",
+        "due ",
+        "ue p",
+        "e ph",
+        " pho",
+        "phod",
+        "hodr",
+        "odra",
+        "dran",
+        "rang",
+        "wangd",
+        "angdu",
+        "ngdue",
+        "gdue ",
+        "due p",
+        "ue ph",
+        "e pho",
+        " phod",
+        "phodr",
+        "hodra",
+        "odran",
+        "drang"
+      ]
+    }
+  },
+  "btn+trashigang": {
+    "en": {
+      "value": "Trashigang",
+      "trigram": [
+        "trashigang",
+        "tra",
+        "ras",
+        "ash",
+        "shi",
+        "hig",
+        "iga",
+        "gan",
+        "ang",
+        "tras",
+        "rash",
+        "ashi",
+        "shig",
+        "higa",
+        "igan",
+        "gang",
+        "trash",
+        "rashi",
+        "ashig",
+        "shiga",
+        "higan",
+        "igang"
+      ]
+    }
+  }
+}

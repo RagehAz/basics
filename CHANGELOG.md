@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.0 : zoning refactored
 ### 4.0.7 : updated Flutter
 ### 4.0.5 : added getRandomUniqueStrings
 ### 4.0.4 : updating super box highlights + removed the expensive CustomBoxShadow
