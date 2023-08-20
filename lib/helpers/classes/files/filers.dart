@@ -411,7 +411,7 @@ class Filers {
     }
 
   }
-// ---------------------
+  // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<List<File>?> getFilesFromUint8Lists({
     required List<Uint8List>? uInt8Lists,
@@ -450,7 +450,7 @@ class Filers {
   }
   // --------------------
   /// ImgImage
-// ---------------------
+  // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<File?> getFileFromImgImage({
     required img.Image? imgImage,
@@ -477,7 +477,7 @@ class Filers {
   }
   // --------------------
   /// URL
-// ---------------------
+  // ---------------------
   /// TASK : TEST ME
   static Future<File?> getFileFromURL({
     required String? url,
