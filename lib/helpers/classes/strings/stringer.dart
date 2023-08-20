@@ -321,7 +321,7 @@ class Stringer {
   static List<String> createTrigram({
     required String? input,
     bool removeSpaces = false,
-    int? maxTrigramLength = 7,
+    int? maxTrigramLength = 5,
   }){
     List<String> _trigram = <String>[];
 

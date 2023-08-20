@@ -223,19 +223,19 @@ void main() {
     test('limitTweenImpact returns minDouble when tweenValue is 0', () {
       final double result = Animators.limitTweenImpact(maxDouble: 100, minDouble: 50, tweenValue:
       0);
-      expect(result, equals(50));
+      expect(result, 50);
     });
 
     test('limitTweenImpact returns maxDouble when tweenValue is 1', () {
       final double result =
           Animators.limitTweenImpact(maxDouble: 100, minDouble: 50, tweenValue: 1);
-      expect(result, equals(100));
+      expect(result, 100);
     });
 
     test('limitTweenImpact returns correct value for tweenValue between 0 and 1', () {
       final double result =
           Animators.limitTweenImpact(maxDouble: 100, minDouble: 50, tweenValue: 0.5);
-      expect(result, equals(75));
+      expect(result, 75);
     });
 
     test('limitTweenImpact throws assertion error if minDouble is bigger than maxDouble', () {
@@ -247,13 +247,13 @@ void main() {
         'limitTweenImpact returns correct value for zero minDouble and tweenValue between 0 and 1', () {
       final double result = Animators.limitTweenImpact(
           maxDouble: 100, minDouble: 0, tweenValue: 0.5);
-      expect(result, equals(50));
+      expect(result, 50);
     });
 
     test('limitTweenImpact returns maxDouble when minDouble is equal to maxDouble', () {
       final double result = Animators.limitTweenImpact(
           maxDouble: 100, minDouble: 100, tweenValue: 0.5);
-      expect(result, equals(100));
+      expect(result, 100);
     });
 
 

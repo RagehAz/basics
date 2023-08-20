@@ -12,67 +12,67 @@ void main() {
   // --------------------
   group('formatNumToSeparatedKilos() tests', () {
     test('returns the correct string for int values less than 1000', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 999), equals('999'));
-      expect(Numeric.formatNumToSeparatedKilos(number: 123), equals('123'));
+      expect(Numeric.formatNumToSeparatedKilos(number: 999), '999');
+      expect(Numeric.formatNumToSeparatedKilos(number: 123), '123');
     });
 
     test('returns the correct string for int values greater than 1000', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456), equals("123'456"));
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456789), equals("123'456'789"));
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456), "123'456");
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456789), "123'456'789");
     });
 
     test('returns the correct string for double values with 2 decimal places', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456.78), equals("123'456.78"));
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456.789), equals("123'456.79"));
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456.78), "123'456.78");
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456.789), "123'456.79");
     });
 
     test('returns the correct string for negative values', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: -123456), equals("-123'456"));
-      expect(Numeric.formatNumToSeparatedKilos(number: -123456.78), equals("-123'456.78"));
+      expect(Numeric.formatNumToSeparatedKilos(number: -123456), "-123'456");
+      expect(Numeric.formatNumToSeparatedKilos(number: -123456.78), "-123'456.78");
     });
 
     test('returns the correct string when separator is set to a custom value', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456, separator: ':'), equals('123:456'));
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456, separator: ':'), '123:456');
       expect(Numeric.formatNumToSeparatedKilos(number: 123456.78, separator: ':'),
-          equals('123:456.78'));
+          '123:456.78');
     });
 
     test('returns the correct string for double values with 4 decimal places', () {
       expect(Numeric.formatNumToSeparatedKilos(number: 123456.789, fractions: 4),
-          equals("123'456.789"));
+          "123'456.789");
     });
 
     test('returns the correct string for double values with 0 decimal places', () {
       expect(
-          Numeric.formatNumToSeparatedKilos(number: 123456.789, fractions: 0), equals("123'457"));
+          Numeric.formatNumToSeparatedKilos(number: 123456.789, fractions: 0), "123'457");
     });
 
     test('returns the correct string for negative double values with 2 decimal places', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: -123456.789), equals("-123'456.79"));
+      expect(Numeric.formatNumToSeparatedKilos(number: -123456.789), "-123'456.79");
     });
 
     test('returns the correct string for positive int values', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 123456), equals("123'456"));
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456), "123'456");
     });
 
     test('returns the correct string for negative int values', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: -123456), equals("-123'456"));
+      expect(Numeric.formatNumToSeparatedKilos(number: -123456), "-123'456");
     });
 
     test('returns the correct string for values close to 0', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 0), equals('0'));
-      expect(Numeric.formatNumToSeparatedKilos(number: 0.0001), equals('0'));
-      expect(Numeric.formatNumToSeparatedKilos(number: -0.0001), equals('0'));
+      expect(Numeric.formatNumToSeparatedKilos(number: 0), '0');
+      expect(Numeric.formatNumToSeparatedKilos(number: 0.0001), '0');
+      expect(Numeric.formatNumToSeparatedKilos(number: -0.0001), '0');
     });
 
     test('returns the correct string for values close to 1000', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: 1000), equals("1'000"));
-      expect(Numeric.formatNumToSeparatedKilos(number: 999.9999), equals("1'000"));
-      expect(Numeric.formatNumToSeparatedKilos(number: -999.9999), equals("-1'000"));
+      expect(Numeric.formatNumToSeparatedKilos(number: 1000), "1'000");
+      expect(Numeric.formatNumToSeparatedKilos(number: 999.9999), "1'000");
+      expect(Numeric.formatNumToSeparatedKilos(number: -999.9999), "-1'000");
     });
 
     test('null case', () {
-      expect(Numeric.formatNumToSeparatedKilos(number: null), equals('0'));
+      expect(Numeric.formatNumToSeparatedKilos(number: null), '0');
     });
   });
   // -----------------------------------------------------------------------------
@@ -83,55 +83,55 @@ void main() {
   group('formatNumToCounterCaliber', () {
     test('0 returns 0', () {
       final result = Numeric.formatNumToCounterCaliber(x: 0);
-      expect(result, equals('0'));
+      expect(result, '0');
     });
 
     test('999 returns 999', () {
       final result = Numeric.formatNumToCounterCaliber(x: 999);
-      expect(result, equals('999'));
+      expect(result, '999');
     });
 
     test('1000 returns 1 thousand', () {
       final result = Numeric.formatNumToCounterCaliber(x: 1000);
-      expect(result, equals('1 thousand'));
+      expect(result, '1 thousand');
     });
 
     test('1001 returns 1 thousand', () {
       final result = Numeric.formatNumToCounterCaliber(x: 1001);
-      expect(result, equals('1 thousand'));
+      expect(result, '1 thousand');
     });
 
     test('1999 returns 2 thousand', () {
       final result = Numeric.formatNumToCounterCaliber(x: 1999);
-      expect(result, equals('2 thousand'));
+      expect(result, '2 thousand');
     });
 
     test('99999 returns 100 thousand', () {
       final result = Numeric.formatNumToCounterCaliber(x: 99999);
-      expect(result, equals('100 thousand'));
+      expect(result, '100 thousand');
     });
 
     test('100000 returns 100 thousand', () {
       final result = Numeric.formatNumToCounterCaliber(x: 100000);
-      expect(result, equals('100 thousand'));
+      expect(result, '100 thousand');
     });
 
     test('1000000 returns 1 million', () {
       final result = Numeric.formatNumToCounterCaliber(x: 1000000);
-      expect(result, equals('1 million'));
+      expect(result, '1 million');
     });
 
     test('10000000 returns 10 million', () {
       final result = Numeric.formatNumToCounterCaliber(x: 10000000);
-      expect(result, equals('10 million'));
+      expect(result, '10 million');
     });
 
     test('custom thousands and millions returns custom values', () {
       final result = Numeric.formatNumToCounterCaliber(x: 1000, thousand: 'k', million: 'm');
-      expect(result, equals('1 k'));
+      expect(result, '1 k');
 
       final result2 = Numeric.formatNumToCounterCaliber(x: 1000000, thousand: 'k', million: 'm');
-      expect(result2, equals('1 m'));
+      expect(result2, '1 m');
     });
   });
   // -----------------------------------------------------------------------------
@@ -604,17 +604,17 @@ void main() {
 
     test('should return 0.123 when number is 1.123 with 3 fraction digits', () {
       final result = Numeric.getFractions(number: 1.123, fractionDigits: 3);
-      expect(result, equals(0.123));
+      expect(result, 0.123);
     });
 
     test('should return 0.123 when number is 1.123 with null fraction digits', () {
       final result = Numeric.getFractions(number: 1.123, fractionDigits: null);
-      expect(result, equals(0.123));
+      expect(result, 0.123);
     });
 
     test('should return 0 when number is an integer', () {
       final result = Numeric.getFractions(number: 5, fractionDigits: 2);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('should return null when number is zero and fraction digits are provided', () {
@@ -642,17 +642,17 @@ void main() {
 
     test('should return 1 when number is 1.123', () {
       final result = Numeric.removeFractions(number: 1.123);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return -2 when number is -2.345', () {
       final result = Numeric.removeFractions(number: -2.345);
-      expect(result, equals(-2));
+      expect(result, -2);
     });
 
     test('should return 0 when number is 0', () {
       final result = Numeric.removeFractions(number: 0);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('should return null when number is zero and has fractions', () {
@@ -676,17 +676,17 @@ void main() {
 
     test('should return 1.12 when value is 1.123 and fractions is 2', () {
       final result = Numeric.roundFractions(1.123, 2);
-      expect(result, equals(1.12));
+      expect(result, 1.12);
     });
 
     test('should return -2.35 when value is -2.345 and fractions is 2', () {
       final result = Numeric.roundFractions(-2.345, 2);
-      expect(result, equals(-2.35));
+      expect(result, -2.35);
     });
 
     test('should return 0.00 when value is 0 and fractions is 2', () {
       final result = Numeric.roundFractions(0, 2);
-      expect(result, equals(0.00));
+      expect(result, 0.00);
     });
 
     test('should return null when value is null and fractions is provided', () {
@@ -710,22 +710,22 @@ void main() {
 
     test('should return "123" when number is 1.123 and fractionDigits is 3', () {
       final result = Numeric.getFractionStringWithoutZero(number: 1.123, fractionDigits: 3);
-      expect(result, equals('123'));
+      expect(result, '123');
     });
 
     test('should return "12" when number is 1.123 and fractionDigits is 2', () {
       final result = Numeric.getFractionStringWithoutZero(number: 1.123, fractionDigits: 2);
-      expect(result, equals('12'));
+      expect(result, '12');
     });
 
     test('should return "1" when number is 1.123 and fractionDigits is 1', () {
       final result = Numeric.getFractionStringWithoutZero(number: 1.123, fractionDigits: 1);
-      expect(result, equals('1'));
+      expect(result, '1');
     });
 
     test('should return "0" when number is 5 and fractionDigits is 2', () {
       final result = Numeric.getFractionStringWithoutZero(number: 5, fractionDigits: 2);
-      expect(result, equals('0'));
+      expect(result, '0');
     });
 
     // Add more test cases as needed
@@ -743,12 +743,12 @@ void main() {
 
     test('should return 3 when number is 1.123', () {
       final result = Numeric.getNumberOfFractions(number: 1.123);
-      expect(result, equals(3));
+      expect(result, 3);
     });
 
     test('should return 0 when number is an integer', () {
       final result = Numeric.getNumberOfFractions(number: 5);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('should return null when number is zero', () {
@@ -833,22 +833,22 @@ void main() {
 
     test('should return 0 when oldPrice and currentPrice are equal', () {
       final result = Numeric.calculateDiscountPercentage(oldPrice: 100, currentPrice: 100);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('should return 50 when oldPrice is 100 and currentPrice is 50', () {
       final result = Numeric.calculateDiscountPercentage(oldPrice: 100, currentPrice: 50);
-      expect(result, equals(50));
+      expect(result, 50);
     });
 
     test('should return 33 when oldPrice is 150 and currentPrice is 100', () {
       final result = Numeric.calculateDiscountPercentage(oldPrice: 150, currentPrice: 100);
-      expect(result, equals(33));
+      expect(result, 33);
     });
 
     test('should return 20 when oldPrice is 80 and currentPrice is 64', () {
       final result = Numeric.calculateDiscountPercentage(oldPrice: 80, currentPrice: 64);
-      expect(result, equals(20));
+      expect(result, 20);
     });
 
     // Add more test cases as needed
@@ -862,32 +862,32 @@ void main() {
   group('Numeric.calculateIntegerPower', () {
     test('should return 1 when both num and power are null', () {
       final result = Numeric.calculateIntegerPower(num: null, power: null);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return 1 when num is null and power is 0', () {
       final result = Numeric.calculateIntegerPower(num: null, power: 0);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return 0 when num is 0 and power is 0', () {
       final result = Numeric.calculateIntegerPower(num: 0, power: 0);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return 1 when num is 2 and power is 0', () {
       final result = Numeric.calculateIntegerPower(num: 2, power: 0);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return 10 when num is 10 and power is 1', () {
       final result = Numeric.calculateIntegerPower(num: 10, power: 1);
-      expect(result, equals(10));
+      expect(result, 10);
     });
 
     test('should return 100 when num is 10 and power is 2', () {
       final result = Numeric.calculateIntegerPower(num: 10, power: 2);
-      expect(result, equals(100));
+      expect(result, 100);
     });
 
     // Add more test cases as needed
@@ -901,32 +901,32 @@ void main() {
   group('Numeric.calculateDoublePower', () {
     test('should return 1.0 when both num and power are null', () {
       final result = Numeric.calculateDoublePower(num: null, power: null);
-      expect(result, equals(1.0));
+      expect(result, 1.0);
     });
 
     test('should return 1.0 when num is null and power is 0', () {
       final result = Numeric.calculateDoublePower(num: null, power: 0);
-      expect(result, equals(1.0));
+      expect(result, 1.0);
     });
 
     test('should return 0.0 when num is 0.0 and power is 1', () {
       final result = Numeric.calculateDoublePower(num: 0, power: 0);
-      expect(result, equals(1));
+      expect(result, 1);
     });
 
     test('should return 1.0 when num is 2.0 and power is 0', () {
       final result = Numeric.calculateDoublePower(num: 2, power: 0);
-      expect(result, equals(1.0));
+      expect(result, 1.0);
     });
 
     test('should return 10.0 when num is 10.0 and power is 1', () {
       final result = Numeric.calculateDoublePower(num: 10, power: 1);
-      expect(result, equals(10.0));
+      expect(result, 10.0);
     });
 
     test('should return 100.0 when num is 10.0 and power is 2', () {
       final result = Numeric.calculateDoublePower(num: 10, power: 2);
-      expect(result, equals(100.0));
+      expect(result, 100.0);
     });
 
     // Add more test cases as needed
@@ -945,27 +945,27 @@ void main() {
 
     test('should return 0.0 when degree is 0.0', () {
       final result = Numeric.degreeToRadian(0);
-      expect(result, equals(0.0));
+      expect(result, 0.0);
     });
 
     test('should return pi/2 when degree is 90.0', () {
       final result = Numeric.degreeToRadian(90);
-      expect(result, equals(math.pi / 2));
+      expect(result, math.pi / 2);
     });
 
     test('should return pi when degree is 180.0', () {
       final result = Numeric.degreeToRadian(180);
-      expect(result, equals(math.pi));
+      expect(result, math.pi);
     });
 
     test('should return -pi/2 when degree is -90.0', () {
       final result = Numeric.degreeToRadian(-90);
-      expect(result, equals(-math.pi / 2));
+      expect(result, -math.pi / 2);
     });
 
     test('should return -pi when degree is -180.0', () {
       final result = Numeric.degreeToRadian(-180);
-      expect(result, equals(-math.pi));
+      expect(result, -math.pi);
     });
 
     // Add more test cases as needed
@@ -1004,12 +1004,12 @@ void main() {
 
     test('should return the index when searchedValue is found in the list', () {
       final result = Numeric.binarySearch(list: [1, 2, 3, 4, 5, 6, 7], searchedValue: 5);
-      expect(result, equals(4));
+      expect(result, 4);
     });
 
     test('should return the index when searchedValue is found in the list', () {
       final result = Numeric.binarySearch(list: [1, 2, 3, 4, 5, 6, 7], searchedValue: 7);
-      expect(result, equals(6));
+      expect(result, 6);
     });
 
     test('should return the index when searchedValue is found in the list', () {
@@ -1034,7 +1034,7 @@ void main() {
 
     test('Returns 0 for input 0', () {
       final result = Numeric.modulus(0);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('Returns positive value for positive input', () {
@@ -1082,29 +1082,29 @@ void main() {
 
     test('Returns correct reversed index for valid input', () {
       final result = Numeric.reverseIndex(listLength: 10, index: 3);
-      expect(result, equals(6));
+      expect(result, 6);
     });
 
     test('Returns correct reversed index for edge case input', () {
       final result = Numeric.reverseIndex(listLength: 1, index: 0);
-      expect(result, equals(0));
+      expect(result, 0);
     });
 
     test('xxxxx', () {
       final a = Numeric.reverseIndex(listLength: 7, index: 0);
-      expect(a, equals(6));
+      expect(a, 6);
       final b = Numeric.reverseIndex(listLength: 7, index: 1);
-      expect(b, equals(5));
+      expect(b, 5);
       final c = Numeric.reverseIndex(listLength: 7, index: 2);
-      expect(c, equals(4));
+      expect(c, 4);
       final d = Numeric.reverseIndex(listLength: 7, index: 3);
-      expect(d, equals(3));
+      expect(d, 3);
       final e = Numeric.reverseIndex(listLength: 7, index: 4);
-      expect(e, equals(2));
+      expect(e, 2);
       final f = Numeric.reverseIndex(listLength: 7, index: 5);
-      expect(f, equals(1));
+      expect(f, 1);
       final g = Numeric.reverseIndex(listLength: 7, index: 6);
-      expect(g, equals(0));
+      expect(g, 0);
     });
 
   });
@@ -1157,7 +1157,7 @@ void main() {
 
       final int? result = Numeric.getClosestInt(ints: numbers, value: value);
 
-      expect(result, equals(numbers.first));
+      expect(result, numbers.first);
     });
 
     test('Test value greater than 1', () {
@@ -1215,7 +1215,7 @@ void main() {
 
       final int? result = Numeric.getClosestInt(ints: numbers, value: value);
 
-      expect(result, equals(numbers.last));
+      expect(result, numbers.last);
     });
 
     test('Test empty list', () {
@@ -1224,7 +1224,7 @@ void main() {
 
       final int? result = Numeric.getClosestInt(ints: numbers, value: value);
 
-      expect(result, equals(null));
+      expect(result, null);
     });
 
     test('Test single element list', () {
@@ -1233,7 +1233,7 @@ void main() {
 
       final int? result = Numeric.getClosestInt(ints: numbers, value: value);
 
-      expect(result, equals(numbers.first));
+      expect(result, numbers.first);
     });
 
   });

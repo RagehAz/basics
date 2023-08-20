@@ -15,6 +15,7 @@ import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
@@ -122,6 +123,10 @@ class Filers {
     return File(xFile.path);
   }
    */
+  // -----------------------------------------------------------------------------
+
+  /// JSON
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> exportJSON({
@@ -163,6 +168,15 @@ class Filers {
     }
 
     return _success;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>> readLocalJSON({
+    required String path,
+  }) async {
+    final String _jsonStringValues = await rootBundle.loadString(path);
+    final Map<String, dynamic> _mappedJson = json.decode(_jsonStringValues);
+    return _mappedJson;
   }
   // -----------------------------------------------------------------------------
 

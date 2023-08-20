@@ -77,7 +77,6 @@ void main (){
       expect(result, 'jpg');
     });
 
-
     // test('should return null when file is null', () {
     //   final result = ObjectCheck.fileExtensionOf(null);
     //   expect(result, isNull);
