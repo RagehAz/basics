@@ -1,1 +1,25 @@
-{"tuv+funafuti":{"en":{"value":"Funafuti","trigram":["funafuti","fun","una","naf","afu","fut","uti","funa","unaf","nafu","afut","futi","funaf","unafu","nafut","afuti"]}}}
+{
+  "tuv+funafuti": {
+    "en": {
+      "value": "Funafuti",
+      "trigram": [
+        "funafuti",
+        "fun",
+        "una",
+        "naf",
+        "afu",
+        "fut",
+        "uti",
+        "funa",
+        "unaf",
+        "nafu",
+        "afut",
+        "futi",
+        "funaf",
+        "unafu",
+        "nafut",
+        "afuti"
+      ]
+    }
+  }
+}

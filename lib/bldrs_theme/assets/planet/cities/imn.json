@@ -1,1 +1,22 @@
-{"imn+douglas":{"en":{"value":"Douglas","trigram":["douglas","dou","oug","ugl","gla","las","doug","ougl","ugla","glas","dougl","ougla","uglas"]}}}
+{
+  "imn+douglas": {
+    "en": {
+      "value": "Douglas",
+      "trigram": [
+        "douglas",
+        "dou",
+        "oug",
+        "ugl",
+        "gla",
+        "las",
+        "doug",
+        "ougl",
+        "ugla",
+        "glas",
+        "dougl",
+        "ougla",
+        "uglas"
+      ]
+    }
+  }
+}

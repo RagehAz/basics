@@ -1,1 +1,15 @@
-{"wlf+leava":{"en":{"value":"Leava","trigram":["leava","lea","eav","ava","leav","eava"]}}}
+{
+  "wlf+leava": {
+    "en": {
+      "value": "Leava",
+      "trigram": [
+        "leava",
+        "lea",
+        "eav",
+        "ava",
+        "leav",
+        "eava"
+      ]
+    }
+  }
+}

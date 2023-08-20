@@ -1,1 +1,37 @@
-{"ncl+kone":{"en":{"value":"Kone","trigram":["kone","kon","one"]}},"ncl+we":{"en":{"value":"We","trigram":["we"]}},"ncl+noumea":{"en":{"value":"Noumea","trigram":["noumea","nou","oum","ume","mea","noum","oume","umea","noume","oumea"]}}}
+{
+  "ncl+kone": {
+    "en": {
+      "value": "Kone",
+      "trigram": [
+        "kone",
+        "kon",
+        "one"
+      ]
+    }
+  },
+  "ncl+we": {
+    "en": {
+      "value": "We",
+      "trigram": [
+        "we"
+      ]
+    }
+  },
+  "ncl+noumea": {
+    "en": {
+      "value": "Noumea",
+      "trigram": [
+        "noumea",
+        "nou",
+        "oum",
+        "ume",
+        "mea",
+        "noum",
+        "oume",
+        "umea",
+        "noume",
+        "oumea"
+      ]
+    }
+  }
+}

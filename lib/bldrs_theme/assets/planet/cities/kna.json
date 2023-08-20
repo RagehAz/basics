@@ -1,1 +1,31 @@
-{"kna+basseterre":{"en":{"value":"Basseterre","trigram":["basseterre","bas","ass","sse","set","ete","ter","err","rre","bass","asse","sset","sete","eter","terr","erre","basse","asset","ssete","seter","eterr","terre"]}}}
+{
+  "kna+basseterre": {
+    "en": {
+      "value": "Basseterre",
+      "trigram": [
+        "basseterre",
+        "bas",
+        "ass",
+        "sse",
+        "set",
+        "ete",
+        "ter",
+        "err",
+        "rre",
+        "bass",
+        "asse",
+        "sset",
+        "sete",
+        "eter",
+        "terr",
+        "erre",
+        "basse",
+        "asset",
+        "ssete",
+        "seter",
+        "eterr",
+        "terre"
+      ]
+    }
+  }
+}

@@ -1,1 +1,25 @@
-{"asm+pago_pago":{"en":{"value":"Pago Pago","trigram":["pago","pago","pag","ago","go ","o p"," pa","ago ","go p","o pa"," pag","pago ","ago p","go pa","o pag"," pago"]}}}
+{
+  "asm+pago_pago": {
+    "en": {
+      "value": "Pago Pago",
+      "trigram": [
+        "pago",
+        "pago",
+        "pag",
+        "ago",
+        "go ",
+        "o p",
+        " pa",
+        "ago ",
+        "go p",
+        "o pa",
+        " pag",
+        "pago ",
+        "ago p",
+        "go pa",
+        "o pag",
+        " pago"
+      ]
+    }
+  }
+}
