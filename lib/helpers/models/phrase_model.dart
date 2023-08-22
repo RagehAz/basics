@@ -362,11 +362,11 @@ class Phrase {
 
     if (map != null){
 
-      final List<String> _keys = map.keys.toList();
+      final List<String> _langCodes = map.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys) == true){
+      if (Mapper.checkCanLoopList(_langCodes) == true){
 
-        for (final String langCode in _keys){
+        for (final String langCode in _langCodes){
 
           final Map<String, dynamic> _defaultPhraseMap = map[langCode];
 
@@ -1860,5 +1860,43 @@ class Phrase {
       id.hashCode^
       langCode.hashCode^
       trigram.hashCode;
+  // -----------------------------------------------------------------------------
+
+  /// JSON CIPHERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<Phrase> decipherCityJsonMap({
+    required String cityID,
+    required Map<String, dynamic>? cityJsonMap,
+  }){
+    final List<Phrase> _output = [];
+
+    if (cityJsonMap != null){
+
+      final List<String> langCodes = cityJsonMap.keys.toList();
+
+      if (Mapper.checkCanLoopList(langCodes) == true){
+
+        for (final String langCode in langCodes){
+
+          final Map<String, dynamic> _map = cityJsonMap[langCode];
+
+          final Phrase _phrase = Phrase(
+            id: cityID,
+            value: _map['value'],
+            trigram: Stringer.getStringsFromDynamics(dynamics: _map['trigram']),
+            langCode: langCode,
+          );
+          _output.add(_phrase);
+
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 }

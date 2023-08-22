@@ -4,6 +4,7 @@ import 'package:basics/helpers/models/phrase_model.dart';
 import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 
 const String _path = WorldZoningPaths.flagsDirectory;
+const String usaFlag = '$_path/flag_na_usa.svg';
 
 const List<Flag> allFlags = <Flag>[
 

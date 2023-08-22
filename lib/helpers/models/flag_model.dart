@@ -1,9 +1,11 @@
 import 'package:basics/bldrs_theme/assets/planet/all_flags_list.dart';
+import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
+import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/models/phrase_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -255,6 +257,26 @@ class Flag {
       );
 
       _output = _flag?.icon;
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getAmericaStateIcon(String? stateID){
+    String? _output = usaFlag;
+
+    if (stateID != null && stateID != 'usa') {
+
+      final String? us = TextMod.removeTextAfterFirstSpecialCharacter(
+        text: stateID,
+        specialCharacter: '_',
+      );
+
+      if (us == 'us'){
+        _output = '${WorldZoningPaths.flagsDirectory}/$stateID.svg';
+      }
 
     }
 

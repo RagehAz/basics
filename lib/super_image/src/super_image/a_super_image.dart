@@ -15,8 +15,9 @@ class SuperImage extends StatelessWidget {
     this.greyscale = false,
     this.package,
     this.solidGreyScale = false,
-  super.key
-  });  // --------------------------------------------------------------------------
+    super.key
+  });
+  // --------------------------------------------------------------------------
   final dynamic pic;
   final double? width;
   final double? height;

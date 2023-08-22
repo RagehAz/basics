@@ -98,31 +98,31 @@ class SuperImageBox extends StatelessWidget {
     }
     
     else {
-      return ClipRRect(
+      return Container(
         key: const ValueKey<String>('SuperImageBox3'),
-        borderRadius: Borderers.superCorners(
-          corners: corners,
-        ),
-        child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              // boxShadow: <BoxShadow>[
-              //   Shadowz.CustomBoxShadow(
-              //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
-              //       offset: Offset(0, width * -0.019),
-              //       blurRadius: width * 0.2,
-              //       style: BlurStyle.outer
-              //   ),
-              // ]
-            ),
-            alignment: Alignment.center,
-            child: Transform.scale(
-              scale: scale,
-              child: child,
-            ),
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            color: backgroundColor,
+            // boxShadow: <BoxShadow>[
+            //   Shadowz.CustomBoxShadow(
+            //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
+            //       offset: Offset(0, width * -0.019),
+            //       blurRadius: width * 0.2,
+            //       style: BlurStyle.outer
+            //   ),
+            // ]
           ),
+        alignment: Alignment.center,
+        child: Transform.scale(
+          scale: scale,
+          child: ClipRRect(
+            borderRadius: Borderers.superCorners(
+              corners: corners,
+            ),
+            child: child,
+          ),
+        ),
       );
     }
 

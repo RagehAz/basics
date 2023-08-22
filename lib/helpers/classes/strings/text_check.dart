@@ -413,6 +413,33 @@ class TextCheck {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getStringsContainingThis({
+    required List<String> strings,
+    required String? subString,
+  }){
+    final List<String> _output = <String>[];
+
+    if (Mapper.checkCanLoopList(strings) == true && TextCheck.isEmpty(subString) == false){
+
+      for (final String text in strings){
+
+        final bool _contains = TextCheck.stringContainsSubString(
+            string: text,
+            subString: subString
+        );
+
+        if (_contains == true){
+          _output.add(text);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// LENGTH

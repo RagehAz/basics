@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<path fill="#002868" d="M0,0h100v100H0V0z"/>
+<rect fill="#BF0A30" width="100" height="50"/>
+<path fill="#FED700" d="M0,38.4V24.5L50,50L0,38.4z M50,50L13.8,0H0v6.8L50,50z M43,0l7,50L30.5,0H43z M50,50l50-11.6V24.5L50,50z
+	 M86.2,0L50,50l50-43.2V0H86.2z M57,0l-7,50L69.5,0H57z"/>
+<polygon fill="#CE5C17" points="60,55.7 76.3,43.9 56.2,43.9 50,24.8 43.8,43.9 23.7,43.9 40,55.7 33.7,74.8 50,63 66.3,74.8 "/>
+<g>
+	<path opacity="0.2" enable-background="new    " d="M10.4,74.3V25.8c0-12.1,8.2-22.7,19.8-25.8H0v100h30.2
+		C18.5,96.9,10.4,86.3,10.4,74.3z"/>
+	<path opacity="0.1" fill="#FFFFFF" enable-background="new    " d="M89.6,25.8v48.5c0,12.1-8.2,22.7-19.8,25.8H100V0H69.8
+		C81.5,3.1,89.6,13.7,89.6,25.8z"/>
+</g>
+</svg>

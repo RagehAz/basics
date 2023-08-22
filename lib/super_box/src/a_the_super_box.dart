@@ -21,7 +21,6 @@ class SuperBox extends StatelessWidget {
     this.onTap,
     this.margins,
     this.greyscale = false,
-    this.iconRounded = true,
     this.bubble = true,
     this.secondText,
     this.textCentered = true,
@@ -73,7 +72,6 @@ class SuperBox extends StatelessWidget {
   final Function? onTap;
   final dynamic margins;
   final bool greyscale;
-  final bool iconRounded;
   final bool bubble;
   final String? secondText;
   final bool textCentered;

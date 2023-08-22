@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.1 : added US states flags
 ### 5.0.0 : zoning refactored
 ### 4.0.7 : updated Flutter
 ### 4.0.5 : added getRandomUniqueStrings
