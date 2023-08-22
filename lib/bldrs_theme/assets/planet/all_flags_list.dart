@@ -5015,8 +5015,8 @@ const List<Flag> allFlags = <Flag>[
     population: 326687501,
     phrases: <Phrase>[
       Phrase(langCode: 'de', value: 'Vereinigte Staaten', id: 'usa'),
-      Phrase(langCode: 'ar', value: 'الولايات المتحدة', id: 'usa'),
-      Phrase(langCode: 'en', value: 'United States', id: 'usa'),
+      Phrase(langCode: 'ar', value: 'الولايات المتحدة الأمريكية', id: 'usa'),
+      Phrase(langCode: 'en', value: 'United States of America', id: 'usa'),
       Phrase(langCode: 'fr', value: 'États-Unis', id: 'usa'),
       Phrase(langCode: 'es', value: 'Estados Unidos', id: 'usa'),
       Phrase(langCode: 'zh', value: '美国', id: 'usa'),

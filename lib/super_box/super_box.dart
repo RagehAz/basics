@@ -1,5 +1,6 @@
 library super_box;
 // -----------------------------------------------------------------------------
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';

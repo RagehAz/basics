@@ -251,9 +251,15 @@ class Flag {
 
     if (countryID != null && countryID != planetID) {
 
+      String _countryID = countryID;
+
+      if (TextCheck.stringStartsExactlyWith(text: _countryID, startsWith: 'us_') == true){
+        _countryID = 'usa';
+      }
+
       final Flag? _flag = getFlagFromFlagsByCountryID(
         flags: allFlags,
-        countryID: countryID,
+        countryID: _countryID,
       );
 
       _output = _flag?.icon;

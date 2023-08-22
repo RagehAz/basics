@@ -296,7 +296,7 @@ class SuperBoxController {
   }) {
 
     if (greyScale == true || isDisabled == true) {
-      return const Color.fromARGB(30, 255, 255, 255);
+      return Colorz.white50;
     }
 
     else {
@@ -313,7 +313,7 @@ class SuperBoxController {
   }) {
 
     if (isDisabled == true || color == null) {
-      return const Color.fromARGB(10, 255, 255, 255);
+      return Colorz.white10;
     }
 
     else {

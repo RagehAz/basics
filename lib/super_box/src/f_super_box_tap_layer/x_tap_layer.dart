@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
-
 import '../../super_box.dart';
 /// => TAMAM
 class TapLayer extends StatelessWidget {
@@ -267,16 +266,22 @@ class _TapBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    const double _borderThickness = 0.5;
+    // final double _borderFactor = borderColor == null ? 0 : (_borderThickness*2);
+    final double? _width = width == null ? null : width! - 0;
+    final double? _height = height == null ? null : height! - 0;
+
       return Container(
         key: const ValueKey<String>('_TapBox_b'),
-        width: width,
-        height: height,
+        width: _width,
+        height: _height,
         decoration: BoxDecoration(
             borderRadius: corners,
             color: boxColor,
             border: borderColor == null ? null : Border.all(
               color: borderColor!,
-              width: 0.5,
+              width: _borderThickness,
+              strokeAlign: BorderSide.strokeAlignOutside,
             )
         ),
         alignment: alignment,

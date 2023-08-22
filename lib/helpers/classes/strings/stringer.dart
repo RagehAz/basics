@@ -486,7 +486,17 @@ class Stringer {
 
     }
     else {
-      blog('blogStrings : strings can not be blogged');
+
+      if (strings == null){
+        blog('blogStrings : list is null');
+      }
+      else if (strings.isEmpty == true){
+        blog('blogStrings : list is empty');
+      }
+      else {
+        blog('blogStrings : list is weird');
+      }
+
     }
 
     blog('blogStrings : END --- : $invoker');
@@ -698,6 +708,37 @@ class Stringer {
     }
 
       return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getSharedStrings({
+    required List<String> strings1,
+    required List<String> strings2,
+  }){
+    final List<String> _output = [];
+
+    if (
+    Mapper.checkCanLoopList(strings1) == true
+    &&
+    Mapper.checkCanLoopList(strings2) == true
+    ){
+
+      for (final String item in strings1){
+
+        final bool _isShared = checkStringsContainString(
+            strings: strings2,
+            string: item,
+        );
+
+        if (_isShared == true){
+          _output.add(item);
+        }
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
