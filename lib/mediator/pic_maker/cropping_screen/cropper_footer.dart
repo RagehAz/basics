@@ -37,7 +37,7 @@ class CropperFooter extends StatelessWidget {
   static const double imagesSpacing = 5;
   // --------------------
   static double getMiniImageHeight(){
-    const double _imagesFooterHeight = Ratioz.horizon;
+    const double _imagesFooterHeight = Ratioz.horizon * 0.8;
     return _imagesFooterHeight - (imagesSpacing * 2);
   }
   // --------------------
@@ -137,8 +137,10 @@ class CropperFooter extends StatelessWidget {
             builder: (_, bool loading, Widget? child) {
               return SuperBox(
                 height: _miniImageHeight,
+                width: confirmText.length * 18,
                 text: confirmText,
                 onTap: onCropImages,
+                color: Colorz.green255,
                 appIsLTR: appIsLTR,
                 textScaleFactor: 0.7,
                 textFont: BldrsThemeFonts.fontBldrsHeadlineFont,

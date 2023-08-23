@@ -10,7 +10,6 @@ import 'package:basics/mediator/pic_maker/cropping_screen/cropper_pages.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 
-
 class CroppingScreen extends StatefulWidget {
   /// -----------------------------------------------------------------------------
   const CroppingScreen({

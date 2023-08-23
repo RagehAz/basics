@@ -271,7 +271,7 @@ class _TapBox extends StatelessWidget {
     final double? _width = width == null ? null : width! - 0;
     final double? _height = height == null ? null : height! - 0;
 
-      return Container(
+    return Container(
         key: const ValueKey<String>('_TapBox_b'),
         width: _width,
         height: _height,
