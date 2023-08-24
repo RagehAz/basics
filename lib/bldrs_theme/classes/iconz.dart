@@ -26,6 +26,11 @@ class Iconz {
 
     return _exists;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getFlagByFileName(String? fileName){
+    return '$flagsDirectory/$fileName';
+  }
   // -----------------------------------------------------------------------------
   /// DEPRECATED : no need to use in package parameter if you use a path that include [libDirectory]
   // static const String bldrsTheme = 'bldrs_theme';
@@ -36,6 +41,7 @@ class Iconz {
   static const String libDirectory = 'packages/basics/lib/bldrs_theme';
   // --------------------
   static const String iconDirectory = '$libDirectory/assets/icons';
+  static const String flagsDirectory = '$libDirectory/assets/planet/flags';
   static const String _artworkPath = '$libDirectory/assets/aw';
   // --------------------
   /// artworks

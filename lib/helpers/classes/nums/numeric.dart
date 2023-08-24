@@ -1000,4 +1000,22 @@ class Numeric {
 
 }
   // -----------------------------------------------------------------------------
+
+  /// COMPARISON OPERATORS
+
+  // --------------------
+  ///
+  static bool isGreaterThan({
+    required num? number,
+    required num? isGreaterThan,
+  }){
+    bool _output = false;
+
+    if (number != null && isGreaterThan != null){
+      _output = number > isGreaterThan;
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

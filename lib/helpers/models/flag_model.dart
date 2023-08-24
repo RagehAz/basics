@@ -249,22 +249,35 @@ class Flag {
   static String? getCountryIcon(String? countryID) {
     String? _output = Iconz.planet;
 
-    if (countryID != null && countryID != planetID) {
+    if (countryID != null && countryID != planetID){
 
-      String _countryID = countryID;
-
-      if (TextCheck.stringStartsExactlyWith(text: _countryID, startsWith: 'us_') == true){
-        _countryID = 'usa';
+      /// EURO
+      if (countryID == 'euz'){
+        _output = Iconz.getFlagByFileName('flag_eu_euro.svg');
       }
 
-      final Flag? _flag = getFlagFromFlagsByCountryID(
-        flags: allFlags,
-        countryID: _countryID,
-      );
+      else {
 
-      _output = _flag?.icon;
+        String _countryID = countryID;
+
+        /// STATES
+        if (TextCheck.stringStartsExactlyWith(text: _countryID, startsWith: 'us_') == true){
+          _countryID = 'usa';
+        }
+
+        /// GET FLAG
+        final Flag? _flag = getFlagFromFlagsByCountryID(
+          flags: allFlags,
+          countryID: _countryID,
+        );
+
+        _output = _flag?.icon;
+
+      }
+
 
     }
+
 
     return _output;
   }
