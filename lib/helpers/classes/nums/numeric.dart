@@ -330,6 +330,45 @@ class Numeric {
 
     return _value;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String stringifyDouble(double? value){
+
+    if (value == null){
+      return '';
+    }
+
+    else {
+
+      final int? _int = value.toInt();
+
+      if (_int == value){
+        return _int.toString();
+      }
+
+      else {
+
+        String _text = value.toString();
+        _text = _text == '0.0' ? '' : _text;
+
+        final String? _fraction = TextMod.removeTextBeforeLastSpecialCharacter(
+            text: _text,
+            specialCharacter: '.',
+        );
+
+        if (_fraction == '0'){
+          _text = TextMod.removeTextAfterLastSpecialCharacter(
+              text: _text,
+              specialCharacter: '.',
+          )!;
+        }
+
+        return _text;
+      }
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// CREATORS
@@ -600,14 +639,23 @@ class Numeric {
     bool _hasInvalidDigits = false;
 
     if (TextCheck.isEmpty(numberAsText) == false && maxDigits != null){
-      final String? _fractionsStrings = TextMod.removeTextBeforeFirstSpecialCharacter(
-          text: numberAsText?.trim(),
-          specialCharacter: '.',
-      );
-      if (_fractionsStrings != null && _fractionsStrings != ''){
-        final int _numberOfFractions = _fractionsStrings.length;
-        _hasInvalidDigits = _numberOfFractions > maxDigits;
+
+      final double? _double = transformStringToDouble(numberAsText);
+      final int? _int = transformStringToInt(numberAsText);
+
+      if (_double != _int){
+
+        final String? _fractionsStrings = TextMod.removeTextBeforeFirstSpecialCharacter(
+            text: numberAsText?.trim(),
+            specialCharacter: '.',
+        );
+        if (_fractionsStrings != null && _fractionsStrings != ''){
+          final int _numberOfFractions = _fractionsStrings.length;
+          _hasInvalidDigits = _numberOfFractions > maxDigits;
+        }
+
       }
+
     }
 
     return _hasInvalidDigits;

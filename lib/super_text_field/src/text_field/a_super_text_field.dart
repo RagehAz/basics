@@ -65,6 +65,10 @@ class SuperTextField extends StatefulWidget {
     this.errorBorderColor = const Color.fromARGB(125, 233, 0, 0),
     this.focusedErrorBorderColor = const Color.fromARGB(125, 233, 0, 0),
 
+    this.forceMaxLength = false,
+    this.lineThrough = false,
+    this.lineThroughColor,
+
   super.key
   });  // --------------------------------------------------------------------------
   /// main
@@ -129,6 +133,10 @@ class SuperTextField extends StatefulWidget {
   final Color focusedBorderColor;
   final Color errorBorderColor;
   final Color focusedErrorBorderColor;
+
+  final bool forceMaxLength;
+  final bool lineThrough;
+  final Color? lineThroughColor;
 
   /// --------------------------------------------------------------------------
   @override
@@ -294,6 +302,10 @@ class _SuperTextFieldState extends State<SuperTextField> {
       focusedBorderColor: widget.focusedBorderColor,
       focusedErrorBorderColor: widget.focusedErrorBorderColor,
       textPadding: widget.textPadding,
+
+      forceMaxLength: widget.forceMaxLength,
+      lineThrough: widget.lineThrough,
+      lineThroughColor: widget.lineThroughColor,
     );
 
   }

@@ -872,7 +872,30 @@ class TextMod {
       return input[0].toUpperCase() + _rest;
     }
 
-}  // -----------------------------------------------------------------------------
+}
+  // -----------------------------------------------------------------------------
+
+  /// CURSOR
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static TextSelection setCursorAtTheEnd({
+    required TextEditingController? controller,
+  }){
+
+    int _position = 0;
+
+    if (controller != null){
+      _position =  controller.text.length;
+    }
+
+    return TextSelection.fromPosition(TextPosition(
+      offset: _position,
+      // affinity:
+    ));
+
+  }
+  // -----------------------------------------------------------------------------
 }
 
 /*

@@ -1,3 +1,4 @@
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/super_text/super_text.dart';
 import 'package:basics/super_text_field/super_text_field.dart';
@@ -65,6 +66,10 @@ class TextFormFieldSwitcher extends StatelessWidget {
     required this.errorBorderColor,
     required this.focusedErrorBorderColor,
 
+    required this.forceMaxLength,
+    required this.lineThrough,
+    required this.lineThroughColor,
+
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -124,6 +129,10 @@ class TextFormFieldSwitcher extends StatelessWidget {
   final Color focusedBorderColor;
   final Color errorBorderColor;
   final Color focusedErrorBorderColor;
+
+  final bool forceMaxLength;
+  final bool lineThrough;
+  final Color? lineThroughColor;
 
     /// TESTED : WORKS PERFECT
   static Color? validatorTextColor({
@@ -208,10 +217,10 @@ class TextFormFieldSwitcher extends StatelessWidget {
       shadows: textShadows,
       // overflow: TextOverflow.ellipsis,
       /// DECORATION
-      // decorationColor: lineColor,
-      // decoration: line,
-      // decorationStyle: lineStyle,
-      // decorationThickness: lineThickness,
+      decorationColor: lineThroughColor ?? Colorz.white255,
+      decoration: lineThrough == true ? TextDecoration.lineThrough : null,
+      decorationStyle: TextDecorationStyle.solid,
+      decorationThickness: _textHeight * 0.12,
       /// PAINTS
       // foreground: foreground,
       // background: background,
@@ -241,7 +250,10 @@ class TextFormFieldSwitcher extends StatelessWidget {
         centered: centered,
     );
     // --------------------
-    const MaxLengthEnforcement _maxLengthEnforced = MaxLengthEnforcement.none;
+    final MaxLengthEnforcement _maxLengthEnforced = forceMaxLength == true ?
+    MaxLengthEnforcement.enforced
+        :
+    MaxLengthEnforcement.none;
     // --------------------
     final int _maxLines = obscured == true ? 1 : (maxLines ?? 1);
     // --------------------
