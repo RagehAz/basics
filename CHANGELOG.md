@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.5 : added more languages
 ### 5.0.2 : FIXING FLAGS
 ### 5.0.1 : added US states flags
 ### 5.0.0 : zoning refactored

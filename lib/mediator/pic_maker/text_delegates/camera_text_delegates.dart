@@ -1,19 +1,29 @@
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 // -----------------------------------------------------------------------------
 
-/// SWITCHER
+/// SWITCHER : BLDRS_SUPPORTED_LANGS
 
 // --------------------
 CameraPickerTextDelegate getCameraTextDelegateByLangCode(String? langCode) {
   switch (langCode) {
+
     case 'en':return const EnglishCameraPickerTextDelegate();
     case 'ar':return const ArabicCameraPickerTextDelegate();
+
     case 'es':return const SpanishCameraPickerTextDelegate();
     case 'it':return const ItalianCameraPickerTextDelegate();
     case 'de':return const GermanCameraPickerTextDelegate();
     case 'fr':return const FrenchCameraPickerTextDelegate();
     case 'zh':return const CameraPickerTextDelegate();
+
+    case 'tr':return const TurkishCameraPickerTextDelegate();
+    case 'hi':return const HindiCameraPickerTextDelegate();
+    case 'ru':return const RussianCameraPickerTextDelegate();
+    case 'pt':return const PortugueseCameraPickerTextDelegate();
+    case 'fa':return const FarsiCameraPickerTextDelegate();
+
     case 'vi':return const VietnameseCameraPickerTextDelegate();
+
     default: return const EnglishCameraPickerTextDelegate();
   }
 }
@@ -522,6 +532,511 @@ class FrenchCameraPickerTextDelegate extends CameraPickerTextDelegate {
       return 'Passer à la caméra avant';
     } else {
       return 'Changer de caméra';
+    }
+  }
+}
+// --------------------
+class TurkishCameraPickerTextDelegate extends CameraPickerTextDelegate {
+  const TurkishCameraPickerTextDelegate();
+
+  @override
+  String get languageCode => 'tr';
+
+  @override
+  String get confirm => 'Onayla';
+
+  @override
+  String get shootingTips => 'Fotoğraf çekmek için dokunun.';
+
+  @override
+  String get shootingWithRecordingTips =>
+      'Fotoğraf çekmek için dokunun. Video kaydetmek için uzun basın.';
+
+  @override
+  String get shootingOnlyRecordingTips => 'Video kaydetmek için uzun basın.';
+
+  @override
+  String get shootingTapRecordingTips => 'Video kaydetmek için dokunun.';
+
+  @override
+  String get loadFailed => 'Yüklenemedi';
+
+  @override
+  String get loading => 'Yükleniyor...';
+
+  @override
+  String get saving => 'Kaydediliyor...';
+
+  @override
+  String get sActionManuallyFocusHint => 'Manuel odaklama';
+
+  @override
+  String get sActionPreviewHint => 'Önizleme';
+
+  @override
+  String get sActionRecordHint => 'Kaydet';
+
+  @override
+  String get sActionShootHint => 'Fotoğraf çek';
+
+  @override
+  String get sActionShootingButtonTooltip => 'Çekim düğmesi';
+
+  @override
+  String get sActionStopRecordingHint => 'Kaydı durdur';
+
+  @override
+  String sCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Arka Kamera';
+    } else if (value == CameraLensDirection.front) {
+      return 'Ön Kamera';
+    } else {
+      return 'Kamera';
+    }
+  }
+
+  @override
+  String? sCameraPreviewLabel(CameraLensDirection? value) {
+    if (value == null) {
+      return null;
+    }
+    if (sCameraLensDirectionLabel(value) == 'Ön Kamera') {
+      return 'Ön kamera önizlemesi';
+    } else if (sCameraLensDirectionLabel(value) == 'Arka Kamera') {
+      return 'Arka kamera önizlemesi';
+    } else {
+      return 'Kamera önizlemesi';
+    }
+  }
+
+  @override
+  String sFlashModeLabel(FlashMode mode) {
+    if (mode == FlashMode.always) {
+      return 'Daima Flaş';
+    } else if (mode == FlashMode.auto) {
+      return 'Otomatik Flaş';
+    } else if (mode == FlashMode.off) {
+      return 'Flaş Kapalı';
+    } else if (mode == FlashMode.torch) {
+      return 'El Feneri Flaşı';
+    } else {
+      return 'Flaş';
+    }
+  }
+
+  @override
+  String sSwitchCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Arka Kameraya Geç';
+    } else if (value == CameraLensDirection.front) {
+      return 'Ön Kameraya Geç';
+    } else {
+      return 'Kamerayı Değiştir';
+    }
+  }
+}
+// --------------------
+class HindiCameraPickerTextDelegate extends CameraPickerTextDelegate {
+  const HindiCameraPickerTextDelegate();
+
+  @override
+  String get languageCode => 'hi';
+
+  @override
+  String get confirm => 'पुष्टि करें';
+
+  @override
+  String get shootingTips => 'फ़ोटो लेने के लिए टैप करें।';
+
+  @override
+  String get shootingWithRecordingTips =>
+      'फ़ोटो लेने के लिए टैप करें। वीडियो रिकॉर्ड करने के लिए लंबे समय तक दबाएं।';
+
+  @override
+  String get shootingOnlyRecordingTips => 'वीडियो रिकॉर्ड करने के लिए लंबे समय तक दबाएं।';
+
+  @override
+  String get shootingTapRecordingTips => 'वीडियो रिकॉर्ड करने के लिए टैप करें।';
+
+  @override
+  String get loadFailed => 'लोड विफल';
+
+  @override
+  String get loading => 'लोड हो रहा है...';
+
+  @override
+  String get saving => 'सहेजा जा रहा है...';
+
+  @override
+  String get sActionManuallyFocusHint => 'मैन्युअल फोकस';
+
+  @override
+  String get sActionPreviewHint => 'पूर्वावलोकन';
+
+  @override
+  String get sActionRecordHint => 'रिकॉर्ड';
+
+  @override
+  String get sActionShootHint => 'फ़ोटो लें';
+
+  @override
+  String get sActionShootingButtonTooltip => 'शूटिंग बटन';
+
+  @override
+  String get sActionStopRecordingHint => 'रिकॉर्डिंग बंद करें';
+
+  @override
+  String sCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'पीछे का कैमरा';
+    } else if (value == CameraLensDirection.front) {
+      return 'सामने का कैमरा';
+    } else {
+      return 'कैमरा';
+    }
+  }
+
+  @override
+  String? sCameraPreviewLabel(CameraLensDirection? value) {
+    if (value == null) {
+      return null;
+    }
+    if (sCameraLensDirectionLabel(value) == 'सामने का कैमरा') {
+      return 'सामने के कैमरे का पूर्वावलोकन';
+    } else if (sCameraLensDirectionLabel(value) == 'पीछे का कैमरा') {
+      return 'पीछे के कैमरे का पूर्वावलोकन';
+    } else {
+      return 'कैमरा पूर्वावलोकन';
+    }
+  }
+
+  @override
+  String sFlashModeLabel(FlashMode mode) {
+    if (mode == FlashMode.always) {
+      return 'हमेशा फ़्लैश';
+    } else if (mode == FlashMode.auto) {
+      return 'ऑटोमेटिक फ़्लैश';
+    } else if (mode == FlashMode.off) {
+      return 'बिना फ़्लैश';
+    } else if (mode == FlashMode.torch) {
+      return 'टॉर्च फ़्लैश';
+    } else {
+      return 'फ़्लैश';
+    }
+  }
+
+  @override
+  String sSwitchCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'पीछे के कैमरे में बदलें';
+    } else if (value == CameraLensDirection.front) {
+      return 'सामने के कैमरे में बदलें';
+    } else {
+      return 'कैमरा बदलें';
+    }
+  }
+}
+// --------------------
+class RussianCameraPickerTextDelegate extends CameraPickerTextDelegate {
+  const RussianCameraPickerTextDelegate();
+
+  @override
+  String get languageCode => 'ru';
+
+  @override
+  String get confirm => 'Подтвердить';
+
+  @override
+  String get shootingTips => 'Нажмите, чтобы сделать фото.';
+
+  @override
+  String get shootingWithRecordingTips =>
+      'Нажмите, чтобы сделать фото. Удерживайте для записи видео.';
+
+  @override
+  String get shootingOnlyRecordingTips => 'Удерживайте для записи видео.';
+
+  @override
+  String get shootingTapRecordingTips => 'Нажмите для записи видео.';
+
+  @override
+  String get loadFailed => 'Ошибка загрузки';
+
+  @override
+  String get loading => 'Загрузка...';
+
+  @override
+  String get saving => 'Сохранение...';
+
+  @override
+  String get sActionManuallyFocusHint => 'Ручное фокусирование';
+
+  @override
+  String get sActionPreviewHint => 'Предпросмотр';
+
+  @override
+  String get sActionRecordHint => 'Запись';
+
+  @override
+  String get sActionShootHint => 'Сделать снимок';
+
+  @override
+  String get sActionShootingButtonTooltip => 'Кнопка съемки';
+
+  @override
+  String get sActionStopRecordingHint => 'Остановить запись';
+
+  @override
+  String sCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Задняя камера';
+    } else if (value == CameraLensDirection.front) {
+      return 'Передняя камера';
+    } else {
+      return 'Камера';
+    }
+  }
+
+  @override
+  String? sCameraPreviewLabel(CameraLensDirection? value) {
+    if (value == null) {
+      return null;
+    }
+    if (sCameraLensDirectionLabel(value) == 'Передняя камера') {
+      return 'Предпросмотр передней камеры';
+    } else if (sCameraLensDirectionLabel(value) == 'Задняя камера') {
+      return 'Предпросмотр задней камеры';
+    } else {
+      return 'Предпросмотр камеры';
+    }
+  }
+
+  @override
+  String sFlashModeLabel(FlashMode mode) {
+    if (mode == FlashMode.always) {
+      return 'Всегда вспышка';
+    } else if (mode == FlashMode.auto) {
+      return 'Автоматическая вспышка';
+    } else if (mode == FlashMode.off) {
+      return 'Без вспышки';
+    } else if (mode == FlashMode.torch) {
+      return 'Фонарь';
+    } else {
+      return 'Вспышка';
+    }
+  }
+
+  @override
+  String sSwitchCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Переключиться на заднюю камеру';
+    } else if (value == CameraLensDirection.front) {
+      return 'Переключиться на переднюю камеру';
+    } else {
+      return 'Переключиться на камеру';
+    }
+  }
+}
+// --------------------
+class PortugueseCameraPickerTextDelegate extends CameraPickerTextDelegate {
+  const PortugueseCameraPickerTextDelegate();
+
+  @override
+  String get languageCode => 'pt';
+
+  @override
+  String get confirm => 'Confirmar';
+
+  @override
+  String get shootingTips => 'Toque para tirar uma foto.';
+
+  @override
+  String get shootingWithRecordingTips =>
+      'Toque para tirar uma foto. Pressione e segure para gravar um vídeo.';
+
+  @override
+  String get shootingOnlyRecordingTips => 'Pressione e segure para gravar um vídeo.';
+
+  @override
+  String get shootingTapRecordingTips => 'Toque para gravar um vídeo.';
+
+  @override
+  String get loadFailed => 'Falha ao carregar';
+
+  @override
+  String get loading => 'Carregando...';
+
+  @override
+  String get saving => 'Salvando...';
+
+  @override
+  String get sActionManuallyFocusHint => 'Foco manual';
+
+  @override
+  String get sActionPreviewHint => 'Pré-visualização';
+
+  @override
+  String get sActionRecordHint => 'Gravar';
+
+  @override
+  String get sActionShootHint => 'Tirar foto';
+
+  @override
+  String get sActionShootingButtonTooltip => 'Botão de disparo';
+
+  @override
+  String get sActionStopRecordingHint => 'Parar gravação';
+
+  @override
+  String sCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Câmera traseira';
+    } else if (value == CameraLensDirection.front) {
+      return 'Câmera frontal';
+    } else {
+      return 'Câmera';
+    }
+  }
+
+  @override
+  String? sCameraPreviewLabel(CameraLensDirection? value) {
+    if (value == null) {
+      return null;
+    }
+    if (sCameraLensDirectionLabel(value) == 'Câmera frontal') {
+      return 'Visualização da câmera frontal';
+    } else if (sCameraLensDirectionLabel(value) == 'Câmera traseira') {
+      return 'Visualização da câmera traseira';
+    } else {
+      return 'Visualização da câmera';
+    }
+  }
+
+  @override
+  String sFlashModeLabel(FlashMode mode) {
+    if (mode == FlashMode.always) {
+      return 'Modo de flash: Sempre';
+    } else if (mode == FlashMode.auto) {
+      return 'Modo de flash: Automático';
+    } else if (mode == FlashMode.off) {
+      return 'Modo de flash: Desligado';
+    } else if (mode == FlashMode.torch) {
+      return 'Modo de flash: Lanterna';
+    } else {
+      return 'Modo de flash';
+    }
+  }
+
+  @override
+  String sSwitchCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'Alternar para câmera traseira';
+    } else if (value == CameraLensDirection.front) {
+      return 'Alternar para câmera frontal';
+    } else {
+      return 'Alternar câmera';
+    }
+  }
+}
+// --------------------
+class FarsiCameraPickerTextDelegate extends CameraPickerTextDelegate {
+  const FarsiCameraPickerTextDelegate();
+
+  @override
+  String get languageCode => 'fa';
+
+  @override
+  String get confirm => 'تأیید';
+
+  @override
+  String get shootingTips => 'برای گرفتن عکس، لمس کنید.';
+
+  @override
+  String get shootingWithRecordingTips =>
+      'برای گرفتن عکس، لمس کنید. برای ضبط ویدیو، نگه دارید.';
+
+  @override
+  String get shootingOnlyRecordingTips => 'برای ضبط ویدیو، نگه دارید.';
+
+  @override
+  String get shootingTapRecordingTips => 'برای ضبط ویدیو، لمس کنید.';
+
+  @override
+  String get loadFailed => 'بارگذاری ناموفق بود';
+
+  @override
+  String get loading => 'در حال بارگذاری...';
+
+  @override
+  String get saving => 'در حال ذخیره...';
+
+  @override
+  String get sActionManuallyFocusHint => 'فوکوس دستی';
+
+  @override
+  String get sActionPreviewHint => 'پیش‌نمایش';
+
+  @override
+  String get sActionRecordHint => 'ضبط';
+
+  @override
+  String get sActionShootHint => 'عکس بگیر';
+
+  @override
+  String get sActionShootingButtonTooltip => 'دکمه عکس‌برداری';
+
+  @override
+  String get sActionStopRecordingHint => 'توقف ضبط';
+
+  @override
+  String sCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'دوربین پشتی';
+    } else if (value == CameraLensDirection.front) {
+      return 'دوربین جلویی';
+    } else {
+      return 'دوربین';
+    }
+  }
+
+  @override
+  String? sCameraPreviewLabel(CameraLensDirection? value) {
+    if (value == null) {
+      return null;
+    }
+    if (sCameraLensDirectionLabel(value) == 'دوربین جلویی') {
+      return 'پیش‌نمایش دوربین جلویی';
+    } else if (sCameraLensDirectionLabel(value) == 'دوربین پشتی') {
+      return 'پیش‌نمایش دوربین پشتی';
+    } else {
+      return 'پیش‌نمایش دوربین';
+    }
+  }
+
+  @override
+  String sFlashModeLabel(FlashMode mode) {
+    if (mode == FlashMode.always) {
+      return 'حالت فلاش: همیشه';
+    } else if (mode == FlashMode.auto) {
+      return 'حالت فلاش: خودکار';
+    } else if (mode == FlashMode.off) {
+      return 'حالت فلاش: خاموش';
+    } else if (mode == FlashMode.torch) {
+      return 'حالت فلاش: چراغ قوه';
+    } else {
+      return 'حالت فلاش';
+    }
+  }
+
+  @override
+  String sSwitchCameraLensDirectionLabel(CameraLensDirection value) {
+    if (value == CameraLensDirection.back) {
+      return 'تغییر به دوربین پشتی';
+    } else if (value == CameraLensDirection.front) {
+      return 'تغییر به دوربین جلویی';
+    } else {
+      return 'تغییر دوربین';
     }
   }
 }
