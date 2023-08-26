@@ -673,6 +673,9 @@ class Numeric {
     if (oldPrice == null || currentPrice == null){
       return null;
     }
+    else if (oldPrice == 0){
+      return 0;
+    }
     else {
       final double _percent = ((oldPrice - currentPrice) / oldPrice) * 100;
       return _percent.round();
