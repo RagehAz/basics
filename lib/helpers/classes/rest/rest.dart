@@ -314,4 +314,13 @@ class Rest {
   }
    */
   // -----------------------------------------------------------------------------
+
+  /// CHECKERS
+
+  // --------------------
+  ///TESTED : WORKS PERFECT
+  static bool checkResponseBodyIsGood(http.Response? res){
+    return res?.statusCode == 200 && res?.body != null;
+  }
+  // -----------------------------------------------------------------------------
 }

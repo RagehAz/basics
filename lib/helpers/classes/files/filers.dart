@@ -171,12 +171,26 @@ class Filers {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>> readLocalJSON({
-    required String path,
+  static Future<Map<String, dynamic>?> readLocalJSON({
+    required String? path,
   }) async {
-    final String _jsonStringValues = await rootBundle.loadString(path);
-    final Map<String, dynamic> _mappedJson = json.decode(_jsonStringValues);
-    return _mappedJson;
+    Map<String, dynamic>? _output;
+
+    if (path != null){
+
+      await tryAndCatch(
+        invoker: 'readLocalJSON',
+        functions: () async {
+
+          final String _jsonStringValues = await rootBundle.loadString(path);
+          _output = json.decode(_jsonStringValues);
+
+        },
+      );
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

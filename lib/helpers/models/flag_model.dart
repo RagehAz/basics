@@ -219,12 +219,20 @@ class Flag {
 
     if (iso2 != null) {
 
-      final Flag? _flag = getFlagFromFlagsByISO2(
-        flags: allFlags,
-        iso2: iso2,
-      );
-
-      _output = _flag?.id;
+      if (iso2.length == 2){
+        
+        final Flag? _flag = getFlagFromFlagsByISO2(
+          flags: allFlags,
+          iso2: iso2,
+        );
+  
+        _output = _flag?.id;
+        
+      }
+      
+      else if (iso2.length == 3){
+        _output = iso2;
+      }
 
     }
 

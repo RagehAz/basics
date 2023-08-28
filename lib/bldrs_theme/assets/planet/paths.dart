@@ -13,8 +13,12 @@ class WorldZoningPaths {
   static const String populationsFilePath   = '$_planetDirectory/populations.json';
   static const String positionsFilePath     = '$_planetDirectory/positions.json';
   // --------------------
-  static String getCountryCitiesJsonFilePath(String countryID){
-    return '$citiesFilesDirectory/$countryID.json';
+  static String? getCountryCitiesJsonFilePath(String? countryID){
+    if (countryID == null || countryID == 'usa' || countryID == 'usa'){
+      return null;
+    }{
+      return '$citiesFilesDirectory/$countryID.json';
+    }
   }
   // --------------------
   /// CONTINENTS
