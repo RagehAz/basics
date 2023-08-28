@@ -2,9 +2,10 @@ part of night_sky;
 
 enum SkyType {
   stars,
-  night,
-  black,
+  blue,
+  grey,
   nightStars,
   blackStars,
+  black,
   non,
 }
