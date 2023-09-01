@@ -75,6 +75,10 @@ class TextFieldBubble extends StatelessWidget {
     this.fieldWordSpacing,
     this.isDisabled = false,
     this.hasBottomPadding = true,
+
+    this.enableSuggestions = false,
+    this.autoCorrect = false,
+
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -141,6 +145,9 @@ class TextFieldBubble extends StatelessWidget {
   final double? fieldWordSpacing;
   final bool isDisabled;
   final bool hasBottomPadding;
+
+  final bool enableSuggestions;
+  final bool autoCorrect;
 
   /// --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
@@ -379,6 +386,8 @@ class TextFieldBubble extends StatelessWidget {
                       onTap: onFieldTap,
                       isObscured: isObscured,
                       autoValidate: autoValidate,
+                      enableSuggestions: enableSuggestions,
+                      autoCorrect: autoCorrect,
                     ),
 
                     /// SPACER
