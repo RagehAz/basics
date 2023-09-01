@@ -74,6 +74,7 @@ class TextFieldBubble extends StatelessWidget {
     this.fieldCorners = 12,
     this.fieldWordSpacing,
     this.isDisabled = false,
+    this.hasBottomPadding = true,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -139,6 +140,7 @@ class TextFieldBubble extends StatelessWidget {
   final dynamic fieldCorners;
   final double? fieldWordSpacing;
   final bool isDisabled;
+  final bool hasBottomPadding;
 
   /// --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
@@ -281,6 +283,7 @@ class TextFieldBubble extends StatelessWidget {
         ),
         width: _bubbleWidth,
         onBubbleTap: isDisabled == false ? null : onBubbleTap,
+        hasBottomPadding: hasBottomPadding,
         columnChildren: <Widget>[
 
           /// BULLET POINTS
@@ -415,9 +418,11 @@ class TextFieldBubble extends StatelessWidget {
                           },
                       ),
 
+                    /// PASTE BUTTON SPACER
                     if (pasteFunction != null)
                       const SizedBox(width: 5,),
 
+                    /// PASTE BUTTON
                     if (pasteFunction != null)
                       SuperBox(
                         height: fieldHeight,
@@ -447,7 +452,6 @@ class TextFieldBubble extends StatelessWidget {
                     loading: isLoading,
                     color: loadingColor,
                   ),
-
 
               ],
             ),

@@ -70,6 +70,9 @@ class TextFormFieldSwitcher extends StatelessWidget {
     required this.lineThrough,
     required this.lineThroughColor,
 
+    required this.autoCorrect,
+    required this.enableSuggestions,
+
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -133,6 +136,9 @@ class TextFormFieldSwitcher extends StatelessWidget {
   final bool forceMaxLength;
   final bool lineThrough;
   final Color? lineThroughColor;
+
+  final bool autoCorrect;
+  final bool enableSuggestions;
 
     /// TESTED : WORKS PERFECT
   static Color? validatorTextColor({
@@ -312,9 +318,11 @@ class TextFormFieldSwitcher extends StatelessWidget {
         AutovalidateMode.always
             :
         AutovalidateMode.disabled,
+        ///  AUTO SUGGESTION
+        autocorrect: autoCorrect,
+        enableSuggestions: enableSuggestions,
         /// other stuff
         enabled: true, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
-        autocorrect: false,
         // initialValue: ,
         // restorationId: ,
         // autofillHints: ,
@@ -322,7 +330,6 @@ class TextFormFieldSwitcher extends StatelessWidget {
         // cursorWidth: ,
         // enableIMEPersonalizedLearning: ,
         // enableInteractiveSelection: ,
-        // enableSuggestions: ,
         // expands: ,
         // inputFormatters: [],
         // mouseCursor: ,
@@ -376,9 +383,11 @@ class TextFormFieldSwitcher extends StatelessWidget {
         onChanged: onChanged == null ? null :  (String val) => onChanged!(val),
         onSubmitted: onSubmitted == null ? null : (String val) => onSubmitted!(val),
         onEditingComplete: onEditingComplete == null ? null : () => onEditingComplete!(),
+        ///  AUTO SUGGESTION
+        autocorrect: autoCorrect,
+        enableSuggestions: enableSuggestions,
         /// other stuff
         enabled: true, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
-        autocorrect: false,
         // toolbarOptions: ,
         // textCapitalization: ,
         // strutStyle: ,
@@ -391,7 +400,6 @@ class TextFormFieldSwitcher extends StatelessWidget {
         // mouseCursor: ,
         // inputFormatters: [],
         // expands: ,
-        // enableSuggestions: ,
         // enableInteractiveSelection: ,
         // enableIMEPersonalizedLearning: ,
         // cursorWidth: ,

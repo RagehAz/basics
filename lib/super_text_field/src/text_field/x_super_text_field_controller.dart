@@ -71,7 +71,7 @@ class SuperTextFieldController {
                                   + _bottomMargin
                                   + _totalCounterBoxHeight;
 
-    return _concludedHeight;
+    return _concludedHeight + 4; // THE 4 IS A MAGIC NUMBER
   }
   // --------------------------------------------------------------------------
 

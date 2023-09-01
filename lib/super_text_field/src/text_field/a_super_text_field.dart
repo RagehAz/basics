@@ -69,6 +69,9 @@ class SuperTextField extends StatefulWidget {
     this.lineThrough = false,
     this.lineThroughColor,
 
+    this.autoCorrect = false,
+    this.enableSuggestions = false,
+
   super.key
   });  // --------------------------------------------------------------------------
   /// main
@@ -137,6 +140,9 @@ class SuperTextField extends StatefulWidget {
   final bool forceMaxLength;
   final bool lineThrough;
   final Color? lineThroughColor;
+
+  final bool autoCorrect;
+  final bool enableSuggestions;
 
   /// --------------------------------------------------------------------------
   @override
@@ -306,6 +312,9 @@ class _SuperTextFieldState extends State<SuperTextField> {
       forceMaxLength: widget.forceMaxLength,
       lineThrough: widget.lineThrough,
       lineThroughColor: widget.lineThroughColor,
+
+      autoCorrect: widget.autoCorrect,
+      enableSuggestions: widget.enableSuggestions,
     );
 
   }

@@ -27,19 +27,6 @@ class Sky extends StatelessWidget {
       case SkyType.non:         return null;
     }
 
-    if (skyType == SkyType.blue || skyType == SkyType.nightStars){
-      return <Color>[Colorz.skyLightBlue, Colorz.skyDarkBlue];
-    }
-    else if (skyType == SkyType.grey || skyType == SkyType.blackStars){
-      return <Color>[Colorz.blackSemi230, Colorz.blackSemi230];
-    }
-    else if (skyType == SkyType.stars){
-      return <Color>[Colorz.black255, Colorz.black255];
-    }
-    else {
-      return <Color>[Colorz.skyDarkBlue, Colorz.skyDarkBlue];
-    }
-
   }
   // --------------------
   static Color? _getBaseColor({

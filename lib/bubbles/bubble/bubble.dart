@@ -1,7 +1,4 @@
-
-
 // ignore_for_file: unused_element
-
 import 'package:basics/bubbles/bubble/bubble_header.dart';
 import 'package:basics/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
@@ -24,6 +21,7 @@ class Bubble extends StatelessWidget {
     this.onBubbleDoubleTap,
     this.appIsLTR = true,
     this.splashColor = const Color.fromARGB(200, 255, 255, 255),
+    this.hasBottomPadding = true,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -39,6 +37,7 @@ class Bubble extends StatelessWidget {
   final Function? onBubbleDoubleTap;
   final bool appIsLTR;
   final Color splashColor;
+  final bool hasBottomPadding;
   // -----------------------------------------------------------------------------
   static double clearWidth({
     required BuildContext context,
@@ -138,6 +137,7 @@ class Bubble extends StatelessWidget {
       childrenCentered: childrenCentered,
       columnChildren: columnChildren,
       headerViewModel: bubbleHeaderVM,
+      hasBottomPadding: hasBottomPadding,
     );
     // --------------------
     return Center(
@@ -182,6 +182,7 @@ class _BubbleContents extends StatelessWidget {
     required this.childrenCentered,
     required this.width,
     required this.headerViewModel,
+    required this.hasBottomPadding,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -189,13 +190,19 @@ class _BubbleContents extends StatelessWidget {
   final bool childrenCentered;
   final double? width;
   final BubbleHeaderVM? headerViewModel;
+  final bool hasBottomPadding;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
     return Padding(
       key: const ValueKey<String>('_BubbleContents'),
-      padding: const EdgeInsets.all(Bubble._pageMargin),
+      padding: EdgeInsets.only(
+        top: Bubble._pageMargin,
+        right: Bubble._pageMargin,
+        left: Bubble._pageMargin,
+        bottom: hasBottomPadding == true ? Bubble._pageMargin : 0,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: childrenCentered == true ?
