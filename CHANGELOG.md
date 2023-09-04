@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.8 : Updated Timers ciphers to support lexicographic sorting
 ### 5.0.6 : night sky fixes
 ### 5.0.5 : added more languages
 ### 5.0.2 : FIXING FLAGS

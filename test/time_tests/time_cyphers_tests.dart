@@ -4,7 +4,6 @@ import 'package:basics/helpers/classes/time/timers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 // ---------------------------------------------------------------------------
-
 void main() {
 
   group('Timers.cipherTime', () {
@@ -288,7 +287,7 @@ void main() {
 
     test('decipherTimes with empty list and fromJSON=true', () {
       final List<dynamic> times = [];
-      final result = Timers.decipherTimes(times: times, fromJSON: true);;
+      final result = Timers.decipherTimes(times: times, fromJSON: true);
       expect(result?.length, times.length);
     });
 
