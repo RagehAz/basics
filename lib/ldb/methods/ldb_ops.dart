@@ -329,7 +329,7 @@ class LDBOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkShouldRefreshLDB({
-    int refreshDurationInHours = 24,
+    int refreshDurationInMinutes = 60,
   }) async {
     bool _shouldRefresh = true;
 
@@ -350,7 +350,7 @@ class LDBOps {
           fromJSON: true,
       );
 
-      double? _diff = Timers.calculateTimeDifferenceInHours(
+      double? _diff = Timers.calculateTimeDifferenceInMinutes(
           from: _lastWipe,
           to: DateTime.now(),
       ).toDouble();
@@ -358,21 +358,23 @@ class LDBOps {
       _diff = Numeric.modulus(_diff);
 
       /// ONLY WHEN NOT EXCEEDED THE TIME SHOULD NOT REFRESH
-      if (_diff != null && _diff < refreshDurationInHours){
+      if (_diff != null && _diff < refreshDurationInMinutes){
         _shouldRefresh = false;
       }
 
     }
 
-    await insertMap(
-      // allowDuplicateIDs: false,
-      docName: 'theLastWipeMap',
-      primaryKey: 'id',
-      input: {
-        'id': 'theLastWipeMap',
-        'time': Timers.cipherTime(time: DateTime.now(), toJSON: true),
-      },
-    );
+    if (_shouldRefresh == true){
+      await insertMap(
+        // allowDuplicateIDs: false,
+        docName: 'theLastWipeMap',
+        primaryKey: 'id',
+        input: {
+          'id': 'theLastWipeMap',
+          'time': Timers.cipherTime(time: DateTime.now(), toJSON: true),
+        },
+      );
+    }
 
     return _shouldRefresh;
   }

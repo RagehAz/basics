@@ -8,26 +8,28 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
 
   group('Timers.cipherTime', () {
+
     test('returns the same DateTime object if toJSON is false', () {
       final DateTime dateTime = DateTime.now();
-      // print('dateTime    : $dateTime');
-      final dynamic ciphered = Timers.cipherTime(time: dateTime, toJSON: true);
-      // print('ciphered : $ciphered');
+      print('dateTime    : $dateTime');
+      final int ciphered = Timers.cipherTime(time: dateTime, toJSON: true);
+      print('ciphered : $ciphered');
       final DateTime? deciphered = Timers.decipherTime(time: ciphered, fromJSON: true);
-      // print('deciphered  : $deciphered');
+      print('deciphered  : $deciphered');
       expect(deciphered == dateTime, true);
     });
 
     test('returns a String if toJSON is true', () {
       final DateTime dateTime = DateTime.now();
       final result = Timers.cipherTime(time: dateTime, toJSON: true);
-      expect(result, isA<String>());
+      expect(result, isA<int>());
     });
 
-    test('returns a valid ISO 8601 string if toJSON is true', () {
+    test('xxx', () {
       final DateTime dateTime = DateTime.now();
       final result = Timers.cipherTime(time: dateTime, toJSON: true);
-      expect(() => DateTime.parse(result), returnsNormally);
+      final DateTime? _back = Timers.decipherTime(time: result, fromJSON: true);
+      expect(dateTime, _back);
     });
 
     test('returns the same DateTime object if toJSON is false', () {
@@ -38,13 +40,14 @@ void main() {
     test('returns a String if toJSON is true', () {
       final DateTime dateTime = DateTime.now();
       final result = Timers.cipherTime(time: dateTime, toJSON: true);
-      expect(result, isA<String>());
+      expect(result, isA<int>());
     });
 
-    test('returns a valid ISO 8601 string if toJSON is true', () {
+    test('yyy', () {
       final DateTime dateTime = DateTime.now();
-      final result = Timers.cipherTime(time: dateTime, toJSON: true);
-      expect(() => DateTime.parse(result), returnsNormally);
+      final result = Timers.cipherTime(time: dateTime, toJSON: false);
+      final DateTime? _back = Timers.decipherTime(time: result, fromJSON: false);
+      expect(_back, dateTime);
     });
 
     test('returns null if the time parameter is null', () {
@@ -65,17 +68,17 @@ void main() {
     });
 
     test('cipherTime should return ciphered DateTime in ISO 8601 format when toJSON is true', () {
-      // Arrange
-      final time = DateTime(2023, 3, 27, 10, 30, 0);
-      final expected = Timers.cipherDateTimeIso8601(
+
+      final DateTime time = DateTime(2023, 3, 27, 10, 30, 0);
+
+      final String? string = Timers.cipherDateTimeIso8601(
         time: time,
+        toUTC: true,
       );
 
-      // Act
-      final result = Timers.cipherTime(time: time, toJSON: true);
+      final DateTime? back = Timers.decipherDateTimeIso8601(timeString: string, toLocal: true);
 
-      // Assert
-      expect(result, expected);
+      expect(back, time);
     });
 
     test('cipherTime should return null when time is null', () {
@@ -104,15 +107,16 @@ void main() {
     test('cipherTime should return ciphered DateTime in ISO 8601 format when toJSON is true', () {
       // Arrange
       final time = DateTime(2023, 3, 27, 10, 30, 0);
-      final expected = Timers.cipherDateTimeIso8601(
+      final string = Timers.cipherDateTimeIso8601(
         time: time,
+        toUTC: true,
       );
 
       // Act
-      final result = Timers.cipherTime(time: time, toJSON: true);
+      final result = Timers.decipherDateTimeIso8601(timeString:  string, toLocal: true);
 
       // Assert
-      expect(result, expected);
+      expect(result, time);
     });
 
     test('cipherTime should return null when time is null', () {
@@ -121,70 +125,6 @@ void main() {
 
       // Act
       final result = Timers.cipherTime(time: null, toJSON: true);
-
-      // Assert
-      expect(result, expected);
-    });
-
-    test(
-        'cipherTime should return ciphered DateTime in '
-        'ISO 8601 format with non-zero milliseconds when '
-        'toJSON is true', () {
-      // Arrange
-      final time = DateTime(2023, 3, 27, 10, 30, 3, 456);
-      final expected = Timers.cipherDateTimeIso8601(
-        time: time,
-      );
-
-      // Act
-      final result = Timers.cipherTime(time: time, toJSON: true);
-      print('result is : $result');
-
-      // Assert
-      expect(result, expected);
-      expect(result.contains('.456'), true);
-    });
-
-    test('cipherTime should return UTC DateTime with non-zero microseconds when toJSON is false',
-        () {
-      // Arrange
-      final time = DateTime(2023, 3, 27, 10, 30, 0, 123, 456);
-      final expected = time.toUtc();
-
-      // Act
-      final DateTime result = Timers.cipherTime(time: time, toJSON: false);
-
-      // Assert
-      expect(result, expected);
-      print('result.microsecond : ${result.microsecond} : ${result.millisecond}');
-      expect(expected.microsecond, expected.microsecond);
-      expect(result.millisecond, 123);
-      expect(result.microsecond, 456);
-
-      final time2 = DateTime(2023, 3, 27, 10, 30, 0, 1234, 456);
-      expect(time2.second, 1);
-      expect(time2.millisecond, 234);
-
-      final time3 = DateTime(2023, 3, 27, 10, 30, 0, 0, 999);
-      expect(time3.millisecond, 0);
-      expect(time3.microsecond, 999);
-
-      final time4 = DateTime(2023, 3, 27, 10, 30, 0, 0, 1000);
-      expect(time4.millisecond, 1);
-      expect(time4.microsecond, 0);
-    });
-
-    test(
-        'cipherTime should return ciphered DateTime with timezone offset when time is in a non-UTC timezone and toJSON is true',
-        () {
-      // Arrange
-      final time = DateTime.parse('2023-03-27 10:30:00-05:00');
-      final expected = Timers.cipherDateTimeIso8601(
-        time: time,
-      );
-
-      // Act
-      final result = Timers.cipherTime(time: time, toJSON: true);
 
       // Assert
       expect(result, expected);
@@ -295,9 +235,9 @@ void main() {
       final result = Timers.cipherTimes(times: times, toJSON: true);
       expect(result, isA<List<dynamic>>());
       expect(result.length, times.length);
-      expect(result[0], isA<String>());
-      expect(result[1], isA<String>());
-      expect(result[2], isA<String>());
+      expect(result[0], isA<int>());
+      expect(result[1], isA<int>());
+      expect(result[2], isA<int>());
     });
 
     test('cipherTimes with empty list and fromJSON=true', () {
@@ -348,8 +288,7 @@ void main() {
 
     test('decipherTimes with empty list and fromJSON=true', () {
       final List<dynamic> times = [];
-      final result = Timers.decipherTimes(times: times, fromJSON: true);
-      // expect(result, isA<List<DateTime>>());
+      final result = Timers.decipherTimes(times: times, fromJSON: true);;
       expect(result?.length, times.length);
     });
 

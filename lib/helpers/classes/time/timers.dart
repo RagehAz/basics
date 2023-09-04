@@ -85,7 +85,6 @@ class Timers {
   static intl.DateFormat utcDateFormat = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
   static intl.DateFormat localDateFormat = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss");
   // --------------------
-
   static DateTime? simplifyTime(DateTime? time){
     if (time == null){
       return time;
@@ -118,7 +117,7 @@ class Timers {
   }){
 
     if (toJSON == true){
-      return cipherDateTimeIso8601(
+      return cipherDateTimeToInt(
         time: time,
         toUTC: toUTC,
       );
@@ -152,9 +151,9 @@ class Timers {
     else {
 
       /// FROM JSON
-      if (fromJSON == true && time is String){
-        _output = decipherDateTimeIso8601(
-          timeString: time,
+      if (fromJSON == true && time is int){
+        _output = decipherIntToDateTime(
+          integer: time,
           toLocal: toLocal,
         );
       }
@@ -172,7 +171,10 @@ class Timers {
 
       /// SOMETHING ELSE
       else {
-        _output = null;
+        _output = decipherDateTimeIso8601(
+          timeString: time,
+          toLocal: toLocal,
+        );
       }
 
     }
@@ -229,6 +231,57 @@ class Timers {
 
     return _dateTimes;
   }
+  // -----------------------------------------------------------------------------
+
+  /// EPOCH INT CYPHERS (supports Lexicographic sorting)
+
+  // --------------------
+  /// AI TESTED
+  static int? cipherDateTimeToInt({
+    required DateTime? time,
+    bool toUTC = true,
+  }) {
+    int? _output;
+
+    if (time != null) {
+
+      if (toUTC == true){
+      _output = time.toUtc().microsecondsSinceEpoch;
+      }
+      else {
+      _output = time.toLocal().microsecondsSinceEpoch;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED
+  static DateTime? decipherIntToDateTime({
+    required int? integer,
+    bool toLocal = true,
+  }) {
+    DateTime? _output;
+
+    if (integer != null) {
+      _output = DateTime.fromMicrosecondsSinceEpoch(integer, isUtc: true);
+
+      if (toLocal == true){
+        _output = _output.toLocal();
+      }
+      else {
+        _output = _output.toUtc();
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// ISO 8601 CYPHERS (Does not support Lexicographic sorting)
+
   // --------------------
   /// AI TESTED
   static String? cipherDateTimeIso8601({
