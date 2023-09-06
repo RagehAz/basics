@@ -498,15 +498,19 @@ class PicMaker {
 
       _bytezz = bytezz!;
 
-      _bytezz = await Nav.goToNewScreen(
+      final List<Uint8List>? _recieved = await Nav.goToNewScreen(
         context: context,
         screen: CroppingScreen(
-          bytezz: bytezz,
+          bytezz: _bytezz,
           aspectRatio: aspectRatio,
           appIsLTR: appIsLTR,
           confirmText: confirmText,
         ),
       );
+
+      if (Mapper.checkCanLoopList(_recieved) == true){
+        _bytezz = _recieved!;
+      }
 
     }
 
