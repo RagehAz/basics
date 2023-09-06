@@ -72,54 +72,6 @@ class Permit {
     ];
 
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String getPermissionWarningPhid(Permission permission){
-
-    switch (permission.toString()){
-      case  'Permission.photos': return 'phid_media_permit_warning';
-      case  'Permission.storage': return 'phid_media_permit_warning';
-      case  'Permission.camera': return 'phid_camera_permit_warning';
-      case  'Permission.mediaLibrary': return 'phid_media_permit_warning';
-      case  'Permission.photosAddOnly': return 'phid_media_permit_warning';
-      case  'Permission.accessMediaLocation': return 'phid_media_permit_warning';
-
-      case  'Permission.location': return 'phid_location_permit_warning';
-      case  'Permission.locationAlways': return 'phid_location_permit_warning';
-      case  'Permission.locationWhenInUse': return 'phid_location_permit_warning';
-
-      // case  'Permission.notification': return 'phid_notification_permit_warning'; break;
-
-      // case  'Permission.microphone': return 'phid_microphone_permit_warning'; break;
-      // case  'Permission.videos': return 'phid_videos_permit_warning'; break;
-      // case  'Permission.audio': return 'phid_audio_permit_warning'; break;
-      // case  'Permission.contacts': return 'phid_contacts_permit_warning'; break;
-      // case  'Permission.speech': return 'phid_speech_permit_warning'; break;
-      // case  'Permission.phone': return 'phid_phone_permit_warning'; break;
-      // case  'Permission.sensors': return 'phid_sensors_permit_warning'; break;
-      // case  'Permission.bluetooth': return 'phid_bluetooth_permit_warning'; break;
-      // case  'Permission.reminders': return 'phid_reminders_permit_warning'; break;
-      // case  'Permission.calendar': return 'phid_calendar_permit_warning'; break;
-      // case  'Permission.sms': return 'phid_sms_permit_warning'; break;
-      // case  'Permission.activityRecognition': return 'phid_activityRecognition_permit_warning'; break;
-      // case  'Permission.unknown': return 'phid_unknown_permit_warning'; break;
-      // case  'Permission.ignoreBatteryOptimizations': return 'phid_ignoreBatteryOptimizations_permit_warning'; break;
-      // case  'Permission.manageExternalStorage': return 'phid_manageExternalStorage_permit_warning'; break;
-      // case  'Permission.systemAlertWindow': return 'phid_systemAlertWindow_permit_warning'; break;
-      // case  'Permission.requestInstallPackages': return 'phid_requestInstallPackages_permit_warning'; break;
-      // case  'Permission.appTrackingTransparency': return 'phid_appTrackingTransparency_permit_warning'; break;
-      // case  'Permission.criticalAlerts': return 'phid_criticalAlerts_permit_warning'; break;
-      // case  'Permission.accessNotificationPolicy': return 'phid_accessNotificationPolicy_permit_warning'; break;
-      // case  'Permission.bluetoothScan': return 'phid_bluetoothScan_permit_warning'; break;
-      // case  'Permission.bluetoothAdvertise': return 'phid_bluetoothAdvertise_permit_warning'; break;
-      // case  'Permission.bluetoothConnect': return 'phid_bluetoothConnect_permit_warning'; break;
-      // case  'Permission.nearbyWifiDevices': return 'phid_nearbyWifiDevices_permit_warning'; break;
-      // case  'Permission.scheduleExactAlarm': return 'phid_scheduleExactAlarm_permit_warning'; break;
-
-      default: return 'phid_permission_warning';
-    }
-
-  }
   // -----------------------------------------------------------------------------
 
   /// REQUEST
