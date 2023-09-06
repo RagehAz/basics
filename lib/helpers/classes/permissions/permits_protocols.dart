@@ -16,6 +16,7 @@ class PermitProtocol {
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchGalleryPermit({
     required BuildContext context,
+    required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
     // // final bool _permissionGranted =
@@ -38,6 +39,7 @@ class PermitProtocol {
       final bool _canOpenStorage = await Permit.requestPermission(
         context: context,
         permission: Permission.storage,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied
       );
 
       if (DeviceChecker.deviceIsIOS() == true){
@@ -45,6 +47,7 @@ class PermitProtocol {
         final bool _cnaOpenPhotos = await Permit.requestPermission(
           context: context,
           permission: Permission.photos,
+          onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
         );
 
         _canPick = _cnaOpenPhotos == true && _canOpenStorage == true;
@@ -66,6 +69,7 @@ class PermitProtocol {
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchCameraPermit({
     required BuildContext context,
+    required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
     // CameraPicker().pickerConfig.
@@ -79,6 +83,7 @@ class PermitProtocol {
       final bool _permissionGranted = await Permit.requestPermission(
         context: context,
         permission: Permission.camera,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
 
       return _permissionGranted;
@@ -94,11 +99,13 @@ class PermitProtocol {
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchLocationPermitA({
     required BuildContext context,
+    required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
     final bool _permissionGranted = await Permit.requestPermission(
       context: context,
       permission: Permission.location,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     return _permissionGranted;

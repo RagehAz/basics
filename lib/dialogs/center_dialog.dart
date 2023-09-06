@@ -2,6 +2,7 @@ import 'package:basics/animators/widgets/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/bldrs_theme/classes/shadowers.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
@@ -69,7 +70,7 @@ class CenterDialog extends StatelessWidget {
     Function(BuildContext ctx)? onDialogContextCreated,
   }) async {
 
-    final bool _result = await showDialog(
+    final bool? _result = await showDialog(
       context: context,
       builder: (BuildContext ctx){
 
@@ -83,7 +84,7 @@ class CenterDialog extends StatelessWidget {
       },
     );
 
-    return _result;
+    return Mapper.boolIsTrue(_result);
   }
   // --------------------
   /// TESTED : WORKS PERFECT

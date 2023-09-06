@@ -2,6 +2,7 @@ import 'package:basics/dialogs/center_dialog.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -128,6 +129,7 @@ class Permit {
   static Future<bool> requestPermission({
     required BuildContext context,
     required Permission? permission,
+    required Function(Permission permission) onPermissionPermanentlyDenied,
     bool showDebugDialog = false,
   }) async {
 
@@ -153,10 +155,12 @@ class Permit {
         /// PERMANENTLY DENIED
         else if(_status.isPermanentlyDenied == true || _isDeniedOnIOS == true){
           blog('requestPermission: permission is permanently denied');
-          await allowPermissionDialog(
-            context: context,
-            permission: permission,
-          );
+          // await allowPermissionDialog(
+          //   context: context,
+          //   permission: permission,
+          //
+          // );
+          await onPermissionPermanentlyDenied(permission);
           _granted = await permission.isGranted;
           blog('requestPermission: permission is permanently denied and is : _granted : $_granted');
         }
@@ -359,17 +363,21 @@ class Permit {
     Widget? dialogBubble,
   }) async {
 
-    final bool _go = await CenterDialog.showCenterDialog(
+    final bool? _go = await CenterDialog.showCenterDialog(
         context: context,
         bubble: dialogBubble ?? CenterDialog.buildBubble(
           context: context,
           boolDialog: true,
           title: 'Permission is required',
           body: permission?.toString(),
+          buttons: CenterDialog.yesNoButtons(
+            context: context,
+            boolDialog: true,
+          )
         ),
     );
 
-    if (_go == true){
+    if (Mapper.boolIsTrue(_go) == true){
       await jumpToAppSettingsScreen();
     }
 

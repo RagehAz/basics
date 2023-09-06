@@ -9,6 +9,7 @@ import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/floaters.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/permissions/permits.dart';
 import 'package:basics/helpers/classes/permissions/permits_protocols.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
@@ -77,6 +78,7 @@ class PicMaker {
     required double aspectRatio,
     required bool appIsLTR,
     required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
     double? finalWidth,
     int? compressionQuality,
     AssetEntity? selectedAsset,
@@ -115,6 +117,7 @@ class PicMaker {
         appIsLTR: appIsLTR,
         onlyCompress: onlyCompress,
         langCode: langCode,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
 
       if (Mapper.checkCanLoopList(_bytezz) == true){
@@ -178,6 +181,7 @@ class PicMaker {
     required bool cropAfterPick,
     required bool appIsLTR,
     required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
     double? finalWidth,
     int? compressionQuality,
     int maxAssets = 10,
@@ -192,6 +196,7 @@ class PicMaker {
       maxAssets: maxAssets,
       selectedAssets: selectedAssets,
       langCode: langCode,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     /// RESIZE
@@ -231,6 +236,7 @@ class PicMaker {
     required BuildContext context,
     required int maxAssets,
     required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
     List<AssetEntity>? selectedAssets,
   }) async {
 
@@ -238,6 +244,7 @@ class PicMaker {
 
     final bool _canPick = await PermitProtocol.fetchGalleryPermit(
       context: context,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     if (_canPick == true){
@@ -289,6 +296,7 @@ class PicMaker {
     required double aspectRatio,
     required bool appIsLTR,
     required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
     double? finalWidth,
     int? compressionQuality,
     String confirmText = 'Crop',
@@ -301,6 +309,7 @@ class PicMaker {
     final Uint8List? _bytes = await _shootCameraPic(
       context: context,
       langCode: langCode,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     /// RESIZE -> COMPRESS -> CROP
@@ -350,10 +359,12 @@ class PicMaker {
   static Future<Uint8List?> _shootCameraPic({
     required BuildContext context,
     required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
     final bool _canShoot = await PermitProtocol.fetchCameraPermit(
       context: context,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     if (_canShoot == true){

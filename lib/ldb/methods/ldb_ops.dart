@@ -361,6 +361,9 @@ class LDBOps {
       if (_diff != null && _diff < refreshDurationInMinutes){
         _shouldRefresh = false;
       }
+      else {
+        _shouldRefresh = true;
+      }
 
     }
 

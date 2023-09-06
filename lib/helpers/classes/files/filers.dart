@@ -133,6 +133,7 @@ class Filers {
     required BuildContext context,
     required Map<String, dynamic> map,
     required String fileName,
+    required Function(Permission) onPermissionPermanentlyDenied,
     String exportToPath = '/storage/emulated/0/Misc'
   }) async {
     bool _success = false;
@@ -154,6 +155,7 @@ class Filers {
     final bool _can = await Permit.requestPermission(
       context: context,
       permission: Permission.storage,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
     if (_can == true){
