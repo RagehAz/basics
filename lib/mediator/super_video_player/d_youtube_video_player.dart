@@ -8,7 +8,7 @@ import 'package:basics/super_box/super_box.dart';
 import 'package:basics/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:youtube_metadata/youtube.dart' as meta;
+// import 'package:youtube_metadata/youtube.dart' as meta;
 
 class YoutubeVideoPlayer extends StatefulWidget {
   // --------------------------------------------------------------------------
@@ -94,29 +94,23 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
     super.didChangeDependencies();
   }
   // -----------------------------------------------------------------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST ME
   Future<String?> getYouTubeVideoCoverImage(String? videoID) async {
 
-    final String link = 'https://www.youtube.com/watch?v=$videoID';
-    final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
+    // final String link = 'https://www.youtube.com/watch?v=$videoID';
+    // final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
 
-    blog('metaData.title : ${metaData.title}');
-    blog('metaData.authorName : ${metaData.authorName}');
-    blog('metaData.authorUrl : ${metaData.authorUrl}');
-    blog('metaData.type : ${metaData.type}');
-    blog('metaData.height : ${metaData.height}');
-    blog('metaData.width : ${metaData.width}');
-    blog('metaData.version : ${metaData.version}');
-    blog('metaData.providerName : ${metaData.providerName}');
-    blog('metaData.providerUrl : ${metaData.providerUrl}');
-    blog('metaData.thumbnailHeight : ${metaData.thumbnailHeight}');
-    blog('metaData.thumbnailWidth : ${metaData.thumbnailWidth}');
-    blog('metaData.thumbnailUrl : ${metaData.thumbnailUrl}');
-    blog('metaData.html : ${metaData.html}');
-    blog('metaData.url : ${metaData.url}');
-    blog('metaData.description : ${metaData.description}');
+    final YoutubeMetaData? videoMetaData = _controller?.metadata;
+    final String? id = videoMetaData?.videoId;
 
-    return metaData.thumbnailUrl;
+    if (id == null){
+      return null;
+    }
+    else {
+      return 'https://img.youtube.com/vi/$id/0.jpg';
+    }
+
+
   }
   // --------------------
   /// TESTED : WORKS PERFECT
