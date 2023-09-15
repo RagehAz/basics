@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_catches_without_on_clauses
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,9 @@ Future<void> tryAndCatch({
     }
 
 
-  } on Exception catch (error) {
+  }
+  // on Exception : this does not work on web
+  catch (error) {
 
     blog('$invoker : tryAndCatch ERROR : $error');
 
@@ -94,7 +97,8 @@ Future<bool> tryCatchAndReturnBool({
   }
 
   /// CATCH EXCEPTION ERROR
-  on Exception catch (error) {
+  // on Exception : this does not work on web
+  catch (error) {
 
     blog('$invoker : tryAndCatch ERROR : $error');
 
