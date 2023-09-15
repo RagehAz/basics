@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -46,24 +47,27 @@ class Sembast  {
       kIsWeb == true ? null
           :
       await getApplicationDocumentsDirectory();
+      blog('1--> LDB : _appDocDir : $_appDocDir');
 
-      if (_appDocDir == null){
-        return null;
-      }
+      final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+      blog('2--> LDB : _packageInfo : $_packageInfo');
 
-      else {
-        final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-        final String packageName = _packageInfo.packageName;
-        // blog('--> LDB : packageName : $packageName');
-        final String _dbPath = kIsWeb == true ? packageName : join(_appDocDir.path, packageName);
-        final DatabaseFactory factory = kIsWeb == true ? databaseFactoryWeb : databaseFactoryIo;
-        // blog('--> LDB : before open factory.hasStorage : ${factory.hasStorage}');
-        final Database _db = await factory.openDatabase(_dbPath);
-        // blog('--> LDB : after open factory.hasStorage : ${factory.hasStorage}');
-        _dbOpenCompleter?.complete(_db);
-        return _db;
-    }
+      final String packageName = _packageInfo.packageName;
+      blog('3--> LDB : packageName : $packageName');
 
+      final String _dbPath = kIsWeb == true ? packageName : join(_appDocDir!.path, packageName);
+      blog('4--> LDB : _dbPath : $_dbPath');
+
+      final DatabaseFactory factory = kIsWeb == true ? databaseFactoryWeb : databaseFactoryIo;
+      blog('5--> LDB : before open factory.hasStorage : ${factory.hasStorage}');
+
+      final Database _db = await factory.openDatabase(_dbPath);
+      blog('6--> LDB : after open factory.hasStorage : ${factory.hasStorage}');
+
+      _dbOpenCompleter?.complete(_db);
+      blog('7--> LDB : done : _db : $_db');
+
+      return _db;
   }
   // --------------------
   /*
@@ -80,8 +84,8 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Database?> _getDB() async {
-      final Database? _result = await Sembast.instance.database;
-      return _result;
+    final Database? _result = await Sembast.instance.database;
+    return _result;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
