@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.15 : added errorize class
 ### 5.0.14 : new translations
 ### 5.0.13 : pubs upgrade
 ### 5.0.12 : more translations and added isLesserThan function
