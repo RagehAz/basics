@@ -1,4 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
@@ -167,6 +168,12 @@ class Timers {
       /// DATE TIME
       else if (time.runtimeType.toString() == 'DateTime'){
         _output = time;
+      }
+
+      /// FIRESTORE ON WEB
+      else if (fromJSON == false && ObjectCheck.objectIsMinified(time) == true){
+        final Timestamp timeStamp = time;
+        _output = timeStamp.toDate();
       }
 
       /// SOMETHING ELSE

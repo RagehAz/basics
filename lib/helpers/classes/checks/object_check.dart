@@ -297,12 +297,32 @@ class ObjectCheck {
   }
   // -----------------------------------------------------------------------------
 
-  /// NUMERALS - STRINGS
+  /// TIMES
 
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsDateTime(dynamic object) {
     return object?.runtimeType == DateTime;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// WEB
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool objectIsMinified(dynamic object){
+    bool _isMinified = false;
+
+    if (object != null){
+
+      _isMinified = TextCheck.stringStartsExactlyWith(
+          text: object.runtimeType.toString(),
+          startsWith: 'minified',
+      );
+
+    }
+
+    return _isMinified;
   }
   // -----------------------------------------------------------------------------
 }

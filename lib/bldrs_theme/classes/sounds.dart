@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
-import 'dart:io';
+import 'package:basics/helpers/classes/checks/device_checker.dart';
+import 'package:flutter/foundation.dart';
 
 class BldrsThemeSounds {
   // -----------------------------------------------------------------------------
@@ -49,10 +50,15 @@ class BldrsThemeSounds {
     bldrs_intro_wav,
   ];
   // --------------------
+  /// TESTED : WORKS PERFECT
   static List<String> allSoundsForPlatform(){
 
-    /// ANDROID
-    if (Platform.isAndroid == true){
+    /// WEB - ANDROID - WINDOWS
+    if (
+        kIsWeb == true ||
+        DeviceChecker.deviceIsAndroid() == true ||
+        DeviceChecker.deviceIsWindows() == true
+    ){
       return allAndroidSounds;
     }
 

@@ -5,6 +5,7 @@ import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
 /// => TAMAM
 class Errorize {
   // -----------------------------------------------------------------------------
@@ -151,7 +152,7 @@ $_x
   // -----------------------------------------------------------------------------
 }
 
-/// =>
+/// => TAMAM
 class Sentrize {
   // -----------------------------------------------------------------------------
 
@@ -162,7 +163,7 @@ class Sentrize {
   /// SENTRY INITIALIZATION
 
   // ----------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> initializeApp({
     required Function(WidgetsBinding binding) functions,
     required String dns,
