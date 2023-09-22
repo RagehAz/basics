@@ -193,6 +193,37 @@ class DeviceChecker {
 
   }
    */
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<BaseDeviceInfo?> getBaseDeviceInfo() async {
+    BaseDeviceInfo? _info;
+
+    /// WEB
+    if (kIsWeb == true) {
+      _info = await DeviceChecker.getDeviceInfoPlugin().webBrowserInfo;
+    }
+
+    /// ANDROID
+    if (DeviceChecker.deviceIsAndroid() == true) {
+      _info = await DeviceChecker.getDeviceInfoPlugin().androidInfo;
+    }
+
+    /// IOS
+    else if (DeviceChecker.deviceIsIOS() == true) {
+      _info = await DeviceChecker.getDeviceInfoPlugin().iosInfo;
+    }
+
+    /// WINDOWS
+    else if (DeviceChecker.deviceIsWindows() == true) {
+      _info = await DeviceChecker.getDeviceInfoPlugin().windowsInfo;
+    }
+
+    else {
+      /// FUCK IT
+    }
+
+    return _info;
+  }
   // -----------------------------------------------------------------------------
 
   /// DEVICE OS

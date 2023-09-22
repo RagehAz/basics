@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.16 : added Sentrize class
 ### 5.0.15 : added errorize class
 ### 5.0.14 : new translations
 ### 5.0.13 : pubs upgrade

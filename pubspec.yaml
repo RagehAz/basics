@@ -43,6 +43,7 @@ dependencies:
   flutter_image_compress: ^2.0.4
   android_path_provider: ^0.3.0
   flutter_udid: ^2.0.1
+  sentry_flutter: ^7.9.0
   # USED IN FIRE
   cloud_firestore: ^4.9.1
   firebase_core: ^2.15.1

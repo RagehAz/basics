@@ -1,6 +1,10 @@
 // ignore_for_file: unused_catch_clause
+import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
+import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 /// => TAMAM
 class Errorize {
   // -----------------------------------------------------------------------------
@@ -13,10 +17,10 @@ class Errorize {
 
   // ----------------------
   /// TESTED : WORKS PERFECT
-  static void throwText({
+  static Future<void> throwText({
     required String text,
     required String invoker,
-  }){
+  }) async {
 
     final String _text = '''
 Errorized : Invoker : [ $invoker ]
@@ -24,20 +28,15 @@ Errorized : Invoker : [ $invoker ]
             $text
     ''';
 
-    try {
-      throw Exception(_text);
-    }
-    on Exception catch (error) {
-      blog(_text);
-    }
+    await _throwAndCaptureException(_text);
 
   }
   // ----------------------
   /// TESTED : WORKS PERFECT
-  static void throwMap({
+  static Future<void> throwMap({
     required String invoker,
     required Map<String, dynamic>? map,
-  }){
+  }) async {
 
     final String _maw = stringifyMap(map);
 
@@ -47,20 +46,15 @@ Errorized : Invoker : [ $invoker ]
 $_maw
     ''';
 
-    try {
-      throw Exception(_text);
-    }
-    on Exception catch (error) {
-      blog(_text);
-    }
+    await _throwAndCaptureException(_text);
 
   }
   // ----------------------
   /// TESTED : WORKS PERFECT
-  static void throwMaps({
+  static Future<void> throwMaps({
     required String invoker,
     required List<Map<String, dynamic>> maps,
-  }){
+  }) async {
 
     final String _maw = stringifyMaps(maps);
 
@@ -70,12 +64,7 @@ Errorized : Invoker : [ $invoker ]
 $_maw
     ''';
 
-    try {
-      throw Exception(_text);
-    }
-    on Exception catch (error) {
-      blog(_text);
-    }
+    await _throwAndCaptureException(_text);
 
   }
   // -----------------------------------------------------------------------------
@@ -139,5 +128,109 @@ $_x
             return _text;
   }
   // -----------------------------------------------------------------------------
+
+  /// CAPTURING
+
+  // ----------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> _throwAndCaptureException(String text) async {
+
+    try {
+      throw Exception(text);
+    }
+
+    on Exception catch (error, stackTrace) {
+      await Sentry.captureException(
+        error,
+        stackTrace: stackTrace,
+      );
+      blog('_throwAndCaptureException : $error');
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }
 
+/// =>
+class Sentrize {
+  // -----------------------------------------------------------------------------
+
+  const Sentrize();
+
+  // -----------------------------------------------------------------------------
+
+  /// SENTRY INITIALIZATION
+
+  // ----------------------
+  ///
+  static Future<void> initializeApp({
+    required Function(WidgetsBinding binding) functions,
+    required String dns,
+    required Widget app,
+  }) async {
+
+    // --------------------
+    final PackageInfo pkg = await PackageInfo.fromPlatform();
+    blog('XXX === >>> INITIALIZING SENTRY : ${pkg.appName}');
+    // --------------------
+    await SentryFlutter.init((options) async {
+
+      // final release = AppPatcher.fullVersion;
+      options.dsn = dns; // AppConstants.sentryDsn;
+      options.release = pkg.version;
+      options.sendDefaultPii = true;
+      options.environment = 'production';
+      options.attachScreenshot = true;
+      options.beforeSend = (SentryEvent? event,{Hint? hint}) async {
+        blog('XXX === >>> CRASH : ${event?.message}');
+        return event;
+      };
+      },
+
+      appRunner: () async {
+        // --------------------
+        /// BINDING
+        final WidgetsBinding _binding = WidgetsFlutterBinding.ensureInitialized();
+        // --------------------
+        /// FUNCTIONS
+        await functions(_binding);
+        // --------------------
+        /// SENTRY CONFIGURATIONS
+        Sentry.configureScope((scope) async {
+
+          /// SET DEVICE INFO
+          final BaseDeviceInfo? deviceInfo = await DeviceChecker.getBaseDeviceInfo();
+          if (deviceInfo != null){
+            await scope.setContexts('device_info', deviceInfo.data);
+          }
+
+          /// SET PACKAGE INFO
+          final Map<String, String> packageInfoAsMap = <String, String>{
+            'packageName': pkg.packageName,
+            'appName': pkg.appName,
+            'buildNumber': pkg.buildNumber,
+            'buildSignature': pkg.buildSignature,
+            'version': pkg.version,
+          };
+          await scope.setContexts('package_info', packageInfoAsMap);
+
+
+        });
+        // --------------------
+        /// RUN
+        return runApp(
+          DefaultAssetBundle(
+            bundle: SentryAssetBundle(),
+            child: SentryScreenshotWidget(
+              child: app,
+            ),
+          ),
+        );
+        // --------------------
+      },
+    );
+    // --------------------
+
+  }
+  // -----------------------------------------------------------------------------
+}

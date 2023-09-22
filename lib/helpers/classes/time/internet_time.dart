@@ -139,7 +139,7 @@ class InternetTime{
     InternetTime? _output;
 
     final http.Response? _response = await Rest.get(
-      rawLink: 'http://worldtimeapi.org/api/ip',
+      rawLink: 'https://worldtimeapi.org/api/ip',
       invoker: 'getInternetUTCTime',
     );
 
