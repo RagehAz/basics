@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
@@ -138,7 +139,7 @@ class Mapper {
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
   static Map<String, dynamic>? getMapFromIHLMOO({
-    required Object? ihlmoo,
+    required dynamic ihlmoo,
   }){
     Map<String, dynamic>? _output;
 
@@ -154,7 +155,7 @@ class Mapper {
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromIHLMOO({
-    required Object? ihlmoo,
+    required dynamic ihlmoo,
     bool addChildrenIDs = true,
   }){
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
@@ -1509,14 +1510,18 @@ class Mapper {
   /// REAL - FIRE MAPPERS
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static List<String> getStringsFromTheDamnThing(dynamic thing){
     List<String> _output = [];
 
     if (thing != null){
 
+      /// ImmutableList<Object?>
       if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
         _output =  Stringer.getStringsFromDynamics(dynamics: thing);
       }
+
+      /// _Map<String, dynamic>
       else if (thing.runtimeType.toString() == '_Map<String, dynamic>'){
         final Map<String, dynamic> _map = thing;
         final List<String> _keys = _map.keys.toList();
@@ -1526,6 +1531,8 @@ class Mapper {
           }
         }
       }
+
+      /// List<dynamic>
       else if (thing.runtimeType.toString() == 'List<dynamic>') {
         final List<dynamic> things = thing;
         for (final dynamic item in things) {
@@ -1534,6 +1541,17 @@ class Mapper {
           }
         }
       }
+
+      /// minified
+      else if (ObjectCheck.objectIsMinified(thing) == true){
+        final List<dynamic> things = thing;
+        for (final dynamic item in things) {
+          if (item is String) {
+            _output.add(item);
+          }
+        }
+      }
+
       else {
         assert(thing == null, 'getStringsFromTheDamnThing something is wrong here ${thing.runtimeType}');
       }
