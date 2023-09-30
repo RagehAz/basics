@@ -137,7 +137,7 @@ class CropperFooter extends StatelessWidget {
             builder: (_, bool loading, Widget? child) {
               return SuperBox(
                 height: _miniImageHeight,
-                width: confirmText.length * 18,
+                width: _miniImageHeight * 3,
                 text: confirmText,
                 onTap: onCropImages,
                 color: Colorz.green255,

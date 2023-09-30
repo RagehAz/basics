@@ -1,6 +1,7 @@
 
 ---
 
+### 5.0.17 : fixes and updates
 ### 5.0.16 : added Sentrize class
 ### 5.0.15 : added errorize class
 ### 5.0.14 : new translations
