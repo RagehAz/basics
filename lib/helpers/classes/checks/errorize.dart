@@ -169,7 +169,9 @@ class Sentrize {
     required String dns,
     required Widget app,
   }) async {
-
+    // --------------------
+    /// BINDING
+    final WidgetsBinding _binding = WidgetsFlutterBinding.ensureInitialized();
     // --------------------
     final PackageInfo pkg = await PackageInfo.fromPlatform();
     blog('XXX === >>> INITIALIZING SENTRY : ${pkg.appName}');
@@ -189,9 +191,6 @@ class Sentrize {
       },
 
       appRunner: () async {
-        // --------------------
-        /// BINDING
-        final WidgetsBinding _binding = WidgetsFlutterBinding.ensureInitialized();
         // --------------------
         /// FUNCTIONS
         await functions(_binding);
