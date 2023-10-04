@@ -1517,8 +1517,12 @@ class Mapper {
 
     if (thing != null){
 
+      if (thing.runtimeType.toString() == 'List<String>'){
+        _output = thing;
+      }
+
       /// ImmutableList<Object?>
-      if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
+      else if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
         _output =  Stringer.getStringsFromDynamics(dynamics: thing);
       }
 

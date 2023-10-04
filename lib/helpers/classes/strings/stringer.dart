@@ -256,7 +256,10 @@ class Stringer {
     List<String> _output = <String>[];
 
     if (Mapper.checkCanLoopList(inputList) == true) {
-      inputList!.sort((String? a, String? b){
+
+      _output = <String>[...inputList!];
+
+      _output.sort((String? a, String? b){
 
         final String? _a = a?.toLowerCase();
         final String? _b = b?.toLowerCase();
@@ -271,8 +274,6 @@ class Stringer {
           return _a.compareTo(_b);
         }
       });
-
-      _output = <String>[...inputList];
 
     }
 
