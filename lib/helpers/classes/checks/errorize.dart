@@ -171,7 +171,10 @@ class Sentrize {
   }) async {
     // --------------------
     /// BINDING
-    final WidgetsBinding _binding = WidgetsFlutterBinding.ensureInitialized();
+    late WidgetsBinding _binding;
+    if (DeviceChecker.deviceIsIOS() == true){
+      _binding = WidgetsFlutterBinding.ensureInitialized();
+    }
     // --------------------
     final PackageInfo pkg = await PackageInfo.fromPlatform();
     blog('XXX === >>> INITIALIZING SENTRY : ${pkg.appName}');
@@ -191,6 +194,9 @@ class Sentrize {
       },
 
       appRunner: () async {
+      if (DeviceChecker.deviceIsIOS() == false){
+            _binding = WidgetsFlutterBinding.ensureInitialized();
+          }
         // --------------------
         /// FUNCTIONS
         await functions(_binding);
