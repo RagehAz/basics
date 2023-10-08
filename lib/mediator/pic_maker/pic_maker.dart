@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import
+// ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
@@ -19,12 +19,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image/image.dart' as img;
+import 'package:image_compression_flutter/image_compression_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-import 'package:image/image.dart' as img;
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-
 import 'text_delegates/camera_text_delegates.dart';
 import 'text_delegates/picker_text_delegates.dart';
 // -----------------------------------------------------------------------------
@@ -79,11 +78,10 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    double? finalWidth,
-    int? compressionQuality,
+    double? resizeToWidth,
+    int? compressWithQuality,
     AssetEntity? selectedAsset,
     String confirmText = 'Crop',
-    bool onlyCompress = false,
   }) async {
     Uint8List? _bytes;
 
@@ -94,7 +92,8 @@ class PicMaker {
         cropAfterPick: cropAfterPick,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
-        resizeToWidth: finalWidth,
+        resizeToWidth: resizeToWidth,
+        compressWithQuality: compressWithQuality,
       );
     }
 
@@ -111,11 +110,10 @@ class PicMaker {
         selectedAssets: _assets,
         cropAfterPick: cropAfterPick,
         aspectRatio: aspectRatio,
-        finalWidth: finalWidth,
-        compressionQuality: compressionQuality,
+        resizeToWidth: resizeToWidth,
+        compressWithQuality: compressWithQuality,
         confirmText: confirmText,
         appIsLTR: appIsLTR,
-        onlyCompress: onlyCompress,
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
@@ -135,6 +133,7 @@ class PicMaker {
     required double aspectRatio,
     required bool cropAfterPick,
     double? resizeToWidth,
+    int? compressWithQuality,
     String confirmText = 'Crop',
     bool appIsLTR = true,
   }) async {
@@ -147,12 +146,20 @@ class PicMaker {
 
       Uint8List? _bytes = await _file?.readAsBytes();
 
-          /// RESIZE
+      /// RESIZE
       if (resizeToWidth != null && _bytes != null){
         _bytes = await resizePic(
           bytes: _bytes,
-          finalWidth: resizeToWidth,
+          resizeToWidth: resizeToWidth,
           // isFlyerRatio: isFlyerRatio,
+        );
+      }
+
+      /// COMPRESS
+      if (compressWithQuality != null && _bytes != null){
+        _bytes = await compressPic(
+          bytes: _bytes,
+          quality: compressWithQuality,
         );
       }
 
@@ -182,12 +189,11 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    double? finalWidth,
-    int? compressionQuality,
+    double? resizeToWidth,
+    int? compressWithQuality,
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     String confirmText = 'Crop',
-    bool onlyCompress = false,
   }) async {
 
     /// PICK
@@ -200,20 +206,19 @@ class PicMaker {
     );
 
     /// RESIZE
-    if (onlyCompress == false && finalWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
+    if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
       _bytezz = await resizePics(
         bytezz: _bytezz,
-        resizeToWidth: finalWidth,
+        resizeToWidth: resizeToWidth,
         // isFlyerRatio: isFlyerRatio,
       );
     }
 
     /// COMPRESS
-    if (compressionQuality != null && finalWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
+    if (compressWithQuality != null && Mapper.checkCanLoopList(_bytezz) == true){
       _bytezz = await compressPics(
           bytezz: _bytezz,
-          compressToWidth: finalWidth,
-          quality: compressionQuality,
+          quality: compressWithQuality,
       );
     }
 
@@ -297,10 +302,9 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    double? finalWidth,
-    int? compressionQuality,
+    double? resizeToWidth,
+    int? compressWithQuality,
     String confirmText = 'Crop',
-    bool onlyCompress = false,
   }) async {
 
     Uint8List? _output;
@@ -318,19 +322,18 @@ class PicMaker {
       List<Uint8List> _bytezz = <Uint8List>[_bytes];
 
       /// RESIZE
-      if (onlyCompress == false && finalWidth != null && Mapper.checkCanLoopList(_bytezz) ==true){
+      if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) ==true){
         _bytezz = await resizePics(
           bytezz: _bytezz,
-          resizeToWidth: finalWidth,
+          resizeToWidth: resizeToWidth,
         );
       }
 
       /// COMPRESS
-      if (compressionQuality != null && finalWidth != null && Mapper.checkCanLoopList(_bytezz) ==true){
+      if (compressWithQuality != null && Mapper.checkCanLoopList(_bytezz) ==true){
       _bytezz = await compressPics(
           bytezz: _bytezz,
-          compressToWidth: finalWidth,
-          quality: compressionQuality,
+          quality: compressWithQuality,
       );
     }
 
@@ -525,28 +528,28 @@ class PicMaker {
   static Future<Uint8List?> resizePic({
     required Uint8List? bytes,
     /// image width will be resized to this final width
-    required double? finalWidth,
+    required double? resizeToWidth,
   }) async {
 
     blog('resizeImage : START');
 
     Uint8List? _output = bytes;
 
-    if (bytes != null && finalWidth != null){
+    if (bytes != null && resizeToWidth != null){
 
       img.Image? _imgImage = await Floaters.getImgImageFromUint8List(bytes);
 
       /// only resize if final width is smaller than original
-      if (_imgImage != null && finalWidth < _imgImage.width){
+      if (_imgImage != null && resizeToWidth < _imgImage.width){
 
         final double? _aspectRatio = await Dimensions.getPicAspectRatio(bytes);
 
         _imgImage = Floaters.resizeImgImage(
           imgImage: _imgImage,
-          width: finalWidth.floor(),
+          width: resizeToWidth.floor(),
           height: Dimensions.getHeightByAspectRatio(
               aspectRatio: _aspectRatio,
-              width: finalWidth
+              width: resizeToWidth
           )!.floor(),
         );
 
@@ -571,7 +574,7 @@ class PicMaker {
 
         final Uint8List? _resized = await resizePic(
           bytes: bytes,
-          finalWidth: resizeToWidth,
+          resizeToWidth: resizeToWidth,
         );
 
         if (_resized != null){
@@ -592,56 +595,68 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> compressPic({
     required Uint8List? bytes,
-    required double? compressToWidth,
     required int quality,
   }) async {
-    Uint8List? _output;
+    Uint8List? _output = bytes;
 
-    if (bytes != null && compressToWidth != null){
+    if (bytes != null){
 
       final Dimensions? _dims = await Dimensions.superDimensions(bytes);
       final double? _aspectRatio = _dims?.getAspectRatio();
 
-      final double? _compressToHeight = Dimensions.getHeightByAspectRatio(
-          aspectRatio: _aspectRatio,
-          width: compressToWidth,
-      );
-
-      if (_dims != null && _aspectRatio != null && _compressToHeight != null){
+      if (
+          _dims != null
+              &&
+          _aspectRatio != null
+      ){
 
         await tryAndCatch(
           invoker: 'compressPic',
           functions: () async {
-            _output = await FlutterImageCompress.compressWithList(
-              bytes,
-              minWidth: compressToWidth.toInt(),
-              minHeight: _compressToHeight.toInt(),
-              quality: quality,
-              // autoCorrectionAngle: ,
-              // format: ,
-              // inSampleSize: ,
-              // keepExif: ,
-              // rotate: ,
+
+            final ImageFile input = ImageFile(
+              filePath: 'x',
+              rawBytes: bytes,
+              // width: _dims.width?.toInt(),
+              // height: _dims.height?.toInt(),
+              // contentType: ,
             );
+
+            final Configuration config = Configuration(
+              outputType: ImageOutputType.webpThenJpg,
+              /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
+              useJpgPngNativeCompressor: false,
+              /// set quality between 0-100
+              quality: quality,
+            );
+
+            final ImageFileConfiguration param = ImageFileConfiguration(
+              input: input,
+              config: config,
+            );
+
+            final ImageFile outputFile = await compressor.compress(param);
+
+            _output = outputFile.rawBytes;
+
             },
           onError: (String error) async {
-            blog(error);
-            _output = await FlutterImageCompress.compressWithList(
-              bytes,
-              minWidth: compressToWidth.toInt(),
-              minHeight: _compressToHeight.toInt(),
-              quality: quality,
-              // autoCorrectionAngle: ,
-              // format: ,
-              // inSampleSize: ,
-              // keepExif: ,
-              // rotate: ,
-            );
+            // blog(error);
+            // _output = await FlutterImageCompress.compressWithList(
+            //   bytes,
+            //   minWidth: compressToWidth.toInt(),
+            //   minHeight: _compressToHeight.toInt(),
+            //   quality: quality,
+            //   // autoCorrectionAngle: ,
+            //   // format: ,
+            //   // inSampleSize: ,
+            //   // keepExif: ,
+            //   // rotate: ,
+            // );
             },
         );
 
       }
-
 
     }
 
@@ -651,18 +666,16 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>> compressPics({
     required List<Uint8List>? bytezz,
-    required double? compressToWidth,
     required int quality,
   }) async {
     final List<Uint8List> _output = <Uint8List>[];
 
-    if (Mapper.checkCanLoopList(bytezz) == true && compressToWidth != null){
+    if (Mapper.checkCanLoopList(bytezz) == true){
 
       for (final Uint8List bytes in bytezz!){
 
         final Uint8List? _resized = await compressPic(
           bytes: bytes,
-          compressToWidth: compressToWidth,
           quality: quality,
         );
 

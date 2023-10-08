@@ -136,8 +136,24 @@ class ImageSwitcher extends StatelessWidget {
 
       final BoxFit _boxFit = boxFit ?? BoxFit.cover;
 
+      if (pic is IconData){
+        return Icon(
+          pic,
+          key: const ValueKey<String>('SuperImage_iconData'),
+          // semanticLabel: 'SuperImage_iconData',
+          size: height! * (scale ?? 1) * 1.2,
+          color: iconColor ?? Colorz.white255,
+          // weight: 1,
+          // fill: 1,
+          // grade: 1,
+          // opticalSize: 1,
+          // textDirection: TextDirection.ltr,
+          // shadows: [],
+        ).build(context);
+      }
+
       /// URL
-      if (ObjectCheck.isAbsoluteURL(pic) == true){
+      else if (ObjectCheck.isAbsoluteURL(pic) == true){
 
         return Image.network(
           pic.trim(),

@@ -126,6 +126,11 @@ class DeviceChecker {
       return _deviceID;
     }
 
+    else if (deviceIsWindows() == true){
+      final WindowsDeviceInfo info = await deviceInfo.windowsInfo;
+      return info.deviceId;
+    }
+
     /// NOT ANDROID + NOT IOS
     else {
       return null;
@@ -160,6 +165,11 @@ class DeviceChecker {
     else if(deviceIsAndroid() == true) {
       final AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
       return androidDeviceInfo.model;
+    }
+
+    else if (deviceIsWindows() == true){
+      final WindowsDeviceInfo info = await deviceInfo.windowsInfo;
+      return info.computerName;
     }
 
     /// NOT ANDROID + NOT IOS
