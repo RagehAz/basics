@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
@@ -19,7 +20,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image/image.dart' as img;
 import 'package:image_compression_flutter/image_compression_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -365,95 +365,103 @@ class PicMaker {
     required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
-    final bool _canShoot = await PermitProtocol.fetchCameraPermit(
-      context: context,
-      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
-    );
+    if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
+      return null;
+    }
 
-    if (_canShoot == true){
-      final AssetEntity? entity = await CameraPicker.pickFromCamera(
-        context,
-        pickerConfig: CameraPickerConfig(
+    else {
 
-          /// TURNS - ORIENTATION
-          // cameraQuarterTurns: 1, // DEFAULT
-          lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
-
-          /// AUDIO
-          // enableAudio: true, // DEFAULT
-
-          /// EXPOSURE
-          // enableExposureControlOnPoint: true, // DEFAULT
-          // enableSetExposure: true, // DEFAULT
-
-          /// ZOOMING
-          // enablePinchToZoom: true, // DEFAULT
-          // enablePullToZoomInRecord: true, // DEFAULT
-
-          /// PREVIEW
-          // enableScaledPreview: true, // DEFAULT
-          // shouldAutoPreviewVideo: false, // DEFAULT
-          // shouldDeletePreviewFile: false, // DEFAULT
-
-          /// VIDEO
-          // enableRecording: false, // DEFAULT
-          // enableTapRecording: false, // DEFAULT
-          // onlyEnableRecording: false, // DEFAULT
-          // maximumRecordingDuration: const Duration(seconds: 15), // DEFAULT
-
-          /// FORMAT
-          imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
-          // resolutionPreset: ResolutionPreset.max, // DEFAULT
-
-          /// CAMERA
-          // preferredLensDirection: CameraLensDirection.back, // DEFAULT
-
-          /// THEME - TEXTS
-          textDelegate: getCameraTextDelegateByLangCode(langCode),
-
-          // theme: ThemeData.dark(),
-
-          // onError: (Object object, StackTrace trace){
-          //   blog('onError : $object : trace : $trace');
-          // },
-          //
-          // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
-          //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
-          //   return Container();
-          // },
-          //
-          // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
-          //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
-          // },
-          //
-          // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
-          //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
-          //   return true;
-          // },
-          //
-          // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
-          //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
-          //   return Container();
-          // },
-
-        ),
+      final bool _canShoot = await PermitProtocol.fetchCameraPermit(
+        context: context,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
 
-      if (entity == null){
-        return null;
+      if (_canShoot == true){
+        final AssetEntity? entity = await CameraPicker.pickFromCamera(
+          context,
+          pickerConfig: CameraPickerConfig(
+
+            /// TURNS - ORIENTATION
+            // cameraQuarterTurns: 1, // DEFAULT
+            lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
+
+            /// AUDIO
+            // enableAudio: true, // DEFAULT
+
+            /// EXPOSURE
+            // enableExposureControlOnPoint: true, // DEFAULT
+            // enableSetExposure: true, // DEFAULT
+
+            /// ZOOMING
+            // enablePinchToZoom: true, // DEFAULT
+            // enablePullToZoomInRecord: true, // DEFAULT
+
+            /// PREVIEW
+            // enableScaledPreview: true, // DEFAULT
+            // shouldAutoPreviewVideo: false, // DEFAULT
+            // shouldDeletePreviewFile: false, // DEFAULT
+
+            /// VIDEO
+            // enableRecording: false, // DEFAULT
+            // enableTapRecording: false, // DEFAULT
+            // onlyEnableRecording: false, // DEFAULT
+            // maximumRecordingDuration: const Duration(seconds: 15), // DEFAULT
+
+            /// FORMAT
+            imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
+            // resolutionPreset: ResolutionPreset.max, // DEFAULT
+
+            /// CAMERA
+            // preferredLensDirection: CameraLensDirection.back, // DEFAULT
+
+            /// THEME - TEXTS
+            textDelegate: getCameraTextDelegateByLangCode(langCode),
+
+            // theme: ThemeData.dark(),
+
+            // onError: (Object object, StackTrace trace){
+            //   blog('onError : $object : trace : $trace');
+            // },
+            //
+            // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
+            //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
+            //   return Container();
+            // },
+            //
+            // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
+            //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
+            // },
+            //
+            // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
+            //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
+            //   return true;
+            // },
+            //
+            // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
+            //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
+            //   return Container();
+            // },
+
+          ),
+        );
+
+        if (entity == null){
+          return null;
+        }
+
+        else {
+          final File? _file = await entity.file;
+          final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
+          return _bytes;
+        }
+
       }
 
       else {
-        final File? _file = await entity.file;
-        final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
-        return _bytes;
+        return null;
       }
 
     }
-
-      else {
-        return null;
-      }
 
   }
   // -----------------------------------------------------------------------------
@@ -537,24 +545,29 @@ class PicMaker {
 
     if (bytes != null && resizeToWidth != null){
 
-      img.Image? _imgImage = await Floaters.getImgImageFromUint8List(bytes);
+      // img.Image? _imgImage = await Floaters.getImgImageFromUint8List(bytes);
+      //
+      // /// only resize if final width is smaller than original
+      // if (_imgImage != null && resizeToWidth < _imgImage.width){
+      //
+      //   final double? _aspectRatio = await Dimensions.getPicAspectRatio(bytes);
+      //
+      //   _imgImage = Floaters.resizeImgImage(
+      //     imgImage: _imgImage,
+      //     width: resizeToWidth.floor(),
+      //     height: Dimensions.getHeightByAspectRatio(
+      //         aspectRatio: _aspectRatio,
+      //         width: resizeToWidth
+      //     )!.floor(),
+      //   );
+      //
+      //   _output = Floaters.getBytesFromImgImage(_imgImage);
+      // }
 
-      /// only resize if final width is smaller than original
-      if (_imgImage != null && resizeToWidth < _imgImage.width){
-
-        final double? _aspectRatio = await Dimensions.getPicAspectRatio(bytes);
-
-        _imgImage = Floaters.resizeImgImage(
-          imgImage: _imgImage,
-          width: resizeToWidth.floor(),
-          height: Dimensions.getHeightByAspectRatio(
-              aspectRatio: _aspectRatio,
-              width: resizeToWidth
-          )!.floor(),
-        );
-
-        _output = Floaters.getBytesFromImgImage(_imgImage);
-      }
+      _output = await Floaters.resizeBytes(
+        bytes: bytes,
+        resizeToWidth: resizeToWidth,
+      );
 
     }
 
@@ -792,6 +805,7 @@ class PicMaker {
   /// PICKER CONFIG
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<AssetPickerConfig> assetPickerConfig({
     required BuildContext context,
     required int maxAssets,

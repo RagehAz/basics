@@ -2,21 +2,24 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui' as ui;
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/rest/rest.dart';
+import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
+import 'package:basics/mediator/models/dimension_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image/image.dart' as img;
-import 'package:basics/helpers/classes/strings/text_check.dart';
-import 'package:flutter/services.dart';
 
 class Floaters {
   // -----------------------------------------------------------------------------
@@ -147,9 +150,11 @@ class Floaters {
     img.Image? _output;
 
     if (imgImage != null){
+
       _output = img.copyResize(imgImage,
         width: width,
         height: height,
+        // interpolation: Interpolation.cubic,
       );
     }
 
@@ -365,6 +370,46 @@ static img.Image decodeToImgImage({
     }
 
     return _uints;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> resizeBytes({
+    required Uint8List? bytes,
+    required double? resizeToWidth,
+  }) async {
+    Uint8List? _output = bytes;
+
+    if (bytes != null && resizeToWidth != null){
+
+      final Dimensions? _dims = await Dimensions.superDimensions(bytes);
+
+      if (Numeric.isLesserThan(number: resizeToWidth, isLesserThan: _dims?.width) == true){
+
+        final double? _aspectRatio = _dims?.getAspectRatio();
+        final double? _resizeToHeight = Dimensions.getHeightByAspectRatio(
+            aspectRatio: _aspectRatio,
+            width: resizeToWidth,
+        );
+
+        final img.Image? _img = img.decodeImage(bytes);
+
+        if (_img != null && _resizeToHeight != null){
+
+          final img.Image resizedImage = img.copyResize(
+            _img,
+            width: resizeToWidth.toInt(),
+            height: _resizeToHeight.toInt(),
+          );
+
+          _output = img.encodeJpg(resizedImage);
+
+        }
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
