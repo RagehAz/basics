@@ -277,6 +277,25 @@ class DeviceChecker {
       }
     }
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool deviceIsSmartPhone(){
+
+    if (kIsWeb == true){
+      return false;
+    }
+    else if (Platform.isAndroid == true){
+      return true;
+    }
+    else if (Platform.isIOS == true){
+      return true;
+    }
+    else {
+      /// windows - linux - macos - fuchsia
+      return false;
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// SCREEN DIRECTION
