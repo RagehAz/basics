@@ -231,7 +231,8 @@ class Timers {
     }
 
   }
-
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static bool _hasTheStringPattern(dynamic input) {
 
     /// patternA : 1987-06-09 21:00:00.000Z
@@ -258,7 +259,6 @@ class Timers {
     }
 
   }
-
   // --------------------
   /// AI TESTED
   static List<dynamic> cipherTimes({
