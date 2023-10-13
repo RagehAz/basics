@@ -1,4 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:basics/helpers/classes/checks/error_helpers.dart';
+import 'package:basics/helpers/classes/checks/errorize.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
@@ -151,38 +153,73 @@ class Timers {
     }
     else {
 
-      /// FROM JSON
-      if (fromJSON == true && time is int){
-        _output = decipherIntToDateTime(
-          integer: time,
-          toLocal: toLocal,
-        );
-      }
+      tryAndCatch(
+        invoker: 'decipherTime',
+        functions: () async {
 
-      /// TIME STAMP
-      else if (time.runtimeType.toString() == 'Timestamp'){
-        final Timestamp timeStamp = time;
-        _output = timeStamp.toDate();
-      }
+          /// FROM JSON
+          if (fromJSON == true && time is int){
+            _output = decipherIntToDateTime(
+              integer: time,
+              toLocal: toLocal,
+            );
+          }
 
-      /// DATE TIME
-      else if (time.runtimeType.toString() == 'DateTime'){
-        _output = time;
-      }
+          /// TIME STAMP
+          else if (time.runtimeType.toString() == 'Timestamp'){
+            final Timestamp timeStamp = time;
+            _output = timeStamp.toDate();
+          }
 
-      /// FIRESTORE ON WEB
-      else if (fromJSON == false && ObjectCheck.objectIsMinified(time) == true){
-        final Timestamp timeStamp = time;
-        _output = timeStamp.toDate();
-      }
+          /// DATE TIME
+          else if (time.runtimeType.toString() == 'DateTime'){
+            _output = time;
+          }
 
-      /// SOMETHING ELSE
-      else {
-        _output = decipherDateTimeIso8601(
-          timeString: time,
-          toLocal: toLocal,
-        );
-      }
+          /// FIRESTORE ON WEB
+          else if (fromJSON == false && ObjectCheck.objectIsMinified(time) == true){
+
+            final bool _hasThePattern = _hasTheStringPattern(time);
+
+            if (_hasThePattern == true){
+              final String _string = time.toString().trim();
+              _output = DateTime.parse(_string);
+            }
+            else {
+              final Timestamp timeStamp = time;
+              _output = timeStamp.toDate();
+            }
+
+          }
+
+          /// SOMETHING ELSE
+          else {
+            _output = decipherDateTimeIso8601(
+              timeString: time,
+              toLocal: toLocal,
+            );
+          }
+
+        },
+        onError: (String? error){
+          Errorize.throwMap(
+              invoker: 'decipherTime',
+              map: {
+                'time': time,
+                'fromJSON': fromJSON,
+                'toLocal': toLocal,
+                'time.runTimeType': time.runtimeType.toString(),
+                'isMinified': ObjectCheck.objectIsMinified(time),
+                'hasTheStringPattern': _hasTheStringPattern(time),
+                'iso8601': decipherDateTimeIso8601(
+                  timeString: time,
+                  toLocal: toLocal,
+                )?.toString(),
+                'error': error,
+              },
+          );
+        }
+      );
 
     }
 
@@ -194,6 +231,34 @@ class Timers {
     }
 
   }
+
+  static bool _hasTheStringPattern(dynamic input) {
+
+    /// patternA : 1987-06-09 21:00:00.000Z
+    /// patternB : 1987-06-09 21:00:00.000
+
+    if (input == null){
+      return false;
+    }
+    else {
+
+      final RegExp regexA = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}Z');
+      final bool aHasMatch = regexA.firstMatch(input) != null;
+      final RegExp regexB = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}');
+      final bool bHasMatch = regexB.firstMatch(input) != null;
+
+      if (aHasMatch == true || bHasMatch == true) {
+        return true;
+      }
+
+      else {
+        return false;
+      }
+
+    }
+
+  }
+
   // --------------------
   /// AI TESTED
   static List<dynamic> cipherTimes({
