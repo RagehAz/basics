@@ -144,7 +144,7 @@ class Phrase {
 
     final List<String> _trigram = _getTrigramIfIncluded(
       includeTrigram: includeTrigram,
-      existingTrigram: Stringer.getStringsFromDynamics(dynamics: map['trigram']),
+      existingTrigram: Stringer.getStringsFromDynamics(map['trigram']),
       originalString: map['value'],
     );
 
@@ -1885,7 +1885,7 @@ class Phrase {
           final Phrase _phrase = Phrase(
             id: cityID,
             value: _map['value'],
-            trigram: Stringer.getStringsFromDynamics(dynamics: _map['trigram']),
+            trigram: Stringer.getStringsFromDynamics(_map['trigram']),
             langCode: langCode,
           );
           _output.add(_phrase);

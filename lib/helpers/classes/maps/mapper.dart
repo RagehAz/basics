@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
@@ -1502,64 +1501,6 @@ class Mapper {
     }
     else if (list is double || list is double?){
       _output = list?.toInt();
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// REAL - FIRE MAPPERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static List<String> getStringsFromTheDamnThing(dynamic thing){
-    List<String> _output = [];
-
-    if (thing != null){
-
-      if (thing.runtimeType.toString() == 'List<String>'){
-        _output = thing;
-      }
-
-      /// ImmutableList<Object?>
-      else if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
-        _output =  Stringer.getStringsFromDynamics(dynamics: thing);
-      }
-
-      /// _Map<String, dynamic>
-      else if (thing.runtimeType.toString() == '_Map<String, dynamic>'){
-        final Map<String, dynamic> _map = thing;
-        final List<String> _keys = _map.keys.toList();
-        for (final String key in _keys){
-          if (_map[key] is String){
-            _output.add(_map[key]);
-          }
-        }
-      }
-
-      /// List<dynamic>
-      else if (thing.runtimeType.toString() == 'List<dynamic>') {
-        final List<dynamic> things = thing;
-        for (final dynamic item in things) {
-          if (item is String) {
-            _output.add(item);
-          }
-        }
-      }
-
-      /// minified
-      else if (ObjectCheck.objectIsMinified(thing) == true){
-        final List<dynamic> things = thing;
-        for (final dynamic item in things) {
-          if (item is String) {
-            _output.add(item);
-          }
-        }
-      }
-
-      else {
-        assert(thing == null, 'getStringsFromTheDamnThing something is wrong here ${thing.runtimeType}');
-      }
     }
 
     return _output;
