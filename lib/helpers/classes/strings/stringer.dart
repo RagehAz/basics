@@ -290,7 +290,7 @@ class Stringer {
     return _getStringsFromTheDamnThing(dynamics);
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> _getStringsFromTheDamnThing(dynamic thing){
     List<String> _output = [];
 
@@ -302,7 +302,7 @@ class Stringer {
 
       /// ImmutableList<Object?>
       else if (thing.runtimeType.toString() == 'ImmutableList<Object?>'){
-        _output =  _getStringsFromDynamicsList(dynamics: thing);
+        _output =  _getStringsFromDynamicsList(thing);
       }
 
       /// _Map<String, dynamic>
@@ -327,14 +327,7 @@ class Stringer {
           thing.runtimeType.toString() == 'List<dynamic>?'
       ){
         final List<dynamic> things = thing;
-        for (final dynamic item in things) {
-          if (item is String) {
-            _output.add(item);
-          }
-          else {
-            _output.add(item.toString());
-          }
-        }
+        _output = _getStringsFromDynamicsList(things);
       }
 
       /// minified
@@ -346,6 +339,10 @@ class Stringer {
           }
         }
       }
+      
+      else if (thing is List){
+        _output = _getStringsFromDynamicsList(thing);
+      }
 
       else {
         assert(thing == null, 'getStringsFromTheDamnThing something is wrong here ${thing.runtimeType}');
@@ -355,10 +352,8 @@ class Stringer {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static List<String> _getStringsFromDynamicsList({
-    required List<dynamic>? dynamics,
-  }) {
+  /// AI TESTED
+  static List<String> _getStringsFromDynamicsList(List<dynamic>? dynamics) {
     final List<String> _strings = [];
 
     if (Mapper.checkCanLoopList(dynamics) == true) {
@@ -369,7 +364,7 @@ class Stringer {
         }
 
         else if (thing is List){
-          final List<String> _sub = getStringsFromDynamics(thing);
+          final List<String> _sub = _getStringsFromDynamicsList(thing);
           _strings.addAll(_sub);
         }
 
