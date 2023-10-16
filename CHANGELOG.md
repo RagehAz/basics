@@ -1,6 +1,7 @@
 
 ---
 
+### 5.2.1 : fixed bad icons
 ### 5.2.0 : things are good
 ### 5.1.0 : move binding to top most
 ### 5.0.17 : fixes and updates
