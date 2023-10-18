@@ -262,6 +262,7 @@ class Scale {
     required int? numberOfItems,
     required double? boxWidth,
     double spacing = 10,
+    bool considerMargins = true,
   }) {
 
     /// this concludes item width after dividing screen width over number of items
@@ -270,7 +271,17 @@ class Scale {
     double _width = 0;
 
     if (numberOfItems != null && boxWidth != null){
-      _width = (boxWidth - (spacing * (numberOfItems + 1))) / numberOfItems;
+
+      /// has side margins same as spacing
+      if (considerMargins == true){
+        _width = (boxWidth - (spacing * (numberOfItems + 1))) / numberOfItems;
+      }
+
+      /// has no side margins
+      else {
+        _width = (boxWidth - (spacing * (numberOfItems - 1))) / numberOfItems;
+      }
+
     }
 
     return _width;
