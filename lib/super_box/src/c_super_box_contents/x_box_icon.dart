@@ -21,7 +21,7 @@ class BoxIcon extends StatelessWidget {
   /// --------------------------------------------------------------------------
   final dynamic icon;
   final bool loading;
-  final double? size;
+  final double size;
   final BorderRadius? corners;
   final bool greyscale;
   final bool solidGreyScale;
@@ -36,7 +36,7 @@ class BoxIcon extends StatelessWidget {
 
     if (loading == true){
       return Loading(
-        size: (size ?? 40) * 0.7,
+        size: size * 0.7,
         color: const Color.fromARGB(650, 255, 255, 255),
       );
     }

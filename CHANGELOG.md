@@ -1,6 +1,7 @@
 
 ---
 
+### 5.2.3 : SuperBox icon can be text or num now
 ### 5.2.2 : updated Scale class
 ### 5.2.1 : fixed bad icons
 ### 5.2.0 : things are good

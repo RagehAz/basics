@@ -16,7 +16,7 @@ class SuperImageBox extends StatelessWidget {
   }); 
   /// --------------------------------------------------------------------------
   final double? width;
-  final double? height;
+  final double height;
   final BoxFit boxFit;
   final double? scale;
   final Color? backgroundColor;

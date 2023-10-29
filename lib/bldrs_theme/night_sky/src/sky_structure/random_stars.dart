@@ -12,7 +12,7 @@ class RandomStar extends StatelessWidget {
     super.key
   }); 
   /// --------------------------------------------------------------------------
-  final double? size;
+  final double size;
   final Color? color;
   /// --------------------------------------------------------------------------
   @override

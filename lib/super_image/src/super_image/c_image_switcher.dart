@@ -2,9 +2,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/super_text/super_text.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
@@ -29,7 +31,7 @@ class ImageSwitcher extends StatelessWidget {
   /// --------------------------------------------------------------------------
   final dynamic pic;
   final double? width;
-  final double? height;
+  final double height;
   final BoxFit? boxFit;
   final double? scale;
   final Color? iconColor;
@@ -69,8 +71,6 @@ class ImageSwitcher extends StatelessWidget {
         ||
         imageChunkEvent.expectedTotalBytes == null
         ||
-        height == null
-        ||
         width == null
     ){
       return child ?? const SizedBox();
@@ -91,7 +91,7 @@ class ImageSwitcher extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Container(
             width: width,
-            height: height! * _percentage,
+            height: height * _percentage,
             color: backgroundColor ?? Colorz.white20,
           ),
         );
@@ -127,25 +127,25 @@ class ImageSwitcher extends StatelessWidget {
     if (loading == true){
       return InfiniteLoadingBox(
           width: width!,
-          height: height!,
+          height: height,
           color: backgroundColor,
         );
     }
 
-    else if (pic != null && pic != '' && width != null && height != null){
+    else if (pic != null && pic != '' && width != null){
 
       final BoxFit _boxFit = boxFit ?? BoxFit.cover;
 
       if (pic is IconData){
         return Container(
           width: width,
-          height: height! * (scale ?? 1) * 1.2,
+          height: height * (scale ?? 1) * 1.2,
           alignment: Alignment.center,
           child: Icon(
             pic,
             key: const ValueKey<String>('SuperImage_iconData'),
             // semanticLabel: 'SuperImage_iconData',
-            size: height! * (scale ?? 1) * 1.2,
+            size: height * (scale ?? 1) * 1.2,
             color: iconColor ?? Colorz.white255,
             // weight: 1,
             // fill: 1,
@@ -372,17 +372,35 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      else if (pic is String || pic is String? || pic is num || pic is num?){
+
+        final String _text = pic.toString();
+
+        return SuperText(
+          boxWidth: width,
+          boxHeight: height,
+          boxColor: backgroundColor,
+          text: _text,
+          weight: FontWeight.w100,
+          letterSpacing: 1,
+          font: BldrsThemeFonts.fontBldrsHeadlineFont,
+          appIsLTR: true,
+          textHeight: height * (scale ?? 1),
+          textColor: iconColor ?? Colorz.white255,
+        );
+      }
+
       /// NEITHER ANY OF ABOVE
       else {
-        return Image.asset(
-          Iconz.dvGouran,
-          key: const ValueKey<String>('SuperImage_other'),
-          fit: boxFit,
+
+        // blog('SUPER IMAGE ERROR : ${pic.runtimeType} : $pic');
+
+        return SizedBox(
           width: width,
           height: height,
-          errorBuilder: _errorBuilder,
-          scale: 1,
+          // color: Colorz.errorColor,
         );
+
       }
 
     }

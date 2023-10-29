@@ -20,7 +20,7 @@ class SuperBoxIcon extends StatelessWidget {
         super.key
   }); 
   /// --------------------------------------------------------------------------
-  final double? height;
+  final double height;
   final BorderRadius? corners;
   final dynamic icon;
   final bool loading;
@@ -35,7 +35,7 @@ class SuperBoxIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double _jpgGraphicWidth = (height ?? 0) * (iconSizeFactor ?? 1);
+    final double _jpgGraphicWidth = height * (iconSizeFactor ?? 1);
 
     return Container(
       key: const ValueKey<String>('DreamIconBox'),

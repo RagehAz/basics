@@ -47,7 +47,7 @@ class SuperBoxContents extends StatelessWidget {
   final dynamic icon;
   final bool loading;
   final double? width;
-  final double? height;
+  final double height;
   final BorderRadius? iconCorners;
   final bool greyScale;
   final bool solidGreyScale;

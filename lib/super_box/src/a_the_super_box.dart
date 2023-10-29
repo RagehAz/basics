@@ -58,7 +58,7 @@ class SuperBox extends StatelessWidget {
   final double? iconSizeFactor;
   final Color? color;
   final double? width;
-  final double? height;
+  final double height;
   final dynamic corners;
   final Color? iconColor;
   final String? text;

@@ -40,7 +40,6 @@ dependencies:
   youtube_player_flutter: ^8.1.2
   wechat_assets_picker: ^8.4.3
   image_picker: ^1.0.4
-#  flutter_image_compress: ^2.0.4
   image_compression_flutter: ^1.0.3
   android_path_provider: ^0.3.0
   flutter_udid: ^2.0.1
