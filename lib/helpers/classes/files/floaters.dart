@@ -317,7 +317,8 @@ static img.Image decodeToImgImage({
     return uInt;
   }
   // --------------------
-    static Future<Uint8List?> getBytesFromRasterURL({
+  ///
+  static Future<Uint8List?> getBytesFromRasterURL({
     required int? width,
     required int? height,
     required String? urlAsset,
@@ -362,7 +363,7 @@ static img.Image decodeToImgImage({
     return _output;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Future<Uint8List?> getBytesFromURL(String? url) async {
     Uint8List? _uints;
 
