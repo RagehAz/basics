@@ -96,7 +96,7 @@ class Rest {
   static Future<Uint8List?> readBytes({
     required String rawLink,
     String invoker = '',
-    int timeoutSeconds = 2,
+    int timeoutSeconds = 10,
     Map<String, String>? headers,
   }) async {
     Uint8List? _uInts;

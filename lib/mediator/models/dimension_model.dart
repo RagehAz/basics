@@ -145,7 +145,8 @@ class Dimensions {
       }
       // --------------------------o
       else if (_isUints == true) {
-        _decodedImage = await Floaters.getUiImageFromUint8List(image);
+        final Uint8List _bytes = image;
+        _decodedImage = await Floaters.getUiImageFromUint8List(_bytes);
       }
       // -----------------------------------------------------------o
       if (_decodedImage != null) {

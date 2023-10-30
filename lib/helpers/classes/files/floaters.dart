@@ -70,6 +70,12 @@ class Floaters {
         functions: () async {
           _decodedImage = await decodeImageFromList(uInt);
           },
+        onError: (String error){
+          // final Uint8List? _bytes = uInt;
+          // final int? _length = _bytes?.length;
+          // final String? _type = _bytes?.runtimeType.toString();
+          // blog('getUiImageFromUint8List : ERROR : type : $_type : $_length');
+        }
       );
     }
 

@@ -133,7 +133,7 @@ class ObjectCheck {
 
     if (file != null) {
 
-      final bool isFileA = file is File;
+      final bool isFileA = file is File || file is File?;
       final bool isFileB = file.runtimeType.toString() == '_File';
 
       if (isFileA == true || isFileB == true) {
@@ -156,6 +156,8 @@ class ObjectCheck {
     if (object != null) {
       if (
           object is Uint8List
+          ||
+          object is Uint8List?
           ||
           object.runtimeType.toString() == '_Uint8ArrayView'
           ||
