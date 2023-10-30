@@ -372,6 +372,7 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      /// STRING - DOUBLE - INT
       else if (pic is String || pic is String? || pic is num || pic is num?){
 
         final String _text = pic.toString();
