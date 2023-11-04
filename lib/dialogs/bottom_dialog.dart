@@ -367,11 +367,11 @@ class BottomDialog extends StatelessWidget {
     required BuildContext context,
     String? text,
     Future<void> Function()? onTap,
-    String? icon,
+    dynamic icon,
     double height = wideButtonHeight,
     bool verseCentered = false,
     bool isDisabled = false,
-    Function? onDeactivatedTap,
+    Function? onDisabledTap,
     Color? color,
   }) {
 
@@ -387,7 +387,7 @@ class BottomDialog extends StatelessWidget {
       textMaxLines: 2,
       onTap: onTap,
       isDisabled: isDisabled,
-      onDisabledTap: onDeactivatedTap,
+      onDisabledTap: onDisabledTap,
       color: color,
       textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
       textItalic: true,
