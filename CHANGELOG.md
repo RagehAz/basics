@@ -1,6 +1,7 @@
 
 ---
 
+### 5.2.4 : adjusted crop resize compress sequence
 ### 5.2.3 : SuperBox icon can be text or num now
 ### 5.2.2 : updated Scale class
 ### 5.2.1 : fixed bad icons

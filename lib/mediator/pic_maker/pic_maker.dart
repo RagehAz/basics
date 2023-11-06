@@ -66,6 +66,9 @@ class PicMaker {
   const PicMaker();
 
   // -----------------------------------------------------------------------------
+  /// NO IMAGE WILL EVER BE WIDER THAN THIS TO BE PROCESSED IN THE APP
+  static const double maxPicWidthBeforeCrop = 1500;
+  // -----------------------------------------------------------------------------
 
   /// SINGLE GALLERY IMAGE PIC
 
@@ -146,6 +149,17 @@ class PicMaker {
 
       Uint8List? _bytes = await _file?.readAsBytes();
 
+      /// CROP
+      if (cropAfterPick == true && _bytes != null){
+        _bytes = await cropPic(
+          context: context,
+          bytes: _bytes,
+          aspectRatio: aspectRatio,
+          appIsLTR: appIsLTR,
+          confirmText: confirmText,
+        );
+      }
+
       /// RESIZE
       if (resizeToWidth != null && _bytes != null){
         _bytes = await resizePic(
@@ -162,18 +176,7 @@ class PicMaker {
           quality: compressWithQuality,
         );
       }
-
-      /// CROP
-      if (cropAfterPick == true && _bytes != null){
-        _bytes = await cropPic(
-          context: context,
-          bytes: _bytes,
-          aspectRatio: aspectRatio,
-          appIsLTR: appIsLTR,
-          confirmText: confirmText,
-        );
-      }
-
+      
       return _bytes;
     }
   // -----------------------------------------------------------------------------
@@ -205,6 +208,17 @@ class PicMaker {
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
+    /// CROP
+    if (cropAfterPick == true && Mapper.checkCanLoopList(_bytezz) == true){
+      _bytezz = await cropPics(
+        context: context,
+        bytezz: _bytezz,
+        aspectRatio: aspectRatio,
+        appIsLTR: appIsLTR,
+        confirmText: confirmText,
+      );
+    }
+
     /// RESIZE
     if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
       _bytezz = await resizePics(
@@ -219,17 +233,6 @@ class PicMaker {
       _bytezz = await compressPics(
           bytezz: _bytezz,
           quality: compressWithQuality,
-      );
-    }
-
-    /// CROP
-    if (cropAfterPick == true && Mapper.checkCanLoopList(_bytezz) == true){
-      _bytezz = await cropPics(
-        context: context,
-        bytezz: _bytezz,
-        aspectRatio: aspectRatio,
-        appIsLTR: appIsLTR,
-        confirmText: confirmText,
       );
     }
 
@@ -316,10 +319,21 @@ class PicMaker {
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
-    /// RESIZE -> COMPRESS -> CROP
+    /// CROP -> RESIZE -> COMPRESS
     if (_bytes != null){
 
       List<Uint8List> _bytezz = <Uint8List>[_bytes];
+
+      /// CROP
+      if (cropAfterPick == true){
+        _bytezz = await cropPics(
+          context: context,
+          bytezz: _bytezz,
+          aspectRatio: aspectRatio,
+          confirmText: confirmText,
+          appIsLTR: appIsLTR,
+        );
+      }
 
       /// RESIZE
       if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) ==true){
@@ -336,17 +350,6 @@ class PicMaker {
           quality: compressWithQuality,
       );
     }
-
-      /// CROP
-      if (cropAfterPick == true){
-        _bytezz = await cropPics(
-          context: context,
-          bytezz: _bytezz,
-          aspectRatio: aspectRatio,
-          confirmText: confirmText,
-          appIsLTR: appIsLTR,
-        );
-      }
 
       /// ASSIGN THE FILE
       if (Mapper.checkCanLoopList(_bytezz) == true){
@@ -507,9 +510,9 @@ class PicMaker {
 
     if (Mapper.checkCanLoopList(bytezz) == true){
 
-      _bytezz = bytezz!;
+      _bytezz = await resizePics(bytezz: bytezz!, resizeToWidth: maxPicWidthBeforeCrop);
 
-      final List<Uint8List>? _recieved = await Nav.goToNewScreen(
+      final List<Uint8List>? _received = await Nav.goToNewScreen(
         context: context,
         screen: CroppingScreen(
           bytezz: _bytezz,
@@ -519,8 +522,8 @@ class PicMaker {
         ),
       );
 
-      if (Mapper.checkCanLoopList(_recieved) == true){
-        _bytezz = _recieved!;
+      if (Mapper.checkCanLoopList(_received) == true){
+        _bytezz = _received!;
       }
 
     }
