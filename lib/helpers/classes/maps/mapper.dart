@@ -381,11 +381,7 @@ class Mapper {
     required Map<String, dynamic>? insert,
     bool replaceDuplicateKeys = true,
   }){
-    Map<String, dynamic> _output = {};
-
-    if (baseMap != null){
-      _output.addAll(baseMap);
-    }
+    Map<String, dynamic>? _output = cloneMap(baseMap);
 
     if (insert != null){
 
@@ -408,7 +404,7 @@ class Mapper {
 
     }
 
-    return _output;
+    return _output ?? {};
   }
   // --------------------
   /// AI TESTED
@@ -1504,6 +1500,20 @@ class Mapper {
     }
 
     return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// CLONING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Map<String, dynamic>? cloneMap(Map<String, dynamic>? map){
+    if (map == null){
+      return null;
+    }
+    else {
+      return jsonDecode(jsonEncode(map));
+    }
   }
   // -----------------------------------------------------------------------------
 }

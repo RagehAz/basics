@@ -309,6 +309,34 @@ class TextCheck {
     return _itContainsIt;
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkStringContainAnyOfSubStrings({
+    required String? string,
+    required List<String>? subStrings,
+  }){
+    bool _output = false;
+
+    if (Mapper.checkCanLoopList(subStrings) == true && string != null){
+
+      for (final String subString in subStrings!){
+
+        final bool _contains = TextCheck.stringContainsSubString(
+            string: string,
+            subString: subString
+        );
+
+        if (_contains == true){
+          _output = true;
+          break;
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
   /// AI TESTED
   static bool stringContainsSubStringRegExp({
     required String? string,

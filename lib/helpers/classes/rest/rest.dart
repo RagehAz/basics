@@ -55,7 +55,7 @@ class Rest {
     required String rawLink,
     required String invoker,
     Map<String, String>? headers,
-    int timeoutSeconds = 10,
+    int timeoutSeconds = 30,
   }) async {
 
     http.Response? _response;
@@ -96,7 +96,7 @@ class Rest {
   static Future<Uint8List?> readBytes({
     required String rawLink,
     String invoker = '',
-    int timeoutSeconds = 10,
+    int timeoutSeconds = 30,
     Map<String, String>? headers,
   }) async {
     Uint8List? _uInts;

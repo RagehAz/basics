@@ -25,7 +25,9 @@ class Disabler extends StatelessWidget {
     else {
       return IgnorePointer(
         ignoring: isDisabled,
-        child: Opacity(
+        child: disabledOpacity == 1 ? child
+            :
+        Opacity(
           opacity: isDisabled == true ? disabledOpacity : 1,
           child: child,
         ),

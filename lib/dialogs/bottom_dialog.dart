@@ -270,8 +270,8 @@ class BottomDialog extends StatelessWidget {
     required BuildContext context,
     required bool draggable,
     required int numberOfWidgets,
+    required List<Widget> Function(BuildContext, Function? setState) builder,
     double buttonHeight = wideButtonHeight,
-    List<Widget> Function(BuildContext)? builder,
     String? title,
   }) async {
 
@@ -282,33 +282,26 @@ class BottomDialog extends StatelessWidget {
       draggable: draggable,
       height: Scale.screenHeight(context) * 0.5,
       title: title,
-      builder: (BuildContext ctx, title){
+      builder: (BuildContext ctx, Function? setState){
 
-        if (builder == null){
-          return const SizedBox();
-        }
+        final List<Widget> _widgets = builder(ctx, setState);
 
-        else {
-
-          final List<Widget> _widgets = builder(ctx);
-
-          return ListView.builder(
-            itemCount: _widgets.length,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            // padding: EdgeInsets.zero, /// AGAIN => ENTA EBN WES5A
-            itemBuilder: (_, int index) {
-              return Column(
-                children: <Widget>[
-                  _widgets[index],
-                  SizedBox(height: _spacing),
-                ],
-                // children: builder(ctx, _phraseProvider),
-              );
+        return ListView.builder(
+          itemCount: _widgets.length,
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          // padding: EdgeInsets.zero, /// AGAIN => ENTA EBN WES5A
+          itemBuilder: (_, int index) {
+            return Column(
+              children: <Widget>[
+                _widgets[index],
+                SizedBox(height: _spacing),
+              ],
+              // children: builder(ctx, _phraseProvider),
+            );
             },
-          );
+        );
 
-        }
       },
     );
 

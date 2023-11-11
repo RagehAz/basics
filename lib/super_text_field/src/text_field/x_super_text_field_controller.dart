@@ -237,12 +237,17 @@ class SuperTextFieldController {
     final int _currentLength = currentLength ?? 0;
     final int _maxLength = maxLength ?? 10;
 
+    final String _text = appIsLTR == true ?
+    '$_maxLength / $_currentLength'
+        :
+    '$_currentLength / $_maxLength';
+
     return SizedBox(
       width: _textHeight * 4,
       height: _textHeight,
       child: SuperText(
       boxWidth: _textHeight * 4,
-      text: '$_currentLength / $_maxLength',
+      text: _text,
       weight: FontWeight.w100,
       textHeight: _textHeight * counterTextHeightFactor,
       boxColor: _currentLength > _maxLength ? const Color.fromARGB(125, 233, 0, 0) : fieldColor,
