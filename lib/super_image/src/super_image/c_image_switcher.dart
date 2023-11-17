@@ -218,80 +218,6 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      // /// PATH
-      // else if (ObjectCheck.objectIsPicPath(pic) == true){
-      //
-      //   // return Container(
-      //   //   width: width,
-      //   //   height: height,
-      //   //   color: Colorz.red50,
-      //   // );
-      //
-      //   return FutureBuilder(
-      //     future: PicProtocols.fetchPicUiImage(pic),
-      //     builder: (_, AsyncSnapshot<ui.Image> snap){
-      //
-      //       return RawImage(
-      //         /// MAIN
-      //         key: const ValueKey<String>('SuperImage_UIIMAGE'),
-      //         // debugImageLabel: ,
-      //
-      //         /// IMAGE
-      //         image: snap?.data,
-      //         // repeat: ImageRepeat.noRepeat, // DEFAULT
-      //
-      //         /// SIZES
-      //         width: width,
-      //         height: height,
-      //         scale: scale,
-      //
-      //         /// COLORS
-      //         // color: widget.color,
-      //         // opacity: opacity,
-      //         // colorBlendMode: blendMode,
-      //         // filterQuality: FilterQuality.low, // DEFAULT
-      //         // invertColors: false, // DEFAULT
-      //
-      //         /// POSITIONING
-      //         // alignment: Alignment.center, // DEFAULT
-      //         fit: boxFit,
-      //
-      //         /// DUNNO
-      //         // centerSlice: ,
-      //         // isAntiAlias: ,
-      //         // matchTextDirection: false, // DEFAULT : flips image horizontally
-      //       );
-      //
-      //
-      //       // return CachelessImage(
-      //       //   key: const ValueKey<String>('SuperImage_future_bytes'),
-      //       //   bytes: snap?.data?.bytes,
-      //       //   width: width,
-      //       //   height: height,
-      //       //   color: backgroundColor,
-      //       //   boxFit: boxFit,
-      //       // );
-      //
-      //     },
-      //   );
-      // }
-
-      // /// PIC MODEL
-      // else if (pic is PicModel){
-      //
-      //
-      //   final PicModel _picModel = pic;
-      //
-      //   return CachelessImage(
-      //     key: const ValueKey<String>('SuperImage_pic_model'),
-      //     bytes: _picModel.bytes,
-      //     width: width,
-      //     height: height,
-      //     color: backgroundColor,
-      //     boxFit: boxFit,
-      //   );
-      // }
-
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
 
@@ -305,18 +231,17 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      /// BASE64
-      else if (ObjectCheck.isBase64(pic) == true){
-
-        return CachelessImage(
-          key: const ValueKey<String>('SuperImage_base64'),
-          bytes: base64Decode(pic),
-          width: width,
-          height: height,
-          color: backgroundColor,
-          boxFit: _boxFit,
-        );
-      }
+      /// BASE64 -> CONTRADICTS BUIDING TEXTS
+      // else if (ObjectCheck.isBase64(pic) == true){
+      //   return CachelessImage(
+      //     key: const ValueKey<String>('SuperImage_base64'),
+      //     bytes: base64Decode(pic),
+      //     width: width,
+      //     height: height,
+      //     color: backgroundColor,
+      //     boxFit: _boxFit,
+      //   );
+      // }
 
       /// UI.IMAGE
       else if (ObjectCheck.objectIsUiImage(pic) == true){
@@ -377,17 +302,26 @@ class ImageSwitcher extends StatelessWidget {
 
         final String _text = pic.toString();
 
-        return SuperText(
-          boxWidth: width,
-          boxHeight: height,
-          boxColor: backgroundColor,
-          text: _text,
-          weight: FontWeight.w100,
-          letterSpacing: 1,
-          font: BldrsThemeFonts.fontBldrsHeadlineFont,
-          appIsLTR: true,
-          textHeight: height * (scale ?? 1),
-          textColor: iconColor ?? Colorz.white255,
+        return Center(
+          child: Container(
+            width: width,
+            height: height,
+            alignment: Alignment.center,
+            child: FittedBox(
+              child: SuperText(
+                // boxWidth: width,
+                // boxHeight: height,
+                boxColor: backgroundColor,
+                text: _text,
+                weight: FontWeight.w100,
+                // letterSpacing: 1,
+                font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                // appIsLTR: true,
+                textHeight: height * (scale ?? 1) * 1.4,
+                textColor: iconColor ?? Colorz.white255,
+              ),
+            ),
+          ),
         );
       }
 

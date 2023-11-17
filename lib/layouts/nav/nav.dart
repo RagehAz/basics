@@ -68,29 +68,58 @@ class Nav {
   static PageTransitionType superHorizontalTransition({
     bool appIsLTR = true, /// LEFT => RIGHT (ENGLISH)
     bool enAnimatesLTR = false,
+    bool withFade = false,
   }) {
-
     /// NOTE: IMAGINE OPENING AN ENGLISH BOOK => NEXT PAGE COMES FROM RIGHT TO LEFT
 
-    /// LEFT TO RIGHT (EN)
-    if (appIsLTR == true){
+    if (withFade == true){
 
-      return enAnimatesLTR == true ?
-      /// INVERSE : ---> LEFT TO RIGHT
-      PageTransitionType.leftToRightWithFade
-          :
-      /// NORMAL : <--- RIGHT TO LEFT (LIKE A BOOK)
-      PageTransitionType.rightToLeftWithFade;
+      /// LEFT TO RIGHT (EN)
+      if (appIsLTR == true){
+
+        return enAnimatesLTR == true ?
+        /// INVERSE : ---> LEFT TO RIGHT
+        PageTransitionType.leftToRightWithFade
+            :
+        /// NORMAL : <--- RIGHT TO LEFT (LIKE A BOOK)
+        PageTransitionType.rightToLeftWithFade;
+      }
+
+      /// RIGHT TO LEFT (AR)
+      else {
+        return enAnimatesLTR == true ?
+        /// INVERSE : <--- RIGHT TO LEFT
+        PageTransitionType.rightToLeftWithFade
+            :
+        /// NORMAL : ---> LEFT TO RIGHT (LIKE A BOOK)
+        PageTransitionType.leftToRightWithFade;
+      }
+
     }
 
-    /// RIGHT TO LEFT (AR)
     else {
-      return enAnimatesLTR == true ?
-      /// INVERSE : <--- RIGHT TO LEFT
-      PageTransitionType.rightToLeftWithFade
-          :
-      /// NORMAL : ---> LEFT TO RIGHT (LIKE A BOOK)
-      PageTransitionType.leftToRightWithFade;
+
+      /// LEFT TO RIGHT (EN)
+      if (appIsLTR == true){
+
+        return enAnimatesLTR == true ?
+        /// INVERSE : ---> LEFT TO RIGHT
+        PageTransitionType.leftToRight
+            :
+        /// NORMAL : <--- RIGHT TO LEFT (LIKE A BOOK)
+        PageTransitionType.rightToLeft;
+      }
+
+      /// RIGHT TO LEFT (AR)
+      else {
+        return enAnimatesLTR == true ?
+        /// INVERSE : <--- RIGHT TO LEFT
+        PageTransitionType.rightToLeft
+            :
+        /// NORMAL : ---> LEFT TO RIGHT (LIKE A BOOK)
+        PageTransitionType.leftToRight;
+      }
+
     }
 
   }
@@ -130,6 +159,8 @@ class Nav {
     required BuildContext context,
     required Widget screen,
     PageTransitionType transitionType = PageTransitionType.bottomToTop,
+    Duration duration = const Duration(milliseconds: 300),
+    Duration reverseDuration = const Duration(milliseconds: 300),
   }) async {
 
     final dynamic _result = await Navigator.pushReplacement(
@@ -137,8 +168,8 @@ class Nav {
         PageTransition<dynamic>(
           type: transitionType,
           child: screen,
-          // duration: Ratioz.duration750ms,
-          // reverseDuration: Ratioz.duration750ms,
+          duration: duration,
+          reverseDuration: reverseDuration,
           curve: Curves.fastOutSlowIn,
           alignment: Alignment.bottomCenter,
         )

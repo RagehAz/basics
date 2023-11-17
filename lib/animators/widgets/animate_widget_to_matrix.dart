@@ -1,5 +1,4 @@
 // ignore_for_file: unused_element
-import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:flutter/material.dart';
 
 class AnimateWidgetToMatrix extends StatelessWidget {
@@ -7,6 +6,7 @@ class AnimateWidgetToMatrix extends StatelessWidget {
   const AnimateWidgetToMatrix({
     required this.child,
     required this.matrix,
+    required this.matrixFrom,
     this.duration = const Duration(seconds: 3),
     // this.origin,
     this.canAnimate = true,
@@ -19,6 +19,7 @@ class AnimateWidgetToMatrix extends StatelessWidget {
   /// --------------------------------------------------------------------------
   final Widget child;
   final Matrix4? matrix;
+  final Matrix4? matrixFrom;
   final Duration duration;
   // final Offset origin;
   final bool canAnimate;
@@ -34,6 +35,7 @@ class AnimateWidgetToMatrix extends StatelessWidget {
       return _AnimatedChild(
         duration: duration,
         matrix: matrix,
+        matrixFrom: matrixFrom,
         curve: curve,
         onAnimationEnds: onAnimationEnds,
         replayOnRebuild: replayOnRebuild,
@@ -60,6 +62,7 @@ class _AnimatedChild extends StatefulWidget {
   const _AnimatedChild({
     required this.child,
     required this.matrix,
+    required this.matrixFrom,
     required this.duration,
     required this.curve,
     required this.onAnimationEnds,
@@ -71,6 +74,7 @@ class _AnimatedChild extends StatefulWidget {
   /// --------------------------------------------------------------------------
   final Widget child;
   final Matrix4? matrix;
+  final Matrix4? matrixFrom;
   final Duration? duration;
   final Curve? curve;
   final Function? onAnimationEnds;
@@ -113,7 +117,7 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     super.didUpdateWidget(oldWidget);
 
     if (widget.replayOnRebuild == true){
-      blog('didUpdateWidget in matrix animator');
+      // blog('didUpdateWidget in matrix animator');
       play();
     }
 
@@ -162,7 +166,7 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
         builder: (_, Widget? child){
 
           final Matrix4 matrix = Matrix4Tween(
-            begin: Matrix4.identity(),
+            begin: widget.matrixFrom ?? Matrix4.identity(),
             end: widget.matrix,
           ).evaluate(_curvedAnimation.parent);
 

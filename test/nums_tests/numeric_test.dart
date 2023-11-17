@@ -145,7 +145,7 @@ void main() {
       const int digits = 4;
       const String expectedResult = '0000';
 
-      final String? result = Numeric.formatNumberWithinDigits(num: num, digits: digits);
+      final String? result = Numeric.formatIntWithinDigits(num: num, digits: digits);
 
       expect(result, expectedResult);
     });
@@ -155,7 +155,7 @@ void main() {
       const int digits = 4;
       const String expectedResult = '0100';
 
-      final String? result = Numeric.formatNumberWithinDigits(num: num, digits: digits);
+      final String? result = Numeric.formatIntWithinDigits(num: num, digits: digits);
 
       expect(result, expectedResult);
     });
@@ -165,7 +165,7 @@ void main() {
       const int digits = 4;
       const String expectedResult = '0010';
 
-      final String? result = Numeric.formatNumberWithinDigits(num: num, digits: digits);
+      final String? result = Numeric.formatIntWithinDigits(num: num, digits: digits);
 
       expect(result, expectedResult);
     });
@@ -175,7 +175,7 @@ void main() {
       const int digits = 4;
       const String expectedResult = '9999';
 
-      final String? result = Numeric.formatNumberWithinDigits(num: num, digits: digits);
+      final String? result = Numeric.formatIntWithinDigits(num: num, digits: digits);
 
       expect(result, expectedResult);
     });
@@ -185,7 +185,7 @@ void main() {
       const int digits = 4;
       const String expectedResult = 'XXXX';
 
-      final String? result = Numeric.formatNumberWithinDigits(num: num, digits: digits);
+      final String? result = Numeric.formatIntWithinDigits(num: num, digits: digits);
 
       expect(result, expectedResult);
     });
@@ -1370,4 +1370,49 @@ void main() {
     });
   });
   // -----------------------------------------------------------------------------
+
+  /// ROMAN
+
+  // -----------------------------------------------------------------------------
+  group('formatDoubleWithinDigits', () {
+
+    test('Format double with 5 digits after decimal point', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 1, digits: 5), '+1.00000');
+    });
+
+    test('Format double with 4 digits after decimal point', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 2.54, digits: 4), '+2.5400');
+    });
+
+    test('Format double with 2 digits after decimal point', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 3.14159, digits: 2), '+3.14');
+    });
+
+    test('Handle null values', () {
+      expect(Numeric.formatDoubleWithinDigits(value: null, digits: 3), isNull);
+    });
+
+    test('Handle null digits', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 5.6789, digits: null), isNull);
+    });
+
+    test('Handle value exceeding maximum possible with 3 digits', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 1234.5678, digits: 3), '+1234.568');
+    });
+
+    test('Handle value exceeding maximum possible with 3 digits 2', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 5.1234467, digits: 4), '+5.1234');
+    });
+
+    test('Handle value exceeding maximum possible with 3 digits 2', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 5.1234567, digits: 4), '+5.1235');
+    });
+
+    test('Handle value exceeding maximum possible with 3 digits 2', () {
+      expect(Numeric.formatDoubleWithinDigits(value: 5.1234567, digits: 10 ), '+5.1234567000');
+    });
+
+  });
+  // -----------------------------------------------------------------------------
+
 }

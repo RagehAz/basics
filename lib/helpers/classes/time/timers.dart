@@ -476,7 +476,7 @@ class Timers {
 
     else {
       final String _hh = intl.DateFormat('h').format(time);
-      final String? _mm = Numeric.formatNumberWithinDigits(num: time.minute, digits: 2);
+      final String? _mm = Numeric.formatIntWithinDigits(num: time.minute, digits: 2);
       final String _ampm = intl.DateFormat('a').format(time);
       return '$_hh:$_mm $_ampm';
     }
@@ -492,9 +492,9 @@ class Timers {
         time != null
     ){
 
-      final String? _hours = Numeric.formatNumberWithinDigits(num: time.hour, digits: 2);
-      final String? _minutes = Numeric.formatNumberWithinDigits(num: time.minute, digits: 2);
-      final String? _seconds = Numeric.formatNumberWithinDigits(num: time.second, digits: 2);
+      final String? _hours = Numeric.formatIntWithinDigits(num: time.hour, digits: 2);
+      final String? _minutes = Numeric.formatIntWithinDigits(num: time.minute, digits: 2);
+      final String? _seconds = Numeric.formatIntWithinDigits(num: time.second, digits: 2);
 
       _output = '$_hours:$_minutes:$_seconds';
     }
@@ -517,7 +517,7 @@ class Timers {
 
       if (_timeIsEmpty == false) {
         final String? _hh = intl.DateFormat('h').format(time);
-        final String? _mm = Numeric.formatNumberWithinDigits(num: time.minute, digits: 2);
+        final String? _mm = Numeric.formatIntWithinDigits(num: time.minute, digits: 2);
         final String? _ampm = intl.DateFormat('a').format(time);
         final String? _day = generateDayName(time);
         final String? _dd = '${time.day}';
@@ -807,11 +807,11 @@ String generateStringsList_index_hh_i_mm_i_ss({
       final int _hours = (_totalMinutes / 60).floor();
       final int _minutesRemaining = _totalMinutes - (_hours*60);
 
-      final String? _hourString = Numeric.formatNumberWithinDigits(
+      final String? _hourString = Numeric.formatIntWithinDigits(
           num: _hours,
           digits: 2,
       );
-      final String? _minutesString = Numeric.formatNumberWithinDigits(
+      final String? _minutesString = Numeric.formatIntWithinDigits(
           num: _minutesRemaining,
           digits: 2,
       );

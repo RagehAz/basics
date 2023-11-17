@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 
@@ -150,7 +149,7 @@ class Numeric {
   }
   // --------------------
   /// AI TESTED
-  static String? formatNumberWithinDigits({
+  static String? formatIntWithinDigits({
     required int? num,
     required int? digits,
   }) {
@@ -196,6 +195,35 @@ class Numeric {
   }
   // --------------------
   /// AI TESTED
+  static String? formatDoubleWithinDigits({
+    required double? value,
+    required int? digits,
+    bool addPlus = true,
+  }) {
+    String? _output;
+
+    if (value != null && digits != null) {
+
+      // final double _maxPossibleValue =
+      //         calculateDoublePower(num: 10, power: digits)
+      //         -
+      //         1 / math.pow(10, digits);
+
+      _output = value.toStringAsFixed(digits);
+
+      if (addPlus == true && value > 0){
+        _output = '+$_output';
+      }
+      if (addPlus == true && value == 0){
+        _output = '±$_output';
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED
   static int concludeNumberOfDigits(int? length){
     int _length = 0;
 
@@ -213,7 +241,7 @@ class Numeric {
     required int? listLength,
   }){
 
-    return formatNumberWithinDigits(
+    return formatIntWithinDigits(
       digits: concludeNumberOfDigits(listLength),
       num: index,
     );

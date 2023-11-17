@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_catches_without_on_clauses
+
 import 'dart:ui' as ui;
 import 'dart:io';
 import 'dart:typed_data';
@@ -6,6 +8,7 @@ import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
+import 'dart:convert';
 
 extension FileExtention on FileSystemEntity {
   String get fileNameWithExtension {
@@ -99,32 +102,73 @@ class ObjectCheck {
   /// BYTES HOLDERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static bool isBase64(dynamic value) {
 
-    if (value is String == true) {
+    bool _output = false;
 
-      final RegExp rx = RegExp(
-          r'^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$',
-          multiLine: true,
-          unicode: true);
+    if (value != null && value is String ){
 
-      final bool isBase64Valid = rx.hasMatch(value);
+      final String trimmedValue = value.trim();
 
-      if (isBase64Valid == true) {
-        return true;
+      if (TextCheck.isEmpty(trimmedValue) == true) {
+        _output = false;
       }
 
       else {
-        return false;
+
+        try {
+
+          final List<int> decodedBytes = base64.decode(trimmedValue);
+
+          if (decodedBytes.length % 3 == 0) {
+            final RegExp base64Regex = RegExp(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$');
+            _output = base64Regex.hasMatch(trimmedValue);
+          }
+          else {
+            _output = false;
+          }
+
+        }
+
+        catch (e) {
+          _output = false;
+        }
+
       }
 
     }
 
-    else {
-      return false;
-    }
+    return _output;
 
+    /// 00
+
+    // if (value is String && value.toLowerCase() == 'from'){
+    //   return false;
+    // }
+    //
+    // else if (value is String == true) {
+    //
+    //   final RegExp rx = RegExp(
+    //       r'^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$',
+    //       multiLine: true,
+    //       unicode: true);
+    //
+    //   final bool isBase64Valid = rx.hasMatch(value);
+    //
+    //   if (isBase64Valid == true) {
+    //     return true;
+    //   }
+    //
+    //   else {
+    //     return false;
+    //   }
+    //
+    // }
+    //
+    // else {
+    //   return false;
+    // }
   }
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
@@ -327,4 +371,6 @@ class ObjectCheck {
     return _isMinified;
   }
   // -----------------------------------------------------------------------------
+
+
 }
