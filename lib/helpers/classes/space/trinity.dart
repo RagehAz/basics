@@ -4,7 +4,7 @@ import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:flutter/material.dart';
-
+/// => TAMAM
 class Trinity {
   // -----------------------------------------------------------------------------
 
@@ -64,40 +64,42 @@ class Trinity {
   static void blogMatrix({
     required Matrix4? matrix,
     int roundDigits = 7,
+    String invoker = '',
   }){
     if (matrix == null){
       blog('BLOGGING MATRIX\nmatrix is null');
     }
     else {
 
+      final int _roundDigits = matrix == Matrix4.identity() ? 0 : roundDigits;
       final List<double> _m = matrix.storage;
 
-      blog('BLOGGING MATRIX');
+      blog('BLOGGING MATRIX : $invoker');
 
-      final String _x00 = Numeric.formatDoubleWithinDigits(value: _m[0],digits:  roundDigits)!;
-      final String _x01 = Numeric.formatDoubleWithinDigits(value: _m[1],digits:  roundDigits)!;
-      final String _x02 = Numeric.formatDoubleWithinDigits(value: _m[2],digits:  roundDigits)!;
-      final String _x03 = Numeric.formatDoubleWithinDigits(value: _m[3],digits:  roundDigits)!;
-      final String _x04 = Numeric.formatDoubleWithinDigits(value: _m[4],digits:  roundDigits)!;
-      final String _x05 = Numeric.formatDoubleWithinDigits(value: _m[5],digits:  roundDigits)!;
-      final String _x06 = Numeric.formatDoubleWithinDigits(value: _m[6],digits:  roundDigits)!;
-      final String _x07 = Numeric.formatDoubleWithinDigits(value: _m[7],digits:  roundDigits)!;
-      final String _x08 = Numeric.formatDoubleWithinDigits(value: _m[8],digits:  roundDigits)!;
-      final String _x09 = Numeric.formatDoubleWithinDigits(value: _m[9],digits:  roundDigits)!;
-      final String _x10 = Numeric.formatDoubleWithinDigits(value: _m[10],digits:  roundDigits)!;
-      final String _x11 = Numeric.formatDoubleWithinDigits(value: _m[11],digits:  roundDigits)!;
-      final String _x12 = Numeric.formatDoubleWithinDigits(value: _m[12],digits:  roundDigits)!;
-      final String _x13 = Numeric.formatDoubleWithinDigits(value: _m[13],digits:  roundDigits)!;
-      final String _x14 = Numeric.formatDoubleWithinDigits(value: _m[14],digits:  roundDigits)!;
-      final String _x15 = Numeric.formatDoubleWithinDigits(value: _m[15],digits:  roundDigits)!;
+      final String _x00 = Numeric.formatDoubleWithinDigits(value: _m[0],digits: _roundDigits)!;
+      final String _x01 = Numeric.formatDoubleWithinDigits(value: _m[1],digits: _roundDigits)!;
+      final String _x02 = Numeric.formatDoubleWithinDigits(value: _m[2],digits: _roundDigits)!;
+      final String _x03 = Numeric.formatDoubleWithinDigits(value: _m[3],digits: _roundDigits)!;
+      final String _x04 = Numeric.formatDoubleWithinDigits(value: _m[4],digits: _roundDigits)!;
+      final String _x05 = Numeric.formatDoubleWithinDigits(value: _m[5],digits: _roundDigits)!;
+      final String _x06 = Numeric.formatDoubleWithinDigits(value: _m[6],digits: _roundDigits)!;
+      final String _x07 = Numeric.formatDoubleWithinDigits(value: _m[7],digits: _roundDigits)!;
+      final String _x08 = Numeric.formatDoubleWithinDigits(value: _m[8],digits: _roundDigits)!;
+      final String _x09 = Numeric.formatDoubleWithinDigits(value: _m[9],digits: _roundDigits)!;
+      final String _x10 = Numeric.formatDoubleWithinDigits(value: _m[10],digits: _roundDigits)!;
+      final String _x11 = Numeric.formatDoubleWithinDigits(value: _m[11],digits: _roundDigits)!;
+      final String _x12 = Numeric.formatDoubleWithinDigits(value: _m[12],digits: _roundDigits)!;
+      final String _x13 = Numeric.formatDoubleWithinDigits(value: _m[13],digits: _roundDigits)!;
+      final String _x14 = Numeric.formatDoubleWithinDigits(value: _m[14],digits: _roundDigits)!;
+      final String _x15 = Numeric.formatDoubleWithinDigits(value: _m[15],digits: _roundDigits)!;
 
-      const String _s = '';
-      const String _i = ' ';
+      const String _s = ' ';
+      const String _i = '.';
 
-      blog('[00]$_i$_x00$_s[01]$_i$_x01$_s[02]$_i$_x02$_s[03]$_i$_x03');
-      blog('[04]$_i$_x04$_s[05]$_i$_x05$_s[06]$_i$_x06$_s[07]$_i$_x07');
-      blog('[08]$_i$_x08$_s[09]$_i$_x09$_s[10]$_i$_x10$_s[11]$_i$_x11');
-      blog('[12]$_i$_x12$_s[13]$_i$_x13$_s[14]$_i$_x14$_s[15]$_i$_x15');
+      blog('00$_i[$_x00]${_s}01$_i[$_x01]${_s}02$_i[$_x02]${_s}03$_i[$_x03]');
+      blog('04$_i[$_x04]${_s}05$_i[$_x05]${_s}06$_i[$_x06]${_s}07$_i[$_x07]');
+      blog('08$_i[$_x08]${_s}09$_i[$_x09]${_s}10$_i[$_x10]${_s}11$_i[$_x11]');
+      blog('12$_i[$_x12]${_s}13$_i[$_x13]${_s}14$_i[$_x14]${_s}15$_i[$_x15]');
 
     }
   }
@@ -175,12 +177,39 @@ class Trinity {
     }
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 slightlyZoomed({
+    required double flyerBoxWidth,
+    required double flyerBoxHeight,
+    double scale = 1.2
+  }){
+
+    final double _xTranslation = ((flyerBoxWidth * scale) - flyerBoxWidth) / 2;
+    final double _yTranslation = ((flyerBoxHeight * scale) - flyerBoxHeight) / 2;
+
+    final Float64List _list = Float64List.fromList(<double>[
+      scale,              0,                0,    0,
+      0,                  scale,            0,    0,
+      0,                  0,                1,    0,
+      -_xTranslation,    -_yTranslation,    0,    1,
+    ]);
+
+    final Matrix4 _matrix = Matrix4.fromFloat64List(_list);
+
+    return generateSlideMatrix(
+      matrix: _matrix,
+      flyerBoxWidth: flyerBoxWidth,
+      flyerBoxHeight: flyerBoxHeight,
+    )!;
+
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkMatrixesAreIdentical({
     required Matrix4? matrix1,
     required Matrix4? matrixReloaded,
@@ -257,7 +286,7 @@ class Trinity {
   /// CURVES CYPHERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static String? cipherAnimationCurve(Curve? curve){
 
     switch (curve){
@@ -299,7 +328,7 @@ class Trinity {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Curve? decipherAnimationCurve(String? curve){
 
     switch(curve){

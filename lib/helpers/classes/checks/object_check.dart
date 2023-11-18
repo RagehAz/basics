@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_catches_without_on_clauses
-
 import 'dart:ui' as ui;
 import 'dart:io';
 import 'dart:typed_data';
