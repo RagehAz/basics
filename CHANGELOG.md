@@ -1,6 +1,8 @@
 
 ---
 
+### 5.3.2 : translations
+### 5.3.1 : Trinity updates
 ### 5.2.4 : adjusted crop resize compress sequence
 ### 5.2.3 : SuperBox icon can be text or num now
 ### 5.2.2 : updated Scale class

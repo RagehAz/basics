@@ -388,6 +388,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
         enableSuggestions: enableSuggestions,
         /// other stuff
         enabled: true, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
+        // autofillHints: [],
         // toolbarOptions: ,
         // textCapitalization: ,
         // strutStyle: ,
@@ -404,7 +405,6 @@ class TextFormFieldSwitcher extends StatelessWidget {
         // enableIMEPersonalizedLearning: ,
         // cursorWidth: ,
         // cursorHeight: ,
-        // autofillHints: ,
         // restorationId: ,
         // clipBehavior: ,
         // dragStartBehavior: ,
