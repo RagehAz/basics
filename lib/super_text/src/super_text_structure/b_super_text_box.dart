@@ -95,28 +95,29 @@ class SuperTextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
     final Widget child = Container(
-          width: boxWidth,
-          height: boxHeight,
-          margin: Scale.superMargins(margin: margin),
-          // alignment: centered == true ? Alignment.center : HelperMethod.superCenterAlignment(
-          //   appIsLTR: textDirection == TextDirection.ltr,
-          // ),
-          // color: Colorz.blue80,
-          child: Row(
-            mainAxisAlignment: _getMainAxisAlignment(
-              centered: centered,
-              textDirection: textDirection,
-              appIsLTR: appIsLTR,
-            ),
-            crossAxisAlignment: _getCrossAxisAlignment(
-              leadingDot: leadingDot,
-              redDot: redDot,
-            ),
-            mainAxisSize: MainAxisSize.min,
-            children: children,
-          ),
-        );
+      width: boxWidth,
+      height: boxHeight,
+      margin: Scale.superMargins(margin: margin),
+      // alignment: centered == true ? Alignment.center : HelperMethod.superCenterAlignment(
+      //   appIsLTR: textDirection == TextDirection.ltr,
+      // ),
+      // color: Colorz.blue80,
+      child: Row(
+        mainAxisAlignment: _getMainAxisAlignment(
+          centered: centered,
+          textDirection: textDirection,
+          appIsLTR: appIsLTR,
+        ),
+        crossAxisAlignment: _getCrossAxisAlignment(
+          leadingDot: leadingDot,
+          redDot: redDot,
+        ),
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      ),
+    );
 
     return GestureDetector(
       key: const ValueKey<String>('SuperTextBox'),
