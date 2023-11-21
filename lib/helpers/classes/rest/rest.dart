@@ -16,7 +16,7 @@ class Rest {
   /// CREATE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<http.Response?> postMap({
     required Map<String, dynamic> map,
     required String rawLink,

@@ -513,6 +513,7 @@ class PicMaker {
       _bytezz = await resizePics(bytezz: bytezz!, resizeToWidth: maxPicWidthBeforeCrop);
 
       final List<Uint8List>? _received = await Nav.goToNewScreen(
+        appIsLTR: appIsLTR,
         context: context,
         screen: CroppingScreen(
           bytezz: _bytezz,

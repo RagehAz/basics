@@ -132,7 +132,8 @@ class Nav {
   static Future<dynamic> goToNewScreen({
     required BuildContext context,
     required Widget screen,
-    PageTransitionType? pageTransitionType = PageTransitionType.bottomToTop,
+    required bool appIsLTR,
+    PageTransitionType? pageTransitionType,
     Duration duration = const Duration(milliseconds: 300),
     Widget? childCurrent,
   }) async {
@@ -140,7 +141,11 @@ class Nav {
     final dynamic _result = await Navigator.push(
       context,
       PageTransition<dynamic>(
-        type: pageTransitionType ?? PageTransitionType.bottomToTop,
+        type: pageTransitionType ?? Nav.superHorizontalTransition(
+          enAnimatesLTR: true,
+          appIsLTR: appIsLTR,
+          // withFade: false,
+        ),
         childCurrent: childCurrent,
         child: screen,
         duration: duration,

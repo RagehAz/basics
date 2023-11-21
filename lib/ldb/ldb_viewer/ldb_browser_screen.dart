@@ -24,6 +24,7 @@ class LDBBrowserScreen extends StatelessWidget {
   /// TESTED : WORKS PERFECT
   static Future<void> goToLDBViewer(BuildContext context, String ldbDocName) async {
     await Nav.goToNewScreen(
+        appIsLTR: true,
         context: context,
         screen: LDBViewerScreen(
           ldbDocName: ldbDocName,

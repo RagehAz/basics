@@ -1,8 +1,8 @@
 name: basics
 description: You can't build a flutter app without the basics
-version: 5.3.2
+version: 5.3.3
 publish_to: "none"
-homepage: https://github.com/RagehAz/typers.git
+homepage: https://github.com/RagehAz/basics.git
 # --------------------------------------------------------------------------------
 environment:
   sdk: '>=3.0.0 <4.0.0'

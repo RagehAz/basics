@@ -1,6 +1,7 @@
 
 ---
 
+### 5.3.3 : adapting to new navigation transition
 ### 5.3.2 : translations
 ### 5.3.1 : Trinity updates
 ### 5.2.4 : adjusted crop resize compress sequence

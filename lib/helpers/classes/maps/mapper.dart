@@ -53,9 +53,10 @@ class Mapper {
   /// MAP GETTERS FROM (URL - DYNAMIC - STRING STRING IMMUTABLE MAP STRING OBJECT)
 
   // --------------------
-  /// NOT USED
-  /*
-  static List<Map<String, dynamic>> getMapsFromDynamics(List<dynamic> dynamics) {
+  /// MANUALLY TESTED : WORKS PERFECT
+  static List<Map<String, dynamic>> getMapsFromDynamics({
+    required List<dynamic> dynamics,
+  }) {
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
 
     if (checkCanLoopList(dynamics) == true) {
@@ -66,7 +67,6 @@ class Mapper {
 
     return _maps;
   }
-   */
   // --------------------
   /// NOT USED
   /*
