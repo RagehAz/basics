@@ -78,6 +78,10 @@ flutter:
     - lib/bldrs_theme/assets/sounds/
 # --------------------------------------------------------------------------------
   fonts:
+    - family: BldrsLogoFont
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/bebas.ttf
+
     - family: BldrsHeadlineFont
       fonts:
         - asset: lib/bldrs_theme/assets/fonts/bldrs_font_bold.ttf

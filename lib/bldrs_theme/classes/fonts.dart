@@ -43,14 +43,16 @@ class BldrsThemeFonts {
   static const String fontEnglishBody = 'EnglishBody';
   static const String fontArabicHeadline = 'ArabicHeadline';
   static const String fontArabicBody = 'ArabicBody';
+  static const String fontBldrsLogo = 'BldrsLogoFont';
   // -----------------------------------------------------------------------------
   final List<String> allFonts = <String>[
-    'BldrsHeadlineFont',
-    'BldrsBodyFont',
-    'EnglishHeadline',
-    'EnglishBody',
-    'ArabicHeadline',
-    'ArabicBody',
+    fontBldrsHeadlineFont,
+    fontBldrsBodyFont,
+    fontEnglishHeadline,
+    fontEnglishBody,
+    fontArabicHeadline,
+    fontArabicBody,
+    fontBldrsLogo,
   ];
   // -----------------------------------------------------------------------------
 }
