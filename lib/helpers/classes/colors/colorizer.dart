@@ -73,16 +73,24 @@ class Colorizer {
   /// TESTED : WORKS PERFECT
   static String? cipherColor(Color? color) {
 
-    final Color _color = color ?? const Color.fromARGB(0, 255, 255, 255);
+    if (color == null){
+      return null;
+    }
 
-    final int _alpha = _color.alpha;
-    final int _r = _color.red;
-    final int _g = _color.green;
-    final int _b = _color.blue;
+    else {
 
-    /// PLAN : CREATE FUNCTION THAT VALIDATES THIS REGEX PATTERN ON DECIPHER COLOR METHOD
-    final String _string = '$_alpha*$_r*$_g*$_b';
-    return _string;
+      final Color _color = color;
+      final int _alpha = _color.alpha;
+      final int _r = _color.red;
+      final int _g = _color.green;
+      final int _b = _color.blue;
+
+      /// PLAN : CREATE FUNCTION THAT VALIDATES THIS REGEX PATTERN ON DECIPHER COLOR METHOD
+      final String _string = '$_alpha*$_r*$_g*$_b';
+      return _string;
+
+    }
+
   }
   // -----------------------------------------------------------------------------
 
