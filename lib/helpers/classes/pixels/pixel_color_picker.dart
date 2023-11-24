@@ -22,7 +22,7 @@ class PixelColorPicker extends StatelessWidget {
   });
   // --------------------
   final Widget child;
-  final Widget Function(Color color, Widget child) builder;
+  final Widget Function(bool loading, Color color, Widget child) builder;
   final Color initialColor;
   final bool isOn;
   final double indicatorSize;
@@ -44,7 +44,7 @@ class PixelColorPicker extends StatelessWidget {
     }
     // --------------------
     else {
-      return builder(initialColor, child);
+      return builder(false, initialColor, child);
     }
     // --------------------
   }
@@ -64,7 +64,7 @@ class _PixelColorPickerOn extends StatefulWidget {
   });
   /// --------------------------------------------------------------------------
   final Widget child;
-  final Widget Function(Color color, Widget child) builder;
+  final Widget Function(bool loading, Color color, Widget child) builder;
   final Color initialColor;
   final double indicatorSize;
   final bool showIndicator;
@@ -118,7 +118,12 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   }
    */
   // --------------------
+  bool _loading = false;
   Future<void> _snapshotWidgetTree() async {
+
+    setState(() {
+      _loading = true;
+    });
 
     final Uint8List? _bytes = await Pixelizer.snapshotWidget(
       key: paintKey,
@@ -127,6 +132,10 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
     if (_bytes != null){
       photo = img.decodeImage(_bytes);
     }
+
+    setState(() {
+      _loading = false;
+    });
 
   }
   // --------------------
@@ -170,9 +179,11 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // --------------------
   Future<void> _hideIndicator() async {
     await Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _indicatorIsOn = false;
-      });
+      if (mounted == true){
+        setState(() {
+          _indicatorIsOn = false;
+        });
+      }
     });
   }
   // -----------------------------------------------------------------------------
@@ -209,7 +220,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
               child: Stack(
                 children: <Widget>[
 
-                  widget.builder(_color, widget.child),
+                  widget.builder(_loading, _color, widget.child),
 
                   if (widget.showIndicator == true)
                     Positioned(
@@ -239,7 +250,9 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
                             ),
 
                             if (widget.showCrossHair == true)
-                            const Spacing(size: 10,),
+                            const Spacing(
+                                // size: 10
+                            ),
 
                             if (widget.showCrossHair == true)
                             Material(

@@ -84,7 +84,7 @@ class _AnimatedChild extends StatefulWidget {
   /// --------------------------------------------------------------------------
   @override
   __AnimatedChildState createState() => __AnimatedChildState();
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStateMixin {
