@@ -2,15 +2,96 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:basics/animators/widgets/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/pixels/pixelizer.dart';
 import 'package:basics/helpers/widgets/drawing/spacing.dart';
 import 'package:basics/super_box/super_box.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
+// -----------------------------------------------------------------------------
+
 class PixelColorPicker extends StatelessWidget {
   // --------------------------------------------------------------------------
   const PixelColorPicker({
+    required this.child,
+    required this.mounted,
+    required this.isOn,
+    this.pickedColor,
+    this.loading,
+    this.initialColor = Colorz.white255,
+    this.indicatorSize = 20,
+    this.showIndicator = true,
+    this.showCrossHair = true,
+    this.onPicked,
+    super.key
+  });
+  // --------------------
+  final Widget child;
+  final ValueNotifier<bool> isOn;
+  final ValueNotifier<Color?>? pickedColor;
+  final ValueNotifier<bool>? loading;
+  final bool mounted;
+  final Color initialColor;
+  final double indicatorSize;
+  final bool showIndicator;
+  final bool showCrossHair;
+  final Function(Color color)? onPicked;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    return ValueListenableBuilder(
+      valueListenable: isOn,
+      child: child,
+      builder: (_, bool on, Widget? x) {
+
+        if (on == true){
+          return PixelColorPickerBuilder(
+            initialColor: initialColor,
+            isOn: on,
+            showCrossHair: showCrossHair,
+            showIndicator: showIndicator,
+            indicatorSize: indicatorSize,
+            child: x!,
+            builder: (bool isLoading, Color color, Widget y) {
+              // --------------------
+              setNotifier(
+                  notifier: pickedColor,
+                  mounted: mounted,
+                  value: color
+              );
+              // --------------------
+                setNotifier(
+                  notifier: loading,
+                  mounted: mounted,
+                  value: isLoading,
+                );
+              // --------------------
+                onPicked?.call(color);
+              // --------------------
+              return y;
+              // --------------------
+            },
+          );
+        }
+
+        else {
+          return x!;
+        }
+
+      }
+    );
+    // --------------------
+  }
+  // --------------------------------------------------------------------------
+}
+
+// -----------------------------------------------------------------------------
+
+class PixelColorPickerBuilder extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const PixelColorPickerBuilder({
     required this.child,
     required this.builder,
     this.isOn = true,
@@ -51,6 +132,8 @@ class PixelColorPicker extends StatelessWidget {
   // --------------------------------------------------------------------------
 }
 
+// -----------------------------------------------------------------------------
+
 class _PixelColorPickerOn extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const _PixelColorPickerOn({
@@ -90,52 +173,62 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   }
    */
   // --------------------
-  /*
   bool _isInit = true;
   @override
   void didChangeDependencies() {
     if (_isInit && mounted) {
       _isInit = false; // good
+
+      asyncInSync(() async {
+        await _snapshotWidgetTree();
+      });
+
     }
     super.didChangeDependencies();
   }
-   */
   // --------------------
-  /*
   @override
-  void didUpdateWidget(TheStatefulScreen oldWidget) {
+  void didUpdateWidget(_PixelColorPickerOn oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.thing != widget.thing) {
-      unawaited(_doStuff());
-    }
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      photo = null;
+      unawaited(_snapshotWidgetTree());
+    });
+
   }
-   */
   // --------------------
-  /*
   @override
   void dispose() {
+    _stateController.close();
     super.dispose();
   }
-   */
   // --------------------
   bool _loading = false;
   Future<void> _snapshotWidgetTree() async {
 
-    setState(() {
-      _loading = true;
-    });
+    if (photo == null){
 
-    final Uint8List? _bytes = await Pixelizer.snapshotWidget(
-      key: paintKey,
-    );
+      if (mounted == true){
+        setState(() {
+          _loading = true;
+        });
+      }
 
-    if (_bytes != null){
-      photo = img.decodeImage(_bytes);
+      final Uint8List? _bytes = await Pixelizer.snapshotWidget(
+        key: paintKey,
+      );
+
+      if (mounted == true){
+        setState(() {
+          if (_bytes != null){
+            photo = img.decodeImage(_bytes);
+          }
+          _loading = false;
+        });
+      }
+
     }
-
-    setState(() {
-      _loading = false;
-    });
 
   }
   // --------------------
@@ -154,7 +247,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
       key: paintKey,
       image: photo,
       globalPosition: globalPosition,
-      // scaleToImage: false,
+      scaleToImage: true,
     );
 
     if (_pixel != null){
@@ -235,7 +328,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
                         curve: Curves.easeOutCubic,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
+                          children: <Widget>[
 
                             Container(
                               width: widget.indicatorSize,
@@ -279,3 +372,5 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   }
   // -----------------------------------------------------------------------------
 }
+
+// -----------------------------------------------------------------------------

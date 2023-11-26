@@ -255,6 +255,7 @@ class Iconz {
   static const String love  = '$iconDirectory/gi_love.svg';
   static const String pdf = '$iconDirectory/gi_pdf.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
+  static const String colorCircle = '$iconDirectory/gi_color_circle.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -490,6 +491,7 @@ class Iconz {
       mailJunkScreenshot: true,
       mailSpamScreenshot: true,
       anonymousUser: true,
+      colorCircle: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

@@ -1,9 +1,10 @@
 // ignore_for_file: unused_element
+import 'package:basics/helpers/classes/space/trinity.dart';
 import 'package:flutter/material.dart';
 
-class AnimateWidgetToMatrix extends StatelessWidget {
+class MatrixAnimator extends StatelessWidget {
   /// --------------------------------------------------------------------------
-  const AnimateWidgetToMatrix({
+  const MatrixAnimator({
     required this.child,
     required this.matrix,
     required this.matrixFrom,
@@ -89,25 +90,16 @@ class _AnimatedChild extends StatefulWidget {
 
 class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStateMixin {
   // --------------------------------------------------------------------------
-  late AnimationController _animationController;
+  late AnimationController _controller;
   late CurvedAnimation _curvedAnimation;
+  late Animation<Matrix4?> _matrixAnimation;
   // --------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      duration: widget.duration ?? const Duration(seconds: 3),
-      reverseDuration: widget.duration ?? const Duration(seconds: 3),
-      vsync: this,
-    );
+    _initialize();
 
-    _curvedAnimation = CurvedAnimation(
-      parent: _animationController.view,
-      curve: widget.curve ?? Curves.easeInExpo,
-    );
-
-    // blog('initState matrix animator');
     play();
 
   }
@@ -116,8 +108,16 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   void didUpdateWidget(_AnimatedChild oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.replayOnRebuild == true){
-      // blog('didUpdateWidget in matrix animator');
+    if (
+    widget.duration != oldWidget.duration ||
+    widget.curve != oldWidget.curve ||
+    Trinity.checkMatrixesAreIdentical(matrix1: widget.matrix, matrixReloaded: oldWidget.matrix) == false ||
+    Trinity.checkMatrixesAreIdentical(matrix1: widget.matrixFrom, matrixReloaded: oldWidget.matrixFrom) == false
+    ){
+      _initialize();
+    }
+
+    if (widget.replayOnRebuild == true || widget.repeat == true){
       play();
     }
 
@@ -125,29 +125,64 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   // --------------------
   @override
   void dispose() {
-    _animationController.dispose();
+    _controller.dispose();
     _curvedAnimation.dispose();
     super.dispose();
   }
   // --------------------------------------------------------------------------
+
+  /// INITIALIZATION
+
+  // --------------------
+  void _initialize(){
+
+    _setController();
+
+    _setCurvedAnimation();
+
+    _setMatrixAnimation();
+
+  }
+  // --------------------
+  void _setController(){
+    _controller = AnimationController(
+      duration: widget.duration ?? const Duration(seconds: 3),
+      reverseDuration: widget.duration ?? const Duration(seconds: 3),
+      vsync: this,
+    );
+  }
+  // --------------------
+  void _setCurvedAnimation(){
+    _curvedAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve ?? Curves.easeInOut,
+      reverseCurve: widget.curve ?? Curves.easeInOut,
+    );
+  }
+  // --------------------
+  void _setMatrixAnimation(){
+
+    _matrixAnimation = Matrix4Tween(
+      begin: widget.matrixFrom ?? Matrix4.identity(),
+      end: widget.matrix,
+    ).animate(_curvedAnimation);
+
+  }
+  // --------------------------------------------------------------------------
   Future<void> play() async {
 
-    // blog('should play the damn animation : ${_animationController.value}');
-
     if (widget.repeat == true){
-      await _animationController.repeat(
+      await _controller.repeat(
         // reverse: false,
       );
     }
     else {
-      await _animationController.forward(from: 0);
+      await _controller.forward(from: 0);
     }
 
     if (widget.onAnimationEnds != null) {
       widget.onAnimationEnds?.call();
     }
-
-
 
   }
   // --------------------------------------------------------------------------
@@ -161,17 +196,12 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     else {
 
       return AnimatedBuilder(
-        animation: _animationController,
+        animation: _matrixAnimation,
         child: widget.child,
         builder: (_, Widget? child){
 
-          final Matrix4 matrix = Matrix4Tween(
-            begin: widget.matrixFrom ?? Matrix4.identity(),
-            end: widget.matrix,
-          ).evaluate(_curvedAnimation.parent);
-
           return Transform(
-            transform: matrix,
+            transform: _matrixAnimation.value ?? Matrix4.identity(),
             child: child,
           );
 
