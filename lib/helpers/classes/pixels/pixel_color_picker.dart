@@ -99,6 +99,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
     this.indicatorSize = 20,
     this.showIndicator = true,
     this.showCrossHair = true,
+    this.onPixelChanged,
     super.key
   });
   // --------------------
@@ -109,6 +110,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
   final double indicatorSize;
   final bool showIndicator;
   final bool showCrossHair;
+  final Function(img.Pixel? pixel)? onPixelChanged;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -120,6 +122,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
         indicatorSize: indicatorSize,
         showIndicator: showIndicator,
         showCrossHair: showCrossHair,
+        onPixelChanged: onPixelChanged,
         child: child,
       );
     }
@@ -143,6 +146,7 @@ class _PixelColorPickerOn extends StatefulWidget {
     required this.indicatorSize,
     required this.showIndicator,
     required this.showCrossHair,
+    required this.onPixelChanged,
     // super.key
   });
   /// --------------------------------------------------------------------------
@@ -152,6 +156,7 @@ class _PixelColorPickerOn extends StatefulWidget {
   final double indicatorSize;
   final bool showIndicator;
   final bool showCrossHair;
+  final Function(img.Pixel? pixel)? onPixelChanged;
   /// --------------------------------------------------------------------------
   @override
   _PixelColorPickerOnState createState() => _PixelColorPickerOnState();
@@ -249,6 +254,8 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
       globalPosition: globalPosition,
       scaleToImage: true,
     );
+
+    widget.onPixelChanged?.call(_pixel);
 
     if (_pixel != null){
 
