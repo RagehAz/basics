@@ -204,6 +204,24 @@ class Trinity {
     )!;
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 move({
+    required Matrix4 matrix,
+    required double x,
+    required double y,
+  }){
+    final List<double> _m = matrix.storage;
+
+    final Float64List _list = Float64List.fromList(<double>[
+      _m[0],      _m[1],      _m[2],    _m[3],
+      _m[4],      _m[5],      _m[6],    _m[7],
+      _m[8],      _m[9],      _m[10],   _m[11],
+      _m[12]+x,   _m[13]+y,   _m[14],   _m[15]
+    ]);
+
+    return Matrix4.fromFloat64List(_list);
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS

@@ -109,16 +109,28 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     super.didUpdateWidget(oldWidget);
 
     if (
-    widget.duration != oldWidget.duration ||
+    widget.duration != oldWidget.duration
+    ){
+      if (mounted == true){
+        _setController();
+      }
+    }
+
+    if (
     widget.curve != oldWidget.curve ||
     Trinity.checkMatrixesAreIdentical(matrix1: widget.matrix, matrixReloaded: oldWidget.matrix) == false ||
     Trinity.checkMatrixesAreIdentical(matrix1: widget.matrixFrom, matrixReloaded: oldWidget.matrixFrom) == false
     ){
-      _initialize();
+      if (mounted == true){
+        _setCurvedAnimation();
+        _setMatrixAnimation();
+      }
     }
 
     if (widget.replayOnRebuild == true || widget.repeat == true){
-      play();
+      if (mounted == true){
+        play();
+      }
     }
 
   }
@@ -145,43 +157,54 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   }
   // --------------------
   void _setController(){
-    _controller = AnimationController(
-      duration: widget.duration ?? const Duration(seconds: 3),
-      reverseDuration: widget.duration ?? const Duration(seconds: 3),
-      vsync: this,
-    );
+    if (mounted == true){
+      _controller = AnimationController(
+        duration: widget.duration ?? const Duration(seconds: 3),
+        reverseDuration: widget.duration ?? const Duration(seconds: 3),
+        vsync: this,
+      );
+
+    }
   }
   // --------------------
   void _setCurvedAnimation(){
-    _curvedAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve ?? Curves.easeInOut,
-      reverseCurve: widget.curve ?? Curves.easeInOut,
-    );
+    if (mounted == true){
+      _curvedAnimation = CurvedAnimation(
+        parent: _controller,
+        curve: widget.curve ?? Curves.easeInOut,
+        reverseCurve: widget.curve ?? Curves.easeInOut,
+      );
+    }
   }
   // --------------------
   void _setMatrixAnimation(){
-
-    _matrixAnimation = Matrix4Tween(
-      begin: widget.matrixFrom ?? Matrix4.identity(),
-      end: widget.matrix,
-    ).animate(_curvedAnimation);
-
+    if (mounted == true){
+      _matrixAnimation = Matrix4Tween(
+        begin: widget.matrixFrom ?? Matrix4.identity(),
+        end: widget.matrix,
+      ).animate(_curvedAnimation);
+    }
   }
   // --------------------------------------------------------------------------
   Future<void> play() async {
 
-    if (widget.repeat == true){
-      await _controller.repeat(
-        // reverse: false,
-      );
-    }
-    else {
-      await _controller.forward(from: 0);
-    }
+    if (mounted == true){
 
-    if (widget.onAnimationEnds != null) {
-      widget.onAnimationEnds?.call();
+      if (widget.repeat == true){
+        await _controller.repeat(
+          // reverse: false,
+        );
+      }
+      else {
+        await _controller.forward(from: 0);
+      }
+  
+      if (widget.onAnimationEnds != null) {
+        if (mounted == true){
+          widget.onAnimationEnds?.call();
+        }
+      }
+
     }
 
   }

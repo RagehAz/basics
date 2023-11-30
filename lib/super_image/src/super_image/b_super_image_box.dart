@@ -12,6 +12,7 @@ class SuperImageBox extends StatelessWidget {
     this.corners,
     this.greyscale = false,
     this.solidGreyScale = false,
+    this.borderColor,
     super.key,
   }); 
   /// --------------------------------------------------------------------------
@@ -24,6 +25,7 @@ class SuperImageBox extends StatelessWidget {
   final bool greyscale;
   final Widget? child;
   final bool solidGreyScale;
+  final Color? borderColor;
   /// --------------------------------------------------------------------------
   static ColorFilter getGreyScaleFilter({
     required bool solidGrey,
@@ -41,6 +43,11 @@ class SuperImageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final BoxBorder? _border = borderColor == null ? null : Border.all(
+      color: borderColor!,
+      // width: 1,
+    );
+
     if (greyscale == true){
       return ClipRRect(
         key: const ValueKey<String>('SuperImageBox1'),
@@ -54,6 +61,7 @@ class SuperImageBox extends StatelessWidget {
             height: height,
             decoration: BoxDecoration(
               color: backgroundColor,
+              border: _border,
               // boxShadow: <BoxShadow>[
               //   Shadowz.CustomBoxShadow(
               //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
@@ -80,6 +88,7 @@ class SuperImageBox extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           color: backgroundColor,
+          border: _border,
           // boxShadow: <BoxShadow>[
           //   Shadowz.CustomBoxShadow(
           //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
@@ -104,6 +113,7 @@ class SuperImageBox extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
             color: backgroundColor,
+            border: _border,
             // boxShadow: <BoxShadow>[
             //   Shadowz.CustomBoxShadow(
             //       color: bubble == true ? Colorz.black200 : Colorz.nothing,

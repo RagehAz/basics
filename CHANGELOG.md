@@ -1,7 +1,8 @@
 
 ---
 
-5.3.6 : updated matrix animator
+### 5.3.7 : optimized us flags + added image border + adjusted zoomable image
+### 5.3.6 : updated matrix animator
 ### 5.3.5 : more translations
 ### 5.3.4 : Added translations and pixel_color_picker.dart
 ### 5.3.3 : adapting to new navigation transition

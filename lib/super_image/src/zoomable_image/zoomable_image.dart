@@ -10,6 +10,9 @@ class ZoomableImage extends StatelessWidget {
     this.isFullScreen = false,
     this.canZoom = true,
     this.transformationController,
+    this.minZoom = 0.3,
+    this.maxZoom = 3,
+    this.offset,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -19,6 +22,9 @@ class ZoomableImage extends StatelessWidget {
   final Function? onTap;
   final TransformationController? transformationController;
   final bool canZoom;
+  final double minZoom;
+  final double maxZoom;
+  final Offset? offset;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -29,6 +35,9 @@ class ZoomableImage extends StatelessWidget {
         autoShrink: autoShrink,
         isFullScreen: isFullScreen,
         transformationController: transformationController,
+        minZoom: minZoom,
+        maxZoom: maxZoom,
+        offset: offset,
         child: child,
       );
     }
@@ -49,6 +58,9 @@ class _ZoomableChild extends StatefulWidget {
     required this.autoShrink,
     required this.isFullScreen,
     required this.transformationController,
+    required this.minZoom,
+    required this.maxZoom,
+    required this.offset,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -57,6 +69,9 @@ class _ZoomableChild extends StatefulWidget {
   final bool isFullScreen;
   final Function? onTap;
   final TransformationController? transformationController;
+  final double minZoom;
+  final double maxZoom;
+  final Offset? offset;
   /// --------------------------------------------------------------------------
   @override
   _ZoomableChildState createState() => _ZoomableChildState();
@@ -73,6 +88,15 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
     super.initState();
 
     _transformationController = widget.transformationController ?? TransformationController();
+
+    if (widget.offset != null){
+      _transformationController.value = Trinity.move(
+          matrix: Matrix4.identity(),
+          x: widget.offset!.dx,
+          y: widget.offset!.dy,
+      );
+    }
+
     _zoomAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
@@ -140,13 +164,22 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
 
       child: InteractiveViewer(
         // key: widget.key,
-        // panEnabled: true,
+        // panEnabled: false,
         // scaleEnabled: true,
         transformationController: _transformationController,
         constrained: false,
-        maxScale: 10,
-        minScale: 0.3,
-        // scaleFactor: 0.8,
+        maxScale: widget.maxZoom,
+        minScale: widget.minZoom,
+        boundaryMargin: const EdgeInsets.all(double.infinity),
+
+        // panAxis: PanAxis.free,
+
+        /// MOUSE SCROLL SCALING
+        // scaleFactor: 0.1,
+        alignment: Alignment.center,
+        // interactionEndFrictionCoefficient: 0.5,
+        // trackpadScrollCausesScale: false,
+
         onInteractionEnd: (ScaleEndDetails scaleEndDetails) async {
 
           if (widget.autoShrink == true) {

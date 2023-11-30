@@ -15,6 +15,7 @@ class SuperImage extends StatelessWidget {
     this.greyscale = false,
     this.package,
     this.solidGreyScale = false,
+    this.borderColor,
     super.key
   });
   // --------------------------------------------------------------------------
@@ -30,6 +31,7 @@ class SuperImage extends StatelessWidget {
   final bool greyscale;
   final String? package;
   final bool solidGreyScale;
+  final Color? borderColor;
   // --------------------------------------------------------------------------
   static DecorationImage? decorationImage({
     required String? picture,
@@ -59,6 +61,7 @@ class SuperImage extends StatelessWidget {
       corners: corners,
       greyscale: greyscale,
       solidGreyScale: solidGreyScale,
+      borderColor: borderColor,
       child: ImageSwitcher(
         width: width,
         height: height,
