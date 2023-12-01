@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
+
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:flutter/material.dart';
@@ -421,6 +423,88 @@ class Sliders {
     final double? _current = Numeric.roundFractions(current, 1);
     final double? _diff = Numeric.roundFractions(max-current, 1);
     blog('SHOULD LOAD : (max $_max - current $_current) = $_diff : canPaginate $_canPaginate');
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void blogScrollController({
+    required ScrollController? controller,
+  }){
+
+    blog('Blogging ScrollController =================> START');
+
+    if (controller == null){
+      blog('Scroll Controller is null');
+    }
+
+    else {
+
+      // controller.offset
+      blog('controller.offset : ${controller.offset}');
+      // controller.hasClients
+      blog('controller.hasClients : ${controller.hasClients}');
+      // controller.initialScrollOffset
+      blog('controller.initialScrollOffset : ${controller.initialScrollOffset}');
+      // controller.keepScrollOffset
+      blog('controller.keepScrollOffset : ${controller.keepScrollOffset}');
+      // controller.positions.length
+      blog('controller.positions.length : ${controller.positions.length}');
+      // controller.hasListeners
+      blog('controller.hasListeners : ${controller.hasListeners}');
+      // controller.position.keepScrollOffset
+      blog('controller.position.keepScrollOffset : ${controller.position.keepScrollOffset}');
+      // controller.position.isScrollingNotifier.value
+      blog('controller.position.isScrollingNotifier.value : ${controller.position.isScrollingNotifier.value}');
+      // controller.position.activity.delegate.axisDirection
+      blog('controller.position.activity.delegate.axisDirection : ${controller.position.activity?.delegate.axisDirection}');
+      // controller.position.activity.isScrolling
+      blog('controller.position.activity.isScrolling : ${controller.position.activity?.isScrolling}');
+      // controller.position.activity.shouldIgnorePointer
+      blog('controller.position.activity.shouldIgnorePointer : ${controller.position.activity?.shouldIgnorePointer}');
+      // controller.position.activity.velocity
+      blog('controller.position.activity.velocity : ${controller.position.activity?.velocity}');
+      // controller.position.devicePixelRatio
+      blog('controller.position.devicePixelRatio : ${controller.position.devicePixelRatio}');
+      // controller.position.allowImplicitScrolling
+      blog('controller.position.allowImplicitScrolling : ${controller.position.allowImplicitScrolling}');
+      // controller.position.hasContentDimensions
+      blog('controller.position.hasContentDimensions : ${controller.position.hasContentDimensions}');
+      // controller.position.hasPixels
+      blog('controller.position.hasPixels : ${controller.position.hasPixels}');
+      // controller.position.hasViewportDimension
+      blog('controller.position.hasViewportDimension : ${controller.position.hasViewportDimension}');
+      // controller.position.haveDimensions
+      blog('controller.position.haveDimensions : ${controller.position.haveDimensions}');
+      // controller.position.maxScrollExtent
+      blog('controller.position.maxScrollExtent : ${controller.position.maxScrollExtent}');
+      // controller.position.minScrollExtent
+      blog('controller.position.minScrollExtent : ${controller.position.minScrollExtent}');
+      // controller.position.extentAfter
+      blog('controller.position.extentAfter : ${controller.position.extentAfter}');
+      // controller.position.extentBefore
+      blog('controller.position.extentBefore : ${controller.position.extentBefore}');
+      // controller.position.extentInside
+      blog('controller.position.extentInside : ${controller.position.extentInside}');
+      // controller.position.extentTotal
+      blog('controller.position.extentTotal : ${controller.position.extentTotal}');
+      // controller.position.viewportDimension
+      blog('controller.position.viewportDimension : ${controller.position.viewportDimension}');
+      // controller.position.axisDirection
+      blog('controller.position.axisDirection : ${controller.position.axisDirection}');
+      // controller.position.axis
+      blog('controller.position.axis : ${controller.position.axis}');
+      // controller.position.userScrollDirection
+      blog('controller.position.userScrollDirection : ${controller.position.userScrollDirection}');
+      // controller.position.atEdge
+      blog('controller.position.atEdge : ${controller.position.atEdge}');
+      // controller.position.pixels
+      blog('controller.position.pixels : ${controller.position.pixels}');
+      // controller.position.outOfRange
+      blog('controller.position.outOfRange : ${controller.position.outOfRange}');
+
+    }
+
+    blog('Blogging ScrollController =================> END');
 
   }
   // -----------------------------------------------------------------------------
