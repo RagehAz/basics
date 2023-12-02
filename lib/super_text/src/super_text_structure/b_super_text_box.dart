@@ -15,7 +15,8 @@ class SuperTextBox extends StatelessWidget {
     required this.textDirection,
     required this.appIsLTR,
     required this.onDoubleTap,
-        super.key
+    required this.maxWidth,
+    super.key
   }); 
   /// --------------------------------------------------------------------------
   final Function? onTap;
@@ -29,6 +30,7 @@ class SuperTextBox extends StatelessWidget {
   final double? boxHeight;
   final TextDirection? textDirection;
   final bool appIsLTR;
+  final double? maxWidth;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static MainAxisAlignment _getMainAxisAlignment({
@@ -104,6 +106,9 @@ class SuperTextBox extends StatelessWidget {
       //   appIsLTR: textDirection == TextDirection.ltr,
       // ),
       // color: Colorz.blue80,
+      constraints: maxWidth == null ? null : BoxConstraints(
+        maxWidth: maxWidth!,
+      ),
       child: Row(
         mainAxisAlignment: _getMainAxisAlignment(
           centered: centered,

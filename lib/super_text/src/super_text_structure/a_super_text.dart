@@ -41,6 +41,8 @@ class SuperText extends StatelessWidget {
     this.onDoubleTap,
 
     this.package,
+
+    this.maxWidth,
     /// KEY
   super.key
   });  // --------------------------------------------------------------------------
@@ -82,6 +84,8 @@ class SuperText extends StatelessWidget {
   final Function? onDoubleTap;
 
   final String? package;
+
+  final double? maxWidth;
   // -----------------------------------------------------------------------------
 
   /// ALIGNMENT
@@ -113,6 +117,7 @@ class SuperText extends StatelessWidget {
         onDoubleTap: onDoubleTap,
         appIsLTR: appIsLTR,
         textDirection: textDirection,
+        maxWidth: maxWidth,
         children: <Widget>[
 
           if (leadingDot == true)
