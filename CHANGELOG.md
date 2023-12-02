@@ -1,6 +1,7 @@
 
 ---
 
+### 5.3.8 : Added scroll sensor
 ### 5.3.7 : optimized us flags + added image border + adjusted zoomable image
 ### 5.3.6 : updated matrix animator
 ### 5.3.5 : more translations
