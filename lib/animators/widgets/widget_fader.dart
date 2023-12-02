@@ -132,7 +132,7 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
   @override
   void didUpdateWidget(covariant _AnimatedFade oldWidget) {
     if (
-    oldWidget.fadeType  != widget.fadeType  ||
+        oldWidget.fadeType  != widget.fadeType  ||
         oldWidget.duration  != widget.duration  ||
         oldWidget.curve     != widget.curve     ||
         oldWidget.max       != widget.max       ||

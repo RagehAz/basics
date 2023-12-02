@@ -11,6 +11,7 @@ class SuperBoxTexts extends StatelessWidget {
     required this.loading,
     required this.height,
     required this.width,
+    required this.maxWidth,
     required this.greyScale,
     required this.iconSizeFactor,
     required this.textScaleFactor,
@@ -43,6 +44,7 @@ class SuperBoxTexts extends StatelessWidget {
   final double? textScaleFactor;
   final FontWeight? textWeight;
   final double? width;
+  final double? maxWidth;
   final TextDirection textDirection;
   final String? textFont;
   final Color? textColor;
@@ -107,6 +109,13 @@ class SuperBoxTexts extends StatelessWidget {
       iconSizeFactor: iconSizeFactor,
       textScaleFactor: textScaleFactor,
     );
+
+    final double? _maxWidth = SuperBoxController.verseMaxWidth(
+      maxWidth: maxWidth,
+      iconMargin: _iconMargin,
+      graphicWidth: _graphicWidth,
+      hasIcon: icon != null,
+    );
     // --------------------
     return Container(
       height: height,
@@ -126,6 +135,7 @@ class SuperBoxTexts extends StatelessWidget {
               height: secondText == null ? height : null,
               child: SuperText(
                 boxWidth: _verseWidth,
+                maxWidth: _maxWidth,
                 package: package,
                 text: text,
                 textHeight: _mainTextHeight,
@@ -156,29 +166,29 @@ class SuperBoxTexts extends StatelessWidget {
               SizedBox(
                 width: _verseWidth,
                 child: SuperText(
-                    text: secondText,
-                    weight: FontWeight.w200,
-                    textHeight: _mainTextHeight * 0.8,
-                    textColor: SuperBoxController.textColor(
-                      colorOverride: secondTextColor,
-                      isDisabled: isDisabled,
-                      greyScale: greyScale,
-                    ),
-                    maxLines: secondTextMaxLines,
-                    letterSpacing: letterSpacing,
-                    italic: true,
-                    textDirection: textDirection,
-                    font: textFont,
-                    appIsLTR: appIsLTR,
-                    // shadow: _secondLineShadowIsOn(),
-                    centered: _textIsCentered,
-                    highlight: highlight,
-                    highlightColor: highlightColor,
-                    package: package,
-
-                    // margins:
-                    // _verseWidth == null ?
-                    // EdgeInsets.symmetric(horizontal: height * 0.2)
+                  text: secondText,
+                  weight: FontWeight.w200,
+                  maxWidth: _maxWidth,
+                  textHeight: _mainTextHeight * 0.8,
+                  textColor: SuperBoxController.textColor(
+                    colorOverride: secondTextColor,
+                    isDisabled: isDisabled,
+                    greyScale: greyScale,
+                  ),
+                  maxLines: secondTextMaxLines,
+                  letterSpacing: letterSpacing,
+                  italic: true,
+                  textDirection: textDirection,
+                  font: textFont,
+                  appIsLTR: appIsLTR,
+                  // shadow: _secondLineShadowIsOn(),
+                  centered: _textIsCentered,
+                  highlight: highlight,
+                  highlightColor: highlightColor,
+                  package: package,
+                  // margins:
+                  // _verseWidth == null ?
+                  // EdgeInsets.symmetric(horizontal: height * 0.2)
                   //     :
                   // EdgeInsets.zero,
                 ),

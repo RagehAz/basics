@@ -64,6 +64,28 @@ class SuperBoxController {
     return _output;
   }
   // --------------------
+  ///
+  static double? verseMaxWidth({
+    required double? maxWidth,
+    required double iconMargin,
+    required double graphicWidth,
+    required bool hasIcon,
+  }){
+    double? _output;
+
+    if (maxWidth != null){
+
+        return    maxWidth
+                - (iconMargin * 2)
+                - graphicWidth
+                - getVerseLeftSpacing(iconMargin: iconMargin)
+                - getVerseRightSpacing(iconMargin: iconMargin);
+
+    }
+
+    return _output;
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   static double textLineHeight({
     required double? height,

@@ -50,6 +50,7 @@ class SuperBox extends StatelessWidget {
     this.letterSpacing,
     this.borderColor,
     this.solidGreyScale = false,
+    this.maxWidth,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -101,6 +102,7 @@ class SuperBox extends StatelessWidget {
   final double? letterSpacing;
   final Color? borderColor;
   final bool solidGreyScale;
+  final double? maxWidth;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -149,6 +151,7 @@ class SuperBox extends StatelessWidget {
           loading: loading,
           height: height,
           width: width,
+          maxWidth: maxWidth,
           iconCorners: _borderRadius,
           greyScale: greyscale,
           solidGreyScale: solidGreyScale,
