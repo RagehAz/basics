@@ -778,19 +778,40 @@ class Numeric {
   /// TESTED : WORKS PERFECT
   static double? radianTo360Degree(double? radians) {
 
-    final double? _degree = radianToDegree(radians);
+    double? _degree360;
+    final double? _plusMinusDegree = radianToDegree(radians);
 
-    if (_degree == null){
-      return null;
+    if (_plusMinusDegree == null){
+      // _degree360 = null;
     }
-    else if (_degree < 0){
-      return 360 + _degree;
+    else if (_plusMinusDegree < 0){
+      _degree360 = 360 + _plusMinusDegree;
     }
     else {
-      return _degree;
+      _degree360 = _plusMinusDegree;
     }
 
-}
+    return limit360DegreeTo360(_degree360);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? limit360DegreeTo360(double? degree){
+    double? _output;
+
+    if (degree != null){
+
+      /// so degree might be 1500ᴼ
+      /// which is (360ᴼ * 4) + 100ᴼ
+      /// = (360ᴼ * numberOfMultiples) + (degree - (360ᴼ * numberOfMultiples))
+      /// = _multipleLoops + (degree - _multipleLoops)
+      final int numberOfMultiples = (degree / 360).floor();
+      final int _multipleLoops = 360 * numberOfMultiples;
+      _output = degree - _multipleLoops;
+
+    }
+
+    return _output;
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static double? degreeTo360Degree(double? degree) {
@@ -1030,7 +1051,7 @@ class Numeric {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static int? getDivisionQuotient({
     required double? dividend,
     required double? divisor
