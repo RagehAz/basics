@@ -85,6 +85,7 @@ class PicMaker {
     int? compressWithQuality,
     AssetEntity? selectedAsset,
     String confirmText = 'Crop',
+    Function(String? error)? onError,
   }) async {
     Uint8List? _bytes;
 
@@ -97,6 +98,7 @@ class PicMaker {
         confirmText: confirmText,
         resizeToWidth: resizeToWidth,
         compressWithQuality: compressWithQuality,
+        onError: onError,
       );
     }
 
@@ -119,6 +121,7 @@ class PicMaker {
         appIsLTR: appIsLTR,
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+        onError: onError,
       );
 
       if (Mapper.checkCanLoopList(_bytezz) == true){
@@ -135,49 +138,60 @@ class PicMaker {
     required BuildContext context,
     required double aspectRatio,
     required bool cropAfterPick,
+    required Function(String? error)? onError,
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
     bool appIsLTR = true,
   }) async {
 
-      final ImagePicker _picker = ImagePicker();
+    Uint8List? _bytes;
 
-      final XFile? _file = await _picker.pickImage(
-        source: ImageSource.gallery,
+    await tryAndCatch(
+      onError: onError,
+      invoker: '_pickWindowsOrWebImage',
+      functions: () async {
+
+        final ImagePicker _picker = ImagePicker();
+
+        final XFile? _file = await _picker.pickImage(
+          source: ImageSource.gallery,
+        );
+
+        _bytes = await _file?.readAsBytes();
+
+        },
+    );
+
+    /// CROP
+    if (cropAfterPick == true && _bytes != null){
+      _bytes = await cropPic(
+        context: context,
+        bytes: _bytes,
+        aspectRatio: aspectRatio,
+        appIsLTR: appIsLTR,
+        confirmText: confirmText,
       );
+    }
 
-      Uint8List? _bytes = await _file?.readAsBytes();
+    /// RESIZE
+    if (resizeToWidth != null && _bytes != null){
+      _bytes = await resizePic(
+        bytes: _bytes,
+        resizeToWidth: resizeToWidth,
+        // isFlyerRatio: isFlyerRatio,
+      );
+    }
 
-      /// CROP
-      if (cropAfterPick == true && _bytes != null){
-        _bytes = await cropPic(
-          context: context,
-          bytes: _bytes,
-          aspectRatio: aspectRatio,
-          appIsLTR: appIsLTR,
-          confirmText: confirmText,
-        );
-      }
+    /// COMPRESS
+    if (compressWithQuality != null && _bytes != null){
+      _bytes = await compressPic(
+        bytes: _bytes,
+        quality: compressWithQuality,
+      );
+    }
 
-      /// RESIZE
-      if (resizeToWidth != null && _bytes != null){
-        _bytes = await resizePic(
-          bytes: _bytes,
-          resizeToWidth: resizeToWidth,
-          // isFlyerRatio: isFlyerRatio,
-        );
-      }
-
-      /// COMPRESS
-      if (compressWithQuality != null && _bytes != null){
-        _bytes = await compressPic(
-          bytes: _bytes,
-          quality: compressWithQuality,
-        );
-      }
-      
-      return _bytes;
+    return _bytes;
     }
   // -----------------------------------------------------------------------------
 
@@ -197,6 +211,7 @@ class PicMaker {
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     String confirmText = 'Crop',
+    Function(String? error)? onError,
   }) async {
 
     /// PICK
@@ -206,6 +221,7 @@ class PicMaker {
       selectedAssets: selectedAssets,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      onError: onError,
     );
 
     /// CROP
@@ -245,7 +261,8 @@ class PicMaker {
     required int maxAssets,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    List<AssetEntity>? selectedAssets,
+    required Function(String? error)? onError,
+    required List<AssetEntity>? selectedAssets,
   }) async {
 
     final List<Uint8List> _output = <Uint8List>[];
@@ -257,21 +274,31 @@ class PicMaker {
 
     if (_canPick == true){
 
-      final List<AssetEntity>? pickedAssets = await AssetPicker.pickAssets(
-        context,
-        // pageRouteBuilder: ,
-        // useRootNavigator: true,
-        pickerConfig: await assetPickerConfig(
-          context: context,
-          maxAssets: maxAssets,
-          selectedAssets: selectedAssets,
-          langCode: langCode,
-          // titleTextStyle: ,
-          // textStyle: ,
-          // titleTextSpacing: ,
-          // gridCount: ,
-          // pageSize: ,
-        ),
+      List<AssetEntity>? pickedAssets = [];
+
+      await tryAndCatch(
+        invoker: '_pickMultiplePics',
+        onError: onError,
+        functions: () async {
+
+          pickedAssets = await AssetPicker.pickAssets(
+            context,
+            // pageRouteBuilder: ,
+            // useRootNavigator: true,
+            pickerConfig: await assetPickerConfig(
+              context: context,
+              maxAssets: maxAssets,
+              selectedAssets: selectedAssets,
+              langCode: langCode,
+              // titleTextStyle: ,
+              // textStyle: ,
+              // titleTextSpacing: ,
+              // gridCount: ,
+              // pageSize: ,
+            ),
+          );
+
+          },
       );
 
       if (Mapper.checkCanLoopList(pickedAssets) == true){
@@ -308,6 +335,7 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
+    Function(String? error)? onError,
   }) async {
 
     Uint8List? _output;
@@ -317,6 +345,7 @@ class PicMaker {
       context: context,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      onError: onError,
     );
 
     /// CROP -> RESIZE -> COMPRESS
@@ -366,6 +395,7 @@ class PicMaker {
     required BuildContext context,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
+    required Function(String? error)? onError,
   }) async {
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
@@ -380,72 +410,81 @@ class PicMaker {
       );
 
       if (_canShoot == true){
-        final AssetEntity? entity = await CameraPicker.pickFromCamera(
-          context,
-          pickerConfig: CameraPickerConfig(
+        AssetEntity? entity;
 
-            /// TURNS - ORIENTATION
-            // cameraQuarterTurns: 1, // DEFAULT
-            lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
+        await tryAndCatch(
+          invoker: '_shootCameraPic',
+          onError: onError,
+          functions: () async {
 
-            /// AUDIO
-            // enableAudio: true, // DEFAULT
+            entity = await CameraPicker.pickFromCamera(
+              context,
+              pickerConfig: CameraPickerConfig(
 
-            /// EXPOSURE
-            // enableExposureControlOnPoint: true, // DEFAULT
-            // enableSetExposure: true, // DEFAULT
+                /// TURNS - ORIENTATION
+                // cameraQuarterTurns: 1, // DEFAULT
+                lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
 
-            /// ZOOMING
-            // enablePinchToZoom: true, // DEFAULT
-            // enablePullToZoomInRecord: true, // DEFAULT
+                /// AUDIO
+                // enableAudio: true, // DEFAULT
 
-            /// PREVIEW
-            // enableScaledPreview: true, // DEFAULT
-            // shouldAutoPreviewVideo: false, // DEFAULT
-            // shouldDeletePreviewFile: false, // DEFAULT
+                /// EXPOSURE
+                // enableExposureControlOnPoint: true, // DEFAULT
+                // enableSetExposure: true, // DEFAULT
 
-            /// VIDEO
-            // enableRecording: false, // DEFAULT
-            // enableTapRecording: false, // DEFAULT
-            // onlyEnableRecording: false, // DEFAULT
-            // maximumRecordingDuration: const Duration(seconds: 15), // DEFAULT
+                /// ZOOMING
+                // enablePinchToZoom: true, // DEFAULT
+                // enablePullToZoomInRecord: true, // DEFAULT
 
-            /// FORMAT
-            imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
-            // resolutionPreset: ResolutionPreset.max, // DEFAULT
+                /// PREVIEW
+                // enableScaledPreview: true, // DEFAULT
+                // shouldAutoPreviewVideo: false, // DEFAULT
+                // shouldDeletePreviewFile: false, // DEFAULT
 
-            /// CAMERA
-            // preferredLensDirection: CameraLensDirection.back, // DEFAULT
+                /// VIDEO
+                // enableRecording: false, // DEFAULT
+                // enableTapRecording: false, // DEFAULT
+                // onlyEnableRecording: false, // DEFAULT
+                // maximumRecordingDuration: const Duration(seconds: 15), // DEFAULT
 
-            /// THEME - TEXTS
-            textDelegate: getCameraTextDelegateByLangCode(langCode),
+                /// FORMAT
+                imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
+                // resolutionPreset: ResolutionPreset.max, // DEFAULT
 
-            // theme: ThemeData.dark(),
+                /// CAMERA
+                // preferredLensDirection: CameraLensDirection.back, // DEFAULT
 
-            // onError: (Object object, StackTrace trace){
-            //   blog('onError : $object : trace : $trace');
-            // },
-            //
-            // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
-            //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
-            //   return Container();
-            // },
-            //
-            // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
-            //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
-            // },
-            //
-            // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
-            //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
-            //   return true;
-            // },
-            //
-            // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
-            //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
-            //   return Container();
-            // },
+                /// THEME - TEXTS
+                textDelegate: getCameraTextDelegateByLangCode(langCode),
+                // theme: ThemeData.dark(),
 
-          ),
+                // onError: (Object object, StackTrace trace){
+                //   blog('onError : $object : trace : $trace');
+                // },
+                //
+                // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
+                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
+                //   return Container();
+                // },
+                //
+                // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
+                //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
+                // },
+                //
+                // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
+                //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
+                //   return true;
+                // },
+                //
+                // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
+                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
+                //   return Container();
+                // },
+
+              ),
+            );
+
+            },
         );
 
         if (entity == null){
@@ -453,7 +492,7 @@ class PicMaker {
         }
 
         else {
-          final File? _file = await entity.file;
+          final File? _file = await entity!.file;
           final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
           return _bytes;
         }
