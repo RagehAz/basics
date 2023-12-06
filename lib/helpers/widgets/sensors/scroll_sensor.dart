@@ -37,6 +37,7 @@ class _ScrollSensorState extends State<ScrollSensor> {
   @override
   void initState() {
     super.initState();
+    /// REMOVED
     widget.scrollController.addListener(listenToScrolling);
   }
   // --------------------

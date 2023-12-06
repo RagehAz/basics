@@ -165,14 +165,8 @@ class _SuperTextFieldState extends State<SuperTextField> {
 
     _focusNode = widget.focusNode ?? FocusNode();
 
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus == true){
-        if (widget.globalKey != null){
-          final RenderObject? object = widget.globalKey?.currentContext?.findRenderObject();
-          object?.showOnScreen();
-        }
-      }
-    });
+    /// REMOVED
+    _focusNode.addListener(_focusListener);
 
     _scrollController = widget.scrollController ?? ScrollController();
 
@@ -214,6 +208,8 @@ class _SuperTextFieldState extends State<SuperTextField> {
   @override
   void dispose(){
 
+    _focusNode.removeListener(_focusListener);
+
     if (widget.textController == null){
       _controller.dispose();
     }
@@ -229,6 +225,20 @@ class _SuperTextFieldState extends State<SuperTextField> {
     _textDirection.dispose();
 
     super.dispose();
+  }
+  // -----------------------------------------------------------------------------
+
+  /// LISTENER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void _focusListener() {
+    if (_focusNode.hasFocus == true){
+      if (widget.globalKey != null){
+        final RenderObject? object = widget.globalKey?.currentContext?.findRenderObject();
+        object?.showOnScreen();
+      }
+    }
   }
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT

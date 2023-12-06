@@ -101,20 +101,34 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _transformationController.addListener(() {
-      if (_transformationController.value.getMaxScaleOnAxis() > 1.5) {
-        // blog('XX its bigger than 1.5 now');
-      }
-    });
+
+    /// REMOVED
+    _transformationController.addListener(_transListener);
+
   }
   // --------------------
   @override
   void dispose() {
+    _transformationController.removeListener(_transListener);
     _transformationController.dispose();
     _zoomAnimationController.dispose();
     super.dispose();
   }
   // -----------------------------------------------------------------------------
+
+  /// LISTENERS
+
+  // --------------------
+  void _transListener() {
+    if (_transformationController.value.getMaxScaleOnAxis() > 1.5) {
+      // blog('XX its bigger than 1.5 now');
+    }
+  }
+  // -----------------------------------------------------------------------------
+
+  /// ACTIONS
+
+  // --------------------
   Future<void> _resetZoom() async {
 
     final Animation<Matrix4> _reset = Matrix4Tween(
@@ -122,7 +136,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
       end: Matrix4.identity(),
     ).animate(_zoomAnimationController);
 
-    _zoomAnimationController.addListener(() {
+    void _listener() {
 
       setNotifier(
           notifier: _transformationController,
@@ -130,12 +144,19 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
           value: _reset.value,
       );
 
-    });
+    }
+
+    /// REMOVED
+    _zoomAnimationController.addListener(_listener);
 
     _zoomAnimationController.reset();
+
     await _zoomAnimationController.forward();
+
+    _zoomAnimationController.removeListener(_listener);
+
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   Future<void> _onDoubleTap() async {
     await _resetZoom();
        await Future.delayed(Duration.zero, () {

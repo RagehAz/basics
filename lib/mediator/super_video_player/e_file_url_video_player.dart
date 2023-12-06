@@ -41,7 +41,6 @@ class FileAndURLVideoPlayer extends StatefulWidget {
     String? url,
     String? asset,
     File? file,
-    bool addListener = true,
     bool autoPlay = false,
     bool loop = false,
   }) {
@@ -80,15 +79,6 @@ class FileAndURLVideoPlayer extends StatefulWidget {
 
     if (loop == true){
       _output?.setLooping(true);
-    }
-
-
-    if (addListener == true && _output != null) {
-      _output.addListener(() => _listenToVideo(
-            mounted: mounted,
-            videoValue: videoValue,
-            videoPlayerController: _output!,
-          ));
     }
 
     if (autoPlay == true){
@@ -145,10 +135,23 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
       // addListener: true,
     )!;
 
+    /// REMOVED
+    // _videoPlayerController.addListener(listen);
+
+
+  }
+  // --------------------
+  void listen(){
+    FileAndURLVideoPlayer._listenToVideo(
+      mounted: mounted,
+      videoValue: _videoValue,
+      videoPlayerController: _videoPlayerController,
+    );
   }
   // --------------------
   @override
   void dispose() {
+    // _videoPlayerController.removeListener(listen);
     _videoPlayerController.dispose();
     _isChangingVolume.dispose();
     _videoValue.dispose();

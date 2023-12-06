@@ -71,28 +71,9 @@ class _CroppingScreenState extends State<CroppingScreen> {
     setNotifier(notifier: _croppedBytezz, mounted: mounted, value: widget.bytezz);
 
     _initializeControllers();
-    _statuses?.addListener(() async {
 
-      /// CHECK IF STATUSES ARE ALL READY
-      final bool _allImagesCropped = Mapper.checkListsAreIdentical(
-        list1: _statuses?.value,
-        list2: List.filled(widget.bytezz.length, CropStatus.ready),
-      );
-
-      if (_allImagesCropped == true && _canGoBack == true){
-
-        await _triggerLoading(setTo: false);
-
-        /// GO BACK AND PASS THE FILES
-        await Nav.goBack(
-          context: context,
-          invoker: 'CroppingScreen',
-          passedData: _croppedBytezz.value,
-        );
-
-      }
-
-    });
+    /// REMOVED
+    _statuses?.addListener(_statusesListener);
   }
   // --------------------
   bool _isInit = true;
@@ -113,6 +94,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
   // --------------------
   @override
   void dispose() {
+    _statuses?.removeListener(_statusesListener);
     _loading.dispose();
     _pageController.dispose();
     _currentImageIndex.dispose();
@@ -121,6 +103,10 @@ class _CroppingScreenState extends State<CroppingScreen> {
     super.dispose();
   }
   // -----------------------------------------------------------------------------
+
+  /// INITIALIZATION
+
+  // --------------------
   /// TESTED : WORKS PERFECT
   void _initializeControllers(){
 
@@ -133,6 +119,38 @@ class _CroppingScreenState extends State<CroppingScreen> {
     _statuses = ValueNotifier(_statusesList);
 
   }
+  // -----------------------------------------------------------------------------
+
+  /// LISTENER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<void> _statusesListener() async {
+
+    /// CHECK IF STATUSES ARE ALL READY
+    final bool _allImagesCropped = Mapper.checkListsAreIdentical(
+      list1: _statuses?.value,
+      list2: List.filled(widget.bytezz.length, CropStatus.ready),
+    );
+
+    if (_allImagesCropped == true && _canGoBack == true){
+
+      await _triggerLoading(setTo: false);
+
+      /// GO BACK AND PASS THE FILES
+      await Nav.goBack(
+        context: context,
+        invoker: 'CroppingScreen',
+        passedData: _croppedBytezz.value,
+      );
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// CROP
+
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> _cropImages() async {

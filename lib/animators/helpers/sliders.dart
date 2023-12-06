@@ -537,6 +537,7 @@ class Sliders {
 
   }
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static void createPaginationListener({
     required ScrollController? controller,
@@ -548,7 +549,29 @@ class Sliders {
 
     if (controller != null){
 
-      controller.addListener(() async {
+      controller.addListener(() => paginationListener(
+        controller: controller,
+        isPaginating: isPaginating,
+        canKeepReading: canKeepReading,
+        onPaginate: onPaginate,
+        mounted: mounted,
+      ));
+
+    }
+
+  }
+   */
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> paginationListener({
+    required ScrollController? controller,
+    required ValueNotifier<bool> isPaginating,
+    required ValueNotifier<bool> canKeepReading,
+    required Future<void> Function()? onPaginate,
+    required bool mounted,
+  }) async {
+
+    if (controller != null){
 
       final bool _canPaginate = Sliders.canPaginate(
         scrollController: controller,
@@ -557,35 +580,21 @@ class Sliders {
         paginationHeight: 100,
       );
 
-      // Scrollers.blogScrolling(
-      //   scrollController: controller,
-      //   isPaginating: isPaginating.value,
-      //   canKeepReading: canKeepReading.value,
-      //   paginationHeight: 0,
-      // );
-
       if (_canPaginate == true){
-
         setNotifier(
-            notifier: isPaginating,
-            mounted: mounted,
-            value: true,
+          notifier: isPaginating,
+          mounted: mounted,
+          value: true,
         );
-
         if (onPaginate != null){
           await onPaginate.call();
         }
-
         setNotifier(
           notifier: isPaginating,
           mounted: mounted,
           value: false,
         );
-
       }
-
-    });
-
     }
 
   }
