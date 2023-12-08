@@ -288,11 +288,6 @@ class TextFieldBubble extends StatelessWidget {
               canErrorize: autoValidate == true || canErrorize == true,
               defaultColor: bubbleColor,
               validator: () => error,
-              // validator: () => bakeValidator(
-              //   validator: validator,
-              //   text: error,
-              //   keepEmbeddedBubbleColor: true,
-              // ),
             ),
             bubbleHeaderVM: bubbleHeaderVM.copyWith(
               headerWidth: _bubbleWidth - 20,
