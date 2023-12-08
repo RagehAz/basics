@@ -5,6 +5,7 @@ import 'package:basics/bubbles/tile_bubble/tile_bubble.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
+import 'package:basics/helpers/widgets/sensors/validation_sensor.dart';
 import 'package:basics/super_box/super_box.dart';
 import 'package:basics/super_text/super_text.dart';
 import 'package:basics/super_text_field/super_text_field.dart';
@@ -275,23 +276,34 @@ class TextFieldBubble extends StatelessWidget {
       textHeight: fieldTextHeight,
     );
     // --------------------
-    return Bubble(
-        bubbleColor: TileBubble.validatorBubbleColor(
-          canErrorize: autoValidate == true || canErrorize == true,
-          defaultColor: bubbleColor,
-          validator: () => bakeValidator(
-            validator: validator,
-            text: textController?.text,
-            keepEmbeddedBubbleColor: true,
-          ),
-        ),
-        bubbleHeaderVM: bubbleHeaderVM.copyWith(
-          headerWidth: _bubbleWidth - 20,
-        ),
-        width: _bubbleWidth,
-        onBubbleTap: isDisabled == false ? null : onBubbleTap,
-        hasBottomPadding: hasBottomPadding,
-        columnChildren: <Widget>[
+    return ValidationSensor(
+      validator: validator,
+      controller: textController,
+      builder: (bool _isValid, String? error, Widget? child) {
+
+        return Bubble(
+            bubbleColor: TileBubble.validatorBubbleColor(
+              canErrorize: autoValidate == true || canErrorize == true,
+              defaultColor: bubbleColor,
+              validator: () => bakeValidator(
+                validator: validator,
+                text: error,
+                keepEmbeddedBubbleColor: true,
+              ),
+            ),
+            bubbleHeaderVM: bubbleHeaderVM.copyWith(
+              headerWidth: _bubbleWidth - 20,
+            ),
+            width: _bubbleWidth,
+            onBubbleTap: isDisabled == false ? null : onBubbleTap,
+            hasBottomPadding: hasBottomPadding,
+            child: child,
+        );
+
+      },
+
+      child: Column(
+        children: <Widget>[
 
           /// BULLET POINTS
           if (Mapper.checkCanLoopList(bulletPoints) == true)
@@ -409,7 +421,7 @@ class TextFieldBubble extends StatelessWidget {
                             icon: obscuredIcon,
                             iconColor: obscured ?
                             const Color.fromARGB(20, 255, 255, 255)
-                                    :
+                                :
                             const Color.fromARGB(230, 0, 0, 0),
                             iconSizeFactor: 0.7,
                             bubble: false,
@@ -426,11 +438,9 @@ class TextFieldBubble extends StatelessWidget {
                           );
                           },
                       ),
-
                     /// PASTE BUTTON SPACER
                     if (pasteFunction != null)
                       const SizedBox(width: 5,),
-
                     /// PASTE BUTTON
                     if (pasteFunction != null)
                       SuperBox(
@@ -459,8 +469,8 @@ class TextFieldBubble extends StatelessWidget {
                   Loading(
                     size: 35,
                     loading: isLoading,
-                    color: loadingColor,
-                  ),
+                        color: loadingColor,
+                      ),
 
               ],
             ),
@@ -468,18 +478,18 @@ class TextFieldBubble extends StatelessWidget {
 
           /// CHILDREN
           if (Mapper.checkCanLoopList(columnChildren) == true)
-          Disabler(
+            Disabler(
               isDisabled: isDisabled,
               child: Column(
                 children: <Widget>[
-
                   ...columnChildren!,
-
                 ],
               ),
-          ),
+            ),
 
-        ]
+        ],
+      ),
+
     );
     // --------------------
   }

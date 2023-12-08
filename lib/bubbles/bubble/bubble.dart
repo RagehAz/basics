@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 import 'package:basics/bubbles/bubble/bubble_header.dart';
 import 'package:basics/bubbles/model/bubble_header_vm.dart';
+import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
@@ -9,8 +10,9 @@ import 'package:flutter/material.dart';
 class Bubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const Bubble({
-    required this.columnChildren,
     required this.bubbleHeaderVM,
+    this.columnChildren,
+    this.child,
     this.childrenCentered = false,
     this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
     this.width,
@@ -25,7 +27,8 @@ class Bubble extends StatelessWidget {
     super.key
   }); 
   /// --------------------------------------------------------------------------
-  final List<Widget> columnChildren;
+  final List<Widget>? columnChildren;
+  final Widget? child;
   final BubbleHeaderVM bubbleHeaderVM;
   final bool childrenCentered;
   final Color? bubbleColor;
@@ -138,6 +141,7 @@ class Bubble extends StatelessWidget {
       columnChildren: columnChildren,
       headerViewModel: bubbleHeaderVM,
       hasBottomPadding: hasBottomPadding,
+      child: child,
     );
     // --------------------
     return Center(
@@ -183,14 +187,16 @@ class _BubbleContents extends StatelessWidget {
     required this.width,
     required this.headerViewModel,
     required this.hasBottomPadding,
+    required this.child,
     super.key
   }); 
   /// --------------------------------------------------------------------------
-  final List<Widget> columnChildren;
+  final List<Widget>? columnChildren;
   final bool childrenCentered;
   final double? width;
   final BubbleHeaderVM? headerViewModel;
   final bool hasBottomPadding;
+  final Widget? child;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -221,7 +227,11 @@ class _BubbleContents extends StatelessWidget {
             ),
           ),
 
-          ...columnChildren,
+          if (Mapper.checkCanLoopList(columnChildren) == true)
+          ...columnChildren!,
+
+          if (child != null)
+            child!,
 
         ],
       ),
