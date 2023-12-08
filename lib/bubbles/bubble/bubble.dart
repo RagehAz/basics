@@ -5,6 +5,7 @@ import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/super_box/src/f_super_box_tap_layer/x_tap_layer.dart';
 import 'package:flutter/material.dart';
 
 class Bubble extends StatelessWidget {
@@ -135,6 +136,31 @@ class Bubble extends StatelessWidget {
         :
     (areTopCentered == true ? Aligner.top(appIsLTR: appIsLTR) : Aligner.center(appIsLTR: appIsLTR));
     // --------------------
+    return Center(
+      child: TapLayer(
+        width: _bubbleWidth,
+        height: null,
+        boxColor: bubbleColor,
+        margin: _bubbleMargins.copyWith(bottom: _pageMargin),
+        corners: _corners,
+        onTap: onBubbleTap == null ? null : () => onBubbleTap!(),
+        onDoubleTap: onBubbleDoubleTap == null ? null : () => onBubbleDoubleTap!(),
+        splashColor: onBubbleTap == null ? const Color.fromARGB(0, 255, 255, 255) : splashColor,
+        alignment: _alignment,
+        child: _BubbleContents(
+          width: _bubbleWidth,
+          childrenCentered: childrenCentered,
+          columnChildren: columnChildren,
+          headerViewModel: bubbleHeaderVM,
+          hasBottomPadding: hasBottomPadding,
+          child: child,
+        ),
+      ),
+    );
+    // --------------------
+    /// DEPRECATED OLD BUBBLE
+    /*
+     // --------------------
     final Widget _bubbleContents = _BubbleContents(
       width: _bubbleWidth,
       childrenCentered: childrenCentered,
@@ -174,6 +200,7 @@ class Bubble extends StatelessWidget {
 
       ),
     );
+    */
     // --------------------
   }
 // -----------------------------------------------------------------------------

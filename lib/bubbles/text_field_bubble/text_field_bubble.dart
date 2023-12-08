@@ -4,7 +4,6 @@ import 'package:basics/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/bubbles/tile_bubble/tile_bubble.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
-import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/widgets/sensors/validation_sensor.dart';
 import 'package:basics/super_box/super_box.dart';
 import 'package:basics/super_text/super_text.dart';
@@ -157,8 +156,10 @@ class TextFieldBubble extends StatelessWidget {
   /// VALIDATION
 
   // --------------------
+  /// DEPRECATED
+  /*
   /// TESTED : WORKS PERFECT
-  static String? bakeValidator({
+  static String? _bakeValidator({
     required String? Function(String? text)? validator,
     required String? text,
     bool keepEmbeddedBubbleColor = false,
@@ -195,9 +196,10 @@ class TextFieldBubble extends StatelessWidget {
 
     return _output;
   }
+   */
   // -----------------------------------------------------------------------------
 
-  /// VALIDATION
+  /// SCALES
 
   // --------------------
   static double getFieldWidth({
@@ -231,7 +233,7 @@ class TextFieldBubble extends StatelessWidget {
 
     return _fieldWidth;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   MainAxisAlignment _rowAlignment(){
 
     if (
@@ -285,11 +287,12 @@ class TextFieldBubble extends StatelessWidget {
             bubbleColor: TileBubble.validatorBubbleColor(
               canErrorize: autoValidate == true || canErrorize == true,
               defaultColor: bubbleColor,
-              validator: () => bakeValidator(
-                validator: validator,
-                text: error,
-                keepEmbeddedBubbleColor: true,
-              ),
+              validator: () => error,
+              // validator: () => bakeValidator(
+              //   validator: validator,
+              //   text: error,
+              //   keepEmbeddedBubbleColor: true,
+              // ),
             ),
             bubbleHeaderVM: bubbleHeaderVM.copyWith(
               headerWidth: _bubbleWidth - 20,
