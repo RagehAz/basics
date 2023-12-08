@@ -185,8 +185,10 @@ class Trinity {
     double scale = 1.2
   }){
 
-    final double _xTranslation = ((flyerBoxWidth * scale) - flyerBoxWidth) / 2;
-    final double _yTranslation = ((flyerBoxHeight * scale) - flyerBoxHeight) / 2;
+    double _xTranslation = ((flyerBoxWidth * scale) - flyerBoxWidth) / 2;
+    _xTranslation = Numeric.roundFractions(_xTranslation, 2)!;
+    double _yTranslation = ((flyerBoxHeight * scale) - flyerBoxHeight) / 2;
+    _yTranslation = Numeric.roundFractions(_yTranslation, 2)!;
 
     final Float64List _list = Float64List.fromList(<double>[
       scale,              0,                0,    0,
@@ -221,6 +223,34 @@ class Trinity {
     ]);
 
     return Matrix4.fromFloat64List(_list);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4? roundTranslation({
+    required Matrix4? matrix,
+    required int fractions,
+  }){
+
+    if (matrix == null){
+      return null;
+    }
+
+    else {
+      final List<double> _m = matrix.storage;
+
+      final double _x = Numeric.roundFractions(_m[12], fractions)!;
+      final double _y = Numeric.roundFractions(_m[13], fractions)!;
+
+      final Float64List _list = Float64List.fromList(<double>[
+        _m[0],  _m[1],  _m[2],  _m[3],
+        _m[4],  _m[5],  _m[6],  _m[7],
+        _m[8],  _m[9],  _m[10],  _m[11],
+        _x,     _y,     _m[14],  _m[15],
+      ]);
+
+      return Matrix4.fromFloat64List(_list);
+    }
+
   }
   // -----------------------------------------------------------------------------
 

@@ -245,6 +245,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
   void _onTextChanged(String? val) {
 
     if (val != null) {
+
       setNotifier(
         notifier: _textDirection,
         mounted: mounted,

@@ -170,9 +170,11 @@ class Sentrize {
     required Widget app,
   }) async {
     // --------------------
+    final bool _isSmartPhone = DeviceChecker.deviceIsSmartPhone();
+    // --------------------
     /// BINDING
     late WidgetsBinding _binding;
-    if (DeviceChecker.deviceIsIOS() == true || DeviceChecker.deviceIsAndroid() == true){
+    if (_isSmartPhone == true){
       _binding = WidgetsFlutterBinding.ensureInitialized();
     }
     // --------------------
@@ -194,7 +196,7 @@ class Sentrize {
       },
 
       appRunner: () async {
-      if (DeviceChecker.deviceIsIOS() == false && DeviceChecker.deviceIsAndroid() == false){
+      if (_isSmartPhone == false){
             _binding = WidgetsFlutterBinding.ensureInitialized();
           }
         // --------------------
