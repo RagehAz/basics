@@ -148,9 +148,6 @@ class Iconz {
   static const String language = '$iconDirectory/gi_language.svg';
   static const String notification = '$iconDirectory/gi_news.svg';
   static const String password = '$iconDirectory/gi_password.svg';
-  static const String save = '$iconDirectory/gi_save.svg';
-  static const String saveOff = '$iconDirectory/gi_save_off.svg';
-  static const String saveOn = '$iconDirectory/gi_save_on.svg';
   static const String search = '$iconDirectory/gi_search.svg';
   static const String share = '$iconDirectory/gi_share.svg';
   static const String viewsIcon = '$iconDirectory/gi_views.svg';
@@ -161,7 +158,6 @@ class Iconz {
   static const String arrowLeft = '$iconDirectory/gi_arrow_left.svg';
   static const String more = '$iconDirectory/gi_more.svg';
   static const String handShake = '$iconDirectory/gi_handshake.svg';
-  static const String savedFlyers = '$iconDirectory/gi_saved_flyers.svg';
   static const String normalUser = '$iconDirectory/gi_normal_user.svg';
   static const String bz = '$iconDirectory/gi_bz.svg';
   static const String bzWhite = '$iconDirectory/gi_bz_white.svg';
@@ -190,7 +186,6 @@ class Iconz {
   static const String camera = '$iconDirectory/gi_camera.svg';
   static const String clock = '$iconDirectory/gi_clock.svg';
   static const String info = '$iconDirectory/gi_info.svg';
-  static const String ankhBlack = '$iconDirectory/gi_ankh_black.svg';
   static const String phoneGallery = '$iconDirectory/gi_phone_gallery.svg';
   static const String cameraButton = '$iconDirectory/gi_camera_button.svg';
   static const String addFlyer = '$iconDirectory/gi_add_flyer.svg';
@@ -289,6 +284,20 @@ class Iconz {
   static const String onGooglePlay = '$iconDirectory/on_google_play.png';
   static const String onAppStore = '$iconDirectory/on_app_store.png';
   static const String anonymousUser = '$iconDirectory/gi_anonymous_user.svg';
+  // --------------------
+  /// SAVE
+  static const String save = '$iconDirectory/gi_save.svg';
+  static const String saveOff = '$iconDirectory/gi_save_off.svg';
+  static const String saveOn = '$iconDirectory/gi_save_on.svg';
+  static const String savedFlyers = '$iconDirectory/gi_saved_flyers.svg';
+  static const String saveBlack = '$iconDirectory/gi_save_black.svg';
+  // --------------------
+  /// ANKH
+  static const String ankhBlack = '$iconDirectory/gi_ankh_black.svg';
+  static const String ankhWhite = '$iconDirectory/gi_ankh_white.svg';
+  static const String ankhGold = '$iconDirectory/gi_ankh_gold.svg';
+  static const String ankhSilver = '$iconDirectory/gi_ankh_silver.svg';
+  static const String ankhs = '$iconDirectory/gi_ankhs.svg';
   // -----------------------------------------------------------------------------
   static List<String> allIconz(){
 
@@ -355,9 +364,6 @@ class Iconz {
       language: true,
       notification: true,
       password: true,
-      save: true,
-      saveOff: true,
-      saveOn: true,
       search: true,
       share: true,
       viewsIcon: true,
@@ -368,7 +374,6 @@ class Iconz {
       arrowLeft: true,
       more: true,
       handShake: true,
-      savedFlyers: true,
       normalUser: true,
       bz: true,
       bzWhite: true,
@@ -397,7 +402,6 @@ class Iconz {
       camera: true,
       clock: true,
       info: true,
-      ankhBlack: true,
       phoneGallery: true,
       cameraButton: true,
       addFlyer: true,
@@ -518,6 +522,18 @@ class Iconz {
       platformMACOS: true,
       platformWindows: true,
       platformWeb: true,
+
+      save: true,
+      saveOff: true,
+      saveOn: true,
+      savedFlyers: true,
+      saveBlack: true,
+
+      ankhBlack: true,
+      ankhWhite: true,
+      ankhGold: true,
+      ankhSilver: true,
+      ankhs: true,
 
     };
 
