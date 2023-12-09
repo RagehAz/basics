@@ -49,7 +49,7 @@ class Permit {
       {'permission': Permission.bluetooth, 'name': 'bluetooth'},
       null,
       {'permission': Permission.reminders, 'name': 'reminders',},
-      {'permission': Permission.calendarReadOnly, 'name': 'calendarReadOnly',},
+      // {'permission': Permission.calendarReadOnly, 'name': 'calendarReadOnly',},
       {'permission': Permission.calendarFullAccess, 'name': 'calendarFullAccess',},
       null,
       {'permission': Permission.sms, 'name': 'sms',},
