@@ -247,7 +247,6 @@ class Iconz {
   static const String masterCard  = '$iconDirectory/gi_mastercard.svg';
   static const String paypal  = '$iconDirectory/gi_paypal.svg';
   static const String visa  = '$iconDirectory/gi_visa.svg';
-  static const String love  = '$iconDirectory/gi_love.svg';
   static const String pdf = '$iconDirectory/gi_pdf.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
   static const String colorCircle = '$iconDirectory/gi_color_circle.svg';
@@ -285,19 +284,19 @@ class Iconz {
   static const String onAppStore = '$iconDirectory/on_app_store.png';
   static const String anonymousUser = '$iconDirectory/gi_anonymous_user.svg';
   // --------------------
-  /// SAVE
-  static const String save = '$iconDirectory/gi_save.svg';
-  static const String saveOff = '$iconDirectory/gi_save_off.svg';
-  static const String saveOn = '$iconDirectory/gi_save_on.svg';
-  static const String savedFlyers = '$iconDirectory/gi_saved_flyers.svg';
-  static const String saveBlack = '$iconDirectory/gi_save_black.svg';
-  // --------------------
   /// ANKH
   static const String ankhBlack = '$iconDirectory/gi_ankh_black.svg';
   static const String ankhWhite = '$iconDirectory/gi_ankh_white.svg';
   static const String ankhGold = '$iconDirectory/gi_ankh_gold.svg';
   static const String ankhSilver = '$iconDirectory/gi_ankh_silver.svg';
   static const String ankhs = '$iconDirectory/gi_ankhs.svg';
+  // --------------------
+  /// LOVE
+  static const String love  = '$iconDirectory/gi_love.svg';
+  static const String loveBlack = '$iconDirectory/gi_love_black.svg';
+  static const String loveSilver = '$iconDirectory/gi_love_silver.svg';
+  static const String loveGold = '$iconDirectory/gi_love_gold.svg';
+  static const String lovesGold = '$iconDirectory/gi_loves_gold.svg';
   // -----------------------------------------------------------------------------
   static List<String> allIconz(){
 
@@ -463,7 +462,6 @@ class Iconz {
       masterCard: true,
       paypal: true,
       visa: true,
-      love: true,
       pdf: true,
       hidden: true,
       pyramidsYellow: true,
@@ -523,17 +521,17 @@ class Iconz {
       platformWindows: true,
       platformWeb: true,
 
-      save: true,
-      saveOff: true,
-      saveOn: true,
-      savedFlyers: true,
-      saveBlack: true,
-
       ankhBlack: true,
       ankhWhite: true,
       ankhGold: true,
       ankhSilver: true,
       ankhs: true,
+
+      love: true,
+      loveBlack: true,
+      loveSilver: true,
+      loveGold: true,
+      lovesGold: true,
 
     };
 
