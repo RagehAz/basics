@@ -77,10 +77,10 @@ class Pixelizer {
 
     else {
       return Color.fromARGB(
-        pixel.a.toInt(),
-        pixel.r.toInt(),
-        pixel.g.toInt(),
-        pixel.b.toInt(),
+        (pixel.a * 255 / pixel.maxIndexValue).round(),
+        (pixel.r * 255 / pixel.maxIndexValue).round(),
+        (pixel.g * 255 / pixel.maxIndexValue).round(),
+        (pixel.b * 255 / pixel.maxIndexValue).round(),
       );
     }
 

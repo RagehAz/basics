@@ -1,6 +1,7 @@
 
 ---
 
+### 5.4.6: fixed color picker on IOS
 ### 5.4.4: Added Validation Sensor
 ### 5.4.1: removed all open listeners
 ### 5.4.0: Floating list adaptive to web now
