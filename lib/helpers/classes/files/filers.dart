@@ -13,7 +13,6 @@ import 'package:basics/helpers/classes/permissions/permits.dart';
 import 'package:basics/helpers/classes/rest/rest.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -130,7 +129,6 @@ class Filers {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> exportJSON({
-    required BuildContext context,
     required Map<String, dynamic> map,
     required String fileName,
     required Function(Permission) onPermissionPermanentlyDenied,
@@ -153,7 +151,6 @@ class Filers {
     );
 
     final bool _can = await Permit.requestPermission(
-      context: context,
       permission: Permission.storage,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );

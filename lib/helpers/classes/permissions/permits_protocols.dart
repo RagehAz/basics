@@ -1,6 +1,5 @@
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/permissions/permits.dart';
-import 'package:flutter/material.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 class PermitProtocol {
@@ -15,7 +14,6 @@ class PermitProtocol {
   // --------------------
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchGalleryPermit({
-    required BuildContext context,
     required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
@@ -37,7 +35,6 @@ class PermitProtocol {
     if (_canPick == false){
 
       final bool _canOpenStorage = await Permit.requestPermission(
-        context: context,
         permission: Permission.storage,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied
       );
@@ -45,7 +42,6 @@ class PermitProtocol {
       if (DeviceChecker.deviceIsIOS() == true){
 
         final bool _cnaOpenPhotos = await Permit.requestPermission(
-          context: context,
           permission: Permission.photos,
           onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
         );
@@ -68,7 +64,6 @@ class PermitProtocol {
   // --------------------
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchCameraPermit({
-    required BuildContext context,
     required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
@@ -81,7 +76,6 @@ class PermitProtocol {
     // else {
 
       final bool _permissionGranted = await Permit.requestPermission(
-        context: context,
         permission: Permission.camera,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
@@ -98,12 +92,10 @@ class PermitProtocol {
   // --------------------
   /// WORKS PERFECT FOR ANDROID
   static Future<bool> fetchLocationPermitA({
-    required BuildContext context,
     required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
 
     final bool _permissionGranted = await Permit.requestPermission(
-      context: context,
       permission: Permission.location,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );

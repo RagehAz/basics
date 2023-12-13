@@ -268,7 +268,6 @@ class PicMaker {
     final List<Uint8List> _output = <Uint8List>[];
 
     final bool _canPick = await PermitProtocol.fetchGalleryPermit(
-      context: context,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
     );
 
@@ -405,7 +404,6 @@ class PicMaker {
     else {
 
       final bool _canShoot = await PermitProtocol.fetchCameraPermit(
-        context: context,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       );
 

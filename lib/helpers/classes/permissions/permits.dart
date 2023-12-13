@@ -80,7 +80,6 @@ class Permit {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> requestPermission({
-    required BuildContext context,
     required Permission? permission,
     required Function(Permission permission) onPermissionPermanentlyDenied,
     bool showDebugDialog = false,
