@@ -3,7 +3,7 @@ import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
-
+/// => TAMAM
 class Pathing {
   // -----------------------------------------------------------------------------
 

@@ -1,3 +1,5 @@
+import 'package:basics/helpers/classes/strings/pathing.dart';
+import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:flutter/services.dart';
 
 class Iconz {
@@ -5,6 +7,28 @@ class Iconz {
 
   const Iconz();
 
+  // -----------------------------------------------------------------------------
+
+  /// FILE NAME
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getIconFileName({
+    /// Like Iconz.whatever, this is the icon path
+    required String? iconPath,
+    required bool withExtension,
+  }){
+    String? _output = Pathing.getLastPathNode(iconPath);
+
+    if (withExtension == false){
+      _output = TextMod.removeTextAfterLastSpecialCharacter(
+          text: _output,
+          specialCharacter: '.',
+      );
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CLONING
