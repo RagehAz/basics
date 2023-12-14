@@ -610,7 +610,6 @@ static img.Image decodeToImgImage({
   /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>?> getBytezzFromLocalRasterImages({
     required List<String>? localAssets,
-    int width = 100,
   }) async {
     final List<Uint8List> _outputs = <Uint8List>[];
 
@@ -620,7 +619,6 @@ static img.Image decodeToImgImage({
 
         final Uint8List? _bytes = await getBytesFromLocalAsset(
           localAsset: asset,
-          width: width,
         );
 
         if (_bytes != null){
@@ -637,7 +635,6 @@ static img.Image decodeToImgImage({
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> getBytesFromLocalAsset({
     required String? localAsset,
-    int width = 100,
   }) async {
     Uint8List? _bytes;
 
@@ -655,7 +652,6 @@ static img.Image decodeToImgImage({
             else {
               _bytes = await Floaters._getBytesFromLocalRasterAsset(
                 asset: localAsset,
-                width: width,
               );
             }
 
@@ -725,30 +721,32 @@ static img.Image decodeToImgImage({
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> _getBytesFromLocalRasterAsset({
     required String? asset,
-    required int? width
+    // required int? width
   }) async {
     Uint8List? _output;
 
-    if (asset != null && width != null) {
+    if (asset != null) {
 
       final ByteData? _byteData = await getByteDataFromPath(asset);
 
-      if (_byteData != null) {
+      _output = _byteData?.buffer.asUint8List();
 
-        final ui.Codec _codec = await ui.instantiateImageCodec(
-          _byteData.buffer.asUint8List(),
-          targetWidth: width,
-        );
-
-        final ui.FrameInfo _fi = await _codec.getNextFrame();
-
-        final ByteData? _bytes = await _fi.image.toByteData(format: ui.ImageByteFormat.png);
-
-        if (_bytes != null) {
-          _output = _bytes.buffer.asUint8List();
-        }
-
-      }
+      // if (_byteData != null) {
+      //
+      //   final ui.Codec _codec = await ui.instantiateImageCodec(
+      //     _byteData.buffer.asUint8List(),
+      //     targetWidth: width,
+      //   );
+      //
+      //   final ui.FrameInfo _fi = await _codec.getNextFrame();
+      //
+      //   final ByteData? _bytes = await _fi.image.toByteData(format: ui.ImageByteFormat.png);
+      //
+      //   if (_bytes != null) {
+      //     _output = _bytes.buffer.asUint8List();
+      //   }
+      //
+      // }
 
     }
 
