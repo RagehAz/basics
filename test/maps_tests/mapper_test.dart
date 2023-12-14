@@ -1,4 +1,6 @@
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/mapper_ss.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
@@ -1177,18 +1179,18 @@ void main() {
     // --------------------
     test('checkCanLoopList returns true for non-empty list', () {
       final List<dynamic> input = [1, 2, 3];
-      final bool output = Mapper.checkCanLoopList(input);
+      final bool output = Lister.checkCanLoop(input);
       expect(output, true);
     });
     // --------------------
     test('checkCanLoopList returns false for empty list', () {
       final List<dynamic> input = [];
-      final bool output = Mapper.checkCanLoopList(input);
+      final bool output = Lister.checkCanLoop(input);
       expect(output, false);
     });
     // --------------------
     test('checkCanLoopList returns false for null input', () {
-      final bool output = Mapper.checkCanLoopList(null);
+      final bool output = Lister.checkCanLoop(null);
       expect(output, false);
     });
     // --------------------
@@ -1202,36 +1204,36 @@ void main() {
     // --------------------
     test('checkListHasNullValue returns true for list containing null value', () {
       final List<dynamic> input = [1, 2, null, 4];
-      final bool output = Mapper.checkListHasNullValue(input);
+      final bool output = Lister.checkListHasNullValue(input);
       expect(output, true);
     });
     // --------------------
     test('checkListHasNullValue returns false for list not containing null value', () {
       final List<dynamic> input = [1, 2, 3, 4];
-      final bool output = Mapper.checkListHasNullValue(input);
+      final bool output = Lister.checkListHasNullValue(input);
       expect(output, false);
     });
     // --------------------
     test('checkListHasNullValue returns false for empty list', () {
       final List<dynamic> input = [];
-      final bool output = Mapper.checkListHasNullValue(input);
+      final bool output = Lister.checkListHasNullValue(input);
       expect(output, false);
     });
     // --------------------
     test('checkListHasNullValue returns false for null input', () {
-      final bool output = Mapper.checkListHasNullValue(null);
+      final bool output = Lister.checkListHasNullValue(null);
       expect(output, false);
     });
     // --------------------
     test('checkListHasNullValue works with list containing mixed types of values', () {
       final List<dynamic> input = [1, 'string', null, {'key': 'value'}];
-      final bool output = Mapper.checkListHasNullValue(input);
+      final bool output = Lister.checkListHasNullValue(input);
       expect(output, true);
     });
     // --------------------
     test('checkListHasNullValue works with list containing only non-null values', () {
       final List<dynamic> input = [1, 'string', 3.14, {'key': 'value'}];
-      final bool output = Mapper.checkListHasNullValue(input);
+      final bool output = Lister.checkListHasNullValue(input);
       expect(output, false);
     });
     // --------------------
@@ -1246,33 +1248,33 @@ void main() {
     test('checkListsAreIdentical returns true for identical lists', () {
       final List<dynamic> input1 = [1, 2, 3];
       final List<dynamic> input2 = [1, 2, 3];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, true);
     });
     // --------------------
     test('checkListsAreIdentical returns false for lists with different length', () {
       final List<dynamic> input1 = [1, 2, 3];
       final List<dynamic> input2 = [1, 2, 3, 4];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, false);
     });
     // --------------------
     test('checkListsAreIdentical returns false for lists with different values', () {
       final List<dynamic> input1 = [1, 2, 3];
       final List<dynamic> input2 = [1, 2, 4];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, false);
     });
     // --------------------
     test('checkListsAreIdentical returns true for empty lists', () {
       final List<dynamic> input1 = [];
       final List<dynamic> input2 = [];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, true);
     });
     // --------------------
     test('checkListsAreIdentical returns true for null inputs', () {
-      final bool output = Mapper.checkListsAreIdentical(list1: null, list2: null);
+      final bool output = Lister.checkListsAreIdentical(list1: null, list2: null);
       expect(output, true);
     });
     // --------------------
@@ -1289,7 +1291,7 @@ void main() {
         3.14,
         {'key': 'value'}
       ];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, true);
     });
     // --------------------
@@ -1306,14 +1308,14 @@ void main() {
         3.14,
         {'key': 'value'}
       ];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, true);
     });
     // --------------------
     test('checkListsAreIdentical works with lists containing multiple null values', () {
       final List<dynamic> input1 = [1, null, 3.14, null, 'string', null];
       final List<dynamic> input2 = [1, null, 3.14, null, 'string', null];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, true);
     });
     // --------------------
@@ -1330,7 +1332,7 @@ void main() {
         'string',
         1
       ];
-      final bool output = Mapper.checkListsAreIdentical(list1: input1, list2: input2);
+      final bool output = Lister.checkListsAreIdentical(list1: input1, list2: input2);
       expect(output, false);
     });
     // --------------------
@@ -1780,31 +1782,31 @@ void main() {
   group('getKeysHavingThisValue', () {
 
     test('returns empty list when map is null', () {
-      final List<String> result = Mapper.getKeysHavingThisValue(map: null, value: 'test');
+      final List<String> result = MapperSS.getKeysHavingThisValue(map: null, value: 'test');
       expect(result, isEmpty);
     });
 
     test('returns empty list when value is null', () {
       final Map<String, String> testMap = {'key1': 'value1', 'key2': 'value2'};
-      final List<String> result = Mapper.getKeysHavingThisValue(map: testMap, value: null);
+      final List<String> result = MapperSS.getKeysHavingThisValue(map: testMap, value: null);
       expect(result, isEmpty);
     });
 
     test('returns correct keys when value is present in map', () {
       final Map<String, String> testMap = {'key1': 'value1', 'key2': 'value2', 'key3': 'value1'};
-      final List<String> result = Mapper.getKeysHavingThisValue(map: testMap, value: 'value1');
+      final List<String> result = MapperSS.getKeysHavingThisValue(map: testMap, value: 'value1');
       expect(result, ['key1', 'key3']);
     });
 
     test('returns empty list when value is not present in map', () {
       final Map<String, String> testMap = {'key1': 'value1', 'key2': 'value2'};
-      final List<String> result = Mapper.getKeysHavingThisValue(map: testMap, value: 'value3');
+      final List<String> result = MapperSS.getKeysHavingThisValue(map: testMap, value: 'value3');
       expect(result, isEmpty);
     });
 
-    test('returns empty list when Mapper.checkCanLoopList returns false', () {
+    test('returns empty list when Lister.checkCanLoopList returns false', () {
       final Map<String, String> testMap = {'key1': 'value1', 'key2': 'value2'};
-      final List<String> result = Mapper.getKeysHavingThisValue(map: testMap, value: 'value3');
+      final List<String> result = MapperSS.getKeysHavingThisValue(map: testMap, value: 'value3');
       expect(result, isEmpty);
     });
 
@@ -1818,7 +1820,7 @@ void main() {
 
     test('inserts a new key-value pair into the map', () {
       final Map<String, String> map = {'key1': 'value1'};
-      final Map<String, String?>? result = Mapper.insertPairInMapWithStringValue(
+      final Map<String, String?>? result = MapperSS.insertPairInMapWithStringValue(
         map: map,
         key: 'key2',
         value: 'value2',
@@ -1829,7 +1831,7 @@ void main() {
 
     test('overrides an existing key-value pair in the map', () {
       final Map<String, String> map = {'key1': 'value1'};
-      final Map<String, String?>? result = Mapper.insertPairInMapWithStringValue(
+      final Map<String, String?>? result = MapperSS.insertPairInMapWithStringValue(
         map: map,
         key: 'key1',
         value: 'new value',
@@ -1840,7 +1842,7 @@ void main() {
 
     test('keeps an existing key-value pair in the map', () {
       final Map<String, String> map = {'key1': 'value1'};
-      final Map<String, String?>? result = Mapper.insertPairInMapWithStringValue(
+      final Map<String, String?>? result = MapperSS.insertPairInMapWithStringValue(
         map: map,
         key: 'key1',
         value: 'new value',
@@ -1853,7 +1855,7 @@ void main() {
 
       const Map<String, String>? map = null;
 
-      final Map<String, String?>? result = Mapper.insertPairInMapWithStringValue(
+      final Map<String, String?>? result = MapperSS.insertPairInMapWithStringValue(
         map: map,
         key: 'key1',
         value: 'value1',
@@ -1864,7 +1866,7 @@ void main() {
 
     test('inserts a new key-value pair if the key is null', () {
       final Map<String, String> map = {};
-      final Map<String, String?>? result = Mapper.insertPairInMapWithStringValue(
+      final Map<String, String?>? result = MapperSS.insertPairInMapWithStringValue(
         map: map,
         key: null,
         value: 'value1',
@@ -1896,7 +1898,7 @@ void main() {
     test('combines two maps', () {
       final Map<String, String> baseMap = {'key1': 'value1'};
       final Map<String, String> insert = {'key2': 'value2'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: true,
@@ -1907,7 +1909,7 @@ void main() {
     test('overrides duplicate keys in the base map', () {
       final Map<String, String> baseMap = {'key1': 'value1'};
       final Map<String, String> insert = {'key1': 'new value'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: true,
@@ -1918,7 +1920,7 @@ void main() {
     test('keeps duplicate keys in the base map', () {
       final Map<String, String> baseMap = {'key1': 'value1'};
       final Map<String, String> insert = {'key1': 'new value'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: false,
@@ -1929,7 +1931,7 @@ void main() {
     test('returns an empty map if baseMap is null', () {
       const Map<String, String>? baseMap = null;
       final Map<String, String> insert = {'key1': 'value1'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: true,
@@ -1940,7 +1942,7 @@ void main() {
     test('returns the baseMap if insert is null', () {
       final Map<String, String> baseMap = {'key1': 'value1'};
       const Map<String, String>? insert = null;
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: true,
@@ -1951,7 +1953,7 @@ void main() {
     test('inserts new key-value pairs and replaces existing ones if replaceDuplicateKeys is true', () {
       final Map<String, String> baseMap = {'key1': 'value1', 'key2': 'value2'};
       final Map<String, String> insert = {'key3': 'value3', 'key2': 'new_value2'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: true,
@@ -1962,7 +1964,7 @@ void main() {
     test('inserts new key-value pairs and keeps existing ones if replaceDuplicateKeys is false', () {
       final Map<String, String> baseMap = {'key1': 'value1', 'key2': 'value2'};
       final Map<String, String> insert = {'key3': 'value3', 'key2': 'new_value2'};
-      final Map<String, String?>? result = Mapper.combineStringStringMap(
+      final Map<String, String?>? result = MapperSS.combineStringStringMap(
         baseMap: baseMap,
         insert: insert,
         replaceDuplicateKeys: false,

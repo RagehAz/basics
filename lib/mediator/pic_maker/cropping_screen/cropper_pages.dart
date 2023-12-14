@@ -1,14 +1,16 @@
 import 'dart:typed_data';
+
 import 'package:basics/animators/helpers/app_scroll_behavior.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/handlers/keep_alive_page.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
 import 'package:basics/super_text/super_text.dart';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
+
 import 'cropper_corner.dart';
 
 class CropperPages extends StatelessWidget {
@@ -81,7 +83,7 @@ class CropperPages extends StatelessWidget {
           },
           itemBuilder: (_, int index){
 
-            if (Mapper.checkCanLoopList(originalBytezz) == false){
+            if (Lister.checkCanLoop(originalBytezz) == false){
               return Container(
                 width: _screenWidth,
                 height: _imageSpaceHeight,

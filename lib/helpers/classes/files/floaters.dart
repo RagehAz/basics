@@ -8,7 +8,7 @@ import 'dart:ui' as ui;
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/rest/rest.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
@@ -86,7 +86,7 @@ class Floaters {
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
 
 
-    if (Mapper.checkCanLoopList(ints) == true){
+    if (Lister.checkCanLoop(ints) == true){
       final Completer<ui.Image> completer = Completer<ui.Image>();
       final Uint8List _uint8List = Uint8List.fromList(ints!);
       ui.decodeImageFromList(_uint8List, completer.complete);
@@ -266,7 +266,7 @@ static img.Image decodeToImgImage({
   static Future<List<Uint8List>> getBytezzFromFiles(List<File>? files) async {
     final List<Uint8List> _screenShots = <Uint8List>[];
 
-    if (kIsWeb == false && Mapper.checkCanLoopList(files) == true) {
+    if (kIsWeb == false && Lister.checkCanLoop(files) == true) {
       for (final File file in files!) {
         final Uint8List? _uInt = await getBytesFromFile(file);
         if (_uInt != null){
@@ -460,7 +460,7 @@ static img.Image decodeToImgImage({
   /// TASK : TEST ME
   static String? getBase64FromBytes(Uint8List? bytes){
     String? _output;
-    if (Mapper.checkCanLoopList(bytes) == true){
+    if (Lister.checkCanLoop(bytes) == true){
       _output = base64Encode(bytes!);
     }
     return _output;
@@ -566,7 +566,7 @@ static img.Image decodeToImgImage({
 
     final List<double> _output = <double>[];
 
-    if (Mapper.checkCanLoopList(dynamics) == true){
+    if (Lister.checkCanLoop(dynamics) == true){
 
       for (final dynamic dyn in dynamics!){
 
@@ -613,7 +613,7 @@ static img.Image decodeToImgImage({
   }) async {
     final List<Uint8List> _outputs = <Uint8List>[];
 
-    if (Mapper.checkCanLoopList(localAssets) == true){
+    if (Lister.checkCanLoop(localAssets) == true){
 
       for (final String asset in localAssets!){
 
@@ -656,7 +656,7 @@ static img.Image decodeToImgImage({
             }
 
             // /// ASSIGN UINT TO FILE
-            // if (Mapper.checkCanLoopList(_uInt) == true){
+            // if (Lister.checkCanLoopList(_uInt) == true){
             //   _bytes = await getFileFromUint8List(
             //     uInt8List: _uInt,
             //     fileName: Floaters.getLocalAssetName(localAsset),

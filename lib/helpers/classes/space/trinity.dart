@@ -1,7 +1,6 @@
 import 'dart:typed_data';
-
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:flutter/material.dart';
 /// => TAMAM
@@ -40,7 +39,7 @@ class Trinity {
 
     final List<double> _output = <double>[];
 
-    if (Mapper.checkCanLoopList(dynamics) == true){
+    if (Lister.checkCanLoop(dynamics) == true){
 
       for (final dynamic dyn in dynamics!){
 
@@ -274,7 +273,7 @@ class Trinity {
     else {
       final List<double> _a = matrix1.storage;
       final List<double> _b = matrixReloaded.storage;
-      return Mapper.checkListsAreIdentical(list1: _a, list2: _b);
+      return Lister.checkListsAreIdentical(list1: _a, list2: _b);
     }
 
   }

@@ -1,5 +1,6 @@
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/models/region_model.dart';
 import 'package:collection/collection.dart';
@@ -46,7 +47,7 @@ class Continent {
   static Map<String, dynamic> cipherContinents(List<Continent> continents) {
     Map<String, dynamic> _map = <String, dynamic>{};
 
-    if (Mapper.checkCanLoopList(continents)) {
+    if (Lister.checkCanLoop(continents)) {
       for (final Continent continent in continents) {
         _map = Mapper.insertPairInMap(
           map: _map,
@@ -74,7 +75,7 @@ class Continent {
     if (map != null) {
       final List<String> _keys = map.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys)) {
+      if (Lister.checkCanLoop(_keys)) {
         for (final String key in _keys) {
           if (map[key] != continentsMapID) {
             final Continent _continent = decipherContinent(map[key]);
@@ -149,7 +150,7 @@ class Continent {
   }) {
     Continent? _cont;
 
-    if (Mapper.checkCanLoopList(continents) == true && countryID != null) {
+    if (Lister.checkCanLoop(continents) == true && countryID != null) {
       for (final Continent continent in continents!) {
         for (final Region region in continent.regions) {
           for (final String id in region.countriesIDs) {
@@ -275,7 +276,7 @@ class Continent {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogContinents(List<Continent> continents) {
-    if (Mapper.checkCanLoopList(continents) == true) {
+    if (Lister.checkCanLoop(continents) == true) {
       for (final Continent cont in continents) {
         cont.blogContinent();
       }

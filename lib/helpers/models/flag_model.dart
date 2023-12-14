@@ -2,7 +2,7 @@ import 'package:basics/bldrs_theme/assets/planet/all_flags_list.dart';
 import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
@@ -113,7 +113,7 @@ class Flag {
   static List<Map<String, dynamic>> cipherFlags(List<Flag> flags){
     final List<Map<String, dynamic>> _maps = [];
 
-    if (Mapper.checkCanLoopList(flags) == true){
+    if (Lister.checkCanLoop(flags) == true){
       for (final Flag flag in flags){
         _maps.add(flag.toMap());
       }
@@ -154,7 +154,7 @@ class Flag {
   static List<Flag> decipherMaps(List<dynamic> maps){
     final List<Flag> _output = [];
 
-    if (Mapper.checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoop(maps) == true){
       for (final dynamic map in maps){
         _output.add(decipher(map)!);
       }
@@ -175,7 +175,7 @@ class Flag {
     Flag? _output;
 
     if (TextCheck.isEmpty(countryID) == false){
-      if (Mapper.checkCanLoopList(flags) == true){
+      if (Lister.checkCanLoop(flags) == true){
         for (final Flag flag in flags!){
           if (flag.id == countryID){
             _output = flag;
@@ -196,7 +196,7 @@ class Flag {
     Flag? _output;
 
     if (TextCheck.isEmpty(iso2) == false){
-      if (Mapper.checkCanLoopList(flags) == true){
+      if (Lister.checkCanLoop(flags) == true){
         for (final Flag flag in flags!){
           if (flag.iso2 == iso2){
             _output = flag;
@@ -425,7 +425,7 @@ class Flag {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogFlags(List<Flag> flags){
-    if (Mapper.checkCanLoopList(flags) == true){
+    if (Lister.checkCanLoop(flags) == true){
       for (final Flag flag in flags){
         flag.blogFlag();
       }
@@ -438,7 +438,7 @@ class Flag {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogFlagsToJSON(List<Flag> flags){
-    if (Mapper.checkCanLoopList(flags) == true){
+    if (Lister.checkCanLoop(flags) == true){
       blog('[\n');
       for (int i = 0; i < flags.length; i++){
 
@@ -476,7 +476,7 @@ class Flag {
   static String _blogPhrasesToJSON(List<Phrase> phrases){
     String _output = '{\n';
 
-    if (Mapper.checkCanLoopList(phrases) == true) {
+    if (Lister.checkCanLoop(phrases) == true) {
 
       for (int i = 0; i < phrases.length; i++) {
 

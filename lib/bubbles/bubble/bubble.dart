@@ -1,7 +1,7 @@
 // ignore_for_file: unused_element
 import 'package:basics/bubbles/bubble/bubble_header.dart';
 import 'package:basics/bubbles/model/bubble_header_vm.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
@@ -254,7 +254,7 @@ class _BubbleContents extends StatelessWidget {
             ),
           ),
 
-          if (Mapper.checkCanLoopList(columnChildren) == true)
+          if (Lister.checkCanLoop(columnChildren) == true)
           ...columnChildren!,
 
           if (child != null)

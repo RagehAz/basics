@@ -4,6 +4,7 @@ import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/dialogs/bottom_dialog.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/colors/colorizer.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
@@ -308,7 +309,7 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
             ),
 
             /// LDB MAPS
-            if (Mapper.checkCanLoopList(_maps) == true)
+            if (Lister.checkCanLoop(_maps) == true)
               ...LDBViewerScreen.rows(
                 context: context,
                 userColorField: true,

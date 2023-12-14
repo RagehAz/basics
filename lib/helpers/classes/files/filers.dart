@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:android_path_provider/android_path_provider.dart';
 import 'package:basics/helpers/classes/checks/device_checker.dart';
 import 'package:basics/helpers/classes/checks/error_helpers.dart';
@@ -7,7 +8,7 @@ import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/file_size_unit.dart';
 import 'package:basics/helpers/classes/files/floaters.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/permissions/permits.dart';
 import 'package:basics/helpers/classes/rest/rest.dart';
@@ -16,10 +17,10 @@ import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:image/image.dart' as img;
-import 'package:http/http.dart' as http;
 
 class Filers {
   // -----------------------------------------------------------------------------
@@ -274,7 +275,7 @@ class Filers {
     else {
       final List<String> _names = <String>[];
 
-      if (Mapper.checkCanLoopList(files) == true){
+      if (Lister.checkCanLoop(files) == true){
 
         for (final File _file in files){
 
@@ -440,7 +441,7 @@ class Filers {
     else {
       final List<File> _output = <File>[];
 
-      if (Mapper.checkCanLoopList(uInt8Lists) == true){
+      if (Lister.checkCanLoop(uInt8Lists) == true){
 
         for (int i = 0; i < uInt8Lists.length; i++){
 
@@ -827,7 +828,7 @@ class Filers {
 
       final List<String> _keys = _json.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoop(_keys) == true){
         for (final String key in _keys){
           _allAssetsPaths.add(_json[key].first);
         }

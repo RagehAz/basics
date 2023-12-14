@@ -6,6 +6,7 @@ import 'package:basics/dialogs/center_dialog.dart';
 import 'package:basics/dialogs/top_dialog.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/colors/colorizer.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
@@ -39,7 +40,7 @@ class LDBViewerScreen extends StatefulWidget {
     final double _screenWidth = Scale.screenWidth(context);
     final bool _bubbleIsOn = onRowOptionsTap != null;
 
-    if (Mapper.checkCanLoopList(maps) == false){
+    if (Lister.checkCanLoop(maps) == false){
       return <Widget>[];
     }
     else {
@@ -259,7 +260,7 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
               ],
             ),
 
-            if (Mapper.checkCanLoopList(_maps) == true)
+            if (Lister.checkCanLoop(_maps) == true)
               ...LDBViewerScreen.rows(
                 context: context,
                 // color: Colorz.Green125,

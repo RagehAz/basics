@@ -1,7 +1,7 @@
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
+import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:basics/helpers/classes/strings/text_mod.dart';
 
 /// => AI TESTED
 class TextCheck {
@@ -245,7 +245,7 @@ class TextCheck {
   // --------------------
   /// TAMAM
   static void disposeAllTextControllers(List<TextEditingController>? controllers) {
-    if (Mapper.checkCanLoopList(controllers) == true) {
+    if (Lister.checkCanLoop(controllers) == true) {
       for (final TextEditingController controller in controllers!) {
         controller.dispose();
       }
@@ -316,7 +316,7 @@ class TextCheck {
   }){
     bool _output = false;
 
-    if (Mapper.checkCanLoopList(subStrings) == true && string != null){
+    if (Lister.checkCanLoop(subStrings) == true && string != null){
 
       for (final String subString in subStrings!){
 
@@ -393,7 +393,7 @@ class TextCheck {
   }){
     bool _output = false;
 
-    if (TextCheck.isEmpty(text) == false && Mapper.checkCanLoopList(listThatMightIncludeText) == true){
+    if (TextCheck.isEmpty(text) == false && Lister.checkCanLoop(listThatMightIncludeText) == true){
 
       for (final String startWith in listThatMightIncludeText!){
 
@@ -422,7 +422,7 @@ class TextCheck {
   }){
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true && TextCheck.isEmpty(startWith) == false){
+    if (Lister.checkCanLoop(strings) == true && TextCheck.isEmpty(startWith) == false){
 
       for (final String string in strings!){
 
@@ -449,7 +449,7 @@ class TextCheck {
   }){
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true && TextCheck.isEmpty(subString) == false){
+    if (Lister.checkCanLoop(strings) == true && TextCheck.isEmpty(subString) == false){
 
       for (final String text in strings){
 

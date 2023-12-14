@@ -9,7 +9,7 @@ import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/files/floaters.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/permissions/permits.dart';
 import 'package:basics/helpers/classes/permissions/permits_protocols.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
@@ -24,6 +24,7 @@ import 'package:image_compression_flutter/image_compression_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+
 import 'text_delegates/camera_text_delegates.dart';
 import 'text_delegates/picker_text_delegates.dart';
 // -----------------------------------------------------------------------------
@@ -124,7 +125,7 @@ class PicMaker {
         onError: onError,
       );
 
-      if (Mapper.checkCanLoopList(_bytezz) == true){
+      if (Lister.checkCanLoop(_bytezz) == true){
         _bytes = _bytezz.first;
       }
 
@@ -225,7 +226,7 @@ class PicMaker {
     );
 
     /// CROP
-    if (cropAfterPick == true && Mapper.checkCanLoopList(_bytezz) == true){
+    if (cropAfterPick == true && Lister.checkCanLoop(_bytezz) == true){
       _bytezz = await cropPics(
         context: context,
         bytezz: _bytezz,
@@ -236,7 +237,7 @@ class PicMaker {
     }
 
     /// RESIZE
-    if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) == true){
+    if (resizeToWidth != null && Lister.checkCanLoop(_bytezz) == true){
       _bytezz = await resizePics(
         bytezz: _bytezz,
         resizeToWidth: resizeToWidth,
@@ -245,7 +246,7 @@ class PicMaker {
     }
 
     /// COMPRESS
-    if (compressWithQuality != null && Mapper.checkCanLoopList(_bytezz) == true){
+    if (compressWithQuality != null && Lister.checkCanLoop(_bytezz) == true){
       _bytezz = await compressPics(
           bytezz: _bytezz,
           quality: compressWithQuality,
@@ -300,7 +301,7 @@ class PicMaker {
           },
       );
 
-      if (Mapper.checkCanLoopList(pickedAssets) == true){
+      if (Lister.checkCanLoop(pickedAssets) == true){
 
         for (final AssetEntity asset in pickedAssets!){
 
@@ -364,7 +365,7 @@ class PicMaker {
       }
 
       /// RESIZE
-      if (resizeToWidth != null && Mapper.checkCanLoopList(_bytezz) ==true){
+      if (resizeToWidth != null && Lister.checkCanLoop(_bytezz) ==true){
         _bytezz = await resizePics(
           bytezz: _bytezz,
           resizeToWidth: resizeToWidth,
@@ -372,7 +373,7 @@ class PicMaker {
       }
 
       /// COMPRESS
-      if (compressWithQuality != null && Mapper.checkCanLoopList(_bytezz) ==true){
+      if (compressWithQuality != null && Lister.checkCanLoop(_bytezz) ==true){
       _bytezz = await compressPics(
           bytezz: _bytezz,
           quality: compressWithQuality,
@@ -380,7 +381,7 @@ class PicMaker {
     }
 
       /// ASSIGN THE FILE
-      if (Mapper.checkCanLoopList(_bytezz) == true){
+      if (Lister.checkCanLoop(_bytezz) == true){
         _output = _bytezz.first;
       }
 
@@ -527,7 +528,7 @@ class PicMaker {
       confirmText: confirmText,
     );
 
-    if (Mapper.checkCanLoopList(_bytezz) == true){
+    if (Lister.checkCanLoop(_bytezz) == true){
       _bytes = _bytezz.first;
     }
 
@@ -545,7 +546,7 @@ class PicMaker {
 
     List<Uint8List> _bytezz = <Uint8List>[];
 
-    if (Mapper.checkCanLoopList(bytezz) == true){
+    if (Lister.checkCanLoop(bytezz) == true){
 
       _bytezz = await resizePics(bytezz: bytezz!, resizeToWidth: maxPicWidthBeforeCrop);
 
@@ -560,7 +561,7 @@ class PicMaker {
         ),
       );
 
-      if (Mapper.checkCanLoopList(_received) == true){
+      if (Lister.checkCanLoop(_received) == true){
         _bytezz = _received!;
       }
 
@@ -622,7 +623,7 @@ class PicMaker {
   }) async {
     final List<Uint8List> _output = <Uint8List>[];
 
-    if (Mapper.checkCanLoopList(bytezz) == true){
+    if (Lister.checkCanLoop(bytezz) == true){
 
       for (final Uint8List bytes in bytezz!){
 
@@ -724,7 +725,7 @@ class PicMaker {
   }) async {
     final List<Uint8List> _output = <Uint8List>[];
 
-    if (Mapper.checkCanLoopList(bytezz) == true){
+    if (Lister.checkCanLoop(bytezz) == true){
 
       for (final Uint8List bytes in bytezz!){
 
@@ -753,7 +754,7 @@ class PicMaker {
     required List<String>? urls1,
     required List<String>? urls2,
   }) {
-    return Mapper.checkListsAreIdentical(
+    return Lister.checkListsAreIdentical(
         list1: urls1,
         list2: urls2
     );

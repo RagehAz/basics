@@ -1,4 +1,5 @@
 // ignore_for_file: always_put_control_body_on_new_line
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_clip_board.dart';
@@ -203,7 +204,7 @@ class TextMod {
 
     final List<String> _keys = _varTagsMap.keys.toList();
 
-    if (Mapper.checkCanLoopList(_keys) == true){
+    if (Lister.checkCanLoop(_keys) == true){
 
       for (final String key in _keys){
 
@@ -618,7 +619,7 @@ class TextMod {
     // mirroring the map
     final Map<String, dynamic> _stringIndexMap = <String, dynamic>{};
 
-    if (Mapper.checkCanLoopList(keywordsIDs) == true) {
+    if (Lister.checkCanLoop(keywordsIDs) == true) {
 
       int _index = 0;
 
@@ -637,7 +638,7 @@ class TextMod {
   /// AI TESTED
   static Map<String, dynamic>? getValueAndTrueMap(List<String>? list) {
 
-    if (Mapper.checkCanLoopList(list) == true){
+    if (Lister.checkCanLoop(list) == true){
       final Map<String, dynamic> _result = <String, dynamic>{
         for (final String string in list!) string: true
       };

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:collection/collection.dart';
@@ -25,7 +26,7 @@ class Mapper {
 
     final List<String> _primaryKeys = <String>[];
 
-    if (checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoop(maps) == true){
 
       for (final Map<String, dynamic> map in maps!){
 
@@ -59,7 +60,7 @@ class Mapper {
   }) {
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
 
-    if (checkCanLoopList(dynamics) == true) {
+    if (Lister.checkCanLoop(dynamics) == true) {
       for (final dynamic map in dynamics) {
         _maps.add(map);
       }
@@ -189,54 +190,6 @@ class Mapper {
 
     return _maps;
   }
-  // --------------------
-  /// MANUALLY TESTED : WORKS PERFECT
-  static Map<String, String>? createStringStringMap({
-    required Map? hashMap,
-    required bool stringifyNonStrings,
-  }){
-    Map<String, String>? _output;
-
-    // blog('1 - createStringStringMap : hashMap : $hashMap');
-
-    if (hashMap != null){
-
-      final List<dynamic>? _keys = hashMap.keys.toList();
-
-      // blog('1 - createStringStringMap : _keys : $_keys');
-
-      if (checkCanLoopList(_keys) == true){
-        _output = {};
-
-        for (final String key in _keys!){
-
-          if (hashMap[key] is String){
-
-            _output[key] = hashMap[key];
-
-            // blog('2 - createStringStringMap : added : ($key : ${_output[key]})');
-
-          }
-          else {
-
-            if (stringifyNonStrings == true){
-              _output[key] = hashMap[key].toString();
-              // blog('2 - createStringStringMap : added : ($key : ${_output[key].toString()})');
-
-            }
-
-          }
-
-        }
-
-      }
-
-    }
-
-    // blog('3 - createStringStringMap : _output : $_output');
-
-    return _output;
-  }
   // -----------------------------------------------------------------------------
 
   /// MAP IN MAPS INDEX CHECKERS
@@ -250,7 +203,7 @@ class Mapper {
   }){
     Map<String, dynamic>? _output;
 
-    if (checkCanLoopList(maps) == true && id != null){
+    if (Lister.checkCanLoop(maps) == true && id != null){
 
       final int _index = getMapIndexByID(
         maps: maps,
@@ -278,7 +231,7 @@ class Mapper {
     required String? id,
     String idFieldName = 'id',
   }) {
-    if (checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoop(maps) == true){
       return maps!.indexWhere((Map<String, dynamic> m) => m[idFieldName] == id);
     }
     else {
@@ -387,7 +340,7 @@ class Mapper {
 
       final List<String> _keys = insert.keys.toList();
 
-      if (checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoop(_keys) == true){
 
         for (final String key in _keys){
 
@@ -406,56 +359,7 @@ class Mapper {
 
     return _output ?? {};
   }
-  // --------------------
-  /// AI TESTED
-  static List<Map<String, dynamic>> cleanDuplicateMaps({
-    required List<Map<String, dynamic>>? maps,
-  }){
-    final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
-    if (checkCanLoopList(maps) == true){
-
-      for (final Map<String, dynamic> map in maps!){
-
-        final bool _exists = checkMapsContainIdenticalMap(
-          maps: _output,
-          map: map,
-        );
-
-        if (_exists == false){
-          _output.add(map);
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// AI TESTED
-  static List<Map<String, dynamic>> cleanMapsOfDuplicateIDs({
-    required List<Map<String, dynamic>>? maps,
-    required String idFieldName,
-  }){
-    final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
-
-    if (checkCanLoopList(maps) == true){
-
-      for (final Map<String, dynamic> map in maps!){
-
-        final int _index = _output.indexWhere((m) => m[idFieldName] == map[idFieldName]);
-
-        if (_index == -1){
-          _output.add(map);
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
   // --------------------
   /// AI TESTED
   static List<Map<String, dynamic>>? replaceMapInMapsWithSameIDField({
@@ -468,7 +372,7 @@ class Mapper {
     // Mapper.blogMap(mapToReplace, invoker: 'replaceMapInMapsWithSameIDField');
 
     /// Note : if baseMaps is empty, there will be nothing to replace ya zaki
-    if (checkCanLoopList(baseMaps) == true && mapToReplace != null){
+    if (Lister.checkCanLoop(baseMaps) == true && mapToReplace != null){
 
       final int _index = _output.indexWhere((map){
 
@@ -519,7 +423,7 @@ class Mapper {
     // Mapper.blogMap(mapToReplace, invoker: 'replaceMapInMapsWithSameIDField');
 
     /// NOTE : if maps is empty, nothing to remove ya zaki bardo
-    if (checkCanLoopList(baseMaps) == true && mapIDToRemove != null){
+    if (Lister.checkCanLoop(baseMaps) == true && mapIDToRemove != null){
 
       _output = <Map<String,dynamic>>[...baseMaps!];
 
@@ -541,6 +445,10 @@ class Mapper {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// CLEANERS
+
   // --------------------
   /// AI TESTED
   static Map<String, dynamic>? cleanNullPairs({
@@ -647,110 +555,56 @@ class Mapper {
 
     return _output;
 }
-  // -----------------------------------------------------------------------------
-
-  /// DYNAMIC LISTS CHECKERS
-
   // --------------------
   /// AI TESTED
-  static bool checkCanLoopList(List<dynamic>? list) {
-    bool _canLoop = false;
-
-    if (list != null && list.isNotEmpty) {
-      _canLoop = true;
-    }
-    return _canLoop;
-  }
-  // --------------------
-  /// AI TESTED
-  static bool checkListHasNullValue(List<dynamic>? list){
-    bool _hasNull = false;
-
-    if (checkCanLoopList(list) == true){
-
-      _hasNull = list!.contains(null);
-
-    }
-
-    return _hasNull;
-  }
-  // --------------------
-  /// AI TESTED
-  static bool checkListsAreIdentical({
-    required List<dynamic>? list1,
-    required List<dynamic>? list2
-  }) {
-    bool _listsAreIdentical = false;
-
-    if (list1 == null && list2 == null){
-      _listsAreIdentical = true;
-    }
-    else if (list1 != null && list1.isEmpty == true && list2 != null && list2.isEmpty == true){
-      _listsAreIdentical = true;
-    }
-
-    else if (checkCanLoopList(list1) == true && checkCanLoopList(list2) == true){
-
-      if (list1!.length != list2!.length) {
-        // blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
-        // blog(' ---> lis1 is ( ${list1.toString()} )');
-        // blog(' ---> lis2 is ( ${list2.toString()} )');
-        _listsAreIdentical = false;
-      }
-
-      else {
-        for (int i = 0; i < list1.length; i++) {
-
-          if (list1[i] != list2[i]) {
-            // blog('items at index ( $i ) do not match : ( ${list1[i]} ) <=> ( ${list2[i]} )');
-
-            if (list1[i].toString() == list2[i].toString()){
-              // blog('but they are equal when converted to string');
-              _listsAreIdentical = true;
-            }
-            else {
-              // blog('and they are not equal when converted to string');
-              _listsAreIdentical = false;
-              break;
-            }
-
-          }
-
-          else {
-            _listsAreIdentical = true;
-          }
-
-        }
-      }
-
-    }
-
-    return _listsAreIdentical;
-  }
-  // --------------------
-  /// NOT USED
-  /*
-  ///
-  static bool checkIsLastListObject({
-    required List<dynamic> list,
-    required int index,
+  static List<Map<String, dynamic>> cleanDuplicateMaps({
+    required List<Map<String, dynamic>>? maps,
   }){
+    final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
-    bool _isAtLast = false;
+    if (Lister.checkCanLoop(maps) == true){
 
-    if (checkCanLoopList(list) == true){
+      for (final Map<String, dynamic> map in maps!){
 
-      if (index != null){
+        final bool _exists = checkMapsContainIdenticalMap(
+          maps: _output,
+          map: map,
+        );
 
-        _isAtLast = index == (list.length - 1);
+        if (_exists == false){
+          _output.add(map);
+        }
 
       }
 
     }
 
-    return _isAtLast;
+    return _output;
   }
-   */
+  // --------------------
+  /// AI TESTED
+  static List<Map<String, dynamic>> cleanMapsOfDuplicateIDs({
+    required List<Map<String, dynamic>>? maps,
+    required String idFieldName,
+  }){
+    final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
+
+    if (Lister.checkCanLoop(maps) == true){
+
+      for (final Map<String, dynamic> map in maps!){
+
+        final int _index = _output.indexWhere((m) => m[idFieldName] == map[idFieldName]);
+
+        if (_index == -1){
+          _output.add(map);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// LIST GETTERS
@@ -760,7 +614,7 @@ class Mapper {
   static dynamic getFirstInList(List<dynamic>? list){
     dynamic _output;
 
-    if (checkCanLoopList(list) == true){
+    if (Lister.checkCanLoop(list) == true){
       _output = list!.last;
     }
 
@@ -787,7 +641,7 @@ class Mapper {
       _mapsAreIdentical = true;
     }
 
-    /// BOTH AREN'T NULL BUT ATLEAST ONE OF THEM IS NULL
+    /// BOTH AREN'T NULL BUT AT LEAST ONE OF THEM IS NULL
     else if (map1 == null || map2 == null){
       _mapsAreIdentical = false;
     }
@@ -969,7 +823,7 @@ class Mapper {
       _listsAreIdentical = true;
     }
 
-    else if (checkCanLoopList(maps1) == true && checkCanLoopList(maps2) == true){
+    else if (Lister.checkCanLoop(maps1) == true && Lister.checkCanLoop(maps2) == true){
 
       if (maps1!.length != maps2!.length) {
         // blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
@@ -1022,7 +876,7 @@ class Mapper {
     bool _include = false;
 
     /// Note : if baseMaps is empty, there will be nothing to replace ya zaki
-    if (checkCanLoopList(maps) == true && map != null){
+    if (Lister.checkCanLoop(maps) == true && map != null){
 
       final int _index = maps!.indexWhere((maw){
 
@@ -1053,7 +907,7 @@ class Mapper {
   }) {
     bool _contain = false;
 
-    if (checkCanLoopList(maps) == true && map != null){
+    if (Lister.checkCanLoop(maps) == true && map != null){
 
       for (final Map<String, dynamic>? _map in maps!){
 
@@ -1082,7 +936,7 @@ class Mapper {
   }) {
     bool _listOfMapContainsTheValue = false;
 
-    if (checkCanLoopList(maps) == true && value != null){
+    if (Lister.checkCanLoop(maps) == true && value != null){
 
       for (final Map<String, dynamic> map in maps!) {
 
@@ -1146,7 +1000,7 @@ class Mapper {
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
   static void blogMaps(List<Map<String, dynamic>>? maps, {String invoker = 'map'}) {
-    if (checkCanLoopList(maps) == true) {
+    if (Lister.checkCanLoop(maps) == true) {
       for (int i = 0; i < maps!.length; i++) {
         final Map<String, dynamic> map = maps[i];
         blogMap(map,
@@ -1177,7 +1031,7 @@ class Mapper {
       blog('both maps lists are empty');
     }
 
-    if (checkCanLoopList(maps1) == true && checkCanLoopList(maps2) == true){
+    if (Lister.checkCanLoop(maps1) == true && Lister.checkCanLoop(maps2) == true){
 
       if (maps1!.length != maps2!.length) {
         blog('maps1.length != maps2.length');
@@ -1238,7 +1092,7 @@ class Mapper {
           listToAdd: _keys2,
       );
 
-      if (checkCanLoopList(_allKeys) == false){
+      if (Lister.checkCanLoop(_allKeys) == false){
         blog('||| both maps are not null but dead empty');
       }
 
@@ -1256,182 +1110,6 @@ class Mapper {
     }
 
     blog('||| $invoker |||||||||||||||||||||||||||||||||||| blogMapsDifferences : END --------o');
-  }
-  // -----------------------------------------------------------------------------
-
-  /// MAP<STRING, STRING> STUFF
-
-  // --------------------
-  /// AI TESTED
-  static List<String> getKeysHavingThisValue({
-    required Map<String, String>? map,
-    required String? value,
-  }){
-    final List<String> _output = <String>[];
-
-    if (map != null && value != null){
-
-      final List<String> _keys = map.keys.toList();
-
-      if (Mapper.checkCanLoopList(_keys) == true){
-
-        for (final String key in _keys){
-
-          final String? _mapValue = map[key];
-
-          if (_mapValue == value){
-            _output.add(key);
-          }
-
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// AI TESTED
-  static Map<String, String>? insertPairInMapWithStringValue({
-    required Map<String, String>? map,
-    required String? key,
-    required String value,
-    required bool overrideExisting, // otherwise will keep existing pair
-  }) {
-
-    Map<String, String>? _result = <String, String>{};
-
-    if (map != null){
-      _result = map;
-    }
-
-    if (key != null){
-
-      /// PAIR IS NULL
-      if (_result[key] == null){
-        _result[key] = value;
-      }
-
-      /// PAIR HAS VALUE
-      else {
-        if (overrideExisting == true){
-          _result[key] = value;
-        }
-      }
-
-    }
-
-    return _result;
-  }
-  // --------------------
-  /// AI TESTED
-  static Map<String, String>? combineStringStringMap({
-    required Map<String, String>? baseMap,
-    required Map<String, String>? insert,
-    required bool replaceDuplicateKeys,
-  }){
-    Map<String, String>? _output = {};
-
-    if (baseMap != null){
-
-      _output = baseMap;
-
-      if (insert != null){
-
-        final List<String> _keys = insert.keys.toList();
-
-        if (checkCanLoopList(_keys) == true){
-
-          for (final String key in _keys){
-
-            if (insert[key] != null){
-              _output = insertPairInMapWithStringValue(
-                map: _output,
-                key: key,
-                value: insert[key]!,
-                overrideExisting: replaceDuplicateKeys,
-              );
-            }
-
-          }
-
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  ///
-  static Map<String, String>? getStringStringMapFromImmutableMapStringObject(dynamic object){
-
-    Map<String, String>? _output = {};
-
-    if (object != null){
-
-      final String _runTime = object.runtimeType.toString();
-      const String _mapType0 = 'ImmutableMap<String, Object?>';
-      const String _mapType00 = 'ImmutableMap<String, Object>';
-      const String _mapType1 = 'Map<String, Object?>';
-      const String _mapType2 = 'Map<String, Object>';
-      const String _mapType3 = 'Map<String, dynamic?>';
-      const String _mapType4 = 'Map<String, dynamic>';
-      const String _mapType5 = '_InternalLinkedHashMap<String, Object?>';
-      const String _mapType6 = '_InternalLinkedHashMap<String, Object>';
-      const String _mapType7 = '_InternalLinkedHashMap<String, dynamic?>';
-      const String _mapType8 = '_InternalLinkedHashMap<String, dynamic>';
-      const String _mapType9 = '_InternalLinkedHashMap<String, String>';
-      const String _mapType10 = '_InternalLinkedHashMap<String, String?>';
-
-      final bool _canContinue = _runTime == _mapType0 ||
-                                _runTime == _mapType00 ||
-                                _runTime == _mapType1 ||
-                                _runTime == _mapType2 ||
-                                _runTime == _mapType3 ||
-                                _runTime == _mapType4 ||
-                                _runTime == _mapType5 ||
-                                _runTime == _mapType6 ||
-                                _runTime == _mapType7 ||
-                                _runTime == _mapType8 ||
-                                _runTime == _mapType9 ||
-                                _runTime == _mapType10;
-
-
-      if (_canContinue == true){
-
-        final Map _map =  object;
-        // blog('3 - FUCK : _map : ${_map.runtimeType}');
-        final List<dynamic> _keys = _map.keys.toList();
-
-        if (checkCanLoopList(_keys) == true){
-
-          for (final String key in _keys){
-
-            final String _value = _map[key] is String ? _map[key] : _map[key].toString();
-
-            _output = insertPairInMapWithStringValue(
-              map: _output,
-              key: key,
-              value: _value,
-              overrideExisting: true,
-            );
-
-          }
-
-        }
-
-      }
-
-      else {
-        // blog('getStringStringMapFromImmutableMapStringObject : starts : is NOT IMMUTABLE MAP');
-      }
-
-    }
-
-    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -1475,28 +1153,6 @@ class Mapper {
 
     if (value != null && value is bool){
       _output = value;
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static int superLength(dynamic list){
-    int _output = 0;
-
-    if (list is List<dynamic>){
-      if (checkCanLoopList(list) == true){
-        _output = list.length;
-      }
-    }
-    else if (list is String? || list is String){
-      _output = list?.length;
-    }
-    else if (list is int || list is int?){
-      _output = list ?? 0;
-    }
-    else if (list is double || list is double?){
-      _output = list?.toInt();
     }
 
     return _output;

@@ -1,8 +1,9 @@
 import 'dart:typed_data';
+
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/super_box/super_box.dart';
@@ -72,7 +73,7 @@ class CropperFooter extends StatelessWidget {
             children: <Widget>[
 
               /// MINI PICTURES
-              if (Mapper.superLength(bytezz) > 1)
+              if (Lister.superLength(bytezz) > 1)
               SizedBox(
                 width: _screenWidth,
                 height: _imagesFooterHeight,

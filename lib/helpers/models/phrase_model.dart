@@ -1,4 +1,5 @@
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
@@ -52,7 +53,7 @@ class Phrase {
       trigram: trigram,
     );
 
-    if (Mapper.checkCanLoopList(trigram) == false){
+    if (Lister.checkCanLoop(trigram) == false){
 
       _phrase = _phrase.copyWith(
         trigram: Stringer.createTrigram(input: value),
@@ -118,7 +119,7 @@ class Phrase {
     /// WHEN INCLUDING TRIGRAM
     if (includeTrigram == true){
 
-      final bool _trigramExists = Mapper.checkCanLoopList(trigram);
+      final bool _trigramExists = Lister.checkCanLoop(trigram);
 
       _map = Mapper.insertPairInMap(
         map: _map,
@@ -172,7 +173,7 @@ class Phrase {
 
     Map<String, dynamic>? _map;
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
       _map = {};
 
       for (final Phrase phrase in phrases!){
@@ -203,7 +204,7 @@ class Phrase {
 
       final List<String> _keys = map.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoop(_keys) == true){
 
         for (final String key in _keys){
 
@@ -249,7 +250,7 @@ class Phrase {
   static Map<String, dynamic> cipherPhrasesToLangsMap(List<Phrase>? phrases){
     Map<String, dynamic> _output = {};
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases!){
 
@@ -279,7 +280,7 @@ class Phrase {
 
       final List<String> _keys = langsMap.keys.toList(); // lang codes
 
-      if (Mapper.checkCanLoopList(_keys) == true){
+      if (Lister.checkCanLoop(_keys) == true){
 
         for (final String key in _keys){
 
@@ -333,7 +334,7 @@ class Phrase {
   }){
     Map<String, dynamic> _output = {};
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases!){
 
@@ -364,7 +365,7 @@ class Phrase {
 
       final List<String> _langCodes = map.keys.toList();
 
-      if (Mapper.checkCanLoopList(_langCodes) == true){
+      if (Lister.checkCanLoop(_langCodes) == true){
 
         for (final String langCode in _langCodes){
 
@@ -411,7 +412,7 @@ class Phrase {
   }){
     final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -463,7 +464,7 @@ class Phrase {
   }){
     final List<Phrase> _phrases = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoop(maps) == true){
 
       for (final Map<String, dynamic> map in maps!){
 
@@ -494,7 +495,7 @@ class Phrase {
   }) {
     Map<String, dynamic> _phrasesMap = <String, dynamic>{};
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoopList(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -529,7 +530,7 @@ class Phrase {
 
     final List<Map<String, dynamic>> _maps = <Map<String,dynamic>>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoopList(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -562,7 +563,7 @@ class Phrase {
 
     final List<String> _keys = map?.keys?.toList();
 
-    if (Mapper.checkCanLoopList(_keys)){
+    if (Lister.checkCanLoopList(_keys)){
 
       for (int i = 0; i<_keys.length; i++){
 
@@ -594,7 +595,7 @@ class Phrase {
 
     final List<Phrase> _phrases = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(maps) == true){
+    if (Lister.checkCanLoopList(maps) == true){
 
       for (int i = 0; i< maps.length; i++){
 
@@ -652,7 +653,7 @@ class Phrase {
 
     final List<String> _langCodes = <String>[];
 
-    if (Mapper.checkCanLoopList(phrases)){
+    if (Lister.checkCanLoopList(phrases)){
 
       for (final Phrase phrase in phrases){
         _langCodes.add(phrase.langCode);
@@ -669,7 +670,7 @@ class Phrase {
 
     List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases!){
 
@@ -689,7 +690,7 @@ class Phrase {
   static List<String> getLangCodes(List<Phrase>? phrases){
      List<String> _codes = <String>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase _phrase in phrases!){
 
@@ -709,7 +710,7 @@ class Phrase {
   static List<String> getPhrasesValues(List<Phrase>? phrases){
      List<String> _codes = <String>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase _phrase in phrases!){
 
@@ -738,11 +739,11 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true && phid != null){
+    if (Lister.checkCanLoop(phrases) == true && phid != null){
 
       final List<Phrase> _phrases = phrases!.where((ph) => ph.id == phid).toList();
 
-      if (Mapper.checkCanLoopList(_phrases) == true){
+      if (Lister.checkCanLoop(_phrases) == true){
         _output.addAll(_phrases);
       }
 
@@ -758,7 +759,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true && Mapper.checkCanLoopList(phids) == true){
+    if (Lister.checkCanLoop(phrases) == true && Lister.checkCanLoop(phids) == true){
 
       for (final String phid in phids){
 
@@ -767,7 +768,7 @@ class Phrase {
           phid: phid,
         );
 
-        if (Mapper.checkCanLoopList(_phrases) == true){
+        if (Lister.checkCanLoop(_phrases) == true){
           _output.addAll(_phrases);
         }
 
@@ -788,7 +789,7 @@ class Phrase {
   }){
     Phrase? _phrase;
 
-    if (Mapper.checkCanLoopList(phrases) == true && TextCheck.isEmpty(phid) == false){
+    if (Lister.checkCanLoop(phrases) == true && TextCheck.isEmpty(phid) == false){
 
       /// SEARCH PHRASES
 
@@ -847,7 +848,7 @@ class Phrase {
   }){
     List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
       _output = phrases!.where((phr) => phr.langCode == langCode).toList();
     }
 
@@ -862,7 +863,7 @@ class Phrase {
 
     Phrase? _phrase;
 
-    if (Mapper.checkCanLoopList(phrases) == true) {
+    if (Lister.checkCanLoop(phrases) == true) {
 
       _phrase = phrases!.firstWhereOrNull((Phrase phrase) => phrase.langCode == langCode);
 
@@ -880,7 +881,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true && Mapper.checkCanLoopList(langCodes) == true){
+    if (Lister.checkCanLoop(phrases) == true && Lister.checkCanLoop(langCodes) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -910,7 +911,7 @@ class Phrase {
   }){
     Phrase? _phrase;
 
-    if (Mapper.checkCanLoopList(phrases) == true && TextCheck.isEmpty(value) == false){
+    if (Lister.checkCanLoop(phrases) == true && TextCheck.isEmpty(value) == false){
 
       for (final Phrase phrase in phrases){
 
@@ -935,7 +936,7 @@ class Phrase {
   }){
     final List<Phrase> _result = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) && text.isNotEmpty){
+    if (Lister.checkCanLoop(phrases) && text.isNotEmpty){
 
       if (lookIntoIDs == true){
 
@@ -983,7 +984,7 @@ class Phrase {
     final List<Phrase> _foundPhrases = <Phrase>[];
     final String? _fixedString = TextMod.fixCountryName(input: inputText);
 
-    if (Mapper.checkCanLoopList(sourcePhrases) == true){
+    if (Lister.checkCanLoop(sourcePhrases) == true){
 
       for (final Phrase source in sourcePhrases!){
 
@@ -1016,7 +1017,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (phrase != null && Mapper.checkCanLoopList(allMixedPhrases) == true){
+    if (phrase != null && Lister.checkCanLoop(allMixedPhrases) == true){
       if (phrase.langCode != null){
 
         final String _secondLang = phrase.langCode == 'en' ? 'ar' : 'en';
@@ -1047,7 +1048,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrasesToSymmetrize) == true){
+    if (Lister.checkCanLoop(phrasesToSymmetrize) == true){
 
       for (final Phrase phrase in phrasesToSymmetrize){
 
@@ -1056,7 +1057,7 @@ class Phrase {
             allMixedPhrases: allMixedPhrases
         );
 
-        if (Mapper.checkCanLoopList(_pair) == true){
+        if (Lister.checkCanLoop(_pair) == true){
           _output.addAll(_pair);
         }
 
@@ -1078,7 +1079,7 @@ class Phrase {
   }){
     bool _include = false;
 
-    if (Mapper.checkCanLoopList(phrases) == true && firstPhrase != null){
+    if (Lister.checkCanLoop(phrases) == true && firstPhrase != null){
 
       for (final Phrase secondPhrase in phrases!){
 
@@ -1109,7 +1110,7 @@ class Phrase {
 
     bool _phraseInclude = false;
 
-    if (Mapper.checkCanLoopList(phrases)){
+    if (Lister.checkCanLoop(phrases)){
 
       for (final Phrase phrase in phrases){
 
@@ -1137,7 +1138,7 @@ class Phrase {
   }){
     bool _include = false;
 
-    if (Mapper.checkCanLoopList(phrases) == true && TextCheck.isEmpty(id) == false){
+    if (Lister.checkCanLoop(phrases) == true && TextCheck.isEmpty(id) == false){
 
       for (final Phrase phrase in phrases){
 
@@ -1160,7 +1161,7 @@ class Phrase {
   }){
     bool _include = false;
 
-    if (Mapper.checkCanLoopList(phrases) == true && TextCheck.isEmpty(value) == false){
+    if (Lister.checkCanLoop(phrases) == true && TextCheck.isEmpty(value) == false){
 
       for (final Phrase phrase in phrases){
 
@@ -1183,7 +1184,7 @@ class Phrase {
   /// TESTED : WORKS PERFECT
   static List<Phrase> sortNamesAlphabetically(List<Phrase> phrases){
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
       phrases.sort((Phrase a, Phrase b) => a.value?.compareTo(b.value ?? '') ?? 0);
     }
 
@@ -1198,7 +1199,7 @@ class Phrase {
 
     final List<String> _langs = getLangCodes(phrases);
 
-    if (Mapper.checkCanLoopList(_langs) == true){
+    if (Lister.checkCanLoop(_langs) == true){
 
       /// MAP OF {langCode : <Phrase>[]}
       for (final String _langCode in _langs){
@@ -1225,7 +1226,7 @@ class Phrase {
 
     final List<Phrase> _output = [...?phrases];
 
-    if (Mapper.checkCanLoopList(_output) == true){
+    if (Lister.checkCanLoop(_output) == true){
       _output.sort((Phrase a, Phrase b) => a.id?.compareTo(b.id ?? '') ?? 0);
     }
 
@@ -1321,11 +1322,11 @@ class Phrase {
 
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(insertIn) == true){
+    if (Lister.checkCanLoop(insertIn) == true){
       _output.addAll(insertIn);
     }
 
-    if (Mapper.checkCanLoopList(phrasesToInsert) == true){
+    if (Lister.checkCanLoop(phrasesToInsert) == true){
 
       List<Phrase> _phrasesToInsert = <Phrase>[...phrasesToInsert];
 
@@ -1351,7 +1352,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -1381,7 +1382,7 @@ class Phrase {
 
     List<Phrase> _output = <Phrase>[...?insertIn];
 
-    if (Mapper.checkCanLoopList(phrasesToInsert) == true){
+    if (Lister.checkCanLoop(phrasesToInsert) == true){
 
       for (final Phrase phrase in phrasesToInsert!){
 
@@ -1414,7 +1415,7 @@ class Phrase {
   }){
    List<Phrase> _output = <Phrase>[];
 
-   if (Mapper.checkCanLoopList(phrases) == true){
+   if (Lister.checkCanLoop(phrases) == true){
 
      _output.addAll(phrases);
 
@@ -1470,7 +1471,7 @@ class Phrase {
   static List<Phrase> cleanIdenticalPhrases(List<Phrase> phrases){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase firstPhrase in phrases){
 
@@ -1499,7 +1500,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -1523,7 +1524,7 @@ class Phrase {
   static List<Phrase> removeTrigramsFromPhrases(List<Phrase> phrases){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -1555,7 +1556,7 @@ class Phrase {
     List<Phrase> _output = <Phrase>[];
 
     if (
-        Mapper.checkCanLoopList(phrases) == true
+        Lister.checkCanLoop(phrases) == true
         &&
         TextCheck.isEmpty(phid) == false
     ){
@@ -1585,7 +1586,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -1613,7 +1614,7 @@ class Phrase {
 
     if (includeTrigram == true){
 
-      final bool _hasExitingOne = Mapper.checkCanLoopList(existingTrigram);
+      final bool _hasExitingOne = Lister.checkCanLoop(existingTrigram);
 
       if (_hasExitingOne == true){
         _output = existingTrigram;
@@ -1637,7 +1638,7 @@ class Phrase {
   }){
     final List<Phrase> _output = <Phrase>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
 
@@ -1666,7 +1667,7 @@ class Phrase {
 
     int _count = 1;
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases!){
         blog(
@@ -1696,7 +1697,7 @@ class Phrase {
   }){
     List<String> _output = [];
 
-    if (Mapper.checkCanLoopList(phrases1) == true && Mapper.checkCanLoopList(phrases2) == true){
+    if (Lister.checkCanLoop(phrases1) == true && Lister.checkCanLoop(phrases2) == true){
 
       List<Phrase> _phrases1;
       List<Phrase> _phrases2;
@@ -1730,7 +1731,7 @@ class Phrase {
   static List<String> transformPhrasesToStrings(List<Phrase> phrases){
     final List<String> _strings = <String>[];
 
-    if (Mapper.checkCanLoopList(phrases) == true){
+    if (Lister.checkCanLoop(phrases) == true){
 
       for (final Phrase phrase in phrases){
         final String _string = phrase.toString();
@@ -1762,7 +1763,7 @@ class Phrase {
 
           if (phrase1.value == phrase2.value){
 
-            if (Mapper.checkListsAreIdentical(list1: phrase1.trigram, list2: phrase2.trigram)){
+            if (Lister.checkListsAreIdentical(list1: phrase1.trigram, list2: phrase2.trigram)){
 
               _areIdentical = true;
 
@@ -1794,7 +1795,7 @@ class Phrase {
       _listsAreIdentical = true;
     }
 
-    else if (Mapper.checkCanLoopList(phrases1) == true && Mapper.checkCanLoopList(phrases2) == true){
+    else if (Lister.checkCanLoop(phrases1) == true && Lister.checkCanLoop(phrases2) == true){
 
       if (phrases1!.length == phrases2!.length){
 
@@ -1876,7 +1877,7 @@ class Phrase {
 
       final List<String> langCodes = cityJsonMap.keys.toList();
 
-      if (Mapper.checkCanLoopList(langCodes) == true){
+      if (Lister.checkCanLoop(langCodes) == true){
 
         for (final String langCode in langCodes){
 

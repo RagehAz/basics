@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
 import 'package:basics/ldb/methods/sembast.dart';
@@ -92,7 +92,7 @@ class LDBOps {
         primaryKey: primaryKey,
       );
 
-      if (Mapper.checkCanLoopList(_maps) == true){
+      if (Lister.checkCanLoop(_maps) == true){
         _output = _maps[0];
       }
 
@@ -190,7 +190,7 @@ class LDBOps {
       searchField: 'trigram',
     );
 
-    if (Mapper.checkCanLoopList(_result) == true){
+    if (Lister.checkCanLoop(_result) == true){
       // blog('searchPhrases : found ${_result.length} phrases');
 
       return _result;
@@ -343,7 +343,7 @@ class LDBOps {
       primaryKey: 'id',
     );
 
-    if (Mapper.checkCanLoopList(_maps) == true){
+    if (Lister.checkCanLoop(_maps) == true){
 
       final DateTime? _lastWipe = Timers.decipherTime(
           time: _maps.first['time'],

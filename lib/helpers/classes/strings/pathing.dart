@@ -1,5 +1,5 @@
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
@@ -32,7 +32,7 @@ class Pathing {
       /// => <String>[phid_a, phid_b, phid_c]
       final List<String>? _pathNodes = _cleanedPath?.split('/');
       /// => phid_c
-      return Mapper.checkCanLoopList(_pathNodes) == true ? _pathNodes?.first : null;
+      return Lister.checkCanLoop(_pathNodes) == true ? _pathNodes?.first : null;
     }
 
   }
@@ -61,7 +61,7 @@ class Pathing {
   static List<String> getPathsLastNodes(List<String>? paths){
     final List<String> _lastNodes = <String>[];
 
-    if (Mapper.checkCanLoopList(paths) == true){
+    if (Lister.checkCanLoop(paths) == true){
 
       for (final String path in paths!){
 
@@ -88,7 +88,7 @@ class Pathing {
   }){
     final List<String> _foundPaths = <String>[];
 
-    if (Mapper.checkCanLoopList(paths) && subString != null){
+    if (Lister.checkCanLoop(paths) && subString != null){
 
       for (final String path in paths!){
 
@@ -115,7 +115,7 @@ class Pathing {
   }){
     List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(paths) == true && Mapper.checkCanLoopList(subStrings) == true){
+    if (Lister.checkCanLoop(paths) == true && Lister.checkCanLoop(subStrings) == true){
 
       for (final String phid in subStrings!){
 
@@ -124,7 +124,7 @@ class Pathing {
           subString: phid,
         );
 
-        if (Mapper.checkCanLoopList(_foundPaths) == true){
+        if (Lister.checkCanLoop(_foundPaths) == true){
           _output = Stringer.addStringsToStringsIfDoNotContainThem(
             listToTake: _output,
             listToAdd: _foundPaths,
@@ -181,7 +181,7 @@ class Pathing {
   static String combinePathNodes(List<String>? nodes){
     String _path = '';
 
-    if (Mapper.checkCanLoopList(nodes) == true){
+    if (Lister.checkCanLoop(nodes) == true){
 
       for (final String node in nodes!){
 
@@ -205,7 +205,7 @@ class Pathing {
       final String? _fixed = fixPathFormatting(path);
       final List<String> _nodes = splitPathNodes(_fixed);
 
-      if (Mapper.checkCanLoopList(_nodes) == true){
+      if (Lister.checkCanLoop(_nodes) == true){
         _nodes.removeAt(_nodes.length - 1);
         _output = combinePathNodes(_nodes);
       }
@@ -273,7 +273,7 @@ class Pathing {
 
     final List<String> _paths = <String>[];
 
-    if (Mapper.checkCanLoopList(lastNodes) == true && parentNode != null){
+    if (Lister.checkCanLoop(lastNodes) == true && parentNode != null){
 
       for (final String phid in lastNodes!){
 
@@ -292,7 +292,7 @@ class Pathing {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void blogPaths(List<String> paths) {
-    if (Mapper.checkCanLoopList(paths) == true) {
+    if (Lister.checkCanLoop(paths) == true) {
       Stringer.blogStrings(
         strings: paths,
         invoker: 'blogPaths',

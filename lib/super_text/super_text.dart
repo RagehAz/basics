@@ -1,7 +1,7 @@
 library super_text;
 // -----------------------------------------------------------------------------
 import 'dart:ui';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:flutter/material.dart';
 import 'src/super_text_structure/c_leading_dot.dart';
 import 'src/super_text_structure/e_red_dot.dart';

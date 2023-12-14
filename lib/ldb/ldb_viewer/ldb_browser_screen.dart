@@ -1,7 +1,7 @@
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
@@ -35,7 +35,7 @@ class LDBBrowserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (Mapper.checkCanLoopList(docs) == false){
+    if (Lister.checkCanLoop(docs) == false){
       return const Center(
           child: SuperText(
               text: 'No Docs found'

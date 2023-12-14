@@ -32,7 +32,7 @@ class BulletPoints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (Mapper.checkCanLoopList(bulletPoints) == false){
+    if (Lister.checkCanLoop(bulletPoints) == false){
       return const SizedBox();
     }
 

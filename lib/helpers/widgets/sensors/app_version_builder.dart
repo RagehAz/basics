@@ -35,7 +35,7 @@ class AppVersionBuilder extends StatelessWidget {
     static List<int> fixVersionDivisions(List<int> divs){
     List<int> _output = <int>[];
 
-    if (Mapper.checkCanLoopList(divs) == true){
+    if (Lister.checkCanLoopList(divs) == true){
 
       if (divs.length == 3){
         _output = divs;

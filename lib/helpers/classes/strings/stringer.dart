@@ -1,7 +1,7 @@
 // ignore_for_file: noop_primitive_operations
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 
@@ -38,7 +38,7 @@ class Stringer {
   }) {
     bool _containsIt = false;
 
-    if (Mapper.checkCanLoopList(strings) == true && string != null) {
+    if (Lister.checkCanLoop(strings) == true && string != null) {
       _containsIt = strings!.contains(string);
     }
 
@@ -57,7 +57,7 @@ class Stringer {
 
     List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true){
+    if (Lister.checkCanLoop(strings) == true){
       _output = <String>[...strings!];
     }
 
@@ -85,11 +85,11 @@ class Stringer {
 
     List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(listToTake) == true){
+    if (Lister.checkCanLoop(listToTake) == true){
       _output = listToTake!;
     }
 
-    if (Mapper.checkCanLoopList(listToAdd) == true){
+    if (Lister.checkCanLoop(listToAdd) == true){
 
       for (final String string in listToAdd!){
 
@@ -142,7 +142,7 @@ class Stringer {
 
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(removeFrom) == true){
+    if (Lister.checkCanLoop(removeFrom) == true){
 
       for (final String string in removeFrom!){
 
@@ -192,7 +192,7 @@ class Stringer {
   }) {
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true) {
+    if (Lister.checkCanLoop(strings) == true) {
       for (final String string in strings!) {
 
         final bool _contains = checkStringsContainString(
@@ -214,7 +214,7 @@ class Stringer {
   static List<String> cleanListNullItems(List<String?>? strings){
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true){
+    if (Lister.checkCanLoop(strings) == true){
 
       for (final String? string in strings!){
 
@@ -256,7 +256,7 @@ class Stringer {
   static List<String> sortAlphabetically(List<String>? inputList) {
     List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(inputList) == true) {
+    if (Lister.checkCanLoop(inputList) == true) {
 
       _output = <String>[...inputList!];
 
@@ -357,7 +357,7 @@ class Stringer {
   static List<String> _getStringsFromDynamicsList(List<dynamic>? dynamics) {
     final List<String> _strings = [];
 
-    if (Mapper.checkCanLoopList(dynamics) == true) {
+    if (Lister.checkCanLoop(dynamics) == true) {
       for (final dynamic thing in dynamics!) {
 
         if (thing is String == true) {
@@ -501,7 +501,7 @@ class Stringer {
 
     String? _output = '';
 
-    if (Mapper.checkCanLoopList(strings) == true){
+    if (Lister.checkCanLoop(strings) == true){
 
       for (final String _string in strings!){
 
@@ -535,7 +535,7 @@ class Stringer {
     required String? invoker,
   }){
     blog('blogStrings : START --- : $invoker');
-    if (Mapper.checkCanLoopList(strings) == true){
+    if (Lister.checkCanLoop(strings) == true){
 
 
       for (int i = 0; i <strings!.length; i++){
@@ -612,9 +612,9 @@ class Stringer {
       }
 
       /// DEEP CHECKS
-      if (Mapper.checkCanLoopList(strings1) == true && Mapper.checkCanLoopList(strings2) == true){
+      if (Lister.checkCanLoop(strings1) == true && Lister.checkCanLoop(strings2) == true){
 
-        final bool _listsAreIdentical = Mapper.checkListsAreIdentical(
+        final bool _listsAreIdentical = Lister.checkListsAreIdentical(
           list1: strings1,
           list2: strings2,
         );
@@ -629,7 +629,7 @@ class Stringer {
 
           blogAndAddToLog('A - Lists are NOT identical');
 
-          final bool _sortedAreIdentical = Mapper.checkListsAreIdentical(
+          final bool _sortedAreIdentical = Lister.checkListsAreIdentical(
             list1: Stringer.sortAlphabetically(strings1),
             list2: Stringer.sortAlphabetically(strings2),
           );
@@ -727,7 +727,7 @@ class Stringer {
   }){
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(newStrings) == true){
+    if (Lister.checkCanLoop(newStrings) == true){
 
       for (int i = 0; i < newStrings!.length; i++){
         final String _string = newStrings[i];
@@ -754,7 +754,7 @@ class Stringer {
   }){
     final List<String?> _output = <String?>[];
 
-    if (Mapper.checkCanLoopList(oldStrings) == true){
+    if (Lister.checkCanLoop(oldStrings) == true){
 
       for (int i = 0; i < oldStrings!.length; i++){
 
@@ -784,9 +784,9 @@ class Stringer {
     final List<String> _output = [];
 
     if (
-    Mapper.checkCanLoopList(strings1) == true
+    Lister.checkCanLoop(strings1) == true
     &&
-    Mapper.checkCanLoopList(strings2) == true
+    Lister.checkCanLoop(strings2) == true
     ){
 
       for (final String item in strings1){
@@ -868,7 +868,7 @@ class Stringer {
   }){
     List<String> _output = [];
 
-    if (Mapper.checkCanLoopList(strings) == true && count > 0){
+    if (Lister.checkCanLoop(strings) == true && count > 0){
 
       final List<String> _cleaned = cleanDuplicateStrings(strings: strings);
        final int _maxLength = _cleaned.length;

@@ -1,7 +1,8 @@
 import 'dart:typed_data';
+
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
@@ -128,7 +129,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
   Future<void> _statusesListener() async {
 
     /// CHECK IF STATUSES ARE ALL READY
-    final bool _allImagesCropped = Mapper.checkListsAreIdentical(
+    final bool _allImagesCropped = Lister.checkListsAreIdentical(
       list1: _statuses?.value,
       list2: List.filled(widget.bytezz.length, CropStatus.ready),
     );

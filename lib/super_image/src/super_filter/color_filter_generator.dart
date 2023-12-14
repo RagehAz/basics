@@ -27,7 +27,7 @@ class ImageFilterModel {
 
     // blog('combineMatrixes : input are : ${matrixes.length} matrixes ');
 
-    if (Mapper.checkCanLoopList(matrixes) == true){
+    if (Lister.checkCanLoop(matrixes) == true){
 
       const Matrix2d m2d = Matrix2d();
 
@@ -200,7 +200,7 @@ class ImageFilterModel {
           final List<double> _list1 = matrix1[i];
           final List<double> _list2 = matrix2[i];
 
-          final bool _listsAreIdentical = Mapper.checkListsAreIdentical(
+          final bool _listsAreIdentical = Lister.checkListsAreIdentical(
             list1: _list1,
             list2: _list2,
           );

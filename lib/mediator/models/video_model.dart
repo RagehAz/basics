@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/helpers/classes/time/timers.dart';
@@ -74,7 +74,7 @@ class VideoModel {
   }) {
     final List<VideoModel> _output = <VideoModel>[];
 
-    if (Mapper.checkCanLoopList(maps) == true) {
+    if (Lister.checkCanLoop(maps) == true) {
       for (final Map<String, dynamic> map in maps) {
         final VideoModel? _video = decipher(
           map: map,
@@ -109,7 +109,7 @@ class VideoModel {
   }){
     final List<VideoModel> _output = <VideoModel>[ ...?videos ];
 
-    if (Mapper.checkCanLoopList(videos) == true && videoID != null){
+    if (Lister.checkCanLoop(videos) == true && videoID != null){
       _output.removeWhere((element) => element.id == videoID);
     }
 

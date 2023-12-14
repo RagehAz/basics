@@ -2,7 +2,7 @@ import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/bubbles/bubble/bubble.dart';
 import 'package:basics/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/bubbles/tile_bubble/tile_bubble.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
 import 'package:basics/helpers/widgets/sensors/validation_sensor.dart';
 import 'package:basics/super_box/super_box.dart';
@@ -304,7 +304,7 @@ class TextFieldBubble extends StatelessWidget {
         children: <Widget>[
 
           /// BULLET POINTS
-          if (Mapper.checkCanLoopList(bulletPoints) == true)
+          if (Lister.checkCanLoop(bulletPoints) == true)
             Disabler(
               isDisabled: isDisabled,
               child: BulletPoints(
@@ -475,7 +475,7 @@ class TextFieldBubble extends StatelessWidget {
           ),
 
           /// CHILDREN
-          if (Mapper.checkCanLoopList(columnChildren) == true)
+          if (Lister.checkCanLoop(columnChildren) == true)
             Disabler(
               isDisabled: isDisabled,
               child: Column(

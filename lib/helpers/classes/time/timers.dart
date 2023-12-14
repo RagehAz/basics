@@ -3,7 +3,7 @@ import 'package:basics/helpers/classes/checks/error_helpers.dart';
 import 'package:basics/helpers/classes/checks/errorize.dart';
 import 'package:basics/helpers/classes/checks/object_check.dart';
 import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart' as intl;
@@ -267,7 +267,7 @@ class Timers {
   }){
     final List<dynamic> _times = <dynamic>[];
 
-    if (Mapper.checkCanLoopList(times) == true){
+    if (Lister.checkCanLoop(times) == true){
 
       for (final DateTime? time in times!){
         _times.add(cipherTime(
@@ -288,7 +288,7 @@ class Timers {
   }){
     final List<DateTime?> _dateTimes = <DateTime?>[];
 
-    if (Mapper.checkCanLoopList(times) == true) {
+    if (Lister.checkCanLoop(times) == true) {
       for (final dynamic time in times!) {
 
         final DateTime? _time = decipherTime(
@@ -910,7 +910,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
   }){
     List<DateTime?> _result = <DateTime?>[];
 
-    if (Mapper.checkCanLoopList(times) == true){
+    if (Lister.checkCanLoop(times) == true){
 
       for (final DateTime? time in times!){
         if (time != null) {
@@ -1087,7 +1087,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
   }){
     bool _contains = false;
 
-    if (Mapper.checkCanLoopList(times) && time != null){
+    if (Lister.checkCanLoop(times) && time != null){
 
       for (int i =0; i < times!.length; i++){
 

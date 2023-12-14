@@ -1,3 +1,4 @@
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:flutter/foundation.dart';
@@ -40,7 +41,7 @@ class Region {
   static Map<String, dynamic> cipherRegions(List<Region> regions) {
     Map<String, dynamic> _map = <String, dynamic>{};
 
-    if (Mapper.checkCanLoopList(regions)) {
+    if (Lister.checkCanLoop(regions)) {
       for (final Region region in regions) {
         _map = Mapper.insertPairInMap(
           map: _map,
@@ -59,7 +60,7 @@ class Region {
 
     final List<String> _keys = map.keys.toList();
 
-    if (Mapper.checkCanLoopList(_keys)) {
+    if (Lister.checkCanLoop(_keys)) {
       for (final String key in _keys) {
         _regions.add(decipherRegion(map[key]));
       }

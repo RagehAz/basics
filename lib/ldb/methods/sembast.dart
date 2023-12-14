@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -130,7 +131,7 @@ class Sembast  {
   }) async {
     /// NOTE : this allows duplicate IDs
 
-    if (Mapper.checkCanLoopList(maps) == true && docName != null) {
+    if (Lister.checkCanLoop(maps) == true && docName != null) {
 
       final Database? _db = await _getDB();
       final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
@@ -247,7 +248,7 @@ class Sembast  {
   }) async {
 
     if (
-          Mapper.checkCanLoopList(maps) == true &&
+          Lister.checkCanLoop(maps) == true &&
           docName != null &&
           primaryKey != null
     ) {
@@ -291,7 +292,7 @@ class Sembast  {
   }) async {
 
     if (
-        Mapper.checkCanLoopList(maps) == true &&
+        Lister.checkCanLoop(maps) == true &&
         docName != null
     ){
 
@@ -323,7 +324,7 @@ class Sembast  {
 
     if (
       docName != null &&
-      Mapper.checkCanLoopList(ids) == true &&
+      Lister.checkCanLoop(ids) == true &&
       primaryKeyName != null
     ){
 
@@ -561,7 +562,7 @@ class Sembast  {
     if (
         docName != null &&
         searchField != null &&
-        Mapper.checkCanLoopList(searchObjects) == true &&
+        Lister.checkCanLoop(searchObjects) == true &&
         fieldToSortBy != null
     ){
 
@@ -640,7 +641,7 @@ class Sembast  {
 
     if (
         primaryKeyName != null &&
-        Mapper.checkCanLoopList(ids) == true &&
+        Lister.checkCanLoop(ids) == true &&
         docName != null
     ){
 
@@ -680,7 +681,7 @@ class Sembast  {
       docName: docName,
     );
 
-    if (Mapper.checkCanLoopList(_allMaps) == true){
+    if (Lister.checkCanLoopList(_allMaps) == true){
 
       final String _primaryKey = LDBDoc.getPrimaryKey(docName);
 

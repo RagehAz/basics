@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 import 'package:basics/helpers/classes/checks/tracers.dart';
+import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
@@ -67,7 +68,7 @@ class CaptionModel {
   }) {
     final List<Map<String, dynamic>> _output = [];
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       for (final CaptionModel caption in captions){
 
@@ -92,7 +93,7 @@ class CaptionModel {
   }) {
     final List<CaptionModel> _output = <CaptionModel>[];
 
-    if (Mapper.checkCanLoopList(maps) == true) {
+    if (Lister.checkCanLoop(maps) == true) {
       for (final Map<String, dynamic> map in maps) {
         final CaptionModel? _caption = decipherCaption(
           map: map,
@@ -116,7 +117,7 @@ class CaptionModel {
   static Map<String, dynamic> cipherCheckSubCaptions(List<CaptionModel> captions){
     Map<String, dynamic> _output = {};
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       final List<CaptionModel> _caps = cleanNullSeconds(captions);
 
@@ -145,7 +146,7 @@ class CaptionModel {
     if (map != null) {
       List<String> _keys = map.keys.toList();
 
-      if (Mapper.checkCanLoopList(_keys) == true) {
+      if (Lister.checkCanLoop(_keys) == true) {
 
         _keys = Stringer.sortAlphabetically(_keys);
 
@@ -219,7 +220,7 @@ class CaptionModel {
   static List<String?> getTexts(List<CaptionModel> captions) {
     final List<String?> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(captions) == true) {
+    if (Lister.checkCanLoop(captions) == true) {
       for (final CaptionModel caption in captions) {
         if (caption.text != null){
           _output.add(caption.text);
@@ -238,7 +239,7 @@ class CaptionModel {
   static List<CaptionModel> sortCaptionsBySecond(List<CaptionModel> captions){
     final List<CaptionModel> _output = <CaptionModel>[];
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       final List<CaptionModel> _captions = List<CaptionModel>.from(captions);
 
@@ -263,7 +264,7 @@ class CaptionModel {
   static List<CaptionModel> cleanNullSeconds(List<CaptionModel> captions){
     final List<CaptionModel> _output = <CaptionModel>[];
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       for (final CaptionModel caption in captions){
         if (caption.start != null){
@@ -397,7 +398,7 @@ class CaptionModel {
   }){
     String _output = '';
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       for (final CaptionModel _caption in captions){
 
@@ -418,7 +419,7 @@ class CaptionModel {
   /// TESTED : WORKS PERFECT
   static void blogCaptions(List<CaptionModel> captions){
 
-    if (Mapper.checkCanLoopList(captions) == true){
+    if (Lister.checkCanLoop(captions) == true){
 
       blog('CAPTIONS BLOG : ${captions.length} captions =>>> ');
 

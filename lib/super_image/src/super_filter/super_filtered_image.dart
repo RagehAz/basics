@@ -95,7 +95,7 @@ class _FilteredImage extends StatefulWidget {
     if (
         input != null &&
         filterModel != null &&
-        Mapper.checkCanLoopList(filterModel.matrixes) == true
+        Lister.checkCanLoop(filterModel.matrixes) == true
     ){
 
       Uint8List? _bytes = input is Uint8List ? input
@@ -145,7 +145,7 @@ class _FilteredImage extends StatefulWidget {
   }){
     Widget tree = child;
 
-    if (Mapper.checkCanLoopList(matrixes) == true){
+    if (Lister.checkCanLoop(matrixes) == true){
       for (int i = 0; i < matrixes!.length; i++) {
         tree = ColorFiltered(
           colorFilter: ColorFilter.matrix(matrixes[i]),
@@ -210,7 +210,7 @@ class _FilteredImageState extends State<_FilteredImage> {
      bool _bytesAreIdentical;
 
     if (widget.pic is Uint8List && oldWidget.pic is Uint8List){
-      _bytesAreIdentical = Mapper.checkListsAreIdentical(
+      _bytesAreIdentical = Lister.checkListsAreIdentical(
         list1: widget.pic,
         list2: oldWidget.pic,
       );

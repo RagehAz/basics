@@ -55,7 +55,7 @@ class _CachelessImageState extends State<CachelessImage> {
     if (_isInit && mounted) {
       _isInit = false; // good
 
-      if (Mapper.checkCanLoopList(widget.bytes) == true){
+      if (Lister.checkCanLoop(widget.bytes) == true){
         _triggerLoading(setTo: true).then((_) async {
 
           await loadImage();
@@ -72,7 +72,7 @@ class _CachelessImageState extends State<CachelessImage> {
   @override
   void didUpdateWidget(covariant CachelessImage oldWidget) {
 
-    final bool _areIdentical = Mapper.checkListsAreIdentical(
+    final bool _areIdentical = Lister.checkListsAreIdentical(
         list1: oldWidget.bytes,
         list2: widget.bytes,
     );
@@ -125,7 +125,7 @@ class _CachelessImageState extends State<CachelessImage> {
   Widget build(BuildContext context) {
 
     /// IMAGE IS EMPTY
-    if (Mapper.checkCanLoopList(widget.bytes) == false){
+    if (Lister.checkCanLoop(widget.bytes) == false){
       return Container(
         width: widget.width,
         height: widget.height,
