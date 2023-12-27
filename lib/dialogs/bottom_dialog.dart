@@ -4,6 +4,7 @@ import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/bldrs_theme/classes/shadowers.dart';
 import 'package:basics/helpers/classes/space/borderers.dart';
 import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
 import 'package:basics/super_box/super_box.dart';
 import 'package:basics/super_text/super_text.dart';
@@ -462,6 +463,7 @@ class BottomDialog extends StatelessWidget {
             height: _dialogHeight,
             child: Column(
               children: <Widget>[
+
                 /// --- DRAGGER
                 if (draggable == true)
                   Container(
@@ -482,15 +484,19 @@ class BottomDialog extends StatelessWidget {
                   ),
 
                 /// --- TITLE
-                if (title != null)
+                if (TextCheck.isEmpty(title) == false)
                   Container(
                     width: _dialogWidth,
                     height: _titleZoneHeight,
                     alignment: Alignment.center,
                     // color: Colorz.BloodTest,
-                    child: SuperText(
-                      text: title,
-                      font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                    child: FittedBox(
+                      child: SuperText(
+                        text: title,
+                        textHeight: _titleZoneHeight * 0.8,
+                        font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                        margins: const EdgeInsets.symmetric(horizontal: 20),
+                      ),
                     ),
                   ),
 
@@ -503,7 +509,10 @@ class BottomDialog extends StatelessWidget {
                     borderRadius: _dialogClearCorners,
                     // gradient: Colorizer.superHeaderStripGradient(Colorz.White20)
                   ),
-                  child: child,
+                  child: ClipRRect(
+                    borderRadius: _dialogClearCorners,
+                    child: child,
+                  ),
                 ),
 
               ],

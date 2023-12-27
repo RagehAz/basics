@@ -1,3 +1,5 @@
+import 'package:basics/helpers/classes/checks/tracers.dart';
+
 /// => TAMAM
 class Lister {
   // -----------------------------------------------------------------------------
@@ -6,7 +8,7 @@ class Lister {
 
   // -----------------------------------------------------------------------------
 
-  /// CHECKERS
+  /// LENGTH
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -76,9 +78,9 @@ class Lister {
     else if (checkCanLoop(list1) == true && checkCanLoop(list2) == true){
 
       if (list1!.length != list2!.length) {
-        // blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
-        // blog(' ---> lis1 is ( ${list1.toString()} )');
-        // blog(' ---> lis2 is ( ${list2.toString()} )');
+        blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
+        blog(' ---> lis1 is ( $list1 )');
+        blog(' ---> lis2 is ( $list2 )');
         _listsAreIdentical = false;
       }
 
@@ -86,14 +88,14 @@ class Lister {
         for (int i = 0; i < list1.length; i++) {
 
           if (list1[i] != list2[i]) {
-            // blog('items at index ( $i ) do not match : ( ${list1[i]} ) <=> ( ${list2[i]} )');
+            blog('items at index ( $i ) do not match : ( ${list1[i]} ) <=> ( ${list2[i]} )');
 
             if (list1[i].toString() == list2[i].toString()){
-              // blog('but they are equal when converted to string');
+              blog('but they are equal when converted to string');
               _listsAreIdentical = true;
             }
             else {
-              // blog('and they are not equal when converted to string');
+              blog('and they are not equal when converted to string');
               _listsAreIdentical = false;
               break;
             }
@@ -135,5 +137,33 @@ class Lister {
       return _isAtLast;
     }
      */
+  // -----------------------------------------------------------------------------
+
+  /// FILLERS
+
+  // --------------------
+  /// SHOULD GO TO LISTER
+  static List<dynamic> fillEmptySlotsUntilIndex({
+    required List<dynamic> list,
+    required dynamic fillValue,
+    required int index,
+  }){
+
+    final List<dynamic> _output = [];
+
+    final bool _listIsTaller = list.length > (index + 1);
+    final int _tallestLength = _listIsTaller == true ? list.length : index + 1;
+
+    for (int i = 0; i < _tallestLength; i++){
+      _output.add(fillValue);
+    }
+
+    for (int i = 0; i < list.length; i++){
+      _output.removeAt(i);
+      _output.insert(i, list[i]);
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 }

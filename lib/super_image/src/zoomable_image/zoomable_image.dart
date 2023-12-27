@@ -26,6 +26,39 @@ class ZoomableImage extends StatelessWidget {
   final double maxZoom;
   final Offset? offset;
   /// --------------------------------------------------------------------------
+  static Future<void> animateToMatrix({
+    required Matrix4 matrixTo,
+    required TransformationController transformationController,
+    required AnimationController zoomAnimationController,
+    required bool mounted,
+  }) async {
+
+    final Animation<Matrix4> _reset = Matrix4Tween(
+      begin: transformationController.value,
+      end: matrixTo,
+    ).animate(zoomAnimationController);
+
+    void _listener() {
+
+      setNotifier(
+        notifier: transformationController,
+        mounted: mounted,
+        value: _reset.value,
+      );
+
+    }
+
+    /// REMOVED
+    zoomAnimationController.addListener(_listener);
+
+    zoomAnimationController.reset();
+
+    await zoomAnimationController.forward();
+
+    zoomAnimationController.removeListener(_listener);
+
+  }
+  /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
@@ -82,6 +115,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   // -----------------------------------------------------------------------------
   late TransformationController _transformationController;
   late AnimationController _zoomAnimationController;
+  Matrix4 _initialMatrix = Matrix4.identity();
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -90,11 +124,15 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
     _transformationController = widget.transformationController ?? TransformationController();
 
     if (widget.offset != null){
-      _transformationController.value = Trinity.move(
-          matrix: Matrix4.identity(),
-          x: widget.offset!.dx,
-          y: widget.offset!.dy,
+
+      _initialMatrix = Trinity.move(
+        matrix: Matrix4.identity(),
+        x: widget.offset!.dx,
+        y: widget.offset!.dy,
       );
+
+      _transformationController.value = _initialMatrix;
+
     }
 
     _zoomAnimationController = AnimationController(
@@ -129,39 +167,33 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   /// ACTIONS
 
   // --------------------
-  Future<void> _resetZoom() async {
+  Future<void> _animateToMatrix(Matrix4 matrixTo) async {
 
-    final Animation<Matrix4> _reset = Matrix4Tween(
-      begin: _transformationController.value,
-      end: Matrix4.identity(),
-    ).animate(_zoomAnimationController);
-
-    void _listener() {
-
-      setNotifier(
-          notifier: _transformationController,
-          mounted: mounted,
-          value: _reset.value,
-      );
-
-    }
-
-    /// REMOVED
-    _zoomAnimationController.addListener(_listener);
-
-    _zoomAnimationController.reset();
-
-    await _zoomAnimationController.forward();
-
-    _zoomAnimationController.removeListener(_listener);
+    await ZoomableImage.animateToMatrix(
+      matrixTo: matrixTo,
+      mounted: mounted,
+      transformationController: _transformationController,
+      zoomAnimationController: _zoomAnimationController,
+    );
 
   }
   // --------------------
+  Future<void> _resetZoom() async {
+    await _animateToMatrix(_initialMatrix);
+  }
+  // --------------------
   Future<void> _onDoubleTap() async {
-    await _resetZoom();
-       await Future.delayed(Duration.zero, () {
-          Navigator.pop(context);
-        });
+
+    Matrix4 _matrix = _transformationController.value;
+
+    _matrix = Trinity.scale(
+      matrix: _matrix,
+      x: Trinity.getXScale(_matrix)! * 1.1,
+      y: Trinity.getYScale(_matrix)! * 1.1,
+    );
+
+    await _animateToMatrix(_matrix);
+
   }
   // -----------------------------------------------------------------------------
   @override
@@ -181,7 +213,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
         }
 
       },
-      onDoubleTap: widget.isFullScreen == false ? null : () => _onDoubleTap(),
+      onDoubleTap: _onDoubleTap,
 
       child: InteractiveViewer(
         // key: widget.key,

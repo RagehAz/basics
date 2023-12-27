@@ -1,6 +1,7 @@
 
 ---
 
+### 5.5.2 : translations + updates
 ### 5.5.1 : added Iconz.getIconFileName
 ### 5.5.0: refactored Pathing
 ### 5.4.6: fixed color picker on IOS

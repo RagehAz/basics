@@ -454,8 +454,8 @@ class TextCheck {
       for (final String text in strings){
 
         final bool _contains = TextCheck.stringContainsSubString(
-            string: text,
-            subString: subString
+          string: text,
+          subString: subString,
         );
 
         if (_contains == true){

@@ -192,6 +192,65 @@ class Mapper {
   }
   // -----------------------------------------------------------------------------
 
+  /// KEYS
+
+  // --------------------
+  /// AI TESTED
+  static List<String> getAllNestedKeys({
+    required Map<String, dynamic>? map,
+    required bool allowDuplicates,
+  }){
+    List<String> _output = [];
+
+    if (map != null){
+
+      final List<String> _keys = map.keys.toList();
+
+      if (Lister.checkCanLoop(_keys) == true){
+
+        if (allowDuplicates == true){
+          _output.addAll(_keys);
+        }
+        else {
+          _output = Stringer.addStringsToStringsIfDoNotContainThem(
+              listToTake: _output,
+              listToAdd: _keys,
+          );
+        }
+
+        for (final String _key in _keys){
+
+          final dynamic _object = map[_key];
+
+          if (_object is Map<String, dynamic>){
+
+            final List<String> _nestedKeys = getAllNestedKeys(
+                map: _object,
+                allowDuplicates: allowDuplicates
+            );
+
+            if (allowDuplicates == true){
+              _output.addAll(_nestedKeys);
+            }
+            else {
+              _output = Stringer.addStringsToStringsIfDoNotContainThem(
+                listToTake: _output,
+                listToAdd: _nestedKeys,
+              );
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// MAP IN MAPS INDEX CHECKERS
 
   // --------------------
@@ -453,6 +512,7 @@ class Mapper {
   /// AI TESTED
   static Map<String, dynamic>? cleanNullPairs({
     required Map<String, dynamic>? map,
+    bool nullifyEmptyMap = true,
   }){
     Map<String, dynamic>? _output;
 
@@ -467,12 +527,36 @@ class Mapper {
 
           if (map[key] is Map<String, dynamic>){
             final Map<String, dynamic>? _sub = cleanNullPairs(
-               map: map[key],
+              map: map[key],
+              nullifyEmptyMap: nullifyEmptyMap,
             );
             _output = insertPairInMap(
               map: _output,
               key: key,
               value: _sub,
+              overrideExisting: true,
+            );
+          }
+
+          else if (map[key] is List){
+            final List _list = map[key];
+            final List _updated = [];
+            for (final dynamic item in _list){
+              if (item is Map){
+                final Map<String, dynamic>? _newMap = cleanNullPairs(
+                  map: item as Map<String, dynamic>,
+                  nullifyEmptyMap: nullifyEmptyMap,
+                );
+                _updated.add(_newMap);
+              }
+              else {
+                _updated.add(item);
+              }
+            }
+            _output = insertPairInMap(
+              map: _output,
+              key: key,
+              value: _updated,
               overrideExisting: true,
             );
           }
@@ -495,7 +579,12 @@ class Mapper {
       }
 
       if (_output != null && _output.keys.isEmpty == true){
-        _output = null;
+        if (nullifyEmptyMap == true){
+          _output = null;
+        }
+        else {
+          _output = <String, dynamic>{};
+        }
       }
 
     }
@@ -965,6 +1054,41 @@ class Mapper {
   }
   // -----------------------------------------------------------------------------
 
+  /// SORTING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Map<String, dynamic>? sortKeysAlphabetically({
+    required Map<String, dynamic>? map,
+  }){
+    Map<String, dynamic>? _output;
+
+    if (map != null){
+
+      _output = {};
+
+      List<String> _keys = map.keys.toList();
+      _keys = Stringer.sortAlphabetically(_keys);
+
+      for (final String _key in _keys){
+
+        dynamic _object = map[_key];
+        if (_object is Map){
+          _object = sortKeysAlphabetically(
+            map: _object as Map<String, dynamic>,
+          );
+        }
+
+        _output[_key] = _object;
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// BLOGGING MAPS
 
   // --------------------
@@ -1170,6 +1294,26 @@ class Mapper {
     else {
       return jsonDecode(jsonEncode(map));
     }
+  }
+  // --------------------
+  /// TASK : TEST ME
+  static Map<String, dynamic> convertDynamicMap(Map<dynamic, dynamic>? originalMap) {
+    final Map<String, dynamic> convertedMap = {};
+
+    if (originalMap != null){
+
+      originalMap.forEach((key, value) {
+        if (key is String) {
+          convertedMap[key] = value;
+        }
+        else {
+          convertedMap[key.toString()] = value;
+        }
+      });
+
+    }
+
+    return convertedMap;
   }
   // -----------------------------------------------------------------------------
 }

@@ -78,6 +78,74 @@ class Pathing {
   }
   // -----------------------------------------------------------------------------
 
+  /// GET ADJACENT NODES
+
+  // --------------------
+  /// AI TESTED
+  static String? getParentNode({
+    required String path,
+    required String node,
+  }){
+
+    if (TextCheck.isEmpty(path) == true || TextCheck.isEmpty(node) == true){
+      return null;
+    }
+
+    else {
+
+      final List<String> pathNodes = Pathing.splitPathNodes(path);
+      final int _index = pathNodes.indexOf(node);
+
+      /// non existent
+      if (_index == -1){
+        return null;
+      }
+      /// first
+      else if (_index == 0){
+        return '';
+      }
+      /// found
+      else {
+        return pathNodes[_index - 1];
+      }
+
+    }
+
+  }
+  // --------------------
+  /// AI TESTED
+  static String? getSonNode({
+    required String path,
+    required String node,
+  }){
+
+    if (TextCheck.isEmpty(path) == true || TextCheck.isEmpty(node) == true){
+      return null;
+    }
+
+    else {
+
+      final List<String> pathNodes = Pathing.splitPathNodes(path);
+      final int _index = pathNodes.indexOf(node);
+
+      /// non existent
+      if (_index == -1){
+        return null;
+      }
+      /// last
+      else if (_index == pathNodes.length - 1){
+        return '';
+      }
+      /// found
+      else {
+        return pathNodes[_index + 1];
+      }
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
   /// PATHS FINDERS
 
   // --------------------

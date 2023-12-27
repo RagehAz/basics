@@ -1,5 +1,5 @@
 import 'package:basics/helpers/classes/maps/lister.dart';
-
+/// => TAMAM
 class MapperSS {
   // -----------------------------------------------------------------------------
 
@@ -242,7 +242,7 @@ class MapperSS {
   /// CLEANERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Map<String, String>? cleanNullPairs({
     required Map<String, String?>? map,
   }){
