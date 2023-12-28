@@ -1,4 +1,3 @@
-import 'package:basics/helpers/classes/checks/tracers.dart';
 import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/maps/mapper.dart';
 import 'package:basics/helpers/classes/nums/numeric.dart';
@@ -6,7 +5,6 @@ import 'package:basics/helpers/classes/strings/pathing.dart';
 import 'package:basics/helpers/classes/strings/stringer.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:basics/helpers/classes/strings/text_mod.dart';
-
 /// => TAMAM
 class MapPathing {
   // -----------------------------------------------------------------------------
@@ -250,7 +248,7 @@ class MapPathing {
     return _output;
   }
   // -----------------------
-  /// TASK : TEST ME BY AI
+  /// AI TESTED
   static List<String> generatePathsFromList({
     required List list,
     String previousPath = '',
@@ -306,18 +304,16 @@ class MapPathing {
   /// GENERATE MAP FROM PATHS
 
   // -----------------------
-  ///
-  static Map<String, dynamic>? generateMapFromSomePaths({
+  /// AI TESTED
+  static Map<String, dynamic> generateMapFromSomePaths({
     required List<String> somePaths,
     required Map<String, dynamic> sourceMap,
   }) {
-    Map<String, dynamic>? _output;
+    Map<String, dynamic> _output = {};
 
     if (Lister.checkCanLoop(somePaths) == true) {
 
       final List<String> _paths = Stringer.cleanDuplicateStrings(strings: somePaths);
-
-      _output = {};
 
       for (final String path in _paths) {
 
@@ -326,7 +322,11 @@ class MapPathing {
             map: sourceMap
         );
 
-        blog('value : $value');
+        _output = _addValueToPath(
+          map: _output,
+          path: path,
+          value: value,
+        );
 
       }
 
@@ -334,233 +334,80 @@ class MapPathing {
 
     return _output;
   }
-  /*
   // -----------------------
-  ///
-  static Map<String, dynamic> setNodeValue({
+  /// AI TESTED
+  static Map<String, dynamic> _addValueToPath({
     required String path,
     required dynamic value,
-    required Map<String, dynamic> map,
-  }) {
-
-    dynamic result = getPathObject(
-      path: path,
-      object: map,
-    );
-
-    return setObject(
-      value: value,
-      object: result,
-    );
-
-  }
-  // -----------------------
-  ///
-  static dynamic getPathObject({
-    required String path,
-    required dynamic object,
+    required Map<String, dynamic>? map,
   }){
-    dynamic result = object;
+    /// a    / b   / i:5   / i:0   / x   / i:3   / f   /       => value
+    /// key  / key / index / index / key / index / key /
+    /// sim  / sil / sil   / sim   / sil / sim   / siv /       : sim sonIsMap : sil sonIsList : siv sonIsValue
+    /// 0    / 1   / 2     / 3     / 4   / 5     / 6   /
 
-    if (object != null){
+    final Map<String, dynamic> _output = map ?? {};
+
+    if (TextCheck.isEmpty(path) == false){
 
       final List<String> nodes = Pathing.splitPathNodes(path);
-      blog('getPathObject : path : $path : nodes : $nodes');
 
-      /// GO DOWN IN NODES => EACH TIME SET RESULT WITH THE SON OBJECT
-      for (int i = 0; i < nodes.length; i++) {
-
-        final String node = nodes[i];
-        blog('getPathObject : $i node : $node');
-
-        final String _parentNode = Pathing.getParentNode(path: path, node: node)!;
-        blog('getPathObject : $i _parentNode : $_parentNode');
-
-        final bool _isSonOfList = checkNodeIsIndex(_parentNode);
-        blog('getPathObject : $i _isSonOfList : $_isSonOfList');
-
-        /// SON OF LIST
-        if (_isSonOfList == true){
-          result = _getPathList(parentObject: result, parentNode: _parentNode);
-        }
-
-        /// SON OF MAP
-        else {
-          result = _getPathMap(
-            parentObject: result,
-            node: node,
-          );
-        }
-
-      }
-
-    }
-
-
-
-    return result;
-  }
-
-  // -----------------------
-  /// Initialize a path object as a map
-  static Map<String, dynamic> _getPathMap({
-    required dynamic parentObject,
-    required String node,
-  }) {
-    Map<String, dynamic> _output = {};
-
-    blog('_getPathMap : parentObject : $parentObject');
-    blog('_getPathMap : node : $node');
-
-    /// PARENT IS LIST
-    if (parentObject is List){
-
-    }
-
-    /// PARENT IS MAP
-    else {
-      final bool _nodeIsIndex =
-      _output = parentObject[node];
-    }
-
-    return _output;
-  }
-// -----------------------
-  /// Initialize a path object as a list
-  static List<dynamic> _getPathList({
-    required dynamic parentObject,
-    required String parentNode
-  }) {
-    List<dynamic> _output = [];
-
-    blog('_getPathList : parentObject : $parentObject');
-    blog('_getPathList : parentNode : $parentNode');
-
-    return [];
-  }
-  // -----------------------
-  ///
-  static dynamic setObject({
-    required dynamic value,
-    required dynamic object,
-  }){
-    return value;
-  }
-  // -----------------------------------------------------------------------------
-  /*
-  // -----------------------
-  /// TASK : TEST ME BY AI
-  static dynamic _emptyBox({required dynamic sonNode}){
-    if (sonNode is int || checkNodeIsIndex(sonNode) == true){
-      return [];
-    }
-    else {
-      return {};
-    }
-  }
-  // -----------------------
-  /// TASK : TEST ME BY AI
-  static dynamic _insertValueToBox({
-    required dynamic box,
-    required dynamic value,
-    required dynamic key,
-  }){
-
-    blog('_insertValueToBox : box : $box : value : $value');
-
-    if (box is List){
-      box.add(value);
-    }
-    else {
-      box[key] = value;
-    }
-
-    return box;
-  }
-  // -----------------------
-  /// TASK : TEST ME BY AI
-  static dynamic _initializeObject({required dynamic sonNode, required dynamic box}){
-    return box ?? _emptyBox(sonNode: sonNode);
-  }
-  // -----------------------------------------------------------------------------
-  static Map<String, dynamic> insertValueInMapByPath({
-    required String path, // a/b/c/i:0/
-    required dynamic value,
-    required Map<String, dynamic> map,
-  }){
-    Map<String, dynamic> _output = map;
-
-    final List<String> nodes = Pathing.splitPathNodes(path);
-
-    if (Lister.checkCanLoop(nodes) == true){
-
-      if (nodes.length == 1){
-        final String _node = nodes[0];
-        final bool _isIndex = checkNodeIsIndex(_node);
-        if (_isIndex == true){
-          assert (_isIndex != true, 'First node should never be an index as first nodes always should be maps');
-        }
-        else {
-          final String _key = getNodeKey(_node);
-          map[_key] = value;
-        }
-      }
-
-      else {
-
-        dynamic object = map;
-        for (int i = 0; i < nodes.length; i++){
+      if (Lister.checkCanLoop(nodes) == true){
+        dynamic _object = _output;
+        for (int i = 0; i < nodes.length; i++) {
 
           final String node = nodes[i];
-          final String sonNode = Pathing.getSonNode(
-            path: path,
-            node: node,
-          )!;
+          final dynamic key = MapPathing.getNodeKey(node);
+          final String? sonNode = Pathing.getSonNode(path: path, node: node);
 
-          final bool _isFirst = i == 0;
-          final bool _isLast = i == nodes.length - 1;
-
-          /// FIRST NODE
-          if (_isFirst == true){
-            final String _key = node;
-            object[_key] = object[_key] ?? {};
-            object = object[_key];
+          if (sonNode == null){
+            // fuck you
           }
-          /// MIDDLE NODE
-          else if (_isFirst == false && _isLast == false){
-            final bool _nodeIsList = checkNodeIsIndex(sonNode);
-            if (_nodeIsList == true){
-              final int sonIndex = getIndexFromNode(sonNode);
-              object = object ?? [];
-              object = Lister.fillEmptySlotsUntilIndex(
-                index: sonIndex,
-                list: object,
-                fillValue: null,
-              );
-              object.insert(sonIndex, value);
-            }
-            else {
-              final String _key = node;
-              object[_key] = object[_key] ?? {};
-              object = object[_key];
-            }
-          }
-          /// LAST NODE
-          else if (_isLast == true){
 
+          /// SON IS VALUE
+          else if (sonNode == ''){
+            _object[key] = value;
+          }
+
+          /// SON IS LIST
+          else if (MapPathing.checkNodeIsIndex(sonNode) == true){
+            _object = _summonList(
+              node: node,
+              sonNode: sonNode,
+              object: _object,
+            );
+          }
+
+          /// SON IS MAP
+          else {
+            _object[key] = _object[key] ?? {};
+            _object = _object[key];
           }
 
         }
-
       }
 
     }
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
-   */
+  // -----------------------
+  /// AI TESTED
+  static List<dynamic> _summonList({
+    required String node,
+    required String sonNode,
+    required dynamic object,
+  }){
 
-   */
+    final dynamic _key = MapPathing.getNodeKey(node);
+    object[_key] = object[_key] ?? [];
+    object[_key] = Lister.fillEmptySlotsUntilIndex(
+      index: MapPathing.getIndexFromNode(sonNode),
+      list: object[_key],
+      fillValue: null,
+    );
+
+    return object[_key];
+  }
   // -----------------------------------------------------------------------------
 }
