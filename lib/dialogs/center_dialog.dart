@@ -17,9 +17,11 @@ class CenterDialog extends StatelessWidget {
   // --------------------------------------------------------------------------
   const CenterDialog({
     required this.bubble,
+    required this.backgroundColor,
   super.key
   });  // --------------------------------------------------------------------------
   final Widget bubble;
+  final Color? backgroundColor;
   // -----------------------------------------------------------------------------
 
   /// SIZES
@@ -68,6 +70,7 @@ class CenterDialog extends StatelessWidget {
     required BuildContext context,
     required Widget bubble,
     Function(BuildContext ctx)? onDialogContextCreated,
+    Color? backgroundColor,
   }) async {
 
     final bool? _result = await showDialog(
@@ -79,6 +82,7 @@ class CenterDialog extends StatelessWidget {
         }
 
         return CenterDialog(
+          backgroundColor: backgroundColor,
           bubble: bubble,
         );
       },
@@ -418,10 +422,10 @@ class CenterDialog extends StatelessWidget {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
+    // --------------------
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colorz.black80,
+        backgroundColor: backgroundColor ?? Colorz.black80,
         resizeToAvoidBottomInset: true,
         body: AlertDialog(
           backgroundColor: Colorz.nothing,

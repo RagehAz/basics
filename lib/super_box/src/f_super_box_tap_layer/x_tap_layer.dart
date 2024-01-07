@@ -23,6 +23,7 @@ class TapLayer extends StatelessWidget {
     this.alignment,
     this.margin,
     this.borderColor,
+    this.customBorder,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -43,6 +44,19 @@ class TapLayer extends StatelessWidget {
   final EdgeInsets? margin;
   final Alignment? alignment;
   final Color? borderColor;
+  final ShapeBorder? customBorder;
+// --------------------------------------------------------------------------
+  static const double borderThickness = 0.75;
+  // --------------------------------------------------------------------------
+  static BoxBorder? getBorder({
+    required Color? color,
+  }){
+    return color == null ? null : Border.all(
+      color: color,
+      width: borderThickness,
+      strokeAlign: BorderSide.strokeAlignOutside,
+    );
+  }
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   Future<void> onBoxTap() async {
@@ -165,12 +179,12 @@ class TapLayer extends StatelessWidget {
         onDoubleTap: onDoubleTap == null ? null : () => onDoubleTap!(),
         borderRadius: _corners,
         hoverColor: Colorz.white10,
+        customBorder: customBorder,
         // overlayColor: ,
         // highlightColor: ,
         // key: ,
         // autofocus: ,
         // canRequestFocus: ,
-        // customBorder: ,
         // enableFeedback: ,
         // excludeFromSemantics: ,
         // focusColor: ,
@@ -265,8 +279,7 @@ class _TapBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    const double _borderThickness = 0.5;
+    
     // final double _borderFactor = borderColor == null ? 0 : (_borderThickness*2);
     final double? _width = width == null ? null : width! - 0;
     final double? _height = height == null ? null : height! - 0;
@@ -278,11 +291,9 @@ class _TapBox extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: corners,
             color: boxColor,
-            border: borderColor == null ? null : Border.all(
-              color: borderColor!,
-              width: _borderThickness,
-              strokeAlign: BorderSide.strokeAlignOutside,
-            )
+            border: TapLayer.getBorder(
+              color: borderColor,
+            ),
         ),
         alignment: alignment,
         margin: margin,

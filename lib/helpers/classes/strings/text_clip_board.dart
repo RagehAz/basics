@@ -40,4 +40,13 @@ class TextClipBoard {
     return _text;
   }
   // -----------------------------------------------------------------------------
+
+  /// CLEAR
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> clear() async {
+    await Clipboard.setData(const ClipboardData(text: '',));
+  }
+  // ----------------------------------------------------------------------------- 
 }

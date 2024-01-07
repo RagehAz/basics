@@ -157,14 +157,14 @@ class MapPathing {
 
   // -----------------------
   /// TESTED : WORKS PERFECT
-  static String createNextMapSonPath({
+  static String? createNextMapSonPath({
     required String path,
     required String? newKey,
   }) {
-    String _output = path;
+    String? _output;
 
     if (TextCheck.isEmpty(newKey) == false){
-      newKey = newKey!.toLowerCase();
+      newKey = newKey;
       _output = '$path$newKey/';
     }
 
