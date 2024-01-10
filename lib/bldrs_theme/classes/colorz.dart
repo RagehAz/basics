@@ -28,6 +28,7 @@ abstract class Colorz {
   // --------------------
   static const Color blue10 = Color.fromARGB(10, 133, 203, 218);
   static const Color blue20 = Color.fromARGB(20, 133, 203, 218);
+  static const Color blue50 = Color.fromARGB(50, 133, 203, 218);
   static const Color blue80 = Color.fromARGB(80, 133, 203, 218);
   static const Color blue125 = Color.fromARGB(125, 133, 203, 218);
   static const Color blue255 = Color.fromARGB(255, 133, 203, 218);
