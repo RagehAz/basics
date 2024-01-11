@@ -4,6 +4,7 @@ class SuperTextField extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const SuperTextField({
     required this.width,
+    this.height,
     this.globalKey,
     this.textController,
 
@@ -86,6 +87,7 @@ class SuperTextField extends StatefulWidget {
 
   /// box
   final double? width;
+  final double? height;
   final dynamic margins;
   final dynamic corners;
   final Color? fieldColor;
@@ -336,14 +338,15 @@ class _SuperTextFieldState extends State<SuperTextField> {
     return SuperTextFieldBox(
       key: const ValueKey<String>('The_super_text_field'),
       width: widget.width,
-      height: SuperTextFieldController.getFieldHeight(
-        context: context,
-        minLines: widget.minLines,
-        textHeight: widget.textHeight,
-        textPadding: widget.textPadding,
-        withCounter: widget.counterIsOn,
-        withBottomMargin: false,
-      ),
+      height: widget.height,
+      // height: SuperTextFieldController.getFieldHeight(
+      //   context: context,
+      //   minLines: widget.minLines,
+      //   textHeight: widget.textHeight,
+      //   textPadding: widget.textPadding,
+      //   withCounter: widget.counterIsOn,
+      //   withBottomMargin: false,
+      // ),
       margins: widget.margins,
       corners: widget.corners,
       child: ValueListenableBuilder(

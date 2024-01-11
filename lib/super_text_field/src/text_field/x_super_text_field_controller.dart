@@ -157,7 +157,7 @@ class SuperTextFieldController {
       ),
       hintTextDirection: hintTextDirection,
       alignLabelWithHint: true,
-      contentPadding: textPadding ?? const EdgeInsets.all(10),
+      contentPadding: textPadding ?? EdgeInsets.symmetric(horizontal: _textHeight * 0.2,),
 
       focusedBorder: createOutlineBorder(
         borderColor: focusedBorderColor,
@@ -193,14 +193,14 @@ class SuperTextFieldController {
         corners: corners,
       ),
 
-      counter: counterIsOn == true ? null : const Offstage(),
-      // counterText: 'a77aaaa ',
+      // counter: counterIsOn == true ? null : const Offstage(),
 
       // counterText: '${widget.textController?.text?.length} / ${widget.maxLength}',
-      // counterStyle: superTextStyle(Colorz.white200, 0.7),
+      counterText: '',
+      counterStyle: createTextStyle(textHeight: 0), // to finally eradicate the lower space el kalb
 
       // SOME BULLSHIT
-      isDense: true,
+      isDense: false,
       // isCollapsed: false,
       // semanticCounterText: 'semantic',
       focusColor: const Color.fromARGB(255, 24, 157, 14),
