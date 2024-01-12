@@ -4,6 +4,7 @@ import 'package:basics/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/bubbles/tile_bubble/tile_bubble.dart';
 import 'package:basics/helpers/classes/maps/lister.dart';
 import 'package:basics/helpers/classes/space/aligner.dart';
+import 'package:basics/helpers/widgets/drawing/spacing.dart';
 import 'package:basics/helpers/widgets/sensors/validation_sensor.dart';
 import 'package:basics/super_box/super_box.dart';
 import 'package:basics/super_text/super_text.dart';
@@ -349,6 +350,7 @@ class TextFieldBubble extends StatelessWidget {
 
                     /// TEXT FIELD
                     SuperTextField(
+                      height: fieldHeight,
                       textHeight: fieldTextHeight,
                       textColor: fieldTextColor,
                       scrollController: fieldScrollController,
@@ -484,6 +486,10 @@ class TextFieldBubble extends StatelessWidget {
                 ],
               ),
             ),
+
+          Spacing(
+            size: Bubble.paddingValue(),
+          ),
 
         ],
       ),

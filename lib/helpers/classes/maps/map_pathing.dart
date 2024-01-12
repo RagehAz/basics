@@ -30,17 +30,25 @@ class MapPathing {
 
       for (final String node in _nodes) {
 
-        if (result is Map && result[node] is Map){
-          result = result[node];
-        }
-
-        else if (checkNodeIsIndex(node) == true){
-          final int _index = getIndexFromNode(node);
-          result = result[_index];
+        if (result == null){
+          break;
         }
 
         else {
-          result = result[node];
+
+          if (result is Map && result[node] is Map){
+            result = result[node];
+          }
+
+          else if (checkNodeIsIndex(node) == true){
+            final int _index = getIndexFromNode(node);
+            result = result[_index];
+          }
+
+          else {
+            result = result[node];
+          }
+
         }
 
       }
@@ -150,6 +158,119 @@ class MapPathing {
         map: map
     );
     return _parentValue is List;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// LAST KEY CHECKERS
+
+  // --------------------
+  /// AI TESTED
+  static bool checkMyGranpaIsLastKeyAmongGrandUncles({
+    required Map<String, dynamic>? map,
+    required String? path,
+  }){
+    bool _output = false;
+
+    if (map != null && TextCheck.isEmpty(path) == false){
+
+      final List<String> nodes = Pathing.splitPathNodes(path);
+
+      if (nodes.length > 2){
+
+        final String? _parentPath = Pathing.removeLastPathNode(path: path);
+        final String? _granpaPath = Pathing.removeLastPathNode(path: _parentPath);
+        final String? _granpaNode = Pathing.getLastPathNode(_granpaPath);
+
+        if (TextCheck.isEmpty(_granpaPath) == false && TextCheck.isEmpty(_granpaNode) == false){
+          _output = checkNodeIsLastKeyAmongBrothers(
+            map: map,
+            path: _granpaPath,
+          );
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED
+  static bool checkMyParentIsLastKeyAmongUncles({
+    required Map<String, dynamic>? map,
+    required String? path,
+  }){
+    bool _output = false;
+
+    if (map != null && TextCheck.isEmpty(path) == false){
+
+      final List<String> nodes = Pathing.splitPathNodes(path);
+
+      if (nodes.length > 1){
+
+        final String? _parentPath = Pathing.removeLastPathNode(path: path);
+
+        if (TextCheck.isEmpty(_parentPath) == false){
+
+          _output = checkNodeIsLastKeyAmongBrothers(
+            path: _parentPath,
+            map: map,
+          );
+
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED
+  static bool checkNodeIsLastKeyAmongBrothers({
+    required Map<String, dynamic>? map,
+    required String? path,
+  }){
+    bool _output = false;
+
+    if (map != null && TextCheck.isEmpty(path) == false){
+
+      final List<String> nodes = Pathing.splitPathNodes(path);
+      final String _lastNode = Pathing.getLastPathNode(path)!;
+
+      if (nodes.length > 1){
+
+        // final String parentNode
+        final dynamic _parentValue = MapPathing.getParentValue(
+          map: map,
+          path: path!,
+        );
+
+        if (_parentValue != null){
+
+          if (_parentValue is Map){
+            final Map<String, dynamic>? _map = Mapper.convertDynamicMap(_parentValue);
+            final List<String> _keys = _map?.keys.toList() ?? [];
+            _output = _keys.last == _lastNode;
+          }
+
+          else if (_parentValue is List){
+            final List<dynamic> _list = _parentValue;
+            final int _lastNodeIndex = getIndexFromNode(_lastNode);
+            _output = (_list.length - 1) == _lastNodeIndex;
+          }
+
+        }
+
+      }
+
+      else {
+        _output = map.keys.toList().last == _lastNode;
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

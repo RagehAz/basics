@@ -2165,4 +2165,54 @@ void main() {
     });
   });
   // -----------------------------------------------------------------------------
+
+  group('Mapper getAllNestedKeys method', () {
+
+    test('Should return an empty list for null map', () {
+      final result = Mapper.getAllNestedKeys(map: null, allowDuplicates: true);
+      expect(result, isEmpty);
+    });
+
+    test('Should return an empty list for empty map', () {
+      final result = Mapper.getAllNestedKeys(map: {}, allowDuplicates: true);
+      expect(result, isEmpty);
+    });
+
+    test('Should return a list of keys for a flat map with allowDuplicates=true', () {
+      final map = {'key1': 'value1', 'key2': 'value2'};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: true);
+      expect(result, containsAll(['key1', 'key2']));
+    });
+
+    test('Should return a list of unique keys for a flat map with allowDuplicates=false', () {
+      final map = {'key1': 'value1', 'key2': 'value2'};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: false);
+      expect(result, containsAll(['key1', 'key2']));
+    });
+
+    test('Should return nested keys for a map with nested maps and allowDuplicates=true', () {
+      final map = {'key1': 'value1', 'nested': {'key2': 'value2'}};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: true);
+      expect(result, containsAll(['key1', 'nested', 'key2']));
+    });
+
+    test('Should return unique nested keys for a map with nested maps and allowDuplicates=false', () {
+      final map = {'key1': 'value1', 'nested': {'key2': 'value2'}};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: false);
+      expect(result, containsAll(['key1', 'nested', 'key2']));
+    });
+
+    test('Should handle null values in the map', () {
+      final map = {'key1': null, 'nested': {'key2': 'value2'}};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: true);
+      expect(result, containsAll(['key1', 'nested', 'key2']));
+    });
+
+    test('Should handle an empty nested map', () {
+      final map = {'key1': 'value1', 'nested': {}};
+      final result = Mapper.getAllNestedKeys(map: map, allowDuplicates: true);
+      expect(result, containsAll(['key1', 'nested']));
+    });
+
+  });
 }
