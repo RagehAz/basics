@@ -1,3 +1,4 @@
+import 'package:basics/helpers/classes/strings/searching.dart';
 import 'package:basics/helpers/classes/strings/text_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -721,27 +722,27 @@ void main() {
 
   group('triggerIsSearching', () {
     test('Returns false if the text is null', () {
-      final result = TextCheck.triggerIsSearching(text: null);
+      final result = Searching.triggerIsSearching(text: null);
       expect(result, isFalse);
     });
 
     test('Returns false if the text length is less than the minimum character limit', () {
-      final result = TextCheck.triggerIsSearching(text: 'Hi', minCharLimit: 5);
+      final result = Searching.triggerIsSearching(text: 'Hi', minCharLimit: 5);
       expect(result, isFalse);
     });
 
     test('Returns true if the text length is equal to the minimum character limit', () {
-      final result = TextCheck.triggerIsSearching(text: 'Hello', minCharLimit: 5);
+      final result = Searching.triggerIsSearching(text: 'Hello', minCharLimit: 5);
       expect(result, isTrue);
     });
 
     test('Returns true if the text length is greater than the minimum character limit', () {
-      final result = TextCheck.triggerIsSearching(text: 'Hello World', minCharLimit: 5);
+      final result = Searching.triggerIsSearching(text: 'Hello World', minCharLimit: 5);
       expect(result, isTrue);
     });
 
     test('Returns false if the text is null and the minimum character limit is not reached', () {
-      final result = TextCheck.triggerIsSearching(text: null, minCharLimit: 5);
+      final result = Searching.triggerIsSearching(text: null, minCharLimit: 5);
       expect(result, isFalse);
     });
   });
@@ -754,7 +755,7 @@ void main() {
       bool onResumeCalled = false;
       bool onSwitchOffCalled = false;
 
-      TextCheck.triggerIsSearchingNotifier(
+      Searching.triggerIsSearchingNotifier(
         text: 'Hello',
         isSearching: isSearching,
         mounted: true,
@@ -778,7 +779,7 @@ void main() {
       bool onResumeCalled = false;
       bool onSwitchOffCalled = false;
 
-      TextCheck.triggerIsSearchingNotifier(
+      Searching.triggerIsSearchingNotifier(
         text: 'Hi',
         isSearching: isSearching,
         mounted: true,
@@ -801,7 +802,7 @@ void main() {
       bool onResumeCalled = false;
       bool onSwitchOffCalled = false;
 
-      TextCheck.triggerIsSearchingNotifier(
+      Searching.triggerIsSearchingNotifier(
         text: 'Hello',
         isSearching: isSearching,
         mounted: true,
@@ -824,7 +825,7 @@ void main() {
       bool onResumeCalled = false;
       bool onSwitchOffCalled = false;
 
-      TextCheck.triggerIsSearchingNotifier(
+      Searching.triggerIsSearchingNotifier(
         text: 'Hi',
         isSearching: isSearching,
         mounted: true,
@@ -847,7 +848,7 @@ void main() {
       bool onResumeCalled = false;
       bool onSwitchOffCalled = false;
 
-      TextCheck.triggerIsSearchingNotifier(
+      Searching.triggerIsSearchingNotifier(
         text: null,
         isSearching: isSearching,
         mounted: true,
