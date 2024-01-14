@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/nums/numeric.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/nums/numeric.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math' as math;
 

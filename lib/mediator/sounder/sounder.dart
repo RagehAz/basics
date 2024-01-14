@@ -1,12 +1,12 @@
 // ignore_for_file: constant_identifier_names
 import 'dart:async';
 import 'package:basics/bldrs_theme/classes/sounds.dart';
-import 'package:basics/helpers/classes/checks/device_checker.dart';
-import 'package:basics/helpers/classes/checks/error_helpers.dart';
-import 'package:basics/helpers/classes/checks/object_check.dart';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/nums/numeric.dart';
-import 'package:basics/helpers/classes/strings/text_check.dart';
+import 'package:basics/helpers/checks/device_checker.dart';
+import 'package:basics/helpers/checks/error_helpers.dart';
+import 'package:basics/helpers/checks/object_check.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/strings/text_check.dart';
 import 'package:just_audio/just_audio.dart';
 
 class Sounder  {

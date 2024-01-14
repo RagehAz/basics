@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 

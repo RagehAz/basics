@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values, avoid_init_to_null, prefer_const_declarations, avoid_print, prefer_const_constructors
 // ignore_for_file: prefer_final_locals
-import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:basics/helpers/time/timers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 // ---------------------------------------------------------------------------

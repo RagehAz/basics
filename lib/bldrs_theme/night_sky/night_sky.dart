@@ -1,7 +1,7 @@
 library night_sky;
 // -----------------------------------------------------------------------------
 import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:flutter/material.dart';
 import 'src/sky_structure/sky_stars.dart';
 // -----------------------------------------------------------------------------

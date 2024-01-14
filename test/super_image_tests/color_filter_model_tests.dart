@@ -1,4 +1,4 @@
-import 'package:basics/super_image/super_image.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// AI GENERATED

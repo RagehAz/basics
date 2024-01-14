@@ -3,11 +3,11 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/space/aligner.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
-import 'package:basics/super_box/super_box.dart';
-import 'package:basics/super_image/super_image.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/space/aligner.dart';
+import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/components/super_box/super_box.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 
 class CropperFooter extends StatelessWidget {

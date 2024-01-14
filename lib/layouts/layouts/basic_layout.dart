@@ -1,5 +1,5 @@
 
-import 'package:basics/helpers/widgets/sensors/connectivity_sensor.dart';
+import 'package:basics/components/sensors/connectivity_sensor.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:flutter/material.dart';
 

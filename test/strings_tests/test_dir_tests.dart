@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_declarations
-import 'package:basics/helpers/classes/strings/text_directioners.dart';
+import 'package:basics/helpers/strings/text_directioners.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

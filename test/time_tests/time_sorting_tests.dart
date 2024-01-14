@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values
 
-import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:basics/helpers/time/timers.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

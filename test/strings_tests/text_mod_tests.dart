@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/strings/text_mod.dart';
+import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

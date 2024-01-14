@@ -1,6 +1,6 @@
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/maps/mapper.dart';
-import 'package:basics/helpers/classes/maps/mapper_ss.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/maps/mapper_ss.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // import 'package:cloud_firestore/cloud_firestore.dart';

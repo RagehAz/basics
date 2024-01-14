@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_escaping_inner_quotes
-import 'package:basics/helpers/models/flag_model.dart';
-import 'package:basics/helpers/models/phrase_model.dart';
+import 'package:basics/models/flag_model.dart';
+import 'package:basics/models/phrase_model.dart';
 import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 
 const String _path = WorldZoningPaths.flagsDirectory;

@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/checks/object_check.dart';
+import 'package:basics/helpers/checks/object_check.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

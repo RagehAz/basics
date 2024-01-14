@@ -1,6 +1,6 @@
-import 'package:basics/animators/helpers/app_scroll_behavior.dart';
-import 'package:basics/helpers/classes/space/borderers.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/animators/app_scroll_behavior.dart';
+import 'package:basics/helpers/space/borderers.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:flutter/material.dart';
 
 class FloatingList extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/super_image/super_image.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 
 class CropperCorner extends StatelessWidget {

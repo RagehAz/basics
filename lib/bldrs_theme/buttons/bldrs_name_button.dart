@@ -1,6 +1,6 @@
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/super_box/super_box.dart';
+import 'package:basics/components/super_box/super_box.dart';
 import 'package:flutter/material.dart';
 
 class BldrsNameButton extends StatelessWidget {

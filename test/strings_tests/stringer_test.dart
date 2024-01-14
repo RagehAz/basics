@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/strings/stringer.dart';
+import 'package:basics/helpers/strings/stringer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // write a flutter test group that includes several tests for following function

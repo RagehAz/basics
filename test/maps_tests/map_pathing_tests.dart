@@ -1,6 +1,6 @@
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/maps/map_pathing.dart';
-import 'package:basics/helpers/classes/strings/stringer.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/map_pathing.dart';
+import 'package:basics/helpers/strings/stringer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

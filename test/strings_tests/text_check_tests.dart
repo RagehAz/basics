@@ -1,5 +1,5 @@
-import 'package:basics/helpers/classes/strings/searching.dart';
-import 'package:basics/helpers/classes/strings/text_check.dart';
+import 'package:basics/helpers/strings/searching.dart';
+import 'package:basics/helpers/strings/text_check.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

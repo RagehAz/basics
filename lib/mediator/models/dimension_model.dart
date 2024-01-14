@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/helpers/classes/checks/object_check.dart';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/files/floaters.dart';
+import 'package:basics/helpers/checks/object_check.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/files/floaters.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 /// => TAMAM

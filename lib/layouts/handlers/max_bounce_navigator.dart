@@ -1,5 +1,5 @@
-import 'package:basics/animators/helpers/sliders.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/animators/sliders.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:flutter/material.dart';
 

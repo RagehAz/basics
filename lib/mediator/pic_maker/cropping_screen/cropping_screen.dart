@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropper_footer.dart';

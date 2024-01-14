@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/strings/pathing.dart';
+import 'package:basics/helpers/strings/pathing.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

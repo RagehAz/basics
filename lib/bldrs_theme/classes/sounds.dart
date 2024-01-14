@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-import 'package:basics/helpers/classes/checks/device_checker.dart';
+import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:flutter/foundation.dart';
 
 class BldrsThemeSounds {

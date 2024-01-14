@@ -1,6 +1,7 @@
 
 ---
 
+### 6.0.0 : reorganized folders
 ### 5.5.2 : translations + updates
 ### 5.5.1 : added Iconz.getIconFileName
 ### 5.5.0: refactored Pathing

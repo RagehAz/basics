@@ -1,7 +1,7 @@
 import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/classes/nums/numeric.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
-import 'package:basics/super_image/super_image.dart';
+import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 
 class RandomStar extends StatelessWidget {

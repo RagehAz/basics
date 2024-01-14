@@ -1,4 +1,4 @@
-import 'package:basics/helpers/classes/maps/lister.dart';
+import 'package:basics/helpers/maps/lister.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

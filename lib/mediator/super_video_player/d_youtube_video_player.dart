@@ -1,11 +1,11 @@
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/space/scale.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/mediator/models/video_model.dart';
 import 'package:basics/mediator/super_video_player/b_video_box.dart';
-import 'package:basics/super_box/super_box.dart';
-import 'package:basics/super_image/super_image.dart';
+import 'package:basics/components/super_box/super_box.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 // import 'package:youtube_metadata/youtube.dart' as meta;

@@ -1,4 +1,4 @@
-import 'package:basics/animators/widgets/widget_fader.dart';
+import 'package:basics/components/animators/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
 import 'random_stars.dart';

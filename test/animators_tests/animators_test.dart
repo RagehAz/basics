@@ -1,5 +1,5 @@
-import 'package:basics/animators/helpers/animators.dart';
-import 'package:basics/animators/helpers/sliders.dart';
+import 'package:basics/helpers/animators/animators.dart';
+import 'package:basics/helpers/animators/sliders.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /*

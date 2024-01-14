@@ -1,7 +1,7 @@
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/strings/text_check.dart';
-import 'package:basics/helpers/classes/strings/text_mod.dart';
-import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/strings/text_check.dart';
+import 'package:basics/helpers/strings/text_mod.dart';
+import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/mediator/models/caption_model.dart';
 import 'package:flutter/material.dart';
 

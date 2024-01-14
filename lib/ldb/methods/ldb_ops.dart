@@ -1,6 +1,6 @@
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/nums/numeric.dart';
-import 'package:basics/helpers/classes/time/timers.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/ldb/methods/sembast.dart';
 
 /// => TAMAM

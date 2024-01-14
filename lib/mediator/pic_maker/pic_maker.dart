@@ -4,15 +4,14 @@ import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/helpers/classes/checks/device_checker.dart';
-import 'package:basics/helpers/classes/checks/error_helpers.dart';
-import 'package:basics/helpers/classes/checks/object_check.dart';
-import 'package:basics/helpers/classes/checks/tracers.dart';
-import 'package:basics/helpers/classes/files/floaters.dart';
-import 'package:basics/helpers/classes/maps/lister.dart';
-import 'package:basics/helpers/classes/permissions/permits.dart';
-import 'package:basics/helpers/classes/permissions/permits_protocols.dart';
-import 'package:basics/helpers/classes/strings/text_check.dart';
+import 'package:basics/helpers/checks/device_checker.dart';
+import 'package:basics/helpers/checks/error_helpers.dart';
+import 'package:basics/helpers/checks/object_check.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/files/floaters.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/permissions/permits_protocols.dart';
+import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
@@ -22,9 +21,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_compression_flutter/image_compression_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-
 import 'text_delegates/camera_text_delegates.dart';
 import 'text_delegates/picker_text_delegates.dart';
 // -----------------------------------------------------------------------------
