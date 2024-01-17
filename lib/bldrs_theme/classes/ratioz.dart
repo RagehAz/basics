@@ -1,5 +1,7 @@
 
 
+import 'package:flutter/material.dart';
+
 abstract class Ratioz {
   // -----------------------------------------------------------------------------
   /// FONT SIZES
@@ -48,6 +50,10 @@ abstract class Ratioz {
   static const double exosphere = appBarBigHeight + (appBarMargin * 2);
   static const double horizon = pyramidsHeight * 1.5;
   static const double grandHorizon = pyramidsHeight;
+  static const EdgeInsets mirageInsets = EdgeInsets.only(
+    top: Ratioz.appBarMargin,
+    bottom: Ratioz.horizon,
+  );
   // -----------------------------------------------------------------------------
   /// Durations
   static const Duration duration150ms = Duration(milliseconds: 150);

@@ -15,7 +15,11 @@ class Lister {
   static int superLength(dynamic list){
     int _output = 0;
 
-    if (list is List<dynamic>){
+    if (list == null){
+      _output = 0;
+    }
+
+    else if (list is List<dynamic>){
       if (Lister.checkCanLoop(list) == true){
         _output = list.length;
       }
