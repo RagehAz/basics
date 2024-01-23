@@ -22,6 +22,7 @@ class WidgetFader extends StatelessWidget {
     this.curve = Curves.easeInOut,
     this.ignorePointer = false,
     this.builder,
+    this.restartOnRebuild = false,
     super.key
   });
   /// --------------------------------------------------------------------------
@@ -33,6 +34,7 @@ class WidgetFader extends StatelessWidget {
   final Curve curve;
   final bool ignorePointer;
   final Widget Function(double value, Widget? child)? builder;
+  final bool restartOnRebuild;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class WidgetFader extends StatelessWidget {
         duration: duration,
         curve: curve,
         ignorePointer: ignorePointer,
+        restartOnRebuild: restartOnRebuild,
         child: child,
       );
     }
@@ -75,6 +78,7 @@ class _AnimatedFade extends StatefulWidget {
     required this.curve,
     required this.ignorePointer,
     required this.builder,
+    required this.restartOnRebuild,
     super.key
   });
   /// --------------------------------------------------------------------------
@@ -86,6 +90,7 @@ class _AnimatedFade extends StatefulWidget {
   final Curve curve;
   final bool ignorePointer;
   final Widget Function(double value, Widget? child)? builder;
+  final bool restartOnRebuild;
   /// --------------------------------------------------------------------------
   @override
   _AnimatedFadeState createState() => _AnimatedFadeState();
@@ -131,6 +136,7 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
   // --------------------
   @override
   void didUpdateWidget(covariant _AnimatedFade oldWidget) {
+
     if (
         oldWidget.fadeType  != widget.fadeType  ||
         oldWidget.duration  != widget.duration  ||
@@ -142,6 +148,13 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
         _animate();
       });
     }
+
+    if (widget.restartOnRebuild == true){
+      setState(() {
+        _animate();
+      });
+    }
+
     super.didUpdateWidget(oldWidget);
   }
   // -----------------------------------------------------------------------------

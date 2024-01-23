@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/components/animators/scroller.dart';
 import 'package:basics/components/dialogs/bottom_dialog.dart';
 import 'package:basics/components/dialogs/center_dialog.dart';
 import 'package:basics/components/dialogs/top_dialog.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/colors/colorizer.dart';
 import 'package:basics/helpers/maps/lister.dart';
@@ -12,7 +14,6 @@ import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
-import 'package:basics/layouts/views/floating_list.dart';
 import 'package:basics/ldb/methods/ldb_ops.dart';
 import 'package:basics/components/super_box/super_box.dart';
 import 'package:flutter/foundation.dart';
@@ -121,15 +122,7 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   final GlobalKey _flushbarKey = GlobalKey();
   // -----------------------------------------------------------------------------
   /// --- LOADING
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
-  // --------------------
-  Future<void> _triggerLoading({required bool setTo}) async {
-    setNotifier(
-      notifier: _loading,
-      mounted: mounted,
-      value: setTo,
-    );
-  }
+  bool _loading = true;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -140,11 +133,13 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   @override
   void didChangeDependencies() {
 
-
     if (_isInit && mounted) {
       _isInit = false; // good
 
-      _triggerLoading(setTo: true).then((_) async {
+      asyncInSync(() async {
+
+        await Future.delayed(const Duration(milliseconds: 800));
+
         await _readSembast();
       });
 
@@ -155,21 +150,24 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   // --------------------
   @override
   void dispose() {
-    _loading.dispose();
     super.dispose();
   }
   // -----------------------------------------------------------------------------
-  List<Map<String, dynamic>>? _maps;
+  List<Map<String, dynamic>> _maps = [];
   Future<void> _readSembast() async {
+
+    setState(() {
+      _loading = true;
+    });
+
     final List<Map<String, dynamic>> _sembastMaps = await LDBOps.readAllMaps(
       docName: widget.ldbDocName,
     );
 
     setState(() {
       _maps = _sembastMaps;
+      _loading = false;
     });
-
-    unawaited(_triggerLoading(setTo: false));
 
   }
   // --------------------
@@ -234,10 +232,13 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   @override
   Widget build(BuildContext context) {
 
+    final double _screenWidth = Scale.screenWidth(context);
+
     return BasicLayout(
+      safeAreaIsOn: true,
       body: MaxBounceNavigator(
-        child: FloatingList(
-          columnChildren: <Widget>[
+        child: Column(
+          children: <Widget>[
 
             Row(
               children: <Widget>[
@@ -253,20 +254,106 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
 
                 SuperBox(
                   height: 40,
-                  text: 'Tap to wipe this:\n${widget.ldbDocName}',
+                  textScaleFactor: 0.7,
+                  color: Colorz.white20,
+                  text: 'Tap to wipe this doc [ ${widget.ldbDocName} ]',
                   onTap: _onBldrsTap,
                 ),
 
               ],
             ),
 
-            if (Lister.checkCanLoop(_maps) == true)
-              ...LDBViewerScreen.rows(
-                context: context,
-                // color: Colorz.Green125,
-                maps: _maps!,
-                onRowOptionsTap: _onRowTap,
+            if (_loading == true)
+            Column(
+              children: <Widget>[
+
+                InfiniteLoadingBox(
+                  width: _screenWidth,
+                  height: 40,
+                  color: Colorz.bloodTest.withOpacity(0.5),
+                  backgroundColor: Colorz.nothing,
+                ),
+
+                InfiniteLoadingBox(
+                  width: _screenWidth,
+                  height: 40,
+                  color: Colorz.bloodTest.withOpacity(0.3),
+                  backgroundColor: Colorz.nothing,
+                ),
+
+                InfiniteLoadingBox(
+                  width: _screenWidth,
+                  height: 40,
+                  color: Colorz.bloodTest.withOpacity(0.1),
+                  backgroundColor: Colorz.nothing,
+                ),
+
+              ],
+            ),
+
+            if (_loading == false && _isInit == false)
+            SizedBox(
+              width: _screenWidth,
+              height: Scale.screenHeight(context) - 40,
+              child: Scroller(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: _maps.length,
+                  itemBuilder: (_, int index){
+
+                    final Map<String, dynamic> _map = _maps[index];
+                    final List<String> _keys = _map.keys.toList();
+                    final List<dynamic> _values = _map.values.toList();
+                    // final String _primaryValue = _map[_primaryKey];
+
+                    return SizedBox(
+                      width: _screenWidth,
+                      height: 42,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+
+                          /// MORE OPTIONS
+                          SuperBox(
+                            height: 37,
+                            width: 37,
+                            icon: Iconz.more,
+                            iconSizeFactor: 0.4,
+                            onTap: () => _onRowTap(_map),
+                            // margins: EdgeInsets.all(5),
+                          ),
+
+                          /// ROW NUMBER
+                          SuperBox(
+                            height: 40,
+                            // width: 40,
+                            maxWidth: 40,
+                            text: '${index + 1}',
+                            textScaleFactor: 0.4,
+                            margins: const EdgeInsets.all(5),
+                            bubble: false,
+                            color: Colorz.white10,
+                          ),
+
+                          /// ROW VALUES
+                          ...List<Widget>.generate(_values.length, (int i) {
+                            final String _key = _keys[i];
+                            final String _value = _values[i].toString();
+                            return ValueBox(
+                              dataKey: _key,
+                              value: _value,
+                              color: Colorz.green125,
+                            );
+                          }),
+
+                        ],
+                      ),
+                    );
+                    },
+                ),
               ),
+            ),
 
           ],
         ),

@@ -262,6 +262,7 @@ class Sembast  {
 
       else {
 
+        /// OPTIMIZE_THE_LDB_MOSIBA
         final List<Map<String, dynamic>> _existingMaps = await readAll(
           docName: docName,
         );

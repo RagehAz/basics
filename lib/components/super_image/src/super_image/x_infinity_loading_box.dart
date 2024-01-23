@@ -6,12 +6,14 @@ class InfiniteLoadingBox extends StatelessWidget {
     required this.width,
     required this.height,
     this.color,
-        super.key
+    this.backgroundColor = Colorz.white50,
+    super.key
   }); 
   /// --------------------------------------------------------------------------
   final double? width;
   final double? height;
   final Color? color;
+  final Color backgroundColor;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class InfiniteLoadingBox extends StatelessWidget {
         return Container(
           width: _width,
           height: _height,
-          color: Colorz.white50,
+          color: backgroundColor,
           alignment: Alignment.bottomCenter,
           child: Container(
             width: _width,

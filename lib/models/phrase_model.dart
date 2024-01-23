@@ -7,7 +7,6 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 /// => TAMAM
 @immutable
 class Phrase {
