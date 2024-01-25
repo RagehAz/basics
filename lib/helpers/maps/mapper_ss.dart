@@ -199,12 +199,12 @@ class MapperSS {
   }
   // --------------------
   /// AI TESTED
-  static Map<String, String>? combineStringStringMap({
+  static Map<String, String> combineStringStringMap({
     required Map<String, String>? baseMap,
     required Map<String, String>? insert,
     required bool replaceDuplicateKeys,
   }){
-    Map<String, String>? _output = {};
+    Map<String, String> _output = {};
 
     if (baseMap != null){
 
@@ -224,7 +224,7 @@ class MapperSS {
                 key: key,
                 value: insert[key]!,
                 overrideExisting: replaceDuplicateKeys,
-              );
+              )!;
             }
 
           }
