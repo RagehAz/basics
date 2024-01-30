@@ -270,64 +270,96 @@ class _SuperTextFieldState extends State<SuperTextField> {
     required TextDirection? hintTextDirection,
   }){
 
-    return TextFormFieldSwitcher(
-      /// main
-      isFormField: widget.isFormField,
-      controller: _controller,
-      hintText: widget.hintText,
-      autoFocus: widget.autofocus,
-      focusNode: _focusNode,
-      counterIsOn: widget.counterIsOn,
-      autoValidate: widget.autoValidate,
-      /// box
-      corners: widget.corners,
-      /// keyboard
-      textInputAction: widget.textInputAction,
-      textInputType: widget.textInputType,
-      /// text
-      textDirection: textDirection,
-      hintTextDirection: hintTextDirection ?? textDirection,
-      appIsLTR: widget.appIsLTR,
-      obscured: isObscured,
-      minLines: widget.minLines,
-      maxLines: widget.maxLines,
-      maxLength: widget.maxLength,
-      scrollController: _scrollController,
-      /// styling
-      centered: widget.centered,
-      textShadows: widget.textShadows,
-      fontWeight: widget.textWeight,
-      textHeight: widget.textHeight,
-      letterSpacing: widget.letterSpacing,
-      textFont: widget.textFont,
-      wordSpacing: widget.wordSpacing,
-      scrollPadding: widget.scrollPadding,
-      textItalic: widget.textItalic,
-      textColor: widget.textColor,
-      fieldColor: widget.fieldColor,
-      package: widget.package,
-      cursorColor: widget.cursorColor,
-      /// functions
-      onTap: widget.onTap,
-      onChanged: _onTextChanged,
-      onSubmitted: widget.onSubmitted,
-      onSavedForForm: widget.onSavedForForm,
-      onEditingComplete: widget.onEditingComplete,
-      validator: widget.validator,
+    return Column(
+      children: [
 
-      enabledBorderColor: widget.enabledBorderColor,
-      errorBorderColor: widget.errorBorderColor,
-      errorTextColor: widget.errorTextColor,
-      focusedBorderColor: widget.focusedBorderColor,
-      focusedErrorBorderColor: widget.focusedErrorBorderColor,
-      textPadding: widget.textPadding,
+        /// THE FIELD
+        SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: TextFormFieldSwitcher(
+            /// main
+            isFormField: widget.isFormField,
+            controller: _controller,
+            hintText: widget.hintText,
+            autoFocus: widget.autofocus,
+            focusNode: _focusNode,
+            counterIsOn: widget.counterIsOn,
+            autoValidate: widget.autoValidate,
+            /// box
+            corners: widget.corners,
+            /// keyboard
+            textInputAction: widget.textInputAction,
+            textInputType: widget.textInputType,
+            /// text
+            textDirection: textDirection,
+            hintTextDirection: hintTextDirection ?? textDirection,
+            appIsLTR: widget.appIsLTR,
+            obscured: isObscured,
+            minLines: widget.minLines,
+            maxLines: widget.maxLines,
+            maxLength: widget.maxLength,
+            scrollController: _scrollController,
+            /// styling
+            centered: widget.centered,
+            textShadows: widget.textShadows,
+            fontWeight: widget.textWeight,
+            textHeight: widget.textHeight,
+            letterSpacing: widget.letterSpacing,
+            textFont: widget.textFont,
+            wordSpacing: widget.wordSpacing,
+            scrollPadding: widget.scrollPadding,
+            textItalic: widget.textItalic,
+            textColor: widget.textColor,
+            fieldColor: widget.fieldColor,
+            package: widget.package,
+            cursorColor: widget.cursorColor,
+            /// functions
+            onTap: widget.onTap,
+            onChanged: _onTextChanged,
+            onSubmitted: widget.onSubmitted,
+            onSavedForForm: widget.onSavedForForm,
+            onEditingComplete: widget.onEditingComplete,
+            validator: widget.validator,
 
-      forceMaxLength: widget.forceMaxLength,
-      lineThrough: widget.lineThrough,
-      lineThroughColor: widget.lineThroughColor,
+            enabledBorderColor: widget.enabledBorderColor,
+            errorBorderColor: widget.errorBorderColor,
+            errorTextColor: widget.errorTextColor,
+            focusedBorderColor: widget.focusedBorderColor,
+            focusedErrorBorderColor: widget.focusedErrorBorderColor,
+            textPadding: widget.textPadding,
 
-      autoCorrect: widget.autoCorrect,
-      enableSuggestions: widget.enableSuggestions,
+            forceMaxLength: widget.forceMaxLength,
+            lineThrough: widget.lineThrough,
+            lineThroughColor: widget.lineThroughColor,
+
+            autoCorrect: widget.autoCorrect,
+            enableSuggestions: widget.enableSuggestions,
+          ),
+        ),
+
+        /// VALIDATOR
+        Builder(
+          builder: (context) {
+
+            final double _corner = Borderers.superCorners(corners: widget.corners).bottomRight.x;
+            final double? _width =  widget.width == null ? null : widget.width! - (_corner * 2);
+
+            return SuperValidator(
+              width: _width,
+              validator: (String? text) => widget.validator?.call(widget.textController?.text),
+              focusNode: null,
+              font: widget.textFont,
+              textHeight: (widget.textHeight ?? 25) * 0.9,
+              autoValidate: widget.autoValidate,
+              // disabledBorderColor: Colorz.nothing,
+              // enabledBorderColor: Colorz.nothing,
+              // errorBorderColor: Colorz.nothing,
+            );
+          }
+        ),
+
+      ],
     );
 
   }
@@ -338,7 +370,6 @@ class _SuperTextFieldState extends State<SuperTextField> {
     return SuperTextFieldBox(
       key: const ValueKey<String>('The_super_text_field'),
       width: widget.width,
-      height: widget.height,
       // height: SuperTextFieldController.getFieldHeight(
       //   context: context,
       //   minLines: widget.minLines,

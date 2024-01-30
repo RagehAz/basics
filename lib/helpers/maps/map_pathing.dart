@@ -531,4 +531,103 @@ class MapPathing {
     return object[_key];
   }
   // -----------------------------------------------------------------------------
+
+  /// ORDERING INDEX
+
+  // -----------------------
+  /// AI TESTED
+  static int getNodeOrderIndexByPath({
+    required String? path,
+    required Map<String, dynamic>? map,
+  }){
+    int _output = -1;
+    /// i want the last node index among brothers
+
+    if (map != null && TextCheck.isEmpty(path) == false){
+
+      final List<String> nodes = Pathing.splitPathNodes(path);
+      final String _lastNode = Pathing.getLastPathNode(path)!;
+
+      if (nodes.length > 1){
+
+        // final String parentNode
+        final dynamic _parentValue = MapPathing.getParentValue(
+          map: map,
+          path: path!,
+        );
+
+        if (_parentValue != null){
+
+          if (_parentValue is Map){
+            final Map<String, dynamic>? _map = Mapper.convertDynamicMap(_parentValue);
+            final List<String> _keys = _map?.keys.toList() ?? [];
+            _output = _keys.indexOf(_lastNode);
+          }
+
+          else if (_parentValue is List){
+            final int _lastNodeIndex = getIndexFromNode(_lastNode);
+            _output = _lastNodeIndex;
+          }
+
+        }
+
+      }
+
+      else {
+        final List<String> _keys = map.keys.toList();
+        _output =  _keys.indexOf(_lastNode);
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------
+  /// TAMAM
+  static int getBrothersLength({
+    required String? path,
+    required Map<String, dynamic>? map,
+  }){
+    int _output = 0;
+    /// i want the last node index among brothers
+
+    if (map != null && TextCheck.isEmpty(path) == false){
+
+      final List<String> nodes = Pathing.splitPathNodes(path);
+
+      if (nodes.length > 1){
+
+        // final String parentNode
+        final dynamic _parentValue = MapPathing.getParentValue(
+          map: map,
+          path: path!,
+        );
+
+        if (_parentValue != null){
+
+          if (_parentValue is Map){
+            final Map<String, dynamic>? _map = Mapper.convertDynamicMap(_parentValue);
+            final List<String> _keys = _map?.keys.toList() ?? [];
+            _output = _keys.length;
+          }
+
+          else if (_parentValue is List){
+            final List<dynamic> _list = _parentValue;
+            _output = _list.length;
+          }
+
+        }
+
+      }
+
+      else {
+        final List<String> _keys = map.keys.toList();
+        _output =  _keys.length;
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

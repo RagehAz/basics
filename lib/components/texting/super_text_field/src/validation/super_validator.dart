@@ -19,8 +19,8 @@ class SuperValidator extends StatelessWidget {
         super.key
   }); 
   /// --------------------------------------------------------------------------
-  final double width;
-  final String? Function()? validator;
+  final double? width;
+  final String? Function(String? text)? validator;
   final bool autoValidate;
   final FocusNode? focusNode;
   final EdgeInsets? scrollPadding;
@@ -45,7 +45,7 @@ class SuperValidator extends StatelessWidget {
 
           /// VALIDATION
           autovalidateMode: autoValidate == true ? AutovalidateMode.always : AutovalidateMode.disabled,
-          validator: validator == null ? null : (String? text) => validator!(),
+          validator: validator == null ? null : (String? text) => validator!(text),
 
           /// SPAN SPACING
           scrollPadding: scrollPadding ?? SuperTextFieldController.adaptiveScrollPadding(

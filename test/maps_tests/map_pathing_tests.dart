@@ -867,4 +867,58 @@ void main() {
 
   });
 
+  group('getNodeOrderIndexByPath', () {
+
+    const Map<String, dynamic> _map = {
+      'grand1': {
+        'parent1': {'son1': true, 'son2': true,},
+        'parent2': {'sonA': true, 'sonB': true,},
+      },
+      'grand2': {
+        'parent1': {'son1': true, 'son2': true,},
+        'parent2': {'sonA': true, 'sonB': true,},
+      },
+      'parent': {'son1': true, 'son2': true,},
+    };
+
+    test('getNodeOrderIndexByPath 1', () {
+
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent1/son1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent1/son2/'), 1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent2/sonA'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent2/sonB'), 1);
+
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent1/son1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent1/son2/'), 1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent2/sonA'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent2/sonB'), 1);
+
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'parent/son1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'parent/son2/'), 1);
+
+    });
+
+    test('getNodeOrderIndexByPath 2', () {
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/parent2/'), 1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/parent2/'), 1);
+    });
+
+    test('getNodeOrderIndexByPath 3', () {
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand1/'), 0);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'grand2/'), 1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'parent/'), 2);
+    });
+
+    test('getNodeOrderIndexByPath 4', () {
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'x/'), -1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'r/e/'), -1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'r/e/tt/'), -1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: ''), -1);
+      expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: null), -1);
+    });
+
+  });
+
 }

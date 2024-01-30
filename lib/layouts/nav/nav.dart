@@ -12,7 +12,7 @@ class Nav {
   const Nav();
 
   // -----------------------------------------------------------------------------
-  static const Duration duration150ms = Duration(milliseconds: 300);
+  static const Duration duration150ms = Duration(milliseconds: 500);
   static const Curve transitionCurve = Curves.fastOutSlowIn;
   // -----------------------------------------------------------------------------
 

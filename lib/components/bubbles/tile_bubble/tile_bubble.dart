@@ -245,7 +245,7 @@ class TileBubble extends StatelessWidget {
         if (validator != null)
           SuperValidator(
             width: _clearWidth,
-            validator: validator,
+            validator: (String? text) => validator?.call(),
             autoValidate: autoValidate,
             font: bubbleHeaderVM?.font,
             focusNode: focusNode,
