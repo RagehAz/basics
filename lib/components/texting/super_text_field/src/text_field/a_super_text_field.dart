@@ -339,15 +339,16 @@ class _SuperTextFieldState extends State<SuperTextField> {
         ),
 
         /// VALIDATOR
-        Builder(
-          builder: (context) {
+        ValueListenableBuilder(
+          valueListenable: _controller,
+          builder: (_, TextEditingValue theText, Widget? child) {
 
             final double _corner = Borderers.superCorners(corners: widget.corners).bottomRight.x;
             final double? _width =  widget.width == null ? null : widget.width! - (_corner * 2);
 
             return SuperValidator(
               width: _width,
-              validator: (String? text) => widget.validator?.call(widget.textController?.text),
+              validator: () => widget.validator?.call(theText.text),
               focusNode: null,
               font: widget.textFont,
               textHeight: (widget.textHeight ?? 25) * 0.9,
