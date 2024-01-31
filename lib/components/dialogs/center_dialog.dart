@@ -3,6 +3,7 @@ import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/bldrs_theme/classes/shadowers.dart';
 import 'package:basics/components/sensors/keyboard_sensor.dart';
+import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
@@ -422,42 +423,51 @@ class CenterDialog extends StatelessWidget {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+
+    blog('allaah');
     // --------------------
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: backgroundColor ?? Colorz.black80,
-        resizeToAvoidBottomInset: true,
-        body: AlertDialog(
-          backgroundColor: Colorz.nothing,
-          // shape: RoundedRectangleBorder(borderRadius: Borderers.superBorderAll(context, 20)),
-          contentPadding: EdgeInsets.zero,
-          elevation: 10,
+    return WillPopScope(
+      key: const ValueKey<String>('Center_dialog'),
+      onWillPop: () async {
+        await Nav.goBack(context: context);
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: backgroundColor ?? Colorz.black80,
+          resizeToAvoidBottomInset: true,
+          body: AlertDialog(
+            backgroundColor: Colorz.nothing,
+            // shape: RoundedRectangleBorder(borderRadius: Borderers.superBorderAll(context, 20)),
+            contentPadding: EdgeInsets.zero,
+            elevation: 10,
 
-          insetPadding: EdgeInsets.zero,
+            insetPadding: EdgeInsets.zero,
 
-          content: Builder(
-            builder: (BuildContext xxx) {
+            content: Builder(
+              builder: (BuildContext xxx) {
 
-              return WidgetFader(
-                fadeType: FadeType.fadeIn,
-                min: 0.7,
-                duration: const Duration(milliseconds: 150),
-                curve: Curves.easeInOutCirc,
-                builder: (double value, Widget? child){
+                return WidgetFader(
+                  fadeType: FadeType.fadeIn,
+                  min: 0.7,
+                  duration: const Duration(milliseconds: 150),
+                  curve: Curves.easeInOutCirc,
+                  builder: (double value, Widget? child){
 
-                  return Opacity(
-                    opacity: value,
-                    child: Transform.scale(
-                      scale: value,
-                      child: child,
-                    ),
-                  );
+                    return Opacity(
+                      opacity: value,
+                      child: Transform.scale(
+                        scale: value,
+                        child: child,
+                      ),
+                    );
 
-                },
-                child: buildDialogScreenTree(context: context),
-              );
+                  },
+                  child: buildDialogScreenTree(context: context),
+                );
 
-            },
+              },
+            ),
           ),
         ),
       ),
