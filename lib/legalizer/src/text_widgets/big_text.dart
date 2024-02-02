@@ -23,7 +23,7 @@ class BigText extends StatelessWidget {
       italic: true,
       textColor: Colorz.yellow125,
       margins: const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 20),
-      font: BldrsThemeFonts.fontBldrsHeadlineFont,
+      font: BldrsThemeFonts.fontHead,
       appIsLTR: true,
       // textDirection: TextDirection.ltr,
     );

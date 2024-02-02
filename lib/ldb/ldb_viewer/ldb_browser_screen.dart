@@ -65,7 +65,7 @@ class LDBBrowserScreen extends StatelessWidget {
                   const SuperBox(
                     height: 40,
                     text: 'All LDB Docs :-',
-                    textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
+                    textFont: BldrsThemeFonts.fontHead,
                     textItalic: true,
                     textWeight: FontWeight.w600,
                     textColor: Colorz.white200,
@@ -87,7 +87,7 @@ class LDBBrowserScreen extends StatelessWidget {
                           text: ldbDoc,
                           specialCharacter: ':',
                       ),
-                      font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                      font: BldrsThemeFonts.fontHead,
                       weight: FontWeight.w600,
                       italic: true,
                       margins: 10,

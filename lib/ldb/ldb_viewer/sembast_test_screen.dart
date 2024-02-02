@@ -258,7 +258,7 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
                   // textDirection: TextDirection.ltr,
                   textHeight: 25,
                   margins: 10,
-                  font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                  font: BldrsThemeFonts.fontHead,
                   italic: true,
                 ),
 

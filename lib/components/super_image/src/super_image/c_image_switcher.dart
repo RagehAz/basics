@@ -315,7 +315,7 @@ class ImageSwitcher extends StatelessWidget {
                 text: _text,
                 weight: FontWeight.w100,
                 // letterSpacing: 1,
-                font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                font: BldrsThemeFonts.fontHead,
                 // appIsLTR: true,
                 textHeight: height * (scale ?? 1) * 1.4,
                 textColor: iconColor ?? Colorz.white255,

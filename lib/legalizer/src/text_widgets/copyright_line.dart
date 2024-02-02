@@ -43,7 +43,7 @@ class CopyrightsLine extends StatelessWidget {
           companyName: companyName,
         ),
         textHeight: textHeight,
-        font: BldrsThemeFonts.fontBldrsBodyFont,
+        font: BldrsThemeFonts.fontBody,
         textColor: textColor,
         textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
         maxLines: 4,

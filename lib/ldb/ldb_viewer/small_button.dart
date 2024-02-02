@@ -37,7 +37,7 @@ class SmallButton extends StatelessWidget {
       textMaxLines: 2,
       onTap: onTap,
       textItalic: true,
-      textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
+      textFont: BldrsThemeFonts.fontHead,
     );
   }
   /// --------------------------------------------------------------------------

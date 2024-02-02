@@ -19,7 +19,7 @@ class MediumText extends StatelessWidget {
       centered: false,
       margins: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
       maxLines: 100,
-      font: BldrsThemeFonts.fontBldrsBodyFont,
+      font: BldrsThemeFonts.fontBody,
       textHeight: 30,
       appIsLTR: true,
       // textDirection: TextDirection.ltr,

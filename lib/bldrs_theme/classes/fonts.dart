@@ -64,37 +64,12 @@
 
 class BldrsThemeFonts {
   // -----------------------------------------------------------------------------
-  static const String fontBldrsHeadlineFont = 'BldrsHeadlineFont';
-  static const String fontBldrsBodyFont = 'BldrsBodyFont';
-  static const String fontEnglishHeadline = 'EnglishHeadline';
-  static const String fontEnglishBody = 'EnglishBody';
-  static const String fontArabicHeadline = 'ArabicHeadline';
-  static const String fontArabicBody = 'ArabicBody';
-  static const String fontBldrsLogo = 'BldrsLogoFont';
-
-
-  static const String fontAlmarai = 'Almarai';
-  static const String fontLalezar = 'Lalezar';
-  static const String fontMochiy = 'Mochiy';
-  static const String fontPalanquin = 'Palanquin';
-  static const String fontRussoOne = 'RussoOne';
-  static const String fontYuji = 'Yuji';
+  static const String fontHead = 'head';
+  static const String fontBody = 'body';
   // -----------------------------------------------------------------------------
   static const List<String> allFonts = <String>[
-    fontBldrsHeadlineFont,
-    fontBldrsBodyFont,
-    fontEnglishHeadline,
-    fontEnglishBody,
-    fontArabicHeadline,
-    fontArabicBody,
-    fontBldrsLogo,
-
-    fontAlmarai,
-    fontLalezar,
-    fontMochiy,
-    fontPalanquin,
-    fontRussoOne,
-    fontYuji,
+    fontHead,
+    fontBody,
   ];
   // -----------------------------------------------------------------------------
 }

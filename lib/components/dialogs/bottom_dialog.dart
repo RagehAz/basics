@@ -387,7 +387,7 @@ class BottomDialog extends StatelessWidget {
       isDisabled: isDisabled,
       onDisabledTap: onDisabledTap,
       color: color,
-      textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
+      textFont: BldrsThemeFonts.fontHead,
       textItalic: true,
     );
 
@@ -498,7 +498,7 @@ class BottomDialog extends StatelessWidget {
                       child: SuperText(
                         text: title,
                         textHeight: _titleZoneHeight * 0.8,
-                        font: BldrsThemeFonts.fontBldrsHeadlineFont,
+                        font: BldrsThemeFonts.fontHead,
                         margins: const EdgeInsets.symmetric(horizontal: 20),
                       ),
                     ),

@@ -880,7 +880,7 @@ class PicMaker {
       // themeColor: Colorz.yellow255, /// either use themeColor or pickerTheme
       pickerTheme: ThemeData(
         /// FONT
-        fontFamily: BldrsThemeFonts.fontBldrsHeadlineFont,
+        fontFamily: BldrsThemeFonts.fontHead,
         /// BACKGROUND COLOR
         canvasColor: Colorz.blackSemi255,
         /// BUTTON AND CHECK COLOR : DEPRECATED

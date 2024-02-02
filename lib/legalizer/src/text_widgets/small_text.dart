@@ -21,7 +21,7 @@ class SmallText extends StatelessWidget {
       textHeight: 30,
       appIsLTR: true,
       // textDirection: TextDirection.ltr,
-      font: BldrsThemeFonts.fontBldrsBodyFont,
+      font: BldrsThemeFonts.fontBody,
     );
 
   }

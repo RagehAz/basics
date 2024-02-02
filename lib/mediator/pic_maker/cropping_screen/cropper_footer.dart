@@ -144,7 +144,7 @@ class CropperFooter extends StatelessWidget {
                 color: Colorz.green255,
                 appIsLTR: appIsLTR,
                 textScaleFactor: 0.7,
-                textFont: BldrsThemeFonts.fontBldrsHeadlineFont,
+                textFont: BldrsThemeFonts.fontHead,
                 textItalic: true,
                 margins: 10,
                 loading: loading,
