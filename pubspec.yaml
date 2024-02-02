@@ -79,34 +79,12 @@ flutter:
     - lib/bldrs_theme/assets/sounds/
 # --------------------------------------------------------------------------------
   fonts:
-    - family: BldrsLogoFont
+    - family: head
       fonts:
-        - asset: lib/bldrs_theme/assets/fonts/bebas.ttf
+        - asset: lib/bldrs_theme/assets/fonts/head.ttf
 
-    - family: BldrsHeadlineFont
+    - family: body
       fonts:
-        - asset: lib/bldrs_theme/assets/fonts/bldrs_font_bold.ttf
+        - asset: lib/bldrs_theme/assets/fonts/body.ttf
 
-    - family: BldrsBodyFont
-      fonts:
-        - asset: lib/bldrs_theme/assets/fonts/bldrs_font_regular.ttf
-
-    - family: EnglishHeadline
-      fonts:
-        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
-
-    - family: EnglishBody
-      fonts:
-        - asset: lib/bldrs_theme/assets/fonts/english/Roboto_Thin.ttf
-        - asset: lib/bldrs_theme/assets/fonts/english/Roboto_ThinItalic.ttf
-
-    - family: ArabicHeadline
-      fonts:
-        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
-
-    - family: ArabicBody
-      fonts:
-        - asset: lib/bldrs_theme/assets/fonts/arabic/Tajawal_Light.ttf
-        - asset: lib/bldrs_theme/assets/fonts/arabic/Tajawal_Regular.ttf
-        - asset: lib/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
 # --------------------------------------------------------------------------------

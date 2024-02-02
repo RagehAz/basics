@@ -32,6 +32,33 @@
         - asset: packages/bldrs_theme/assets/fonts/arabic/Tajawal_Light.ttf
         - asset: packages/bldrs_theme/assets/fonts/arabic/Tajawal_Regular.ttf
         - asset: packages/bldrs_theme/assets/fonts/arabic/BldrsFont.ttf
+
+    - family: Almarai
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/Almarai-Light.ttf
+
+    - family: Lalezar
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/Lalezar-Regular.ttf
+
+    - family: Mochiy
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/MochiyPopOne-Regular.ttf
+
+    - family: Palanquin
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/PalanquinDark-SemiBold.ttf
+
+    - family: RussoOne
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/RussoOne-Regular.ttf
+
+    - family: Yuji
+      fonts:
+        - asset: packages/bldrs_theme/assets/fonts/YujiSyuku-Regular.ttf
+
+
+
   # --------------------------------------------------------------------------------
  */
 
@@ -44,8 +71,16 @@ class BldrsThemeFonts {
   static const String fontArabicHeadline = 'ArabicHeadline';
   static const String fontArabicBody = 'ArabicBody';
   static const String fontBldrsLogo = 'BldrsLogoFont';
+
+
+  static const String fontAlmarai = 'Almarai';
+  static const String fontLalezar = 'Lalezar';
+  static const String fontMochiy = 'Mochiy';
+  static const String fontPalanquin = 'Palanquin';
+  static const String fontRussoOne = 'RussoOne';
+  static const String fontYuji = 'Yuji';
   // -----------------------------------------------------------------------------
-  final List<String> allFonts = <String>[
+  static const List<String> allFonts = <String>[
     fontBldrsHeadlineFont,
     fontBldrsBodyFont,
     fontEnglishHeadline,
@@ -53,6 +88,13 @@ class BldrsThemeFonts {
     fontArabicHeadline,
     fontArabicBody,
     fontBldrsLogo,
+
+    fontAlmarai,
+    fontLalezar,
+    fontMochiy,
+    fontPalanquin,
+    fontRussoOne,
+    fontYuji,
   ];
   // -----------------------------------------------------------------------------
 }

@@ -43,6 +43,8 @@ class SuperText extends StatelessWidget {
     this.package,
 
     this.maxWidth,
+
+    this.style,
     /// KEY
   super.key
   });  // --------------------------------------------------------------------------
@@ -86,6 +88,8 @@ class SuperText extends StatelessWidget {
   final String? package;
 
   final double? maxWidth;
+
+  final TextStyle? style;
   // -----------------------------------------------------------------------------
 
   /// ALIGNMENT
@@ -135,7 +139,7 @@ class SuperText extends StatelessWidget {
             highlight: highlight,
             highlightColor: highlightColor,
             textDirection: textDirection,
-            style: createTextStyle(
+            style: style ?? createTextStyle(
               /// DUNNO
               // inherit: inherit,
               // debugLabel: debugLabel,

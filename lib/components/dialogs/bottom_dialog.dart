@@ -211,6 +211,7 @@ class BottomDialog extends StatelessWidget {
     required BuildContext context,
     required bool draggable,
     required Widget child,
+    Color? backgroundColor,
     double? height,
     String? title,
   }) async {
@@ -232,7 +233,7 @@ class BottomDialog extends StatelessWidget {
             )
         ),
         backgroundColor: Colorz.blackSemi255,
-        barrierColor: Colorz.black150,
+        barrierColor: backgroundColor ?? Colorz.black150,
         enableDrag: draggable,
         elevation: 20,
         isScrollControlled: true,
@@ -274,6 +275,7 @@ class BottomDialog extends StatelessWidget {
     required List<Widget> Function(BuildContext, Function? setState) builder,
     double buttonHeight = wideButtonHeight,
     String? title,
+    Color? backgroundColor,
   }) async {
 
     final double _spacing = buttonHeight * 0.1;
@@ -283,6 +285,7 @@ class BottomDialog extends StatelessWidget {
       draggable: draggable,
       height: Scale.screenHeight(context) * 0.5,
       title: title,
+      backgroundColor: backgroundColor,
       builder: (BuildContext ctx, Function? setState){
 
         final List<Widget> _widgets = builder(ctx, setState);
@@ -315,6 +318,7 @@ class BottomDialog extends StatelessWidget {
     required String? title,
     bool draggable = true,
     double? height,
+    Color? backgroundColor,
   }) async {
 
     final double _height = height ?? BottomDialog.dialogHeight(
@@ -328,7 +332,7 @@ class BottomDialog extends StatelessWidget {
         borderRadius: BottomDialog.dialogCorners(context),
       ),
       backgroundColor: Colorz.blackSemi255,
-      barrierColor: Colorz.black150,
+      barrierColor: backgroundColor ?? Colorz.black150,
       enableDrag: draggable,
       elevation: 20,
       isScrollControlled: true,
