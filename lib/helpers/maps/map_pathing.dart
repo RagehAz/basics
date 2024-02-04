@@ -95,6 +95,45 @@ class MapPathing {
     );
     return _parentValue;
   }
+  // -----------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getAllKeysBelow({
+    required Map<String, dynamic>? map,
+    required String path,
+  }){
+    List<String> _output = [];
+
+    if (map != null){
+
+      final List<String> _allPaths = generatePathsFromMap(map: map);
+
+      final List<String> _related = Pathing.findPathsContainingSubstring(
+          paths: _allPaths,
+          subString: path
+      );
+
+      if (Lister.checkCanLoop(_related) == true){
+
+        final List<String> _shouldRemoveThose = Pathing.splitPathNodes(path);
+
+        final List<String> _allRelatedNodes = Pathing.combinePathsNodes(_related);
+
+        _output = Stringer.addStringsToStringsIfDoNotContainThem(
+            listToTake: _output,
+            listToAdd: _allRelatedNodes,
+        );
+
+        _output = Stringer.removeStringsFromStrings(
+            removeFrom: _output,
+            removeThis: _shouldRemoveThose,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
@@ -272,6 +311,13 @@ class MapPathing {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// EXISTENCE CHECKS
+
+  // --------------------
+  ///
+  // static bool checkStringsContain
   // -----------------------------------------------------------------------------
 
   /// SINGLE PATH CREATORS

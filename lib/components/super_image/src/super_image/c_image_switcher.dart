@@ -228,6 +228,7 @@ class ImageSwitcher extends StatelessWidget {
           height: height,
           color: backgroundColor,
           boxFit: _boxFit,
+          // blendMode: BlendMode.color,
         );
       }
 
@@ -263,11 +264,11 @@ class ImageSwitcher extends StatelessWidget {
           scale: scale ?? 1,
 
           /// COLORS
-          // color: widget.color,
-          // opacity: opacity,
-          // colorBlendMode: blendMode,
+          // color: iconColor,
+          // opacity: 0.5,
+          // colorBlendMode: BlendMode.srcATop,
           // filterQuality: FilterQuality.low, // DEFAULT
-          // invertColors: false, // DEFAULT
+          // invertColors: true, // DEFAULT
 
           /// POSITIONING
           // alignment: Alignment.center, // DEFAULT

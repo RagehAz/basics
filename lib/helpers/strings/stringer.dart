@@ -44,6 +44,34 @@ class Stringer {
 
     return _containsIt;
   }
+  // --------------------
+  /// AI TESTED
+  static bool checkStringsContainAnyOfThose({
+    required List<String>? strings,
+    required List<String>? those,
+  }){
+    bool _output = false;
+
+    if (Lister.checkCanLoop(strings) == true && Lister.checkCanLoop(those) == true){
+
+      for (final String thisString in those!){
+
+        final bool _has = checkStringsContainString(
+          strings: strings,
+          string: thisString,
+        );
+
+        if (_has == true){
+          _output = true;
+          break;
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// MODIFIERS

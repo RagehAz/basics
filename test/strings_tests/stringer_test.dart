@@ -1034,4 +1034,70 @@ void main(){
     });
   });
   // -----------------------------------------------------------------------------
+
+  group('checkStringsContainAnyOfThose', () {
+
+    test('Empty input lists should return false', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: [], those: []),
+        false,
+      );
+    });
+
+    test('Empty "strings" list should return false', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: [], those: ['a', 'b', 'c']),
+        false,
+      );
+    });
+
+    test('Empty "those" list should return false', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: ['a', 'b', 'c'], those: []),
+        false,
+      );
+    });
+
+    test('No common strings should return false', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: ['apple', 'banana'], those: ['orange', 'grape']),
+        false,
+      );
+    });
+
+    test('At least one common string should return true', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: ['apple', 'banana'], those: ['orange', 'banana']),
+        true,
+      );
+    });
+
+    test('Case-sensitive matching should return true', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(strings: ['apple', 'banana'], those: ['Orange', 'Banana']),
+        false,
+      );
+    });
+
+    test('Case-insensitive matching should return true', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(
+          strings: ['apple', 'banana'],
+          those: ['Orange', 'Banana'],
+        ),
+        false,
+      );
+    });
+
+    test('Mixed case matching should return true', () {
+      expect(
+        Stringer.checkStringsContainAnyOfThose(
+          strings: ['apple', 'banana'],
+          those: ['Orange', 'banana'],
+        ),
+        true,
+      );
+    });
+  });
+
 }

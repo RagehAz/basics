@@ -219,7 +219,28 @@ class Pathing {
 
     return _divisions;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> combinePathsNodes(List<String> paths){
+    List<String> _output = [];
 
+    if (Lister.checkCanLoop(paths) == true){
+
+      for (final String path in paths){
+
+        final List<String> _nodes = splitPathNodes(path);
+
+        _output = Stringer.addStringsToStringsIfDoNotContainThem(
+            listToTake: _output,
+            listToAdd: _nodes,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static String combinePathNodes(List<String>? nodes) {
