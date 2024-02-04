@@ -271,12 +271,14 @@ class _SuperTextFieldState extends State<SuperTextField> {
   }){
 
     return Column(
-      children: [
+      children: <Widget>[
 
         /// THE FIELD
-        SizedBox(
+        TapLayer(
           width: widget.width,
           height: widget.height,
+          onTap: widget.onTap,
+          corners: Borderers.superCorners(corners: widget.corners),
           child: TextFormFieldSwitcher(
             /// main
             isFormField: widget.isFormField,

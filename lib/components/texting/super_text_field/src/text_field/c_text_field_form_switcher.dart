@@ -322,7 +322,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
         autocorrect: autoCorrect,
         enableSuggestions: enableSuggestions,
         /// other stuff
-        enabled: true, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
+        enabled: onTap == null, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
         // initialValue: ,
         // restorationId: ,
         // autofillHints: ,
@@ -387,7 +387,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
         autocorrect: autoCorrect,
         enableSuggestions: enableSuggestions,
         /// other stuff
-        enabled: true, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
+        enabled: onTap == null, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
         // autofillHints: [],
         // toolbarOptions: ,
         // textCapitalization: ,

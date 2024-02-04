@@ -189,7 +189,7 @@ class SuperTextFieldController {
           corners: corners
       ),
       disabledBorder: createOutlineBorder(
-        borderColor: const Color.fromARGB(255, 200, 200, 200),
+        borderColor: Colorz.nothing,
         corners: corners,
       ),
 
