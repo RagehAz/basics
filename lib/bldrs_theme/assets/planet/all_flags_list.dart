@@ -3,7 +3,7 @@ import 'package:basics/models/flag_model.dart';
 import 'package:basics/models/phrase_model.dart';
 import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 
-// shoof
+// look
 
 const String _path = WorldZoningPaths.flagsDirectory;
 const String usaFlag = '$_path/flag_na_usa.svg';
