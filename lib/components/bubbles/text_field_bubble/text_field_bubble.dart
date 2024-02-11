@@ -486,8 +486,9 @@ class TextFieldBubble extends StatelessWidget {
               ),
             ),
 
-          // Spacing(
-          //   size: Bubble.paddingValue(),
+          // SizedBox(
+          //   width: Bubble.paddingValue(),
+          //   height: Bubble.paddingValue(),
           // ),
 
         ],

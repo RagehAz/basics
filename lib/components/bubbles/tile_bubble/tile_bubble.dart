@@ -33,6 +33,7 @@ class TileBubble extends StatelessWidget {
     this.focusNode,
     this.font,
     this.bulletPointsMaxLines = 10,
+    this.hasBottomPadding = true,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -56,6 +57,7 @@ class TileBubble extends StatelessWidget {
   final String? font;
   final FocusNode? focusNode;
   final int bulletPointsMaxLines;
+  final bool hasBottomPadding;
   /// --------------------------------------------------------------------------
   static const double iconBoxWidth = 30; /// delete me 5alas (im in BubbleHeader class)
   // -----------------------------------------------------------------------------
@@ -143,6 +145,7 @@ class TileBubble extends StatelessWidget {
         defaultColor: bubbleColor,
         validator: validator,
       ),
+      hasBottomPadding: hasBottomPadding,
       columnChildren: <Widget>[
 
         /// BUBBLE HEADER
