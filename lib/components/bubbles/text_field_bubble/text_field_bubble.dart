@@ -252,7 +252,7 @@ class TextFieldBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final double fieldHeight = SuperTextFieldController.getFieldHeight(
+    final double stripHeight = SuperTextFieldController.getFieldHeight(
       context: context,
       minLines: 1,
       textHeight: fieldTextHeight,
@@ -260,8 +260,8 @@ class TextFieldBubble extends StatelessWidget {
       withBottomMargin: false,
       withCounter: false,
     );
-    final double leadingIconSize = leadingIcon == null ? 0 : fieldHeight;
-    final double obscureBtSize = isObscured == null ? 0 : fieldHeight;
+    final double leadingIconSize = leadingIcon == null ? 0 : stripHeight;
+    final double obscureBtSize = isObscured == null ? 0 : stripHeight;
     // --------------------
     final double _bubbleWidth = Bubble.bubbleWidth(
         context: context,
@@ -276,6 +276,15 @@ class TextFieldBubble extends StatelessWidget {
       hasPasteButton: pasteFunction != null,
       textPadding: fieldTextPadding,
       textHeight: fieldTextHeight,
+    );
+    // --------------------
+    final double fieldHeight = SuperTextFieldController.getFieldHeight(
+      context: context,
+      minLines: minLines,
+      textHeight: fieldTextHeight,
+      textPadding: fieldTextPadding,
+      withBottomMargin: hasBottomPadding,
+      withCounter: counterIsOn,
     );
     // --------------------
     return ValidationSensor(
@@ -443,7 +452,7 @@ class TextFieldBubble extends StatelessWidget {
                     /// PASTE BUTTON
                     if (pasteFunction != null)
                       SuperBox(
-                        height: fieldHeight,
+                        height: stripHeight,
                         width: pasteButtonWidth,
                         // text: pasteText,
                         icon: Iconz.paste,
