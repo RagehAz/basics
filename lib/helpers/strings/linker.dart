@@ -1,7 +1,8 @@
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
-
+import 'package:basics/helpers/strings/text_mod.dart';
+/// => TAMAM
 class Linker {
   // -----------------------------------------------------------------------------
 
@@ -60,7 +61,7 @@ class Linker {
 
   // --------------------
   /// AI TESTED
-  static String? extractDomainFromWebLink({
+  static String? extractWebsiteDomain({
     required String? link,
   }){
 
@@ -95,10 +96,40 @@ class Linker {
       }
 
       // The remaining part of the URL is the domain
-      return url;
+      if (TextCheck.stringStartsExactlyWith(text: url, startsWith: 'www.') == true){
+        return TextMod.removeNumberOfCharactersFromBeginningOfAString(string: url, numberOfCharacters: 4);
+      }
+      else {
+        return url;
+      }
 
     }
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> extractWebsitesDomains({
+    required List<String> links,
+  }){
+    List<String> _output = [];
+
+    if (Lister.checkCanLoop(links) == true){
+
+      for (final String link in links){
+
+        final String? _domain = extractWebsiteDomain(link: link);
+        if (_domain != null){
+          _output = Stringer.addStringToListIfDoesNotContainIt(
+              strings: _output,
+              stringToAdd: _domain,
+          );
+        }
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }
