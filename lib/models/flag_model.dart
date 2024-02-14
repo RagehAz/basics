@@ -247,14 +247,13 @@ class Flag {
     }
     return _ids;
   }
-  // --------------------
   // -----------------------------------------------------------------------------
 
   /// ICON GETTER
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? getCountryIcon(String? countryID) {
+  static String? getCountryIcon(String? countryID, {bool showUSStateFlag = false}) {
     String? _output = Iconz.planet;
 
     if (countryID != null && countryID != planetID){
@@ -264,25 +263,30 @@ class Flag {
         _output = Iconz.getFlagByFileName('flag_eu_euro.svg');
       }
 
-      else {
+      /// USA
+      else if (TextCheck.stringStartsExactlyWith(text: countryID, startsWith: 'us_') == true){
 
-        String _countryID = countryID;
-
-        /// STATES
-        if (TextCheck.stringStartsExactlyWith(text: _countryID, startsWith: 'us_') == true){
-          _countryID = 'usa';
+        if (showUSStateFlag == true){
+          _output = getAmericaStateIcon(countryID);
         }
 
-        /// GET FLAG
-        final Flag? _flag = getFlagFromFlagsByCountryID(
-          flags: allFlags,
-          countryID: _countryID,
-        );
-
-        _output = _flag?.icon;
+        else {
+          _output = getFlagFromFlagsByCountryID(
+            flags: allFlags,
+            countryID: 'usa',
+          )?.icon;
+        }
 
       }
 
+      else {
+
+        _output = getFlagFromFlagsByCountryID(
+          flags: allFlags,
+          countryID: countryID,
+        )?.icon;
+
+      }
 
     }
 
@@ -465,10 +469,8 @@ class Flag {
           _string = '$_string,';
         }
 
-        blog(_string);
-
       }
-      blog(']');
+
     }
   }
   // --------------------
