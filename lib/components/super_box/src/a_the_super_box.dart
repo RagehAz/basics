@@ -88,7 +88,7 @@ class SuperBox extends StatelessWidget {
   final double? blur;
   final Color? secondTextColor;
   final bool redDot;
-  final double? secondTextScaleFactor;
+  final double secondTextScaleFactor;
   final bool loading;
   final Color? iconBackgroundColor;
   final Function? onDisabledTap;

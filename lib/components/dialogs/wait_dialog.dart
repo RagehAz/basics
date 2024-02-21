@@ -94,10 +94,8 @@ class WaitDialog extends StatelessWidget {
     final double _screenHeight = Scale.screenHeight(context);
     final double _screenWidth = Scale.screenWidth(context);
     // --------------------
-    return WillPopScope(
-      onWillPop: () async {
-        return !canManuallyGoBack;
-      },
+    return PopScope(
+      canPop: canManuallyGoBack,
       child: Scaffold(
         backgroundColor: Colorz.black125,
         body: Stack(

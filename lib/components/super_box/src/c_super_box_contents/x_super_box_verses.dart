@@ -32,6 +32,7 @@ class SuperBoxTexts extends StatelessWidget {
     required this.isDisabled,
     required this.package,
     required this.letterSpacing,
+    required this.secondTextScaleFactor,
   super.key
   });  // -----------------------------------------------------------------------------
   final double? height;
@@ -61,6 +62,7 @@ class SuperBoxTexts extends StatelessWidget {
   final bool centered;
   final String? package;
   final double? letterSpacing;
+  final double secondTextScaleFactor;
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -169,7 +171,7 @@ class SuperBoxTexts extends StatelessWidget {
                   text: secondText,
                   weight: FontWeight.w200,
                   maxWidth: _maxWidth,
-                  textHeight: _mainTextHeight * 0.8,
+                  textHeight: _mainTextHeight * 0.8 * secondTextScaleFactor,
                   textColor: SuperBoxController.textColor(
                     colorOverride: secondTextColor,
                     isDisabled: isDisabled,

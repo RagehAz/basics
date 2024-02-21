@@ -76,7 +76,8 @@ class ZGrid extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       children: <Widget>[
 
-                        /// BLUR LAYER
+
+                        /// BLUR LAYER : /// TEMP_SHIT
                         if (bigItemFootprint != null)
                         WidgetWaiter(
                           waitDuration: ZGridController.backgroundBlurDelayDuration,

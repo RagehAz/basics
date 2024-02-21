@@ -3,9 +3,11 @@ import 'package:basics/bldrs_theme/assets/planet/paths.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
+import 'package:basics/models/america.dart';
 import 'package:basics/models/phrase_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -324,12 +326,67 @@ class Flag {
 
     if (countryID != null && countryID != planetID) {
 
-      final Flag? _flag = getFlagFromFlagsByCountryID(
-        flags: allFlags,
-        countryID: countryID,
+      if (America.checkCountryIDIsStateID(countryID) == true){
+        _output = America.statePhoneCodes[countryID];
+      }
+
+      else {
+        final Flag? _flag = getFlagFromFlagsByCountryID(
+          flags: allFlags,
+          countryID: countryID,
+        );
+        _output = _flag?.phoneCode;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  static List<String> searchCountriesByPhoneCode({
+    required String? phoneCode,
+  }){
+    final List<String> _countriesIDs = [];
+
+    if (TextCheck.stringStartsExactlyWith(text: phoneCode, startsWith: '+') == true){
+
+      final Map<String, dynamic> _phonesMap = Mapper.insertMapInMap(
+          baseMap: America.statePhoneCodes,
+          insert: _createCountriesPhonesMap(),
       );
 
-      _output = _flag?.phoneCode;
+      for (final String countryID in _phonesMap.keys.toSet()){
+
+        final String _code = _phonesMap[countryID];
+
+        final bool _match = TextCheck.stringContainsSubString(
+            string: _code,
+            subString: phoneCode,
+        );
+
+        if (_match == true){
+          _countriesIDs.add(countryID);
+        }
+
+      }
+
+
+    }
+
+    return _countriesIDs;
+  }
+  // --------------------
+  static Map<String, dynamic> _createCountriesPhonesMap(){
+    Map<String, dynamic> _output = {};
+
+    for (final Flag flag in allFlags){
+
+      _output = Mapper.insertPairInMap(
+          map: _output,
+          key: flag.id,
+          value: flag.phoneCode,
+          overrideExisting: true,
+      );
 
     }
 

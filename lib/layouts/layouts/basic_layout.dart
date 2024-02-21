@@ -1,6 +1,4 @@
-
 import 'package:basics/components/sensors/connectivity_sensor.dart';
-import 'package:basics/layouts/nav/nav.dart';
 import 'package:flutter/material.dart';
 
 class BasicLayout extends StatelessWidget {
@@ -23,6 +21,7 @@ class BasicLayout extends StatelessWidget {
   final Function(bool isConnected)? onConnectivityChanged;
   final bool safeAreaIsOn;
   // --------------------
+  /*
   Future<void> _onBack(BuildContext context) async {
 
 
@@ -44,15 +43,16 @@ class BasicLayout extends StatelessWidget {
     }
 
   }
+   */
   // --------------------
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
+    return PopScope(
       key: const ValueKey<String>('BasicLayout'),
-      onWillPop: () async {
-        await _onBack(context);
-        return false;
+      canPop: canGoBack,
+      onPopInvoked: (bool value) async {
+        await onBack?.call();
       },
       child: ConnectivitySensor(
         onConnectivityChanged: onConnectivityChanged,

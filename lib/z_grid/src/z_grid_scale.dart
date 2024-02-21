@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 part of z_grid;
 /// TAMAM
 class ZGridScale {
@@ -206,26 +208,33 @@ class ZGridScale {
     required double itemAspectRatio, // a = w / h
   }){
 
-    final bool _gridIsNarrow = _gridWidthIsNarrow(
-      context: context,
-      itemAspectRatio: itemAspectRatio,
-      gridHeight: gridHeight,
-      gridWidth: gridWidth,
-    );
+    // final bool _gridIsNarrow = _gridWidthIsNarrow(
+    //   context: context,
+    //   itemAspectRatio: itemAspectRatio,
+    //   gridHeight: gridHeight,
+    //   gridWidth: gridWidth,
+    // );
+    //
+    // if (_gridIsNarrow == true){
+    //   /// ITEM CAN NOT TAKE MAXIMUM POSSIBLE HEIGHT ANYMORE
+    //   /// SO ITEM SHOULD RESPECT gridWidth
+    //   return _getBigItemWidthByGridWidth(
+    //     gridWidth: gridWidth,
+    //   );
+    // }
+    // else {
+    //   return _getBigItemWidthByGridHeight(
+    //     gridHeight: gridHeight,
+    //     itemAspectRatio: itemAspectRatio,
+    //   );
+    // }
 
-    if (_gridIsNarrow == true){
-      /// ITEM CAN NOT TAKE MAXIMUM POSSIBLE HEIGHT ANYMORE
-      /// SO ITEM SHOULD RESPECT gridWidth
-      return _getBigItemWidthByGridWidth(
-        gridWidth: gridWidth,
-      );
-    }
-    else {
-      return _getBigItemWidthByGridHeight(
-        gridHeight: gridHeight,
-        itemAspectRatio: itemAspectRatio,
-      );
-    }
+    return getBigFlyerWidth(
+      context: context,
+      aspectRatio: itemAspectRatio,
+      gridWidth: gridWidth,
+      gridHeight: gridHeight,
+    );
 
   }
   // --------------------
@@ -308,18 +317,20 @@ class ZGridScale {
     required double itemAspectRatio,
   }){
 
-    final double _bigItemHeight = getBigItemHeight(
-      context: context,
-      gridWidth: gridWidth,
-      gridHeight: gridHeight,
-      itemAspectRatio: itemAspectRatio,
-    );
+    // final double _bigItemHeight = getBigItemHeight(
+    //   context: context,
+    //   gridWidth: gridWidth,
+    //   gridHeight: gridHeight,
+    //   itemAspectRatio: itemAspectRatio,
+    // );
 
-    final double _remaining = Scale.screenHeight(context) - _bigItemHeight;
+    // final double _remaining = Scale.screenHeight(context) - _bigItemHeight;
 
     // blog('the remaining is $_remaining');
 
-    return (_remaining / 2) < 0 ? 0 : _remaining / 2;
+    /// TEMP_SHIT
+    return 10;
+    // return (_remaining / 2) < 0 ? 0 : _remaining / 2;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -753,4 +764,28 @@ class ZGridScale {
     return Matrix4.fromFloat64List(_list);
   }
   // --------------------------------------------------------------------------
+}
+
+
+double getBigFlyerWidth({
+  required BuildContext context,
+  required double aspectRatio,
+  required double gridWidth,
+  required double gridHeight,
+}){
+
+  // final double _screenWidth = Scale.screenWidth(context);
+  // final double _screenHeight = Scale.screenHeight(context);
+
+  final double _widthByWidth = gridWidth - 20;
+
+  final double _widthByHeight = (gridHeight - 20) / aspectRatio;
+
+  if (_widthByWidth < _widthByHeight){
+    return _widthByWidth;
+  }
+  else {
+    return _widthByHeight;
+  }
+
 }

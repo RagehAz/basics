@@ -37,7 +37,7 @@ class LDBViewerScreen extends StatefulWidget {
     bool userColorField = false,
   }) {
 
-    final double _screenWidth = Scale.screenWidth(context);
+    final double _screenWidth = context.screenWidth;
     final bool _bubbleIsOn = onRowOptionsTap != null;
 
     if (Lister.checkCanLoop(maps) == false){

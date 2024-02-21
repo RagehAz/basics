@@ -65,7 +65,7 @@ class SuperBoxContents extends StatelessWidget {
   final int? secondTextMaxLines;
   final bool textItalic;
   final bool redDot;
-  final double? secondTextScaleFactor;
+  final double secondTextScaleFactor;
   final Color? secondTextColor;
   final bool centered;
   final Color? backgroundColor;
@@ -139,6 +139,7 @@ class SuperBoxContents extends StatelessWidget {
             textColor: textColor,
             textMaxLines: textMaxLines,
             secondTextMaxLines: secondTextMaxLines,
+            secondTextScaleFactor: secondTextScaleFactor,
             textItalic: textItalic,
             redDot: redDot,
             secondTextColor: secondTextColor,

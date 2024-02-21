@@ -115,6 +115,16 @@ class Iconz {
   static const String comPinterest = '$iconDirectory/com_pinterest.svg';
   static const String comGoogleLogo = '$iconDirectory/com_google_logo.svg';
   // --------------------
+  /// COMM PLAIN
+  static const String comFacebookPlain = '$iconDirectory/com_facebook_plain.svg';
+  static const String comInstagramPlain = '$iconDirectory/com_instagram_plain.svg';
+  static const String comLinkedInPlain = '$iconDirectory/com_linkedin_plain.svg';
+  static const String comTwitterPlain = '$iconDirectory/com_twitter_plain.svg';
+  static const String comWhatsappPlain = '$iconDirectory/com_whatsapp_plain.svg';
+  static const String comYoutubePlain = '$iconDirectory/com_youtube_plain.svg';
+  static const String comTikTokPlain = '$iconDirectory/com_tiktok_plain.svg';
+  static const String comPinterestPlain = '$iconDirectory/com_pinterest_plain.svg';
+  // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';
   static const String dvGouran = '$iconDirectory/dv_gouran.svg';

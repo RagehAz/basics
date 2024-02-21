@@ -1,6 +1,7 @@
 import 'package:basics/components/bubbles/bubble/bubble.dart';
 import 'package:basics/components/bubbles/bubble/bubble_switcher.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
+import 'package:basics/components/drawing/expander.dart';
 import 'package:basics/components/super_box/super_box.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,7 @@ class BubbleHeader extends StatelessWidget {
             centered: viewModel!.centered,
             redDot: viewModel!.redDot,
             margins: const EdgeInsets.only(
-                bottom: BubbleHeaderVM.verseBottomMargin,
+              top: BubbleHeaderVM.verseBottomMargin,
               left: 10,
               right: 10,
             ),
@@ -95,9 +96,7 @@ class BubbleHeader extends StatelessWidget {
             appIsLTR: viewModel!.appIsLTR,
           ),
 
-          const Expanded(
-            child: SizedBox(),
-          ),
+          const Expander(),
 
           if (viewModel!.hasSwitch == true)
             BubbleSwitcher(
