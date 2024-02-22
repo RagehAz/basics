@@ -208,33 +208,33 @@ class ZGridScale {
     required double itemAspectRatio, // a = w / h
   }){
 
-    // final bool _gridIsNarrow = _gridWidthIsNarrow(
-    //   context: context,
-    //   itemAspectRatio: itemAspectRatio,
-    //   gridHeight: gridHeight,
-    //   gridWidth: gridWidth,
-    // );
-    //
-    // if (_gridIsNarrow == true){
-    //   /// ITEM CAN NOT TAKE MAXIMUM POSSIBLE HEIGHT ANYMORE
-    //   /// SO ITEM SHOULD RESPECT gridWidth
-    //   return _getBigItemWidthByGridWidth(
-    //     gridWidth: gridWidth,
-    //   );
-    // }
-    // else {
-    //   return _getBigItemWidthByGridHeight(
-    //     gridHeight: gridHeight,
-    //     itemAspectRatio: itemAspectRatio,
-    //   );
-    // }
-
-    return getBigFlyerWidth(
+    final bool _gridIsNarrow = _gridWidthIsNarrow(
       context: context,
-      aspectRatio: itemAspectRatio,
-      gridWidth: gridWidth,
+      itemAspectRatio: itemAspectRatio,
       gridHeight: gridHeight,
+      gridWidth: gridWidth,
     );
+
+    if (_gridIsNarrow == true){
+      /// ITEM CAN NOT TAKE MAXIMUM POSSIBLE HEIGHT ANYMORE
+      /// SO ITEM SHOULD RESPECT gridWidth
+      return _getBigItemWidthByGridWidth(
+        gridWidth: gridWidth,
+      );
+    }
+    else {
+      return _getBigItemWidthByGridHeight(
+        gridHeight: gridHeight,
+        itemAspectRatio: itemAspectRatio,
+      );
+    }
+
+    // return getBigFlyerWidth(
+    //   context: context,
+    //   aspectRatio: itemAspectRatio,
+    //   gridWidth: gridWidth,
+    //   gridHeight: gridHeight,
+    // );
 
   }
   // --------------------

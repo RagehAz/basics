@@ -3,6 +3,7 @@ import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/bldrs_theme/classes/shadowers.dart';
 import 'package:basics/components/sensors/keyboard_sensor.dart';
+import 'package:basics/components/sensors/popper.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
@@ -422,13 +423,11 @@ class CenterDialog extends StatelessWidget {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+
     // --------------------
-    return PopScope(
+    return Popper(
       key: const ValueKey<String>('Center_dialog'),
-      canPop: false,
-      onPopInvoked: (bool value) async {
-        // await Nav.goBack(context: context);
-        },
+      canGoBack: false,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: backgroundColor ?? Colorz.black80,

@@ -1,5 +1,7 @@
 library super_text;
 // -----------------------------------------------------------------------------
+import 'dart:ui';
+
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:flutter/material.dart';
 import 'src/super_text_structure/c_leading_dot.dart';

@@ -1,4 +1,5 @@
 import 'package:basics/components/sensors/connectivity_sensor.dart';
+import 'package:basics/components/sensors/popper.dart';
 import 'package:flutter/material.dart';
 
 class BasicLayout extends StatelessWidget {
@@ -48,12 +49,10 @@ class BasicLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return PopScope(
+    return Popper(
       key: const ValueKey<String>('BasicLayout'),
-      canPop: canGoBack,
-      onPopInvoked: (bool value) async {
-        await onBack?.call();
-      },
+      canGoBack: canGoBack,
+      onBack: onBack,
       child: ConnectivitySensor(
         onConnectivityChanged: onConnectivityChanged,
         child: GestureDetector(
