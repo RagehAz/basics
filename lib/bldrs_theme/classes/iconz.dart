@@ -107,6 +107,7 @@ class Iconz {
   static const String comMap = '$iconDirectory/com_map.svg';
   static const String comPhone = '$iconDirectory/com_phone.svg';
   static const String comTwitter = '$iconDirectory/com_twitter.svg';
+  static const String comSnapchat = '$iconDirectory/com_snapchat.svg';
   static const String comWebsite = '$iconDirectory/com_website.svg';
   static const String comWhatsapp = '$iconDirectory/com_whatsapp.svg';
   static const String comGooglePlay = '$iconDirectory/com_google_play.svg';
@@ -124,6 +125,7 @@ class Iconz {
   static const String comYoutubePlain = '$iconDirectory/com_youtube_plain.svg';
   static const String comTikTokPlain = '$iconDirectory/com_tiktok_plain.svg';
   static const String comPinterestPlain = '$iconDirectory/com_pinterest_plain.svg';
+  static const String comSnapchatPlain = '$iconDirectory/com_snapchat_plain.svg';
   // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';

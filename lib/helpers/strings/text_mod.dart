@@ -684,6 +684,10 @@ class TextMod {
         'comma'             : {'char': ','    ,'replacement': ''},
         'left parenthesis'  : {'char': '('    ,'replacement': ''},
         'right parenthesis' : {'char': ')'    ,'replacement': ''},
+        'left sq par'       : {'char': '['    ,'replacement': '_'},
+        'right sq par'      : {'char': ']'    ,'replacement': '_'},
+        'left x par'        : {'char': '{'    ,'replacement': '_'},
+        'right x par'       : {'char': '}'    ,'replacement': '_'},
         'apostrophe'        : {'char': '’'    ,'replacement': ''},
         'o_circumflex'      : {'char': 'ô'    ,'replacement': 'o'},
         'backtick'          : {'char': '`'    ,'replacement': ''},
@@ -702,9 +706,12 @@ class TextMod {
         'space2'            : {'char': '‏'  ,'replacement': '_'},
         'space3'            : {'char': '‎ ' ,'replacement': '_'},
         'space4'            : {'char': ' ‏' ,'replacement': '_'},
+        'space5'            : {'char': '​' ,'replacement': '_'},
         'double underscore' : {'char': '__'   ,'replacement': '_'},
         'double underscore2': {'char': '__'   ,'replacement': '_'},
         'double underscore3': {'char': '__'   ,'replacement': '_'},
+        'double underscore4': {'char': '__'   ,'replacement': '_'},
+        'double underscore5': {'char': '__'   ,'replacement': '_'},
         // Add more character replacements as needed
       };
 
@@ -794,49 +801,6 @@ class TextMod {
 
       if (countryPhoneCode != number){
         _output = TextMod.removeSpacesFromAString(number);
-      }
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// WEB LINK
-
-  // --------------------
-  static const String httpsCode = 'https://';
-  // --------------------
-  /// AI TESTED
-  static String? initializeWebLink({
-    required String? url,
-  }){
-    String? _initialText;
-
-    /// NO URL GIVEN
-    if (TextCheck.isEmpty(url) == true){
-      _initialText = httpsCode;
-    }
-
-    /// URL IS GIVEN
-    else {
-      _initialText = url;
-    }
-
-    return _initialText;
-  }
-  // --------------------
-  /// AI TESTED
-  static String? nullifyUrlLinkIfOnlyHTTPS({
-    required String? url,
-  }){
-    String? _output;
-
-    /// URL IS DEFINED
-    if (TextCheck.isEmpty(url) == false){
-
-      if (httpsCode != url){
-        _output = removeSpacesFromAString(url);
       }
 
     }

@@ -1,3 +1,4 @@
+import 'package:basics/helpers/strings/linker.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -1095,31 +1096,31 @@ void main() {
 
   group('initializeWebLink', () {
     test('initializeWebLink returns the default https code when url is null', () {
-      final result = TextMod.initializeWebLink(url: null);
+      final result = Linker.initializeWebLink(url: null);
       expect(result, equals('https://'));
     });
 
     test('initializeWebLink returns the default https code when url is an empty string', () {
-      final result = TextMod.initializeWebLink(url: '');
+      final result = Linker.initializeWebLink(url: '');
       expect(result, equals('https://'));
     });
 
     test('initializeWebLink returns the given url when url is not null or empty', () {
       const url = 'example.com';
-      final result = TextMod.initializeWebLink(url: url);
+      final result = Linker.initializeWebLink(url: url);
       expect(result, equals(url));
     });
 
 
     test('initializeWebLink returns the given url when url starts with https://', () {
       const url = 'https://example.com';
-      final result = TextMod.initializeWebLink(url: url);
+      final result = Linker.initializeWebLink(url: url);
       expect(result, equals(url));
     });
 
     test('initializeWebLink returns the given url when url starts with https:// and has additional characters', () {
       const url = 'https://example.com/path?param=value';
-      final result = TextMod.initializeWebLink(url: url);
+      final result = Linker.initializeWebLink(url: url);
       expect(result, equals(url));
     });
 
@@ -1128,46 +1129,46 @@ void main() {
 
   group('nullifyUrlLinkIfOnlyHTTPS', () {
     test('nullifyUrlLinkIfOnlyHTTPS returns null when url is null', () {
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: null);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: null);
       expect(result, isNull);
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns null when url is an empty string', () {
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: '');
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: '');
       expect(result, isNull);
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns null when url is equal to the httpsCode', () {
       const url = 'https://';
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: url);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: url);
       expect(result, isNull);
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns the url without spaces when url is not equal to the httpsCode', () {
       const url = ' example.com ';
       const expectedOutput = 'example.com';
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: url);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: url);
       expect(result, equals(expectedOutput));
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns the url without spaces when url has additional spaces', () {
       const url = ' example.com ';
       const expectedOutput = 'example.com';
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: url);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: url);
       expect(result, equals(expectedOutput));
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns the url without spaces when url has leading and trailing spaces', () {
       const url = ' example.com';
       const expectedOutput = 'example.com';
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: url);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: url);
       expect(result, equals(expectedOutput));
     });
 
     test('nullifyUrlLinkIfOnlyHTTPS returns the url without spaces when url has leading and trailing spaces and additional spaces in between', () {
       const url = ' example  . com ';
       const expectedOutput = 'example.com';
-      final result = TextMod.nullifyUrlLinkIfOnlyHTTPS(url: url);
+      final result = Linker.nullifyUrlLinkIfOnlyHTTPS(url: url);
       expect(result, equals(expectedOutput));
     });
   });

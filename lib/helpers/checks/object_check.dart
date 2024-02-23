@@ -290,7 +290,7 @@ class ObjectCheck {
 
       final String _path = object;
 
-      _isPicPath = _path.startsWith('storage/');
+      _isPicPath = TextCheck.stringStartsExactlyWith(text: _path, startsWith: 'storage/');
 
     }
 

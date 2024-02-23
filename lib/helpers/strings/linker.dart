@@ -132,4 +132,47 @@ class Linker {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// WEB LINK
+
+  // --------------------
+  static const String httpsCode = 'https://';
+  // --------------------
+  /// AI TESTED
+  static String? initializeWebLink({
+    required String? url,
+  }){
+    String? _initialText;
+
+    /// NO URL GIVEN
+    if (TextCheck.isEmpty(url) == true){
+      _initialText = httpsCode;
+    }
+
+    /// URL IS GIVEN
+    else {
+      _initialText = url;
+    }
+
+    return _initialText;
+  }
+  // --------------------
+  /// AI TESTED
+  static String? nullifyUrlLinkIfOnlyHTTPS({
+    required String? url,
+  }){
+    String? _output;
+
+    /// URL IS DEFINED
+    if (TextCheck.isEmpty(url) == false){
+
+      if (httpsCode != url){
+        _output = TextMod.removeSpacesFromAString(url);
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

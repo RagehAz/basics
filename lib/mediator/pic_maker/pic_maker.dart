@@ -46,6 +46,7 @@ enum PicMakerType {
   cameraImage,
   galleryImage,
   generated,
+  downloaded,
 }
 
 enum PicType {
@@ -801,6 +802,7 @@ class PicMaker {
       case PicMakerType.cameraImage:  return 'camera';
       case PicMakerType.galleryImage: return 'gallery';
       case PicMakerType.generated: return 'generated';
+      case PicMakerType.downloaded: return 'downloaded';
     }
   }
   // --------------------
@@ -810,6 +812,7 @@ class PicMaker {
       case 'camera':  return    PicMakerType.cameraImage;
       case 'gallery': return    PicMakerType.galleryImage;
       case 'generated': return  PicMakerType.generated;
+      case 'downloaded': return  PicMakerType.downloaded;
       default: return null;
     }
   }

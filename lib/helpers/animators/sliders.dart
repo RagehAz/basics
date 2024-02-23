@@ -374,11 +374,18 @@ class Sliders {
     Curve curve = Curves.easeInOutCirc,
   }) async {
     if (controller != null) {
-      await controller.animateTo(
-        controller.position.maxScrollExtent,
-        duration: duration,
-        curve: curve,
-      );
+
+      if (duration.inMilliseconds < 50){
+        controller.jumpTo(controller.position.maxScrollExtent);
+      }
+      else {
+        await controller.animateTo(
+          controller.position.maxScrollExtent,
+          duration: duration,
+          curve: curve,
+        );
+      }
+
     }
   }
 
