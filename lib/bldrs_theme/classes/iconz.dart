@@ -264,8 +264,9 @@ class Iconz {
   static const String feed = '$iconDirectory/gi_feed.svg';
   static const String amazon = '$iconDirectory/gi_amazon.svg';
   static const String gtamazon = '$iconDirectory/gi_gtamazon.svg';
-  static const String alibaba = '$iconDirectory/gi_alibaba.svg';
   static const String gtalibaba = '$iconDirectory/gi_gtalibaba.svg';
+  static const String gtInsta = '$iconDirectory/gi_gtinsta.svg';
+  static const String alibaba = '$iconDirectory/gi_alibaba.svg';
   static const String house = '$iconDirectory/gi_house.svg';
   static const String arrowYellowUp = '$iconDirectory/gi_arrow_yellow_up.svg';
   static const String arrowYellowRight = '$iconDirectory/gi_arrow_yellow_right.svg';
@@ -362,6 +363,17 @@ class Iconz {
       comTikTok: true,
       comPinterest: true,
       comGoogleLogo: true,
+
+      comFacebookPlain: true,
+      comInstagramPlain: true,
+      comLinkedInPlain: true,
+      comTwitterPlain: true,
+      comWhatsappPlain: true,
+      comYoutubePlain: true,
+      comTikTokPlain: true,
+      comPinterestPlain: true,
+      comSnapchatPlain: true,
+
       dvBlankSVG: true,
       dvGouran: true,
       dvRageh: true,
@@ -479,6 +491,7 @@ class Iconz {
       feed: true,
       amazon: true,
       gtamazon: true,
+      gtInsta: true,
       alibaba: true,
       gtalibaba: true,
       house: true,
