@@ -10,7 +10,7 @@ class Linker {
 
   // -----------------------------------------------------------------------------
 
-  /// EMAIL EXTRACTORS
+  /// EXTRACT DOMAIN FROM EMAIL
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -57,7 +57,7 @@ class Linker {
   }
   // -----------------------------------------------------------------------------
 
-  /// EXTRACTORS
+  /// EXTRACT DOMAIN FROM WEBSITE
 
   // --------------------
   /// AI TESTED
@@ -170,6 +170,56 @@ class Linker {
         _output = TextMod.removeSpacesFromAString(url);
       }
 
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// CLEANUPS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? cleanURL(String? link){
+    String? _output;
+
+    if (TextCheck.isEmpty(link) == false) {
+
+      /// LINK SHOULD CONTAIN 'http://' to work
+      final bool _containsHttp = TextCheck.stringContainsSubString(
+        string: link,
+        subString: 'http://',
+      );
+
+      final bool _containsHttps = TextCheck.stringContainsSubString(
+        string: link,
+        subString: 'https://',
+      );
+
+      if (_containsHttp == true || _containsHttps == true) {
+        _output = link!;
+      }
+      else {
+        _output = 'http://$link';
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// U R I
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Uri? createURI(String? link){
+    Uri? _output;
+
+    final String? _link = cleanURL(link);
+
+    if (_link != null) {
+      _output = Uri.parse(_link);
     }
 
     return _output;
