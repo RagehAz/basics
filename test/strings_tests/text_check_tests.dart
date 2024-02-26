@@ -457,6 +457,18 @@ void main() {
       );
       expect(result, true);
     });
+
+    test('/#/', () {
+      expect(TextCheck.stringContainsSubString(string: 'theString/#/thing', subString: '/#/'), true);
+      expect(TextCheck.stringContainsSubString(string: '/#/thing', subString: '/#/'), true);
+      expect(TextCheck.stringContainsSubString(string: '/#/', subString: '/#/'), true);
+      expect(TextCheck.stringContainsSubString(string: 'ssss/#', subString: '/#/'), false);
+      expect(TextCheck.stringContainsSubString(string: 'ssss/#ss', subString: '/#/'), false);
+      expect(TextCheck.stringContainsSubString(string: 'ssss/#/', subString: '/#/'), true);
+      expect(TextCheck.stringContainsSubString(string: 'ssss/x/', subString: '/#/'), false);
+
+    });
+
   });
 
   group('stringContainsSubStringRegExp', () {
@@ -866,4 +878,5 @@ void main() {
       expect(onSwitchOffCalled, isFalse);
     });
   });
+
 }

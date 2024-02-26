@@ -1,4 +1,5 @@
 import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper_ss.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
@@ -220,6 +221,51 @@ class Linker {
 
     if (_link != null) {
       _output = Uri.parse(_link);
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// QUERY
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Map<String, String> getQueryParameters(String? link){
+    // EXAMPLE PATTERN
+    /// final String _example = 'key1 = value1 & key2 = value2';
+    Map<String, String> _output = {};
+    final String? _cleaned = TextMod.removeSpacesFromAString(link);
+
+    if (TextCheck.isEmpty(_cleaned) == false){
+
+      final List<String> _pairs = _cleaned!.split('&').toList();
+      _pairs.removeWhere((element) => element == '');
+
+      if (Lister.checkCanLoop(_pairs) == true){
+
+        for (final String pair in _pairs){
+
+          if (TextCheck.stringContainsSubString(string: pair, subString: '=') == true){
+
+            final String? _key = TextMod.removeTextAfterFirstSpecialCharacter(text: pair, specialCharacter: '=');
+            final String? _value = TextMod.removeTextBeforeFirstSpecialCharacter(text: pair, specialCharacter: '=');
+
+            if (TextCheck.isEmpty(_key) == false && TextCheck.isEmpty(_value) == false){
+              _output = MapperSS.insertPairInMapWithStringValue(
+                  map: _output,
+                  key: _key,
+                  value: _value!,
+                  overrideExisting: true,
+              )!;
+            }
+
+          }
+
+        }
+
+      }
+
     }
 
     return _output;
