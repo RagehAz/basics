@@ -296,6 +296,27 @@ class DeviceChecker {
     }
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getDeviceOS(){
+
+    if (kIsWeb == true){
+      return 'web';
+    }
+    else if (deviceIsIOS() == true){
+      return 'ios';
+    }
+    else if (deviceIsAndroid() == true){
+      return 'android';
+    }
+    else if (deviceIsWindows() == true){
+      return 'windows';
+    }
+    else {
+      return 'GhostOS';
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// SCREEN DIRECTION

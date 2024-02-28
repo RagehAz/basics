@@ -16,7 +16,6 @@ class FileAndURLVideoPlayer extends StatefulWidget {
     this.width,
     this.autoPlay = false,
     this.loop = false,
-    this.aspectRatio,
     this.errorIcon,
     super.key
   });
@@ -28,7 +27,6 @@ class FileAndURLVideoPlayer extends StatefulWidget {
   final double? width;
   final bool autoPlay;
   final bool loop;
-  final double? aspectRatio;
   final String? errorIcon;
   /// --------------------------------------------------------------------------
   @override
@@ -136,7 +134,7 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
     )!;
 
     /// REMOVED
-    // _videoPlayerController.addListener(listen);
+    _videoPlayerController.addListener(listen);
 
 
   }
@@ -151,7 +149,7 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
   // --------------------
   @override
   void dispose() {
-    // _videoPlayerController.removeListener(listen);
+    _videoPlayerController.removeListener(listen);
     _videoPlayerController.dispose();
     _isChangingVolume.dispose();
     _videoValue.dispose();
@@ -256,7 +254,6 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
       onPlay: _play,
       onPause: _pause,
       width: widget.width ?? Scale.screenWidth(context),
-      aspectRatio: widget.aspectRatio,
       videoPlayerController: _videoPlayerController,
       videoValue: _videoValue,
       onVolumeChanged: _setVolume,

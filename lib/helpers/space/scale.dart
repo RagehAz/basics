@@ -262,7 +262,6 @@ class Scale {
   // --------------------
   /// TESTED : WORKS PERFECT
   static double getUniformRowItemWidth({
-    required BuildContext context,
     required int? numberOfItems,
     required double? boxWidth,
     double spacing = 10,

@@ -15,7 +15,7 @@ class SuperVideoPlayer extends StatelessWidget {
     this.autoPlay = false,
     this.asset,
     this.loop = false,
-    this.aspectRatio,
+    // this.aspectRatio,
     this.errorIcon,
     super.key
   });
@@ -26,7 +26,7 @@ class SuperVideoPlayer extends StatelessWidget {
   final bool autoPlay;
   final String? asset;
   final bool loop;
-  final double? aspectRatio;
+  // final double? aspectRatio;
   final String? errorIcon;
   /// --------------------------------------------------------------------------
   @override
@@ -40,7 +40,7 @@ class SuperVideoPlayer extends StatelessWidget {
           file: file,
           autoPlay: autoPlay,
           loop: loop,
-          aspectRatio: aspectRatio,
+          // aspectRatio: aspectRatio,
           errorIcon: errorIcon,
         );
     }
@@ -79,7 +79,7 @@ class SuperVideoPlayer extends StatelessWidget {
     else {
       return VideoBox(
         width: width,
-        aspectRatio: aspectRatio,
+        aspectRatio: 19/6,//aspectRatio,
       );
     }
 

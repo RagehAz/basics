@@ -1,4 +1,3 @@
-import 'package:basics/helpers/checks/tracers.dart';
 
 /// => TAMAM
 class Lister {
@@ -82,9 +81,9 @@ class Lister {
     else if (checkCanLoop(list1) == true && checkCanLoop(list2) == true){
 
       if (list1!.length != list2!.length) {
-        blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
-        blog(' ---> lis1 is ( $list1 )');
-        blog(' ---> lis2 is ( $list2 )');
+        // blog('lists do not have the same length : list1 is ${list1.length} : list2 is ${list2.length}');
+        // blog(' ---> lis1 is ( $list1 )');
+        // blog(' ---> lis2 is ( $list2 )');
         _listsAreIdentical = false;
       }
 
@@ -92,14 +91,14 @@ class Lister {
         for (int i = 0; i < list1.length; i++) {
 
           if (list1[i] != list2[i]) {
-            blog('items at index ( $i ) do not match : ( ${list1[i]} ) <=> ( ${list2[i]} )');
+            // blog('items at index ( $i ) do not match : ( ${list1[i]} ) <=> ( ${list2[i]} )');
 
             if (list1[i].toString() == list2[i].toString()){
-              blog('but they are equal when converted to string');
+              // blog('but they are equal when converted to string');
               _listsAreIdentical = true;
             }
             else {
-              blog('and they are not equal when converted to string');
+              // blog('and they are not equal when converted to string');
               _listsAreIdentical = false;
               break;
             }

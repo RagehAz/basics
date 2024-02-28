@@ -206,6 +206,26 @@ class Linker {
 
     }
 
+    return removeExtraSlashAtTheEndIfExisted(_output);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? removeExtraSlashAtTheEndIfExisted(String? fullPath){
+    String? _output = fullPath;
+
+    if (TextCheck.isEmpty(fullPath) == false){
+
+      final String _lastChar = fullPath![fullPath.length-1];
+
+      if (_lastChar == '/'){
+        _output = TextMod.removeNumberOfCharactersFromEndOfAString(
+          string: fullPath,
+          numberOfCharacters: 1,
+        )!;
+      }
+
+    }
+
     return _output;
   }
   // -----------------------------------------------------------------------------

@@ -21,7 +21,6 @@ class SmallButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final double _buttonWidth = width ?? Scale.getUniformRowItemWidth(
-      context: context,
       numberOfItems: 4,
       boxWidth: Scale.screenWidth(context) - 20,
     );

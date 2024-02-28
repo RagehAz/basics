@@ -469,6 +469,15 @@ void main() {
 
     });
 
+    test('error', () {
+
+      expect(TextCheck.stringContainsSubString(
+          string: '[firebase_database/unknown] xb.c: Firebase Database error: The write was canceled by the user.',
+          subString: 'The write was canceled by the user',
+      ), true);
+
+    });
+
   });
 
   group('stringContainsSubStringRegExp', () {

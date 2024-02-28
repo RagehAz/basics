@@ -37,7 +37,7 @@ class TextClipBoard {
   /// TESTED : WORKS PERFECT
   static Future<String?> paste() async {
     final String? _text = await FlutterClipboard.paste();
-    return _text;
+    return _text?.trim();
   }
   // -----------------------------------------------------------------------------
 

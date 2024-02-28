@@ -56,17 +56,28 @@ class Mapper {
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromDynamics({
-    required List<dynamic> dynamics,
+    required dynamic dynamics,
   }) {
-    final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> _output = <Map<String, dynamic>>[];
 
-    if (Lister.checkCanLoop(dynamics) == true) {
-      for (final dynamic map in dynamics) {
-        _maps.add(map);
+    if (dynamics != null && dynamics is List){
+
+      final List<dynamic> _list = dynamics;
+
+      if (Lister.checkCanLoop(_list) == true) {
+        for (final dynamic object in _list) {
+          if (object != null && object is Map){
+            final Map<String, dynamic>? _map = jsonDecode(jsonEncode(object));
+            if (_map != null){
+              _output.add(_map);
+            }
+          }
+        }
       }
+
     }
 
-    return _maps;
+    return _output;
   }
   // --------------------
   /// NOT USED

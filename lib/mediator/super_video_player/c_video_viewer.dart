@@ -17,7 +17,6 @@ class VideoViewer extends StatelessWidget {
     required this.onVolumeChanged,
     required this.isChangingVolume,
     required this.errorIcon,
-    this.aspectRatio = 16 / 9,
     super.key
   });
   // --------------------------------------------------------------------------
@@ -26,7 +25,6 @@ class VideoViewer extends StatelessWidget {
    final double width;
    final ValueNotifier<VideoPlayerValue?>? videoValue;
    final VideoPlayerController? videoPlayerController;
-   final double? aspectRatio;
    final ValueChanged<double> onVolumeChanged;
    final ValueNotifier<bool> isChangingVolume;
    final String? errorIcon;
@@ -92,6 +90,10 @@ class VideoViewer extends StatelessWidget {
     required VideoPlayerValue? value,
   }){
 
+    // blog('value : $value : error ${value?.hasError} : init ${value?.isInitialized}');
+
+    // return true;
+
     if (value == null) {
       return false;
     }
@@ -112,12 +114,6 @@ class VideoViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double _boxHeight = VideoBox.getHeightByAspectRatio(
-      width: width,
-      aspectRatio: aspectRatio,
-      force169: false,
-    );
-
     // final double _boxWidth = 0;
     // final double _videoWidth = 0;
     // final double _videoHeight = 0;
@@ -129,6 +125,14 @@ class VideoViewer extends StatelessWidget {
       return ValueListenableBuilder(
         valueListenable: videoValue!,
         builder: (_, VideoPlayerValue? value, Widget? child) {
+
+          final double _boxHeight = VideoBox.getHeightByAspectRatio(
+            width: width,
+            aspectRatio: value?.aspectRatio,//aspectRatio ?? value?.aspectRatio ?? 0,
+            force169: false,
+          );
+
+          // blog('value?.aspectRatio : ${1 / value!.aspectRatio} : ${19/6}');
 
           // final double _videoHeight = getHeightByAspectRatio(
           //   width: width,
@@ -174,14 +178,24 @@ class VideoViewer extends StatelessWidget {
               alignment: Alignment.center,
               children: <Widget>[
 
+                /// CHILD
                 Container(
                   width: width,
                   height: _boxHeight,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(width * 0.03),
-                    color: Colorz.black255,
+                    // color: Colorz.bloodTest,
                   ),
-                  child: _showVideo == true ? child : const SizedBox(),
+                  child: _showVideo == false ? const SizedBox()
+                  :
+                  Card(
+                      clipBehavior: Clip.antiAlias,
+                      /// to clip the child corners to be circular forcefully
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(width * 0.02)),
+                      // color: Colorz.black255,
+                      child: VideoPlayer(videoPlayerController!)
+                  )
+                  ,
                 ),
 
                 /// LOADING
@@ -205,6 +219,7 @@ class VideoViewer extends StatelessWidget {
                     opacity: 0.5,
                   ),
 
+                /// ERROR ICON
                 if (value != null && value.hasError == true)
                   SuperBox(
                     height: width * 0.2,
@@ -214,6 +229,7 @@ class VideoViewer extends StatelessWidget {
                     opacity: 0.1,
                   ),
 
+                /// VOLUME SLIDER
                 if (value?.hasError == false)
                 ValueListenableBuilder(
                   valueListenable: isChangingVolume,
@@ -276,16 +292,12 @@ class VideoViewer extends StatelessWidget {
             ),
           );
         },
-        child: SizedBox(
-          width: width,
-          height: _boxHeight,
-          child: Card(
-              clipBehavior: Clip.antiAlias,
-              /// to clip the child corners to be circular forcefully
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(width * 0.02)),
-              // color: Colorz.black255,
-              child: VideoPlayer(videoPlayerController!)
-          ),
+        child: Card(
+            clipBehavior: Clip.antiAlias,
+            /// to clip the child corners to be circular forcefully
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(width * 0.02)),
+            // color: Colorz.black255,
+            child: VideoPlayer(videoPlayerController!)
         ),
       );
     }
