@@ -1106,14 +1106,14 @@ class PicMaker {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> pickVideo({
+  static Future<File?> pickVideo({
     required BuildContext context,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
   }) async {
 
-    final List<Uint8List> _output = <Uint8List>[];
+    File? _output;
 
     final bool _canPick = await PermitProtocol.fetchGalleryPermit(
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
@@ -1151,21 +1151,23 @@ class PicMaker {
 
       if (Lister.checkCanLoop(pickedAssets) == true){
 
-        for (final AssetEntity asset in pickedAssets!){
+        _output = await pickedAssets!.first.file;
 
-          final Uint8List? _bytes = await Floaters.getBytesFromFile(await asset.file);
-
-          if (_bytes != null){
-            _output.add(_bytes);
-          }
-
-        }
+        // for (final AssetEntity asset in pickedAssets!){
+        //
+        //   final Uint8List? _bytes = await Floaters.getBytesFromFile(await asset.file);
+        //
+        //   if (_bytes != null){
+        //     _output.add(_bytes);
+        //   }
+        //
+        // }
 
       }
 
     }
 
-    return _output.firstOrNull;
+    return _output;
   }
 // -----------------------------------------------------------------------------
 

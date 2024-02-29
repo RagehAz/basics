@@ -17,6 +17,7 @@ class FloatingList extends StatelessWidget {
     this.physics = const BouncingScrollPhysics(),
     this.boxCorners,
     this.boxColor,
+    this.scrollController,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -31,6 +32,7 @@ class FloatingList extends StatelessWidget {
   final Alignment? boxAlignment;
   final dynamic boxCorners;
   final Color? boxColor;
+  final ScrollController? scrollController;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class FloatingList extends StatelessWidget {
         child: SingleChildScrollView(
           physics: physics,
           scrollDirection: scrollDirection,
+          controller: scrollController,
           child: Container(
             width: width ?? Scale.screenWidth(context),
             constraints: BoxConstraints(
@@ -72,6 +75,7 @@ class FloatingList extends StatelessWidget {
         child: SingleChildScrollView(
           physics: physics,
           scrollDirection: scrollDirection,
+          controller: scrollController,
           child: Container(
             height: height ?? Scale.screenHeight(context),
             constraints: BoxConstraints(

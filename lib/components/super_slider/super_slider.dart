@@ -1,0 +1,15 @@
+library super_slider;
+// -----------------------------------------------------------------------------
+import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/space/borderers.dart';
+import 'package:basics/components/drawing/spacing.dart';
+import 'package:flutter/material.dart';
+// -----------------------------------------------------------------------------
+part 'src/components/slider_box.dart';
+part 'src/components/tight_track_shape.dart';
+part 'src/super_slider_tree.dart';
+part 'src/varients/super_range_slider.dart';
+part 'src/varients/super_step_slider.dart';
+// -----------------------------------------------------------------------------

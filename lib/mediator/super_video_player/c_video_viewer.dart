@@ -34,6 +34,8 @@ class VideoViewer extends StatelessWidget {
     required VideoPlayerValue? value,
   }){
 
+    // blog('_videoIsLoading value.hasError : ${value?.hasError} : isInitialized : ${value?.isInitialized} : ${value?.isBuffering}');
+
     if (value == null) {
       return true;
     }
