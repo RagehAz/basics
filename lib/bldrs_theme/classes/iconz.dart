@@ -287,6 +287,8 @@ class Iconz {
   static const String pdf = '$iconDirectory/gi_pdf.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
   static const String colorCircle = '$iconDirectory/gi_color_circle.svg';
+  static const String recorder = '$iconDirectory/gi_recorder.svg';
+  static const String video = '$iconDirectory/gi_video.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -582,6 +584,8 @@ class Iconz {
       loveGold: true,
       lovesGold: true,
 
+      recorder: true,
+      video: true,
     };
 
     return _all.keys.toList();

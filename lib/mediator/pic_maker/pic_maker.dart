@@ -45,6 +45,8 @@ import 'text_delegates/picker_text_delegates.dart';
 enum PicMakerType {
   cameraImage,
   galleryImage,
+  cameraVideo,
+  galleryVideo,
   generated,
   downloaded,
 }
@@ -801,18 +803,22 @@ class PicMaker {
     switch (type){
       case PicMakerType.cameraImage:  return 'camera';
       case PicMakerType.galleryImage: return 'gallery';
-      case PicMakerType.generated: return 'generated';
-      case PicMakerType.downloaded: return 'downloaded';
+      case PicMakerType.cameraVideo:  return 'cameraVideo';
+      case PicMakerType.galleryVideo: return 'galleryVideo';
+      case PicMakerType.generated:    return 'generated';
+      case PicMakerType.downloaded:   return 'downloaded';
     }
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static PicMakerType? decipherPicMakerType(String? type){
     switch (type){
-      case 'camera':  return    PicMakerType.cameraImage;
-      case 'gallery': return    PicMakerType.galleryImage;
-      case 'generated': return  PicMakerType.generated;
-      case 'downloaded': return  PicMakerType.downloaded;
+      case 'camera':        return    PicMakerType.cameraImage;
+      case 'gallery':       return    PicMakerType.galleryImage;
+      case 'cameraVideo':   return    PicMakerType.cameraVideo;
+      case 'galleryVideo':  return    PicMakerType.galleryVideo;
+      case 'generated':     return    PicMakerType.generated;
+      case 'downloaded':    return    PicMakerType.downloaded;
       default: return null;
     }
   }
@@ -860,6 +866,7 @@ class PicMaker {
     int pageSize = 12,
     TextStyle? titleTextStyle,
     double? titleTextSpacing,
+    RequestType requestType = RequestType.image,
   }) async {
 
     return AssetPickerConfig(
@@ -869,7 +876,7 @@ class PicMaker {
       selectedAssets: selectedAssets,
 
       /// ASSETS TYPE
-      requestType: RequestType.image,
+      requestType: requestType,
 
       /// GRID AND SIZING
       gridCount: gridCount,
@@ -1094,4 +1101,72 @@ class PicMaker {
 
   }
   // -----------------------------------------------------------------------------
+
+  /// PICKER CONFIG
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> pickVideo({
+    required BuildContext context,
+    required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
+    required Function(String? error)? onError,
+  }) async {
+
+    final List<Uint8List> _output = <Uint8List>[];
+
+    final bool _canPick = await PermitProtocol.fetchGalleryPermit(
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+    );
+
+    if (_canPick == true){
+
+      List<AssetEntity>? pickedAssets = [];
+
+      await tryAndCatch(
+        invoker: '_pickMultiplePics',
+        onError: onError,
+        functions: () async {
+
+          pickedAssets = await AssetPicker.pickAssets(
+            context,
+            // pageRouteBuilder: ,
+            // useRootNavigator: true,
+            pickerConfig: await assetPickerConfig(
+              requestType: RequestType.video,
+              context: context,
+              maxAssets: 1,
+              selectedAssets: null,
+              langCode: langCode,
+              // titleTextStyle: ,
+              // textStyle: ,
+              // titleTextSpacing: ,
+              // gridCount: ,
+              // pageSize: ,
+            ),
+          );
+
+        },
+      );
+
+      if (Lister.checkCanLoop(pickedAssets) == true){
+
+        for (final AssetEntity asset in pickedAssets!){
+
+          final Uint8List? _bytes = await Floaters.getBytesFromFile(await asset.file);
+
+          if (_bytes != null){
+            _output.add(_bytes);
+          }
+
+        }
+
+      }
+
+    }
+
+    return _output.firstOrNull;
+  }
+// -----------------------------------------------------------------------------
+
 }
