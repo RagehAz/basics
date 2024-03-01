@@ -1,14 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/mediator/models/video_model.dart';
-import 'package:basics/mediator/super_video_player/b_video_box.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-// import 'package:youtube_metadata/youtube.dart' as meta;
+part of super_video_player;
 
 class YoutubeVideoPlayer extends StatefulWidget {
   // --------------------------------------------------------------------------
@@ -25,6 +15,56 @@ class YoutubeVideoPlayer extends StatefulWidget {
   // --------------------------------------------------------------------------
   @override
   State<YoutubeVideoPlayer> createState() => _YoutubeVideoPlayerState();
+  // -----------------------------------------------------------------------------
+
+  /// CHECKERS
+
+  // --------------------
+  /// AI TESTED
+  static bool checkIsValidYoutubeVideoID(String? videoID) {
+    if (videoID == null){
+      return false;
+    }
+    else {
+      final youtubeVideoIdPattern = RegExp(r'^[a-zA-Z0-9_-]+$');
+      return youtubeVideoIdPattern.hasMatch(videoID) && videoID.length <= 11;
+    }
+  }
+  // --------------------
+  /// AI TESTED
+  static bool checkIsValidYoutubeLink(String? link) {
+
+    if (TextCheck.isEmpty(link) == true){
+      return false;
+    }
+
+    else {
+      final youtubeLinkPattern = RegExp(
+          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
+      return youtubeLinkPattern.hasMatch(link!);
+    }
+
+  }
+  // --------------------
+  /// AI TESTED
+  static String? extractVideoIDFromYoutubeURL(String? youtubeURL) {
+    String? _output;
+
+    if (checkIsValidYoutubeLink(youtubeURL) == true) {
+
+      final youtubeLinkPattern = RegExp(
+          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
+
+      final match = youtubeLinkPattern.firstMatch(youtubeURL!);
+
+      if (match != null){
+        _output = match.group(3);
+      }
+
+    }
+
+    return _output;
+  }
   // --------------------------------------------------------------------------
 }
 
@@ -49,7 +89,7 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
   void initState() {
     super.initState();
 
-    final bool _isValidVideoID = VideoModel.checkIsValidYoutubeVideoID(widget.videoID);
+    final bool _isValidVideoID = YoutubeVideoPlayer.checkIsValidYoutubeVideoID(widget.videoID);
 
     if (_isValidVideoID == true && widget.videoID != null){
       _controller = YoutubePlayerController(

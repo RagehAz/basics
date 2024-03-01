@@ -1,10 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/mediator/super_video_player/b_video_box.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+part of super_video_player;
 
 class VideoViewer extends StatelessWidget {
   /// --------------------------------------------------------------------------

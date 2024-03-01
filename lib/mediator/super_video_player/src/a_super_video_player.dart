@@ -1,10 +1,4 @@
-import 'dart:io';
-import 'package:basics/mediator/models/video_model.dart';
-import 'package:basics/mediator/super_video_player/b_video_box.dart';
-import 'package:basics/mediator/super_video_player/d_youtube_video_player.dart';
-import 'package:basics/mediator/super_video_player/e_file_url_video_player.dart';
-import 'package:flutter/material.dart';
-
+part of super_video_player;
 
 class SuperVideoPlayer extends StatelessWidget {
   /// --------------------------------------------------------------------------
@@ -48,12 +42,12 @@ class SuperVideoPlayer extends StatelessWidget {
     /// URL
     else if (url != null){
 
-      final bool _isYoutubeLink = VideoModel.checkIsValidYoutubeLink(url);
+      final bool _isYoutubeLink = YoutubeVideoPlayer.checkIsValidYoutubeLink(url);
 
       /// YOUTUBE URL
       if (_isYoutubeLink == true){
         return YoutubeVideoPlayer(
-          videoID: VideoModel.extractVideoIDFromYoutubeURL(url),
+          videoID: YoutubeVideoPlayer.extractVideoIDFromYoutubeURL(url),
           width: width,
           autoPlay: autoPlay,
           /// LOOPING WAS NOT CONNECTED HERE

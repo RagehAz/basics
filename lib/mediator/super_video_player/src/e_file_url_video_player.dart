@@ -1,11 +1,4 @@
-import 'dart:io';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/filers.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-
-import 'c_video_viewer.dart';
+part of super_video_player;
 
 class FileAndURLVideoPlayer extends StatefulWidget {
   /// --------------------------------------------------------------------------

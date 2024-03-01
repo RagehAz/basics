@@ -1,6 +1,4 @@
-
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:flutter/material.dart';
+part of super_video_player;
 
 class VideoBox extends StatelessWidget {
   // --------------------------------------------------------------------------
