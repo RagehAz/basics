@@ -26,79 +26,6 @@ class FileAndURLVideoPlayer extends StatefulWidget {
   @override
   _FileAndURLVideoPlayerState createState() => _FileAndURLVideoPlayerState();
   // --------------------------------------------------------------------------
-  /// TESTED : WORKS PERFECT
-  static VideoPlayerController? initializeVideoController({
-    required ValueNotifier<VideoPlayerValue?> videoValue,
-    required bool mounted,
-    String? url,
-    String? asset,
-    File? file,
-    bool autoPlay = false,
-    bool loop = false,
-  }) {
-    VideoPlayerController? _output;
-
-    final String _link = url ??
-        'https://commondatastorage.googleapis'
-            '.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-
-    final VideoPlayerOptions _options = VideoPlayerOptions(
-      mixWithOthers: true,
-      // allowBackgroundPlayback: false,
-    );
-
-    if (url != null) {
-      _output = VideoPlayerController.networkUrl(Uri.parse(_link),
-          videoPlayerOptions: _options
-      );
-    }
-
-    if (asset != null) {
-      _output = VideoPlayerController.asset(asset,
-          videoPlayerOptions: _options
-      );
-    }
-
-    if (file != null) {
-      _output = VideoPlayerController.file(file,
-          videoPlayerOptions: _options
-      );
-    }
-
-    if (_output != null){
-      _output..initialize()..setVolume(1);
-    }
-
-    if (loop == true){
-      _output?.setLooping(true);
-    }
-
-    if (autoPlay == true){
-      _output?.play();
-    }
-    else {
-      _output?.pause();
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static void _listenToVideo({
-    required ValueNotifier<VideoPlayerValue?> videoValue,
-    required VideoPlayerController? videoPlayerController,
-    required bool mounted,
-  }) {
-    setNotifier(
-      notifier: videoValue,
-      mounted: mounted,
-      value: videoPlayerController?.value,
-      /// the configuration below fixes resetting videoValue while its disposed
-      // addPostFrameCallBack: false,
-      shouldHaveListeners: true,
-    );
-  }
-// --------------------------------------------------------------------------
 }
 
 class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
@@ -165,7 +92,7 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
     }
     // --------------------
     else {
-      return FileAndURLVideoPlayerX(
+      return _Player(
         controller: widget.controller,
         file: widget.file,
         url: widget.url,
@@ -181,9 +108,9 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
   // --------------------------------------------------------------------------
 }
 
-class FileAndURLVideoPlayerX extends StatefulWidget {
+class _Player extends StatefulWidget {
   /// --------------------------------------------------------------------------
-  const FileAndURLVideoPlayerX({
+  const _Player({
     this.file,
     this.asset,
     this.url,
@@ -192,7 +119,6 @@ class FileAndURLVideoPlayerX extends StatefulWidget {
     this.autoPlay = false,
     this.loop = false,
     this.errorIcon,
-    super.key
   });
   // --------------------
   final String? url;
@@ -205,7 +131,7 @@ class FileAndURLVideoPlayerX extends StatefulWidget {
   final String? errorIcon;
   /// --------------------------------------------------------------------------
   @override
-  _FileAndURLVideoPlayerXState createState() => _FileAndURLVideoPlayerXState();
+  _PlayerState createState() => _PlayerState();
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static VideoPlayerController? initializeVideoController({
@@ -278,7 +204,7 @@ class FileAndURLVideoPlayerX extends StatefulWidget {
   // --------------------------------------------------------------------------
 }
 
-class _FileAndURLVideoPlayerXState extends State<FileAndURLVideoPlayerX> {
+class _PlayerState extends State<_Player> {
   // --------------------------------------------------------------------------
   late ValueNotifier<VideoPlayerValue?> _videoValue;
   late ValueNotifier<bool> _isChangingVolume;
@@ -293,7 +219,7 @@ class _FileAndURLVideoPlayerXState extends State<FileAndURLVideoPlayerX> {
      _videoValue = ValueNotifier(null);
     _isChangingVolume = ValueNotifier(false);
 
-    _videoPlayerController = widget.controller ?? FileAndURLVideoPlayer.initializeVideoController(
+    _videoPlayerController = widget.controller ?? _Player.initializeVideoController(
       url: widget.url,
       file: widget.file,
       videoValue: _videoValue,
@@ -363,7 +289,7 @@ class _FileAndURLVideoPlayerXState extends State<FileAndURLVideoPlayerX> {
    */
   // --------------------
   void listen(){
-    FileAndURLVideoPlayer._listenToVideo(
+    _Player._listenToVideo(
       mounted: mounted,
       videoValue: _videoValue,
       videoPlayerController: _videoPlayerController,

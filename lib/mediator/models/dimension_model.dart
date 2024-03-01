@@ -19,6 +19,12 @@ class Dimensions {
   final double? height;
   // -----------------------------------------------------------------------------
 
+  /// ZERO
+
+  // --------------------
+  static Dimensions zero = const Dimensions(width: 0, height: 0,);
+  // -----------------------------------------------------------------------------
+
   /// CYPHERS
 
   // --------------------
@@ -44,6 +50,20 @@ class Dimensions {
       );
     }
     return _imageSize;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// toSize
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Size toSize(){
+    return Size(width ?? 0, height ?? 0);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Dimensions fromSize(Size? size){
+    return Dimensions(width: size?.width ?? 0, height: size?.height ?? 0);
   }
   // -----------------------------------------------------------------------------
 

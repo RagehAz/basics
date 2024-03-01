@@ -81,7 +81,7 @@ class ObjectCheck {
 
     return _isValidURL;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool isURLFormat(dynamic object) {
 
@@ -169,7 +169,7 @@ class ObjectCheck {
     //   return false;
     // }
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsFile(dynamic file) {
     bool _isFile = false;
@@ -191,7 +191,7 @@ class ObjectCheck {
 
     return _isFile;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsUint8List(dynamic object) {
     bool _isUint8List = false;
@@ -212,22 +212,17 @@ class ObjectCheck {
 
     return _isUint8List;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsSVG(dynamic object) {
-    bool _isSVG = false;
-
-    if (fileExtensionOf(object) == 'svg') {
-      _isSVG = true;
-    }
-
-    else {
-      _isSVG = false;
-    }
-
-    return _isSVG;
+    return fileExtensionOf(object) == 'svg';
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool objectIsGIF(dynamic object) {
+    return fileExtensionOf(object) == 'gif';
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsJPGorPNG(dynamic object) {
     bool _objectIsJPGorPNG = false;
@@ -251,7 +246,7 @@ class ObjectCheck {
 
     return _objectIsJPGorPNG;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsUiImage(dynamic object){
     bool _isUiImage = false;
@@ -266,7 +261,7 @@ class ObjectCheck {
 
     return _isUiImage;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsImgImage(dynamic object){
     bool _isImgImage = false;
@@ -281,7 +276,7 @@ class ObjectCheck {
 
     return _isImgImage;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   /// AI TESTED
   static bool objectIsPicPath(dynamic object){
     bool _isPicPath = false;
@@ -370,6 +365,4 @@ class ObjectCheck {
     return _isMinified;
   }
   // -----------------------------------------------------------------------------
-
-
 }
