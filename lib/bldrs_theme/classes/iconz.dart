@@ -115,6 +115,10 @@ class Iconz {
   static const String comTikTok = '$iconDirectory/com_tiktok.svg';
   static const String comPinterest = '$iconDirectory/com_pinterest.svg';
   static const String comGoogleLogo = '$iconDirectory/com_google_logo.svg';
+
+  static const String comAppStore = '$iconDirectory/com_app_store.svg';
+  static const String comAppGallery = '$iconDirectory/com_app_gallery.svg';
+
   // --------------------
   /// COMM PLAIN
   static const String comFacebookPlain = '$iconDirectory/com_facebook_plain.svg';
