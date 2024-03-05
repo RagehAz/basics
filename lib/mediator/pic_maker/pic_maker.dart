@@ -892,7 +892,7 @@ class PicMaker {
         /// FONT
         fontFamily: BldrsThemeFonts.fontHead,
         /// BACKGROUND COLOR
-        canvasColor: Colorz.blackSemi255,
+        canvasColor: Colorz.black255,
         /// BUTTON AND CHECK COLOR : DEPRECATED
         // accentColor: Colorz.yellow255,
         /// COLOR THEME
@@ -1169,6 +1169,122 @@ class PicMaker {
 
     return _output;
   }
-// -----------------------------------------------------------------------------
 
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> shootCameraVideo({
+    required BuildContext context,
+    required String langCode,
+    required Function(Permission) onPermissionPermanentlyDenied,
+    required Function(String? error)? onError,
+  }) async {
+
+    if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
+      return null;
+    }
+
+    else {
+
+      final bool _canShoot = await PermitProtocol.fetchCameraPermit(
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      );
+
+      if (_canShoot == true){
+        AssetEntity? entity;
+
+        await tryAndCatch(
+          invoker: '_shootCameraPic',
+          onError: onError,
+          functions: () async {
+
+            entity = await CameraPicker.pickFromCamera(
+              context,
+              pickerConfig: CameraPickerConfig(
+
+                /// TURNS - ORIENTATION
+                // cameraQuarterTurns: 1, // DEFAULT
+                lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
+
+                /// AUDIO
+                // enableAudio: true, // DEFAULT
+
+                /// EXPOSURE
+                // enableExposureControlOnPoint: true, // DEFAULT
+                // enableSetExposure: true, // DEFAULT
+
+                /// ZOOMING
+                // enablePinchToZoom: true, // DEFAULT
+                // enablePullToZoomInRecord: true, // DEFAULT
+
+                /// PREVIEW
+                // enableScaledPreview: true, // DEFAULT
+                // shouldAutoPreviewVideo: false, // DEFAULT
+                // shouldDeletePreviewFile: false, // DEFAULT
+
+                /// VIDEO
+                enableRecording: true,
+                enableTapRecording: true,
+                onlyEnableRecording: true,
+                maximumRecordingDuration: const Duration(seconds: 10), // DEFAULT
+
+                /// FORMAT
+                imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
+                // resolutionPreset: ResolutionPreset.max, // DEFAULT
+
+                /// CAMERA
+                // preferredLensDirection: CameraLensDirection.back, // DEFAULT
+
+                /// THEME - TEXTS
+                textDelegate: getCameraTextDelegateByLangCode(langCode),
+                // theme: ThemeData.dark(),
+
+                // onError: (Object object, StackTrace trace){
+                //   blog('onError : $object : trace : $trace');
+                // },
+                //
+                // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
+                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
+                //   return Container();
+                // },
+                //
+                // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
+                //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
+                // },
+                //
+                // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
+                //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
+                //   return true;
+                // },
+                //
+                // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
+                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
+                //   return Container();
+                // },
+
+              ),
+            );
+
+          },
+        );
+
+        if (entity == null){
+          return null;
+        }
+
+        else {
+          final File? _file = await entity!.file;
+          // final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
+          return _file;
+        }
+
+      }
+
+      else {
+        return null;
+      }
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }

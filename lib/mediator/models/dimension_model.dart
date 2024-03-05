@@ -71,12 +71,18 @@ class Dimensions {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  double? getAspectRatio(){
-    double? _output;
+  double getAspectRatio(){
+    double _output = 1;
 
-    if (width != null && height != null){
+    final double _width = width ?? 0;
+    final double _height = height ?? 0;
+
+    if (_width == 0 || _height == 0){
+      _output = 1;
+    }
+    else {
       /// ASPECT RATIO IS WITH / HEIGHT
-      _output = width! / height!;
+      _output = _width / _height;
     }
 
     return _output;
