@@ -1,11 +1,18 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/floaters.dart';
+import 'package:basics/helpers/files/filers.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/nums/numeric.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/media_information.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
+
 /// => TAMAM
 @immutable
 class Dimensions {
@@ -126,7 +133,81 @@ class Dimensions {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Dimensions?> superDimensions(dynamic image) async {
+  static Future<Dimensions?> superDimensions(dynamic media) async {
+    Dimensions? _dimensions;
+
+    if (media != null) {
+
+      final bool _isURL = ObjectCheck.isAbsoluteURL(media) == true;
+      final bool _isFile = ObjectCheck.objectIsFile(media) == true;
+      final bool _isUints = ObjectCheck.objectIsUint8List(media) == true;
+
+      if (_isURL == true){
+        final String _url = media;
+        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _url);
+      }
+      else if (_isFile == true){
+        final File _file = media;
+        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
+      }
+      else if (_isUints == true){
+        final Uint8List _bytes = media;
+        final File? _file = await Filers.getFileFromUint8List(
+            uInt8List: _bytes,
+            fileName: Numeric.createUniqueID().toString(),
+        );
+        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file?.path);
+      }
+
+    }
+
+    return _dimensions;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Dimensions?> _getDimensionsFromFilePathOrURL({
+    required String? filePathOrURL,
+  }) async {
+    Dimensions? _output;
+
+    if (filePathOrURL != null){
+
+      /// '<file path or url>'
+      final MediaInformationSession session = await FFprobeKit.getMediaInformation(filePathOrURL);
+      final MediaInformation? information = session.getMediaInformation();
+
+      if (information == null) {
+        // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
+        // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
+        // final returnCode = await session.getReturnCode();
+        // final failStackTrace = await session.getFailStackTrace();
+        // final duration = await session.getDuration();
+        // final output = await session.getOutput();
+      }
+
+      else {
+        final Map<dynamic, dynamic>? _maw = information.getAllProperties();
+        final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
+        final List<Object?> _objects = _map['streams'];
+        final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
+
+        if( Lister.checkCanLoop(_maps) == true){
+          final Map<String, dynamic>? _data = _maps.first;
+          final int? height = _data?['height'];
+          final int? _width = _data?['width'];
+          _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /*
+  /// TESTED : WORKS PERFECT
+  static Future<Dimensions?> superImageDimensionsOld(dynamic image) async {
     Dimensions? _dimensions;
 
     if (image != null) {
@@ -187,6 +268,7 @@ class Dimensions {
 
     return _dimensions;
   }
+   */
   // -----------------------------------------------------------------------------
 
   /// BLOGGING

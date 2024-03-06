@@ -21,7 +21,6 @@ import 'package:ffmpeg_kit_flutter/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:video_editor/video_editor.dart';
 
-
 class VideoOps {
   // --------------------------------------------------------------------------
 
