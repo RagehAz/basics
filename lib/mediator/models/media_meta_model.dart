@@ -20,11 +20,11 @@ class MediaMetaModel {
   // -----------------------------------------------------------------------------
   const MediaMetaModel({
     required this.ownersIDs,
+    required this.fileType,
     this.width,
     this.height,
     this.name,
     this.sizeMB,
-    this.fileType,
     this.data,
   });
   // -----------------------------------------------------------------------------
@@ -69,11 +69,11 @@ class MediaMetaModel {
   Map<String, dynamic> cipherToLDB(){
     return <String, dynamic>{
       'ownersIDs': ownersIDs,
+      'fileType': FileTyper.cipherType(fileType),
       'width': width,
       'height': height,
       'name': name,
       'sizeMB': sizeMB,
-      'fileType': FileTyper.cipherType(fileType),
       'data': data,
     };
   }
@@ -85,6 +85,7 @@ class MediaMetaModel {
     if (map != null){
       _output = MediaMetaModel(
         ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
+        fileType: FileTyper.decipherType(map['fileType']),
         width: map['width'],
         height: map['height'],
         name: map['name'],
@@ -131,6 +132,7 @@ class MediaMetaModel {
           map: customMetadata,
           value: 'cool',
         ),
+        fileType: FileTyper.decipherType(customMetadata['fileType']),
         width: Numeric.transformStringToDouble(customMetadata['width']),
         height: Numeric.transformStringToDouble(customMetadata['height']),
         name: customMetadata['name'],
@@ -283,11 +285,13 @@ class MediaMetaModel {
     else if (meta1 != null && meta2 != null){
 
       if (
-      Lister.checkListsAreIdentical(list1: meta1.ownersIDs, list2: meta2.ownersIDs) == true
+          Lister.checkListsAreIdentical(list1: meta1.ownersIDs, list2: meta2.ownersIDs) == true
           &&
           meta1.width == meta2.width
           &&
           meta1.height == meta2.height
+          &&
+          meta1.fileType == meta2.fileType
           &&
           meta1.sizeMB == meta2.sizeMB
           &&
@@ -434,9 +438,12 @@ class MediaMetaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static MediaMetaModel emptyModel(){
-    return const MediaMetaModel(
-      ownersIDs: [],
+  static MediaMetaModel emptyModel({
+    required FileType fileType,
+  }){
+    return MediaMetaModel(
+      ownersIDs: const [],
+      fileType: fileType,
       // name: null,
       // data: null,
       // width: null,

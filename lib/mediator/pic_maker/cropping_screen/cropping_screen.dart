@@ -171,6 +171,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
     final double _screenHeight = Scale.screenHeight(context);
 
     return BasicLayout(
+      safeAreaIsOn: true,
       // backgroundColor: Colorz.red255,
       body:  Column(
         children: <Widget>[

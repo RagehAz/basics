@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
+import 'package:basics/helpers/checks/device_checker.dart';
+import 'package:basics/mediator/configs/camera_text_delegates.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,10 +11,10 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 import '../configs/picker_text_delegates.dart';
 
-class AssetPickerConfigs {
+class WeChatPickerConfigs {
   // -----------------------------------------------------------------------------
 
-  const AssetPickerConfigs();
+  const WeChatPickerConfigs();
 
   // -----------------------------------------------------------------------------
 
@@ -20,8 +22,7 @@ class AssetPickerConfigs {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<AssetPickerConfig> configs({
-    required BuildContext context,
+  static AssetPickerConfig picker({
     required int maxAssets,
     required List<AssetEntity>? selectedAssets,
     required String? langCode,
@@ -31,7 +32,7 @@ class AssetPickerConfigs {
     TextStyle? titleTextStyle,
     double? titleTextSpacing,
     RequestType requestType = RequestType.image,
-  }) async {
+  }) {
 
     return AssetPickerConfig(
 
@@ -266,7 +267,79 @@ class AssetPickerConfigs {
   }
   // -----------------------------------------------------------------------------
 
+  /// CAMERA CONFIG
 
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static CameraPickerConfig camera({
+    required String? langCode,
+    required bool isVideo,
+  }){
+
+    return CameraPickerConfig(
+
+      /// TURNS - ORIENTATION
+      // cameraQuarterTurns: 1, // DEFAULT
+      lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
+
+      /// AUDIO
+      enableAudio: isVideo, // DEFAULT
+
+      /// EXPOSURE
+      // enableExposureControlOnPoint: true, // DEFAULT
+      // enableSetExposure: true, // DEFAULT
+
+      /// ZOOMING
+      // enablePinchToZoom: true, // DEFAULT
+      // enablePullToZoomInRecord: true, // DEFAULT
+
+      /// PREVIEW
+      // enableScaledPreview: true, // DEFAULT
+      // shouldAutoPreviewVideo: false, // DEFAULT
+      // shouldDeletePreviewFile: false, // DEFAULT
+
+      /// VIDEO
+      enableRecording: isVideo,
+      enableTapRecording: isVideo,
+      onlyEnableRecording: isVideo,
+      maximumRecordingDuration: const Duration(seconds: 10), // DEFAULT
+
+      /// FORMAT
+      imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
+      // resolutionPreset: ResolutionPreset.max, // DEFAULT
+
+      /// CAMERA
+      // preferredLensDirection: CameraLensDirection.back, // DEFAULT
+
+      /// THEME - TEXTS
+      textDelegate: getCameraTextDelegateByLangCode(langCode),
+      // theme: ThemeData.dark(),
+
+      // onError: (Object object, StackTrace trace){
+      //   blog('onError : $object : trace : $trace');
+      // },
+      //
+      // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
+      //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
+      //   return Container();
+      // },
+      //
+      // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
+      //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
+      // },
+      //
+      // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
+      //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
+      //   return true;
+      // },
+      //
+      // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
+      //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
+      //   return Container();
+      // },
+
+    );
+
+  }
   // -----------------------------------------------------------------------------
-  void f(){}
 }

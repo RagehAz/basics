@@ -9,9 +9,19 @@ import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
+import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_meta_model.dart';
-import 'package:basics/mediator/pic_maker/pic_maker.dart';
 import 'package:flutter/foundation.dart';
+
+enum MediaOrigin {
+  cameraImage,
+  galleryImage,
+  cameraVideo,
+  galleryVideo,
+  generated,
+  downloaded,
+}
+
 /// => TAMAM
 @immutable
 class MediaModel {
@@ -95,6 +105,35 @@ class MediaModel {
   }
   // -----------------------------------------------------------------------------
 
+  /// MEDIA SOURCE CYPHERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String cipherMediaOrigin(MediaOrigin type){
+    switch (type){
+      case MediaOrigin.cameraImage:  return 'camera';
+      case MediaOrigin.galleryImage: return 'gallery';
+      case MediaOrigin.cameraVideo:  return 'cameraVideo';
+      case MediaOrigin.galleryVideo: return 'galleryVideo';
+      case MediaOrigin.generated:    return 'generated';
+      case MediaOrigin.downloaded:   return 'downloaded';
+    }
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static MediaOrigin? decipherMediaOrigin(String? type){
+    switch (type){
+      case 'camera':        return    MediaOrigin.cameraImage;
+      case 'gallery':       return    MediaOrigin.galleryImage;
+      case 'cameraVideo':   return    MediaOrigin.cameraVideo;
+      case 'galleryVideo':  return    MediaOrigin.galleryVideo;
+      case 'generated':     return    MediaOrigin.generated;
+      case 'downloaded':    return    MediaOrigin.downloaded;
+      default: return null;
+    }
+  }
+  // -----------------------------------------------------------------------------
+
   /// ASSERTIONS
 
   // --------------------
@@ -141,7 +180,8 @@ class MediaModel {
 
         final MediaModel? _pic = await combinePicModel(
             bytes: _bytes,
-            picMakerType: PicMakerType.generated,
+            fileType: FileType.jpeg,
+            mediaOrigin: MediaOrigin.generated,
             compressWithQuality: 80,
             assignPath: '',
             ownersIDs: [],
@@ -183,7 +223,8 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> combinePicModel({
     required Uint8List? bytes,
-    required PicMakerType picMakerType,
+    required MediaOrigin mediaOrigin,
+    required FileType fileType,
     required int? compressWithQuality,
     required String? assignPath,
     required List<String> ownersIDs,
@@ -234,16 +275,16 @@ class MediaModel {
             sizeMB: _mega,
             width: _dims.width,
             height: _dims.height,
+            fileType: fileType,
             name: name,
             ownersIDs: ownersIDs,
-
             data: MapperSS.cleanNullPairs(
               map: {
                 'aspectRatio': _aspectRatio.toString(),
                 'sizeB': bytes.length.toString(),
                 'sizeKB': _kilo.toString(),
                 'compressionQuality': compressWithQuality?.toString(),
-                'source': PicMaker.cipherPicMakerType(picMakerType),
+                'source': cipherMediaOrigin(mediaOrigin),
                 'deviceID': _deviceID,
                 'deviceName': _deviceName,
                 'platform': _devicePlatform,
@@ -316,6 +357,7 @@ class MediaModel {
       bytes: Uint8List.fromList([1,2,3]),
       meta: MediaMetaModel(
         ownersIDs: const ['OwnerID'],
+        fileType: FileType.jpeg,
         name: 'Dummy Pic',
         width: 100,
         height: 100,
@@ -325,7 +367,7 @@ class MediaModel {
           'sizeB': '100',
           'sizeKB': '0.1',
           'compressionQuality': '100',
-          'source': PicMaker.cipherPicMakerType(PicMakerType.generated),
+          'source': cipherMediaOrigin(MediaOrigin.generated),
           'deviceID': 'Dummy Device ID',
           'deviceName': 'Dummy Device Name',
           'platform': 'Dummy Platform',

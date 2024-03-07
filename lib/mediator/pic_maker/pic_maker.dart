@@ -22,7 +22,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-import '../configs/camera_text_delegates.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING
@@ -38,26 +37,6 @@ import '../configs/camera_text_delegates.dart';
 // ),
  */
 // -----------------------------------------------------------------------------
-
-enum PicMakerType {
-  cameraImage,
-  galleryImage,
-  cameraVideo,
-  galleryVideo,
-  generated,
-  downloaded,
-}
-
-// enum PicType {
-//   userPic,
-//   authorPic,
-//   bzLogo,
-//   slideHighRes,
-//   slideLowRes,
-//   dum,
-//   askPic,
-//   notiBanner,
-// }
 
 /// => TAMAM
 class PicMaker {
@@ -284,8 +263,7 @@ class PicMaker {
             context,
             // pageRouteBuilder: ,
             // useRootNavigator: true,
-            pickerConfig: await AssetPickerConfigs.configs(
-              context: context,
+            pickerConfig: WeChatPickerConfigs.picker(
               maxAssets: maxAssets,
               selectedAssets: selectedAssets,
               langCode: langCode,
@@ -335,6 +313,7 @@ class PicMaker {
     int? compressWithQuality,
     String confirmText = 'Crop',
     Function(String? error)? onError,
+    Locale? locale,
   }) async {
 
     Uint8List? _output;
@@ -345,6 +324,7 @@ class PicMaker {
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       onError: onError,
+      locale: locale,
     );
 
     /// CROP -> RESIZE -> COMPRESS
@@ -395,6 +375,7 @@ class PicMaker {
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
+    required Locale? locale,
   }) async {
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
@@ -417,69 +398,14 @@ class PicMaker {
 
             entity = await CameraPicker.pickFromCamera(
               context,
-              pickerConfig: CameraPickerConfig(
-
-                /// TURNS - ORIENTATION
-                // cameraQuarterTurns: 1, // DEFAULT
-                lockCaptureOrientation: DeviceOrientation.portraitUp, // DEFAULT
-
-                /// AUDIO
-                // enableAudio: true, // DEFAULT
-
-                /// EXPOSURE
-                // enableExposureControlOnPoint: true, // DEFAULT
-                // enableSetExposure: true, // DEFAULT
-
-                /// ZOOMING
-                // enablePinchToZoom: true, // DEFAULT
-                // enablePullToZoomInRecord: true, // DEFAULT
-
-                /// PREVIEW
-                // enableScaledPreview: true, // DEFAULT
-                // shouldAutoPreviewVideo: false, // DEFAULT
-                // shouldDeletePreviewFile: false, // DEFAULT
-
-                /// VIDEO
-                // enableRecording: false, // DEFAULT
-                // enableTapRecording: false, // DEFAULT
-                // onlyEnableRecording: false, // DEFAULT
-                // maximumRecordingDuration: const Duration(seconds: 15), // DEFAULT
-
-                /// FORMAT
-                imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
-                // resolutionPreset: ResolutionPreset.max, // DEFAULT
-
-                /// CAMERA
-                // preferredLensDirection: CameraLensDirection.back, // DEFAULT
-
-                /// THEME - TEXTS
-                textDelegate: getCameraTextDelegateByLangCode(langCode),
-                // theme: ThemeData.dark(),
-
-                // onError: (Object object, StackTrace trace){
-                //   blog('onError : $object : trace : $trace');
-                // },
-                //
-                // foregroundBuilder: (BuildContext ctx, CameraController cameraController){
-                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController?.cameraId}');
-                //   return Container();
-                // },
-                //
-                // onEntitySaving: (BuildContext xxx, CameraPickerViewType cameraPickerViewType, File file) async {
-                //   blog('onEntitySaving : cameraPickerViewType : ${cameraPickerViewType.name} : file : ${file.path}');
-                // },
-                //
-                // onXFileCaptured: (XFile xFile, CameraPickerViewType cameraPickerViewType){
-                //   blog('onXFileCaptured : cameraPickerViewType : ${cameraPickerViewType.name} : xFile : ${xFile.path}');
-                //   return true;
-                // },
-                //
-                // previewTransformBuilder: (BuildContext xyz, CameraController cameraController, Widget widget){
-                //   blog('onXFileCaptured : cameraController.cameraId : ${cameraController.cameraId}');
-                //   return Container();
-                // },
-
+              pickerConfig: WeChatPickerConfigs.camera(
+                langCode: langCode,
+                isVideo: false,
               ),
+              locale: locale,
+              // useRootNavigator: ,
+              // pageRouteBuilder: ,
+              // createPickerState: ,
             );
 
             },
@@ -792,35 +718,6 @@ class PicMaker {
   }
   // -----------------------------------------------------------------------------
 
-  /// CYPHERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String cipherPicMakerType(PicMakerType type){
-    switch (type){
-      case PicMakerType.cameraImage:  return 'camera';
-      case PicMakerType.galleryImage: return 'gallery';
-      case PicMakerType.cameraVideo:  return 'cameraVideo';
-      case PicMakerType.galleryVideo: return 'galleryVideo';
-      case PicMakerType.generated:    return 'generated';
-      case PicMakerType.downloaded:   return 'downloaded';
-    }
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static PicMakerType? decipherPicMakerType(String? type){
-    switch (type){
-      case 'camera':        return    PicMakerType.cameraImage;
-      case 'gallery':       return    PicMakerType.galleryImage;
-      case 'cameraVideo':   return    PicMakerType.cameraVideo;
-      case 'galleryVideo':  return    PicMakerType.galleryVideo;
-      case 'generated':     return    PicMakerType.generated;
-      case 'downloaded':    return    PicMakerType.downloaded;
-      default: return null;
-    }
-  }
-  // -----------------------------------------------------------------------------
-
   /// BLOGGING
 
   // --------------------
@@ -848,5 +745,4 @@ class PicMaker {
     blog('blogPictureInfo : END');
   }
   // -----------------------------------------------------------------------------
-
 }
