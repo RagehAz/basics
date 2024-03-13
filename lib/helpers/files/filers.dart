@@ -641,7 +641,9 @@ class Filers {
               );
 
               if (_lastModifiedAreIdentical == true){
-                _identical = true;
+                // if (Lister.checkListsAreIdentical(list1: file1.readAsBytesSync(), list2: file2.readAsBytesSync()) == true){
+                  _identical = true;
+                // }
               }
 
             }

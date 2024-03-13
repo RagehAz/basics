@@ -214,6 +214,9 @@ class Numeric {
       if (addPlus == true && value > 0){
         _output = '+$_output';
       }
+      if (addPlus == true && value < 0){
+        _output = '-$_output';
+      }
       if (addPlus == true && value == 0){
         _output = '±$_output';
       }

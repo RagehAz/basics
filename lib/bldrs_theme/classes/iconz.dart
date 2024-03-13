@@ -130,6 +130,9 @@ class Iconz {
   static const String comTikTokPlain = '$iconDirectory/com_tiktok_plain.svg';
   static const String comPinterestPlain = '$iconDirectory/com_pinterest_plain.svg';
   static const String comSnapchatPlain = '$iconDirectory/com_snapchat_plain.svg';
+
+  static const String comAppStorePlain = '$iconDirectory/com_app_store_plain.svg';
+  static const String comGooglePlayPlain = '$iconDirectory/com_google_play_plain.svg';
   // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';
@@ -590,6 +593,9 @@ class Iconz {
 
       recorder: true,
       video: true,
+
+      comAppStorePlain: true,
+      comGooglePlayPlain: true,
     };
 
     return _all.keys.toList();

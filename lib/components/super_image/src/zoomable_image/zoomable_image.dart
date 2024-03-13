@@ -224,9 +224,6 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
         maxScale: widget.maxZoom,
         minScale: widget.minZoom,
         boundaryMargin: const EdgeInsets.all(double.infinity),
-
-        // panAxis: PanAxis.free,
-
         /// MOUSE SCROLL SCALING
         // scaleFactor: 0.1,
         alignment: Alignment.center,

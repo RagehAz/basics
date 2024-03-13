@@ -545,4 +545,22 @@ class VideoOps {
 
   }
   // --------------------------------------------------------------------------
+
+  /// CHECKERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkVideoEditorVideosAreIdentical({
+    required VideoEditorController? oldController,
+    required VideoEditorController? newController,
+  }){
+
+    final bool _filesAreIdentical = Filers.checkFilesAreIdentical(
+      file1: oldController?.file,
+      file2: newController?.file,
+    );
+
+    return _filesAreIdentical;
+  }
+  // --------------------------------------------------------------------------
 }

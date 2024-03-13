@@ -17,10 +17,10 @@ abstract class Colorz {
   static const Color black230 = Color.fromARGB(230, 0, 0, 0);
   static const Color black255 = Color.fromARGB(255, 0, 0, 0);
   // --------------------
-  static const Color blackSemi20 = Color.fromARGB(20, 20, 20, 35);
-  static const Color blackSemi125 = Color.fromARGB(125, 20, 20, 35);
-  static const Color blackSemi230 = Color.fromARGB(230, 20, 20, 35);
-  static const Color blackSemi255 = Color.fromARGB(255, 20, 20, 35);
+  static const Color blackSemi20 = Color.fromARGB(20, 18, 18, 18);
+  static const Color blackSemi125 = Color.fromARGB(125, 18, 18, 18);
+  static const Color blackSemi230 = Color.fromARGB(230, 18, 18, 18);
+  static const Color blackSemi255 = Color.fromARGB(255, 18, 18, 18);
   // --------------------
   static const Color cyan10 = Color.fromARGB(10, 201, 232, 239);
   static const Color cyan50 = Color.fromARGB(50, 201, 232, 239);
