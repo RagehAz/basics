@@ -52,6 +52,8 @@ dependencies:
   intl: ^0.18.0
   ffmpeg_kit_flutter: ^6.0.3
   video_editor: ^3.0.0
+  cross_file_image: ^1.1.0
+  cross_file: ^0.3.3+7
 #dependency_overrides:
 #  intl: ^0.18.1
   # --------------------------------------------------------------------------------

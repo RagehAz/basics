@@ -8,6 +8,7 @@ import 'package:basics/helpers/files/filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
 import 'package:ffmpeg_kit_flutter/media_information_session.dart';
@@ -140,6 +141,7 @@ class Dimensions {
 
       final bool _isURL = ObjectCheck.isAbsoluteURL(media) == true;
       final bool _isFile = ObjectCheck.objectIsFile(media) == true;
+      final bool _isXFile = ObjectCheck.objectIsXFile(media) == true;
       final bool _isUints = ObjectCheck.objectIsUint8List(media) == true;
 
       if (_isURL == true){
@@ -148,6 +150,10 @@ class Dimensions {
       }
       else if (_isFile == true){
         final File _file = media;
+        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
+      }
+      else if (_isXFile == true){
+        final XFile _file = media;
         _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
       }
       else if (_isUints == true){

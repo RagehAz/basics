@@ -21,6 +21,7 @@ class MediaMetaModel {
   const MediaMetaModel({
     required this.ownersIDs,
     required this.fileType,
+    required this.uploadPath,
     this.width,
     this.height,
     this.name,
@@ -35,6 +36,7 @@ class MediaMetaModel {
   final double? sizeMB;
   final FileType? fileType;
   final Map<String, String>? data;
+  final String? uploadPath;
   // -----------------------------------------------------------------------------
 
   /// CLONING
@@ -49,6 +51,7 @@ class MediaMetaModel {
     double? sizeMB,
     FileType? fileType,
     Map<String, String>? data,
+    String? uploadPath,
   }){
     return MediaMetaModel(
       ownersIDs: ownersIDs ?? this.ownersIDs,
@@ -58,6 +61,7 @@ class MediaMetaModel {
       sizeMB: sizeMB ?? this.sizeMB,
       fileType: fileType ?? this.fileType,
       data: data ?? this.data,
+      uploadPath: uploadPath ?? this.uploadPath,
     );
   }
   // -----------------------------------------------------------------------------
@@ -75,6 +79,7 @@ class MediaMetaModel {
       'name': name,
       'sizeMB': sizeMB,
       'data': data,
+      'uploadPath': uploadPath,
     };
   }
   // --------------------
@@ -91,6 +96,7 @@ class MediaMetaModel {
         name: map['name'],
         sizeMB: map['sizeMB'],
         data: _getDataMap(map['data']),
+        uploadPath: map['uploadPath'],
       );
     }
 
@@ -138,6 +144,7 @@ class MediaMetaModel {
         name: customMetadata['name'],
         sizeMB: Numeric.transformStringToDouble(customMetadata['sizeMB']),
         data: _getRemainingData(customMetadata),
+        uploadPath: customMetadata['uploadPath'],
       );
 
     }
@@ -186,7 +193,7 @@ class MediaMetaModel {
   static Future<MediaMetaModel?> completeMeta({
     required Uint8List? bytes,
     required MediaMetaModel? meta,
-    required String? path,
+    required String? uploadPath,
   }) async {
     MediaMetaModel? _output = meta;
 
@@ -215,13 +222,18 @@ class MediaMetaModel {
       );
     }
 
-    blog('meta?.name : ${meta?.name} : path : $path');
+    /// UPLOAD PATH
+    if (TextCheck.isEmpty(meta?.uploadPath) == false){
+      _output = _output?.copyWith(
+        uploadPath: uploadPath,
+      );
+    }
 
     /// NAME
-    if (TextCheck.isEmpty(meta?.name?.trim()) == true && path != null){
+    if (TextCheck.isEmpty(meta?.name?.trim()) == true && uploadPath != null){
 
       final String? _name = TextMod.removeTextBeforeLastSpecialCharacter(
-        text: path,
+        text: uploadPath,
         specialCharacter: '/',
       );
 
@@ -256,8 +268,8 @@ class MediaMetaModel {
 
       blog(
           'name : ${model.name} : '
-              'height : ${model.height} : width : '
-              '${model.width} : sizeMB : ${model.sizeMB}'
+          'height : ${model.height} : width : '
+          '${model.width} : sizeMB : ${model.sizeMB} : uploadPath : ${model.uploadPath}'
       );
       Stringer.blogStrings(strings: model.ownersIDs, invoker: 'model.ownersIDs');
       Mapper.blogMap(model.data, invoker: 'blogStorageMetaModel.data');
@@ -296,6 +308,8 @@ class MediaMetaModel {
           meta1.sizeMB == meta2.sizeMB
           &&
           meta1.name == meta2.name
+          &&
+          meta1.uploadPath == meta2.uploadPath
           &&
           Mapper.checkMapsAreIdentical(map1: meta1.data, map2: meta2.data) == true
       ){
@@ -444,6 +458,7 @@ class MediaMetaModel {
     return MediaMetaModel(
       ownersIDs: const [],
       fileType: fileType,
+      uploadPath: null,
       // name: null,
       // data: null,
       // width: null,
@@ -467,6 +482,7 @@ class MediaMetaModel {
           height : $height,
           sizeMB : $sizeMB,
           name : $name,
+          uploadPath: $uploadPath,
           fileType: ${FileTyper.cipherType(fileType)},
           data : $data,
         )
@@ -501,6 +517,7 @@ class MediaMetaModel {
       sizeMB.hashCode^
       fileType.hashCode^
       name.hashCode^
+      uploadPath.hashCode^
       data.hashCode;
   // -----------------------------------------------------------------------------
 }

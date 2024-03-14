@@ -8,6 +8,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'dart:convert';
+import 'package:cross_file/cross_file.dart';
 
 extension FileExtention on FileSystemEntity {
   String get fileNameWithExtension {
@@ -188,6 +189,34 @@ class ObjectCheck {
     else {
       blog('objectIsFile : isFile : null');
     }
+
+    return _isFile;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool objectIsXFile(dynamic file) {
+    bool _isFile = false;
+
+    if (file != null) {
+
+      final bool isFileA = file is XFile;
+      // final bool isFileB = file.runtimeType.toString() == '_File';
+
+      if (
+          isFileA == true
+          // ||
+          // isFileB == true
+      ) {
+        _isFile = true;
+      }
+
+    }
+
+    else {
+      blog('objectIsFile : isFile : null');
+    }
+
+    blog('objectIsXFile :$_isFile');
 
     return _isFile;
   }

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
@@ -11,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
 import 'package:image/image.dart' as img;
-
-import '../../super_image.dart';
+import 'package:cross_file/cross_file.dart';
+import 'package:cross_file_image/cross_file_image.dart';
 
 class ImageSwitcher extends StatelessWidget {
   /// --------------------------------------------------------------------------
@@ -217,6 +218,17 @@ class ImageSwitcher extends StatelessWidget {
           gaplessPlayback: _gaplessPlayback,
         );
       }
+      else if (ObjectCheck.objectIsXFile(pic) == true){
+        return Image(
+          image: XFileImage(pic),
+          key: const ValueKey<String>('SuperImage_xfile'),
+          fit: boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+      }
 
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
@@ -232,7 +244,7 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      /// BASE64 -> CONTRADICTS BUIDING TEXTS
+      /// BASE64 -> CONTRADICTS BUILDING TEXTS
       // else if (ObjectCheck.isBase64(pic) == true){
       //   return CachelessImage(
       //     key: const ValueKey<String>('SuperImage_base64'),

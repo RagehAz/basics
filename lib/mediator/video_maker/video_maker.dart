@@ -30,7 +30,7 @@ class VideoMaker {
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required int? compressWithQuality,
-    required String assignPath,
+    required String uploadPath,
     required List<String> ownersIDs,
     required String name,
   }) async {
@@ -81,7 +81,7 @@ class VideoMaker {
           bytes: _bytes,
           compressWithQuality: compressWithQuality,
           mediaOrigin: MediaOrigin.galleryVideo,
-          assignPath: assignPath,
+          uploadPath: uploadPath,
         );
 
       }
@@ -103,7 +103,7 @@ class VideoMaker {
     required Function(String? error)? onError,
     required Locale? locale,
     required int? compressWithQuality,
-    required String assignPath,
+    required String uploadPath,
     required List<String> ownersIDs,
     required String name,
   }) async {
@@ -142,7 +142,7 @@ class VideoMaker {
             bytes: _bytes,
             compressWithQuality: compressWithQuality,
             mediaOrigin: MediaOrigin.galleryVideo,
-            assignPath: assignPath,
+            uploadPath: uploadPath,
           );
 
         },

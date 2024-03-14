@@ -183,7 +183,7 @@ class MediaModel {
             fileType: FileType.jpeg,
             mediaOrigin: MediaOrigin.generated,
             compressWithQuality: 80,
-            assignPath: '',
+            uploadPath: '',
             ownersIDs: [],
             name: ''
         );
@@ -226,7 +226,7 @@ class MediaModel {
     required MediaOrigin mediaOrigin,
     required FileType fileType,
     required int? compressWithQuality,
-    required String? assignPath,
+    required String? uploadPath,
     required List<String> ownersIDs,
     required String name,
   }) async {
@@ -270,7 +270,7 @@ class MediaModel {
       else {
         _output = MediaModel(
           bytes: bytes,
-          path: assignPath,
+          path: uploadPath,
           meta: MediaMetaModel(
             sizeMB: _mega,
             width: _dims.width,
@@ -278,6 +278,7 @@ class MediaModel {
             fileType: fileType,
             name: name,
             ownersIDs: ownersIDs,
+            uploadPath: uploadPath,
             data: MapperSS.cleanNullPairs(
               map: {
                 'aspectRatio': _aspectRatio.toString(),
@@ -362,6 +363,7 @@ class MediaModel {
         width: 100,
         height: 100,
         sizeMB: 0.1,
+        uploadPath: 'storage/bldrs/bldrs_app_icon.png',
         data: {
           'aspectRatio': '1.0',
           'sizeB': '100',

@@ -13,6 +13,7 @@ import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits.dart';
 import 'package:basics/helpers/rest/rest.dart';
 import 'package:basics/helpers/strings/pathing.dart';
+import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:flutter/foundation.dart';
@@ -242,20 +243,38 @@ class Filers {
     }
 
     else {
+      return getFileNameFromFilePath(
+        filePath: file.path,
+        withExtension: withExtension,
+      );
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getFileNameFromFilePath({
+    required String? filePath,
+    required bool withExtension,
+  }){
+
+    if (kIsWeb == true || TextCheck.isEmpty(filePath) == true){
+      return null;
+    }
+
+    else {
       String? _fileName;
 
-        final String _path = file.path;
-        _fileName = TextMod.removeTextBeforeLastSpecialCharacter(
-            text: _path,
-            specialCharacter: _slash,
-        );
+      _fileName = TextMod.removeTextBeforeLastSpecialCharacter(
+        text: filePath,
+        specialCharacter: _slash,
+      );
 
-        if (withExtension == false) {
-          _fileName = TextMod.removeTextAfterLastSpecialCharacter(
-              text: _fileName,
-              specialCharacter: '.',
-          );
-        }
+      if (withExtension == false) {
+        _fileName = TextMod.removeTextAfterLastSpecialCharacter(
+          text: _fileName,
+          specialCharacter: '.',
+        );
+      }
 
       return _fileName;
     }
