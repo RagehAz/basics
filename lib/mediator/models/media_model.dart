@@ -28,13 +28,10 @@ class MediaModel {
   // -----------------------------------------------------------------------------
   const MediaModel({
     required this.bytes,
-    required this.path,
     required this.meta,
   });
   // -----------------------------------------------------------------------------
   final Uint8List? bytes;
-  /// storage/collectionName/subCollectionName/fileName.ext
-  final String? path;
   final MediaMetaModel? meta;
   // -----------------------------------------------------------------------------
 
@@ -44,12 +41,10 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   MediaModel copyWith({
     Uint8List? bytes,
-    String? path,
     MediaMetaModel? meta,
   }){
     return MediaModel(
       bytes: bytes ?? this.bytes,
-      path: path ?? this.path,
       meta: meta ?? this.meta,
     );
   }
@@ -57,13 +52,22 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   MediaModel nullifyField({
     bool bytes = false,
-    bool path = false,
     bool meta = false,
   }){
     return MediaModel(
       bytes: bytes   == true ? null : this.bytes,
-      path: path     == true ? null : this.path,
       meta: meta     == true ? null : this.meta,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  MediaModel overrideUploadPath({
+    required String? uploadPath
+  }){
+    return copyWith(
+      meta: meta?.copyWith(
+        uploadPath: uploadPath,
+      ),
     );
   }
   // -----------------------------------------------------------------------------
@@ -77,8 +81,8 @@ class MediaModel {
 
     if (picModel != null){
       _map = {
+        'path': picModel.meta?.uploadPath,
         'bytes': Floaters.getIntsFromBytes(picModel.bytes),
-        'path': picModel.path,
         'meta': picModel.meta?.cipherToLDB()
       };
     }
@@ -94,7 +98,6 @@ class MediaModel {
 
       _picModel = MediaModel(
         bytes: Floaters.getBytesFromInts(map['bytes']),
-        path: map['path'],
         meta: MediaMetaModel.decipherFromLDB(map['meta']),
       );
 
@@ -141,7 +144,6 @@ class MediaModel {
   static void assertIsUploadable(MediaModel? picModel){
     assert(picModel != null, 'picModel is null');
     assert(picModel?.bytes != null, 'bytes is null');
-    assert(picModel?.path != null, 'path is null');
     assert(picModel?.meta != null, 'meta is null');
   }
   // -----------------------------------------------------------------------------
@@ -270,7 +272,6 @@ class MediaModel {
       else {
         _output = MediaModel(
           bytes: bytes,
-          path: uploadPath,
           meta: MediaMetaModel(
             sizeMB: _mega,
             width: _dims.width,
@@ -314,7 +315,7 @@ class MediaModel {
     final double? _mega = Filers.calculateSize(bytes?.length, FileSizeUnit.megaByte);
     final double? _kilo = Filers.calculateSize(bytes?.length, FileSizeUnit.kiloByte);
 
-    blog('=> $invoker :: path : $path : ${bytes?.length} Bytes | '
+    blog('=> $invoker : ${bytes?.length} Bytes | '
         '[ (${meta?.width})w x (${meta?.height})h ] | '
         'owners : ${meta?.ownersIDs} | $_mega MB | $_kilo KB');
 
@@ -354,7 +355,6 @@ class MediaModel {
   static MediaModel dummyPic(){
 
     return MediaModel(
-      path: 'storage/bldrs/bldrs_app_icon.png',
       bytes: Uint8List.fromList([1,2,3]),
       meta: MediaMetaModel(
         ownersIDs: const ['OwnerID'],
@@ -396,7 +396,6 @@ class MediaModel {
     else if (pic1 != null && pic2 != null){
 
       if (
-          pic1.path == pic2.path &&
           pic1.bytes?.length == pic2.bytes?.length &&
           Lister.checkListsAreIdentical(list1: pic1.bytes, list2: pic2.bytes) == true &&
           MediaMetaModel.checkMetaDatasAreIdentical(meta1: pic1.meta, meta2: pic2.meta) == true
@@ -469,7 +468,6 @@ class MediaModel {
     '''
     PicModel(
       bytes: ${bytes?.length},
-      path: $path,
       meta: $meta
     );
     ''';
@@ -498,7 +496,6 @@ class MediaModel {
   @override
   int get hashCode =>
       meta.hashCode^
-      bytes.hashCode^
-      path.hashCode;
+      bytes.hashCode;
   // -----------------------------------------------------------------------------
 }

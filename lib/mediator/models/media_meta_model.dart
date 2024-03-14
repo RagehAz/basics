@@ -36,7 +36,7 @@ class MediaMetaModel {
   final double? sizeMB;
   final FileType? fileType;
   final Map<String, String>? data;
-  final String? uploadPath;
+  final String? uploadPath; /// storage/collectionName/subCollectionName/fileName.ext
   // -----------------------------------------------------------------------------
 
   /// CLONING
@@ -171,7 +171,9 @@ class MediaMetaModel {
               key != 'width' &&
               key != 'height' &&
               key != 'name' &&
-              key != 'sizeMB'
+              key != 'sizeMB' &&
+              key != 'uploadPath' &&
+              key != 'fileType'
           ){
             _map[key] = metaMap[key]!;
           }
