@@ -14,6 +14,7 @@ import 'package:basics/helpers/rest/rest.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -82,7 +83,19 @@ class Floaters {
     return _decodedImage;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TASK : TEST_ME_NOW
+  static Future<ui.Image?> getUiImageFromXFile(XFile? file) async {
+    ui.Image? _output;
+
+    if (file != null) {
+      final Uint8List? _bytes = await file.readAsBytes();
+      _output = await getUiImageFromUint8List(_bytes);
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
 
 
@@ -417,6 +430,28 @@ static img.Image decodeToImgImage({
     }
 
     return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static bool checkBytesAreIdentical({
+    required Uint8List? bytes1,
+    required Uint8List? bytes2,
+  }){
+    bool _identical = false;
+
+    if (bytes1 == null && bytes2 == null){
+      _identical = true;
+    }
+    else if (bytes1 != null && bytes2 != null){
+
+      _identical = Lister.checkListsAreIdentical(
+          list1: bytes1,
+          list2: bytes2,
+      );
+
+    }
+
+    return _identical;
   }
   // -----------------------------------------------------------------------------
 

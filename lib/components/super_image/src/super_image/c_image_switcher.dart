@@ -8,6 +8,7 @@ import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
+import 'package:basics/mediator/models/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
@@ -218,6 +219,8 @@ class ImageSwitcher extends StatelessWidget {
           gaplessPlayback: _gaplessPlayback,
         );
       }
+
+      /// X FILE
       else if (ObjectCheck.objectIsXFile(pic) == true){
         return Image(
           image: XFileImage(pic),
@@ -228,6 +231,33 @@ class ImageSwitcher extends StatelessWidget {
           errorBuilder: _errorBuilder,
           gaplessPlayback: _gaplessPlayback,
         );
+      }
+
+      /// MEDIA MODEL
+      else if (pic is MediaModel){
+
+        final MediaModel _mediaModel = pic;
+
+        if (_mediaModel.file == null){
+          return SizedBox(
+            width: width,
+            height: height,
+            // color: Colorz.errorColor,
+          );
+        }
+
+        else {
+          return Image(
+            image: XFileImage(_mediaModel.file!),
+            key: const ValueKey<String>('SuperImage_media_model'),
+            fit: boxFit,
+            width: width,
+            height: height,
+            errorBuilder: _errorBuilder,
+            gaplessPlayback: _gaplessPlayback,
+          );
+        }
+
       }
 
       /// UINT8LIST

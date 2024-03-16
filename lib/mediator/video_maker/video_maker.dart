@@ -1,13 +1,10 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
-import 'dart:io';
 import 'package:basics/helpers/checks/error_helpers.dart';
-import 'package:basics/helpers/files/floaters.dart';
-import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -23,13 +20,12 @@ class VideoMaker {
   /// PICK
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME_NOW
   static Future<MediaModel?> pickVideo({
     required BuildContext context,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
-    required int? compressWithQuality,
     required String uploadPath,
     required List<String> ownersIDs,
     required String name,
@@ -69,22 +65,18 @@ class VideoMaker {
         },
       );
 
-      if (Lister.checkCanLoop(pickedAssets) == true){
+      final XFile? _xFile = await XFiler.createXFileFromFirstAssetEntity(
+        assetEntities: pickedAssets,
+      );
 
-        final File? _file = await pickedAssets!.first.file;
-        final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
-
-        _output = await MediaModel.combinePicModel(
-          ownersIDs: ownersIDs,
-          fileType: FileType.mp4,
-          name: name,
-          bytes: _bytes,
-          compressWithQuality: compressWithQuality,
-          mediaOrigin: MediaOrigin.galleryVideo,
-          uploadPath: uploadPath,
-        );
-
-      }
+      _output = await MediaModel.combineMediaModel(
+        ownersIDs: ownersIDs,
+        fileType: FileType.mp4,
+        name: name,
+        file: _xFile,
+        mediaOrigin: MediaOrigin.galleryVideo,
+        uploadPath: uploadPath,
+      );
 
     }
 
@@ -95,14 +87,13 @@ class VideoMaker {
   /// SHOOT
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME_NOW
   static Future<MediaModel?> shootVideo({
     required BuildContext context,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required Locale? locale,
-    required int? compressWithQuality,
     required String uploadPath,
     required List<String> ownersIDs,
     required String name,
@@ -132,15 +123,15 @@ class VideoMaker {
             locale: locale,
           );
 
-          final File? _file = await entity?.file;
-          final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
+          final XFile? _file = await XFiler.createXFileFromAssetEntity(
+              assetEntity: entity,
+          );
 
-          _output = await MediaModel.combinePicModel(
+          _output = await MediaModel.combineMediaModel(
             ownersIDs: ownersIDs,
             fileType: FileType.mp4,
             name: name,
-            bytes: _bytes,
-            compressWithQuality: compressWithQuality,
+            file: _file,
             mediaOrigin: MediaOrigin.galleryVideo,
             uploadPath: uploadPath,
           );

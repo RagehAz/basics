@@ -6,12 +6,15 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/files/floaters.dart';
+import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
+import 'package:basics/mediator/models/file_typer.dart';
+import 'package:basics/mediator/models/media_model.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +41,7 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
  */
 // -----------------------------------------------------------------------------
 
-/// => TAMAM
+/// TASK : TEST_ME_NOW
 class PicMaker {
   // -----------------------------------------------------------------------------
 
@@ -52,8 +55,8 @@ class PicMaker {
   /// SINGLE GALLERY IMAGE PIC
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> pickAndCropSinglePic({
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> pickAndCropSinglePic({
     required BuildContext context,
     required bool cropAfterPick,
     required double aspectRatio,
@@ -66,10 +69,10 @@ class PicMaker {
     String confirmText = 'Crop',
     Function(String? error)? onError,
   }) async {
-    Uint8List? _bytes;
+    MediaModel? _output;
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
-      _bytes = await _pickWindowsOrWebImage(
+      _output = await _pickWindowsOrWebImage(
         context: context,
         aspectRatio: aspectRatio,
         cropAfterPick: cropAfterPick,
@@ -88,7 +91,7 @@ class PicMaker {
           :
       <AssetEntity>[selectedAsset];
 
-      final List<Uint8List> _bytezz = await pickAndCropMultiplePics(
+      final List<MediaModel> _mediaModels = await pickAndCropMultiplePics(
         context: context,
         maxAssets: 1,
         selectedAssets: _assets,
@@ -103,17 +106,17 @@ class PicMaker {
         onError: onError,
       );
 
-      if (Lister.checkCanLoop(_bytezz) == true){
-        _bytes = _bytezz.first;
+      if (Lister.checkCanLoop(_mediaModels) == true){
+        _output = _mediaModels.first;
       }
 
     }
 
-    return _bytes;
+    return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> _pickWindowsOrWebImage({
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> _pickWindowsOrWebImage({
     required BuildContext context,
     required double aspectRatio,
     required bool cropAfterPick,
@@ -123,8 +126,7 @@ class PicMaker {
     String confirmText = 'Crop',
     bool appIsLTR = true,
   }) async {
-
-    Uint8List? _bytes;
+    MediaModel? _output;
 
     await tryAndCatch(
       onError: onError,
@@ -137,16 +139,27 @@ class PicMaker {
           source: ImageSource.gallery,
         );
 
-        _bytes = await _file?.readAsBytes();
+        if (_file != null){
+
+          _output = await MediaModel.combineMediaModel(
+            file: _file,
+            mediaOrigin: MediaOrigin.galleryImage,
+            fileType: FileType.jpeg,
+            uploadPath: null,
+            ownersIDs: [],
+            name: _file.name,
+          );
+
+        }
 
         },
     );
 
     /// CROP
-    if (cropAfterPick == true && _bytes != null){
-      _bytes = await cropPic(
+    if (cropAfterPick == true && _output != null){
+      _output = await cropPic(
         context: context,
-        bytes: _bytes,
+        mediaModel: _output!,
         aspectRatio: aspectRatio,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
@@ -154,31 +167,31 @@ class PicMaker {
     }
 
     /// RESIZE
-    if (resizeToWidth != null && _bytes != null){
-      _bytes = await resizePic(
-        bytes: _bytes,
+    if (resizeToWidth != null && _output != null){
+      _output = await resizePic(
+        mediaModel: _output,
         resizeToWidth: resizeToWidth,
         // isFlyerRatio: isFlyerRatio,
       );
     }
 
     /// COMPRESS
-    if (compressWithQuality != null && _bytes != null){
-      _bytes = await compressPic(
-        bytes: _bytes,
+    if (compressWithQuality != null && _output != null){
+      _output = await compressPic(
+        mediaModel: _output!,
         quality: compressWithQuality,
       );
     }
 
-    return _bytes;
+    return _output;
     }
   // -----------------------------------------------------------------------------
 
   /// MULTI GALLERY IMAGES PICK
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> pickAndCropMultiplePics({
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> pickAndCropMultiplePics({
     required BuildContext context,
     required double aspectRatio,
     required bool cropAfterPick,
@@ -194,7 +207,7 @@ class PicMaker {
   }) async {
 
     /// PICK
-    List<Uint8List> _bytezz = await _pickMultiplePics(
+    List<MediaModel> _mediaModels = await _pickMultiplePics(
       context: context,
       maxAssets: maxAssets,
       selectedAssets: selectedAssets,
@@ -204,10 +217,10 @@ class PicMaker {
     );
 
     /// CROP
-    if (cropAfterPick == true && Lister.checkCanLoop(_bytezz) == true){
-      _bytezz = await cropPics(
+    if (cropAfterPick == true && Lister.checkCanLoop(_mediaModels) == true){
+      _mediaModels = await cropPics(
         context: context,
-        bytezz: _bytezz,
+        mediaModels: _mediaModels,
         aspectRatio: aspectRatio,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
@@ -215,27 +228,27 @@ class PicMaker {
     }
 
     /// RESIZE
-    if (resizeToWidth != null && Lister.checkCanLoop(_bytezz) == true){
-      _bytezz = await resizePics(
-        bytezz: _bytezz,
+    if (resizeToWidth != null && Lister.checkCanLoop(_mediaModels) == true){
+      _mediaModels = await resizePics(
+        mediaModels: _mediaModels,
         resizeToWidth: resizeToWidth,
         // isFlyerRatio: isFlyerRatio,
       );
     }
 
     /// COMPRESS
-    if (compressWithQuality != null && Lister.checkCanLoop(_bytezz) == true){
-      _bytezz = await compressPics(
-          bytezz: _bytezz,
+    if (compressWithQuality != null && Lister.checkCanLoop(_mediaModels) == true){
+      _mediaModels = await compressPics(
+        mediaModels: _mediaModels,
           quality: compressWithQuality,
       );
     }
 
-    return _bytezz;
+    return _mediaModels;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> _pickMultiplePics({
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> _pickMultiplePics({
     required BuildContext context,
     required int maxAssets,
     required String langCode,
@@ -244,7 +257,7 @@ class PicMaker {
     required List<AssetEntity>? selectedAssets,
   }) async {
 
-    final List<Uint8List> _output = <Uint8List>[];
+    final List<MediaModel> _output = <MediaModel>[];
 
     final bool _canPick = await PermitProtocol.fetchGalleryPermit(
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
@@ -282,10 +295,21 @@ class PicMaker {
 
         for (final AssetEntity asset in pickedAssets!){
 
-          final Uint8List? _bytes = await Floaters.getBytesFromFile(await asset.file);
+          final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
+            assetEntity: asset,
+          );
 
-          if (_bytes != null){
-            _output.add(_bytes);
+          final MediaModel? _model = await MediaModel.combineMediaModel(
+              file: _xFile,
+              mediaOrigin: MediaOrigin.galleryImage,
+              fileType: FileType.jpeg,
+              uploadPath: null,
+              ownersIDs: [],
+              name: _xFile?.name,
+          );
+
+          if (_model != null){
+            _output.add(_model);
           }
 
         }
@@ -301,8 +325,8 @@ class PicMaker {
   /// TAKE IMAGE FROM CAMERA
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> shootAndCropCameraPic({
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> shootAndCropCameraPic({
     required BuildContext context,
     required bool cropAfterPick,
     required double aspectRatio,
@@ -316,10 +340,10 @@ class PicMaker {
     Locale? locale,
   }) async {
 
-    Uint8List? _output;
+    MediaModel? _output;
 
     /// SHOOT
-    final Uint8List? _bytes = await _shootCameraPic(
+    final MediaModel? _mediaModel = await _shootCameraPic(
       context: context,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
@@ -328,15 +352,15 @@ class PicMaker {
     );
 
     /// CROP -> RESIZE -> COMPRESS
-    if (_bytes != null){
+    if (_mediaModel != null){
 
-      List<Uint8List> _bytezz = <Uint8List>[_bytes];
+      List<MediaModel> _models = <MediaModel>[_mediaModel];
 
       /// CROP
       if (cropAfterPick == true){
-        _bytezz = await cropPics(
+        _models = await cropPics(
           context: context,
-          bytezz: _bytezz,
+          mediaModels: _models,
           aspectRatio: aspectRatio,
           confirmText: confirmText,
           appIsLTR: appIsLTR,
@@ -344,24 +368,24 @@ class PicMaker {
       }
 
       /// RESIZE
-      if (resizeToWidth != null && Lister.checkCanLoop(_bytezz) ==true){
-        _bytezz = await resizePics(
-          bytezz: _bytezz,
+      if (resizeToWidth != null && Lister.checkCanLoop(_models) ==true){
+        _models = await resizePics(
+          mediaModels: _models,
           resizeToWidth: resizeToWidth,
         );
       }
 
       /// COMPRESS
-      if (compressWithQuality != null && Lister.checkCanLoop(_bytezz) ==true){
-      _bytezz = await compressPics(
-          bytezz: _bytezz,
+      if (compressWithQuality != null && Lister.checkCanLoop(_models) ==true){
+      _models = await compressPics(
+          mediaModels: _models,
           quality: compressWithQuality,
       );
     }
 
       /// ASSIGN THE FILE
-      if (Lister.checkCanLoop(_bytezz) == true){
-        _output = _bytezz.first;
+      if (Lister.checkCanLoop(_models) == true){
+        _output = _models.first;
       }
 
     }
@@ -369,8 +393,8 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> _shootCameraPic({
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> _shootCameraPic({
     required BuildContext context,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
@@ -416,9 +440,22 @@ class PicMaker {
         }
 
         else {
-          final File? _file = await entity!.file;
-          final Uint8List? _bytes = await Floaters.getBytesFromFile(_file);
-          return _bytes;
+
+          final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
+              assetEntity: entity,
+          );
+
+          final MediaModel? _model = await MediaModel.combineMediaModel(
+            file: _xFile,
+            mediaOrigin: MediaOrigin.galleryImage,
+            fileType: FileType.jpeg,
+            uploadPath: null,
+            ownersIDs: [],
+            name: _xFile?.name,
+          );
+
+          return _model;
+
         }
 
       }
@@ -435,51 +472,54 @@ class PicMaker {
   /// CROP IMAGE
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> cropPic({
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> cropPic({
     required BuildContext context,
-    required Uint8List? bytes,
+    required MediaModel? mediaModel,
     required double aspectRatio,
     required String confirmText,
     required bool appIsLTR,
   }) async {
-    Uint8List? _bytes;
+    MediaModel? _bytes;
 
-    final List<Uint8List> _bytezz = await cropPics(
+    final List<MediaModel> _mediaModels = await cropPics(
       context: context,
-      bytezz: bytes == null ? [] : <Uint8List>[bytes],
+      mediaModels: mediaModel == null ? [] : <MediaModel>[mediaModel],
       aspectRatio: aspectRatio,
       appIsLTR: appIsLTR,
       confirmText: confirmText,
     );
 
-    if (Lister.checkCanLoop(_bytezz) == true){
-      _bytes = _bytezz.first;
+    if (Lister.checkCanLoop(_mediaModels) == true){
+      _bytes = _mediaModels.first;
     }
 
     return _bytes;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> cropPics({
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> cropPics({
     required BuildContext context,
-    required List<Uint8List>? bytezz,
+    required List<MediaModel>? mediaModels,
     required double aspectRatio,
     required String confirmText,
     required bool appIsLTR,
   }) async {
 
-    List<Uint8List> _bytezz = <Uint8List>[];
+    List<MediaModel> _output = <MediaModel>[];
 
-    if (Lister.checkCanLoop(bytezz) == true){
+    if (Lister.checkCanLoop(mediaModels) == true){
 
-      _bytezz = await resizePics(bytezz: bytezz!, resizeToWidth: maxPicWidthBeforeCrop);
+      _output = await resizePics(
+          mediaModels: mediaModels!,
+          resizeToWidth: maxPicWidthBeforeCrop,
+      );
 
-      final List<Uint8List>? _received = await Nav.goToNewScreen(
+      final List<MediaModel>? _received = await Nav.goToNewScreen(
         appIsLTR: appIsLTR,
         context: context,
         screen: CroppingScreen(
-          bytezz: _bytezz,
+          mediaModels: mediaModels,
           aspectRatio: aspectRatio,
           appIsLTR: appIsLTR,
           confirmText: confirmText,
@@ -487,30 +527,30 @@ class PicMaker {
       );
 
       if (Lister.checkCanLoop(_received) == true){
-        _bytezz = _received!;
+        _output = _received!;
       }
 
     }
 
-    return _bytezz;
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
   /// RESIZE
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> resizePic({
-    required Uint8List? bytes,
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> resizePic({
+    required MediaModel? mediaModel,
     /// image width will be resized to this final width
     required double? resizeToWidth,
   }) async {
 
     blog('resizeImage : START');
 
-    Uint8List? _output = bytes;
+    MediaModel? _output = mediaModel;
 
-    if (bytes != null && resizeToWidth != null){
+    if (mediaModel != null && resizeToWidth != null){
 
       // img.Image? _imgImage = await Floaters.getImgImageFromUint8List(bytes);
       //
@@ -531,9 +571,15 @@ class PicMaker {
       //   _output = Floaters.getBytesFromImgImage(_imgImage);
       // }
 
-      _output = await Floaters.resizeBytes(
-        bytes: bytes,
+      Uint8List? _bytes = await _output?.file?.readAsBytes();
+
+      _bytes = await Floaters.resizeBytes(
+        bytes: _bytes,
         resizeToWidth: resizeToWidth,
+      );
+
+      _output = await _output?.replaceBytes(
+        bytes: _bytes,
       );
 
     }
@@ -541,19 +587,19 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> resizePics({
-    required List<Uint8List>? bytezz,
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> resizePics({
+    required List<MediaModel>? mediaModels,
     required double resizeToWidth,
   }) async {
-    final List<Uint8List> _output = <Uint8List>[];
+    final List<MediaModel> _output = <MediaModel>[];
 
-    if (Lister.checkCanLoop(bytezz) == true){
+    if (Lister.checkCanLoop(mediaModels) == true){
 
-      for (final Uint8List bytes in bytezz!){
+      for (final MediaModel mediaModel in mediaModels!){
 
-        final Uint8List? _resized = await resizePic(
-          bytes: bytes,
+        final MediaModel? _resized = await resizePic(
+          mediaModel:mediaModel,
           resizeToWidth: resizeToWidth,
         );
 
@@ -572,16 +618,16 @@ class PicMaker {
   /// COMPRESS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> compressPic({
-    required Uint8List? bytes,
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> compressPic({
+    required MediaModel? mediaModel,
     required int quality,
   }) async {
-    Uint8List? _output = bytes;
+    MediaModel? _output = mediaModel;
 
-    if (bytes != null){
+    if (mediaModel != null){
 
-      final Dimensions? _dims = await Dimensions.superDimensions(bytes);
+      final Dimensions? _dims = await Dimensions.superDimensions(_output);
       final double? _aspectRatio = _dims?.getAspectRatio();
 
       if (
@@ -594,30 +640,39 @@ class PicMaker {
           invoker: 'compressPic',
           functions: () async {
 
-            final ImageFile input = ImageFile(
-              filePath: 'x',
-              rawBytes: bytes,
-              // width: _dims.width?.toInt(),
-              // height: _dims.height?.toInt(),
-              // contentType: ,
-            );
+            final Uint8List? _bytes = await mediaModel.file?.readAsBytes();
 
-            final Configuration config = Configuration(
-              outputType: ImageOutputType.webpThenJpg,
-              /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
-              useJpgPngNativeCompressor: false,
-              /// set quality between 0-100
-              quality: quality,
-            );
+            if (_bytes != null){
 
-            final ImageFileConfiguration param = ImageFileConfiguration(
-              input: input,
-              config: config,
-            );
+              final ImageFile input = ImageFile(
+                filePath: 'x',
+                rawBytes: _bytes,
+                // width: _dims.width?.toInt(),
+                // height: _dims.height?.toInt(),
+                // contentType: ,
+              );
 
-            final ImageFile outputFile = await compressor.compress(param);
+              final Configuration config = Configuration(
+                outputType: ImageOutputType.webpThenJpg,
+                /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
+                useJpgPngNativeCompressor: false,
+                /// set quality between 0-100
+                quality: quality,
+              );
 
-            _output = outputFile.rawBytes;
+              final ImageFileConfiguration param = ImageFileConfiguration(
+                input: input,
+                config: config,
+              );
+
+              final ImageFile outputFile = await compressor.compress(param);
+
+              _output = await _output?.replaceBytes(
+                bytes: outputFile.rawBytes,
+              );
+
+            }
+
 
             },
           onError: (String error) async {
@@ -643,19 +698,19 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> compressPics({
-    required List<Uint8List>? bytezz,
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> compressPics({
+    required List<MediaModel>? mediaModels,
     required int quality,
   }) async {
-    final List<Uint8List> _output = <Uint8List>[];
+    final List<MediaModel> _output = <MediaModel>[];
 
-    if (Lister.checkCanLoop(bytezz) == true){
+    if (Lister.checkCanLoop(mediaModels) == true){
 
-      for (final Uint8List bytes in bytezz!){
+      for (final MediaModel mediaModel in mediaModels!){
 
-        final Uint8List? _resized = await compressPic(
-          bytes: bytes,
+        final MediaModel? _resized = await compressPic(
+          mediaModel: mediaModel,
           quality: quality,
         );
 

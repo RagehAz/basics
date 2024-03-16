@@ -22,9 +22,9 @@ class MediaMetaModel {
     required this.ownersIDs,
     required this.fileType,
     required this.uploadPath,
+    required this.name,
     this.width,
     this.height,
-    this.name,
     this.sizeMB,
     this.data,
   });
@@ -461,6 +461,7 @@ class MediaMetaModel {
       ownersIDs: const [],
       fileType: fileType,
       uploadPath: null,
+      name: null,
       // name: null,
       // data: null,
       // width: null,

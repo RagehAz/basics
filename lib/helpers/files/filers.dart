@@ -64,10 +64,10 @@ class Filers {
       );
 
       /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
-      if (Platform.isWindows == true) {
+      if (DeviceChecker.deviceIsWindows() == true) {
         final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
             text: _filePath,
-            specialCharacter: _slash,
+            specialCharacter: slash,
         )!;
         await Directory(_pathWithoutDocName).create(recursive: true);
       }
@@ -199,14 +199,14 @@ class Filers {
   /// FILE PATH
 
   // --------------------
-  static final String _slash = kIsWeb ? '/' : Platform.pathSeparator;
+  static final String slash = kIsWeb ? '/' : Platform.pathSeparator;
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? fixFilePath(String? path) {
     String? _output = path;
     if (path != null) {
-      _output = path.replaceAll(r'\', _slash);
-      _output = path.replaceAll(r'/', _slash);
+      _output = path.replaceAll(r'\', slash);
+      _output = path.replaceAll(r'/', slash);
     }
     return _output;
   }
@@ -227,7 +227,7 @@ class Filers {
           :
       await getApplicationDocumentsDirectory();
 
-      return fixFilePath('${_appDocDir.path}$_slash$fileName');
+      return fixFilePath('${_appDocDir.path}$slash$fileName');
     }
 
   }
@@ -266,7 +266,7 @@ class Filers {
 
       _fileName = TextMod.removeTextBeforeLastSpecialCharacter(
         text: filePath,
-        specialCharacter: _slash,
+        specialCharacter: slash,
       );
 
       if (withExtension == false) {

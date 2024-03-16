@@ -233,6 +233,28 @@ class FileTyper {
       return cipherType(fileType);
     }
   }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static FileType? getFileTypeByBytes({
+    required Uint8List? bytes,
+    FileType? forceType,
+  }){
+
+    if (forceType != null){
+      return forceType;
+    }
+    else {
+
+      final String? _type = getContentType(
+          bytes: bytes,
+          forceType: forceType
+      );
+
+      return decipherType(_type);
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS

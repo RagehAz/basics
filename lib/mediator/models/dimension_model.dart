@@ -8,6 +8,7 @@ import 'package:basics/helpers/files/filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/mediator/models/media_model.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
@@ -97,12 +98,12 @@ class Dimensions {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<double?> getPicAspectRatio(Uint8List? bytes) async {
+  static Future<double?> getPicAspectRatio(dynamic pic) async {
     double? _output;
 
-    if (bytes != null){
+    if (pic != null){
 
-      final Dimensions? _dimensions = await superDimensions(bytes);
+      final Dimensions? _dimensions = await superDimensions(pic);
 
       if (_dimensions != null){
 
@@ -133,7 +134,7 @@ class Dimensions {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME_NOW
   static Future<Dimensions?> superDimensions(dynamic media) async {
     Dimensions? _dimensions;
 
@@ -143,6 +144,7 @@ class Dimensions {
       final bool _isFile = ObjectCheck.objectIsFile(media) == true;
       final bool _isXFile = ObjectCheck.objectIsXFile(media) == true;
       final bool _isUints = ObjectCheck.objectIsUint8List(media) == true;
+      final bool _isMediaModel = media is MediaModel;
 
       if (_isURL == true){
         final String _url = media;
@@ -155,6 +157,10 @@ class Dimensions {
       else if (_isXFile == true){
         final XFile _file = media;
         _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
+      }
+      else if (_isMediaModel == true){
+        final MediaModel _mediaModel = media;
+        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _mediaModel.file?.path);
       }
       else if (_isUints == true){
         final Uint8List _bytes = media;

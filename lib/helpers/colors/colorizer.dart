@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:basics/helpers/files/floaters.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/painting.dart';
 import 'package:image/image.dart' as img;
 
@@ -200,6 +201,18 @@ class Colorizer {
     }
 
     return _color;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Color?> getAverageColorFromXFile(XFile? file) async {
+    Color? _output;
+
+    if (file != null){
+      final Uint8List? _bytes = await file.readAsBytes();
+      _output = await getAverageColor(_bytes);
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
