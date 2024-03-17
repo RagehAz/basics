@@ -11,7 +11,7 @@ class XFiler {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> _createNewEmptyFile({
+  static Future<XFile?> _createNewEmptyXFile({
     required String? fileName,
     bool useTemporaryDirectory = false,
   }) async {
@@ -58,8 +58,8 @@ class XFiler {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<XFile?> _writeUint8ListOnFile({
+  /// ...
+  static Future<XFile?> _writeBytesOnFile({
     required XFile? file,
     required Uint8List? bytes,
   }) async {
@@ -83,26 +83,11 @@ class XFiler {
   }
   // -----------------------------------------------------------------------------
 
-  /// CREATORS - WRITING
+  /// CREATE
 
   // --------------------
   /// TASK : TEST_ME_NOW
-  static Future<XFile?> replaceBytes({
-    required XFile? file,
-    required Uint8List? newBytes,
-  }) async {
-
-    if (newBytes == null){
-      return file;
-    }
-    else {
-      return _writeUint8ListOnFile(file: file, bytes: newBytes);
-    }
-
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static XFile? createXFileFromFile({
+  static XFile? createFromFile({
     required File? file,
   }) {
     XFile? _output;
@@ -116,29 +101,8 @@ class XFiler {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<XFile?> createXFileFromURL({
-    required String? url,
-    required String? fileName
-  }) async {
-    XFile? _output;
-
-    if (fileName != null && url != null){
-
-      final Uint8List? _bytes = await Byter.fromURL(url);
-
-      _output = await createXFileFromBytes(
-        bytes: _bytes,
-        fileName: fileName,
-      );
-
-    }
-
-    return _output;
-  }
-  // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> createXFileFromBytes({
+  static Future<XFile?> createFromBytes({
     required Uint8List? bytes,
     required String? fileName
   }) async {
@@ -146,11 +110,11 @@ class XFiler {
 
     if (fileName != null && bytes != null){
 
-      final XFile? _file = await _createNewEmptyFile(
+      final XFile? _file = await _createNewEmptyXFile(
         fileName: fileName,
       );
 
-      _output = await _writeUint8ListOnFile(
+      _output = await _writeBytesOnFile(
         bytes: bytes,
         file: _file,
       );
@@ -161,7 +125,7 @@ class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> createXFileFromLocalAsset({
+  static Future<XFile?> createFromLocalAsset({
     required String? asset,
   }) async {
 
@@ -175,7 +139,7 @@ class XFiler {
       withExtension: true,
     );
 
-    return createXFileFromBytes(
+    return createFromBytes(
       fileName: _fileName,
       bytes: _bytes,
     );
@@ -183,7 +147,28 @@ class XFiler {
   }
   // --------------------
   /// TASK : TEST_ME_NOW
-  static Future<XFile?> createXFileFromAssetEntity({
+  static Future<XFile?> createFromURL({
+    required String? url,
+    required String? fileName
+  }) async {
+    XFile? _output;
+
+    if (fileName != null && url != null){
+
+      final Uint8List? _bytes = await Byter.fromURL(url);
+
+      _output = await createFromBytes(
+        bytes: _bytes,
+        fileName: fileName,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<XFile?> createFromAssetEntity({
     required AssetEntity? assetEntity,
   }) async {
     XFile? _output;
@@ -196,23 +181,34 @@ class XFiler {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// READ
+
+  // --------------------
+  ///
+  // -----------------------------------------------------------------------------
+
+  /// UPDATE
+
   // --------------------
   /// TASK : TEST_ME_NOW
-  static File? createFileFromXFile({
-    required XFile? xFile,
-  }){
+  static Future<XFile?> replaceBytes({
+    required XFile? file,
+    required Uint8List? newBytes,
+  }) async {
 
-    if (xFile?.path != null){
-      return File(xFile!.path);
+    if (newBytes == null){
+      return file;
     }
     else {
-      return null;
+      return _writeBytesOnFile(file: file, bytes: newBytes);
     }
 
   }
   // -----------------------------------------------------------------------------
 
-  /// DELETION
+  /// DELETE
 
   // --------------------
   /// TASK : TEST_ME_NOW

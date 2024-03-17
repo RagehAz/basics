@@ -393,7 +393,7 @@ abstract class DimensionsGetter {
     required String? localAsset,
   }) async {
 
-    final XFile? _xFile = await XFiler.createXFileFromLocalAsset(
+    final XFile? _xFile = await XFiler.createFromLocalAsset(
         asset: localAsset,
     );
 
@@ -413,7 +413,7 @@ abstract class DimensionsGetter {
     required String? fileName,
   }) async {
 
-    final XFile? _xFile = await XFiler.createXFileFromURL(
+    final XFile? _xFile = await XFiler.createFromURL(
         url: url,
         fileName: fileName,
     );
@@ -427,7 +427,7 @@ abstract class DimensionsGetter {
     required String? fileName,
   }) async {
 
-    final XFile? _xFile = await XFiler.createXFileFromBytes(
+    final XFile? _xFile = await XFiler.createFromBytes(
         bytes: bytes,
         fileName: fileName
     );

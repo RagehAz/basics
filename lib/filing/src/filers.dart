@@ -80,6 +80,20 @@ class Filer {
   /// CREATE
 
   // --------------------
+  /// TASK : TEST_ME_NOW
+  static File? createFromXFile({
+    required XFile? xFile,
+  }){
+
+    if (xFile?.path != null){
+      return File(xFile!.path);
+    }
+    else {
+      return null;
+    }
+
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   static Future<File?> createFromBytes({
     required Uint8List? bytes,
@@ -168,31 +182,6 @@ class Filer {
     return _output;
   }
   // ---------------------
-  /// TESTED : WORKS PERFECT
-  static Future<File?> createFromImgImage({
-    required img.Image? imgImage,
-    required String? fileName,
-    bool useTemporaryDirectory = false,
-  }) async {
-
-    if (kIsWeb == true || imgImage == null || fileName == null){
-      return null;
-    }
-
-    else {
-
-      final Uint8List? _uIntAgain = Byter.fromImgImage(imgImage);
-
-      return Filer.createFromBytes(
-        bytes: _uIntAgain,
-        fileName: fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
-      );
-
-    }
-
-  }
-  // ---------------------
   /// TASK : TEST ME
   static Future<File?> createFromURL({
     required String? url,
@@ -238,6 +227,31 @@ class Filer {
 
   }
   // ---------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> createFromImgImage({
+    required img.Image? imgImage,
+    required String? fileName,
+    bool useTemporaryDirectory = false,
+  }) async {
+
+    if (kIsWeb == true || imgImage == null || fileName == null){
+      return null;
+    }
+
+    else {
+
+      final Uint8List? _uIntAgain = Byter.fromImgImage(imgImage);
+
+      return Filer.createFromBytes(
+        bytes: _uIntAgain,
+        fileName: fileName,
+        useTemporaryDirectory: useTemporaryDirectory,
+      );
+
+    }
+
+  }
+  // ---------------------
   /// TASK : TEST ME
   static Future<File?> createFromBase64({
     required String? base64,
@@ -266,19 +280,19 @@ class Filer {
   /// READ
 
   // --------------------
-
+  ///
   // -----------------------------------------------------------------------------
 
   /// UPDATE
 
   // --------------------
-
+  ///
   // -----------------------------------------------------------------------------
 
   /// DELETE
 
   // --------------------
-
+  ///
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
@@ -471,19 +485,5 @@ class Filer {
     }
 
   }
-
-
-
-
-
-
-
-  // --------------------
-  /*
-  static File createFileFromXFile(XFile xFile){
-    return File(xFile.path);
-  }
-   */
-
   // -----------------------------------------------------------------------------
 }

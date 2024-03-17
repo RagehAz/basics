@@ -375,7 +375,7 @@ class MediaModel {
   static Future<MediaModel> dummyPic() async {
 
     return MediaModel(
-      file: await XFiler.createXFileFromLocalAsset(
+      file: await XFiler.createFromLocalAsset(
           asset: Iconz.bldrsAppIcon,
       ),
       meta: MediaMetaModel(
@@ -567,7 +567,7 @@ class MediaModelCreator {
     FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
-    final XFile? _file = await XFiler.createXFileFromBytes(
+    final XFile? _file = await XFiler.createFromBytes(
       bytes: bytes,
       fileName: fileName,
     );
@@ -601,7 +601,7 @@ class MediaModelCreator {
     }
     else {
 
-      final XFile? _file = await XFiler.createXFileFromURL(
+      final XFile? _file = await XFiler.createFromURL(
         url: url,
         fileName: fileName,
       );
@@ -644,7 +644,7 @@ class MediaModelCreator {
     FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
-    final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
+    final XFile? _xFile = await XFiler.createFromAssetEntity(
       assetEntity: asset,
     );
 
@@ -675,7 +675,7 @@ class MediaModelCreator {
 
     if (TextCheck.isEmpty(localAsset) == false){
 
-      final XFile? _file = await XFiler.createXFileFromLocalAsset(
+      final XFile? _file = await XFiler.createFromLocalAsset(
         asset: localAsset,
       );
 
