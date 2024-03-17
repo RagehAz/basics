@@ -199,6 +199,22 @@ class MediaMetaModel {
   }) async {
     MediaMetaModel? _output = meta;
 
+    /// NAME
+    if (TextCheck.isEmpty(meta?.name?.trim()) == true && uploadPath != null){
+
+      final String? _name = TextMod.removeTextBeforeLastSpecialCharacter(
+        text: uploadPath,
+        specialCharacter: '/',
+      );
+
+      if (_name != null){
+        _output = _output?.copyWith(
+          name: _name,
+        );
+      }
+
+    }
+
     /// DIMENSIONS
     if (
         (meta?.height == null || meta?.width == null)
@@ -206,7 +222,10 @@ class MediaMetaModel {
         bytes != null
     ){
 
-      final Dimensions? _dims = await Dimensions.superDimensions(bytes);
+      final Dimensions? _dims = await DimensionsGetter.fromBytes(
+          bytes: bytes,
+          fileName: _output?.name,
+      );
 
       _output = _output?.copyWith(
         width: _dims?.width,
@@ -229,24 +248,6 @@ class MediaMetaModel {
       _output = _output?.copyWith(
         uploadPath: uploadPath,
       );
-    }
-
-    /// NAME
-    if (TextCheck.isEmpty(meta?.name?.trim()) == true && uploadPath != null){
-
-      final String? _name = TextMod.removeTextBeforeLastSpecialCharacter(
-        text: uploadPath,
-        specialCharacter: '/',
-      );
-
-      blog ('_name should be : $_name');
-
-      if (_name != null){
-        _output = _output?.copyWith(
-          name: _name,
-        );
-      }
-
     }
 
     blogStorageMetaModel(_output);

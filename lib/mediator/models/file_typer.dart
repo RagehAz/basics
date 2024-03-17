@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:image/image.dart' as img;
 
 enum FileType {
   png,
@@ -345,6 +346,25 @@ class FileTyper {
       default: return false;
     }
 
+  }
+  // -----------------------------------------------------------------------------
+
+  /// DECODER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static img.Decoder? getImageDecoderFromBytes({
+    required Uint8List? bytes,
+  }){
+    img.Decoder? _output;
+
+    if (bytes != null){
+
+      _output = img.findDecoderForData(bytes);
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }

@@ -6,7 +6,6 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/files/floaters.dart';
-import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
@@ -63,6 +62,9 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
+    required String? uploadPath,
+    required List<String>? ownersIDs,
+    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     AssetEntity? selectedAsset,
@@ -81,6 +83,9 @@ class PicMaker {
         resizeToWidth: resizeToWidth,
         compressWithQuality: compressWithQuality,
         onError: onError,
+        ownersIDs: ownersIDs,
+        uploadPath: uploadPath,
+        fileName: fileName,
       );
     }
 
@@ -104,12 +109,24 @@ class PicMaker {
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
         onError: onError,
+        uploadPathGenerator: (int i){
+          return uploadPath;
+          },
+        picNameGenerator: (int i){
+          return fileName;
+          },
+        ownersIDs: ownersIDs,
       );
 
       if (Lister.checkCanLoop(_mediaModels) == true){
         _output = _mediaModels.first;
       }
 
+    }
+
+    /// RENAME
+    if (_output != null && fileName != null){
+      _output = await _output.renameFile(newName: fileName);
     }
 
     return _output;
@@ -121,6 +138,9 @@ class PicMaker {
     required double aspectRatio,
     required bool cropAfterPick,
     required Function(String? error)? onError,
+    required String? uploadPath,
+    required List<String>? ownersIDs,
+    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
@@ -141,13 +161,13 @@ class PicMaker {
 
         if (_file != null){
 
-          _output = await MediaModel.combineMediaModel(
+          _output = await MediaModelCreator.fromXFile(
             file: _file,
             mediaOrigin: MediaOrigin.galleryImage,
-            fileType: FileType.jpeg,
-            uploadPath: null,
-            ownersIDs: [],
-            name: _file.name,
+            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            uploadPath: uploadPath,
+            ownersIDs: ownersIDs,
+            renameFile: fileName,
           );
 
         }
@@ -198,6 +218,9 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
+    required String? Function(int index)? uploadPathGenerator,
+    required String? Function(int index)? picNameGenerator,
+    required List<String>? ownersIDs,
     double? resizeToWidth,
     int? compressWithQuality,
     int maxAssets = 10,
@@ -214,6 +237,9 @@ class PicMaker {
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       onError: onError,
+      uploadPathGenerator: uploadPathGenerator,
+      ownersIDs: ownersIDs,
+      picNameGenerator: picNameGenerator,
     );
 
     /// CROP
@@ -255,6 +281,9 @@ class PicMaker {
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required List<AssetEntity>? selectedAssets,
+    required String? Function(int index)? uploadPathGenerator,
+    required String? Function(int index)? picNameGenerator,
+    required List<String>? ownersIDs,
   }) async {
 
     final List<MediaModel> _output = <MediaModel>[];
@@ -293,19 +322,17 @@ class PicMaker {
 
       if (Lister.checkCanLoop(pickedAssets) == true){
 
-        for (final AssetEntity asset in pickedAssets!){
+        for (int i = 0; i < pickedAssets!.length; i++){
 
-          final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
-            assetEntity: asset,
-          );
+          final AssetEntity asset = pickedAssets![i];
 
-          final MediaModel? _model = await MediaModel.combineMediaModel(
-              file: _xFile,
-              mediaOrigin: MediaOrigin.galleryImage,
-              fileType: FileType.jpeg,
-              uploadPath: null,
-              ownersIDs: [],
-              name: _xFile?.name,
+          final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
+            asset: asset,
+            mediaOrigin: MediaOrigin.galleryImage,
+            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            uploadPath: uploadPathGenerator?.call(i),
+            ownersIDs: ownersIDs,
+            renameFile: picNameGenerator?.call(i),
           );
 
           if (_model != null){
@@ -333,28 +360,34 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
+    required String? uploadPath,
+    required List<String>? ownersIDs,
+    required Locale? locale,
+    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
     Function(String? error)? onError,
-    Locale? locale,
   }) async {
 
     MediaModel? _output;
 
     /// SHOOT
-    final MediaModel? _mediaModel = await _shootCameraPic(
+    _output = await _shootCameraPic(
       context: context,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       onError: onError,
       locale: locale,
+      uploadPath: uploadPath,
+      ownersIDs: ownersIDs,
+      fileName: fileName,
     );
 
     /// CROP -> RESIZE -> COMPRESS
-    if (_mediaModel != null){
+    if (_output != null){
 
-      List<MediaModel> _models = <MediaModel>[_mediaModel];
+      List<MediaModel> _models = <MediaModel>[_output];
 
       /// CROP
       if (cropAfterPick == true){
@@ -400,6 +433,9 @@ class PicMaker {
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required Locale? locale,
+    required String? uploadPath,
+    required List<String>? ownersIDs,
+    required String? fileName,
   }) async {
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
@@ -441,17 +477,13 @@ class PicMaker {
 
         else {
 
-          final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
-              assetEntity: entity,
-          );
-
-          final MediaModel? _model = await MediaModel.combineMediaModel(
-            file: _xFile,
-            mediaOrigin: MediaOrigin.galleryImage,
-            fileType: FileType.jpeg,
-            uploadPath: null,
-            ownersIDs: [],
-            name: _xFile?.name,
+          final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
+            asset: entity,
+            mediaOrigin: MediaOrigin.cameraImage,
+            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            uploadPath: uploadPath,
+            ownersIDs: ownersIDs,
+            renameFile: fileName,
           );
 
           return _model;
@@ -575,6 +607,7 @@ class PicMaker {
 
       _bytes = await Floaters.resizeBytes(
         bytes: _bytes,
+        fileName: _output?.meta?.name,
         resizeToWidth: resizeToWidth,
       );
 
@@ -627,7 +660,9 @@ class PicMaker {
 
     if (mediaModel != null){
 
-      final Dimensions? _dims = await Dimensions.superDimensions(_output);
+      final Dimensions? _dims = await DimensionsGetter.fromMediaModel(
+        mediaModel: mediaModel,
+      );
       final double? _aspectRatio = _dims?.getAspectRatio();
 
       if (

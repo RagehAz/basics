@@ -13,6 +13,7 @@ import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
 import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
@@ -540,6 +541,79 @@ class VideoOps {
       blog('controller.videoWidth : ${controller.videoWidth}');
       blog('controller.videoHeight : ${controller.videoHeight}');
       blog('controller.videoPosition : ${controller.videoPosition}');
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> blogMediaInformationSession({
+    required MediaInformationSession? session,
+    String invoker = 'blogMediaInformationSession',
+  }) async {
+
+    if (session == null){
+      blog('session is null');
+    }
+    else {
+
+      final MediaInformation? _mediaInformation = session.getMediaInformation();
+      final Map<dynamic, dynamic>? formatProperties = _mediaInformation?.getFormatProperties();
+      final Map<dynamic, dynamic>? allProperties =  _mediaInformation?.getAllProperties();
+      final Map<dynamic, dynamic>? _tags = _mediaInformation?.getTags();
+      final LogRedirectionStrategy? _strategy = session.getLogRedirectionStrategy();
+      final ReturnCode? _returnCode = await session.getReturnCode();
+      final SessionState? _sessionState = await session.getState();
+      /// IGNORE THOSE FOR NOW
+      // final List<Chapter>? _chapters = _mediaInformation?.getChapters();
+      // final List<StreamInformation>? _streamInfo = _mediaInformation?.getStreams();
+      // final List<Log> _allLogs = await session.getAllLogs();
+      // final List<Log> _logs = await session.getLogs();
+
+      final Map<String, dynamic> _map = {
+
+        'mediaInformation.getLongFormat()': _mediaInformation?.getLongFormat(),
+        'mediaInformation.getFormat()': _mediaInformation?.getFormat(),
+        'mediaInformation.getFilename()': _mediaInformation?.getFilename(),
+        'mediaInformation.getBitrate()': _mediaInformation?.getBitrate(),
+        'mediaInformation.getSize()': _mediaInformation?.getSize(),
+        'mediaInformation.getDuration()': _mediaInformation?.getDuration(),
+        'mediaInformation.getStartTime()': _mediaInformation?.getStartTime(),
+
+        'getAllLogsAsString()': await session.getAllLogsAsString(),
+        'getLogsAsString()': await session.getLogsAsString(),
+        'getArguments()': session.getArguments(),
+        'getCommand()': session.getCommand(),
+
+        'getCreateTime()': session.getCreateTime(),
+        'getEndTime()': session.getEndTime(),
+        'getStartTime()': session.getStartTime(),
+        'getDuration()': await session.getDuration(),
+        'getFailStackTrace()': await session.getFailStackTrace(),
+
+        'strategy.index': _strategy?.index,
+        'getOutput()': await session.getOutput(),
+
+        'returnCode.isValueSuccess()': _returnCode?.isValueSuccess(),
+        'returnCode.isValueError()': _returnCode?.isValueError(),
+        'returnCode.isValueCancel()': _returnCode?.isValueCancel(),
+        'returnCode.getValue()': _returnCode?.getValue(),
+
+        'getSessionId()': session.getSessionId(),
+        'sessionState.toString()': _sessionState.toString(),
+
+        'isFFmpeg()': session.isFFmpeg(),
+        'isFFprobe()': session.isFFprobe(),
+        'isMediaInformation()': session.isMediaInformation(),
+        // 'thereAreAsynchronousMessagesInTransmit': await session.thereAreAsynchronousMessagesInTransmit(),
+
+      };
+
+      Mapper.blogMap(_map, invoker: invoker);
+
+      Mapper.blogMap(Mapper.convertDynamicMap(formatProperties), invoker: 'mediaInformation.getFormatProperties()');
+      Mapper.blogMap(Mapper.convertDynamicMap(allProperties), invoker: 'mediaInformation.getAllProperties()');
+      Mapper.blogMap(Mapper.convertDynamicMap(_tags), invoker: 'mediaInformation.getTags()');
 
     }
 

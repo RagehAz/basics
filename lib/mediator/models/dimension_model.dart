@@ -1,19 +1,23 @@
+// ignore_for_file: join_return_with_assignment
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
+import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/filers.dart';
+import 'package:basics/helpers/files/floaters.dart';
+import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_model.dart';
+import 'package:basics/mediator/video_maker/video_ops.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
 import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as img;
 
 /// => TAMAM
 @immutable
@@ -98,25 +102,6 @@ class Dimensions {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<double?> getPicAspectRatio(dynamic pic) async {
-    double? _output;
-
-    if (pic != null){
-
-      final Dimensions? _dimensions = await superDimensions(pic);
-
-      if (_dimensions != null){
-
-        _output = _dimensions.getAspectRatio();
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static double? getHeightByAspectRatio({
     required double? aspectRatio,
     required double? width,
@@ -133,154 +118,6 @@ class Dimensions {
 
     return _output;
   }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<Dimensions?> superDimensions(dynamic media) async {
-    Dimensions? _dimensions;
-
-    if (media != null) {
-
-      final bool _isURL = ObjectCheck.isAbsoluteURL(media) == true;
-      final bool _isFile = ObjectCheck.objectIsFile(media) == true;
-      final bool _isXFile = ObjectCheck.objectIsXFile(media) == true;
-      final bool _isUints = ObjectCheck.objectIsUint8List(media) == true;
-      final bool _isMediaModel = media is MediaModel;
-
-      if (_isURL == true){
-        final String _url = media;
-        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _url);
-      }
-      else if (_isFile == true){
-        final File _file = media;
-        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
-      }
-      else if (_isXFile == true){
-        final XFile _file = media;
-        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file.path);
-      }
-      else if (_isMediaModel == true){
-        final MediaModel _mediaModel = media;
-        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _mediaModel.file?.path);
-      }
-      else if (_isUints == true){
-        final Uint8List _bytes = media;
-        final File? _file = await Filers.getFileFromUint8List(
-            uInt8List: _bytes,
-            fileName: Numeric.createUniqueID().toString(),
-        );
-        _dimensions = await _getDimensionsFromFilePathOrURL(filePathOrURL: _file?.path);
-      }
-
-    }
-
-    return _dimensions;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Dimensions?> _getDimensionsFromFilePathOrURL({
-    required String? filePathOrURL,
-  }) async {
-    Dimensions? _output;
-
-    if (filePathOrURL != null){
-
-      /// '<file path or url>'
-      final MediaInformationSession session = await FFprobeKit.getMediaInformation(filePathOrURL);
-      final MediaInformation? information = session.getMediaInformation();
-
-      if (information == null) {
-        // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
-        // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
-        // final returnCode = await session.getReturnCode();
-        // final failStackTrace = await session.getFailStackTrace();
-        // final duration = await session.getDuration();
-        // final output = await session.getOutput();
-      }
-
-      else {
-        final Map<dynamic, dynamic>? _maw = information.getAllProperties();
-        final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
-        final List<Object?> _objects = _map['streams'];
-        final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
-
-        if( Lister.checkCanLoop(_maps) == true){
-          final Map<String, dynamic>? _data = _maps.first;
-          final int? height = _data?['height'];
-          final int? _width = _data?['width'];
-          _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /*
-  /// TESTED : WORKS PERFECT
-  static Future<Dimensions?> superImageDimensionsOld(dynamic image) async {
-    Dimensions? _dimensions;
-
-    if (image != null) {
-      // -----------------------------------------------------------o
-      final bool _isURL = ObjectCheck.isAbsoluteURL(image) == true;
-      // blog('_isURL : $_isURL');
-      // final bool _isAsset = ObjectChecker.objectIsAsset(image) == true;
-      // blog('_isAsset : $_isAsset');
-      final bool _isFile = ObjectCheck.objectIsFile(image) == true;
-      // blog('_isFile : $_isFile');
-      final bool _isUints = ObjectCheck.objectIsUint8List(image) == true;
-      // blog('_isUints : $_isUints');
-      // -----------------------------------------------------------o
-      ui.Image? _decodedImage;
-      Uint8List? _uInt8List;
-      // -----------------------------------------------------------o
-      if (_isURL == true) {
-        // final File _file = await Filers.getFileFromURL(image);
-        _uInt8List = await Floaters.getBytesFromURL(image);
-        // _uInt8List = _file.readAsBytesSync();
-        // await null;
-        blog('superDimensions : image : $image');
-        _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
-      }
-      // --------------------------o
-      /*
-      else if (_isAsset == true) {
-        final Asset _asset = image;
-        final ByteData _byteData = await _asset.getByteData();
-        _uInt8List = Imagers.getUint8ListFromByteData(_byteData);
-        // await null;
-        _dimensions = ImageSize.getImageSizeFromAsset(image);
-      }
-       */
-      // --------------------------o
-      else if (_isFile == true) {
-        // blog('_isFile staring aho : $_isFile');
-        _uInt8List = await Floaters.getBytesFromFile(image);
-        // blog('_uInt8List : $_uInt8List');
-        _decodedImage = await Floaters.getUiImageFromUint8List(_uInt8List);
-        // blog('_decodedImage : $_decodedImage');
-      }
-      // --------------------------o
-      else if (_isUints == true) {
-        final Uint8List _bytes = image;
-        _decodedImage = await Floaters.getUiImageFromUint8List(_bytes);
-      }
-      // -----------------------------------------------------------o
-      if (_decodedImage != null) {
-        _dimensions = Dimensions(
-          width: _decodedImage.width.toDouble(),
-          height: _decodedImage.height.toDouble(),
-        );
-      }
-      // -----------------------------------------------------------o
-      _decodedImage?.dispose();
-    }
-
-    return _dimensions;
-  }
-   */
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
@@ -496,5 +333,231 @@ class Dimensions {
   int get hashCode =>
       width.hashCode^
       height.hashCode;
+  // -----------------------------------------------------------------------------
+}
+
+abstract class DimensionsGetter {
+  // -----------------------------------------------------------------------------
+
+  const DimensionsGetter();
+
+  // -----------------------------------------------------------------------------
+
+  /// SUPER
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromDynamic({
+    required dynamic object,
+    required String fileName,
+  }) async {
+
+    if (object is MediaModel){
+      return fromMediaModel(mediaModel: object);
+    }
+
+    /// X FILE
+    else if (ObjectCheck.objectIsXFile(object) == true){
+      return fromXFile(xfile: object);
+    }
+
+    /// FILE
+    else if (ObjectCheck.objectIsFile(object) == true){
+      return fromFile(file: object);
+    }
+
+    /// BYTES
+    else if (ObjectCheck.objectIsUint8List(object) == true){
+      return fromBytes(bytes: object, fileName: fileName);
+    }
+
+    /// URL
+    else if (ObjectCheck.isAbsoluteURL(object) == true){
+      return fromURL(url: object, fileName: fileName);
+    }
+
+    /// LOCAL ASSET
+    else if (ObjectCheck.objectIsJPGorPNG(object) == true || ObjectCheck.objectIsSVG(object) == true){
+      return fromLocalAsset(localAsset: object);
+    }
+    else {
+      return null;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// GETTERS
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromLocalAsset({
+    required String? localAsset,
+  }) async {
+
+    final XFile? _xFile = await XFilers.createXFileFromLocalAsset(
+        asset: localAsset,
+    );
+
+    return fromXFile(xfile: _xFile);
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromMediaModel({
+    required MediaModel? mediaModel,
+  }) async {
+    return fromXFile(xfile: mediaModel?.file);
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromURL({
+    required String? url,
+    required String? fileName,
+  }) async {
+
+    final XFile? _xFile = await XFilers.createXFileFromURL(
+        url: url,
+        fileName: fileName,
+    );
+
+    return fromXFile(xfile: _xFile);
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromBytes({
+    required Uint8List? bytes,
+    required String? fileName,
+  }) async {
+
+    final XFile? _xFile = await XFilers.createXFileFromBytes(
+        bytes: bytes,
+        fileName: fileName
+    );
+
+    return fromXFile(xfile: _xFile);
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromFile({
+    required File? file,
+  }) async {
+    XFile? _xFile;
+
+    if (file != null){
+      _xFile = XFile(file.path);
+    }
+
+    return fromXFile(xfile: _xFile);
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> fromXFile({
+    required XFile? xfile,
+  }) async {
+
+    Dimensions? _output = await _getImageDimensions(
+      xFile: xfile,
+    );
+
+    _output ??= await _getVideoDimensions(
+        xFile: xfile,
+      );
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// IMAGE
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> _getImageDimensions({
+    required XFile? xFile,
+  }) async {
+    Dimensions? _output;
+
+    if (xFile != null){
+
+      await tryAndCatch(
+        invoker: 'getImageDimensions',
+        functions: () async {
+
+          final Uint8List bytes = await xFile.readAsBytes();
+
+          final img.Decoder? _decoder = FileTyper.getImageDecoderFromBytes(
+            bytes: bytes,
+          );
+          
+          blog('decoder.runtimeType : ${_decoder?.runtimeType}');
+          
+          if (_decoder != null){
+            
+            final img.Image? _image = await Floaters.getImgImageFromUint8List(bytes);
+            final int? width = _image?.width;
+            final int? height = _image?.height;
+
+            if (width != null && height != null){
+              _output = Dimensions(
+                width: width.toDouble(),
+                height: height.toDouble(),
+              );
+            }
+
+          }
+          
+        },
+      );
+      
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// VIDEO
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Dimensions?> _getVideoDimensions({
+    required XFile? xFile,
+  }) async {
+    Dimensions? _output;
+
+    if (xFile != null){
+
+      /// '<file path or url>'
+      final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
+      final MediaInformation? information = session.getMediaInformation();
+
+      await VideoOps.blogMediaInformationSession(session: session);
+
+      if (information == null) {
+        // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
+        // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
+        // final returnCode = await session.getReturnCode();
+        // final failStackTrace = await session.getFailStackTrace();
+        // final duration = await session.getDuration();
+        // final output = await session.getOutput();
+      }
+
+      else {
+        final Map<dynamic, dynamic>? _maw = information.getAllProperties();
+        final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
+        final List<Object?> _objects = _map['streams'];
+        final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
+
+        if( Lister.checkCanLoop(_maps) == true){
+          final Map<String, dynamic>? _data = _maps.first;
+          final int? height = _data?['height'];
+          final int? _width = _data?['width'];
+          _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 }

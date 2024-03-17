@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
+import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/files/file_size_unit.dart';
 import 'package:basics/helpers/files/filers.dart';
@@ -15,6 +16,7 @@ import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_meta_model.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 enum MediaOrigin {
   cameraImage,
@@ -73,6 +75,42 @@ class MediaModel {
       ),
     );
   }
+  // --------------------
+  /// TASK : DO ME
+  Future<MediaModel> renameFile({
+    required String? newName,
+  }) async {
+
+    if (file == null || newName == null || newName == '' || file?.name == newName){
+      return this;
+    }
+    else {
+
+      /// IMPLEMENT AND TEST ME MAW
+      final String _oldPath = file!.path;
+      final String? _newPath = await Filers.createNewFilePath(
+        fileName: newName,
+      );
+
+      if (_newPath != null && _oldPath != _newPath){
+
+        await file!.saveTo(_newPath);
+        await XFilers.deleteFile(_oldPath);
+
+        return copyWith(
+          file: XFile(_newPath),
+          meta: meta?.copyWith(name: newName),
+        );
+
+      }
+
+      else {
+        return this;
+      }
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// LDB CYPHERS
@@ -115,7 +153,7 @@ class MediaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String cipherMediaOrigin(MediaOrigin type){
+  static String? cipherMediaOrigin(MediaOrigin? type){
     switch (type){
       case MediaOrigin.cameraImage:  return 'camera';
       case MediaOrigin.galleryImage: return 'gallery';
@@ -123,6 +161,7 @@ class MediaModel {
       case MediaOrigin.galleryVideo: return 'galleryVideo';
       case MediaOrigin.generated:    return 'generated';
       case MediaOrigin.downloaded:   return 'downloaded';
+      default: return null;
     }
   }
   // --------------------
@@ -157,8 +196,10 @@ class MediaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Dimensions?> getDimensions(Uint8List? bytes) async {
-    final Dimensions? _dim = await Dimensions.superDimensions(bytes);
+  Future<Dimensions?> getDimensions() async {
+    final Dimensions? _dim = await DimensionsGetter.fromXFile(
+      xfile: file,
+    );
     return _dim;
   }
   // --------------------
@@ -184,62 +225,6 @@ class MediaModel {
   int getBytesLength(){
     final Map<String, String>? _data = meta?.data;
     return Numeric.transformStringToInt(_data?['sizeB']) ?? 0;
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<MediaModel?> createMediaModelFromLocalAsset({
-    required String localAsset,
-    String? uploadPath,
-    List<String>? ownersIDs,
-  }) async {
-    MediaModel? _output;
-
-    if (TextCheck.isEmpty(localAsset) == false){
-
-      final XFile? _file = await XFiler.createXFileFromLocalAsset(
-        asset: localAsset,
-      );
-
-      _output = await combineMediaModel(
-        file: _file,
-        fileType: FileType.jpeg,
-        mediaOrigin: MediaOrigin.generated,
-        uploadPath: uploadPath ?? '',
-        ownersIDs: ownersIDs ?? [],
-        name: _file?.name,
-      );
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<List<MediaModel>> createMediaModelsFromLocalAssets({
-    required List<String> localAssets,
-    // required int width,
-  }) async {
-    final List<MediaModel> _output = [];
-
-    if (Lister.checkCanLoop(localAssets) == true){
-
-      for (final String asset in localAssets){
-
-        final MediaModel? _pic = await createMediaModelFromLocalAsset(
-          localAsset: asset,
-          // ownersIDs: ,
-          // uploadPath: ,
-        );
-
-        if (_pic != null){
-          _output.add(_pic);
-        }
-
-      }
-
-    }
-
-    return _output;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -296,7 +281,7 @@ class MediaModel {
     }
     else {
       
-      final XFile? _file = await XFiler.replaceBytes(
+      final XFile? _file = await XFilers.replaceBytes(
         file: file,
         newBytes: bytes,
       );
@@ -337,90 +322,6 @@ class MediaModel {
       
     }
     
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// COMBINER
-
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<MediaModel?> combineMediaModel({
-    required XFile? file,
-    required MediaOrigin mediaOrigin,
-    required FileType? fileType,
-    required String? uploadPath,
-    required List<String> ownersIDs,
-    required String? name,
-  }) async {
-    MediaModel? _output;
-
-    // blog('  1.combinePicModel start : ${bytes?.length} bytes : picMakerType $picMakerType : '
-    //     'assignPath : $assignPath : name : $name');
-
-    if (file != null){
-
-      // blog('  2.combinePicModel bytes exists bytes != null');
-
-      final Uint8List _bytes = await file.readAsBytes();
-      final Dimensions? _dims =  await Dimensions.superDimensions(_bytes);
-      final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-      final double? _mega = Filers.calculateSize(_bytes.length, FileSizeUnit.megaByte);
-      final double? _kilo = Filers.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
-      final String? _deviceID = await DeviceChecker.getDeviceID();
-      final String? _deviceName = await DeviceChecker.getDeviceName();
-      final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-
-      /// SOMETHING IS MISSING
-      if (
-          _dims == null ||
-          _aspectRatio == null ||
-          _mega == null ||
-          _kilo == null ||
-          _deviceID == null ||
-          _deviceName == null
-      ){
-        _output = null;
-        // blog('  3.dims : $_dims');
-        // blog('  3.aspectRatio : $_aspectRatio');
-        // blog('  3.mega : $_mega');
-        // blog('  3.kilo : $_kilo');
-        // blog('  3.deviceID : $_deviceID');
-        // blog('  3.deviceName : $_deviceName');
-        // blog('  3.devicePlatform : $_devicePlatform');
-      }
-
-      /// ALL IS GOOD
-      else {
-        _output = MediaModel(
-          file: file,
-          meta: MediaMetaModel(
-            sizeMB: _mega,
-            width: _dims.width,
-            height: _dims.height,
-            fileType: fileType,
-            name: name,
-            ownersIDs: ownersIDs,
-            uploadPath: uploadPath,
-            data: MapperSS.cleanNullPairs(
-              map: {
-                'aspectRatio': _aspectRatio.toString(),
-                'sizeB': _bytes.length.toString(),
-                'sizeKB': _kilo.toString(),
-                'source': cipherMediaOrigin(mediaOrigin),
-                'deviceID': _deviceID,
-                'deviceName': _deviceName,
-                'platform': _devicePlatform,
-              },
-            ),
-          ),
-        );
-      }
-
-    }
-
-    // blog('  3.combinePicModel _output is null ${_output == null}');
-
     return _output;
   }
   // -----------------------------------------------------------------------------
@@ -477,7 +378,7 @@ class MediaModel {
   static Future<MediaModel> dummyPic() async {
 
     return MediaModel(
-      file: await XFiler.createXFileFromLocalAsset(
+      file: await XFilers.createXFileFromLocalAsset(
           asset: Iconz.bldrsAppIcon,
       ),
       meta: MediaMetaModel(
@@ -493,7 +394,7 @@ class MediaModel {
           'sizeB': '100',
           'sizeKB': '0.1',
           'compressionQuality': '100',
-          'source': cipherMediaOrigin(MediaOrigin.generated),
+          'source': cipherMediaOrigin(MediaOrigin.generated)!,
           'deviceID': 'Dummy Device ID',
           'deviceName': 'Dummy Device Name',
           'platform': 'Dummy Platform',
@@ -521,7 +422,7 @@ class MediaModel {
 
       if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
 
-        _identical = await XFiler.checkXFilesAreIdentical(
+        _identical = await XFilers.checkXFilesAreIdentical(
             file1: model1.file,
             file2: model2.file,
         );
@@ -646,5 +547,269 @@ class MediaModel {
   int get hashCode =>
       meta.hashCode^
       file.hashCode;
+  // -----------------------------------------------------------------------------
+}
+
+class MediaModelCreator {
+  // -----------------------------------------------------------------------------
+
+  const MediaModelCreator();
+
+  // -----------------------------------------------------------------------------
+
+  /// BYTES
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> fromBytes({
+    required Uint8List? bytes,
+    required String? fileName,
+    String? uploadPath,
+    MediaOrigin? mediaOrigin,
+    List<String>? ownersIDs,
+    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+  }) async {
+
+    final XFile? _file = await XFilers.createXFileFromBytes(
+      bytes: bytes,
+      fileName: fileName,
+    );
+
+    return MediaModelCreator.fromXFile(
+      file: _file,
+      fileType: fileType,
+      mediaOrigin: mediaOrigin,
+      uploadPath: uploadPath,
+      ownersIDs: ownersIDs,
+      renameFile: fileName,
+    );
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// URL
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> fromURL({
+    required String? url,
+    required String? fileName,
+    String? uploadPath,
+    List<String>? ownersIDs,
+    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+  }) async {
+
+    if (ObjectCheck.isAbsoluteURL(url) == false){
+      return null;
+    }
+    else {
+
+      final XFile? _file = await XFilers.createXFileFromURL(
+        url: url,
+        fileName: fileName,
+      );
+
+      final MediaModel? _mediaModel = await  MediaModelCreator.fromXFile(
+        file: _file,
+        fileType: fileType,
+        mediaOrigin: MediaOrigin.downloaded,
+        uploadPath: uploadPath,
+        ownersIDs: ownersIDs,
+        renameFile: fileName,
+      );
+
+      return _mediaModel?.copyWith(
+        meta: _mediaModel.meta?.copyWith(
+          data: MapperSS.insertPairInMapWithStringValue(
+            map: _mediaModel.meta?.data,
+            key: 'original_url',
+            value: url!,
+            overrideExisting: true,
+          )
+        ),
+      );
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// ASSET ENTITY
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> fromAssetEntity({
+    required AssetEntity? asset,
+    required String? renameFile,
+    String? uploadPath,
+    MediaOrigin? mediaOrigin,
+    List<String>? ownersIDs,
+    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+  }) async {
+
+    final XFile? _xFile = await XFilers.createXFileFromAssetEntity(
+      assetEntity: asset,
+    );
+
+    final MediaModel? _model = await fromXFile(
+      file: _xFile,
+      mediaOrigin: mediaOrigin,
+      fileType: fileType, /// TASK: DETECT_FILE_TYPE
+      uploadPath: uploadPath,
+      ownersIDs: ownersIDs,
+      renameFile: renameFile,
+    );
+
+    return _model;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FROM LOCAL ASSET
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> fromLocalAsset({
+    required String localAsset,
+    String? uploadPath,
+    List<String>? ownersIDs,
+    String? renameFile,
+  }) async {
+    MediaModel? _output;
+
+    if (TextCheck.isEmpty(localAsset) == false){
+
+      final XFile? _file = await XFilers.createXFileFromLocalAsset(
+        asset: localAsset,
+      );
+
+      _output = await fromXFile(
+        file: _file,
+        fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+        mediaOrigin: MediaOrigin.generated,
+        uploadPath: uploadPath ?? '',
+        ownersIDs: ownersIDs,
+        renameFile: renameFile,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<List<MediaModel>> fromLocalAssets({
+    required List<String> localAssets,
+    // required int width,
+  }) async {
+    final List<MediaModel> _output = [];
+
+    if (Lister.checkCanLoop(localAssets) == true){
+
+      for (final String asset in localAssets){
+
+        final MediaModel? _pic = await fromLocalAsset(
+          localAsset: asset,
+          // ownersIDs: ,
+          // uploadPath: ,
+        );
+
+        if (_pic != null){
+          _output.add(_pic);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FROM X FILE
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<MediaModel?> fromXFile({
+    required XFile? file,
+    required MediaOrigin? mediaOrigin,
+    required FileType? fileType, /// TASK: DETECT_FILE_TYPE
+    required String? uploadPath,
+    required List<String>? ownersIDs,
+    required String? renameFile,
+  }) async {
+    MediaModel? _output;
+
+    // blog('  1.combinePicModel start : ${bytes?.length} bytes : picMakerType $picMakerType : '
+    //     'assignPath : $assignPath : name : $name');
+
+    if (file != null){
+
+      // blog('  2.combinePicModel bytes exists bytes != null');
+
+      final Uint8List _bytes = await file.readAsBytes();
+      final Dimensions? _dims =  await DimensionsGetter.fromXFile(xfile: file);
+      final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+      final double? _mega = Filers.calculateSize(_bytes.length, FileSizeUnit.megaByte);
+      final double? _kilo = Filers.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
+      final String? _deviceID = await DeviceChecker.getDeviceID();
+      final String? _deviceName = await DeviceChecker.getDeviceName();
+      final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+
+      /// SOMETHING IS MISSING
+      if (
+          _dims == null ||
+          _aspectRatio == null ||
+          _mega == null ||
+          _kilo == null ||
+          _deviceID == null ||
+          _deviceName == null
+      ){
+        _output = null;
+        // blog('  3.dims : $_dims');
+        // blog('  3.aspectRatio : $_aspectRatio');
+        // blog('  3.mega : $_mega');
+        // blog('  3.kilo : $_kilo');
+        // blog('  3.deviceID : $_deviceID');
+        // blog('  3.deviceName : $_deviceName');
+        // blog('  3.devicePlatform : $_devicePlatform');
+      }
+
+      /// ALL IS GOOD
+      else {
+        _output = MediaModel(
+          file: file,
+          meta: MediaMetaModel(
+            sizeMB: _mega,
+            width: _dims.width,
+            height: _dims.height,
+            fileType: fileType,
+            name: file.name,
+            ownersIDs: ownersIDs ?? [],
+            uploadPath: uploadPath,
+            data: MapperSS.cleanNullPairs(
+              map: {
+                'aspectRatio': _aspectRatio.toString(),
+                'sizeB': _bytes.length.toString(),
+                'sizeKB': _kilo.toString(),
+                'source': MediaModel.cipherMediaOrigin(mediaOrigin),
+                'deviceID': _deviceID,
+                'deviceName': _deviceName,
+                'platform': _devicePlatform,
+              },
+            ),
+          ),
+        );
+      }
+
+    }
+
+    if (renameFile != null){
+      _output = await _output?.renameFile(newName: renameFile);
+    }
+
+    // blog('  3.combinePicModel _output is null ${_output == null}');
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 }

@@ -395,13 +395,17 @@ static img.Image decodeToImgImage({
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> resizeBytes({
     required Uint8List? bytes,
+    required String? fileName,
     required double? resizeToWidth,
   }) async {
     Uint8List? _output = bytes;
 
     if (bytes != null && resizeToWidth != null){
 
-      final Dimensions? _dims = await Dimensions.superDimensions(bytes);
+      final Dimensions? _dims = await DimensionsGetter.fromBytes(
+        bytes: bytes,
+        fileName: fileName,
+      );
 
       if (Numeric.isLesserThan(number: resizeToWidth, isLesserThan: _dims?.width) == true){
 

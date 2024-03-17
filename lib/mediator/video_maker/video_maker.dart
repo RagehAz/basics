@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'package:basics/helpers/checks/error_helpers.dart';
-import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/file_typer.dart';
@@ -65,17 +64,13 @@ class VideoMaker {
         },
       );
 
-      final XFile? _xFile = await XFiler.createXFileFromFirstAssetEntity(
-        assetEntities: pickedAssets,
-      );
-
-      _output = await MediaModel.combineMediaModel(
+      _output = await MediaModelCreator.fromAssetEntity(
+        asset: pickedAssets?.firstOrNull,
         ownersIDs: ownersIDs,
         fileType: FileType.mp4,
-        name: name,
-        file: _xFile,
         mediaOrigin: MediaOrigin.galleryVideo,
         uploadPath: uploadPath,
+        renameFile: name,
       );
 
     }
@@ -123,17 +118,13 @@ class VideoMaker {
             locale: locale,
           );
 
-          final XFile? _file = await XFiler.createXFileFromAssetEntity(
-              assetEntity: entity,
-          );
-
-          _output = await MediaModel.combineMediaModel(
+          _output = await MediaModelCreator.fromAssetEntity(
+            asset: entity,
             ownersIDs: ownersIDs,
             fileType: FileType.mp4,
-            name: name,
-            file: _file,
             mediaOrigin: MediaOrigin.galleryVideo,
             uploadPath: uploadPath,
+            renameFile: name,
           );
 
         },

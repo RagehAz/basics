@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/files/file_size_unit.dart';
 import 'package:basics/helpers/files/floaters.dart';
-import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
 import 'package:cross_file/cross_file.dart';
@@ -23,6 +23,7 @@ extension Extra on XFile {
   /// SIZE
 
   // --------------------
+  /// TASK : TEST_ME_NOW
   Future<double?> readSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
@@ -34,18 +35,20 @@ extension Extra on XFile {
   /// DIMENSIONS
 
   // --------------------
+  /// TASK : TEST_ME_NOW
   Future<Dimensions?> readDimensions() async {
-    final Uint8List _bytes = await readAsBytes();
-    final Dimensions? _dims =  await Dimensions.superDimensions(_bytes);
+    final Dimensions? _dims =  await DimensionsGetter.fromXFile(
+        xfile: this,
+    );
     return _dims;
   }
   // -----------------------------------------------------------------------------
 }
 
-class XFiler {
+class XFilers {
   // -----------------------------------------------------------------------------
 
-  const XFiler();
+  const XFilers();
 
   // -----------------------------------------------------------------------------
 
@@ -202,9 +205,9 @@ class XFiler {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> createXFileFromLocalAsset({
-    required String asset,
+    required String? asset,
   }) async {
 
     final Uint8List? _bytes = await Floaters.getBytesFromLocalAsset(
@@ -240,23 +243,6 @@ class XFiler {
   }
   // --------------------
   /// TASK : TEST_ME_NOW
-  static Future<XFile?> createXFileFromFirstAssetEntity({
-    required List<AssetEntity>? assetEntities,
-  }) async {
-    XFile? _output;
-
-    if (Lister.checkCanLoop(assetEntities) == true){
-
-      _output = await createXFileFromAssetEntity(
-          assetEntity: assetEntities!.first,
-      );
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
   static File? createFileFromXFile({
     required XFile? xFile,
   }){
@@ -266,6 +252,20 @@ class XFiler {
     }
     else {
       return null;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// DELETION
+
+  // --------------------
+  static Future<void> deleteFile(String? path) async {
+
+    if (TextCheck.isEmpty(path) == false){
+
+
+
     }
 
   }
