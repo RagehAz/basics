@@ -2,14 +2,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/floaters.dart';
-import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_model.dart';
 import 'package:basics/mediator/video_maker/video_ops.dart';
 import 'package:cross_file/cross_file.dart';
@@ -395,7 +393,7 @@ abstract class DimensionsGetter {
     required String? localAsset,
   }) async {
 
-    final XFile? _xFile = await XFilers.createXFileFromLocalAsset(
+    final XFile? _xFile = await XFiler.createXFileFromLocalAsset(
         asset: localAsset,
     );
 
@@ -415,7 +413,7 @@ abstract class DimensionsGetter {
     required String? fileName,
   }) async {
 
-    final XFile? _xFile = await XFilers.createXFileFromURL(
+    final XFile? _xFile = await XFiler.createXFileFromURL(
         url: url,
         fileName: fileName,
     );
@@ -429,7 +427,7 @@ abstract class DimensionsGetter {
     required String? fileName,
   }) async {
 
-    final XFile? _xFile = await XFilers.createXFileFromBytes(
+    final XFile? _xFile = await XFiler.createXFileFromBytes(
         bytes: bytes,
         fileName: fileName
     );
@@ -492,7 +490,7 @@ abstract class DimensionsGetter {
           
           if (_decoder != null){
             
-            final img.Image? _image = await Floaters.getImgImageFromUint8List(bytes);
+            final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
             final int? width = _image?.width;
             final int? height = _image?.height;
 

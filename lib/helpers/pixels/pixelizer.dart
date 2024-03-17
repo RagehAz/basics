@@ -1,6 +1,6 @@
 import 'dart:typed_data';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/floaters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
@@ -25,7 +25,7 @@ class Pixelizer {
     if (key != null){
       final RenderRepaintBoundary? boxPaint = key.currentContext?.findRenderObject() as RenderRepaintBoundary;
       final ui.Image? capture = await boxPaint?.toImage();
-      _output = await Floaters.getBytesFromUiImage(capture);
+      _output = await Byter.fromUiImage(capture);
       capture?.dispose();
     }
 

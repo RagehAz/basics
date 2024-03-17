@@ -51,7 +51,7 @@ class _FileAndURLVideoPlayerState extends State<FileAndURLVideoPlayer> {
     if (
         oldWidget.url != widget.url ||
         oldWidget.asset != widget.asset ||
-        Filers.checkFilesAreIdentical(file1: oldWidget.file, file2: widget.file) == false
+        Filer.checkFilesAreIdentical(file1: oldWidget.file, file2: widget.file) == false
     ) {
 
       _reload();

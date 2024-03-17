@@ -1,18 +1,15 @@
 import 'dart:io';
 
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/file_size_unit.dart';
-import 'package:basics/helpers/files/filers.dart';
-import 'package:basics/helpers/files/x_filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
-import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_meta_model.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
@@ -88,14 +85,14 @@ class MediaModel {
 
       /// IMPLEMENT AND TEST ME MAW
       final String _oldPath = file!.path;
-      final String? _newPath = await Filers.createNewFilePath(
+      final String? _newPath = await FilePathing.createNewFilePath(
         fileName: newName,
       );
 
       if (_newPath != null && _oldPath != _newPath){
 
         await file!.saveTo(_newPath);
-        await XFilers.deleteFile(_oldPath);
+        await XFiler.deleteFile(_oldPath);
 
         return copyWith(
           file: XFile(_newPath),
@@ -281,7 +278,7 @@ class MediaModel {
     }
     else {
       
-      final XFile? _file = await XFilers.replaceBytes(
+      final XFile? _file = await XFiler.replaceBytes(
         file: file,
         newBytes: bytes,
       );
@@ -378,12 +375,12 @@ class MediaModel {
   static Future<MediaModel> dummyPic() async {
 
     return MediaModel(
-      file: await XFilers.createXFileFromLocalAsset(
+      file: await XFiler.createXFileFromLocalAsset(
           asset: Iconz.bldrsAppIcon,
       ),
       meta: MediaMetaModel(
         ownersIDs: const ['OwnerID'],
-        fileType: FileType.jpeg,
+        fileExt: FileExt.jpeg,
         name: 'Dummy Pic',
         width: 100,
         height: 100,
@@ -422,7 +419,7 @@ class MediaModel {
 
       if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
 
-        _identical = await XFilers.checkXFilesAreIdentical(
+        _identical = await XFiler.checkXFilesAreIdentical(
             file1: model1.file,
             file2: model2.file,
         );
@@ -567,17 +564,17 @@ class MediaModelCreator {
     String? uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
-    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
-    final XFile? _file = await XFilers.createXFileFromBytes(
+    final XFile? _file = await XFiler.createXFileFromBytes(
       bytes: bytes,
       fileName: fileName,
     );
 
     return MediaModelCreator.fromXFile(
       file: _file,
-      fileType: fileType,
+      fileExt: fileExt,
       mediaOrigin: mediaOrigin,
       uploadPath: uploadPath,
       ownersIDs: ownersIDs,
@@ -596,7 +593,7 @@ class MediaModelCreator {
     required String? fileName,
     String? uploadPath,
     List<String>? ownersIDs,
-    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
     if (ObjectCheck.isAbsoluteURL(url) == false){
@@ -604,14 +601,14 @@ class MediaModelCreator {
     }
     else {
 
-      final XFile? _file = await XFilers.createXFileFromURL(
+      final XFile? _file = await XFiler.createXFileFromURL(
         url: url,
         fileName: fileName,
       );
 
       final MediaModel? _mediaModel = await  MediaModelCreator.fromXFile(
         file: _file,
-        fileType: fileType,
+        fileExt: fileExt,
         mediaOrigin: MediaOrigin.downloaded,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
@@ -644,17 +641,17 @@ class MediaModelCreator {
     String? uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
-    FileType? fileType, /// TASK: DETECT_FILE_TYPE
+    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
-    final XFile? _xFile = await XFilers.createXFileFromAssetEntity(
+    final XFile? _xFile = await XFiler.createXFileFromAssetEntity(
       assetEntity: asset,
     );
 
     final MediaModel? _model = await fromXFile(
       file: _xFile,
       mediaOrigin: mediaOrigin,
-      fileType: fileType, /// TASK: DETECT_FILE_TYPE
+      fileExt: fileExt, /// TASK: DETECT_FILE_TYPE
       uploadPath: uploadPath,
       ownersIDs: ownersIDs,
       renameFile: renameFile,
@@ -678,13 +675,13 @@ class MediaModelCreator {
 
     if (TextCheck.isEmpty(localAsset) == false){
 
-      final XFile? _file = await XFilers.createXFileFromLocalAsset(
+      final XFile? _file = await XFiler.createXFileFromLocalAsset(
         asset: localAsset,
       );
 
       _output = await fromXFile(
         file: _file,
-        fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+        fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
         mediaOrigin: MediaOrigin.generated,
         uploadPath: uploadPath ?? '',
         ownersIDs: ownersIDs,
@@ -732,7 +729,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromXFile({
     required XFile? file,
     required MediaOrigin? mediaOrigin,
-    required FileType? fileType, /// TASK: DETECT_FILE_TYPE
+    required FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
     required String? uploadPath,
     required List<String>? ownersIDs,
     required String? renameFile,
@@ -749,8 +746,8 @@ class MediaModelCreator {
       final Uint8List _bytes = await file.readAsBytes();
       final Dimensions? _dims =  await DimensionsGetter.fromXFile(xfile: file);
       final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-      final double? _mega = Filers.calculateSize(_bytes.length, FileSizeUnit.megaByte);
-      final double? _kilo = Filers.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
+      final double? _mega = FileSizer.calculateSize(_bytes.length, FileSizeUnit.megaByte);
+      final double? _kilo = FileSizer.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
       final String? _deviceID = await DeviceChecker.getDeviceID();
       final String? _deviceName = await DeviceChecker.getDeviceName();
       final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
@@ -782,7 +779,7 @@ class MediaModelCreator {
             sizeMB: _mega,
             width: _dims.width,
             height: _dims.height,
-            fileType: fileType,
+            fileExt: fileExt,
             name: file.name,
             ownersIDs: ownersIDs ?? [],
             uploadPath: uploadPath,

@@ -100,7 +100,7 @@ class _FilteredImage extends StatefulWidget {
 
       Uint8List? _bytes = input is Uint8List ? input
           :
-      await Floaters.getBytesFromUiImage(_output);
+      await Byter.fromUiImage(_output);
 
       if (_bytes != null){
 
@@ -124,7 +124,7 @@ class _FilteredImage extends StatefulWidget {
           );
 
           if (_bytes != null) {
-            _output = await Floaters.getUiImageFromUint8List(_bytes);
+            _output = await Imager.getUiImageFromUint8List(_bytes);
           }
 
         }
@@ -217,7 +217,7 @@ class _FilteredImageState extends State<_FilteredImage> {
     }
 
     else if (widget.pic is ui.Image && oldWidget.pic is ui.Image){
-      _bytesAreIdentical = Floaters.checkUiImagesAreIdentical(widget.pic, oldWidget.pic);
+      _bytesAreIdentical = Imager.checkUiImagesAreIdentical(widget.pic, oldWidget.pic);
     }
 
     else {
@@ -263,7 +263,7 @@ class _FilteredImageState extends State<_FilteredImage> {
 
     if (pic is Uint8List){
 
-      return Floaters.getUiImageFromUint8List(pic);
+      return Imager.getUiImageFromUint8List(pic);
     }
 
     else {

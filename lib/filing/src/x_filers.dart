@@ -1,61 +1,16 @@
-import 'dart:io';
-import 'package:basics/helpers/checks/device_checker.dart';
-import 'package:basics/helpers/files/file_size_unit.dart';
-import 'package:basics/helpers/files/floaters.dart';
-import 'package:basics/helpers/strings/text_check.dart';
-import 'package:basics/helpers/strings/text_mod.dart';
-import 'package:basics/mediator/models/dimension_model.dart';
-import 'package:cross_file/cross_file.dart';
-import 'package:flutter/foundation.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+part of filing;
 
-import 'filers.dart';
-
-extension Extra on XFile {
+class XFiler {
   // -----------------------------------------------------------------------------
 
-  /// BLOGGING
-
-  // --------------------
-  String get stringifyXFile => 'XFile(path: $path, name: $name)';
-  // -----------------------------------------------------------------------------
-
-  /// SIZE
-
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  Future<double?> readSize({
-    FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
-  }) async {
-    final Uint8List _bytes = await readAsBytes();
-    return Filers.calculateSize(_bytes.length, fileSizeUnit);
-  }
-  // -----------------------------------------------------------------------------
-
-  /// DIMENSIONS
-
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  Future<Dimensions?> readDimensions() async {
-    final Dimensions? _dims =  await DimensionsGetter.fromXFile(
-        xfile: this,
-    );
-    return _dims;
-  }
-  // -----------------------------------------------------------------------------
-}
-
-class XFilers {
-  // -----------------------------------------------------------------------------
-
-  const XFilers();
+  const XFiler();
 
   // -----------------------------------------------------------------------------
 
   /// BASICS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> _createNewEmptyFile({
     required String? fileName,
     bool useTemporaryDirectory = false,
@@ -80,7 +35,7 @@ class XFilers {
       /// C:\Users\rageh\AppData\Local\Temp
       /// --------------------
 
-      final String? _filePath = await Filers.createNewFilePath(
+      final String? _filePath = await FilePathing.createNewFilePath(
         fileName: fileName,
         useTemporaryDirectory: useTemporaryDirectory,
       );
@@ -89,7 +44,7 @@ class XFilers {
       if (DeviceChecker.deviceIsWindows() == true) {
         final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
           text: _filePath,
-          specialCharacter: Filers.slash,
+          specialCharacter: FilePathing.slash,
         )!;
         await Directory(_pathWithoutDocName).create(recursive: true);
       }
@@ -103,7 +58,7 @@ class XFilers {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> _writeUint8ListOnFile({
     required XFile? file,
     required Uint8List? bytes,
@@ -170,7 +125,7 @@ class XFilers {
 
     if (fileName != null && url != null){
 
-      final Uint8List? _bytes = await Floaters.getBytesFromURL(url);
+      final Uint8List? _bytes = await Byter.fromURL(url);
 
       _output = await createXFileFromBytes(
         bytes: _bytes,
@@ -182,7 +137,7 @@ class XFilers {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> createXFileFromBytes({
     required Uint8List? bytes,
     required String? fileName
@@ -210,12 +165,12 @@ class XFilers {
     required String? asset,
   }) async {
 
-    final Uint8List? _bytes = await Floaters.getBytesFromLocalAsset(
+    final Uint8List? _bytes = await Byter.fromLocalAsset(
       localAsset: asset,
       // width: width,
     );
 
-    final String? _fileName = Filers.getFileNameFromFilePath(
+    final String? _fileName = FilePathing.getFileNameFromFilePath(
       filePath: asset,
       withExtension: true,
     );
@@ -260,11 +215,19 @@ class XFilers {
   /// DELETION
 
   // --------------------
+  /// TASK : TEST_ME_NOW
   static Future<void> deleteFile(String? path) async {
 
     if (TextCheck.isEmpty(path) == false){
 
+      if (kIsWeb == true){
 
+      }
+      else {
+
+        await File(path!).delete();
+
+      }
 
     }
 
@@ -289,7 +252,7 @@ class XFilers {
       else if (file1 != null && file2 != null){
         if (file1.path == file2.path){
 
-            final bool _bytesAreIdentical = Floaters.checkBytesAreIdentical(
+            final bool _bytesAreIdentical = Byter.checkBytesAreIdentical(
               bytes1: await file1.readAsBytes(),
               bytes2: await file2.readAsBytes(),
             );

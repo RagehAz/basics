@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 
@@ -503,6 +504,71 @@ class Numeric {
       _indexes.add(_newIndex);
     }
     return _indexes;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// GETTERS
+
+  // --------------------
+  /// TASK : TEST ME
+  static List<int> getIntsFromDynamics({
+    required List<dynamic>? dynamics,
+    bool intifyDoubles = false,
+  }){
+    final List<int> _ints = <int>[];
+
+    if (dynamics != null){
+      // _ints.addAll(_ints);
+
+      for (int i = 0; i < dynamics.length; i++){
+
+        final dynamic _object = dynamics[i];
+
+        if (_object is int){
+          _ints.add(dynamics[0]);
+        }
+
+        if (_object is double && intifyDoubles == true){
+          final double _d = dynamics[0];
+          _ints.add(_d.toInt());
+        }
+
+      }
+
+    }
+
+
+
+    return _ints;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<double> getDoublesFromDynamics({
+    required List<dynamic>? dynamics,
+    bool doublizeIntegers = false,
+  }){
+
+    final List<double> _output = <double>[];
+
+    if (Lister.checkCanLoop(dynamics) == true){
+
+      for (final dynamic object in dynamics!){
+
+        if (object is double){
+          final double _double = object;
+          _output.add(_double);
+        }
+
+        if (doublizeIntegers == true && object is int){
+          final int _integer = object;
+          _output.add(_integer.toDouble());
+        }
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

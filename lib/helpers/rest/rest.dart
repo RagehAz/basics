@@ -92,7 +92,7 @@ class Rest {
 
   }
   // --------------------
-  ///
+  /// TASK : TEST_ME_NOW
   static Future<Uint8List?> readBytes({
     required String rawLink,
     String invoker = '',
@@ -119,8 +119,19 @@ class Rest {
         );
 
       },
-
     );
+
+    /// ANOTHER SOLUTION
+    /*
+    final http.Response? _response = await Rest.get(
+      rawLink: rawLink,
+      // timeout: 60,
+      invoker: 'readBytes',
+    );
+    if (_response != null && _response.statusCode == 200){
+      _uInts = _response.bodyBytes;
+    }
+     */
 
     return _uInts;
 

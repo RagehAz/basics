@@ -1,18 +1,17 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/floaters.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
-import 'package:basics/mediator/models/file_typer.dart';
 import 'package:basics/mediator/models/media_model.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
 import 'package:flutter/foundation.dart';
@@ -164,7 +163,7 @@ class PicMaker {
           _output = await MediaModelCreator.fromXFile(
             file: _file,
             mediaOrigin: MediaOrigin.galleryImage,
-            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
             renameFile: fileName,
@@ -329,7 +328,7 @@ class PicMaker {
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
             asset: asset,
             mediaOrigin: MediaOrigin.galleryImage,
-            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPathGenerator?.call(i),
             ownersIDs: ownersIDs,
             renameFile: picNameGenerator?.call(i),
@@ -480,7 +479,7 @@ class PicMaker {
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
             asset: entity,
             mediaOrigin: MediaOrigin.cameraImage,
-            fileType: FileType.jpeg, /// TASK: DETECT_FILE_TYPE
+            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
             renameFile: fileName,
@@ -605,7 +604,7 @@ class PicMaker {
 
       Uint8List? _bytes = await _output?.file?.readAsBytes();
 
-      _bytes = await Floaters.resizeBytes(
+      _bytes = await Byter.resize(
         bytes: _bytes,
         fileName: _output?.meta?.name,
         resizeToWidth: resizeToWidth,

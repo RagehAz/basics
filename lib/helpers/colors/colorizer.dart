@@ -2,8 +2,7 @@
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
-import 'package:basics/helpers/files/floaters.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:cross_file/cross_file.dart';
@@ -176,7 +175,7 @@ class Colorizer {
 
     if (bytes != null){
 
-      final img.Image? bitmap = await Floaters.getImgImageFromUint8List(bytes);
+      final img.Image? bitmap = await Imager.getImgImageFromUint8List(bytes);
 
       if (bitmap != null) {
         double redBucket = 0;

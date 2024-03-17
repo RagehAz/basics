@@ -2,9 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/files/file_size_unit.dart';
-import 'package:basics/helpers/files/filers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
@@ -325,7 +324,7 @@ class VideoOps {
 
     else {
       final File? _file = controller.file;
-      return Filers.getFileSizeWithUnit(
+      return FileSizer.getFileSizeWithUnit(
           file: _file,
           unit: unit,
       );
@@ -338,7 +337,7 @@ class VideoOps {
     required File? file,
   }){
 
-    final double _size = Filers.getFileSizeWithUnit(
+    final double _size = FileSizer.getFileSizeWithUnit(
         file: file,
         unit: FileSizeUnit.megaByte
       ) ?? 0;
@@ -392,8 +391,8 @@ class VideoOps {
   }) async {
     Dimensions? _output;
 
-    final File? _file = await Filers.getFileFromUint8List(
-      uInt8List: bytes,
+    final File? _file = await Filer.createFromBytes(
+      bytes: bytes,
       fileName: Numeric.createUniqueID().toString(),
     );
 
@@ -629,7 +628,7 @@ class VideoOps {
     required VideoEditorController? newController,
   }){
 
-    final bool _filesAreIdentical = Filers.checkFilesAreIdentical(
+    final bool _filesAreIdentical = Filer.checkFilesAreIdentical(
       file1: oldController?.file,
       file2: newController?.file,
     );
