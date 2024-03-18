@@ -13,7 +13,7 @@ class XFiler {
   /// TESTED : WORKS PERFECT
   static Future<XFile?> _createNewEmptyXFile({
     required String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
     XFile? _output;
 
@@ -37,7 +37,7 @@ class XFiler {
 
       final String? _filePath = await FilePathing.createNewFilePath(
         fileName: fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
       /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS

@@ -10,17 +10,6 @@ import 'package:image/image.dart' as img;
 import 'dart:convert';
 import 'package:cross_file/cross_file.dart';
 
-extension FileExtention on FileSystemEntity {
-  String get fileNameWithExtension {
-    return path.split('/').last;
-  }
-
-  // -----------------------------------------------------------------------------
-  String get fileExtension {
-    return path.split('.').last;
-  }
-}
-
 class ObjectCheck {
   // -----------------------------------------------------------------------------
 
@@ -195,30 +184,7 @@ class ObjectCheck {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsXFile(dynamic file) {
-    bool _isFile = false;
-
-    if (file != null) {
-
-      final bool isFileA = file is XFile;
-      // final bool isFileB = file.runtimeType.toString() == '_File';
-
-      if (
-          isFileA == true
-          // ||
-          // isFileB == true
-      ) {
-        _isFile = true;
-      }
-
-    }
-
-    else {
-      blog('objectIsFile : isFile : null');
-    }
-
-    blog('objectIsXFile :$_isFile');
-
-    return _isFile;
+    return file is XFile;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

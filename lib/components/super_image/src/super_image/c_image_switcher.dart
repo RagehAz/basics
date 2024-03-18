@@ -159,6 +159,60 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      /// MEDIA MODEL
+      else if (pic is MediaModel){
+
+        final MediaModel _mediaModel = pic;
+
+        if (_mediaModel.file == null){
+          return SizedBox(
+            width: width,
+            height: height,
+            // color: Colorz.errorColor,
+          );
+        }
+
+        else {
+          return Image(
+            image: XFileImage(_mediaModel.file!),
+            key: const ValueKey<String>('SuperImage_media_model'),
+            fit: boxFit,
+            width: width,
+            height: height,
+            errorBuilder: _errorBuilder,
+            gaplessPlayback: _gaplessPlayback,
+          );
+        }
+
+      }
+
+      /// FILE
+      else if (ObjectCheck.objectIsFile(pic) == true){
+
+        return Image.file(
+          pic,
+          key: const ValueKey<String>('SuperImage_file'),
+          fit: boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+      }
+
+      /// X FILE
+      else if (ObjectCheck.objectIsXFile(pic) == true){
+        return Image(
+          image: XFileImage(pic),
+          key: const ValueKey<String>('SuperImage_xfile'),
+          fit: boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+      }
+
       /// URL
       else if (ObjectCheck.isAbsoluteURL(pic) == true){
 
@@ -204,60 +258,6 @@ class ImageSwitcher extends StatelessWidget {
           package: package,
 
         );
-      }
-
-      /// FILE
-      else if (ObjectCheck.objectIsFile(pic) == true){
-
-        return Image.file(
-          pic,
-          key: const ValueKey<String>('SuperImage_file'),
-          fit: boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-        );
-      }
-
-      /// X FILE
-      else if (ObjectCheck.objectIsXFile(pic) == true){
-        return Image(
-          image: XFileImage(pic),
-          key: const ValueKey<String>('SuperImage_xfile'),
-          fit: boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-        );
-      }
-
-      /// MEDIA MODEL
-      else if (pic is MediaModel){
-
-        final MediaModel _mediaModel = pic;
-
-        if (_mediaModel.file == null){
-          return SizedBox(
-            width: width,
-            height: height,
-            // color: Colorz.errorColor,
-          );
-        }
-
-        else {
-          return Image(
-            image: XFileImage(_mediaModel.file!),
-            key: const ValueKey<String>('SuperImage_media_model'),
-            fit: boxFit,
-            width: width,
-            height: height,
-            errorBuilder: _errorBuilder,
-            gaplessPlayback: _gaplessPlayback,
-          );
-        }
-
       }
 
       /// UINT8LIST

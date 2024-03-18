@@ -13,7 +13,7 @@ class Filer {
   /// TESTED : WORKS PERFECT
   static Future<File?> _createNewEmptyFile({
     required String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
     File? _output;
 
@@ -37,7 +37,7 @@ class Filer {
 
       final String? _filePath = await FilePathing.createNewFilePath(
         fileName: fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
       /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
@@ -98,7 +98,7 @@ class Filer {
   static Future<File?> createFromBytes({
     required Uint8List? bytes,
     required String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
     if (kIsWeb == true || bytes == null || fileName == null){
@@ -108,7 +108,7 @@ class Filer {
     else {
       final File? _file = await _createNewEmptyFile(
         fileName: fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
       return _writeBytesOnFile(
@@ -123,7 +123,7 @@ class Filer {
   static Future<List<File>?> createFromBytezz({
     required List<Uint8List>? bytezz,
     required List<String>? filesNames,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
     if (kIsWeb == true || bytezz == null || filesNames == null){
@@ -140,7 +140,7 @@ class Filer {
           final File? _file = await createFromBytes(
             bytes: bytezz[i],
             fileName: filesNames[i],
-            useTemporaryDirectory: useTemporaryDirectory,
+            directoryType: directoryType,
           );
 
           if (_file != null){
@@ -156,10 +156,10 @@ class Filer {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<File?> createFromLocalAsset({
     required String? localAsset,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
     File? _output;
 
@@ -174,7 +174,7 @@ class Filer {
       _output = await createFromBytes(
         bytes: _bytes,
         fileName: _fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
     }
@@ -186,7 +186,7 @@ class Filer {
   static Future<File?> createFromURL({
     required String? url,
     String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
     if (kIsWeb == true || url == null){
@@ -210,7 +210,7 @@ class Filer {
 
           _file = await _createNewEmptyFile(
             fileName: _fileName,
-            useTemporaryDirectory: useTemporaryDirectory,
+            directoryType: directoryType,
           );
 
           _file = await _writeBytesOnFile(
@@ -231,7 +231,7 @@ class Filer {
   static Future<File?> createFromImgImage({
     required img.Image? imgImage,
     required String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
     if (kIsWeb == true || imgImage == null || fileName == null){
@@ -245,7 +245,7 @@ class Filer {
       return Filer.createFromBytes(
         bytes: _uIntAgain,
         fileName: fileName,
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
     }
@@ -255,7 +255,7 @@ class Filer {
   /// TASK : TEST ME
   static Future<File?> createFromBase64({
     required String? base64,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
     if (kIsWeb == true || base64 == null){
@@ -269,7 +269,7 @@ class Filer {
       final File? _fileAgain = await createFromBytes(
         bytes: _fileAgainAsInt,
         fileName: '${Numeric.createUniqueID()}',
-        useTemporaryDirectory: useTemporaryDirectory,
+        directoryType: directoryType,
       );
 
       return _fileAgain;
@@ -314,30 +314,34 @@ class Filer {
 
     else {
 
-      blog('blogFile : $invoker : file.path : ${file.path}');
-      blog('blogFile : $invoker : file.absolute : ${file.absolute}');
-      blog('blogFile : $invoker : file.fileNameWithExtension : ${file.fileNameWithExtension}');
-      blog('blogFile : $invoker : file.runtimeType : ${file.runtimeType}');
-      blog('blogFile : $invoker : file.isAbsolute : ${file.isAbsolute}');
-      blog('blogFile : $invoker : file.parent : ${file.parent}');
+      final Map<String, dynamic> _map = {
+        'path': file.path,
+        'absolute': file.absolute,
+        'fileNameWithExtension': file.fileNameWithExtension,
+        'runtimeType': file.runtimeType,
+        'isAbsolute': file.isAbsolute,
+        'parent': file.parent,
+        'lengthSync()': file.lengthSync(),
+        'file.readAsBytesSync().length': file.readAsBytesSync().length,
+        'toString()': file.toString(),
+        'lastAccessedSync()': file.lastAccessedSync(),
+        'lastModifiedSync()': file.lastModifiedSync(),
+        'existsSync()': file.existsSync(),
+        'hashCode': file.hashCode,
+      };
       // blog('blogFile : $invoker : file.resolveSymbolicLinksSync() : ${file.resolveSymbolicLinksSync()}');
-      blog('blogFile : $invoker : file.lengthSync() : ${file.lengthSync()}');
-      blog('blogFile : $invoker : file.toString() : $file');
-      blog('blogFile : $invoker : file.lastAccessedSync() : ${file.lastAccessedSync()}');
-      blog('blogFile : $invoker : file.lastModifiedSync() : ${file.lastModifiedSync()}');
       // blog('blogFile : $invoker : file.openSync() : ${file.openSync()}');
       // blog('blogFile : $invoker : file.openWrite() : ${file.openWrite()}');
       // blog('blogFile : $invoker : file.statSync() : ${file.statSync()}');
-      blog('blogFile : $invoker : file.existsSync() : ${file.existsSync()}');
       // DynamicLinks.blogURI(
       //   uri: file.uri,
       //   invoker: invoker,
       // );
-      blog('blogFile : $invoker : file.hashCode : ${file.hashCode}');
-
       // blog('blogFile : $invoker : file.readAsLinesSync() : ${file.readAsLinesSync()}'); /// Unhandled Exception: FileSystemException: Failed to decode data using encoding 'utf-8',
       // blog('blogFile : $invoker : file.readAsStringSync() : ${file.readAsStringSync()}'); /// ERROR WITH IMAGE FILES
       // blog('blogFile : $invoker : file.readAsBytesSync() : ${file.readAsBytesSync()}'); /// TOO LONG
+
+      Mapper.blogMap(_map, invoker: invoker,);
 
     }
 
@@ -445,7 +449,7 @@ class Filer {
   /// GETTERS
 
   // --------------------
-  /// TASK : TEST ME
+  /// TASK : TEST_ME_NOW
   static Future<File?> getFileFromDynamics(dynamic pic) async {
 
     if (kIsWeb == true || pic == null){
@@ -484,6 +488,56 @@ class Filer {
       return _file;
     }
 
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<List<File>> readAllDirectoryFiles({
+    required DirectoryType type,
+  }) async {
+    final List<File> _output = [];
+
+    final Directory? _x = await Director.getDirectory(
+        type: type,
+    );
+    final String? _path = _x?.path;
+
+    if (_path != null){
+
+      final String _fixedPath = FilePathing.fixFilePath(_path)!;
+      blog('_fixedPath : $_fixedPath');
+
+      List<FileSystemEntity> _fileSystemEntities = [];
+
+      await tryAndCatch(
+        invoker: 'readAllDirectoryFiles',
+          functions: () async {
+
+            _fileSystemEntities = Directory(_fixedPath).listSync(
+              // followLinks: ,
+              recursive: true,
+            );
+
+          },
+      );
+
+      if (Lister.checkCanLoop(_fileSystemEntities) == true){
+
+        for (final FileSystemEntity fileSystemEntity in _fileSystemEntities){
+          final File _file = File(fileSystemEntity.path);
+
+          // final FileStat _stat = await fileSystemEntity.stat();
+          // _stat.
+
+          _output.add(_file);
+        }
+
+      }
+
+    }
+
+    blog('readAllDirectoryFiles : ${_output.length}');
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }

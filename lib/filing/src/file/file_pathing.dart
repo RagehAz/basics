@@ -7,47 +7,33 @@ class FilePathing {
 
   // -----------------------------------------------------------------------------
 
-  /// DIRECTORIES
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<String?> downloadDirectory() async {
-    String? _output;
-
-    if (DeviceChecker.deviceIsAndroid() == true){
-      _output = await AndroidPathProvider.downloadsPath;
-    }
-    else {
-      final Directory? downloadsDirectory = await getDownloadsDirectory();
-      _output = downloadsDirectory?.path;
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
   /// CREATE PATH
 
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String?> createNewFilePath({
     required String? fileName,
-    bool useTemporaryDirectory = false,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
+    String? _output;
 
     if (kIsWeb == true || fileName == null){
-      return null;
+      /// NOT IMPLEMENTED
     }
 
     else {
-      final Directory _appDocDir = useTemporaryDirectory ?
-      await getTemporaryDirectory()
-          :
-      await getApplicationDocumentsDirectory();
 
-      return fixFilePath('${_appDocDir.path}$slash$fileName');
+      final Directory? _directory = await Director.getDirectory(
+          type: directoryType,
+      );
+
+      if (_directory != null){
+        _output = fixFilePath('${_directory.path}$slash$fileName');
+      }
+
     }
 
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

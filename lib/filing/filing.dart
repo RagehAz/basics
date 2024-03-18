@@ -2,13 +2,13 @@ library filing;
 
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:android_path_provider/android_path_provider.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits.dart';
 import 'package:basics/helpers/rest/rest.dart';
@@ -29,12 +29,16 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-part 'src/byter.dart';
-part 'src/file_pathing.dart';
-part 'src/file_sizer.dart';
-part 'src/filers.dart';
-part 'src/imager.dart';
-part 'src/x_filers.dart';
-part 'src/local_json.dart';
-part 'src/xfile_extra.dart';
-part 'src/file_typer.dart';
+part 'src/file/filers.dart';
+part 'src/file/x_filers.dart';
+part 'src/file/file_pathing.dart';
+part 'src/file/file_sizer.dart';
+part 'src/file/xfile_extra.dart';
+part 'src/file/file_system_entity_extra.dart';
+part 'src/file/file_typer.dart';
+part 'src/file/director.dart';
+
+part 'src/floaters/byter.dart';
+part 'src/floaters/imager.dart';
+
+part 'src/json/local_json.dart';
