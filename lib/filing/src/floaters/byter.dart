@@ -11,30 +11,55 @@ class Byter {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Uint8List? fromByteData(ByteData? byteData) {
+  static Future<Uint8List?> fromByteData(ByteData? byteData) async {
+    Uint8List? _output;
 
-    if (byteData == null){
-      return null;
-    }
+    if (byteData != null){
 
-    else {
+      await tryAndCatch(
+        invoker: 'Byter.fromByteData',
+         functions: () async {
 
-      /// METHOD 1 : WORKS PERFECT
-      // final Uint8List _uInts = byteData.buffer.asUint8List(
-      //   byteData.offsetInBytes,
-      //   byteData.lengthInBytes,
-      // );
+           /// METHOD 1 : WORKS PERFECT
+           // final Uint8List _uInts = byteData.buffer.asUint8List(
+           //   byteData.offsetInBytes,
+           //   byteData.lengthInBytes,
+           // );
 
-      /// METHOD 2 : WORKS PERFECT
-      // final Uint8List _uInts = Uint8List.view(byteData.buffer);
+           /// METHOD 2 : WORKS PERFECT
+           // final Uint8List _uInts = Uint8List.view(byteData.buffer);
 
-      return byteData.buffer.asUint8List(
-        byteData.offsetInBytes,
-        byteData.lengthInBytes,
+           _output = byteData.buffer.asUint8List(
+             byteData.offsetInBytes,
+             byteData.lengthInBytes,
+           );
+
+         },
       );
 
+
+
     }
 
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> fromXFile(XFile? file) async {
+    Uint8List? _uInt;
+
+    if (file != null){
+      await tryAndCatch(
+        invoker:  'Byter.fromXFile',
+        functions: () async {
+
+          _uInt = await file.readAsBytes();
+
+        },
+      );
+    }
+
+    return _uInt;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -42,7 +67,14 @@ class Byter {
     Uint8List? _uInt;
 
     if (file != null){
-      _uInt = await file.readAsBytes();
+      await tryAndCatch(
+        invoker:  'Byter.fromFile',
+        functions: () async {
+
+          _uInt = await file.readAsBytes();
+
+          },
+      );
     }
 
     return _uInt;
@@ -73,7 +105,7 @@ class Byter {
       final ByteData? _byteData = await byteDataFromUiImage(uiImage);
 
       if (_byteData != null){
-        uInt = fromByteData(_byteData);
+        uInt = await fromByteData(_byteData);
       }
 
     }
@@ -86,9 +118,18 @@ class Byter {
     Uint8List? uInt;
 
     if (imgImage != null){
-      uInt = img.encodeJpg(imgImage,
-        // quality: 100, // default
-      );
+
+      tryAndCatch(
+          invoker: 'Byter.fromImgImage',
+          functions: () async {
+
+            uInt = img.encodeJpg(imgImage,
+              // quality: 100, // default
+            );
+
+          }
+          );
+
     }
 
     return uInt;
@@ -103,7 +144,8 @@ class Byter {
     return uInt;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// DEPRECATED
+  /*
   static Future<Uint8List?> fromRasterURL({
     required int? width,
     required int? height,
@@ -129,17 +171,21 @@ class Byter {
           ),
           _paint);
 
-      final ByteData? _byteData = await byteDataFromPath(urlAsset);
+      final ByteData? _byteData = await byteDataFromLocalAsset(
+        pathOrURL: urlAsset,
+      );
 
       if (_byteData != null){
 
-        final ui.Image? _imaged = await Imager.getUiImageFromInts(Uint8List.view(_byteData.buffer));
+        final Uint8List? _bytes = await fromByteData(_byteData);
+        final ui.Image? _imaged = await Imager.getUiImageFromUint8List(_bytes);
+
 
         if (_imaged != null){
           _canvas.drawImage(_imaged, Offset.zero, Paint());
           final ui.Image _img = await _pictureRecorder.endRecording().toImage(width, height);
-          final ByteData? _data = await _img.toByteData(format: ui.ImageByteFormat.png);
-          _output = _data?.buffer.asUint8List();
+          _output = await fromUiImage(_img);
+
         }
 
       }
@@ -148,6 +194,7 @@ class Byter {
 
     return _output;
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> fromURL(String? url) async {
@@ -236,9 +283,8 @@ class Byter {
 
     if (TextCheck.isEmpty(asset) == false){
 
-      // final String? _fileName = getLocalAssetName(asset);
-      final ByteData? byteData = await Byter.byteDataFromPath(asset);
-      final Uint8List? _raw = Byter.fromByteData(byteData);
+      final ByteData? byteData = await Byter.byteDataFromLocalAsset(pathOrURL: asset);
+      final Uint8List? _raw = await Byter.fromByteData(byteData);
 
       if (_raw != null){
 
@@ -289,26 +335,11 @@ class Byter {
 
     if (asset != null) {
 
-      final ByteData? _byteData = await byteDataFromPath(asset);
+      final ByteData? _byteData = await byteDataFromLocalAsset(
+        pathOrURL: asset,
+      );
 
-      _output = _byteData?.buffer.asUint8List();
-
-      // if (_byteData != null) {
-      //
-      //   final ui.Codec _codec = await ui.instantiateImageCodec(
-      //     _byteData.buffer.asUint8List(),
-      //     targetWidth: width,
-      //   );
-      //
-      //   final ui.FrameInfo _fi = await _codec.getNextFrame();
-      //
-      //   final ByteData? _bytes = await _fi.image.toByteData(format: ui.ImageByteFormat.png);
-      //
-      //   if (_bytes != null) {
-      //     _output = _bytes.buffer.asUint8List();
-      //   }
-      //
-      // }
+      _output = await fromByteData(_byteData);
 
     }
 
@@ -324,8 +355,15 @@ class Byter {
     ByteData? _byteData;
 
     if (uiImage != null){
-      _byteData = await uiImage.toByteData(
-        format: ui.ImageByteFormat.png,
+      await tryAndCatch(
+        invoker: 'Byter.byteDataFromUiImage',
+        functions: () async {
+
+          _byteData = await uiImage.toByteData(
+            format: ui.ImageByteFormat.png,
+          );
+
+        },
       );
     }
 
@@ -333,12 +371,21 @@ class Byter {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<ByteData?> byteDataFromPath(String? localAsset) async {
+  static Future<ByteData?> byteDataFromLocalAsset({
+    required String? pathOrURL,
+  }) async {
     /// NOTE : Asset path can be local path or url
     ByteData? _byteData;
 
-    if (TextCheck.isEmpty(localAsset) == false){
-      _byteData = await rootBundle.load(localAsset!);
+    if (TextCheck.isEmpty(pathOrURL) == false){
+      await tryAndCatch(
+        invoker: 'Byter.byteDataFromLocalAsset',
+        functions: () async {
+
+          _byteData = await rootBundle.load(pathOrURL!);
+
+        },
+      );
     }
 
     return _byteData;
@@ -397,19 +444,26 @@ class Byter {
           width: resizeToWidth,
         );
 
-        final img.Image? _img = img.decodeImage(bytes);
+        await tryAndCatch(
+          invoker: 'Byter.resize',
+          functions: () async {
 
-        if (_img != null && _resizeToHeight != null){
+            final img.Image? _img = img.decodeImage(bytes);
 
-          final img.Image resizedImage = img.copyResize(
-            _img,
-            width: resizeToWidth.toInt(),
-            height: _resizeToHeight.toInt(),
-          );
+            if (_img != null && _resizeToHeight != null){
 
-          _output = img.encodeJpg(resizedImage);
+              final img.Image resizedImage = img.copyResize(
+                _img,
+                width: resizeToWidth.toInt(),
+                height: _resizeToHeight.toInt(),
+              );
 
-        }
+              _output = img.encodeJpg(resizedImage);
+
+            }
+
+            },
+        );
 
       }
 

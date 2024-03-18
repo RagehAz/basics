@@ -21,7 +21,9 @@ class LocalAssetChecker extends StatefulWidget {
     if (asset is String){
       if (_stringIsEmpty(asset) == false){
 
-        final ByteData? _bytes = await Byter.byteDataFromPath(asset).catchError(
+        final ByteData? _bytes = await Byter.byteDataFromLocalAsset(
+          pathOrURL: asset,
+        ).catchError(
           (Object? error) {
             // blog('LocalAssetChecker : _checkAsset : error : ${error.toString()}');
 

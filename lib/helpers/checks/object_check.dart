@@ -2,6 +2,7 @@
 import 'dart:ui' as ui;
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/strings/text_check.dart';
@@ -15,40 +16,6 @@ class ObjectCheck {
 
   const ObjectCheck();
 
-  // -----------------------------------------------------------------------------
-
-  /// EXTENSION
-
-  // --------------------
-  /// AI TESTED
-  static String? fileExtensionOf(dynamic file) {
-
-    if (file == null) {
-      return null;
-    }
-
-    else if (file is String) {
-      final lastIndex = file.lastIndexOf('.');
-      return lastIndex != -1 ? file.substring(lastIndex + 1) : null;
-    }
-
-    else if (file is File) {
-      final path = file.path;
-      final lastIndex = path.lastIndexOf('.');
-      return lastIndex != -1 ? path.substring(lastIndex + 1) : null;
-    }
-
-    // else if (file is Blob) {
-    //   final type = file.type;
-    //   final lastIndex = type.lastIndexOf('/');
-    //   return lastIndex != -1 ? type.substring(lastIndex + 1) : null;
-    // }
-
-    else {
-      return null;
-    }
-
-  }
   // -----------------------------------------------------------------------------
 
   /// URL
@@ -210,12 +177,12 @@ class ObjectCheck {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsSVG(dynamic object) {
-    return fileExtensionOf(object) == 'svg';
+    return FileTyper.fileExtensionOf(object) == 'svg';
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsGIF(dynamic object) {
-    return fileExtensionOf(object) == 'gif';
+    return FileTyper.fileExtensionOf(object) == 'gif';
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -224,11 +191,11 @@ class ObjectCheck {
 
     if (object != null){
       if (
-          fileExtensionOf(object) == 'jpeg'
+          FileTyper.fileExtensionOf(object) == 'jpeg'
           ||
-          fileExtensionOf(object) == 'jpg'
+          FileTyper.fileExtensionOf(object) == 'jpg'
           ||
-          fileExtensionOf(object) == 'png'
+          FileTyper.fileExtensionOf(object) == 'png'
       ) {
         _objectIsJPGorPNG = true;
       }

@@ -394,4 +394,38 @@ class FileTyper {
       }
    */
   // -----------------------------------------------------------------------------
+
+  /// FILE EXTENSION
+
+  // --------------------
+  /// AI TESTED
+  static String? fileExtensionOf(dynamic file) {
+
+    if (file == null) {
+      return null;
+    }
+
+    else if (file is String) {
+      final lastIndex = file.lastIndexOf('.');
+      return lastIndex != -1 ? file.substring(lastIndex + 1) : null;
+    }
+
+    else if (file is File) {
+      final path = file.path;
+      final lastIndex = path.lastIndexOf('.');
+      return lastIndex != -1 ? path.substring(lastIndex + 1) : null;
+    }
+
+    // else if (file is Blob) {
+    //   final type = file.type;
+    //   final lastIndex = type.lastIndexOf('/');
+    //   return lastIndex != -1 ? type.substring(lastIndex + 1) : null;
+    // }
+
+    else {
+      return null;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }

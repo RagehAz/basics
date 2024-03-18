@@ -37,7 +37,7 @@ class Imager{
     ui.Image? _output;
 
     if (file != null) {
-      final Uint8List? _bytes = await file.readAsBytes();
+      final Uint8List? _bytes = await Byter.fromXFile(file);
       _output = await getUiImageFromUint8List(_bytes);
     }
 
@@ -46,18 +46,25 @@ class Imager{
   // --------------------
   /// TASK : TEST_ME_NOW
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
-
+    ui.Image? _output;
 
     if (Lister.checkCanLoop(ints) == true){
-      final Completer<ui.Image> completer = Completer<ui.Image>();
-      final Uint8List _uint8List = Uint8List.fromList(ints!);
-      ui.decodeImageFromList(_uint8List, completer.complete);
-      return completer.future;
-    }
-    else {
-      return null;
+
+      await tryAndCatch(
+        invoker: 'Imager.getUiImageFromInts',
+        functions: () async {
+          final Completer<ui.Image> completer = Completer<ui.Image>();
+          final Uint8List _uint8List = Uint8List.fromList(ints!);
+          ui.decodeImageFromList(_uint8List, completer.complete);
+          _output = await completer.future;
+
+          },
+      );
+
+
     }
 
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -74,7 +81,7 @@ class Imager{
     else if (image1 != null && image2 != null){
 
       if (
-      image1.width == image2.width &&
+          image1.width == image2.width &&
           image1.height == image2.height &&
           image1.isCloneOf(image2) == true
       ){
@@ -110,7 +117,12 @@ class Imager{
     img.Image? imgImage;
 
     if (uInt != null){
-      imgImage = img.decodeImage(uInt);
+      await tryAndCatch(
+          invoker: 'Imager.getImgImageFromUint8List',
+          functions: () async {
+            imgImage = img.decodeImage(uInt);
+          }
+          );
     }
 
     return imgImage;
@@ -121,19 +133,26 @@ class Imager{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static img.Image? resizeImgImage({
+  static Future<img.Image?> resizeImgImage({
     required img.Image? imgImage,
     required int width,
     required int height,
-  }) {
+  }) async {
     img.Image? _output;
 
     if (imgImage != null){
 
-      _output = img.copyResize(imgImage,
-        width: width,
-        height: height,
-        // interpolation: Interpolation.cubic,
+      await tryAndCatch(
+        invoker: 'Imager.resizeImgImage',
+        functions: () async {
+
+          _output = img.copyResize(imgImage,
+            width: width,
+            height: height,
+            // interpolation: Interpolation.cubic,
+          );
+
+          },
       );
     }
 

@@ -35,7 +35,7 @@ class Director {
   }
   // -----------------------------------------------------------------------------
 
-  /// DIRECTORIES
+  /// DOWNLOAD DIRECTORY PATH
 
   // --------------------
   /// TESTED : WORKS PERFECT

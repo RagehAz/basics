@@ -20,23 +20,23 @@ void main (){
   group('fileExtensionOf', () {
 
     test('should return null when file is null', () {
-      final result = ObjectCheck.fileExtensionOf(null);
+      final result = FileTyper.fileExtensionOf(null);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a string', () {
-      final result = ObjectCheck.fileExtensionOf('example.txt');
+      final result = FileTyper.fileExtensionOf('example.txt');
       expect(result, 'txt');
     });
 
     test('should return null when file is not a string or File', () {
-      final result = ObjectCheck.fileExtensionOf(123);
+      final result = FileTyper.fileExtensionOf(123);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = ObjectCheck.fileExtensionOf(file);
+      final result = FileTyper.fileExtensionOf(file);
       expect(result, 'jpg');
     });
 
@@ -47,19 +47,118 @@ void main (){
     // });
 
     test('should return the file extension when file is a string', () {
-      final result = ObjectCheck.fileExtensionOf('example.txt');
+      final result = FileTyper.fileExtensionOf('example.txt');
       expect(result, 'txt');
       expect(result, File('example.txt').fileExtension);
     });
 
     test('should return null when file is not a string or File', () {
-      final result = ObjectCheck.fileExtensionOf(123);
+      final result = FileTyper.fileExtensionOf(123);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = ObjectCheck.fileExtensionOf(file);
+      final result = FileTyper.fileExtensionOf(file);
+      expect(result, 'jpg');
+      expect(result, file.fileExtension);
+    });
+
+  });
+
+  test('is url ObjectCheck.isAbsoluteURL(pic)', () {
+    // Arrange
+    const pic =
+        'https://firebasestorage.googleapis.com/v0/b/talktohumanity.appspot.com/o/talkersImages%2F-NQ_uNna_EFbzRUW9WVQ?alt=media&token=7d18800f-a4db-451c-88ad-e1204e76c247';
+
+    // Act
+    final bool result = ObjectCheck.isAbsoluteURL(pic);
+
+    // Assert
+    expect(result, true);
+  });
+
+  group('objectIsPicPath', () {
+    test('should return false for null object', () {
+      const String? object = null;
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, false);
+    });
+
+    test('should return false for non-string object', () {
+      const dynamic object = 123;
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, false);
+    });
+
+    test('should return false for empty string', () {
+      const String object = '';
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, false);
+    });
+
+    test('should return false for string without "storage/" prefix', () {
+      const String object = 'path/to/image.jpg';
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, false);
+    });
+
+    test('should return true for string with "storage/" prefix', () {
+      const String object = 'storage/image.jpg';
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, true);
+    });
+
+    test('should return true for string with "storage/" prefix and additional characters', () {
+      const String object = 'storage/path/to/image.jpg';
+      final bool result = ObjectCheck.objectIsPicPath(object);
+      expect(result, true);
+    });
+  });
+
+  group('fileExtensionOf', () {
+
+    test('should return null when file is null', () {
+      final result = FileTyper.fileExtensionOf(null);
+      expect(result, isNull);
+    });
+
+    test('should return the file extension when file is a string', () {
+      final result = FileTyper.fileExtensionOf('example.txt');
+      expect(result, 'txt');
+    });
+
+    test('should return null when file is not a string or File', () {
+      final result = FileTyper.fileExtensionOf(123);
+      expect(result, isNull);
+    });
+
+    test('should return the file extension when file is a File object', () {
+      final file = File('path/to/example.jpg');
+      final result = FileTyper.fileExtensionOf(file);
+      expect(result, 'jpg');
+    });
+
+    // test('should return null when file is null', () {
+    //   final result = ObjectCheck.fileExtensionOf(null);
+    //   expect(result, isNull);
+    //   expect(result, File(null)?.fileExtension);
+    // });
+
+    test('should return the file extension when file is a string', () {
+      final result = FileTyper.fileExtensionOf('example.txt');
+      expect(result, 'txt');
+      expect(result, File('example.txt').fileExtension);
+    });
+
+    test('should return null when file is not a string or File', () {
+      final result = FileTyper.fileExtensionOf(123);
+      expect(result, isNull);
+    });
+
+    test('should return the file extension when file is a File object', () {
+      final file = File('path/to/example.jpg');
+      final result = FileTyper.fileExtensionOf(file);
       expect(result, 'jpg');
       expect(result, file.fileExtension);
     });
