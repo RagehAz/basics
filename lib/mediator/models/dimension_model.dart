@@ -9,7 +9,6 @@ import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/mediator/models/media_model.dart';
-import 'package:basics/mediator/video_maker/video_ops.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
@@ -527,7 +526,7 @@ abstract class DimensionsGetter {
       final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
       final MediaInformation? information = session.getMediaInformation();
 
-      await VideoOps.blogMediaInformationSession(session: session);
+      // await VideoOps.blogMediaInformationSession(session: session);
 
       if (information == null) {
         // CHECK THE FOLLOWING ATTRIBUTES ON ERROR

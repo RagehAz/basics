@@ -85,7 +85,7 @@ class MediaModel {
 
       /// IMPLEMENT AND TEST ME MAW
       final String _oldPath = file!.path;
-      final String? _newPath = await FilePathing.createNewFilePath(
+      final String? _newPath = await FilePathing.createPathByName(
         fileName: newName,
       );
 

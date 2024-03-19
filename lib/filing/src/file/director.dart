@@ -180,7 +180,7 @@ class Director {
   }) async {
     DirectoryType? _type;
 
-    final String? _fileDirectoryPath = FilePathing.getFileDirectoryPath(
+    final String? _fileDirectoryPath = FilePathing.getDirectoryPathFromFile(
       filePath: filePath,
     );
 

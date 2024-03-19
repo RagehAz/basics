@@ -1,3 +1,4 @@
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/strings/linker.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -766,44 +767,44 @@ void main() {
 
   group('getFileNameFromAsset', () {
     test('getFileNameFromAsset returns null when asset is null', () {
-      expect(TextMod.getFileNameFromAsset(null), isNull);
+      expect(FilePathing.getNameFromLocalAsset(null), isNull);
     });
 
     test('getFileNameFromAsset returns null when asset is empty', () {
-      expect(TextMod.getFileNameFromAsset(''), isNull);
+      expect(FilePathing.getNameFromLocalAsset(''), isNull);
     });
 
     test('getFileNameFromAsset returns the correct file name', () {
       expect(
-        TextMod.getFileNameFromAsset('assets/xx/pp_sodic/builds_1.jpg'),
+        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns the correct file name with multiple slashes', () {
       expect(
-        TextMod.getFileNameFromAsset('assets/xx/pp_sodic/images/builds_1.jpg'),
+        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/images/builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns the correct file name when asset has no path', () {
       expect(
-        TextMod.getFileNameFromAsset('builds_1.jpg'),
+        FilePathing.getNameFromLocalAsset('builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns null when asset has no file name', () {
       expect(
-        TextMod.getFileNameFromAsset('assets/xx/pp_sodic/'),
+        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/'),
         '',
       );
     });
 
     test('getFileNameFromAsset returns null when asset ends with a slash', () {
       expect(
-        TextMod.getFileNameFromAsset('assets/xx/pp_sodic/'),
+        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/'),
         '',
       );
     });

@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class FilePathing {
   // -----------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ class FilePathing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String?> createNewFilePath({
+  static Future<String?> createPathByName({
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
@@ -53,11 +53,27 @@ class FilePathing {
   }
   // -----------------------------------------------------------------------------
 
-  /// FILE NAME GETTERS
+  /// GET FILE NAME
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? getFileNameFromFile({
+  static String? getNameFromLocalAsset(String? assetPath){
+
+    if (TextCheck.isEmpty(assetPath) == true) {
+      return null;
+    }
+    else {
+      /// this trims paths like 'assets/xx/pp_sodic/builds_1.jpg' to 'builds_1.jpg'
+      return TextMod.removeTextBeforeLastSpecialCharacter(
+        text: assetPath,
+        specialCharacter: slash,
+      );
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getNameFromFile({
     required File? file,
     required bool withExtension,
   }){
@@ -67,7 +83,7 @@ class FilePathing {
     }
 
     else {
-      return getFileNameFromFilePath(
+      return getNameFromFilePath(
         filePath: file.path,
         withExtension: withExtension,
       );
@@ -76,7 +92,7 @@ class FilePathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? getFileNameFromFilePath({
+  static String? getNameFromFilePath({
     required String? filePath,
     required bool withExtension,
   }){
@@ -106,7 +122,7 @@ class FilePathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<String>?> getFilesNamesFromFiles({
+  static Future<List<String>?> getNamesFromFiles({
     required List<File>? files,
     required bool withExtension,
   }) async {
@@ -122,7 +138,7 @@ class FilePathing {
 
         for (final File _file in files){
 
-          final String? _name = getFileNameFromFile(
+          final String? _name = getNameFromFile(
             file: _file,
             withExtension: withExtension,
           );
@@ -166,11 +182,11 @@ class FilePathing {
   }
   // -----------------------------------------------------------------------------
 
-  /// FILE EXTENSION
+  /// DIRECTORY PATH
 
   // --------------------
-  ///
-  static String? getFileDirectoryPath({
+  /// TESTED : WORKS PERFECT
+  static String? getDirectoryPathFromFile({
     required String? filePath,
   }){
 
@@ -182,58 +198,8 @@ class FilePathing {
   }
   // -----------------------------------------------------------------------------
 
-  /// LOCAL ASSET PATH
+  /// ALL ASSET PATHS
 
-  // --------------------
-  /*
-  ///
-  static String imageDir({
-    required String prefix,
-    required String fileName,
-    required double pixelRatio,
-    required bool isIOS,
-  }) {
-
-    /// MediaQueryData data = MediaQuery.of(context);
-    /// double ratio = data.devicePixelRatio;
-    ///
-    /// bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    ///
-    /// If the platform is not iOS, you would implement the buckets in your code. Combining the logic into one method:
-    ///
-    /// double markerScale;
-    /// bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    /// if (isIOS){markerScale = 0.7;}else{markerScale = 1;}
-
-    String directory = '/';
-
-    if (!isIOS) {
-      if (pixelRatio >= 1.5) {
-        directory = '/2.0x/';
-      }
-
-      else if (pixelRatio >= 2.5) {
-        directory = '/3.0x/';
-      }
-
-      else if (pixelRatio >= 3.5) {
-        directory = '/4.0x/';
-      }
-
-    }
-
-    return '$prefix$directory$fileName';
-  }
-   */
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String? getLocalAssetName(String? assetPath){
-    final String? _pathTrimmed = TextMod.removeNumberOfCharactersFromBeginningOfAString(
-      string: assetPath,
-      numberOfCharacters: 7,
-    );
-    return TextMod.getFileNameFromAsset(_pathTrimmed);
-  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<String>> getLocalAssetsPaths() async {
@@ -271,6 +237,10 @@ class FilePathing {
 
     return _assetPath.isNotEmpty ? _assetPath.first : null;
   }
+  // -----------------------------------------------------------------------------
+
+  /// CHECKERS
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkLocalAssetExists(dynamic asset) async {

@@ -566,26 +566,6 @@ class TextMod {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
-
-  /// TRANSFORMERS
-
-  // --------------------
-  /// AI TESTED
-  static String? getFileNameFromAsset(String? asset) {
-
-    if (TextCheck.isEmpty(asset) == true) {
-      return null;
-    }
-    else {
-      /// this trims paths like 'assets/xx/pp_sodic/builds_1.jpg' to 'builds_1.jpg'
-      return removeTextBeforeLastSpecialCharacter(
-        text: asset,
-        specialCharacter: '/',
-      );
-    }
-
-  }
   // --------------------
   /// AI TESTED
   static Future<Map<String, dynamic>> getKeywordsMap(List<String>? keywordsIDs) async {

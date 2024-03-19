@@ -35,7 +35,7 @@ class XFiler {
       /// C:\Users\rageh\AppData\Local\Temp
       /// --------------------
 
-      final String? _filePath = await FilePathing.createNewFilePath(
+      final String? _filePath = await FilePathing.createPathByName(
         fileName: fileName,
         directoryType: directoryType,
       );
@@ -134,7 +134,7 @@ class XFiler {
       // width: width,
     );
 
-    final String? _fileName = FilePathing.getFileNameFromFilePath(
+    final String? _fileName = FilePathing.getNameFromFilePath(
       filePath: asset,
       withExtension: true,
     );

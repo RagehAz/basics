@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class Filer {
   // -----------------------------------------------------------------------------
 
@@ -35,22 +35,36 @@ class Filer {
       /// C:\Users\rageh\AppData\Local\Temp
       /// --------------------
 
-      final String? _filePath = await FilePathing.createNewFilePath(
+      final String? _filePath = await FilePathing.createPathByName(
         fileName: fileName,
         directoryType: directoryType,
       );
 
-      /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
-      if (DeviceChecker.deviceIsWindows() == true) {
-        final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
-          text: _filePath,
-          specialCharacter: FilePathing.slash,
-        )!;
-        await Directory(_pathWithoutDocName).create(recursive: true);
-      }
+
 
       if (_filePath != null) {
+
+        /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
+        if (DeviceChecker.deviceIsWindows() == true) {
+          final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
+            text: _filePath,
+            specialCharacter: FilePathing.slash,
+          )!;
+          await Directory(_pathWithoutDocName).create(recursive: true);
+        }
+
+        /// FILE REF
         _output = File(_filePath);
+
+        /// DELETE EXISTING FILE IF EXISTS
+        await deleteFile(_output);
+
+        /// CREATE
+        await _output.create(
+          // recursive: ,
+          // exclusive: ,
+        );
+
       }
 
     }
@@ -76,14 +90,20 @@ class Filer {
         invoker: 'Filer.createByBytes',
         functions: () async {
 
-          final String? _filePath = await FilePathing.createNewFilePath(
+          final String? _filePath = await FilePathing.createPathByName(
             fileName: fileName,
             directoryType: directoryType,
           );
 
           if (_filePath != null){
+
+            /// FILE REF
             _output = File(_filePath);
-            ImageCacheOps.clearPaintingBindingImageCache();
+
+            /// DELETE EXISTING FILE IF EXISTED
+            await deleteFile(_output);
+
+            /// CREATE
             await _output!.writeAsBytes(bytes);
           }
 
@@ -145,7 +165,7 @@ class Filer {
         localAsset: localAsset,
       );
 
-      final String? _fileName = FilePathing.getLocalAssetName(localAsset);
+      final String? _fileName = FilePathing.getNameFromLocalAsset(localAsset);
 
       _output = await createFromBytes(
         bytes: _bytes,
@@ -158,7 +178,7 @@ class Filer {
     return _output;
   }
   // ---------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Future<File?> createFromURL({
     required String? url,
     String? fileName,
@@ -223,7 +243,7 @@ class Filer {
 
   }
   // ---------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Future<File?> createFromBase64({
     required String? base64,
     required String fileName,
@@ -246,6 +266,7 @@ class Filer {
 
       return _fileAgain;
     }
+
   }
   // -----------------------------------------------------------------------------
 
@@ -262,7 +283,7 @@ class Filer {
 
     if (file != null && newName != null && newName != file.fileNameWithExtension){
 
-      final String? _filePath = await FilePathing.createNewFilePath(
+      final String? _filePath = await FilePathing.createPathByName(
         fileName: newName,
         directoryType: directoryType,
       );
@@ -326,10 +347,37 @@ class Filer {
     if (xFile?.path != null){
       return File(xFile!.path);
     }
+
     else {
       return null;
     }
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> readByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    File? _file;
+
+    final bool _exists = await checkFileExistsByName(
+      name: name,
+      directoryType: directoryType,
+    );
+
+    if (_exists == true){
+
+      final String? _path = await FilePathing.createPathByName(
+        fileName: name,
+        directoryType: directoryType,
+      );
+
+      _file = File(_path!);
+
+    }
+
+    return _file;
   }
   // -----------------------------------------------------------------------------
 
@@ -355,13 +403,12 @@ class Filer {
 
       if (_directoryType != null){
 
-        final String _fileName = FilePathing.getFileNameFromFile(
+        final String _fileName = FilePathing.getNameFromFile(
             file: file,
             withExtension: true,
         )!;
 
         await Filer.deleteFile(file);
-        ImageCacheOps.clearPaintingBindingImageCache();
 
         _output = await Filer.createFromBytes(
           bytes: bytes,
@@ -411,16 +458,60 @@ class Filer {
 
     if (file != null){
 
-      await tryAndCatch(
-        invoker: 'Filer.deleteFile',
-        functions: () async {
+      final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
+        filePath: file.path,
+      );
 
-          await file.delete(
-            // recursive:
+      if (dir != null){
+
+        final bool _exists = await checkFileExistsByName(
+          name: file.fileNameWithExtension,
+          directoryType: dir,
+        );
+
+        if (_exists == true){
+
+          await tryAndCatch(
+            invoker: 'Filer.deleteFile',
+            functions: () async {
+
+              await file.delete(
+                // recursive:
+              );
+              await ImageCacheOps.wipeCaches();
+
+            },
           );
 
-          },
+        }
+
+      }
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFileByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+
+    // final bool _exists = await checkFileExistsByName(
+    //   name: file?.fileNameWithExtension,
+    //   directoryType: await Director.concludeDirectoryFromFilePath(filePath: file?.path),
+    // );
+
+    if (name != null){
+
+      final String? _path = await FilePathing.createPathByName(
+        fileName: name,
+        directoryType: directoryType,
       );
+
+      if (_path != null){
+        await deleteFile(File(_path));
+      }
 
     }
 
@@ -616,6 +707,25 @@ class Filer {
       return _identical;
     }
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> checkFileExistsByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    bool _exists = false;
+
+    final String? _path = await FilePathing.createPathByName(
+      fileName: name,
+      directoryType: directoryType,
+    );
+
+    if (_path != null){
+      _exists = await File(_path).exists();
+    }
+
+    return _exists;
   }
   // -----------------------------------------------------------------------------
 }
