@@ -166,7 +166,23 @@ class FilePathing {
   }
   // -----------------------------------------------------------------------------
 
-  /// DIRECTORY - LOCAL ASSET PATH
+  /// FILE EXTENSION
+
+  // --------------------
+  ///
+  static String? getFileDirectoryPath({
+    required String? filePath,
+  }){
+
+    return TextMod.removeTextAfterLastSpecialCharacter(
+        text: filePath,
+        specialCharacter: slash,
+    );
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// LOCAL ASSET PATH
 
   // --------------------
   /*
@@ -254,6 +270,37 @@ class FilePathing {
     );
 
     return _assetPath.isNotEmpty ? _assetPath.first : null;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> checkLocalAssetExists(dynamic asset) async {
+    bool _isFound = false;
+
+    if (asset is String){
+      if (TextCheck.isEmpty(asset) == false){
+
+        final ByteData? _bytes = await Byter.byteDataFromLocalAsset(
+          pathOrURL: asset,
+        ).catchError(
+              (Object? error) {
+            // blog('LocalAssetChecker : _checkAsset : error : ${error.toString()}');
+
+            if (error == null) {
+              _isFound = true;
+            }
+            else {
+              _isFound = false;
+            }
+
+            return null;
+          },
+        );
+
+        _isFound = _bytes != null;
+      }
+    }
+
+    return _isFound;
   }
   // -----------------------------------------------------------------------------
 }

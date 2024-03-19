@@ -13,57 +13,6 @@ class LocalAssetChecker extends StatefulWidget {
   /// --------------------------------------------------------------------------
   @override
   State<LocalAssetChecker> createState() => _LocalAssetCheckerState();
-  // ---------------------------------------
-  /// TESTED : WORKS PERFECT
-  static Future<bool> localAssetExists(dynamic asset) async {
-    bool _isFound = false;
-
-    if (asset is String){
-      if (_stringIsEmpty(asset) == false){
-
-        final ByteData? _bytes = await Byter.byteDataFromLocalAsset(
-          pathOrURL: asset,
-        ).catchError(
-          (Object? error) {
-            // blog('LocalAssetChecker : _checkAsset : error : ${error.toString()}');
-
-            if (error == null) {
-              _isFound = true;
-            }
-            else {
-              _isFound = false;
-            }
-
-            return null;
-          },
-        );
-
-        _isFound = _bytes != null;
-      }
-    }
-
-    return _isFound;
-  }
-    // --------------------
-  /// TESTED : WORKS PERFECT
-  static bool _stringIsEmpty(String? string) {
-
-    if (string == null || string == '' || string.isEmpty == true
-
-    // ||
-    // TextMod.cutFirstCharacterAfterRemovingSpacesFromAString(_string) == ''
-    // ||
-    // TextMod.cutFirstCharacterAfterRemovingSpacesFromAString(_string) == null
-
-    ) {
-      return true;
-    }
-
-    else {
-      return false;
-    }
-
-  }
   /// --------------------------------------------------------------------------
 }
 
@@ -96,7 +45,7 @@ class _LocalAssetCheckerState extends State<LocalAssetChecker> {
 
       _triggerLoading(setTo: true).then((_) async {
 
-        final bool _assetExists = await LocalAssetChecker.localAssetExists(widget.asset);
+        final bool _assetExists = await FilePathing.checkLocalAssetExists(widget.asset);
 
         setNotifier(
             notifier: _exists,

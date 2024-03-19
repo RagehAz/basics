@@ -13,6 +13,7 @@ import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits.dart';
 import 'package:basics/helpers/rest/rest.dart';
 import 'package:basics/helpers/strings/pathing.dart';
+import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
@@ -28,6 +29,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';
@@ -37,6 +39,7 @@ part 'src/file/xfile_extra.dart';
 part 'src/file/file_system_entity_extra.dart';
 part 'src/file/file_typer.dart';
 part 'src/file/director.dart';
+part 'src/file/cache_ops.dart';
 
 part 'src/floaters/byter.dart';
 part 'src/floaters/imager.dart';

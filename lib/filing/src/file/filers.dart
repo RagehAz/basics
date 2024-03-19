@@ -7,11 +7,11 @@ class Filer {
 
   // -----------------------------------------------------------------------------
 
-  /// INITIALIZATION
+  /// CREATE
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<File?> _createNewEmptyFile({
+  static Future<File?> createEmptyFile({
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
@@ -59,64 +59,40 @@ class Filer {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<File?> _writeBytesOnFile({
-    required File? file,
-    required Uint8List? bytes,
-  }) async {
-
-    if (kIsWeb == true || file == null || bytes == null) {
-      return null;
-    }
-
-    else {
-      await file.writeAsBytes(bytes);
-      await file.create(recursive: true);
-      return file;
-    }
-
-  }
-  // -----------------------------------------------------------------------------
-
-  /// CREATE
-
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static File? createFromXFile({
-    required XFile? xFile,
-  }){
-
-    if (xFile?.path != null){
-      return File(xFile!.path);
-    }
-    else {
-      return null;
-    }
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static Future<File?> createFromBytes({
     required Uint8List? bytes,
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
+    File? _output;
 
     if (kIsWeb == true || bytes == null || fileName == null){
-      return null;
+      /// NOT IMPLEMENTED
     }
 
     else {
-      final File? _file = await _createNewEmptyFile(
-        fileName: fileName,
-        directoryType: directoryType,
+
+      await tryAndCatch(
+        invoker: 'Filer.createByBytes',
+        functions: () async {
+
+          final String? _filePath = await FilePathing.createNewFilePath(
+            fileName: fileName,
+            directoryType: directoryType,
+          );
+
+          if (_filePath != null){
+            _output = File(_filePath);
+            CacheOps.clearPaintingBindingImageCache();
+            await _output!.writeAsBytes(bytes);
+          }
+
+          },
       );
 
-      return _writeBytesOnFile(
-        bytes: bytes,
-        file: _file,
-      );
     }
 
+    return _output;
   }
   // ---------------------
   /// TESTED : WORKS PERFECT
@@ -208,14 +184,9 @@ class Filer {
               ??
               Numeric.createUniqueID().toString();
 
-          _file = await _createNewEmptyFile(
-            fileName: _fileName,
-            directoryType: directoryType,
-          );
-
-          _file = await _writeBytesOnFile(
+          _file = await createFromBytes(
             bytes: _bytes,
-            file: _file,
+            fileName: _fileName,
           );
 
         }
@@ -255,6 +226,7 @@ class Filer {
   /// TASK : TEST ME
   static Future<File?> createFromBase64({
     required String? base64,
+    required String fileName,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
 
@@ -268,7 +240,7 @@ class Filer {
 
       final File? _fileAgain = await createFromBytes(
         bytes: _fileAgainAsInt,
-        fileName: '${Numeric.createUniqueID()}',
+        fileName: fileName,
         directoryType: directoryType,
       );
 
@@ -277,22 +249,182 @@ class Filer {
   }
   // -----------------------------------------------------------------------------
 
+  /// CLONE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> cloneFile({
+    required File? file,
+    required String? newName,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    File? _output;
+
+    if (file != null && newName != null && newName != file.fileNameWithExtension){
+
+      final String? _filePath = await FilePathing.createNewFilePath(
+        fileName: newName,
+        directoryType: directoryType,
+      );
+
+      await tryAndCatch(
+        invoker: 'Filer.cloneFile',
+        functions: () async {
+
+          _output = await file.copy(_filePath!);
+
+          },
+      );
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// READ
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
+  static Future<List<File>> readAllDirectoryFiles({
+    required DirectoryType type,
+  }) async {
+
+    final List<String> _filesPaths = await Director.readDirectoryFilesPaths(
+      type: type,
+    );
+
+    return readFiles(
+      filesPaths: _filesPaths,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<File> readFiles({
+    required List<String> filesPaths,
+  }){
+    final List<File> _output = [];
+
+    if (Lister.checkCanLoop(filesPaths) == true){
+
+      for (final String path in filesPaths){
+        final File _file = File(path);
+        _output.add(_file);
+      }
+
+    }
+
+    return _output;
+
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static File? readXFile({
+    required XFile? xFile,
+  }){
+
+    if (xFile?.path != null){
+      return File(xFile!.path);
+    }
+    else {
+      return null;
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// UPDATE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
+  static Future<File?> replaceBytes({
+    required File? file,
+    required Uint8List? bytes,
+  }) async {
+    File? _output;
+
+    if (kIsWeb == true || file == null || bytes == null) {
+      /// NOT IMPLEMENTED
+    }
+
+    else {
+
+      final DirectoryType? _directoryType = await Director.concludeDirectoryFromFilePath(
+        filePath: file.path,
+      );
+
+      if (_directoryType != null){
+
+        final String _fileName = FilePathing.getFileNameFromFile(
+            file: file,
+            withExtension: true,
+        )!;
+
+        await Filer.deleteFile(file);
+        CacheOps.clearPaintingBindingImageCache();
+
+        _output = await Filer.createFromBytes(
+          bytes: bytes,
+          fileName: _fileName,
+          directoryType: _directoryType,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> renameFile({
+    required File? file,
+    required String? newName,
+  }) async {
+    File? _output;
+
+    if (file != null && newName != null && newName != file.fileNameWithExtension){
+
+      final String pathWithoutFileName = file.parent.path;
+      final String _newPath = '$pathWithoutFileName/$newName';
+
+      await tryAndCatch(
+        invoker: 'Filer.renameFile',
+        functions: () async {
+
+          _output = await file.rename(_newPath);
+
+          },
+      );
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// DELETE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFile(File? file) async {
+
+    if (file != null){
+
+      await tryAndCatch(
+        invoker: 'Filer.deleteFile',
+        functions: () async {
+
+          await file.delete(
+            // recursive:
+          );
+
+          },
+      );
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
@@ -443,101 +575,6 @@ class Filer {
       return _identical;
     }
 
-  }
-  // -----------------------------------------------------------------------------
-
-  /// GETTERS
-
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<File?> getFileFromDynamics(dynamic pic) async {
-
-    if (kIsWeb == true || pic == null){
-      return null;
-    }
-
-    else {
-      File? _file;
-
-      if (pic != null) {
-
-        /// FILE
-        if (ObjectCheck.objectIsFile(pic) == true) {
-          _file = pic;
-        }
-
-        /// ASSET
-        // else if (ObjectChecker.objectIsAsset(pic) == true) {
-        //   _file = await getFileFromPickerAsset(pic);
-        // }
-
-        /// URL
-        else if (ObjectCheck.isAbsoluteURL(pic) == true) {
-          _file = await createFromURL(
-            url: pic,
-          );
-        }
-
-        /// RASTER
-        else if (ObjectCheck.objectIsJPGorPNG(pic) == true) {
-          // _file = await getFile
-        }
-
-      }
-
-      return _file;
-    }
-
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<List<File>> readAllDirectoryFiles({
-    required DirectoryType type,
-  }) async {
-    final List<File> _output = [];
-
-    final Directory? _x = await Director.getDirectory(
-        type: type,
-    );
-    final String? _path = _x?.path;
-
-    if (_path != null){
-
-      final String _fixedPath = FilePathing.fixFilePath(_path)!;
-      blog('_fixedPath : $_fixedPath');
-
-      List<FileSystemEntity> _fileSystemEntities = [];
-
-      await tryAndCatch(
-        invoker: 'readAllDirectoryFiles',
-          functions: () async {
-
-            _fileSystemEntities = Directory(_fixedPath).listSync(
-              // followLinks: ,
-              recursive: true,
-            );
-
-          },
-      );
-
-      if (Lister.checkCanLoop(_fileSystemEntities) == true){
-
-        for (final FileSystemEntity fileSystemEntity in _fileSystemEntities){
-          final File _file = File(fileSystemEntity.path);
-
-          // final FileStat _stat = await fileSystemEntity.stat();
-          // _stat.
-
-          _output.add(_file);
-        }
-
-      }
-
-    }
-
-    blog('readAllDirectoryFiles : ${_output.length}');
-
-    return _output;
   }
   // -----------------------------------------------------------------------------
 }

@@ -21,7 +21,7 @@ class LocalJSON {
 
     final String _fileName = '$fileName.json';
 
-    final File? _file = await Filer._createNewEmptyFile(
+    final File? _file = await Filer.createEmptyFile(
       fileName: _fileName,
       // useTemporaryDirectory: false,
     );
