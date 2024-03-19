@@ -83,7 +83,7 @@ class Filer {
 
           if (_filePath != null){
             _output = File(_filePath);
-            CacheOps.clearPaintingBindingImageCache();
+            ImageCacheOps.clearPaintingBindingImageCache();
             await _output!.writeAsBytes(bytes);
           }
 
@@ -361,7 +361,7 @@ class Filer {
         )!;
 
         await Filer.deleteFile(file);
-        CacheOps.clearPaintingBindingImageCache();
+        ImageCacheOps.clearPaintingBindingImageCache();
 
         _output = await Filer.createFromBytes(
           bytes: bytes,
@@ -418,6 +418,47 @@ class Filer {
           await file.delete(
             // recursive:
           );
+
+          },
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFiles(List<File> files) async {
+
+    if (Lister.checkCanLoop(files) == true){
+
+      for (final File file in files){
+
+        await deleteFile(file);
+
+      }
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteAllDirectoryFiles({
+    required DirectoryType? directoryType,
+  }) async {
+
+    if (directoryType != null){
+
+      final Directory? _dir = await Director.getDirectory(
+          type: directoryType,
+      );
+
+      await tryAndCatch(
+        invoker: 'Filer.deleteAllDirectoryFiles',
+          functions: () async {
+
+            await _dir?.delete(
+              recursive: true,
+            );
 
           },
       );

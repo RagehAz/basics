@@ -14,7 +14,7 @@ class Director {
 
   // -----------------------------------------------------------------------------
 
-  /// DIRECTORIES
+  /// ALL DIRECTORIES
 
   // --------------------
   static List<DirectoryType> allDirectoryTypes = [
@@ -23,6 +23,30 @@ class Director {
     DirectoryType.external,
     DirectoryType.download,
   ];
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> dirDownloadDirPath() async {
+    String? _output;
+
+    if (DeviceChecker.deviceIsAndroid() == true){
+      _output = await AndroidPathProvider.downloadsPath;
+    }
+    else {
+      final Directory? downloadsDirectory = await getDownloadsDirectory();
+      _output = downloadsDirectory?.path;
+    }
+
+    return _output;
+  }
+  // --------------------
+  ///
+  static String dirSystemTempPath(){
+    return Directory.systemTemp.path;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// DIRECTORY GETTER
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Directory?> getDirectory({
@@ -41,37 +65,31 @@ class Director {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
-
-  /// DOWNLOAD DIRECTORY PATH
-
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String?> dirDownloadDirPath() async {
-    String? _output;
+  static Future<List<String>> getAllDirectoriesPaths() async {
+    final List<String> _output = [];
 
-    if (DeviceChecker.deviceIsAndroid() == true){
-      _output = await AndroidPathProvider.downloadsPath;
+    for (final DirectoryType type in allDirectoryTypes){
+
+      final Directory? _directory = await getDirectory(
+        type: type,
+      );
+
+      if (_directory != null){
+        _output.add(_directory.path);
+      }
+
     }
-    else {
-      final Directory? downloadsDirectory = await getDownloadsDirectory();
-      _output = downloadsDirectory?.path;
-    }
+
+    final String _flutterAssetsDirectoryPath = await _getFlutterAssetsDirPath();
+    _output.add(_flutterAssetsDirectoryPath);
 
     return _output;
   }
   // -----------------------------------------------------------------------------
 
-  /// DIRECTORY PATHING
-
-  // --------------------
-  ///
-  static String dirSystemTempPath(){
-    return Directory.systemTemp.path;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// DIRECTORY PATHING
+  /// FILES PATHS
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -142,28 +160,7 @@ class Director {
 
     return _output;
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<String>> getAllDirectoriesPaths() async {
-    final List<String> _output = [];
 
-    for (final DirectoryType type in allDirectoryTypes){
-
-      final Directory? _directory = await getDirectory(
-        type: type,
-      );
-
-      if (_directory != null){
-        _output.add(_directory.path);
-      }
-
-    }
-
-    final String _flutterAssetsDirectoryPath = await _getFlutterAssetsDirPath();
-    _output.add(_flutterAssetsDirectoryPath);
-
-    return _output;
-  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String> _getFlutterAssetsDirPath() async {
