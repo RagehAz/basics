@@ -92,6 +92,25 @@ class FilePathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static String? getNameFromXFile({
+    required XFile? file,
+    required bool withExtension,
+  }){
+
+    if (kIsWeb == true || file == null){
+      return null;
+    }
+
+    else {
+      return getNameFromFilePath(
+        filePath: file.path,
+        withExtension: withExtension,
+      );
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static String? getNameFromFilePath({
     required String? filePath,
     required bool withExtension,

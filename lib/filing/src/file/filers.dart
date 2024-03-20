@@ -40,8 +40,6 @@ class Filer {
         directoryType: directoryType,
       );
 
-
-
       if (_filePath != null) {
 
         /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
@@ -496,11 +494,6 @@ class Filer {
     required String? name,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
-
-    // final bool _exists = await checkFileExistsByName(
-    //   name: file?.fileNameWithExtension,
-    //   directoryType: await Director.concludeDirectoryFromFilePath(filePath: file?.path),
-    // );
 
     if (name != null){
 

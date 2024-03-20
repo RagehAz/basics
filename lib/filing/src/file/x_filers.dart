@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class XFiler {
   // -----------------------------------------------------------------------------
 
@@ -7,11 +7,11 @@ class XFiler {
 
   // -----------------------------------------------------------------------------
 
-  /// BASICS
+  /// CREATE
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> _createNewEmptyXFile({
+  static Future<XFile?> createEmptyFile({
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
@@ -40,17 +40,25 @@ class XFiler {
         directoryType: directoryType,
       );
 
-      /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
-      if (DeviceChecker.deviceIsWindows() == true) {
-        final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
-          text: _filePath,
-          specialCharacter: FilePathing.slash,
-        )!;
-        await Directory(_pathWithoutDocName).create(recursive: true);
-      }
-
       if (_filePath != null) {
-        _output = XFile(_filePath);
+
+        /// ONLY FOR WINDOWS,MAKE SURE DIRECTORY PATH EXISTS
+        if (DeviceChecker.deviceIsWindows() == true) {
+          final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
+            text: _filePath,
+            specialCharacter: FilePathing.slash,
+          )!;
+          await Directory(_pathWithoutDocName).create(recursive: true);
+        }
+
+        final Uint8List? _emptyData = Byter.fromInts([]);
+        _output = await createFromBytes(
+          bytes: _emptyData,
+          fileName: fileName,
+          directoryType: directoryType,
+        );
+
+
       }
 
     }
@@ -58,36 +66,186 @@ class XFiler {
     return _output;
   }
   // --------------------
-  /// ...
-  static Future<XFile?> _writeBytesOnFile({
-    required XFile? file,
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> createFromBytes({
     required Uint8List? bytes,
+    required String? fileName,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    XFile? _output;
+
+    if (fileName != null && bytes != null){
+
+      await tryAndCatch(
+        invoker: 'XFiler.createByBytes',
+        functions: () async {
+
+          final String? _filePath = await FilePathing.createPathByName(
+            fileName: fileName,
+            directoryType: directoryType,
+          );
+
+          if (_filePath != null){
+
+            /// FILE REF
+            _output = XFile(
+              _filePath,
+              bytes: bytes,
+              name: fileName,
+            );
+
+            /// DELETE EXISTING FILE IF EXISTED
+            await deleteFile(_output);
+
+            /// CREATE
+            _output = XFile.fromData(
+              bytes,
+              path: _filePath,
+              name: fileName,
+              // lastModified: ,
+              // length: ,
+              // mimeType: ,
+              // overrides: ,
+            );
+
+            await _output!.saveTo(_filePath);
+
+          }
+
+        },
+      );
+
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> createFromLocalAsset({
+    required String? localAsset,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
 
-    if (kIsWeb == true || file == null || bytes == null) {
-      return null;
-    }
+    final Uint8List? _bytes = await Byter.fromLocalAsset(
+      localAsset: localAsset,
+      // width: width,
+    );
 
-    else {
-      return XFile.fromData(
-        bytes,
-        path: file.path,
-        name: file.name,
-        lastModified: DateTime.now(),
-        length: bytes.length,
-        mimeType: file.mimeType,
-        // overrides:
+    final String? _fileName = FilePathing.getNameFromFilePath(
+      filePath: localAsset,
+      withExtension: true,
+    );
+
+    return createFromBytes(
+      fileName: _fileName,
+      bytes: _bytes,
+      directoryType: directoryType,
+    );
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> createFromURL({
+    required String? url,
+    required String? fileName,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    XFile? _output;
+
+    if (fileName != null && url != null){
+
+      final Uint8List? _bytes = await Byter.fromURL(url);
+
+      _output = await createFromBytes(
+        bytes: _bytes,
+        fileName: fileName,
+        directoryType: directoryType,
       );
+
     }
 
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
-  /// CREATE
+  /// CLONE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
-  static XFile? createFromFile({
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> cloneFile({
+    required XFile? file,
+    required String? newName,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    XFile? _output;
+
+    if (file != null && newName != null && newName != file.fileNameWithExtension){
+
+      await tryAndCatch(
+        invoker: 'XFiler.cloneFile',
+        functions: () async {
+
+          final Uint8List? _originalBytes = await file.readAsBytes();
+
+          if (_originalBytes != null){
+
+            _output = await createFromBytes(
+              bytes: _originalBytes,
+              fileName: newName,
+              directoryType: directoryType,
+            );
+
+          }
+
+        },
+      );
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// READ
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<XFile>> readAllDirectoryFiles({
+    required DirectoryType type,
+  }) async {
+
+    final List<String> _filesPaths = await Director.readDirectoryFilesPaths(
+      type: type,
+    );
+
+    return readFiles(
+      filesPaths: _filesPaths,
+    );
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<XFile> readFiles({
+    required List<String> filesPaths,
+  }){
+    final List<XFile> _output = [];
+
+    if (Lister.checkCanLoop(filesPaths) == true){
+
+      for (final String path in filesPaths){
+        final XFile _file = XFile(path);
+        _output.add(_file);
+      }
+
+    }
+
+    return _output;
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static XFile? readFile({
     required File? file,
   }) {
     XFile? _output;
@@ -102,74 +260,35 @@ class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> createFromBytes({
-    required Uint8List? bytes,
-    required String? fileName
+  static Future<XFile?> readByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
-    XFile? _output;
+    XFile? _file;
 
-    if (fileName != null && bytes != null){
+    final bool _exists = await checkFileExistsByName(
+      name: name,
+      directoryType: directoryType,
+    );
 
-      final XFile? _file = await _createNewEmptyXFile(
-        fileName: fileName,
+    if (_exists == true){
+
+      final String? _path = await FilePathing.createPathByName(
+        fileName: name,
+        directoryType: directoryType,
       );
 
-      _output = await _writeBytesOnFile(
-        bytes: bytes,
-        file: _file,
-      );
+      _file = XFile(_path!);
 
     }
 
-    return _output;
+    return _file;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<XFile?> createFromLocalAsset({
-    required String? asset,
-  }) async {
-
-    final Uint8List? _bytes = await Byter.fromLocalAsset(
-      localAsset: asset,
-      // width: width,
-    );
-
-    final String? _fileName = FilePathing.getNameFromFilePath(
-      filePath: asset,
-      withExtension: true,
-    );
-
-    return createFromBytes(
-      fileName: _fileName,
-      bytes: _bytes,
-    );
-
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<XFile?> createFromURL({
-    required String? url,
-    required String? fileName
-  }) async {
-    XFile? _output;
-
-    if (fileName != null && url != null){
-
-      final Uint8List? _bytes = await Byter.fromURL(url);
-
-      _output = await createFromBytes(
-        bytes: _bytes,
-        fileName: fileName,
-      );
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<XFile?> createFromAssetEntity({
+  static Future<XFile?> readAssetEntity({
     required AssetEntity? assetEntity,
+    DirectoryType directoryType = DirectoryType.app,
   }) async {
     XFile? _output;
 
@@ -183,45 +302,153 @@ class XFiler {
   }
   // -----------------------------------------------------------------------------
 
-  /// READ
-
-  // --------------------
-  ///
-  // -----------------------------------------------------------------------------
-
   /// UPDATE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> replaceBytes({
     required XFile? file,
-    required Uint8List? newBytes,
+    required Uint8List? bytes,
   }) async {
+    XFile? _output;
 
-    if (newBytes == null){
-      return file;
+    if (bytes == null || file == null){
+      /// DO NOTHING
     }
+
     else {
-      return _writeBytesOnFile(file: file, bytes: newBytes);
+
+      final DirectoryType? _originalDirectory = await Director.concludeDirectoryFromFilePath(
+          filePath: file.path,
+      );
+
+      if (_originalDirectory != null){
+
+        final String _fileName = file.fileNameWithExtension;
+
+        _output = await createFromBytes(
+          bytes: bytes,
+          fileName: _fileName,
+          directoryType: _originalDirectory,
+        );
+
+      }
+
+      return _output;
     }
 
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> renameFile({
+    required XFile? file,
+    required String? newName,
+  }) async {
+    XFile? _output;
+
+    if (file != null && newName != null && newName != file.fileNameWithExtension){
+
+      final DirectoryType? _directoryType = await Director.concludeDirectoryFromFilePath(
+        filePath: file.path,
+      );
+
+      if (_directoryType != null){
+
+        await tryAndCatch(
+          invoker: 'XFiler.renameFile',
+          functions: () async {
+
+            final Uint8List _originalBytes = await file.readAsBytes();
+
+            await deleteFile(file);
+
+            _output = await createFromBytes(
+              bytes: _originalBytes,
+              fileName: newName,
+              directoryType: _directoryType,
+            );
+
+          },
+        );
+
+      }
+
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
   /// DELETE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
-  static Future<void> deleteFile(String? path) async {
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFile(XFile? file) async {
 
-    if (TextCheck.isEmpty(path) == false){
+    if (file != null){
 
-      if (kIsWeb == true){
+      final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
+        filePath: file.path,
+      );
+
+      if (dir != null){
+
+        final bool _exists = await checkFileExistsByName(
+          name: file.fileNameWithExtension,
+          directoryType: dir,
+        );
+
+        if (_exists == true){
+
+          await tryAndCatch(
+            invoker: 'XFiler.deleteFile',
+            functions: () async {
+
+              await Directory(file.path).delete(recursive: true);
+              await ImageCacheOps.wipeCaches();
+
+            },
+          );
+
+        }
 
       }
-      else {
 
-        await File(path!).delete();
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFileByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+
+    if (name != null){
+
+      final String? _path = await FilePathing.createPathByName(
+        fileName: name,
+        directoryType: directoryType,
+      );
+
+      if (_path != null){
+        await deleteFile(XFile(_path));
+      }
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFiles(List<XFile> files) async {
+
+    if (Lister.checkCanLoop(files) == true){
+
+      for (final XFile file in files){
+
+        await deleteFile(file);
 
       }
 
@@ -233,7 +460,7 @@ class XFiler {
   /// CHECKERS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkXFilesAreIdentical({
     required XFile? file1,
     required XFile? file2,
@@ -262,6 +489,43 @@ class XFiler {
 
       return _identical;
 
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> checkFileExistsByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    bool _exists = false;
+
+    final String? _path = await FilePathing.createPathByName(
+      fileName: name,
+      directoryType: directoryType,
+    );
+
+    if (_path != null){
+
+      await tryAndCatch(
+          invoker: 'XFiler.checkFileExistsByName',
+          onError: (String error){
+            // to ignore blogs
+          },
+          functions: () async {
+
+            final int? _length = await XFile(_path).length();
+
+            if (_length != null){
+              _exists = true;
+            }
+
+          },
+      );
+
+    }
+
+    blog('checkFileExistsByName : _exists : $_exists aho ');
+
+    return _exists;
   }
   // -----------------------------------------------------------------------------
 }

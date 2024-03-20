@@ -91,8 +91,8 @@ class MediaModel {
 
       if (_newPath != null && _oldPath != _newPath){
 
-        await file!.saveTo(_newPath);
-        await XFiler.deleteFile(_oldPath);
+        // await file!.saveTo(_newPath);
+        await XFiler.renameFile(file: file, newName: newName);
 
         return copyWith(
           file: XFile(_newPath),
@@ -280,7 +280,7 @@ class MediaModel {
       
       final XFile? _file = await XFiler.replaceBytes(
         file: file,
-        newBytes: bytes,
+        bytes: bytes,
       );
       
       return copyWith(
@@ -376,7 +376,7 @@ class MediaModel {
 
     return MediaModel(
       file: await XFiler.createFromLocalAsset(
-          asset: Iconz.bldrsAppIcon,
+          localAsset: Iconz.bldrsAppIcon,
       ),
       meta: MediaMetaModel(
         ownersIDs: const ['OwnerID'],
@@ -644,7 +644,7 @@ class MediaModelCreator {
     FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
-    final XFile? _xFile = await XFiler.createFromAssetEntity(
+    final XFile? _xFile = await XFiler.readAssetEntity(
       assetEntity: asset,
     );
 
@@ -676,7 +676,7 @@ class MediaModelCreator {
     if (TextCheck.isEmpty(localAsset) == false){
 
       final XFile? _file = await XFiler.createFromLocalAsset(
-        asset: localAsset,
+        localAsset: localAsset,
       );
 
       _output = await fromXFile(

@@ -393,7 +393,7 @@ abstract class DimensionsGetter {
   }) async {
 
     final XFile? _xFile = await XFiler.createFromLocalAsset(
-        asset: localAsset,
+        localAsset: localAsset,
     );
 
     return fromXFile(xfile: _xFile);

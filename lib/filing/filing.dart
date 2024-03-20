@@ -36,7 +36,7 @@ part 'src/file/x_filers.dart';
 part 'src/file/file_pathing.dart';
 part 'src/file/file_sizer.dart';
 part 'src/file/xfile_extra.dart';
-part 'src/file/file_system_entity_extra.dart';
+part 'src/file/file_extra.dart';
 part 'src/file/file_typer.dart';
 part 'src/file/director.dart';
 part 'src/file/cache_ops.dart';

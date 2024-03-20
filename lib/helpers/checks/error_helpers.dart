@@ -52,9 +52,11 @@ Future<void> tryAndCatch({
   // on Exception : this does not work on web
   catch (error) {
 
-    blog('$invoker : tryAndCatch ERROR : $error');
+    if (onError == null){
+      blog('$invoker : tryAndCatch ERROR : $error');
+    }
 
-    if (onError != null) {
+    else {
       onError(error.toString());
     }
 
