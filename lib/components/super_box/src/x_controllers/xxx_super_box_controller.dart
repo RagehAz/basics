@@ -28,10 +28,10 @@ class SuperBoxController {
       return height * iconSizeFactor!;
     }
     else if (
-        FileTyper.fileExtensionOf(icon) == 'svg' ||
-        FileTyper.fileExtensionOf(icon) == 'jpg' ||
-        FileTyper.fileExtensionOf(icon) == 'jpeg' ||
-        FileTyper.fileExtensionOf(icon) == 'png'
+        FileTyper.getExtension(object: icon) == 'svg' ||
+        FileTyper.getExtension(object: icon) == 'jpg' ||
+        FileTyper.getExtension(object: icon) == 'jpeg' ||
+        FileTyper.getExtension(object: icon) == 'png'
     ){
       return height * iconSizeFactor!;
     }

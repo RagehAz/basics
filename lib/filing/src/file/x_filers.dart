@@ -74,14 +74,19 @@ class XFiler {
   }) async {
     XFile? _output;
 
-    if (fileName != null && bytes != null){
+    final String? _fileName = FileTyper.fixFileName(
+      fileName: fileName,
+      bytes: bytes,
+    );
+
+    if (_fileName != null && bytes != null){
 
       await tryAndCatch(
         invoker: 'XFiler.createByBytes',
         functions: () async {
 
           final String? _filePath = await FilePathing.createPathByName(
-            fileName: fileName,
+            fileName: _fileName,
             directoryType: directoryType,
           );
 
@@ -91,7 +96,7 @@ class XFiler {
             _output = XFile(
               _filePath,
               bytes: bytes,
-              name: fileName,
+              name: _fileName,
             );
 
             /// DELETE EXISTING FILE IF EXISTED
@@ -101,7 +106,7 @@ class XFiler {
             _output = XFile.fromData(
               bytes,
               path: _filePath,
-              name: fileName,
+              name: _fileName,
               // lastModified: ,
               // length: ,
               // mimeType: ,
@@ -180,7 +185,7 @@ class XFiler {
   }) async {
     XFile? _output;
 
-    if (file != null && newName != null && newName != file.fileNameWithExtension){
+    if (file != null && newName != null && newName != file.fileName){
 
       await tryAndCatch(
         invoker: 'XFiler.cloneFile',
@@ -324,7 +329,7 @@ class XFiler {
 
       if (_originalDirectory != null){
 
-        final String _fileName = file.fileNameWithExtension;
+        final String _fileName = file.fileName;
 
         _output = await createFromBytes(
           bytes: bytes,
@@ -347,7 +352,7 @@ class XFiler {
   }) async {
     XFile? _output;
 
-    if (file != null && newName != null && newName != file.fileNameWithExtension){
+    if (file != null && newName != null && newName != file.fileName){
 
       final DirectoryType? _directoryType = await Director.concludeDirectoryFromFilePath(
         filePath: file.path,
@@ -396,7 +401,7 @@ class XFiler {
       if (dir != null){
 
         final bool _exists = await checkFileExistsByName(
-          name: file.fileNameWithExtension,
+          name: file.fileName,
           directoryType: dir,
         );
 

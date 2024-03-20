@@ -78,18 +78,25 @@ class Filer {
   }) async {
     File? _output;
 
-    if (kIsWeb == true || bytes == null || fileName == null){
+    final String? _fileName = FileTyper.fixFileName(
+      fileName: fileName,
+      bytes: bytes,
+    );
+
+    if (kIsWeb == true || bytes == null || _fileName == null){
       /// NOT IMPLEMENTED
     }
 
     else {
+
+
 
       await tryAndCatch(
         invoker: 'Filer.createByBytes',
         functions: () async {
 
           final String? _filePath = await FilePathing.createPathByName(
-            fileName: fileName,
+            fileName: _fileName,
             directoryType: directoryType,
           );
 
@@ -279,10 +286,15 @@ class Filer {
   }) async {
     File? _output;
 
-    if (file != null && newName != null && newName != file.fileNameWithExtension){
+    final String? _fileName = FileTyper.fixFileName(
+      fileName: newName,
+      bytes: await Byter.fromFile(file),
+    );
+
+    if (file != null && _fileName != null && _fileName != file.fileName){
 
       final String? _filePath = await FilePathing.createPathByName(
-        fileName: newName,
+        fileName: _fileName,
         directoryType: directoryType,
       );
 
@@ -428,10 +440,15 @@ class Filer {
   }) async {
     File? _output;
 
-    if (file != null && newName != null && newName != file.fileNameWithExtension){
+    final String? _fileName = FileTyper.fixFileName(
+      fileName: newName,
+      bytes: await Byter.fromFile(file),
+    );
+
+    if (file != null && _fileName != null && _fileName != file.fileName){
 
       final String pathWithoutFileName = file.parent.path;
-      final String _newPath = '$pathWithoutFileName/$newName';
+      final String _newPath = '$pathWithoutFileName/$_fileName';
 
       await tryAndCatch(
         invoker: 'Filer.renameFile',
@@ -463,7 +480,7 @@ class Filer {
       if (dir != null){
 
         final bool _exists = await checkFileExistsByName(
-          name: file.fileNameWithExtension,
+          name: file.fileName,
           directoryType: dir,
         );
 
@@ -574,7 +591,7 @@ class Filer {
       final Map<String, dynamic> _map = {
         'path': file.path,
         'absolute': file.absolute,
-        'fileNameWithExtension': file.fileNameWithExtension,
+        'fileNameWithExtension': file.fileName,
         'runtimeType': file.runtimeType,
         'isAbsolute': file.isAbsolute,
         'parent': file.parent,

@@ -163,7 +163,6 @@ class PicMaker {
           _output = await MediaModelCreator.fromXFile(
             file: _file,
             mediaOrigin: MediaOrigin.galleryImage,
-            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
             renameFile: fileName,
@@ -328,7 +327,6 @@ class PicMaker {
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
             asset: asset,
             mediaOrigin: MediaOrigin.galleryImage,
-            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPathGenerator?.call(i),
             ownersIDs: ownersIDs,
             renameFile: picNameGenerator?.call(i),
@@ -479,7 +477,6 @@ class PicMaker {
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
             asset: entity,
             mediaOrigin: MediaOrigin.cameraImage,
-            fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
             renameFile: fileName,

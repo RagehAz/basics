@@ -32,7 +32,7 @@ class MediaMetaModel {
   final double? height;
   final String? name;
   final double? sizeMB;
-  final FileExt? fileExt;
+  final FileExtType? fileExt;
   final Map<String, String>? data;
   final String? uploadPath; /// storage/collectionName/subCollectionName/fileName.ext
   // -----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ class MediaMetaModel {
     double? height,
     String? name,
     double? sizeMB,
-    FileExt? fileExt,
+    FileExtType? fileExt,
     Map<String, String>? data,
     String? uploadPath,
   }){
@@ -71,7 +71,7 @@ class MediaMetaModel {
   Map<String, dynamic> cipherToLDB(){
     return <String, dynamic>{
       'ownersIDs': ownersIDs,
-      'fileType': FileTyper.cipherType(fileExt),
+      'fileType': FileTyper.getMimeByType(fileExt),
       'width': width,
       'height': height,
       'name': name,
@@ -88,7 +88,7 @@ class MediaMetaModel {
     if (map != null){
       _output = MediaMetaModel(
         ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
-        fileExt: FileTyper.decipherType(map['fileType']),
+        fileExt: FileTyper.getTypeByMime(map['fileType']),
         width: map['width'],
         height: map['height'],
         name: map['name'],
@@ -136,7 +136,7 @@ class MediaMetaModel {
           map: customMetadata,
           value: 'cool',
         ),
-        fileExt: FileTyper.decipherType(customMetadata['fileType']),
+        fileExt: FileTyper.getTypeByMime(customMetadata['fileType']),
         width: Numeric.transformStringToDouble(customMetadata['width']),
         height: Numeric.transformStringToDouble(customMetadata['height']),
         name: customMetadata['name'],
@@ -435,17 +435,17 @@ class MediaMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkFileIsImage(){
-    return FileTyper.checkFileIsImage(fileExt);
+    return FileTyper.checkTypeIsImage(fileExt);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkFileIsVideo(){
-    return FileTyper.checkFileIsVideo(fileExt);
+    return FileTyper.checkTypeIsVideo(fileExt);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkFileIsAudio(){
-    return FileTyper.checkFileIsAudio(fileExt);
+    return FileTyper.checkTypeIsAudio(fileExt);
   }
   // -----------------------------------------------------------------------------
 
@@ -454,7 +454,7 @@ class MediaMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static MediaMetaModel emptyModel({
-    required FileExt fileType,
+    required FileExtType fileType,
   }){
     return MediaMetaModel(
       ownersIDs: const [],
@@ -485,7 +485,7 @@ class MediaMetaModel {
           sizeMB : $sizeMB,
           name : $name,
           uploadPath: $uploadPath,
-          fileType: ${FileTyper.cipherType(fileExt)},
+          fileType: ${FileTyper.getMimeByType(fileExt)},
           data : $data,
         )
         ''';

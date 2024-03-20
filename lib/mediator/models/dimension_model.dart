@@ -355,7 +355,7 @@ abstract class DimensionsGetter {
 
     /// X FILE
     else if (ObjectCheck.objectIsXFile(object) == true){
-      return fromXFile(xfile: object);
+      return fromXFile(file: object);
     }
 
     /// FILE
@@ -396,14 +396,14 @@ abstract class DimensionsGetter {
         localAsset: localAsset,
     );
 
-    return fromXFile(xfile: _xFile);
+    return fromXFile(file: _xFile);
   }
   // --------------------
   /// TASK : TEST_ME_NOW
   static Future<Dimensions?> fromMediaModel({
     required MediaModel? mediaModel,
   }) async {
-    return fromXFile(xfile: mediaModel?.file);
+    return fromXFile(file: mediaModel?.file);
   }
   // --------------------
   /// TASK : TEST_ME_NOW
@@ -417,7 +417,7 @@ abstract class DimensionsGetter {
         fileName: fileName,
     );
 
-    return fromXFile(xfile: _xFile);
+    return fromXFile(file: _xFile);
   }
   // --------------------
   /// TASK : TEST_ME_NOW
@@ -431,7 +431,7 @@ abstract class DimensionsGetter {
         fileName: fileName
     );
 
-    return fromXFile(xfile: _xFile);
+    return fromXFile(file: _xFile);
   }
   // --------------------
   /// TASK : TEST_ME_NOW
@@ -444,20 +444,20 @@ abstract class DimensionsGetter {
       _xFile = XFile(file.path);
     }
 
-    return fromXFile(xfile: _xFile);
+    return fromXFile(file: _xFile);
   }
   // --------------------
   /// TASK : TEST_ME_NOW
   static Future<Dimensions?> fromXFile({
-    required XFile? xfile,
+    required XFile? file,
   }) async {
 
     Dimensions? _output = await _getImageDimensions(
-      xFile: xfile,
+      xFile: file,
     );
 
     _output ??= await _getVideoDimensions(
-        xFile: xfile,
+        xFile: file,
       );
 
     return _output;
@@ -467,7 +467,7 @@ abstract class DimensionsGetter {
   /// IMAGE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<Dimensions?> _getImageDimensions({
     required XFile? xFile,
   }) async {

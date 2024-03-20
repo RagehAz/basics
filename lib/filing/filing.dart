@@ -18,6 +18,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
+import 'package:basics/mediator/models/media_model.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:mime/mime.dart';
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';

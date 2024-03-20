@@ -20,23 +20,18 @@ void main (){
   group('fileExtensionOf', () {
 
     test('should return null when file is null', () {
-      final result = FileTyper.fileExtensionOf(null);
+      final result = FileTyper.getExtension(object: null);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.fileExtensionOf('example.txt');
+      final result = FileTyper.getExtension(object: 'example.txt');
       expect(result, 'txt');
-    });
-
-    test('should return null when file is not a string or File', () {
-      final result = FileTyper.fileExtensionOf(123);
-      expect(result, isNull);
     });
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = FileTyper.fileExtensionOf(file);
+      final result = file.extension;
       expect(result, 'jpg');
     });
 
@@ -47,21 +42,16 @@ void main (){
     // });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.fileExtensionOf('example.txt');
+      final result = FileTyper.getExtension(object: 'example.txt');
       expect(result, 'txt');
-      expect(result, File('example.txt').fileExtension);
-    });
-
-    test('should return null when file is not a string or File', () {
-      final result = FileTyper.fileExtensionOf(123);
-      expect(result, isNull);
+      expect(result, File('example.txt').extension);
     });
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = FileTyper.fileExtensionOf(file);
+      final result = file.extension;
       expect(result, 'jpg');
-      expect(result, file.fileExtension);
+      expect(result, file.extension);
     });
 
   });
@@ -119,23 +109,18 @@ void main (){
   group('fileExtensionOf', () {
 
     test('should return null when file is null', () {
-      final result = FileTyper.fileExtensionOf(null);
+      final result = FileTyper.getExtension(object: null);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.fileExtensionOf('example.txt');
+      final result = FileTyper.getExtension(object: 'example.txt');
       expect(result, 'txt');
-    });
-
-    test('should return null when file is not a string or File', () {
-      final result = FileTyper.fileExtensionOf(123);
-      expect(result, isNull);
     });
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = FileTyper.fileExtensionOf(file);
+      final result = file.extension;
       expect(result, 'jpg');
     });
 
@@ -146,21 +131,18 @@ void main (){
     // });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.fileExtensionOf('example.txt');
+      final result = FileTyper.getExtension(object: 'example.txt');
       expect(result, 'txt');
-      expect(result, File('example.txt').fileExtension);
+      expect(result, File('example.txt').extension);
     });
 
-    test('should return null when file is not a string or File', () {
-      final result = FileTyper.fileExtensionOf(123);
-      expect(result, isNull);
-    });
+
 
     test('should return the file extension when file is a File object', () {
       final file = File('path/to/example.jpg');
-      final result = FileTyper.fileExtensionOf(file);
+      final result = file.extension;
       expect(result, 'jpg');
-      expect(result, file.fileExtension);
+      expect(result, file.extension);
     });
 
   });

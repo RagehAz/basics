@@ -1,41 +1,52 @@
 part of filing;
 
+/// TAMAM
 extension Extra on XFile {
   // -----------------------------------------------------------------------------
 
   /// FILE NAME
 
   // --------------------
-  String get fileNameWithExtension {
+  String get fileName {
     return path.split('/').last;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// EXTENSION
+
+  // --------------------
+  String? get extension {
+    return FileTyper.getExtension(
+      object: path,
+    );
   }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
 
   // --------------------
-  String get stringifyXFile => 'XFile(path: $path, name: $name)';
+  String get stringify => 'XFile(path: $path, name: $name)';
   // -----------------------------------------------------------------------------
 
   /// SIZE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<double?> readSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
-    final Uint8List _bytes = await readAsBytes();
-    return FileSizer.calculateSize(_bytes.length, fileSizeUnit);
+    final Uint8List? _bytes = await Byter.fromXFile(this);
+    return FileSizer.calculateSize(_bytes?.length, fileSizeUnit);
   }
   // -----------------------------------------------------------------------------
 
   /// DIMENSIONS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<Dimensions?> readDimensions() async {
     final Dimensions? _dims =  await DimensionsGetter.fromXFile(
-      xfile: this,
+      file: this,
     );
     return _dims;
   }

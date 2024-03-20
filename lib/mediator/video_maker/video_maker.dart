@@ -1,5 +1,4 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
-import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
@@ -67,7 +66,6 @@ class VideoMaker {
       _output = await MediaModelCreator.fromAssetEntity(
         asset: pickedAssets?.firstOrNull,
         ownersIDs: ownersIDs,
-        fileExt: FileExt.mp4,
         mediaOrigin: MediaOrigin.galleryVideo,
         uploadPath: uploadPath,
         renameFile: name,
@@ -121,7 +119,6 @@ class VideoMaker {
           _output = await MediaModelCreator.fromAssetEntity(
             asset: entity,
             ownersIDs: ownersIDs,
-            fileExt: FileExt.mp4,
             mediaOrigin: MediaOrigin.galleryVideo,
             uploadPath: uploadPath,
             renameFile: name,

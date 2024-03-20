@@ -61,53 +61,6 @@ class MediaModel {
       meta: meta == true ? null : this.meta,
     );
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  MediaModel overrideUploadPath({
-    required String? uploadPath
-  }){
-    return copyWith(
-      meta: meta?.copyWith(
-        uploadPath: uploadPath,
-      ),
-    );
-  }
-  // --------------------
-  /// TASK : DO ME
-  Future<MediaModel> renameFile({
-    required String? newName,
-  }) async {
-
-    if (file == null || newName == null || newName == '' || file?.name == newName){
-      return this;
-    }
-    else {
-
-      /// IMPLEMENT AND TEST ME MAW
-      final String _oldPath = file!.path;
-      final String? _newPath = await FilePathing.createPathByName(
-        fileName: newName,
-      );
-
-      if (_newPath != null && _oldPath != _newPath){
-
-        // await file!.saveTo(_newPath);
-        await XFiler.renameFile(file: file, newName: newName);
-
-        return copyWith(
-          file: XFile(_newPath),
-          meta: meta?.copyWith(name: newName),
-        );
-
-      }
-
-      else {
-        return this;
-      }
-
-    }
-
-  }
   // -----------------------------------------------------------------------------
 
   /// LDB CYPHERS
@@ -119,8 +72,7 @@ class MediaModel {
 
     if (mediaModel != null){
       _map = {
-        'path': mediaModel.meta?.uploadPath,
-        'filePath': mediaModel.file?.path,
+        'path': mediaModel.file?.path, /// id
         'meta': mediaModel.meta?.cipherToLDB()
       };
     }
@@ -135,7 +87,7 @@ class MediaModel {
     if (map != null){
 
       _picModel = MediaModel(
-        file: map['filePath'] == null ? null : XFile(map['filePath']),
+        file: map['path'] == null ? null : XFile(map['path']),
         meta: MediaMetaModel.decipherFromLDB(map['meta']),
       );
 
@@ -195,7 +147,7 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   Future<Dimensions?> getDimensions() async {
     final Dimensions? _dim = await DimensionsGetter.fromXFile(
-      xfile: file,
+      file: file,
     );
     return _dim;
   }
@@ -222,6 +174,12 @@ class MediaModel {
   int getBytesLength(){
     final Map<String, String>? _data = meta?.data;
     return Numeric.transformStringToInt(_data?['sizeB']) ?? 0;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  MediaOrigin? getMediaOrigin(){
+    final String? _origin = meta?.data?['source'];
+    return decipherMediaOrigin(_origin);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -251,7 +209,7 @@ class MediaModel {
       
       for (final MediaModel model in mediaModels){
         
-        final Uint8List? _bytes = await model.file?.readAsBytes();
+        final Uint8List? _bytes = await Byter.fromXFile(model.file);
         
         if (_bytes != null){
           _output.add(_bytes);
@@ -282,13 +240,67 @@ class MediaModel {
         file: file,
         bytes: bytes,
       );
-      
-      return copyWith(
-        file: _file,
+
+      final MediaModel? _output = await MediaModelCreator.fromXFile(
+          file: _file,
+          mediaOrigin: getMediaOrigin(),
+          uploadPath: meta?.uploadPath,
+          ownersIDs: meta?.ownersIDs,
+          renameFile: null,
       );
+      
+      return _output ?? this;
       
     }
     
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  MediaModel overrideUploadPath({
+    required String? uploadPath
+  }){
+    return copyWith(
+      meta: meta?.copyWith(
+        uploadPath: uploadPath,
+      ),
+    );
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  Future<MediaModel> renameFile({
+    required String? newName,
+  }) async {
+
+    if (file == null || newName == null || newName == '' || file?.fileName == newName){
+      return this;
+    }
+    else {
+
+      final String _oldPath = file!.path;
+      final String? _newPath = await FilePathing.createPathByName(
+        fileName: newName,
+      );
+
+      if (_newPath != null && _oldPath != _newPath){
+
+        final MediaModel? _output = await MediaModelCreator.fromXFile(
+          file: file,
+          mediaOrigin: getMediaOrigin(),
+          uploadPath: meta?.uploadPath,
+          ownersIDs: meta?.ownersIDs,
+          renameFile: newName,
+        );
+
+        return _output ?? this;
+
+      }
+
+      else {
+        return this;
+      }
+
+    }
+
   }
   // --------------------
   /// TASK : TEST_ME_NOW
@@ -372,32 +384,18 @@ class MediaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<MediaModel> dummyPic() async {
+  static Future<MediaModel> dummyPic({
+    String? localAsset,
+  }) async {
 
-    return MediaModel(
-      file: await XFiler.createFromLocalAsset(
-          localAsset: Iconz.bldrsAppIcon,
-      ),
-      meta: MediaMetaModel(
-        ownersIDs: const ['OwnerID'],
-        fileExt: FileExt.jpeg,
-        name: 'Dummy Pic',
-        width: 100,
-        height: 100,
-        sizeMB: 0.1,
-        uploadPath: 'storage/bldrs/bldrs_app_icon.png',
-        data: {
-          'aspectRatio': '1.0',
-          'sizeB': '100',
-          'sizeKB': '0.1',
-          'compressionQuality': '100',
-          'source': cipherMediaOrigin(MediaOrigin.generated)!,
-          'deviceID': 'Dummy Device ID',
-          'deviceName': 'Dummy Device Name',
-          'platform': 'Dummy Platform',
-        },
-      ),
+    final MediaModel? _mediaModel = await MediaModelCreator.fromLocalAsset(
+      localAsset: localAsset ?? Iconz.bldrsAppIcon,
+      ownersIDs: const ['OwnerID'],
+      uploadPath: 'storage/bldrs/bldrs_app_icon.png',
+      // renameFile: null,
     );
+
+    return _mediaModel!;
 
   }
   // -----------------------------------------------------------------------------
@@ -513,7 +511,7 @@ class MediaModel {
     final String _text =
     '''
     PicModel(
-      file: ${file?.stringifyXFile},
+      file: ${file?.stringify},
       meta: $meta
     );
     ''';
@@ -564,7 +562,6 @@ class MediaModelCreator {
     String? uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
-    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
     final XFile? _file = await XFiler.createFromBytes(
@@ -574,7 +571,6 @@ class MediaModelCreator {
 
     return MediaModelCreator.fromXFile(
       file: _file,
-      fileExt: fileExt,
       mediaOrigin: mediaOrigin,
       uploadPath: uploadPath,
       ownersIDs: ownersIDs,
@@ -593,7 +589,6 @@ class MediaModelCreator {
     required String? fileName,
     String? uploadPath,
     List<String>? ownersIDs,
-    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
     if (ObjectCheck.isAbsoluteURL(url) == false){
@@ -608,7 +603,6 @@ class MediaModelCreator {
 
       final MediaModel? _mediaModel = await  MediaModelCreator.fromXFile(
         file: _file,
-        fileExt: fileExt,
         mediaOrigin: MediaOrigin.downloaded,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
@@ -641,7 +635,6 @@ class MediaModelCreator {
     String? uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
-    FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
   }) async {
 
     final XFile? _xFile = await XFiler.readAssetEntity(
@@ -651,7 +644,6 @@ class MediaModelCreator {
     final MediaModel? _model = await fromXFile(
       file: _xFile,
       mediaOrigin: mediaOrigin,
-      fileExt: fileExt, /// TASK: DETECT_FILE_TYPE
       uploadPath: uploadPath,
       ownersIDs: ownersIDs,
       renameFile: renameFile,
@@ -681,7 +673,6 @@ class MediaModelCreator {
 
       _output = await fromXFile(
         file: _file,
-        fileExt: FileExt.jpeg, /// TASK: DETECT_FILE_TYPE
         mediaOrigin: MediaOrigin.generated,
         uploadPath: uploadPath ?? '',
         ownersIDs: ownersIDs,
@@ -729,7 +720,6 @@ class MediaModelCreator {
   static Future<MediaModel?> fromXFile({
     required XFile? file,
     required MediaOrigin? mediaOrigin,
-    required FileExt? fileExt, /// TASK: DETECT_FILE_TYPE
     required String? uploadPath,
     required List<String>? ownersIDs,
     required String? renameFile,
@@ -744,17 +734,24 @@ class MediaModelCreator {
       // blog('  2.combinePicModel bytes exists bytes != null');
 
       final Uint8List _bytes = await file.readAsBytes();
-      final Dimensions? _dims =  await DimensionsGetter.fromXFile(xfile: file);
+      final Dimensions? _dims =  await DimensionsGetter.fromXFile(file: file);
       final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
       final double? _mega = FileSizer.calculateSize(_bytes.length, FileSizeUnit.megaByte);
       final double? _kilo = FileSizer.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
       final String? _deviceID = await DeviceChecker.getDeviceID();
       final String? _deviceName = await DeviceChecker.getDeviceName();
       final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+      final String? _fileName = FileTyper.fixFileName(fileName: renameFile ?? file.fileName, bytes: _bytes);
+      final XFile? _xFile = await XFiler.renameFile(file: file, newName: _fileName);
+      final String? _extension = FileTyper.getExtension(object: _xFile);
+      final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
 
       /// SOMETHING IS MISSING
       if (
+          _xFile == null ||
+          _fileExtensionType == null ||
           _dims == null ||
+          _fileName == null ||
           _aspectRatio == null ||
           _mega == null ||
           _kilo == null ||
@@ -774,13 +771,13 @@ class MediaModelCreator {
       /// ALL IS GOOD
       else {
         _output = MediaModel(
-          file: file,
+          file: _xFile,
           meta: MediaMetaModel(
             sizeMB: _mega,
             width: _dims.width,
             height: _dims.height,
-            fileExt: fileExt,
-            name: file.name,
+            fileExt: _fileExtensionType,
+            name: _fileName,
             ownersIDs: ownersIDs ?? [],
             uploadPath: uploadPath,
             data: MapperSS.cleanNullPairs(
@@ -798,10 +795,6 @@ class MediaModelCreator {
         );
       }
 
-    }
-
-    if (renameFile != null){
-      _output = await _output?.renameFile(newName: renameFile);
     }
 
     // blog('  3.combinePicModel _output is null ${_output == null}');

@@ -1,25 +1,43 @@
+// ignore_for_file: constant_identifier_names
+
 part of filing;
 
-enum FileExt {
-  png,
-  jpeg,
-  gif,
-  bmp,
-  webp,
-  mp3,
-  wav,
-  ogg,
-  mp4,
-  mpeg,
-  quicktime,
+enum FileExtType {
+  /// recognized by mime package
   pdf,
+  postScript,
+  aiff,
+  flac,
+  wav,
+  gif,
+  jpeg,
+  png,
+  tiff,
+  aac,
+  weba,
+  mpeg,
+  ogg,
+  gpp,
+  mp4,
+  gltf,
+  webp,
+  woff,
+  heic,
+  heif,
+  /// unrecognized by mime package
+  bmp,
+  vmpeg,
+  quicktime,
+  msword,
+  plainText,
+  mp3,
   doc,
   docx,
   xls,
   xlsx,
   ppt,
   pptx,
-  plainText,
+
   unknown,
 }
 
@@ -29,231 +47,309 @@ class FileTyper {
   const FileTyper();
 
   // -----------------------------------------------------------------------------
-  /// AI GENERATED
-  static FileExt _detectFileType(Uint8List bytes) {
-    FileExt _output = FileExt.unknown;
 
+  /// MIMES
 
-    if (_hasSignature(bytes, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A])) {
-      _output = FileExt.png;
+  // ----------------------------
+  /// SUPPORTED BY MIME PACKAGE
+  static const String _mime_pdf = 'application/pdf';
+  static const String _mime_postScript = 'application/postscript';
+  static const String _mime_aiff = 'audio/x-aiff';
+  static const String _mime_flac = 'audio/x-flac';
+  static const String _mime_wav = 'audio/x-wav';
+  static const String _mime_gif = 'image/gif';
+  static const String _mime_jpeg = 'image/jpeg';
+  static const String _mime_png = 'image/png';
+  static const String _mime_tiff = 'image/tiff';
+  static const String _mime_aac = 'audio/aac';
+  static const String _mime_weba = 'audio/weba';
+  static const String _mime_mpeg = 'audio/mpeg';
+  static const String _mime_ogg = 'audio/ogg';
+  static const String _mime_gpp = 'video/3gpp';
+  static const String _mime_mp4 = 'video/mp4';
+  static const String _mime_gltf = 'model/gltf-binary';
+  static const String _mime_webp = 'image/webp';
+  static const String _mime_woff = 'font/woff2';
+  static const String _mime_heic = 'image/heic';
+  static const String _mime_heif = 'image/heif';
+  // ----------------------------
+  /// NOT SUPPORTED BY MIME PACKAGE
+  static const String _mime_bmp = 'image/bmp';
+  static const String _mime_vmpeg = 'video/mpeg';
+  static const String _mime_quicktime = 'video/quicktime';
+  static const String _mime_msword = 'application/msword';
+  static const String _mime_plain = 'text/plain';
+  static const String _mime_mp3 = 'audio/mp3';
+  // -----------------------------------------------------------------------------
+
+  /// EXTENSIONS
+
+  // ----------------------------
+  /// SUPPORTED BY MIME PACKAGE
+  static const String _ext_pdf = 'pdf';
+  static const String _ext_postScript = 'postscript';
+  static const String _ext_aiff = 'aiff';
+  static const String _ext_flac = 'flac';
+  static const String _ext_wav = 'wav';
+  static const String _ext_gif = 'gif';
+  static const String _ext_jpeg = 'jpeg';
+  static const String _ext_png = 'png';
+  static const String _ext_tiff = 'tiff';
+  static const String _ext_aac = 'aac';
+  static const String _ext_weba = 'weba';
+  static const String _ext_mpeg = 'mpeg';
+  static const String _ext_ogg = 'ogg';
+  static const String _ext_gpp = '3gpp';
+  static const String _ext_mp4 = 'mp4';
+  static const String _ext_gltf = 'gltf';
+  static const String _ext_webp = 'webp';
+  static const String _ext_woff = 'woff2';
+  static const String _ext_heic = 'heic';
+  static const String _ext_heif = 'heif';
+  // ----------------------------
+  /// NOT SUPPORTED BY MIME PACKAGE
+  static const String _ext_bmp = 'bmp';
+  static const String _ext_vmpeg = 'vmpeg';
+  static const String _ext_quicktime = 'quicktime';
+  static const String _ext_msword = 'msword';
+  static const String _ext_plain = 'plain';
+  static const String _ext_mp3 = 'mp3';
+  // -----------------------------------------------------------------------------
+
+  /// DETECTION
+
+  // --------------------
+  /// TESTED : WORKS GOOD
+  static FileExtType detectBytesType(Uint8List? bytes) {
+    FileExtType _output = FileExtType.unknown;
+
+    if (bytes != null){
+
+      final String? _mime = lookupMimeType('', headerBytes: bytes);
+
+      if (_mime != null){
+
+        switch (_mime){
+
+          case _mime_pdf         : _output = FileExtType.pdf;
+          case _mime_postScript  : _output = FileExtType.postScript;
+          case _mime_aiff        : _output = FileExtType.aiff;
+          case _mime_flac        : _output = FileExtType.flac;
+          case _mime_wav         : _output = FileExtType.wav;
+          case _mime_gif         : _output = FileExtType.gif;
+          case _mime_jpeg        : _output = FileExtType.jpeg;
+          case _mime_png         : _output = FileExtType.png;
+          case _mime_tiff        : _output = FileExtType.tiff;
+          case _mime_aac         : _output = FileExtType.aac;
+          case _mime_weba        : _output = FileExtType.weba;
+          case _mime_mpeg        : _output = FileExtType.mpeg;
+          case _mime_ogg         : _output = FileExtType.ogg;
+          case _mime_gpp         : _output = FileExtType.gpp;
+          case _mime_mp4         : _output = FileExtType.mp4;
+          case _mime_gltf        : _output = FileExtType.gltf;
+          case _mime_webp        : _output = FileExtType.webp;
+          case _mime_woff        : _output = FileExtType.woff;
+          case _mime_heic        : _output = FileExtType.heic;
+          case _mime_heif        : _output = FileExtType.heif;
+
+          case _mime_bmp         : _output = FileExtType.bmp;
+          case _mime_vmpeg       : _output = FileExtType.vmpeg;
+          case _mime_quicktime   : _output = FileExtType.quicktime;
+          case _mime_msword      : _output = FileExtType.msword;
+          case _mime_plain       : _output = FileExtType.plainText;
+          case _mime_mp3         : _output = FileExtType.mp3;
+
+        }
+
+      }
+
     }
-
-    else if (_hasSignature(bytes, [0xFF, 0xD8, 0xFF])) {
-      _output = FileExt.jpeg;
-    }
-
-    else if (_hasSignature(bytes, [0x47, 0x49, 0x46, 0x38])) {
-      _output = FileExt.gif;
-    }
-
-    else if (_hasSignature(bytes, [0x42, 0x4D])) {
-      _output = FileExt.bmp;
-    }
-
-    else if (_hasSignature(bytes, [0x52, 0x49, 0x46, 0x46]) && _hasSignature(bytes, [0x57, 0x45, 0x42, 0x50], offset: 8)) {
-      _output = FileExt.webp;
-    }
-
-    else if (_hasSignature(bytes, [0x49, 0x44, 0x33])) {
-      _output = FileExt.mp3;
-    }
-
-    else if (_hasSignature(bytes, [0x52, 0x49, 0x46, 0x46]) && _hasSignature(bytes, [0x57, 0x41, 0x56, 0x45], offset: 8)) {
-      _output = FileExt.wav;
-    }
-
-    else if (_hasSignature(bytes, [0x4F, 0x67, 0x67, 0x53])) {
-      _output = FileExt.ogg;
-    }
-
-    // else if (_hasSignature(bytes, [0x00, 0x00, 0x00, 0x20]) &&
-    //     _hasSignature(bytes, [0x66, 0x74, 0x79, 0x70], offset: 4) &&
-    //     _hasSignature(bytes, [0x6D, 0x70, 0x34, 0x32], offset: 8)) {
-    //   return FileType.mp4;
-    // }
-    else if (_hasSignature(bytes, [0x66, 0x74, 0x79, 0x70, 0x6D, 0x70, 0x34, 0x32])) {
-      _output = FileExt.mp4;
-    }
-
-    else if (_hasSignature(bytes, [0x00, 0x00, 0x01, 0xBA])) {
-      _output = FileExt.mpeg;
-    }
-
-    else if (_hasSignature(bytes, [0x00, 0x00, 0x00, 0x18, 0x66, 0x74, 0x79, 0x70])) {
-      _output = FileExt.quicktime;
-    }
-
-    else if (_hasSignature(bytes, [0x25, 0x50, 0x44, 0x46])) {
-      _output = FileExt.pdf;
-    }
-
-    else if (_hasSignature(bytes, [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1])) {
-      _output = FileExt.doc;
-    }
-
-    else if (_hasSignature(bytes, [0x50, 0x4B, 0x03, 0x04])) {
-      _output = FileExt.docx;
-    }
-
-    else if (_hasSignature(bytes, [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1])) {
-      _output = FileExt.xls;
-    }
-
-    else if (_hasSignature(bytes, [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00])) {
-      _output = FileExt.xlsx;
-    }
-
-    else if (_hasSignature(bytes, [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1])) {
-      _output = FileExt.ppt;
-    }
-
-    else if (_hasSignature(bytes, [0x50, 0x4B, 0x03, 0x04, 0x14, 0x00, 0x06, 0x00])) {
-      _output = FileExt.pptx;
-    }
-
-    else if (_hasSignature(bytes, [0x00, 0x00, 0x00, 0x00]) && _hasSignature(bytes, [0x6C, 0x6F, 0x63, 0x61, 0x6C, 0x65, 0x20, 0x74], offset: 8)) {
-      _output = FileExt.plainText;
-    }
-
-    else {
-      _output = FileExt.unknown;
-    }
-
-    // blog('_detectFileType : output : $_output');
 
     return _output;
   }
   // --------------------
-  /// AI GENERATED
-  static bool _hasSignature(Uint8List? bytes, List<int>? signature, {int offset = 0}) {
+  /// TESTED : WORKS GOOD
+  static String? detectBytesMime(Uint8List? bytes) {
 
-    if (bytes == null || signature == null || offset < 0) {
-      return false;
-    }
+    final FileExtType fileType = detectBytesType(bytes);
+    return getMimeByType(fileType);
 
-    else {
-
-      if (offset + signature.length > bytes.length) {
-        return false;
-      }
-
-      for (var i = 0; i < signature.length; i++) {
-        if (bytes[offset + i] != signature[i]) {
-          return false;
-        }
-      }
-
-      return true;
-
-    }
   }
   // --------------------
-  static const String _png = 'image/png';
-  static const String _jpeg = 'image/jpeg';
-  static const String _gif = 'image/gif';
-  static const String _bmp = 'image/bmp';
-  static const String _webp = 'image/webp';
-  static const String _ampeg = 'audio/mpeg';
-  static const String _wav = 'audio/wav';
-  static const String _ogg = 'audio/ogg';
-  static const String _mp4 = 'video/mp4';
-  static const String _vmpeg = 'video/mpeg';
-  static const String _quicktime = 'video/quicktime';
-  static const String _pdf = 'application/pdf';
-  static const String _msword = 'application/msword';
-  // static const String _x = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-  // static const String _x = 'application/vnd.ms-excel';
-  // static const String _x = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-  // static const String _x = 'application/vnd.ms-powerpoint';
-  // static const String _x = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
-  static const String _plain = 'text/plain';
+  /// TESTED : WORKS GOOD
+  static String? detectBytesExtension(Uint8List? bytes) {
+
+    final FileExtType fileType = detectBytesType(bytes);
+    return getExtensionByType(fileType);
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// MIME CIPHERS
+
   // --------------------
-  /// AI GENERATED
-  static String? cipherType(FileExt? fileType) {
+  /// TESTED : WORKS GOOD
+  static String? getMimeByType(FileExtType? fileType) {
+    String? _output;
 
     switch (fileType) {
-      case FileExt.png:        return _png;
-      case FileExt.jpeg:       return _jpeg;
-      case FileExt.gif:        return _gif;
-      case FileExt.bmp:        return _bmp;
-      case FileExt.webp:       return _webp;
-      case FileExt.mp3:        return _ampeg;
-      case FileExt.wav:        return _wav;
-      case FileExt.ogg:        return _ogg;
-      case FileExt.mp4:        return _mp4;
-      case FileExt.mpeg:       return _vmpeg;
-      case FileExt.quicktime:  return _quicktime;
-      case FileExt.pdf:        return _pdf;
-      case FileExt.doc:        return _msword;
-      case FileExt.plainText:  return _plain;
-      // case FileType.docx:       return 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-      // case FileType.xls:        return 'application/vnd.ms-excel';
-      // case FileType.xlsx:       return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-      // case FileType.ppt:        return 'application/vnd.ms-powerpoint';
-      // case FileType.pptx:       return 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
-      default: return null;
+
+      case FileExtType.pdf          : _output = _mime_pdf        ;
+      case FileExtType.postScript   : _output = _mime_postScript ;
+      case FileExtType.aiff         : _output = _mime_aiff       ;
+      case FileExtType.flac         : _output = _mime_flac       ;
+      case FileExtType.wav          : _output = _mime_wav        ;
+      case FileExtType.gif          : _output = _mime_gif        ;
+      case FileExtType.jpeg         : _output = _mime_jpeg       ;
+      case FileExtType.png          : _output = _mime_png        ;
+      case FileExtType.tiff         : _output = _mime_tiff       ;
+      case FileExtType.aac          : _output = _mime_aac        ;
+      case FileExtType.weba         : _output = _mime_weba       ;
+      case FileExtType.mpeg         : _output = _mime_mpeg       ;
+      case FileExtType.ogg          : _output = _mime_ogg        ;
+      case FileExtType.gpp          : _output = _mime_gpp        ;
+      case FileExtType.mp4          : _output = _mime_mp4        ;
+      case FileExtType.gltf         : _output = _mime_gltf       ;
+      case FileExtType.webp         : _output = _mime_webp       ;
+      case FileExtType.woff         : _output = _mime_woff       ;
+      case FileExtType.heic         : _output = _mime_heic       ;
+      case FileExtType.heif         : _output = _mime_heif       ;
+
+      case FileExtType.bmp          : _output = _mime_bmp        ;
+      case FileExtType.vmpeg        : _output = _mime_vmpeg      ;
+      case FileExtType.quicktime    : _output = _mime_quicktime  ;
+      case FileExtType.msword       : _output = _mime_msword     ;
+      case FileExtType.plainText    : _output = _mime_plain      ;
+      case FileExtType.mp3          : _output = _mime_mp3        ;
+
+      default: _output = null;
     }
+
+    return _output;
   }
   // --------------------
-  /// AI GENERATED
-  static FileExt? decipherType(String? fileType) {
+  /// TESTED : WORKS GOOD
+  static FileExtType? getTypeByMime(String? mime) {
+    FileExtType? _output;
+
+    switch (mime){
+
+      case _mime_pdf         : _output = FileExtType.pdf;
+      case _mime_postScript  : _output = FileExtType.postScript;
+      case _mime_aiff        : _output = FileExtType.aiff;
+      case _mime_flac        : _output = FileExtType.flac;
+      case _mime_wav         : _output = FileExtType.wav;
+      case _mime_gif         : _output = FileExtType.gif;
+      case _mime_jpeg        : _output = FileExtType.jpeg;
+      case _mime_png         : _output = FileExtType.png;
+      case _mime_tiff        : _output = FileExtType.tiff;
+      case _mime_aac         : _output = FileExtType.aac;
+      case _mime_weba        : _output = FileExtType.weba;
+      case _mime_mpeg        : _output = FileExtType.mpeg;
+      case _mime_ogg         : _output = FileExtType.ogg;
+      case _mime_gpp         : _output = FileExtType.gpp;
+      case _mime_mp4         : _output = FileExtType.mp4;
+      case _mime_gltf        : _output = FileExtType.gltf;
+      case _mime_webp        : _output = FileExtType.webp;
+      case _mime_woff        : _output = FileExtType.woff;
+      case _mime_heic        : _output = FileExtType.heic;
+      case _mime_heif        : _output = FileExtType.heif;
+
+      case _mime_bmp         : _output = FileExtType.bmp;
+      case _mime_vmpeg       : _output = FileExtType.vmpeg;
+      case _mime_quicktime   : _output = FileExtType.quicktime;
+      case _mime_msword      : _output = FileExtType.msword;
+      case _mime_plain       : _output = FileExtType.plainText;
+      case _mime_mp3         : _output = FileExtType.mp3;
+
+      default: _output = null;
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// EXTENSION CIPHERS
+
+  // --------------------
+  /// TESTED : WORKS GOOD
+  static String? getExtensionByType(FileExtType? fileType) {
+    String? _output;
 
     switch (fileType) {
-      case _png         : return FileExt.png;
-      case _jpeg        : return FileExt.jpeg;
-      case _gif         : return FileExt.gif;
-      case _bmp         : return FileExt.bmp;
-      case _webp        : return FileExt.webp;
-      case _ampeg       : return FileExt.mp3;
-      case _wav         : return FileExt.wav;
-      case _ogg         : return FileExt.ogg;
-      case _mp4         : return FileExt.mp4;
-      case _vmpeg       : return FileExt.mpeg;
-      case _quicktime   : return FileExt.quicktime;
-      case _pdf         : return FileExt.pdf;
-      case _msword      : return FileExt.doc;
-      case _plain       : return FileExt.plainText;
-      default: return null;
+
+      case FileExtType.pdf          : _output = _ext_pdf        ;
+      case FileExtType.postScript   : _output = _ext_postScript ;
+      case FileExtType.aiff         : _output = _ext_aiff       ;
+      case FileExtType.flac         : _output = _ext_flac       ;
+      case FileExtType.wav          : _output = _ext_wav        ;
+      case FileExtType.gif          : _output = _ext_gif        ;
+      case FileExtType.jpeg         : _output = _ext_jpeg       ;
+      case FileExtType.png          : _output = _ext_png        ;
+      case FileExtType.tiff         : _output = _ext_tiff       ;
+      case FileExtType.aac          : _output = _ext_aac        ;
+      case FileExtType.weba         : _output = _ext_weba       ;
+      case FileExtType.mpeg         : _output = _ext_mpeg       ;
+      case FileExtType.ogg          : _output = _ext_ogg        ;
+      case FileExtType.gpp          : _output = _ext_gpp        ;
+      case FileExtType.mp4          : _output = _ext_mp4        ;
+      case FileExtType.gltf         : _output = _ext_gltf       ;
+      case FileExtType.webp         : _output = _ext_webp       ;
+      case FileExtType.woff         : _output = _ext_woff       ;
+      case FileExtType.heic         : _output = _ext_heic       ;
+      case FileExtType.heif         : _output = _ext_heif       ;
+
+      case FileExtType.bmp          : _output = _ext_bmp        ;
+      case FileExtType.vmpeg        : _output = _ext_vmpeg      ;
+      case FileExtType.quicktime    : _output = _ext_quicktime  ;
+      case FileExtType.msword       : _output = _ext_msword     ;
+      case FileExtType.plainText    : _output = _ext_plain      ;
+      case FileExtType.mp3          : _output = _ext_mp3        ;
+
+      default: _output = null;
     }
+
+    return _output;
   }
   // --------------------
-  /// AI GENERATED
-  static String? getContentType({
-    required Uint8List? bytes,
-    required FileExt? forceType,
-  }) {
-    if (bytes == null){
-      return null;
-    }
-    else if (forceType != null){
-      return cipherType(forceType);
-    }
-    else {
-      final fileType = _detectFileType(bytes);
-      return cipherType(fileType);
-    }
-  }
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  static FileExt? getFileTypeByBytes({
-    required Uint8List? bytes,
-    FileExt? forceType,
-  }){
+  /// TESTED : WORKS GOOD
+  static FileExtType? getTypeByExtension(String? extension) {
+    FileExtType? _output;
 
-    if (forceType != null){
-      return forceType;
+    switch (extension){
+
+      case _ext_pdf         : _output = FileExtType.pdf;
+      case _ext_postScript  : _output = FileExtType.postScript;
+      case _ext_aiff        : _output = FileExtType.aiff;
+      case _ext_flac        : _output = FileExtType.flac;
+      case _ext_wav         : _output = FileExtType.wav;
+      case _ext_gif         : _output = FileExtType.gif;
+      case _ext_jpeg        : _output = FileExtType.jpeg;
+      case _ext_png         : _output = FileExtType.png;
+      case _ext_tiff        : _output = FileExtType.tiff;
+      case _ext_aac         : _output = FileExtType.aac;
+      case _ext_weba        : _output = FileExtType.weba;
+      case _ext_mpeg        : _output = FileExtType.mpeg;
+      case _ext_ogg         : _output = FileExtType.ogg;
+      case _ext_gpp         : _output = FileExtType.gpp;
+      case _ext_mp4         : _output = FileExtType.mp4;
+      case _ext_gltf        : _output = FileExtType.gltf;
+      case _ext_webp        : _output = FileExtType.webp;
+      case _ext_woff        : _output = FileExtType.woff;
+      case _ext_heic        : _output = FileExtType.heic;
+      case _ext_heif        : _output = FileExtType.heif;
+
+      case _ext_bmp         : _output = FileExtType.bmp;
+      case _ext_vmpeg       : _output = FileExtType.vmpeg;
+      case _ext_quicktime   : _output = FileExtType.quicktime;
+      case _ext_msword      : _output = FileExtType.msword;
+      case _ext_plain       : _output = FileExtType.plainText;
+      case _ext_mp3         : _output = FileExtType.mp3;
+
+      default: _output = null;
     }
-    else {
 
-      final String? _type = getContentType(
-          bytes: bytes,
-          forceType: forceType
-      );
-
-      return decipherType(_type);
-
-    }
-
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -261,90 +357,234 @@ class FileTyper {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool checkFileIsImage(FileExt? fileType){
+  static bool checkTypeIsImage(FileExtType? fileType){
 
     switch (fileType){
-      case FileExt.png       : return true; /// <----- pic
-      case FileExt.jpeg      : return true; /// <----- pic
-      case FileExt.gif       : return false; // <-video
-      case FileExt.bmp       : return true; /// <----- pic
-      case FileExt.webp      : return false; // <-video
-      case FileExt.mp3       : return false; // <-audio
-      case FileExt.wav       : return false; // <-audio
-      case FileExt.ogg       : return false; // <-video
-      case FileExt.mp4       : return false; // <-video
-      case FileExt.mpeg      : return false; // <-video
-      case FileExt.quicktime : return false; // <-x
-      case FileExt.pdf       : return false; // <-PDF
-      case FileExt.doc       : return false; // <-word
-      case FileExt.docx      : return false; // <-word
-      case FileExt.xls       : return false; // <-excel
-      case FileExt.xlsx      : return false; // <-excel
-      case FileExt.ppt       : return false; // <-power point
-      case FileExt.pptx      : return false; // <-power point
-      case FileExt.plainText : return false; // <-text
-      case FileExt.unknown   : return false; // <-x
+
+      case FileExtType.pdf       : return false; // <-PDF
+      case FileExtType.postScript: return false; // <-doc
+      case FileExtType.aiff      : return false; // <-audio
+      case FileExtType.flac      : return false; // <-audio
+      case FileExtType.wav       : return false; // <-audio
+      case FileExtType.gif       : return false; // <-video
+      case FileExtType.jpeg      : return true; /// <----- pic
+      case FileExtType.png       : return true; /// <----- pic
+      case FileExtType.tiff      : return true; /// <----- pic
+      case FileExtType.aac       : return false; // <-video
+      case FileExtType.weba      : return false; // <-video
+      case FileExtType.mpeg      : return false; // <-video
+      case FileExtType.ogg       : return false; // <-video
+      case FileExtType.gpp       : return false; // <-video
+      case FileExtType.mp4       : return false; // <-video
+      case FileExtType.gltf      : return false; // <-3d
+      case FileExtType.webp      : return false; // <-video
+      case FileExtType.woff      : return false; // <-font
+      case FileExtType.heic      : return true; /// <----- pic
+      case FileExtType.heif      : return true; /// <----- pic
+
+      case FileExtType.bmp       : return true; /// <----- pic
+      case FileExtType.vmpeg     : return false; // <-video
+      case FileExtType.quicktime : return false; // <-video
+      case FileExtType.msword    : return false; // <-doc
+      case FileExtType.plainText : return false; // <-doc
+      case FileExtType.mp3       : return false; // <-audio
+
+      case FileExtType.doc       : return false; // <-doc
+      case FileExtType.docx      : return false; // <-doc
+      case FileExtType.xls       : return false; // <-excel
+      case FileExtType.xlsx      : return false; // <-excel
+      case FileExtType.ppt       : return false; // <-power point
+      case FileExtType.pptx      : return false; // <-power point
+
+      case FileExtType.unknown   : return false; // <-x
+
       default: return false;
     }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool checkFileIsVideo(FileExt? fileType){
+  static bool checkTypeIsVideo(FileExtType? fileType){
 
     switch (fileType){
-      case FileExt.png       : return false; // <- pic
-      case FileExt.jpeg      : return false; // <- pic
-      case FileExt.gif       : return true; /// <----- video
-      case FileExt.bmp       : return false; // <- pic
-      case FileExt.webp      : return true; /// <----- video
-      case FileExt.mp3       : return false; // <-audio
-      case FileExt.wav       : return false; // <-audio
-      case FileExt.ogg       : return true; /// <----- video
-      case FileExt.mp4       : return true; /// <----- video
-      case FileExt.mpeg      : return true; /// <----- video
-      case FileExt.quicktime : return false; // <-x
-      case FileExt.pdf       : return false; // <-PDF
-      case FileExt.doc       : return false; // <-word
-      case FileExt.docx      : return false; // <-word
-      case FileExt.xls       : return false; // <-excel
-      case FileExt.xlsx      : return false; // <-excel
-      case FileExt.ppt       : return false; // <-power point
-      case FileExt.pptx      : return false; // <-power point
-      case FileExt.plainText : return false; // <-text
-      case FileExt.unknown   : return false; // <-x
+
+      case FileExtType.pdf       : return false; // <-PDF
+      case FileExtType.postScript: return false; // <-doc
+      case FileExtType.aiff      : return false; // <-audio
+      case FileExtType.flac      : return false; // <-audio
+      case FileExtType.wav       : return false; // <-audio
+      case FileExtType.gif       : return true; /// <----- video
+      case FileExtType.jpeg      : return false; // <- pic
+      case FileExtType.png       : return false; // <- pic
+      case FileExtType.tiff      : return false; // <- pic
+      case FileExtType.aac       : return true; /// <----- video
+      case FileExtType.weba      : return true; /// <----- video
+      case FileExtType.mpeg      : return true; /// <----- video
+      case FileExtType.ogg       : return true; /// <----- video
+      case FileExtType.gpp       : return true; /// <----- video
+      case FileExtType.mp4       : return true; /// <----- video
+      case FileExtType.gltf      : return false; // <-3d
+      case FileExtType.webp      : return true; /// <----- video
+      case FileExtType.woff      : return false; // <-font
+      case FileExtType.heic      : return false; // <- pic
+      case FileExtType.heif      : return false; // <- pic
+
+      case FileExtType.bmp       : return false; // <- pic
+      case FileExtType.vmpeg     : return true; /// <----- video
+      case FileExtType.quicktime : return true; /// <----- video
+      case FileExtType.msword    : return false; // <-doc
+      case FileExtType.plainText : return false; // <-doc
+      case FileExtType.mp3       : return false; // <-audio
+
+      case FileExtType.doc       : return false; // <-doc
+      case FileExtType.docx      : return false; // <-doc
+      case FileExtType.xls       : return false; // <-excel
+      case FileExtType.xlsx      : return false; // <-excel
+      case FileExtType.ppt       : return false; // <-power point
+      case FileExtType.pptx      : return false; // <-power point
+
+      case FileExtType.unknown   : return false; // <-x
+
       default: return false;
     }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool checkFileIsAudio(FileExt? fileType){
+  static bool checkTypeIsAudio(FileExtType? fileType){
 
     switch (fileType){
-      case FileExt.png       : return false; // <- pic
-      case FileExt.jpeg      : return false; // <- pic
-      case FileExt.gif       : return false; // <-video
-      case FileExt.bmp       : return false; // <- pic
-      case FileExt.webp      : return false; // <-video
-      case FileExt.mp3       : return true; /// <----- audio
-      case FileExt.wav       : return true; /// <----- audio
-      case FileExt.ogg       : return false; // <-video
-      case FileExt.mp4       : return false; // <-video
-      case FileExt.mpeg      : return false; // <-video
-      case FileExt.quicktime : return false; // <-x
-      case FileExt.pdf       : return false; // <-PDF
-      case FileExt.doc       : return false; // <-word
-      case FileExt.docx      : return false; // <-word
-      case FileExt.xls       : return false; // <-excel
-      case FileExt.xlsx      : return false; // <-excel
-      case FileExt.ppt       : return false; // <-power point
-      case FileExt.pptx      : return false; // <-power point
-      case FileExt.plainText : return false; // <-text
-      case FileExt.unknown   : return false; // <-x
+
+      case FileExtType.pdf       : return false; // <-PDF
+      case FileExtType.postScript: return false; // <-doc
+      case FileExtType.aiff      : return true; /// <----- audio
+      case FileExtType.flac      : return true; /// <----- audio
+      case FileExtType.wav       : return true; /// <----- audio
+      case FileExtType.gif       : return false; // <-video
+      case FileExtType.jpeg      : return false; // <- pic
+      case FileExtType.png       : return false; // <- pic
+      case FileExtType.tiff      : return false; // <- pic
+      case FileExtType.aac       : return false; // <-video
+      case FileExtType.weba      : return false; // <-video
+      case FileExtType.mpeg      : return false; // <-video
+      case FileExtType.ogg       : return false; // <-video
+      case FileExtType.gpp       : return false; // <-video
+      case FileExtType.mp4       : return false; // <-video
+      case FileExtType.gltf      : return false; // <-3d
+      case FileExtType.webp      : return false; // <-video
+      case FileExtType.woff      : return false; // <-font
+      case FileExtType.heic      : return false; // <- pic
+      case FileExtType.heif      : return false; // <- pic
+
+      case FileExtType.bmp       : return false; // <- pic
+      case FileExtType.vmpeg     : return false; // <-video
+      case FileExtType.quicktime : return false; // <-video
+      case FileExtType.msword    : return false; // <-doc
+      case FileExtType.plainText : return false; // <-doc
+      case FileExtType.mp3       : return true; /// <----- audio
+
+      case FileExtType.doc       : return false; // <-doc
+      case FileExtType.docx      : return false; // <-doc
+      case FileExtType.xls       : return false; // <-excel
+      case FileExtType.xlsx      : return false; // <-excel
+      case FileExtType.ppt       : return false; // <-power point
+      case FileExtType.pptx      : return false; // <-power point
+
+      case FileExtType.unknown   : return false; // <-x
+
       default: return false;
     }
 
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FILE EXTENSION GETTERS
+
+  // --------------------
+  /// AI TESTED
+  static String? getExtension({
+    required dynamic object
+  }) {
+    String? _output;
+
+    if (object != null) {
+
+      if (object is String){
+        _output = _getExtensionFromPath(object);
+      }
+      else if (object is File){
+        final File _file = object;
+        _output = _getExtensionFromPath(_file.path);
+      }
+      else if (object is XFile){
+        final XFile _file = object;
+        _output = _getExtensionFromPath(_file.path);
+      }
+      else if (object is MediaModel){
+        final MediaModel _media = object;
+        _output = _getExtensionFromPath(_media.file?.path);
+      }
+      else if (object is Uint8List){
+        final Uint8List _bytes = object;
+        _output = detectBytesExtension(_bytes);
+      }
+
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED
+  static String? _getExtensionFromPath(String? path){
+    String? _output;
+
+    final bool _containsExtension = TextCheck.stringContainsSubString(
+      string: path,
+      subString: '.',
+    );
+
+    if (_containsExtension == true){
+
+      _output = TextMod.removeTextBeforeLastSpecialCharacter(
+        text: path,
+        specialCharacter: '.',
+      );
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FILE NAME FIXER
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static String? fixFileName({
+    required String? fileName,
+    required Uint8List? bytes,
+  }){
+    String? _output = fileName;
+
+    if (_output != null && bytes != null){
+
+      final String? _extension = detectBytesExtension(bytes);
+
+      if (_extension != null){
+
+        _output = TextMod.removeTextAfterLastSpecialCharacter(
+          text: _output,
+          specialCharacter: '.',
+        );
+
+        _output = '$_output.$_extension';
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -393,39 +633,5 @@ class FileTyper {
 
       }
    */
-  // -----------------------------------------------------------------------------
-
-  /// FILE EXTENSION
-
-  // --------------------
-  /// AI TESTED
-  static String? fileExtensionOf(dynamic file) {
-
-    if (file == null) {
-      return null;
-    }
-
-    else if (file is String) {
-      final lastIndex = file.lastIndexOf('.');
-      return lastIndex != -1 ? file.substring(lastIndex + 1) : null;
-    }
-
-    else if (file is File) {
-      final path = file.path;
-      final lastIndex = path.lastIndexOf('.');
-      return lastIndex != -1 ? path.substring(lastIndex + 1) : null;
-    }
-
-    // else if (file is Blob) {
-    //   final type = file.type;
-    //   final lastIndex = type.lastIndexOf('/');
-    //   return lastIndex != -1 ? type.substring(lastIndex + 1) : null;
-    // }
-
-    else {
-      return null;
-    }
-
-  }
   // -----------------------------------------------------------------------------
 }
