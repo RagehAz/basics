@@ -166,7 +166,7 @@ class MediaModel {
   // --------------------
   /// TASK : TEST_ME_NOW
   Future<Uint8List?> getBytes() async {
-    final Uint8List? _bytes = await file?.readAsBytes();
+    final Uint8List? _bytes = await Byter.fromXFile(file);
     return _bytes;
   }
   // --------------------
@@ -178,8 +178,7 @@ class MediaModel {
   // --------------------
   /// TASK : TEST_ME_NOW
   MediaOrigin? getMediaOrigin(){
-    final String? _origin = meta?.data?['source'];
-    return decipherMediaOrigin(_origin);
+    return meta?.getMediaOrigin();
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -345,7 +344,7 @@ class MediaModel {
 
     final String _text =
     '''
-    $file
+    ${file?.stringify},
     $meta
     ''';
 

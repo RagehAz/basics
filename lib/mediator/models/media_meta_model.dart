@@ -10,6 +10,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/mediator/models/dimension_model.dart';
+import 'package:basics/mediator/models/media_model.dart';
 import 'package:flutter/material.dart';
 
 /// => TAMAM
@@ -183,6 +184,16 @@ class MediaMetaModel {
     }
 
     return _map;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// GETTERS
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  MediaOrigin? getMediaOrigin(){
+    final String? _origin = data?['source'];
+    return MediaModel.decipherMediaOrigin(_origin);
   }
   // -----------------------------------------------------------------------------
 

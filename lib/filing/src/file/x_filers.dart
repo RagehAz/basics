@@ -271,19 +271,13 @@ class XFiler {
   }) async {
     XFile? _file;
 
-    final bool _exists = await checkFileExistsByName(
+    final String? _path = await Director.findFilePathByName(
       name: name,
-      directoryType: directoryType,
     );
 
-    if (_exists == true){
+    if (_path != null){
 
-      final String? _path = await FilePathing.createPathByName(
-        fileName: name,
-        directoryType: directoryType,
-      );
-
-      _file = XFile(_path!);
+      _file = XFile(_path);
 
     }
 
@@ -503,30 +497,40 @@ class XFiler {
   }) async {
     bool _exists = false;
 
-    final String? _path = await FilePathing.createPathByName(
-      fileName: name,
-      directoryType: directoryType,
-    );
+    if (name != null){
 
-    if (_path != null){
-
-      await tryAndCatch(
-          invoker: 'XFiler.checkFileExistsByName',
-          onError: (String error){
-            // to ignore blogs
-          },
-          functions: () async {
-
-            final int? _length = await XFile(_path).length();
-
-            if (_length != null){
-              _exists = true;
-            }
-
-          },
+      final String? _path = await Director.findFilePathByName(
+        name: name,
       );
 
+      _exists = _path != null;
+
     }
+
+    // final String? _path = await FilePathing.createPathByName(
+    //   fileName: name,
+    //   directoryType: directoryType,
+    // );
+    //
+    // if (_path != null){
+    //
+    //   await tryAndCatch(
+    //       invoker: 'XFiler.checkFileExistsByName',
+    //       onError: (String error){
+    //         // to ignore blogs
+    //       },
+    //       functions: () async {
+    //
+    //         final int? _length = await XFile(_path).length();
+    //
+    //         if (_length != null){
+    //           _exists = true;
+    //         }
+    //
+    //       },
+    //   );
+    //
+    // }
 
     blog('checkFileExistsByName : _exists : $_exists aho ');
 

@@ -349,7 +349,7 @@ class Filer {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static File? readXFile({
     required XFile? xFile,
   }){
@@ -371,19 +371,13 @@ class Filer {
   }) async {
     File? _file;
 
-    final bool _exists = await checkFileExistsByName(
+    final String? _path = await Director.findFilePathByName(
       name: name,
-      directoryType: directoryType,
     );
 
-    if (_exists == true){
+    if (_path != null){
 
-      final String? _path = await FilePathing.createPathByName(
-        fileName: name,
-        directoryType: directoryType,
-      );
-
-      _file = File(_path!);
+      _file = File(_path);
 
     }
 
@@ -726,13 +720,16 @@ class Filer {
   }) async {
     bool _exists = false;
 
-    final String? _path = await FilePathing.createPathByName(
-      fileName: name,
-      directoryType: directoryType,
-    );
+    if (name != null){
 
-    if (_path != null){
-      _exists = await File(_path).exists();
+      final String? _path = await Director.findFilePathByName(
+        name: name,
+      );
+
+      if (_path != null){
+        _exists = await File(_path).exists();
+      }
+
     }
 
     return _exists;

@@ -39,7 +39,7 @@ class Director {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static String dirSystemTempPath(){
     return Directory.systemTemp.path;
   }
@@ -174,7 +174,7 @@ class Director {
   /// DIRECTORY PATHING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<DirectoryType?> concludeDirectoryFromFilePath({
     required String? filePath,
   }) async {
@@ -203,6 +203,48 @@ class Director {
     }
 
     return _type;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// SEARCH
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> findFilePathByName({
+    required String? name,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    String? _output;
+
+    if (name != null){
+
+      // blog('findFilePathByName: searching for : $name');
+
+      final List<String> _allPaths = await Director.readDirectoryFilesPaths(
+        type: directoryType,
+      );
+
+      // blog('findFilePathByName: found : $_allPaths');
+
+      final String? _nameWithoutExtension = TextMod.removeTextAfterLastSpecialCharacter(
+          text: name,
+          specialCharacter: '.',
+      );
+
+      final List<String> _matches = Pathing.findPathsContainingSubstring(
+        paths: _allPaths,
+        subString: _nameWithoutExtension,
+      );
+
+      // blog('findFilePathByName: _matches : $_matches');
+
+      _output = _matches.firstOrNull;
+
+      // blog('findFilePathByName: _output : $_output');
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }

@@ -117,7 +117,7 @@ class Sembast  {
         docName != null
     ){
 
-      // blog('SEMBAST : insert : docName : $docName : primaryKey : $primaryKey : allowDuplicateIDs : $allowDuplicateIDs');
+      // print('SEMBAST : insert : docName : $docName : primaryKey : $primaryKey : allowDuplicateIDs : $allowDuplicateIDs');
 
       if (allowDuplicateIDs == true){
         await _addMap(

@@ -159,6 +159,20 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      /// UINT8LIST
+      else if (ObjectCheck.objectIsUint8List(pic) == true){
+
+        return CachelessImage(
+          key: const ValueKey<String>('SuperImage_bytes'),
+          bytes: pic,
+          width: width,
+          height: height,
+          color: backgroundColor,
+          boxFit: _boxFit,
+          // blendMode: BlendMode.color,
+        );
+      }
+
       /// MEDIA MODEL
       else if (pic is MediaModel){
 
@@ -257,20 +271,6 @@ class ImageSwitcher extends StatelessWidget {
           height: height,
           package: package,
 
-        );
-      }
-
-      /// UINT8LIST
-      else if (ObjectCheck.objectIsUint8List(pic) == true){
-
-        return CachelessImage(
-          key: const ValueKey<String>('SuperImage_bytes'),
-          bytes: pic,
-          width: width,
-          height: height,
-          color: backgroundColor,
-          boxFit: _boxFit,
-          // blendMode: BlendMode.color,
         );
       }
 
