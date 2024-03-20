@@ -106,13 +106,13 @@ class VideoMaker {
 
           final AssetEntity? entity = await CameraPicker.pickFromCamera(
             context,
-            // createPickerState: ,
-            // pageRouteBuilder: ,
-            // useRootNavigator: ,
             pickerConfig: WeChatPickerConfigs.camera(
               langCode: langCode,
               isVideo: true,
             ),
+            // createPickerState: ,
+            // pageRouteBuilder: ,
+            // useRootNavigator: ,
             locale: locale,
           );
 
