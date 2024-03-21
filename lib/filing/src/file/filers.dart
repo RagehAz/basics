@@ -432,7 +432,7 @@ class Filer {
     required File? file,
     required String? newName,
   }) async {
-    File? _output;
+    File? _output = file;
 
     final String? _fileName = FileTyper.fixFileName(
       fileName: newName,

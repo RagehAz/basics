@@ -240,7 +240,7 @@ class ObjectCheck {
   }
   // --------------------
   /// AI TESTED
-  static bool objectIsPicPath(dynamic object){
+  static bool objectIsFireStoragePicPath(dynamic object){
     bool _isPicPath = false;
 
     if (object != null && object is String){

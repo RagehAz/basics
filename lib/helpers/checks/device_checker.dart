@@ -103,7 +103,7 @@ class DeviceChecker {
                               + webInfo.hardwareConcurrency.toString();
 
       final String? _cleaned = TextMod.idifyString(_combined);
-      return TextMod.modifyAllCharactersWith(
+      return TextMod.replaceAllCharacters(
         characterToReplace: ';',
         replacement: '',
         input: _cleaned,

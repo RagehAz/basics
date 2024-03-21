@@ -1,7 +1,6 @@
 // ignore_for_file: constant_identifier_names
-
 part of filing;
-
+/// => TAMAM
 enum FileExtType {
   /// recognized by mime package
   pdf,
@@ -40,7 +39,7 @@ enum FileExtType {
 
   unknown,
 }
-
+/// => TAMAM
 class FileTyper {
   // -----------------------------------------------------------------------------
 

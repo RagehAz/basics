@@ -184,10 +184,15 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
         boolDialog: true,
         title: 'Confirm ?',
         body: 'All data will be permanently deleted, do you understand ?',
+        buttons: CenterDialog.yesNoButtons(
+          context: context,
+          boolDialog: true,
+        ),
       ),
     );
 
     if (_result == true) {
+      await Nav.goBack(context: context);
       await LDBOps.deleteAllMapsAtOnce(docName: widget.ldbDocName);
       await _readSembast();
     }
@@ -326,8 +331,8 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
                           /// ROW NUMBER
                           SuperBox(
                             height: 40,
-                            // width: 40,
-                            maxWidth: 40,
+                            width: 40,
+                            // maxWidth: 40,
                             text: '${index + 1}',
                             textScaleFactor: 0.4,
                             margins: const EdgeInsets.all(5),

@@ -71,37 +71,37 @@ void main (){
   group('objectIsPicPath', () {
     test('should return false for null object', () {
       const String? object = null;
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, false);
     });
 
     test('should return false for non-string object', () {
       const dynamic object = 123;
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, false);
     });
 
     test('should return false for empty string', () {
       const String object = '';
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, false);
     });
 
     test('should return false for string without "storage/" prefix', () {
       const String object = 'path/to/image.jpg';
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, false);
     });
 
     test('should return true for string with "storage/" prefix', () {
       const String object = 'storage/image.jpg';
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, true);
     });
 
     test('should return true for string with "storage/" prefix and additional characters', () {
       const String object = 'storage/path/to/image.jpg';
-      final bool result = ObjectCheck.objectIsPicPath(object);
+      final bool result = ObjectCheck.objectIsFireStoragePicPath(object);
       expect(result, true);
     });
   });

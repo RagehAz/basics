@@ -291,6 +291,9 @@ class XFiler {
   }) async {
     XFile? _output;
 
+    /// ASSET_ENTITY_JOB
+    await Entities.blogAssetEntity(entity: assetEntity, invoker: 'readAssetEntity');
+
     if (assetEntity?.relativePath != null){
 
       _output = XFile(assetEntity!.relativePath!);
@@ -323,7 +326,7 @@ class XFiler {
 
       if (_originalDirectory != null){
 
-        final String _fileName = file.fileName;
+        final String? _fileName = file.fileName;
 
         _output = await createFromBytes(
           bytes: bytes,
@@ -344,7 +347,7 @@ class XFiler {
     required XFile? file,
     required String? newName,
   }) async {
-    XFile? _output;
+    XFile? _output = file;
 
     if (file != null && newName != null && newName != file.fileName){
 
@@ -435,6 +438,31 @@ class XFiler {
       if (_path != null){
         await deleteFile(XFile(_path));
       }
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteFiledByNames({
+    required List<String> names,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+
+    if (Lister.checkCanLoop(names) == true){
+
+      await Future.wait(<Future>[
+
+        ...List.generate(names.length, (index){
+
+          return deleteFileByName(
+            name: names[index],
+            directoryType: directoryType,
+          );
+
+        }),
+
+      ]);
 
     }
 

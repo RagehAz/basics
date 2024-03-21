@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('modifyAllCharactersWith', () {
     test('Replaces all occurrences of characterToReplace with replacement in input', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: 'a',
         replacement: 'b',
         input: 'apple',
@@ -15,7 +15,7 @@ void main() {
     });
 
     test('Returns input unchanged when characterToReplace is null', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: null,
         replacement: 'b',
         input: 'apple',
@@ -24,7 +24,7 @@ void main() {
     });
 
     test('Returns input unchanged when replacement is null', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: 'a',
         replacement: null,
         input: 'apple',
@@ -33,7 +33,7 @@ void main() {
     });
 
     test('Returns input unchanged when input is null', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: 'a',
         replacement: 'b',
         input: null,
@@ -42,7 +42,7 @@ void main() {
     });
 
     test('Returns input unchanged when characterToReplace is empty', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: '',
         replacement: 'x',
         input: 'apple',
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('Returns input unchanged when replacement is empty', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: 'a',
         replacement: '',
         input: 'apple',
@@ -60,7 +60,7 @@ void main() {
     });
 
     test('Returns input unchanged when input is empty', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: 'a',
         replacement: 'b',
         input: '',
@@ -69,7 +69,7 @@ void main() {
     });
 
     test('test', () {
-      final result = TextMod.modifyAllCharactersWith(
+      final result = TextMod.replaceAllCharacters(
         characterToReplace: ' ',
         replacement: '_',
         input: 'fuck you',

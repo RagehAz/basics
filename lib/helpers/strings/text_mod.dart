@@ -16,7 +16,7 @@ class TextMod {
 
   // --------------------
   /// AI TESTED
-  static String? modifyAllCharactersWith({
+  static String? replaceAllCharacters({
     required String? characterToReplace,
     required String? replacement,
     required String? input,
@@ -58,12 +58,12 @@ class TextMod {
 
     if (TextCheck.isEmpty(text) == false){
 
-      _output = TextMod.modifyAllCharactersWith(
+      _output = TextMod.replaceAllCharacters(
         characterToReplace: ' ',
         replacement: '_',
         input: text!.trim().toLowerCase(),
       );
-      _output = TextMod.modifyAllCharactersWith(
+      _output = TextMod.replaceAllCharacters(
         characterToReplace: ';',
         replacement: ' ',
         input: _output,
@@ -208,7 +208,7 @@ class TextMod {
 
       for (final String key in _keys){
 
-        _output = modifyAllCharactersWith(
+        _output = replaceAllCharacters(
           input: _output,
           characterToReplace: key,
           replacement: _varTagsMap[key],
@@ -698,7 +698,7 @@ class TextMod {
       final List<String> _keys = _charsToMove.keys.toList();
 
       for (final String key in _keys){
-        _output = modifyAllCharactersWith(
+        _output = replaceAllCharacters(
           input: _output,
           characterToReplace: _charsToMove[key]['char'],
           replacement: _charsToMove[key]['replacement'],

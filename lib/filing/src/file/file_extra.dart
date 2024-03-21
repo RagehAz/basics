@@ -7,8 +7,25 @@ extension FileExtention on File {
   /// FILE NAME
 
   // --------------------
-  String get fileName {
-    return path.split('/').last;
+  String? get fileName {
+
+    return FilePathing.getNameFromFilePath(
+      filePath: path,
+      withExtension: true,
+    );
+
+  }
+  // --------------------
+  String? get fileNameWithoutExtension {
+
+    final String? _without = FilePathing.getNameFromFilePath(
+      filePath: path,
+      withExtension: false,
+    );
+
+    blog('fileNameWithoutExtension : aho : $fileName : and $_without');
+
+    return _without;
   }
   // -----------------------------------------------------------------------------
 

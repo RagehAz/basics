@@ -113,8 +113,10 @@ class Sembast  {
     /// or inserts new map
 
     if (
-    map != null &&
-        docName != null
+        map != null &&
+        docName != null &&
+        primaryKey != null &&
+        map[primaryKey] != null
     ){
 
       // print('SEMBAST : insert : docName : $docName : primaryKey : $primaryKey : allowDuplicateIDs : $allowDuplicateIDs');
@@ -130,7 +132,7 @@ class Sembast  {
 
         final bool _exists = await checkMapExists(
           docName: docName,
-          id: map[primaryKey!] as String,
+          id: map[primaryKey],
           primaryKey: primaryKey,
         );
 

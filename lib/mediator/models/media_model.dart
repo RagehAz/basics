@@ -72,7 +72,8 @@ class MediaModel {
 
     if (mediaModel != null){
       _map = {
-        'path': mediaModel.file?.path, /// id
+        'id': mediaModel.file?.fileNameWithoutExtension,
+        'path': mediaModel.file?.path,
         'meta': mediaModel.meta?.cipherToLDB()
       };
     }
@@ -733,48 +734,27 @@ class MediaModelCreator {
       // blog('  2.combinePicModel bytes exists bytes != null');
 
       final Uint8List _bytes = await file.readAsBytes();
-      final Dimensions? _dims =  await DimensionsGetter.fromXFile(file: file);
-      final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-      final double? _mega = FileSizer.calculateSize(_bytes.length, FileSizeUnit.megaByte);
-      final double? _kilo = FileSizer.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
-      final String? _deviceID = await DeviceChecker.getDeviceID();
-      final String? _deviceName = await DeviceChecker.getDeviceName();
-      final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-      final String? _fileName = FileTyper.fixFileName(fileName: renameFile ?? file.fileName, bytes: _bytes);
-      final XFile? _xFile = await XFiler.renameFile(file: file, newName: _fileName);
-      final String? _extension = FileTyper.getExtension(object: _xFile);
-      final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
 
-      /// SOMETHING IS MISSING
-      if (
-          _xFile == null ||
-          _fileExtensionType == null ||
-          _dims == null ||
-          _fileName == null ||
-          _aspectRatio == null ||
-          _mega == null ||
-          _kilo == null ||
-          _deviceID == null ||
-          _deviceName == null
-      ){
-        _output = null;
-        // blog('  3.dims : $_dims');
-        // blog('  3.aspectRatio : $_aspectRatio');
-        // blog('  3.mega : $_mega');
-        // blog('  3.kilo : $_kilo');
-        // blog('  3.deviceID : $_deviceID');
-        // blog('  3.deviceName : $_deviceName');
-        // blog('  3.devicePlatform : $_devicePlatform');
-      }
+      if (_bytes.isNotEmpty == true){
 
-      /// ALL IS GOOD
-      else {
+        final Dimensions? _dims =  await DimensionsGetter.fromXFile(file: file);
+        final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+        final double? _mega = FileSizer.calculateSize(_bytes.length, FileSizeUnit.megaByte);
+        final double? _kilo = FileSizer.calculateSize(_bytes.length, FileSizeUnit.kiloByte);
+        final String? _deviceID = await DeviceChecker.getDeviceID();
+        final String? _deviceName = await DeviceChecker.getDeviceName();
+        final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+        final String? _fileName = FileTyper.fixFileName(fileName: renameFile ?? file.fileName, bytes: _bytes);
+        final XFile? _xFile = await XFiler.renameFile(file: file, newName: _fileName);
+        final String? _extension = FileTyper.getExtension(object: _xFile);
+        final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
+
         _output = MediaModel(
           file: _xFile,
           meta: MediaMetaModel(
             sizeMB: _mega,
-            width: _dims.width,
-            height: _dims.height,
+            width: _dims?.width,
+            height: _dims?.height,
             fileExt: _fileExtensionType,
             name: _fileName,
             ownersIDs: ownersIDs ?? [],
@@ -792,6 +772,7 @@ class MediaModelCreator {
             ),
           ),
         );
+
       }
 
     }

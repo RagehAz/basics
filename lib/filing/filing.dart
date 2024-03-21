@@ -42,6 +42,7 @@ part 'src/file/file_extra.dart';
 part 'src/file/file_typer.dart';
 part 'src/file/director.dart';
 part 'src/file/cache_ops.dart';
+part 'src/file/entities.dart';
 
 part 'src/floaters/byter.dart';
 part 'src/floaters/imager.dart';

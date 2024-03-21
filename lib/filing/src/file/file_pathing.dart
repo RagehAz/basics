@@ -292,4 +292,45 @@ class FilePathing {
     return _isFound;
   }
   // -----------------------------------------------------------------------------
+
+  /// FIRE STORAGE PATH TO FILE NAME
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? createFileNameFromFireStoragePath({
+    required String? fireStoragePath,
+  }){
+    return TextMod.replaceAllCharacters(
+      characterToReplace: '/',
+      replacement: '_',
+      input: fireStoragePath,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> createFilesNamesFromFireStoragePaths({
+    required List<String> paths,
+  }){
+    List<String> _output = [];
+
+    if (Lister.checkCanLoop(paths) == true){
+
+      for (final String path in paths){
+
+        final String? fileName = createFileNameFromFireStoragePath(
+          fireStoragePath: path,
+        );
+
+        _output = Stringer.addStringToListIfDoesNotContainIt(
+            strings: _output,
+            stringToAdd: fileName,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

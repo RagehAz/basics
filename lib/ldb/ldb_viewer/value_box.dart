@@ -23,7 +23,7 @@ class ValueBox extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
 
-        blog('copyToClipboard : value.runTimeType : ${value.runtimeType}');
+        blog('copyToClipboard : value.runTimeType : ${value.runtimeType} : $value');
 
         await TextClipBoard.copy(
           copy: value,
