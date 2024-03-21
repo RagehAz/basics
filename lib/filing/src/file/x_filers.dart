@@ -172,6 +172,34 @@ class XFiler {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> createFromAssetEntity({
+    required AssetEntity? assetEntity,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    XFile? _output;
+
+    /// ASSET_ENTITY_JOB
+    await Entities.blogAssetEntity(entity: assetEntity, invoker: 'readAssetEntity');
+
+    if (assetEntity != null){
+
+      final Uint8List? _originBytes = await assetEntity.originBytes;
+      final String? _fileName = TextMod.removeTextAfterLastSpecialCharacter(
+          text: assetEntity.title,
+          specialCharacter: '.',
+      );
+
+      _output = await createFromBytes(
+        bytes: _originBytes,
+        fileName: _fileName,
+      );
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CLONE
@@ -282,25 +310,6 @@ class XFiler {
     }
 
     return _file;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<XFile?> readAssetEntity({
-    required AssetEntity? assetEntity,
-    DirectoryType directoryType = DirectoryType.app,
-  }) async {
-    XFile? _output;
-
-    /// ASSET_ENTITY_JOB
-    await Entities.blogAssetEntity(entity: assetEntity, invoker: 'readAssetEntity');
-
-    if (assetEntity?.relativePath != null){
-
-      _output = XFile(assetEntity!.relativePath!);
-
-    }
-
-    return _output;
   }
   // -----------------------------------------------------------------------------
 

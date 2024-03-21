@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class Entities {
   // -----------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@ class Entities {
   /// BLOG
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> blogAssetEntity({
     required AssetEntity? entity,
     required String invoker,

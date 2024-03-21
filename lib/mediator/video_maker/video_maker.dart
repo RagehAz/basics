@@ -2,7 +2,7 @@
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
-import 'package:basics/mediator/models/media_model.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';

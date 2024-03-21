@@ -6,7 +6,7 @@ import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
-import 'package:basics/mediator/models/media_model.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropper_footer.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropper_pages.dart';
 import 'package:crop_your_image/crop_your_image.dart';

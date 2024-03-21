@@ -1,17 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/helpers/maps/mapper_ss.dart';
-import 'package:basics/helpers/nums/numeric.dart';
-import 'package:basics/helpers/strings/stringer.dart';
-import 'package:basics/helpers/strings/text_check.dart';
-import 'package:basics/helpers/strings/text_mod.dart';
-import 'package:basics/mediator/models/dimension_model.dart';
-import 'package:basics/mediator/models/media_model.dart';
-import 'package:flutter/material.dart';
+part of media_models;
 
 /// => TAMAM
 @immutable

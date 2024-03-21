@@ -1,20 +1,5 @@
 // ignore_for_file: join_return_with_assignment
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/error_helpers.dart';
-import 'package:basics/helpers/checks/object_check.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/mediator/models/media_model.dart';
-import 'package:cross_file/cross_file.dart';
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter/media_information.dart';
-import 'package:ffmpeg_kit_flutter/media_information_session.dart';
-import 'package:flutter/material.dart';
-import 'package:image/image.dart' as img;
+part of media_models;
 
 /// => TAMAM
 @immutable

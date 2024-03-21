@@ -8,7 +8,7 @@ import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:basics/mediator/models/media_model.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
