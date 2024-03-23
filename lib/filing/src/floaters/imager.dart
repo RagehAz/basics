@@ -129,12 +129,21 @@ class Imager{
     img.Image? imgImage;
 
     if (uInt != null){
+
       await tryAndCatch(
-          invoker: 'Imager.getImgImageFromUint8List',
+          invoker: 'Imager.getImgImageFromUint8List.png',
           functions: () async {
-            imgImage = img.decodeImage(uInt);
+            imgImage = img.decodePng(uInt);
           }
-          );
+      );
+
+      if (imgImage == null){
+        await tryAndCatch(
+            invoker: 'Imager.getImgImageFromUint8List.image',
+            functions: () async {
+              imgImage = img.decodeImage(uInt);
+            });
+      }
     }
 
     return imgImage;

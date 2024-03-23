@@ -476,7 +476,7 @@ class Byter {
                 height: _resizeToHeight.toInt(),
               );
 
-              _output = img.encodeJpg(resizedImage);
+              _output = img.encodePng(resizedImage);
 
             }
 

@@ -683,7 +683,7 @@ class PicMaker {
               );
 
               final Configuration config = Configuration(
-                outputType: ImageOutputType.jpg,
+                outputType: ImageOutputType.png,
                 /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
                 useJpgPngNativeCompressor: false,
                 /// set quality between 0-100
