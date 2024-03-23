@@ -1,5 +1,4 @@
 part of media_models;
-
 /// => TAMAM
 @immutable
 class MediaMetaModel {

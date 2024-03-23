@@ -18,9 +18,13 @@ class Director {
 
   // --------------------
   static List<DirectoryType> allDirectoryTypes = [
+    if (kIsWeb == false)
     DirectoryType.app,
+    if (kIsWeb == false)
     DirectoryType.temp,
+    if (kIsWeb == false)
     DirectoryType.external,
+    if (kIsWeb == false)
     DirectoryType.download,
   ];
   // --------------------
@@ -28,6 +32,9 @@ class Director {
   static Future<String?> dirDownloadDirPath() async {
     String? _output;
 
+    if (kIsWeb){
+      /// NOT IMPLEMENTED
+    }
     if (DeviceChecker.deviceIsAndroid() == true){
       _output = await AndroidPathProvider.downloadsPath;
     }
@@ -40,8 +47,14 @@ class Director {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String dirSystemTempPath(){
-    return Directory.systemTemp.path;
+  static String? dirSystemTempPath(){
+    if (kIsWeb){
+      /// NOT IMPLEMENTED
+      return null;
+    }
+    else {
+      return Directory.systemTemp.path;
+    }
   }
   // -----------------------------------------------------------------------------
 
@@ -56,10 +69,10 @@ class Director {
     Directory? _output;
 
     switch (type){
-      case DirectoryType.app: _output = await getApplicationDocumentsDirectory();
-      case DirectoryType.temp: _output = await getTemporaryDirectory();
-      case DirectoryType.external: _output = await getExternalStorageDirectory();
-      case DirectoryType.download: _output = await getDownloadsDirectory();
+      case DirectoryType.app: _output = kIsWeb ? null : await getApplicationDocumentsDirectory();
+      case DirectoryType.temp: _output = kIsWeb ? null : await getTemporaryDirectory();
+      case DirectoryType.external: _output = kIsWeb ? null : await getExternalStorageDirectory();
+      case DirectoryType.download: _output = kIsWeb ? null : await getDownloadsDirectory();
       default: _output = null;
     }
 
@@ -82,8 +95,10 @@ class Director {
 
     }
 
-    final String _flutterAssetsDirectoryPath = await _getFlutterAssetsDirPath();
-    _output.add(_flutterAssetsDirectoryPath);
+    final String? _flutterAssetsDirectoryPath = await _getFlutterAssetsDirPath();
+    if (_flutterAssetsDirectoryPath != null){
+      _output.add(_flutterAssetsDirectoryPath);
+    }
 
     return _output;
   }
@@ -98,30 +113,38 @@ class Director {
   }) async {
     List<String> _output = [];
 
-    final Directory? _x = await Director.getDirectory(
-      type: type,
-    );
-    final String? _path = _x?.path;
+    if (kIsWeb == false){
 
-    if (_path != null){
-
-      List<FileSystemEntity> _fileSystemEntities = [];
-
-      await tryAndCatch(
-        invoker: 'readAllDirectoryFiles',
-        functions: () async {
-
-          _fileSystemEntities = Directory(_path).listSync(
-            // followLinks: ,
-            // recursive: false,
-          );
-
-          _output = await _getOnlyFilesPaths(
-            fileSystemEntities: _fileSystemEntities,
-          );
-
-        },
+      final Directory? _x = await Director.getDirectory(
+        type: type,
       );
+      final String? _path = _x?.path;
+
+      if (_path != null){
+
+        List<FileSystemEntity> _fileSystemEntities = [];
+
+        await tryAndCatch(
+          invoker: 'readDirectoryFilesPaths',
+          functions: () async {
+
+            _fileSystemEntities = Directory(_path).listSync(
+              // followLinks: ,
+              // recursive: false,
+            );
+
+            if (kIsWeb){
+              await Filer.createEmptyFile(fileName: 'empty_file');
+            }
+
+            _output = await _getOnlyFilesPaths(
+              fileSystemEntities: _fileSystemEntities,
+            );
+
+          },
+        );
+
+      }
 
     }
 
@@ -134,7 +157,7 @@ class Director {
   }) async {
     final List<String> _output = [];
 
-    if (Lister.checkCanLoop(fileSystemEntities) == true){
+    if (kIsWeb == false && Lister.checkCanLoop(fileSystemEntities) == true){
 
       final List<String> _directoriesPaths = await getAllDirectoriesPaths();
 
@@ -160,14 +183,21 @@ class Director {
 
     return _output;
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<String> _getFlutterAssetsDirPath() async {
-    final Directory? _directory = await getDirectory(
-      type: DirectoryType.app,
-    );
-    return '${_directory?.path}/flutter_assets';
+  static Future<String?> _getFlutterAssetsDirPath() async {
+    String? _output;
+
+    if (kIsWeb == false){
+
+      final Directory? _directory = await getDirectory(
+        type: DirectoryType.app,
+      );
+      _output = '${_directory?.path}/flutter_assets';
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -216,7 +246,7 @@ class Director {
   }) async {
     String? _output;
 
-    if (name != null){
+    if (kIsWeb == false && name != null){
 
       // blog('findFilePathByName: searching for : $name');
 
@@ -245,6 +275,62 @@ class Director {
     }
 
     return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// WIPING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> deleteAllDirectoryFiles({
+    required DirectoryType? directoryType,
+  }) async {
+
+    if (kIsWeb == false && directoryType != null){
+
+      final Directory? _dir = await Director.getDirectory(
+        type: directoryType,
+      );
+
+      await tryAndCatch(
+        invoker: 'Filer.deleteAllDirectoryFiles',
+        functions: () async {
+
+          await _dir?.delete(
+            recursive: true,
+          );
+
+        },
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> wipeAllDirectoriesAndCaches() async {
+
+    if (kIsWeb == false){
+
+      await Future.wait(<Future>[
+
+        /// IMAGE CACHES
+        ImageCacheOps.wipeCaches(),
+
+        /// BREAKS LDB
+        // /// DIRECTORIES
+        // ...List.generate(allDirectoryTypes.length, (index){
+        //
+        //   return deleteAllDirectoryFiles(
+        //     directoryType: allDirectoryTypes[index],
+        //   );
+        //
+        // }),
+
+      ]);
+
+    }
+
   }
   // -----------------------------------------------------------------------------
 }

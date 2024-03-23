@@ -26,7 +26,7 @@ class VideoMaker {
     required Function(String? error)? onError,
     required String uploadPath,
     required List<String> ownersIDs,
-    required String name,
+    required String? name,
   }) async {
     MediaModel? _output;
 
@@ -68,7 +68,7 @@ class VideoMaker {
         ownersIDs: ownersIDs,
         mediaOrigin: MediaOrigin.galleryVideo,
         uploadPath: uploadPath,
-        renameFile: name,
+        rename: name,
       );
 
     }
@@ -121,7 +121,7 @@ class VideoMaker {
             ownersIDs: ownersIDs,
             mediaOrigin: MediaOrigin.galleryVideo,
             uploadPath: uploadPath,
-            renameFile: name,
+            rename: name,
           );
 
         },

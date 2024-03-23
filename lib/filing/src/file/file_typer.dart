@@ -519,6 +519,10 @@ class FileTyper {
         final XFile _file = object;
         _output = _getExtensionFromPath(_file.path);
       }
+      else if (object is SuperFile){
+        final SuperFile _file = object;
+        _output = _getExtensionFromPath(_file.path);
+      }
       else if (object is MediaModel){
         final MediaModel _media = object;
         _output = _getExtensionFromPath(_media.file?.path);
@@ -559,7 +563,7 @@ class FileTyper {
   /// FILE NAME FIXER
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static String? fixFileName({
     required String? fileName,
     required Uint8List? bytes,

@@ -1,14 +1,4 @@
 part of media_models;
-
-enum MediaOrigin {
-  cameraImage,
-  galleryImage,
-  cameraVideo,
-  galleryVideo,
-  generated,
-  downloaded,
-}
-
 /// => TAMAM
 @immutable
 class MediaModel {
@@ -18,7 +8,7 @@ class MediaModel {
     required this.meta,
   });
   // -----------------------------------------------------------------------------
-  final XFile? file;
+  final SuperFile? file;
   final MediaMetaModel? meta;
   // -----------------------------------------------------------------------------
 
@@ -27,7 +17,7 @@ class MediaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   MediaModel copyWith({
-    XFile? file,
+    SuperFile? file,
     MediaMetaModel? meta,
   }){
     return MediaModel(
@@ -57,7 +47,7 @@ class MediaModel {
 
     if (mediaModel != null){
       _map = {
-        'id': mediaModel.file?.fileNameWithoutExtension,
+        'id': mediaModel.file?.getFileName(withExtension: false),
         'path': mediaModel.file?.path,
         'meta': mediaModel.meta?.cipherToLDB()
       };
@@ -73,7 +63,7 @@ class MediaModel {
     if (map != null){
 
       _picModel = MediaModel(
-        file: map['path'] == null ? null : XFile(map['path']),
+        file: map['path'] == null ? null : SuperFile(map['path']),
         meta: MediaMetaModel.decipherFromLDB(map['meta']),
       );
 
@@ -122,7 +112,7 @@ class MediaModel {
     assert(mediaModel != null, 'picModel is null');
     assert(mediaModel?.file?.path != null, 'filepath is null');
     assert(mediaModel?.meta != null, 'meta is null');
-    final Uint8List? _bytes = await mediaModel?.file?.readAsBytes();
+    final Uint8List? _bytes = await Byter.fromSuperFile(mediaModel?.file);
     assert(_bytes != null, 'bytes is null');
   }
   // -----------------------------------------------------------------------------
@@ -131,14 +121,23 @@ class MediaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
+  String? getName({
+    bool withExtension = true,
+  }){
+
+    return file?.getFileName(withExtension: withExtension);
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   Future<Dimensions?> getDimensions() async {
-    final Dimensions? _dim = await DimensionsGetter.fromXFile(
+    final Dimensions? _dim = await DimensionsGetter.fromSuperFile(
       file: file,
     );
     return _dim;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<double?> getSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
@@ -150,28 +149,28 @@ class MediaModel {
     return _size;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<Uint8List?> getBytes() async {
-    final Uint8List? _bytes = await Byter.fromXFile(file);
+    final Uint8List? _bytes = await Byter.fromSuperFile(file);
     return _bytes;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  //// TESTED : WORKS PERFECT
   int getBytesLength(){
     final Map<String, String>? _data = meta?.data;
     return Numeric.transformStringToInt(_data?['sizeB']) ?? 0;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   MediaOrigin? getMediaOrigin(){
     return meta?.getMediaOrigin();
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<XFile> getFilesFromMediaModels({
+  static List<SuperFile> getFilesFromMediaModels({
     required List<MediaModel> mediaModels,
   }){
-    final List<XFile> _output = [];
+    final List<SuperFile> _output = [];
 
     if (Lister.checkCanLoop(mediaModels) == true){
       for (final MediaModel pic in mediaModels){
@@ -184,7 +183,7 @@ class MediaModel {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>> getBytezzFromMediaModels({
     required List<MediaModel> mediaModels,
   }) async {
@@ -194,7 +193,7 @@ class MediaModel {
       
       for (final MediaModel model in mediaModels){
         
-        final Uint8List? _bytes = await Byter.fromXFile(model.file);
+        final Uint8List? _bytes = await Byter.fromSuperFile(model.file);
         
         if (_bytes != null){
           _output.add(_bytes);
@@ -211,7 +210,7 @@ class MediaModel {
   /// MODIFIERS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<MediaModel> replaceBytes({
     required Uint8List? bytes,
   }) async {
@@ -220,22 +219,20 @@ class MediaModel {
       return this;
     }
     else {
-      
-      final XFile? _file = await XFiler.replaceBytes(
-        file: file,
+
+      final SuperFile? _file = await file?.replaceBytes(
         bytes: bytes,
       );
 
-      final MediaModel? _output = await MediaModelCreator.fromXFile(
+      final MediaModel? _output = await MediaModelCreator.fromSuperFile(
           file: _file,
           mediaOrigin: getMediaOrigin(),
           uploadPath: meta?.uploadPath,
           ownersIDs: meta?.ownersIDs,
-          renameFile: null,
+          // rename: null,
       );
-      
+
       return _output ?? this;
-      
     }
     
   }
@@ -251,12 +248,18 @@ class MediaModel {
     );
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<MediaModel> renameFile({
     required String? newName,
   }) async {
 
-    if (file == null || newName == null || newName == '' || file?.fileName == newName){
+    if (
+           file == null
+        || newName == null
+        || newName == ''
+        || file?.getFileName(withExtension: false) == newName
+        || file?.getFileName(withExtension: true) == newName
+    ){
       return this;
     }
     else {
@@ -268,12 +271,12 @@ class MediaModel {
 
       if (_newPath != null && _oldPath != _newPath){
 
-        final MediaModel? _output = await MediaModelCreator.fromXFile(
+        final MediaModel? _output = await MediaModelCreator.fromSuperFile(
           file: file,
           mediaOrigin: getMediaOrigin(),
           uploadPath: meta?.uploadPath,
           ownersIDs: meta?.ownersIDs,
-          renameFile: newName,
+          rename: newName,
         );
 
         return _output ?? this;
@@ -288,7 +291,7 @@ class MediaModel {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> replaceBytezzInMediaModels({
     required List<MediaModel> mediaModels,
     required List<Uint8List>? bytezz,
@@ -330,7 +333,7 @@ class MediaModel {
 
     final String _text =
     '''
-    ${file?.stringify},
+    $file,
     $meta
     ''';
 
@@ -388,7 +391,7 @@ class MediaModel {
   /// EQUALITY
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkMediaModelsAreIdentical({
     required MediaModel? model1,
     required MediaModel? model2,
@@ -402,10 +405,17 @@ class MediaModel {
 
       if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
 
-        _identical = await XFiler.checkXFilesAreIdentical(
+        _identical = SuperFile.checkFilesAreIdentical(
             file1: model1.file,
             file2: model2.file,
         );
+
+        if (_identical == true){
+          _identical = Byter.checkBytesAreIdentical(
+              bytes1: await model1.file?.readBytes(),
+              bytes2: await model2.file?.readBytes(),
+          );
+        }
 
       }
 
@@ -414,7 +424,7 @@ class MediaModel {
     return _identical;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static bool checkMediaModelsAreIdenticalSync({
     required MediaModel? model1,
     required MediaModel? model2,
@@ -426,7 +436,13 @@ class MediaModel {
     }
     else if (model1 != null && model2 != null){
 
-      if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
+      if (
+      model1.file?.path == model2.file?.path
+      &&
+      MediaMetaModel.checkMetaDatasAreIdentical(
+          meta1: model1.meta,
+          meta2: model2.meta
+      ) == true){
 
         _identical = true;
 
@@ -437,7 +453,7 @@ class MediaModel {
     return _identical;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkMediaModelsListsAreIdentical({
     required List<MediaModel>? models1,
     required List<MediaModel>? models2,
@@ -496,7 +512,7 @@ class MediaModel {
     final String _text =
     '''
     PicModel(
-      file: ${file?.stringify},
+      file: $file,
       meta: $meta
     );
     ''';
@@ -504,7 +520,7 @@ class MediaModel {
     return _text;
    }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   @override
   bool operator == (Object other){
 
@@ -514,9 +530,9 @@ class MediaModel {
 
     bool _areIdentical = false;
     if (other is MediaModel){
-      _areIdentical = MediaMetaModel.checkMetaDatasAreIdentical(
-        meta1: meta,
-        meta2: other.meta,
+      _areIdentical = checkMediaModelsAreIdenticalSync(
+        model1: this,
+        model2: other,
       );
     }
 

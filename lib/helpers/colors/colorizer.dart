@@ -207,13 +207,25 @@ class Colorizer {
     Color? _output;
 
     if (file != null){
-      final Uint8List? _bytes = await file.readAsBytes();
+      final Uint8List? _bytes = await Byter.fromXFile(file);
       _output = await getAverageColor(_bytes);
     }
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static Future<Color?> getAverageColorFromSuperFile(SuperFile? file) async {
+    Color? _output;
+
+    if (file != null){
+      final Uint8List? _bytes = await Byter.fromSuperFile(file);
+      _output = await getAverageColor(_bytes);
+    }
+
+    return _output;
+  }
+  // ------------------------------------------------------------------------------
 
   /// BLUR
 

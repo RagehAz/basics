@@ -11,6 +11,20 @@ class XFiler {
 
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Future<void> _initializeWindowDirectory({
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    /// ONLY FOR WINDOWS,MAKE SURE DIRECTORY PATH EXISTS
+    if (DeviceChecker.deviceIsWindows() == true) {
+
+      final Directory? _directory = await Director.getDirectory(type: directoryType);
+      if(_directory != null){
+        await Directory(_directory.path).create(recursive: true);
+      }
+    }
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<XFile?> createEmptyFile({
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
@@ -43,13 +57,9 @@ class XFiler {
       if (_filePath != null) {
 
         /// ONLY FOR WINDOWS,MAKE SURE DIRECTORY PATH EXISTS
-        if (DeviceChecker.deviceIsWindows() == true) {
-          final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
-            text: _filePath,
-            specialCharacter: FilePathing.slash,
-          )!;
-          await Directory(_pathWithoutDocName).create(recursive: true);
-        }
+        await _initializeWindowDirectory(
+          directoryType: directoryType,
+        );
 
         final Uint8List? _emptyData = Byter.fromInts([]);
         _output = await createFromBytes(
@@ -91,6 +101,11 @@ class XFiler {
           );
 
           if (_filePath != null){
+
+            /// ONLY FOR WINDOWS,MAKE SURE DIRECTORY PATH EXISTS
+            await _initializeWindowDirectory(
+              directoryType: directoryType,
+            );
 
             /// FILE REF
             _output = XFile(
@@ -519,8 +534,18 @@ class XFiler {
             if (_bytesAreIdentical == true){
               _identical = true;
             }
+            else {
+              blog('checkXFilesAreIdentical : bytes are not identical');
+            }
 
         }
+        else {
+          blog('checkXFilesAreIdentical : paths are not identical');
+        }
+      }
+
+      else{
+        blog('checkXFilesAreIdentical : some file is null');
       }
 
       return _identical;
@@ -543,33 +568,6 @@ class XFiler {
       _exists = _path != null;
 
     }
-
-    // final String? _path = await FilePathing.createPathByName(
-    //   fileName: name,
-    //   directoryType: directoryType,
-    // );
-    //
-    // if (_path != null){
-    //
-    //   await tryAndCatch(
-    //       invoker: 'XFiler.checkFileExistsByName',
-    //       onError: (String error){
-    //         // to ignore blogs
-    //       },
-    //       functions: () async {
-    //
-    //         final int? _length = await XFile(_path).length();
-    //
-    //         if (_length != null){
-    //           _exists = true;
-    //         }
-    //
-    //       },
-    //   );
-    //
-    // }
-
-    blog('checkFileExistsByName : _exists : $_exists aho ');
 
     return _exists;
   }

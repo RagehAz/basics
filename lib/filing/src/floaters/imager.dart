@@ -45,6 +45,18 @@ class Imager{
   }
   // --------------------
   /// TASK : TEST_ME_NOW
+  static Future<ui.Image?> getUiImageFromSuperFile(SuperFile? file) async {
+    ui.Image? _output;
+
+    if (file != null) {
+      final Uint8List? _bytes = await Byter.fromSuperFile(file);
+      _output = await getUiImageFromUint8List(_bytes);
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
     ui.Image? _output;
 

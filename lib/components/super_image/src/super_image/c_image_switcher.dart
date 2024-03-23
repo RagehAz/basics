@@ -4,7 +4,9 @@ import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/components/super_image/src/super_image/x_super_file_viewer.dart';
 import 'package:basics/components/super_image/super_image.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
@@ -173,6 +175,17 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      /// SUPER FILE
+      else if (pic is SuperFile == true){
+        return SuperFileViewer(
+          key: const ValueKey<String>('SuperImage_superFile'),
+          file: pic,
+          width: width,
+          height: height,
+          fit: boxFit,
+        );
+      }
+
       /// MEDIA MODEL
       else if (pic is MediaModel){
 
@@ -187,15 +200,17 @@ class ImageSwitcher extends StatelessWidget {
         }
 
         else {
-          return Image(
-            image: XFileImage(_mediaModel.file!),
+
+          return SuperFileViewer(
             key: const ValueKey<String>('SuperImage_media_model'),
-            fit: boxFit,
+            file: _mediaModel.file,
             width: width,
             height: height,
-            errorBuilder: _errorBuilder,
-            gaplessPlayback: _gaplessPlayback,
+            fit: boxFit,
+            // errorBuilder: _errorBuilder,
+            // gaplessPlayback: _gaplessPlayback,
           );
+
         }
 
       }

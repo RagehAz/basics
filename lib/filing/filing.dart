@@ -17,6 +17,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
+import 'package:basics/ldb/methods/ldb_ops.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
@@ -42,6 +43,7 @@ part 'src/file/file_typer.dart';
 part 'src/file/director.dart';
 part 'src/file/cache_ops.dart';
 part 'src/file/entities.dart';
+part 'src/file/super_file.dart';
 
 part 'src/floaters/byter.dart';
 part 'src/floaters/imager.dart';

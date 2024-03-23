@@ -97,6 +97,24 @@ class Byter {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> fromSuperFile(SuperFile? file) async {
+    Uint8List? _uInt;
+
+    if (file != null){
+      await tryAndCatch(
+        invoker:  'Byter.fromSuperFile',
+        functions: () async {
+
+          _uInt = await file.readBytes();
+
+        },
+      );
+    }
+
+    return _uInt;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<Uint8List?> fromUiImage(ui.Image? uiImage) async {
     Uint8List? uInt;
 
@@ -476,7 +494,7 @@ class Byter {
   /// CHECKERS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static bool checkBytesAreIdentical({
     required Uint8List? bytes1,
     required Uint8List? bytes2,

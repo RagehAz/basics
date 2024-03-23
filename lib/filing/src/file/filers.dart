@@ -273,6 +273,33 @@ class Filer {
     }
 
   }
+  // ---------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> createFromSuperFile({
+    required SuperFile? file,
+    String? fileName,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+
+    if (kIsWeb == true || file == null){
+      return null;
+    }
+
+    else {
+
+      final Uint8List? _fileAgainAsInt = await Byter.fromSuperFile(file);
+      // await null;
+
+      final File? _fileAgain = await createFromBytes(
+        bytes: _fileAgainAsInt,
+        fileName: fileName ?? file.getFileName(withExtension: true),
+        directoryType: directoryType,
+      );
+
+      return _fileAgain;
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// CLONE
@@ -531,32 +558,6 @@ class Filer {
         await deleteFile(file);
 
       }
-
-    }
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<void> deleteAllDirectoryFiles({
-    required DirectoryType? directoryType,
-  }) async {
-
-    if (directoryType != null){
-
-      final Directory? _dir = await Director.getDirectory(
-          type: directoryType,
-      );
-
-      await tryAndCatch(
-        invoker: 'Filer.deleteAllDirectoryFiles',
-          functions: () async {
-
-            await _dir?.delete(
-              recursive: true,
-            );
-
-          },
-      );
 
     }
 

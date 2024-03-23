@@ -28,3 +28,5 @@ part 'src/dimension_model.dart';
 part 'src/media_meta_model.dart';
 part 'src/media_model.dart';
 part 'src/media_model_creator.dart';
+part 'src/dimensions_getter.dart';
+part 'src/media_origin.dart';

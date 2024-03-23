@@ -15,20 +15,21 @@ class LDBOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> insertMap({
+  static Future<bool> insertMap({
     required Map<String, dynamic>? input,
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
   }) async {
 
-    await Sembast.insert(
+    final bool _success = await Sembast.insert(
       map: input,
       docName: docName,
       primaryKey: primaryKey,
       allowDuplicateIDs: allowDuplicateIDs,
     );
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

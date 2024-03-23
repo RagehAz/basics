@@ -328,7 +328,7 @@ class PicMaker {
             mediaOrigin: MediaOrigin.galleryImage,
             uploadPath: uploadPathGenerator?.call(i),
             ownersIDs: ownersIDs,
-            renameFile: picNameGenerator?.call(i),
+            rename: picNameGenerator?.call(i),
           );
 
           if (_model != null){
@@ -478,7 +478,7 @@ class PicMaker {
             mediaOrigin: MediaOrigin.cameraImage,
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
-            renameFile: fileName,
+            rename: fileName,
           );
 
           return _model;
@@ -598,7 +598,7 @@ class PicMaker {
       //   _output = Floaters.getBytesFromImgImage(_imgImage);
       // }
 
-      Uint8List? _bytes = await _output?.file?.readAsBytes();
+      Uint8List? _bytes = await Byter.fromSuperFile(mediaModel.file);
 
       _bytes = await Byter.resize(
         bytes: _bytes,
@@ -670,7 +670,7 @@ class PicMaker {
           invoker: 'compressPic',
           functions: () async {
 
-            final Uint8List? _bytes = await mediaModel.file?.readAsBytes();
+            final Uint8List? _bytes = await Byter.fromSuperFile(mediaModel.file);
 
             if (_bytes != null){
 

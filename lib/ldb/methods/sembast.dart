@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:flutter/foundation.dart';
@@ -102,12 +103,13 @@ class Sembast  {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> insert({
+  static Future<bool> insert({
     required Map<String, dynamic>? map,
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
   }) async {
+    bool _success = false;
 
     /// Note : either updates all existing maps with this primary key "ID"
     /// or inserts new map
@@ -122,7 +124,7 @@ class Sembast  {
       // print('SEMBAST : insert : docName : $docName : primaryKey : $primaryKey : allowDuplicateIDs : $allowDuplicateIDs');
 
       if (allowDuplicateIDs == true){
-        await _addMap(
+        _success = await _addMap(
           docName: docName,
           map: map,
         );
@@ -138,7 +140,7 @@ class Sembast  {
 
         /// ADD IF NOT FOUND
         if (_exists == false){
-          await _addMap(
+          _success = await _addMap(
             docName: docName,
             map: map,
           );
@@ -146,7 +148,7 @@ class Sembast  {
 
         /// UPDATE IF FOUND
         else {
-          await _updateExistingMap(
+          _success = await _updateExistingMap(
             docName: docName,
             map: map,
             primaryKey: primaryKey,
@@ -157,70 +159,94 @@ class Sembast  {
 
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> _addMap({
+  static Future<bool> _addMap({
     required Map<String, dynamic>? map,
     required String? docName,
   }) async {
+    bool _success = false;
 
     if (map != null && docName != null){
 
-      /// NOTE : this ignores if there is an existing map with same ID
-      final Database? _db = await _getDB();
+      await tryAndCatch(
+        invoker: 'Sembast._addMap',
+        functions: () async {
 
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
-        docName: docName,
+          /// NOTE : this ignores if there is an existing map with same ID
+          final Database? _db = await _getDB();
+
+          final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
+            docName: docName,
+          );
+
+          if (_db != null){
+            await _doc?.add(_db, map);
+            _success = true;
+
+          }
+
+          },
       );
-
-      if (_db != null){
-        await _doc?.add(_db, map);
-      }
 
       // blog('SEMBAST : _addMap : added to ($docName) : map has (${map.keys.length}) : _db : $_db');
 
     }
 
+    return _success;
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> _updateExistingMap({
+  static Future<bool> _updateExistingMap({
     required Map<String, dynamic>? map,
     required String? docName,
     required String? primaryKey,
   }) async {
+    bool _success = false;
 
     if (map != null && docName != null && primaryKey != null){
 
-      final Database? _db = await _getDB();
+      await tryAndCatch(
+        invoker: 'Sembast._updateExistingMap',
+        functions: () async {
 
-      if (_db != null){
-        final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
-          docName: docName,
-        );
+          final Database? _db = await _getDB();
 
-        final String? _objectID = map[primaryKey] as String;
+          if (_db != null){
+            final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(
+              docName: docName,
+            );
 
-        final Finder _finder = Finder(
-          filter: Filter.equals(primaryKey, _objectID),
-        );
+            final String? _objectID = map[primaryKey] as String;
+
+            final Finder _finder = Finder(
+              filter: Filter.equals(primaryKey, _objectID),
+            );
 
 
-        // final int _result =
-        await _doc?.update(
-          _db,
-          map,
-          finder: _finder,
-        );
+            // final int _result =
+            await _doc?.update(
+              _db,
+              map,
+              finder: _finder,
+            );
 
-        // blog('SEMBAST : _updateExistingMap : updated in ( $docName ) : result : $_result : map has ${map?.keys?.length} keys');
+            _success = true;
 
-      }
+          }
 
-    }
+          },
+      );
 
+
+
+
+
+    }// blog('SEMBAST : _updateExistingMap : updated in ( $docName ) : result : $_result : map has ${map?.keys?.length} keys');
+
+    return _success;
   }
   // -----------------------------------------------------------------------------
 
