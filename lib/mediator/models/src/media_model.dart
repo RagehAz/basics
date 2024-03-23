@@ -165,6 +165,9 @@ class MediaModel {
   MediaOrigin? getMediaOrigin(){
     return meta?.getMediaOrigin();
   }
+  String? getOriginalURl(){
+    return meta?.getOriginalURL();
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<SuperFile> getFilesFromMediaModels({

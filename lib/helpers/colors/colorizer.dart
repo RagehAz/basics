@@ -8,7 +8,6 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/painting.dart';
 import 'package:image/image.dart' as img;
-
 /// => TAMAM
 class Colorizer {
   // -----------------------------------------------------------------------------
@@ -202,7 +201,7 @@ class Colorizer {
     return _color;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<Color?> getAverageColorFromXFile(XFile? file) async {
     Color? _output;
 
@@ -214,7 +213,7 @@ class Colorizer {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<Color?> getAverageColorFromSuperFile(SuperFile? file) async {
     Color? _output;
 

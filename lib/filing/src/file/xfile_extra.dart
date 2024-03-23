@@ -1,5 +1,4 @@
 part of filing;
-
 /// TAMAM
 extension Extra on XFile {
   // -----------------------------------------------------------------------------
@@ -9,8 +8,8 @@ extension Extra on XFile {
   // --------------------
   String? get fileName {
 
-    return FilePathing.getNameFromFilePath(
-      filePath: path,
+    return FilePathing.getNameFromPath(
+      path: path,
       withExtension: true,
     );
 
@@ -18,8 +17,8 @@ extension Extra on XFile {
   // --------------------
   String? get fileNameWithoutExtension {
 
-    return FilePathing.getNameFromFilePath(
-        filePath: path,
+    return FilePathing.getNameFromPath(
+      path: path,
         withExtension: false,
     );
 

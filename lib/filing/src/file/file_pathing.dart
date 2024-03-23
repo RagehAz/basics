@@ -83,8 +83,8 @@ class FilePathing {
     }
 
     else {
-      return getNameFromFilePath(
-        filePath: file.path,
+      return getNameFromPath(
+        path: file.path,
         withExtension: withExtension,
       );
     }
@@ -102,8 +102,8 @@ class FilePathing {
     }
 
     else {
-      return getNameFromFilePath(
-        filePath: file.path,
+      return getNameFromPath(
+        path: file.path,
         withExtension: withExtension,
       );
     }
@@ -111,12 +111,12 @@ class FilePathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? getNameFromFilePath({
-    required String? filePath,
+  static String? getNameFromPath({
+    required String? path,
     required bool withExtension,
   }){
 
-    if (kIsWeb == true || TextCheck.isEmpty(filePath) == true){
+    if (kIsWeb == true || TextCheck.isEmpty(path) == true){
       return null;
     }
 
@@ -124,7 +124,7 @@ class FilePathing {
       String? _fileName;
 
       _fileName = TextMod.removeTextBeforeLastSpecialCharacter(
-        text: filePath,
+        text: path,
         specialCharacter: slash,
       );
 
@@ -136,6 +136,41 @@ class FilePathing {
       }
 
       return _fileName;
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<String>?> getNamesFromPaths({
+    required List<String>? paths,
+    required bool withExtension,
+  }) async {
+
+    if (kIsWeb == true || paths == null){
+      return null;
+    }
+
+    else {
+      final List<String> _names = <String>[];
+
+      if (Lister.checkCanLoop(paths) == true){
+
+        for (final String path in paths){
+
+          final String? _name = getNameFromPath(
+            path: path,
+            withExtension: withExtension,
+          );
+
+          if (_name != null){
+            _names.add(_name);
+          }
+
+        }
+
+      }
+
+      return _names;
     }
 
   }
@@ -297,7 +332,7 @@ class FilePathing {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? createFileNameFromFireStoragePath({
+  static String? idifyFireStoragePath({
     required String? fireStoragePath,
   }){
     return TextMod.replaceAllCharacters(
@@ -308,7 +343,7 @@ class FilePathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String> createFilesNamesFromFireStoragePaths({
+  static List<String> idifyFireStoragePaths({
     required List<String> paths,
   }){
     List<String> _output = [];
@@ -317,7 +352,7 @@ class FilePathing {
 
       for (final String path in paths){
 
-        final String? fileName = createFileNameFromFireStoragePath(
+        final String? fileName = idifyFireStoragePath(
           fireStoragePath: path,
         );
 

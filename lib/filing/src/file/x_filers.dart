@@ -152,8 +152,8 @@ class XFiler {
       // width: width,
     );
 
-    final String? _fileName = FilePathing.getNameFromFilePath(
-      filePath: localAsset,
+    final String? _fileName = FilePathing.getNameFromPath(
+      path: localAsset,
       withExtension: true,
     );
 

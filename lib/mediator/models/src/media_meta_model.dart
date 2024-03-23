@@ -176,10 +176,15 @@ class MediaMetaModel {
   /// GETTERS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   MediaOrigin? getMediaOrigin(){
     final String? _origin = data?['source'];
     return MediaModel.decipherMediaOrigin(_origin);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getOriginalURL(){
+    return data?['original_url'];
   }
   // -----------------------------------------------------------------------------
 

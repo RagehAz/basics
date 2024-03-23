@@ -35,8 +35,8 @@ class SuperFile {
     required bool withExtension,
   }){
 
-    return FilePathing.getNameFromFilePath(
-        filePath: path,
+    return FilePathing.getNameFromPath(
+        path: path,
         withExtension: withExtension
     );
 
@@ -288,8 +288,8 @@ class SuperFile {
             docName: getFolderName(),
             primaryKey: primaryKey,
             input: {
-              primaryKey: FilePathing.getNameFromFilePath(
-                filePath: _newPath,
+              primaryKey: FilePathing.getNameFromPath(
+                path: _newPath,
                 withExtension: false,
               ),
               'bytes': _map['bytes'],

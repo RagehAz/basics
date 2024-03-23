@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:http/http.dart' as http;
-
+/// => TAMAM
 class Rest {
   // -----------------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ class Rest {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<Uint8List?> readBytes({
     required String rawLink,
     String invoker = '',
@@ -141,7 +141,7 @@ class Rest {
   /// UPDATE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<http.Response?> patchMap({
     required Map<String, dynamic> input,
     required String rawLink,
@@ -175,7 +175,7 @@ class Rest {
   /// DELETE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<http.Response?> delete({
     required String rawLink,
     Object? body,

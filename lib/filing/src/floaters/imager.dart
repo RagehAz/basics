@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class Imager{
   // -----------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ class Imager{
     return _decodedImage;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<ui.Image?> getUiImageFromXFile(XFile? file) async {
     ui.Image? _output;
 
@@ -44,7 +44,7 @@ class Imager{
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<ui.Image?> getUiImageFromSuperFile(SuperFile? file) async {
     ui.Image? _output;
 
@@ -56,7 +56,7 @@ class Imager{
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
     ui.Image? _output;
 
@@ -175,6 +175,7 @@ class Imager{
   /// BLOGGING
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static void blogExif(img.ExifData? exif){
 
     if (exif == null){

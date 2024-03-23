@@ -1,5 +1,4 @@
 part of filing;
-
 /// TAMAM
 extension FileExtention on File {
   // -----------------------------------------------------------------------------
@@ -9,8 +8,8 @@ extension FileExtention on File {
   // --------------------
   String? get fileName {
 
-    return FilePathing.getNameFromFilePath(
-      filePath: path,
+    return FilePathing.getNameFromPath(
+      path: path,
       withExtension: true,
     );
 
@@ -18,8 +17,8 @@ extension FileExtention on File {
   // --------------------
   String? get fileNameWithoutExtension {
 
-    final String? _without = FilePathing.getNameFromFilePath(
-      filePath: path,
+    final String? _without = FilePathing.getNameFromPath(
+      path: path,
       withExtension: false,
     );
 

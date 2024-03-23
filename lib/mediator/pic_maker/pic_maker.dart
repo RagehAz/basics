@@ -38,7 +38,7 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
  */
 // -----------------------------------------------------------------------------
 
-/// TASK : TEST_ME_NOW
+/// => TAMAM
 class PicMaker {
   // -----------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ class PicMaker {
   /// SINGLE GALLERY IMAGE PIC
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> pickAndCropSinglePic({
     required BuildContext context,
     required bool cropAfterPick,
@@ -130,7 +130,7 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _pickWindowsOrWebImage({
     required BuildContext context,
     required double aspectRatio,
@@ -207,7 +207,7 @@ class PicMaker {
   /// MULTI GALLERY IMAGES PICK
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> pickAndCropMultiplePics({
     required BuildContext context,
     required double aspectRatio,
@@ -270,7 +270,7 @@ class PicMaker {
     return _mediaModels;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> _pickMultiplePics({
     required BuildContext context,
     required int maxAssets,
@@ -348,7 +348,7 @@ class PicMaker {
   /// TAKE IMAGE FROM CAMERA
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> shootAndCropCameraPic({
     required BuildContext context,
     required bool cropAfterPick,
@@ -422,7 +422,7 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _shootCameraPic({
     required BuildContext context,
     required String langCode,
@@ -499,7 +499,7 @@ class PicMaker {
   /// CROP IMAGE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> cropPic({
     required BuildContext context,
     required MediaModel? mediaModel,
@@ -524,7 +524,7 @@ class PicMaker {
     return _bytes;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> cropPics({
     required BuildContext context,
     required List<MediaModel>? mediaModels,
@@ -566,7 +566,7 @@ class PicMaker {
   /// RESIZE
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> resizePic({
     required MediaModel? mediaModel,
     /// image width will be resized to this final width
@@ -615,7 +615,7 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> resizePics({
     required List<MediaModel>? mediaModels,
     required double resizeToWidth,
@@ -646,7 +646,7 @@ class PicMaker {
   /// COMPRESS
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> compressPic({
     required MediaModel? mediaModel,
     required int quality,
@@ -683,7 +683,7 @@ class PicMaker {
               );
 
               final Configuration config = Configuration(
-                outputType: ImageOutputType.webpThenJpg,
+                outputType: ImageOutputType.jpg,
                 /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
                 useJpgPngNativeCompressor: false,
                 /// set quality between 0-100
@@ -728,7 +728,7 @@ class PicMaker {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> compressPics({
     required List<MediaModel>? mediaModels,
     required int quality,
