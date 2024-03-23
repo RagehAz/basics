@@ -321,6 +321,60 @@ class MediaModel {
     
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  MediaModel addOriginalURL({
+    required String? originalURL,
+  }){
+
+    if (originalURL == null){
+      return this;
+    }
+    else {
+
+      final MediaMetaModel? _meta = meta?.copyWith(
+        data: MapperSS.insertPairInMapWithStringValue(
+            map: meta?.data,
+            key: 'original_url',
+            value: originalURL,
+            overrideExisting: true,
+        ),
+      );
+
+      return copyWith(
+        meta: _meta,
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  MediaModel setMediaOrigin({
+    required MediaOrigin? mediaOrigin,
+  }){
+
+    if (mediaOrigin == null){
+      return this;
+    }
+    else {
+
+      final MediaMetaModel? _meta = meta?.copyWith(
+        data: MapperSS.insertPairInMapWithStringValue(
+          map: meta?.data,
+          key: 'source',
+          value: MediaModel.cipherMediaOrigin(mediaOrigin)!,
+          overrideExisting: true,
+        ),
+      );
+
+      return copyWith(
+        meta: _meta,
+      );
+
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOG
@@ -449,6 +503,14 @@ class MediaModel {
       }
 
     }
+
+    // if (_identical == false){
+    //   Mapper.blogMapsDifferences(
+    //       map1: MediaModel.cipherToLDB(model1),
+    //       map2: MediaModel.cipherToLDB(model2),
+    //       invoker: 'checkMediaModelsAreIdenticalSync',
+    //   );
+    // }
 
     return _identical;
   }

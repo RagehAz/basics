@@ -109,7 +109,7 @@ class SuperFile {
         folderName: folder,
       );
 
-      blog('createFromBytes : _path : $_path');
+      // blog('createFromBytes : _path : $_path');
 
       if (_path != null){
         _output = await SuperFile(_path)._create(
