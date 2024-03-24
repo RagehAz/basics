@@ -7,6 +7,8 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
@@ -55,6 +57,7 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> pickAndCropSinglePic({
     required BuildContext context,
+    required String id,
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
@@ -74,6 +77,7 @@ class PicMaker {
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
       _output = await _pickWindowsOrWebImage(
         context: context,
+        id: id,
         aspectRatio: aspectRatio,
         cropAfterPick: cropAfterPick,
         appIsLTR: appIsLTR,
@@ -110,9 +114,12 @@ class PicMaker {
         uploadPathGenerator: (int i){
           return uploadPath;
           },
-        picNameGenerator: (int i){
+        nameGenerator: (int i){
           return fileName;
           },
+        idGenerator: (int i){
+          return id;
+        },
         ownersIDs: ownersIDs,
       );
 
@@ -133,6 +140,7 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _pickWindowsOrWebImage({
     required BuildContext context,
+    required String id,
     required double aspectRatio,
     required bool cropAfterPick,
     required Function(String? error)? onError,
@@ -160,6 +168,7 @@ class PicMaker {
         if (_file != null){
 
           _output = await MediaModelCreator.fromXFile(
+            id: id,
             file: _file,
             mediaOrigin: MediaOrigin.galleryImage,
             uploadPath: uploadPath,
@@ -216,7 +225,8 @@ class PicMaker {
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String? Function(int index)? uploadPathGenerator,
-    required String? Function(int index)? picNameGenerator,
+    required String? Function(int index)? nameGenerator,
+    required String? Function(int index)? idGenerator,
     required List<String>? ownersIDs,
     double? resizeToWidth,
     int? compressWithQuality,
@@ -236,7 +246,8 @@ class PicMaker {
       onError: onError,
       uploadPathGenerator: uploadPathGenerator,
       ownersIDs: ownersIDs,
-      picNameGenerator: picNameGenerator,
+      nameGenerator: nameGenerator,
+      idGenerator: idGenerator,
     );
 
     /// CROP
@@ -279,7 +290,8 @@ class PicMaker {
     required Function(String? error)? onError,
     required List<AssetEntity>? selectedAssets,
     required String? Function(int index)? uploadPathGenerator,
-    required String? Function(int index)? picNameGenerator,
+    required String? Function(int index)? nameGenerator,
+    required String? Function(int index)? idGenerator,
     required List<String>? ownersIDs,
   }) async {
 
@@ -328,7 +340,8 @@ class PicMaker {
             mediaOrigin: MediaOrigin.galleryImage,
             uploadPath: uploadPathGenerator?.call(i),
             ownersIDs: ownersIDs,
-            rename: picNameGenerator?.call(i),
+            rename: nameGenerator?.call(i),
+            id: idGenerator?.call(i),
           );
 
           if (_model != null){
@@ -351,6 +364,7 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> shootAndCropCameraPic({
     required BuildContext context,
+    required String id,
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
@@ -371,6 +385,7 @@ class PicMaker {
     /// SHOOT
     _output = await _shootCameraPic(
       context: context,
+      id: id,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       onError: onError,
@@ -425,6 +440,7 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _shootCameraPic({
     required BuildContext context,
+    required String id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
@@ -475,6 +491,7 @@ class PicMaker {
 
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
             asset: entity,
+            id: id,
             mediaOrigin: MediaOrigin.cameraImage,
             uploadPath: uploadPath,
             ownersIDs: ownersIDs,
@@ -573,35 +590,13 @@ class PicMaker {
     required double? resizeToWidth,
   }) async {
 
-    blog('resizeImage : START');
-
     MediaModel? _output = mediaModel;
 
     if (mediaModel != null && resizeToWidth != null){
 
-      // img.Image? _imgImage = await Floaters.getImgImageFromUint8List(bytes);
-      //
-      // /// only resize if final width is smaller than original
-      // if (_imgImage != null && resizeToWidth < _imgImage.width){
-      //
-      //   final double? _aspectRatio = await Dimensions.getPicAspectRatio(bytes);
-      //
-      //   _imgImage = Floaters.resizeImgImage(
-      //     imgImage: _imgImage,
-      //     width: resizeToWidth.floor(),
-      //     height: Dimensions.getHeightByAspectRatio(
-      //         aspectRatio: _aspectRatio,
-      //         width: resizeToWidth
-      //     )!.floor(),
-      //   );
-      //
-      //   _output = Floaters.getBytesFromImgImage(_imgImage);
-      // }
 
-      Uint8List? _bytes = await Byter.fromSuperFile(mediaModel.file);
-
-      _bytes = await Byter.resize(
-        bytes: _bytes,
+      final Uint8List? _bytes = await Byter.resize(
+        bytes: mediaModel.bytes,
         fileName: _output?.meta?.name,
         resizeToWidth: resizeToWidth,
       );
@@ -670,13 +665,15 @@ class PicMaker {
           invoker: 'compressPic',
           functions: () async {
 
-            final Uint8List? _bytes = await Byter.fromSuperFile(mediaModel.file);
+            if (mediaModel.bytes != null){
 
-            if (_bytes != null){
+              final String? _filePath = await FilePathing.createPathByName(
+                fileName: mediaModel.getName(withExtension: true),
+              );
 
               final ImageFile input = ImageFile(
-                filePath: 'x',
-                rawBytes: _bytes,
+                filePath: _filePath ?? Numeric.createRandomIndex().toString(),
+                rawBytes: mediaModel.bytes!,
                 // width: _dims.width?.toInt(),
                 // height: _dims.height?.toInt(),
                 // contentType: ,
@@ -760,24 +757,33 @@ class PicMaker {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool picturesURLsAreIdentical({
-    required List<String>? urls1,
-    required List<String>? urls2,
-  }) {
-    return Lister.checkListsAreIdentical(
-        list1: urls1,
-        list2: urls2
-    );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static bool checkPicIsEmpty(dynamic pic){
     bool _isEmpty = true;
 
     if (pic != null){
 
+      /// URL
       if (ObjectCheck.isAbsoluteURL(pic) == true){
         _isEmpty = TextCheck.isEmpty(pic);
+      }
+
+      /// MEDIA MODEL
+      else if (pic is MediaModel){
+        final MediaModel mediaModel = pic;
+        final Uint8List? _uInts = mediaModel.bytes;
+        _isEmpty = Mapper.boolIsTrue(_uInts?.isEmpty);
+      }
+
+      /// SUPER FILE
+      else if (pic is SuperFile){
+        final SuperFile _file = pic;
+        _isEmpty = TextCheck.isEmpty(_file.path);
+      }
+
+      /// XFILE
+      else if (pic is XFile){
+        final XFile _file = pic;
+        _isEmpty = TextCheck.isEmpty(_file.path);
       }
 
       /// FILE

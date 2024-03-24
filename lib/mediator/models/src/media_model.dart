@@ -4,11 +4,13 @@ part of media_models;
 class MediaModel {
   // -----------------------------------------------------------------------------
   const MediaModel({
-    required this.file,
+    required this.id,
+    required this.bytes,
     required this.meta,
   });
   // -----------------------------------------------------------------------------
-  final SuperFile? file;
+  final String id;
+  final Uint8List? bytes;
   final MediaMetaModel? meta;
   // -----------------------------------------------------------------------------
 
@@ -17,22 +19,25 @@ class MediaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   MediaModel copyWith({
-    SuperFile? file,
+    String? id,
+    Uint8List? bytes,
     MediaMetaModel? meta,
   }){
     return MediaModel(
-      file: file ?? this.file,
+      id: id ?? this.id,
+      bytes: bytes ?? this.bytes,
       meta: meta ?? this.meta,
     );
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   MediaModel nullifyField({
-    bool file = false,
+    bool bytes = false,
     bool meta = false,
   }){
     return MediaModel(
-      file: file == true ? null : this.file,
+      id: id,
+      bytes: bytes == true ? null : this.bytes,
       meta: meta == true ? null : this.meta,
     );
   }
@@ -47,8 +52,8 @@ class MediaModel {
 
     if (mediaModel != null){
       _map = {
-        'id': mediaModel.file?.getFileName(withExtension: false),
-        'path': mediaModel.file?.path,
+        'id': mediaModel.id,
+        'bytes': Byter.intsFromBytes(mediaModel.bytes),
         'meta': mediaModel.meta?.cipherToLDB()
       };
     }
@@ -60,10 +65,11 @@ class MediaModel {
   static MediaModel? decipherFromLDB(Map<String, dynamic>? map){
     MediaModel? _picModel;
 
-    if (map != null){
+    if (map?['id'] != null){
 
       _picModel = MediaModel(
-        file: map['path'] == null ? null : SuperFile(map['path']),
+        id: map!['id'],
+        bytes: Byter.fromInts(map['bytes']),
         meta: MediaMetaModel.decipherFromLDB(map['meta']),
       );
 
@@ -109,11 +115,10 @@ class MediaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> assertIsUploadable(MediaModel? mediaModel) async {
-    assert(mediaModel != null, 'picModel is null');
-    assert(mediaModel?.file?.path != null, 'filepath is null');
-    assert(mediaModel?.meta != null, 'meta is null');
-    final Uint8List? _bytes = await Byter.fromSuperFile(mediaModel?.file);
-    assert(_bytes != null, 'bytes is null');
+    assert(mediaModel != null, 'mediaModel is null');
+    assert(mediaModel?.id != null, "mediaModel's id is null");
+    assert(mediaModel?.meta != null, "mediaModel's meta is null");
+    assert(Mapper.boolIsTrue(mediaModel?.bytes?.isNotEmpty) == true, "mediaModel's bytes are empty");
   }
   // -----------------------------------------------------------------------------
 
@@ -125,87 +130,76 @@ class MediaModel {
     bool withExtension = true,
   }){
 
-    return file?.getFileName(withExtension: withExtension);
+    String? _name = meta?.name;
+
+    if (withExtension == false){
+      _name = TextMod.removeTextAfterLastSpecialCharacter(
+          text: _name,
+          specialCharacter: '.',
+      );
+    }
+
+    return _name;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Dimensions? getDimensions(){
+
+    if (meta?.width == null || meta?.height == null){
+      return null;
+    }
+    else {
+      return Dimensions(
+          width: meta?.width,
+          height: meta?.height,
+      );
+    }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Dimensions?> getDimensions() async {
-    final Dimensions? _dim = await DimensionsGetter.fromSuperFile(
-      file: file,
-    );
-    return _dim;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<double?> getSize({
+  double? getSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
-  }) async {
+  }) {
 
-    final double? _size = await file?.readSize(
-      fileSizeUnit: fileSizeUnit,
-    );
+    if (bytes == null){
+      return null;
+    }
+    else {
+      return FileSizer.calculateSize(bytes!.length, fileSizeUnit);
+    }
 
-    return _size;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Uint8List?> getBytes() async {
-    final Uint8List? _bytes = await Byter.fromSuperFile(file);
-    return _bytes;
-  }
-  // --------------------
-  //// TESTED : WORKS PERFECT
   int getBytesLength(){
-    final Map<String, String>? _data = meta?.data;
-    return Numeric.transformStringToInt(_data?['sizeB']) ?? 0;
+    return bytes?.length ?? 0;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   MediaOrigin? getMediaOrigin(){
     return meta?.getMediaOrigin();
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   String? getOriginalURl(){
     return meta?.getOriginalURL();
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<SuperFile> getFilesFromMediaModels({
+  static List<Uint8List> getBytezzFromMediaModels({
     required List<MediaModel> mediaModels,
   }){
-    final List<SuperFile> _output = [];
+    final List<Uint8List> _output = [];
 
     if (Lister.checkCanLoop(mediaModels) == true){
       for (final MediaModel pic in mediaModels){
-        if (pic.file != null){
-          _output.add(pic.file!);
+        if (pic.bytes != null){
+          _output.add(pic.bytes!);
         }
       }
     }
 
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Uint8List>> getBytezzFromMediaModels({
-    required List<MediaModel> mediaModels,
-  }) async {
-    final List<Uint8List> _output = [];
-    
-    if (Lister.checkCanLoop(mediaModels) == true){
-      
-      for (final MediaModel model in mediaModels){
-        
-        final Uint8List? _bytes = await Byter.fromSuperFile(model.file);
-        
-        if (_bytes != null){
-          _output.add(_bytes);
-        }
-        
-      }
-      
-    }
-    
     return _output;
   }
   // -----------------------------------------------------------------------------
@@ -223,16 +217,13 @@ class MediaModel {
     }
     else {
 
-      final SuperFile? _file = await file?.replaceBytes(
-        bytes: bytes,
-      );
-
-      final MediaModel? _output = await MediaModelCreator.fromSuperFile(
-          file: _file,
+      final MediaModel? _output = await MediaModelCreator.fromBytes(
+          bytes: bytes,
+          id: id,
+          fileName: meta?.name,
           mediaOrigin: getMediaOrigin(),
           uploadPath: meta?.uploadPath,
           ownersIDs: meta?.ownersIDs,
-          // rename: null,
       );
 
       return _output ?? this;
@@ -256,39 +247,21 @@ class MediaModel {
     required String? newName,
   }) async {
 
-    if (
-           file == null
-        || newName == null
-        || newName == ''
-        || file?.getFileName(withExtension: false) == newName
-        || file?.getFileName(withExtension: true) == newName
-    ){
+    if (TextCheck.isEmpty(newName) == false){
       return this;
     }
     else {
 
-      final String _oldPath = file!.path;
-      final String? _newPath = await FilePathing.createPathByName(
-        fileName: newName,
+      final String? _newName = FileTyper.fixFileName(
+          fileName: newName,
+          bytes: bytes
       );
 
-      if (_newPath != null && _oldPath != _newPath){
-
-        final MediaModel? _output = await MediaModelCreator.fromSuperFile(
-          file: file,
-          mediaOrigin: getMediaOrigin(),
-          uploadPath: meta?.uploadPath,
-          ownersIDs: meta?.ownersIDs,
-          rename: newName,
-        );
-
-        return _output ?? this;
-
-      }
-
-      else {
-        return this;
-      }
+      return copyWith(
+        meta: meta?.copyWith(
+          name: _newName,
+        ),
+      );
 
     }
 
@@ -390,8 +363,8 @@ class MediaModel {
 
     final String _text =
     '''
-    $file,
-    $meta
+    bytes: ${bytes?.length} bytes,
+    meta: $meta
     ''';
 
     blog(_text);
@@ -437,6 +410,7 @@ class MediaModel {
       localAsset: localAsset ?? Iconz.bldrsAppIcon,
       ownersIDs: const ['OwnerID'],
       uploadPath: 'storage/bldrs/bldrs_app_icon.png',
+      id: null,
       // renameFile: null,
     );
 
@@ -449,40 +423,7 @@ class MediaModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> checkMediaModelsAreIdentical({
-    required MediaModel? model1,
-    required MediaModel? model2,
-  }) async {
-    bool _identical = false;
-
-    if (model1 == null && model2 == null){
-      _identical = true;
-    }
-    else if (model1 != null && model2 != null){
-
-      if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
-
-        _identical = SuperFile.checkFilesAreIdentical(
-            file1: model1.file,
-            file2: model2.file,
-        );
-
-        if (_identical == true){
-          _identical = Byter.checkBytesAreIdentical(
-              bytes1: await model1.file?.readBytes(),
-              bytes2: await model2.file?.readBytes(),
-          );
-        }
-
-      }
-
-    }
-
-    return _identical;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static bool checkMediaModelsAreIdenticalSync({
+  static bool checkMediaModelsAreIdentical({
     required MediaModel? model1,
     required MediaModel? model2,
   }) {
@@ -493,36 +434,25 @@ class MediaModel {
     }
     else if (model1 != null && model2 != null){
 
-      if (
-      model1.file?.path == model2.file?.path
-      &&
-      MediaMetaModel.checkMetaDatasAreIdentical(
-          meta1: model1.meta,
-          meta2: model2.meta
-      ) == true){
+      if (MediaMetaModel.checkMetaDatasAreIdentical(meta1: model1.meta, meta2: model2.meta) == true){
 
-        _identical = true;
+        _identical = Byter.checkBytesAreIdentical(
+          bytes1: model1.bytes,
+          bytes2: model2.bytes,
+        );
 
       }
 
     }
 
-    // if (_identical == false){
-    //   Mapper.blogMapsDifferences(
-    //       map1: MediaModel.cipherToLDB(model1),
-    //       map2: MediaModel.cipherToLDB(model2),
-    //       invoker: 'checkMediaModelsAreIdenticalSync',
-    //   );
-    // }
-
     return _identical;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> checkMediaModelsListsAreIdentical({
+  static bool checkMediaModelsListsAreIdentical({
     required List<MediaModel>? models1,
     required List<MediaModel>? models2,
-  }) async {
+  }) {
 
     bool _listsAreIdentical = false;
 
@@ -542,7 +472,7 @@ class MediaModel {
       else {
         for (int i = 0; i < models1.length; i++) {
 
-          final bool _pairAreIdentical = await checkMediaModelsAreIdentical(
+          final bool _pairAreIdentical = checkMediaModelsAreIdentical(
               model1: models1[i],
               model2: models2[i]
           );
@@ -577,7 +507,7 @@ class MediaModel {
     final String _text =
     '''
     PicModel(
-      file: $file,
+      bytes: ${bytes?.length} bytes,
       meta: $meta
     );
     ''';
@@ -595,7 +525,7 @@ class MediaModel {
 
     bool _areIdentical = false;
     if (other is MediaModel){
-      _areIdentical = checkMediaModelsAreIdenticalSync(
+      _areIdentical = checkMediaModelsAreIdentical(
         model1: this,
         model2: other,
       );
@@ -607,6 +537,6 @@ class MediaModel {
   @override
   int get hashCode =>
       meta.hashCode^
-      file.hashCode;
+      bytes.hashCode;
   // -----------------------------------------------------------------------------
 }

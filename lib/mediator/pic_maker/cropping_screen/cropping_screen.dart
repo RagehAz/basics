@@ -87,7 +87,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
       asyncInSync(() async {
 
-        final List<Uint8List> _bytezz = await MediaModel.getBytezzFromMediaModels(
+        final List<Uint8List> _bytezz = MediaModel.getBytezzFromMediaModels(
           mediaModels: widget.mediaModels,
         );
 

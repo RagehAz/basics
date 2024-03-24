@@ -83,16 +83,20 @@ class _SuperFileViewerState extends State<SuperFileViewer> {
   /// TESTED : WORKS PERFECT
   Future<void> _loadImage() async {
 
-    setState(() {
-      _loading = true;
-    });
+    if (mounted == true){
+      setState(() {
+        _loading = true;
+      });
+    }
 
     final Uint8List? _fileBytes = await widget.file?.readBytes();
 
-    setState(() {
-      _bytes = _fileBytes;
-      _loading = false;
-    });
+    if (mounted == true){
+      setState(() {
+        _bytes = _fileBytes;
+        _loading = false;
+      });
+    }
 
   }
   // -----------------------------------------------------------------------------

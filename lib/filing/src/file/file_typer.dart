@@ -525,7 +525,7 @@ class FileTyper {
       }
       else if (object is MediaModel){
         final MediaModel _media = object;
-        _output = _getExtensionFromPath(_media.file?.path);
+        _output = detectBytesExtension(_media.bytes);
       }
       else if (object is Uint8List){
         final Uint8List _bytes = object;

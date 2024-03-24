@@ -12,6 +12,7 @@ class MediaModelCreator {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromBytes({
+    required String id,
     required Uint8List? bytes,
     required String? fileName,
     String? uploadPath,
@@ -33,15 +34,12 @@ class MediaModelCreator {
       final String? _deviceName = await DeviceChecker.getDeviceName();
       final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
       final String? _fileName = FileTyper.fixFileName(fileName: fileName, bytes: bytes);
-      final SuperFile? _superFile = await SuperFile.createFromBytes(
-        name: _fileName,
-        bytes: bytes,
-      );
       final String? _extension = FileTyper.getExtension(object: bytes);
       final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
 
       _output = MediaModel(
-        file: _superFile,
+        id: id,
+        bytes: bytes,
         meta: MediaMetaModel(
           sizeMB: _mega,
           width: _dims?.width,
@@ -75,6 +73,7 @@ class MediaModelCreator {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromSuperFile({
+    required String id,
     required SuperFile? file,
     String? rename,
     String? uploadPath,
@@ -86,11 +85,10 @@ class MediaModelCreator {
     SuperFile? _file = await file?.rename(newName: rename);
     _file ??= file;
 
-
-
     if (_file != null){
 
       _output = await fromBytes(
+        id: id,
         fileName: _file.getFileName(withExtension: true),
         bytes: await _file.readBytes(),
         ownersIDs: ownersIDs,
@@ -99,8 +97,6 @@ class MediaModelCreator {
       );
 
     }
-
-    blog('fromSuperFile : _file : $_file');
 
     return _output;
   }
@@ -113,6 +109,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromURL({
     required String? url,
     required String? fileName,
+    required String? id,
     String? uploadPath,
     List<String>? ownersIDs,
   }) async {
@@ -122,17 +119,15 @@ class MediaModelCreator {
     }
     else {
 
-      final SuperFile? _file = await SuperFile.createFromURL(
-        url: url,
-        fileName: fileName,
-      );
+      final Uint8List? _bytes = await Byter.fromURL(url);
 
-      final MediaModel? _mediaModel = await  MediaModelCreator.fromSuperFile(
-        file: _file,
+      final MediaModel? _mediaModel = await  MediaModelCreator.fromBytes(
+        id: id ?? TextMod.idifyString(url)!,
+        bytes: _bytes,
+        fileName: fileName,
         mediaOrigin: MediaOrigin.downloaded,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
-        rename: fileName,
       );
 
       return _mediaModel?.copyWith(
@@ -158,21 +153,21 @@ class MediaModelCreator {
   static Future<MediaModel?> fromAssetEntity({
     required AssetEntity? asset,
     required String? rename,
+    required String? id,
     String? uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
   }) async {
 
-    final SuperFile? _file = await SuperFile.createFromAssetEntity(
-      assetEntity: asset,
-    );
+    final Uint8List? _bytes = await asset?.originBytes;
 
-    final MediaModel? _model = await fromSuperFile(
-      file: _file,
+    final MediaModel? _model = await fromBytes(
+      bytes: _bytes,
       mediaOrigin: mediaOrigin,
       uploadPath: uploadPath,
       ownersIDs: ownersIDs,
-      rename: rename,
+      fileName: rename,
+      id: id ?? TextMod.idifyString(asset?.title)!,
     );
 
     return _model;
@@ -185,6 +180,7 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromLocalAsset({
     required String localAsset,
+    required String? id,
     String? uploadPath,
     List<String>? ownersIDs,
     String? rename,
@@ -193,16 +189,20 @@ class MediaModelCreator {
 
     if (TextCheck.isEmpty(localAsset) == false){
 
-      final SuperFile? _file = await SuperFile.createFromLocalAsset(
+      final Uint8List? _bytes = await Byter.fromLocalAsset(
         localAsset: localAsset,
       );
 
-      _output = await fromSuperFile(
-        file: _file,
+      String? _id = id;
+      _id ??= TextMod.idifyString(FilePathing.getNameFromLocalAsset(localAsset));
+
+      _output = await fromBytes(
+        id: _id!,
         mediaOrigin: MediaOrigin.generated,
         uploadPath: uploadPath ?? '',
         ownersIDs: ownersIDs,
-        rename: rename,
+        fileName: rename,
+        bytes: _bytes
       );
 
     }
@@ -223,6 +223,8 @@ class MediaModelCreator {
 
         final MediaModel? _pic = await fromLocalAsset(
           localAsset: asset,
+          id: null,
+          // rename:
           // ownersIDs: ,
           // uploadPath: ,
         );
@@ -245,6 +247,7 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromXFile({
     required XFile? file,
+    required String? id,
     required MediaOrigin? mediaOrigin,
     required String? uploadPath,
     required List<String>? ownersIDs,
@@ -270,6 +273,7 @@ class MediaModelCreator {
       }
 
       _output = await fromBytes(
+        id: id ?? TextMod.idifyString(_xFile?.name) ?? Numeric.createRandomIndex().toString(),
         bytes: _bytes,
         fileName: _xFile?.name,
         mediaOrigin: mediaOrigin,

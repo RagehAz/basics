@@ -212,6 +212,8 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   bool _loading = false;
   Future<void> _snapshotWidgetTree() async {
 
+    await Future.delayed(const Duration(milliseconds: 100));
+
     if (photo == null){
 
       if (mounted == true){
@@ -222,6 +224,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
 
       final Uint8List? _bytes = await Pixelizer.snapshotWidget(
         key: paintKey,
+        context: context,
       );
 
       if (mounted == true){

@@ -18,6 +18,7 @@ class Pixelizer {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> snapshotWidget({
+    required BuildContext context,
     required GlobalKey? key,
   }) async {
     Uint8List? _output;

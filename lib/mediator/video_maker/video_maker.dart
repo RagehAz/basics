@@ -21,6 +21,7 @@ class VideoMaker {
   /// TASK : TEST_ME_NOW
   static Future<MediaModel?> pickVideo({
     required BuildContext context,
+    required String? id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
@@ -64,6 +65,7 @@ class VideoMaker {
       );
 
       _output = await MediaModelCreator.fromAssetEntity(
+        id: id,
         asset: pickedAssets?.firstOrNull,
         ownersIDs: ownersIDs,
         mediaOrigin: MediaOrigin.galleryVideo,
@@ -83,6 +85,7 @@ class VideoMaker {
   /// TASK : TEST_ME_NOW
   static Future<MediaModel?> shootVideo({
     required BuildContext context,
+    required String? id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
@@ -117,6 +120,7 @@ class VideoMaker {
           );
 
           _output = await MediaModelCreator.fromAssetEntity(
+            id: id,
             asset: entity,
             ownersIDs: ownersIDs,
             mediaOrigin: MediaOrigin.galleryVideo,

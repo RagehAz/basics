@@ -163,7 +163,6 @@ class ImageSwitcher extends StatelessWidget {
 
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
-
         return CachelessImage(
           key: const ValueKey<String>('SuperImage_bytes'),
           bytes: pic,
@@ -191,27 +190,15 @@ class ImageSwitcher extends StatelessWidget {
 
         final MediaModel _mediaModel = pic;
 
-        if (_mediaModel.file == null){
-          return SizedBox(
-            width: width,
-            height: height,
-            // color: Colorz.errorColor,
-          );
-        }
-
-        else {
-
-          return SuperFileViewer(
-            key: const ValueKey<String>('SuperImage_media_model'),
-            file: _mediaModel.file,
-            width: width,
-            height: height,
-            fit: boxFit,
-            // errorBuilder: _errorBuilder,
-            // gaplessPlayback: _gaplessPlayback,
-          );
-
-        }
+        return CachelessImage(
+          key: const ValueKey<String>('SuperImage_MediaModel'),
+          bytes: _mediaModel.bytes,
+          width: width,
+          height: height,
+          color: backgroundColor,
+          boxFit: _boxFit,
+          // blendMode: BlendMode.color,
+        );
 
       }
 

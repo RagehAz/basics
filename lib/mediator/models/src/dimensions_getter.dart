@@ -117,18 +117,26 @@ abstract class DimensionsGetter {
     required String? localAsset,
   }) async {
 
-    final SuperFile? _file = await SuperFile.createFromLocalAsset(
+    final Uint8List? _bytes = await Byter.fromLocalAsset(
       localAsset: localAsset,
     );
 
-    return fromSuperFile(file: _file);
+    return fromBytes(
+      bytes: _bytes,
+      fileName: FilePathing.getNameFromLocalAsset(localAsset),
+    );
   }
   // --------------------
   /// TASK : WILL_NOT_WORK_ON_WEB
   static Future<Dimensions?> fromMediaModel({
     required MediaModel? mediaModel,
   }) async {
-    return fromSuperFile(file: mediaModel?.file);
+    return fromBytes(
+      bytes: mediaModel?.bytes,
+      fileName: mediaModel?.getName(
+          // withExtension: true
+      ),
+    );
   }
   // --------------------
   /// TASK : WILL_NOT_WORK_ON_WEB
@@ -137,12 +145,12 @@ abstract class DimensionsGetter {
     required String? fileName,
   }) async {
 
-    final SuperFile? _file = await SuperFile.createFromURL(
-      url: url,
+    final Uint8List? _bytes = await Byter.fromURL(url);
+
+    return fromBytes(
+      bytes: _bytes,
       fileName: fileName,
     );
-
-    return fromSuperFile(file: _file);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
