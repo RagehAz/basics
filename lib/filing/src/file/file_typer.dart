@@ -560,37 +560,6 @@ class FileTyper {
   }
   // -----------------------------------------------------------------------------
 
-  /// FILE NAME FIXER
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String? fixFileName({
-    required String? fileName,
-    required Uint8List? bytes,
-  }){
-    String? _output = fileName;
-
-    if (_output != null && bytes != null){
-
-      final String? _extension = detectBytesExtension(bytes);
-
-      if (_extension != null){
-
-        _output = TextMod.removeTextAfterLastSpecialCharacter(
-          text: _output,
-          specialCharacter: '.',
-        );
-
-        _output = '$_output.$_extension';
-
-      }
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
   /// DECODER
 
   // --------------------

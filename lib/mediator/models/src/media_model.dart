@@ -4,6 +4,7 @@ part of media_models;
 class MediaModel {
   // -----------------------------------------------------------------------------
   const MediaModel({
+    /// SHOULD BE IDIFIED UPLOAD PATH,
     required this.id,
     required this.bytes,
     required this.meta,
@@ -12,6 +13,74 @@ class MediaModel {
   final String id;
   final Uint8List? bytes;
   final MediaMetaModel? meta;
+  // -----------------------------------------------------------------------------
+
+  /// PATHING RULES
+
+  // --------------------
+  /// AT ALL TIMES, IN ANY INSTANCE, THESE RULES SHOULD APPLY
+  /// * ID is an Idified uploadPath
+  /// * file name should have no extension
+  /// * upload path should have file name as last node
+  /// * ID is non nullable
+  /// - EXAMPLE :-
+  /// uploadPath  = 'folder/subFolder/file_name_without_extension';
+  /// fileName    = 'file_name_without_extension';
+  /// id          = 'folder_subFolder_file_name_without_extension';
+  // -----------------------------------------------------------------------------
+
+  /// INITIALIZATION
+
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static String? createID({
+    required String? uploadPath,
+  }){
+
+    if (TextCheck.isEmpty(uploadPath) == true){
+      return null;
+    }
+    else {
+
+      final String? _output = TextMod.replaceAllCharacters(
+        characterToReplace: '/',
+        replacement: '_',
+        input: uploadPath,
+      );
+
+      return TextMod.removeTextAfterLastSpecialCharacter(
+        specialCharacter: '.',
+        text: _output,
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TASK : TEST_ME_NOW
+  static List<String> createIDs({
+    required List<String> uploadPaths,
+  }){
+    final List<String> _output = [];
+
+    if (Lister.checkCanLoop(uploadPaths) == true){
+
+      for (final String path in uploadPaths){
+
+        final String? _id = createID(
+          uploadPath: path,
+        );
+
+        if (_id != null){
+          _output.add(_id);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CLONING
@@ -115,10 +184,18 @@ class MediaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> assertIsUploadable(MediaModel? mediaModel) async {
+
     assert(mediaModel != null, 'mediaModel is null');
     assert(mediaModel?.id != null, "mediaModel's id is null");
     assert(mediaModel?.meta != null, "mediaModel's meta is null");
     assert(Mapper.boolIsTrue(mediaModel?.bytes?.isNotEmpty) == true, "mediaModel's bytes are empty");
+
+    final String? _id = mediaModel?.id;
+    final String? _uploadPath = mediaModel?.meta?.uploadPath;
+    final String? _idShouldBe = MediaModel.createID(uploadPath: _uploadPath);
+    final bool _pathsAreGood = _id == _idShouldBe;
+    assert(_pathsAreGood, 'Paths are not good : id : $_id : _uploadPath : $_uploadPath');
+
   }
   // -----------------------------------------------------------------------------
 
@@ -133,10 +210,17 @@ class MediaModel {
     String? _name = meta?.name;
 
     if (withExtension == false){
+
       _name = TextMod.removeTextAfterLastSpecialCharacter(
           text: _name,
           specialCharacter: '.',
       );
+
+      _name ??= FilePathing.getNameFromPath(
+          path: meta?.uploadPath,
+          withExtension: withExtension
+      );
+
     }
 
     return _name;
@@ -212,17 +296,15 @@ class MediaModel {
     required Uint8List? bytes,
   }) async {
     
-    if (bytes == null){
+    if (bytes == null || meta?.uploadPath == null){
       return this;
     }
     else {
 
       final MediaModel? _output = await MediaModelCreator.fromBytes(
           bytes: bytes,
-          id: id,
-          fileName: meta?.name,
           mediaOrigin: getMediaOrigin(),
-          uploadPath: meta?.uploadPath,
+          uploadPath: meta!.uploadPath!,
           ownersIDs: meta?.ownersIDs,
       );
 
@@ -231,18 +313,34 @@ class MediaModel {
     
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME_NOW
   MediaModel overrideUploadPath({
     required String? uploadPath
   }){
-    return copyWith(
-      meta: meta?.copyWith(
-        uploadPath: uploadPath,
-      ),
-    );
+
+    if (uploadPath != meta?.uploadPath){
+
+      final String? _fileName = FilePathing.getNameFromPath(
+          path: uploadPath,
+          withExtension: false,
+      );
+
+      return copyWith(
+        id: createID(uploadPath: uploadPath),
+        meta: meta?.copyWith(
+          uploadPath: uploadPath,
+          name: _fileName,
+        ),
+      );
+    }
+
+    else {
+      return this;
+    }
+
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME_NOW
   Future<MediaModel> renameFile({
     required String? newName,
   }) async {
@@ -252,14 +350,24 @@ class MediaModel {
     }
     else {
 
-      final String? _newName = FileTyper.fixFileName(
-          fileName: newName,
-          bytes: bytes
+      final String? _newName = FilePathing.fixFileName(
+        fileName: newName,
+        bytes: bytes,
+        includeFileExtension: false,
+      );
+
+      final String? _newPath = FilePathing.replaceFileNameInPath(
+          oldPath: meta?.uploadPath,
+          fileName: _newName,
+          bytes: bytes,
+          includeFileExtension: false,
       );
 
       return copyWith(
+        id: createID(uploadPath: _newPath),
         meta: meta?.copyWith(
           name: _newName,
+          uploadPath: _newPath,
         ),
       );
 
@@ -410,7 +518,6 @@ class MediaModel {
       localAsset: localAsset ?? Iconz.bldrsAppIcon,
       ownersIDs: const ['OwnerID'],
       uploadPath: 'storage/bldrs/bldrs_app_icon.png',
-      id: null,
       // renameFile: null,
     );
 

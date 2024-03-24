@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_import, unused_local_variable, avoid_redundant_argument_values
 import 'package:basics/helpers/checks/error_helpers.dart';
+import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/media_models.dart';
@@ -21,13 +22,11 @@ class VideoMaker {
   /// TASK : TEST_ME_NOW
   static Future<MediaModel?> pickVideo({
     required BuildContext context,
-    required String? id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
-    required String uploadPath,
     required List<String> ownersIDs,
-    required String? name,
+    required String Function (String? title) uploadPathMaker,
   }) async {
     MediaModel? _output;
 
@@ -37,14 +36,12 @@ class VideoMaker {
 
     if (_canPick == true){
 
-      List<AssetEntity>? pickedAssets = [];
-
       await tryAndCatch(
         invoker: '_pickMultiplePics',
         onError: onError,
         functions: () async {
 
-          pickedAssets = await AssetPicker.pickAssets(
+          final List<AssetEntity>? pickedAssets = await AssetPicker.pickAssets(
             context,
             // pageRouteBuilder: ,
             // useRootNavigator: true,
@@ -61,17 +58,25 @@ class VideoMaker {
             ),
           );
 
+          if (Lister.checkCanLoop(pickedAssets) == true){
+
+            final AssetEntity _entity = pickedAssets!.first;
+
+            _output = await MediaModelCreator.fromAssetEntity(
+              entity: _entity,
+              ownersIDs: ownersIDs,
+              mediaOrigin: MediaOrigin.galleryVideo,
+              uploadPath: uploadPathMaker(_entity.title),
+            );
+
+          }
+
         },
       );
 
-      _output = await MediaModelCreator.fromAssetEntity(
-        id: id,
-        asset: pickedAssets?.firstOrNull,
-        ownersIDs: ownersIDs,
-        mediaOrigin: MediaOrigin.galleryVideo,
-        uploadPath: uploadPath,
-        rename: name,
-      );
+
+
+
 
     }
 
@@ -85,14 +90,12 @@ class VideoMaker {
   /// TASK : TEST_ME_NOW
   static Future<MediaModel?> shootVideo({
     required BuildContext context,
-    required String? id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required Locale? locale,
-    required String uploadPath,
     required List<String> ownersIDs,
-    required String name,
+    required String Function (String? title) uploadPathMaker,
   }) async {
     MediaModel? _output;
 
@@ -119,14 +122,15 @@ class VideoMaker {
             locale: locale,
           );
 
-          _output = await MediaModelCreator.fromAssetEntity(
-            id: id,
-            asset: entity,
-            ownersIDs: ownersIDs,
-            mediaOrigin: MediaOrigin.galleryVideo,
-            uploadPath: uploadPath,
-            rename: name,
-          );
+          if (entity != null){
+            _output = await MediaModelCreator.fromAssetEntity(
+              entity: entity,
+              ownersIDs: ownersIDs,
+              mediaOrigin: MediaOrigin.galleryVideo,
+              uploadPath: uploadPathMaker(entity.title),
+            );
+          }
+
 
         },
       );

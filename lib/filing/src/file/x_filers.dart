@@ -84,9 +84,10 @@ class XFiler {
   }) async {
     XFile? _output;
 
-    final String? _fileName = FileTyper.fixFileName(
+    final String? _fileName = FilePathing.fixFileName(
       fileName: fileName,
       bytes: bytes,
+      includeFileExtension: false,
     );
 
     if (_fileName != null && bytes != null){
@@ -140,7 +141,27 @@ class XFiler {
 
     return _output;
   }
-  // --------------------
+  // ---------------------
+  /// TESTED : WORKS PERFECT
+  static Future<XFile?> createFromMediaModel({
+    required MediaModel? mediaModel,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    XFile? _output;
+
+    if (mediaModel != null){
+
+      _output = await XFiler.createFromBytes(
+        bytes: mediaModel.bytes,
+        fileName: mediaModel.getName(withExtension: false),
+        directoryType: directoryType,
+      );
+
+    }
+
+    return _output;
+  }
+  // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<XFile?> createFromLocalAsset({
     required String? localAsset,

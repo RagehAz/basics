@@ -78,9 +78,10 @@ class Filer {
   }) async {
     File? _output;
 
-    final String? _fileName = FileTyper.fixFileName(
+    final String? _fileName = FilePathing.fixFileName(
       fileName: fileName,
       bytes: bytes,
+      includeFileExtension: false,
     );
 
     if (kIsWeb == true || bytes == null || _fileName == null){
@@ -175,6 +176,26 @@ class Filer {
       _output = await createFromBytes(
         bytes: _bytes,
         fileName: _fileName,
+        directoryType: directoryType,
+      );
+
+    }
+
+    return _output;
+  }
+  // ---------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> createFromMediaModel({
+    required MediaModel? mediaModel,
+    DirectoryType directoryType = DirectoryType.app,
+  }) async {
+    File? _output;
+
+    if (mediaModel != null){
+
+      _output = await Filer.createFromBytes(
+        bytes: mediaModel.bytes,
+        fileName: mediaModel.getName(withExtension: false),
         directoryType: directoryType,
       );
 
@@ -313,9 +334,10 @@ class Filer {
   }) async {
     File? _output;
 
-    final String? _fileName = FileTyper.fixFileName(
+    final String? _fileName = FilePathing.fixFileName(
       fileName: newName,
       bytes: await Byter.fromFile(file),
+      includeFileExtension: false,
     );
 
     if (file != null && _fileName != null && _fileName != file.fileName){
@@ -461,9 +483,11 @@ class Filer {
   }) async {
     File? _output = file;
 
-    final String? _fileName = FileTyper.fixFileName(
+    final String? _fileName = FilePathing.replaceFileNameInPath(
       fileName: newName,
+      oldPath: file?.parent.path,
       bytes: await Byter.fromFile(file),
+      includeFileExtension: false,
     );
 
     if (file != null && _fileName != null && _fileName != file.fileName){

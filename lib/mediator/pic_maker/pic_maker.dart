@@ -57,15 +57,13 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> pickAndCropSinglePic({
     required BuildContext context,
-    required String id,
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    required String? uploadPath,
+    required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
-    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     AssetEntity? selectedAsset,
@@ -77,7 +75,6 @@ class PicMaker {
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
       _output = await _pickWindowsOrWebImage(
         context: context,
-        id: id,
         aspectRatio: aspectRatio,
         cropAfterPick: cropAfterPick,
         appIsLTR: appIsLTR,
@@ -86,8 +83,7 @@ class PicMaker {
         compressWithQuality: compressWithQuality,
         onError: onError,
         ownersIDs: ownersIDs,
-        uploadPath: uploadPath,
-        fileName: fileName,
+        uploadPathMaker: uploadPathMaker,
       );
     }
 
@@ -111,15 +107,9 @@ class PicMaker {
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
         onError: onError,
-        uploadPathGenerator: (int i){
-          return uploadPath;
+        uploadPathGenerator: (int i, String? title){
+          return uploadPathMaker(title);
           },
-        nameGenerator: (int i){
-          return fileName;
-          },
-        idGenerator: (int i){
-          return id;
-        },
         ownersIDs: ownersIDs,
       );
 
@@ -129,24 +119,17 @@ class PicMaker {
 
     }
 
-    /// RENAME
-    if (_output != null && fileName != null){
-      _output = await _output.renameFile(newName: fileName);
-    }
-
     return _output;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _pickWindowsOrWebImage({
     required BuildContext context,
-    required String id,
     required double aspectRatio,
     required bool cropAfterPick,
     required Function(String? error)? onError,
-    required String? uploadPath,
+    required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
-    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
@@ -168,12 +151,10 @@ class PicMaker {
         if (_file != null){
 
           _output = await MediaModelCreator.fromXFile(
-            id: id,
             file: _file,
             mediaOrigin: MediaOrigin.galleryImage,
-            uploadPath: uploadPath,
+            uploadPath: uploadPathMaker(_file.fileName),
             ownersIDs: ownersIDs,
-            renameFile: fileName,
           );
 
         }
@@ -224,9 +205,7 @@ class PicMaker {
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    required String? Function(int index)? uploadPathGenerator,
-    required String? Function(int index)? nameGenerator,
-    required String? Function(int index)? idGenerator,
+    required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
     double? resizeToWidth,
     int? compressWithQuality,
@@ -246,8 +225,6 @@ class PicMaker {
       onError: onError,
       uploadPathGenerator: uploadPathGenerator,
       ownersIDs: ownersIDs,
-      nameGenerator: nameGenerator,
-      idGenerator: idGenerator,
     );
 
     /// CROP
@@ -289,9 +266,7 @@ class PicMaker {
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required List<AssetEntity>? selectedAssets,
-    required String? Function(int index)? uploadPathGenerator,
-    required String? Function(int index)? nameGenerator,
-    required String? Function(int index)? idGenerator,
+    required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
   }) async {
 
@@ -336,12 +311,10 @@ class PicMaker {
           final AssetEntity asset = pickedAssets![i];
 
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
-            asset: asset,
+            entity: asset,
             mediaOrigin: MediaOrigin.galleryImage,
-            uploadPath: uploadPathGenerator?.call(i),
+            uploadPath: uploadPathGenerator.call(i, asset.title),
             ownersIDs: ownersIDs,
-            rename: nameGenerator?.call(i),
-            id: idGenerator?.call(i),
           );
 
           if (_model != null){
@@ -364,16 +337,14 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> shootAndCropCameraPic({
     required BuildContext context,
-    required String id,
     required bool cropAfterPick,
     required double aspectRatio,
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
-    required String? uploadPath,
+    required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     required Locale? locale,
-    required String? fileName,
     double? resizeToWidth,
     int? compressWithQuality,
     String confirmText = 'Crop',
@@ -385,14 +356,12 @@ class PicMaker {
     /// SHOOT
     _output = await _shootCameraPic(
       context: context,
-      id: id,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       onError: onError,
       locale: locale,
-      uploadPath: uploadPath,
+      uploadPathMaker: uploadPathMaker,
       ownersIDs: ownersIDs,
-      fileName: fileName,
     );
 
     /// CROP -> RESIZE -> COMPRESS
@@ -440,14 +409,12 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _shootCameraPic({
     required BuildContext context,
-    required String id,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required Function(String? error)? onError,
     required Locale? locale,
-    required String? uploadPath,
+    required String Function(String? title) uploadPathMaker,
     required List<String>? ownersIDs,
-    required String? fileName,
   }) async {
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
@@ -490,12 +457,10 @@ class PicMaker {
         else {
 
           final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
-            asset: entity,
-            id: id,
+            entity: entity,
             mediaOrigin: MediaOrigin.cameraImage,
-            uploadPath: uploadPath,
+            uploadPath: uploadPathMaker(entity!.title),
             ownersIDs: ownersIDs,
-            rename: fileName,
           );
 
           return _model;

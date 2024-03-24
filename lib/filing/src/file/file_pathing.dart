@@ -293,6 +293,73 @@ class FilePathing {
   }
   // -----------------------------------------------------------------------------
 
+  /// PATH MODIFICATIONS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? fixFileName({
+    required String? fileName,
+    required Uint8List? bytes,
+    required bool includeFileExtension,
+  }){
+    String? _output = fileName;
+
+    if (_output != null && bytes != null){
+
+      _output = TextMod.removeTextAfterLastSpecialCharacter(
+        text: _output,
+        specialCharacter: '.',
+      );
+
+      if (includeFileExtension == true){
+
+        final String? _extension = FileTyper.detectBytesExtension(bytes);
+
+        if (_extension != null){
+          _output = '$_output.$_extension';
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? replaceFileNameInPath({
+    required String? oldPath,
+    required String? fileName,
+    required Uint8List? bytes,
+    required bool includeFileExtension,
+  }){
+    String? _output = oldPath;
+
+    if (TextCheck.isEmpty(fileName) == false && TextCheck.isEmpty(oldPath) == false){
+
+      final String? _pathWithoutFileName = TextMod.removeTextAfterLastSpecialCharacter(
+        text: oldPath,
+        specialCharacter: '/',
+      );
+
+      if (TextCheck.isEmpty(_pathWithoutFileName) == false){
+
+        final String? _newFileName = fixFileName(
+          includeFileExtension: includeFileExtension,
+          fileName: fileName,
+          bytes: bytes,
+        );
+
+        _output = '$_pathWithoutFileName/$_newFileName';
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// CHECKERS
 
   // --------------------
@@ -327,6 +394,8 @@ class FilePathing {
     return _isFound;
   }
   // -----------------------------------------------------------------------------
+  /// DEPRECATED
+  /*
 
   /// FIRE STORAGE PATH TO FILE NAME
 
@@ -367,5 +436,6 @@ class FilePathing {
 
     return _output;
   }
+   */
   // -----------------------------------------------------------------------------
 }

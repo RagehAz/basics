@@ -261,49 +261,54 @@ class SuperFile {
   }) async {
     SuperFile? _output;
 
-    final String? _newName = TextMod.removeTextAfterLastSpecialCharacter(
-        text: newName,
-        specialCharacter: '.',
-    );
     final String? _oldName = getFileName(withExtension: false);
 
-    if (TextCheck.isEmpty(_newName) == false && _newName != _oldName){
+    if (newName != null && newName != _oldName){
 
-      final String? _newPath = _createPath(
-        folderName: getFolderName(),
-        fileName: _newName,
+      final String? _newName = TextMod.removeTextAfterLastSpecialCharacter(
+        text: newName,
+        specialCharacter: '.',
       );
 
-      if (_newPath != null){
+      if (TextCheck.isEmpty(_newName) == false && _newName != _oldName){
 
-        final Map<String, dynamic>? _map = await LDBOps.readMap(
-          docName: getFolderName(),
-          id: _oldName,
-          primaryKey: primaryKey,
+        final String? _newPath = _createPath(
+          folderName: getFolderName(),
+          fileName: _newName,
         );
 
-        if (_map != null){
+        if (_newPath != null){
 
-          final bool _success = await LDBOps.insertMap(
+          final Map<String, dynamic>? _map = await LDBOps.readMap(
             docName: getFolderName(),
+            id: _oldName,
             primaryKey: primaryKey,
-            input: {
-              primaryKey: FilePathing.getNameFromPath(
-                path: _newPath,
-                withExtension: false,
-              ),
-              'bytes': _map['bytes'],
-            },
-            // allowDuplicateIDs: false,
           );
 
-          if (_success == true){
+          if (_map != null){
 
-            await delete();
-
-            _output = _copyWith(
-              path: _newPath,
+            final bool _success = await LDBOps.insertMap(
+              docName: getFolderName(),
+              primaryKey: primaryKey,
+              input: {
+                primaryKey: FilePathing.getNameFromPath(
+                  path: _newPath,
+                  withExtension: false,
+                ),
+                'bytes': _map['bytes'],
+              },
+              // allowDuplicateIDs: false,
             );
+
+            if (_success == true){
+
+              await delete();
+
+              _output = _copyWith(
+                path: _newPath,
+              );
+
+            }
 
           }
 

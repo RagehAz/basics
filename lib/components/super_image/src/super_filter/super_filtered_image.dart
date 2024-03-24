@@ -124,7 +124,7 @@ class _FilteredImage extends StatefulWidget {
           );
 
           if (_bytes != null) {
-            _output = await Imager.getUiImageFromUint8List(_bytes);
+            _output = await Imager.getUiImageFromBytes(_bytes);
           }
 
         }
@@ -268,7 +268,7 @@ class _FilteredImageState extends State<_FilteredImage> {
 
     if (pic is Uint8List){
 
-      return Imager.getUiImageFromUint8List(pic);
+      return Imager.getUiImageFromBytes(pic);
     }
 
     else {

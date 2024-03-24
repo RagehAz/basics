@@ -12,55 +12,74 @@ class MediaModelCreator {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromBytes({
-    required String id,
     required Uint8List? bytes,
-    required String? fileName,
-    String? uploadPath,
+    required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
   }) async {
     MediaModel? _output;
 
-    if (bytes != null){
+    if (bytes != null && TextCheck.isEmpty(uploadPath) == false){
 
-      final Dimensions? _dims =  await DimensionsGetter.fromBytes(
-        bytes: bytes,
-        fileName: fileName,
+      final String? _lastPathNode = FilePathing.getNameFromPath(
+          path: uploadPath,
+          withExtension: false,
       );
-      final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-      final double? _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
-      final double? _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
-      final String? _deviceID = await DeviceChecker.getDeviceID();
-      final String? _deviceName = await DeviceChecker.getDeviceName();
-      final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-      final String? _fileName = FileTyper.fixFileName(fileName: fileName, bytes: bytes);
-      final String? _extension = FileTyper.getExtension(object: bytes);
-      final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
-
-      _output = MediaModel(
-        id: id,
+      final String? _fileName = FilePathing.fixFileName(
+        fileName: _lastPathNode,
         bytes: bytes,
-        meta: MediaMetaModel(
-          sizeMB: _mega,
-          width: _dims?.width,
-          height: _dims?.height,
-          fileExt: _fileExtensionType,
-          name: _fileName,
-          ownersIDs: ownersIDs ?? [],
-          uploadPath: uploadPath,
-          data: MapperSS.cleanNullPairs(
-            map: {
-              'aspectRatio': _aspectRatio.toString(),
-              'sizeB': bytes.length.toString(),
-              'sizeKB': _kilo.toString(),
-              'source': MediaModel.cipherMediaOrigin(mediaOrigin),
-              'deviceID': _deviceID,
-              'deviceName': _deviceName,
-              'platform': _devicePlatform,
-            },
+        includeFileExtension: false,
+      );
+      final String? _uploadPath = FilePathing.replaceFileNameInPath(
+        oldPath: uploadPath,
+        fileName: _fileName,
+        bytes: bytes,
+        includeFileExtension: false,
+      );
+      final String? _id = MediaModel.createID(
+        uploadPath: _uploadPath,
+      );
+
+      if (_id != null){
+
+        final Dimensions? _dims =  await DimensionsGetter.fromBytes(
+          bytes: bytes,
+          fileName: _fileName,
+        );
+        final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+        final double? _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
+        final double? _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
+        final String? _deviceID = await DeviceChecker.getDeviceID();
+        final String? _deviceName = await DeviceChecker.getDeviceName();
+        final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+        final String? _extension = FileTyper.getExtension(object: bytes);
+        final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
+
+        _output = MediaModel(
+          id: _id,
+          bytes: bytes,
+          meta: MediaMetaModel(
+            sizeMB: _mega,
+            width: _dims?.width,
+            height: _dims?.height,
+            fileExt: _fileExtensionType,
+            name: _fileName,
+            ownersIDs: ownersIDs ?? [],
+            uploadPath: _uploadPath,
+            data: MapperSS.cleanNullPairs(
+              map: {
+                'aspectRatio': _aspectRatio.toString(),
+                'sizeB': bytes.length.toString(),
+                'sizeKB': _kilo.toString(),
+                'source': MediaModel.cipherMediaOrigin(mediaOrigin),
+                'deviceID': _deviceID,
+                'deviceName': _deviceName,
+                'platform': _devicePlatform,
+              },
+            ),
           ),
-        ),
-      );
+        );
+      }
 
     }
 
@@ -73,23 +92,23 @@ class MediaModelCreator {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromSuperFile({
-    required String id,
     required SuperFile? file,
-    String? rename,
-    String? uploadPath,
+    required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
   }) async {
     MediaModel? _output;
 
-    SuperFile? _file = await file?.rename(newName: rename);
+    final String? _fileName = FilePathing.getNameFromPath(
+        path: uploadPath,
+        withExtension: false,
+    );
+    SuperFile? _file = await file?.rename(newName: _fileName);
     _file ??= file;
 
     if (_file != null){
 
       _output = await fromBytes(
-        id: id,
-        fileName: _file.getFileName(withExtension: true),
         bytes: await _file.readBytes(),
         ownersIDs: ownersIDs,
         uploadPath: uploadPath,
@@ -108,9 +127,7 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromURL({
     required String? url,
-    required String? fileName,
-    required String? id,
-    String? uploadPath,
+    required String uploadPath,
     List<String>? ownersIDs,
   }) async {
 
@@ -122,9 +139,7 @@ class MediaModelCreator {
       final Uint8List? _bytes = await Byter.fromURL(url);
 
       final MediaModel? _mediaModel = await  MediaModelCreator.fromBytes(
-        id: id ?? TextMod.idifyString(url)!,
         bytes: _bytes,
-        fileName: fileName,
         mediaOrigin: MediaOrigin.downloaded,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
@@ -151,26 +166,27 @@ class MediaModelCreator {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromAssetEntity({
-    required AssetEntity? asset,
-    required String? rename,
-    required String? id,
-    String? uploadPath,
+    required AssetEntity? entity,
+    required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
   }) async {
+    MediaModel? _output;
 
-    final Uint8List? _bytes = await asset?.originBytes;
+    if (entity != null){
 
-    final MediaModel? _model = await fromBytes(
-      bytes: _bytes,
-      mediaOrigin: mediaOrigin,
-      uploadPath: uploadPath,
-      ownersIDs: ownersIDs,
-      fileName: rename,
-      id: id ?? TextMod.idifyString(asset?.title)!,
-    );
+      final Uint8List? _bytes = await entity.originBytes;
 
-    return _model;
+      _output = await fromBytes(
+        bytes: _bytes,
+        mediaOrigin: mediaOrigin,
+        uploadPath: uploadPath,
+        ownersIDs: ownersIDs,
+      );
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -180,10 +196,8 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromLocalAsset({
     required String localAsset,
-    required String? id,
-    String? uploadPath,
+    required String uploadPath,
     List<String>? ownersIDs,
-    String? rename,
   }) async {
     MediaModel? _output;
 
@@ -193,15 +207,10 @@ class MediaModelCreator {
         localAsset: localAsset,
       );
 
-      String? _id = id;
-      _id ??= TextMod.idifyString(FilePathing.getNameFromLocalAsset(localAsset));
-
       _output = await fromBytes(
-        id: _id!,
         mediaOrigin: MediaOrigin.generated,
-        uploadPath: uploadPath ?? '',
+        uploadPath: uploadPath,
         ownersIDs: ownersIDs,
-        fileName: rename,
         bytes: _bytes
       );
 
@@ -223,10 +232,8 @@ class MediaModelCreator {
 
         final MediaModel? _pic = await fromLocalAsset(
           localAsset: asset,
-          id: null,
-          // rename:
+          uploadPath: FilePathing.getNameFromLocalAsset(asset)!,
           // ownersIDs: ,
-          // uploadPath: ,
         );
 
         if (_pic != null){
@@ -247,11 +254,9 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> fromXFile({
     required XFile? file,
-    required String? id,
     required MediaOrigin? mediaOrigin,
-    required String? uploadPath,
+    required String uploadPath,
     required List<String>? ownersIDs,
-    required String? renameFile,
   }) async {
     MediaModel? _output;
 
@@ -262,24 +267,26 @@ class MediaModelCreator {
 
       // blog('  2.combinePicModel bytes exists bytes != null');
 
-      final Uint8List _bytes = await file.readAsBytes();
-
-      XFile? _xFile = file;
-      if (renameFile != null){
-        _xFile = await XFiler.renameFile(
-            file: file,
-            newName: renameFile,
-        );
-      }
-
-      _output = await fromBytes(
-        id: id ?? TextMod.idifyString(_xFile?.name) ?? Numeric.createRandomIndex().toString(),
-        bytes: _bytes,
-        fileName: _xFile?.name,
-        mediaOrigin: mediaOrigin,
-        uploadPath: uploadPath,
-        ownersIDs: ownersIDs,
+      final String? _fileName = FilePathing.getNameFromPath(
+        path: uploadPath,
+        withExtension: false,
       );
+
+      final XFile? _xFile = await XFiler.renameFile(
+        file: file,
+        newName: _fileName,
+      );
+
+      if (_xFile != null){
+
+        _output = await fromBytes(
+          bytes: await _xFile.readAsBytes(),
+          ownersIDs: ownersIDs,
+          uploadPath: uploadPath,
+          mediaOrigin: mediaOrigin,
+        );
+
+      }
 
     }
 

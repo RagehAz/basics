@@ -11,7 +11,7 @@ class Imager{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<ui.Image?> getUiImageFromUint8List(Uint8List? uInt) async {
+  static Future<ui.Image?> getUiImageFromBytes(Uint8List? uInt) async {
     ui.Image? _decodedImage;
 
     if (uInt != null) {
@@ -38,7 +38,7 @@ class Imager{
 
     if (file != null) {
       final Uint8List? _bytes = await Byter.fromXFile(file);
-      _output = await getUiImageFromUint8List(_bytes);
+      _output = await getUiImageFromBytes(_bytes);
     }
 
     return _output;
@@ -50,7 +50,7 @@ class Imager{
 
     if (file != null) {
       final Uint8List? _bytes = await Byter.fromSuperFile(file);
-      _output = await getUiImageFromUint8List(_bytes);
+      _output = await getUiImageFromBytes(_bytes);
     }
 
     return _output;

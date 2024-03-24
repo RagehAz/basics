@@ -111,7 +111,7 @@ class _CachelessImageState extends State<CachelessImage> {
   // --------------------
   Future<void> loadImage() async {
 
-    final ui.Image? _theImage = await Imager.getUiImageFromUint8List(widget.bytes);
+    final ui.Image? _theImage = await Imager.getUiImageFromBytes(widget.bytes);
 
     if (mounted == true){
       setState(() {
