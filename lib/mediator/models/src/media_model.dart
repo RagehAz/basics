@@ -32,7 +32,7 @@ class MediaModel {
   /// INITIALIZATION
 
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static String? createID({
     required String? uploadPath,
   }){
@@ -57,7 +57,7 @@ class MediaModel {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   static List<String> createIDs({
     required List<String> uploadPaths,
   }){
@@ -340,12 +340,12 @@ class MediaModel {
 
   }
   // --------------------
-  /// TASK : TEST_ME_NOW
+  /// TESTED : WORKS PERFECT
   Future<MediaModel> renameFile({
     required String? newName,
   }) async {
 
-    if (TextCheck.isEmpty(newName) == false){
+    if (TextCheck.isEmpty(newName) == true){
       return this;
     }
     else {
@@ -362,6 +362,8 @@ class MediaModel {
           bytes: bytes,
           includeFileExtension: false,
       );
+
+      // blog('--> renameFile | _newName : $_newName | _newPath : $_newPath | id : ${createID(uploadPath: _newPath)} |');
 
       return copyWith(
         id: createID(uploadPath: _newPath),

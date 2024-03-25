@@ -58,19 +58,12 @@ class TextMod {
 
     if (TextCheck.isEmpty(text) == false){
 
-      _output = TextMod.replaceAllCharacters(
-        characterToReplace: ' ',
-        replacement: '_',
-        input: text!.trim().toLowerCase(),
-      );
-      _output = TextMod.replaceAllCharacters(
-        characterToReplace: ';',
-        replacement: ' ',
-        input: _output,
-      );
-
       _output = fixCountryName(
         input: _output,
+        addTheseChars: {
+          'and'               : {'char': '&'    ,'replacement': '_'},
+          'space'             : {'char': ' '    ,'replacement': '_'},
+        },
       );
 
     }
@@ -647,7 +640,7 @@ class TextMod {
   /// AI TESTED
   static String? fixCountryName({
     required String? input,
-    Map<String, dynamic>? removeTheseChars,
+    Map<String, dynamic>? addTheseChars,
   }) {
     /// only user with country names, city names, districts names
     String? _output;
@@ -656,11 +649,14 @@ class TextMod {
 
       _output = input.toLowerCase().trim();
 
-      final Map<String, dynamic> _charsToMove = removeTheseChars ??
-      {
+      Map<String, dynamic> _charsToMove = {
         'space'             : {'char': ' '    ,'replacement': '_'},
         'double space'      : {'char': '  '   ,'replacement': '_'},
         'dash'              : {'char': '-'    ,'replacement': '_'},
+        'plus'              : {'char': '+'    ,'replacement': '_'},
+        'tilde'             : {'char': '~'    ,'replacement': '_'},
+        'dollar'            : {'char': r'$'    ,'replacement': '_'},
+        'equal'             : {'char': '='    ,'replacement': '_'},
         'comma'             : {'char': ','    ,'replacement': ''},
         'left parenthesis'  : {'char': '('    ,'replacement': ''},
         'right parenthesis' : {'char': ')'    ,'replacement': ''},
@@ -668,13 +664,19 @@ class TextMod {
         'right sq par'      : {'char': ']'    ,'replacement': '_'},
         'left x par'        : {'char': '{'    ,'replacement': '_'},
         'right x par'       : {'char': '}'    ,'replacement': '_'},
+        'bigger'            : {'char': '>'    ,'replacement': '_'},
+        'smaller'           : {'char': '<'    ,'replacement': '_'},
         'apostrophe'        : {'char': '’'    ,'replacement': ''},
+        'double_quote'      : {'char': '"'    ,'replacement': ''},
+        'single_quote'      : {'char': "'"    ,'replacement': ''},
         'o_circumflex'      : {'char': 'ô'    ,'replacement': 'o'},
         'backtick'          : {'char': '`'    ,'replacement': ''},
-        'single_quote'      : {'char': "'"    ,'replacement': ''},
-        'period'            : {'char': '.'    ,'replacement': ''},
-        'forward_slash'     : {'char': '/'    ,'replacement': ''},
-        'blah'              : {'char': ';'    ,'replacement': ''},
+        'period'            : {'char': '.'    ,'replacement': '_'},
+        'forward_slash'     : {'char': '/'    ,'replacement': '_'},
+        'back_slash'        : {'char': r'\'    ,'replacement': '_'},
+        'line'              : {'char': r'|'    ,'replacement': '_'},
+        'semi_colon'        : {'char': ';'    ,'replacement': '_'},
+        'colon'             : {'char': ':'    ,'replacement': '_'},
         'hash'              : {'char': '#'    ,'replacement': ''},
         'at'                : {'char': '@'    ,'replacement': ''},
         'exclamation'       : {'char': '!'    ,'replacement': ''},
@@ -694,6 +696,12 @@ class TextMod {
         'double underscore5': {'char': '__'   ,'replacement': '_'},
         // Add more character replacements as needed
       };
+      _charsToMove = Mapper.insertMapInMap(
+        baseMap: _charsToMove,
+        insert: addTheseChars,
+        // replaceDuplicateKeys: true,
+      );
+
 
       final List<String> _keys = _charsToMove.keys.toList();
 

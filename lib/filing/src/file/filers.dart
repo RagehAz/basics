@@ -483,23 +483,20 @@ class Filer {
   }) async {
     File? _output = file;
 
-    final String? _fileName = FilePathing.replaceFileNameInPath(
+    final String? _newPath = FilePathing.replaceFileNameInPath(
       fileName: newName,
-      oldPath: file?.parent.path,
+      oldPath: file?.path,
       bytes: await Byter.fromFile(file),
       includeFileExtension: false,
     );
 
-    if (file != null && _fileName != null && _fileName != file.fileName){
-
-      final String pathWithoutFileName = file.parent.path;
-      final String _newPath = '$pathWithoutFileName/$_fileName';
+    if (_newPath != null){
 
       await tryAndCatch(
         invoker: 'Filer.renameFile',
         functions: () async {
 
-          _output = await file.rename(_newPath);
+          _output = await file?.rename(_newPath);
 
           },
       );

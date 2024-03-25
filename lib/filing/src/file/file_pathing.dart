@@ -394,48 +394,4 @@ class FilePathing {
     return _isFound;
   }
   // -----------------------------------------------------------------------------
-  /// DEPRECATED
-  /*
-
-  /// FIRE STORAGE PATH TO FILE NAME
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String? idifyFireStoragePath({
-    required String? fireStoragePath,
-  }){
-    return TextMod.replaceAllCharacters(
-      characterToReplace: '/',
-      replacement: '_',
-      input: fireStoragePath,
-    );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static List<String> idifyFireStoragePaths({
-    required List<String> paths,
-  }){
-    List<String> _output = [];
-
-    if (Lister.checkCanLoop(paths) == true){
-
-      for (final String path in paths){
-
-        final String? fileName = idifyFireStoragePath(
-          fireStoragePath: path,
-        );
-
-        _output = Stringer.addStringToListIfDoesNotContainIt(
-            strings: _output,
-            stringToAdd: fileName,
-        );
-
-      }
-
-    }
-
-    return _output;
-  }
-   */
-  // -----------------------------------------------------------------------------
 }
