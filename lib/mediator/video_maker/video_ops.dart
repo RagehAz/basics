@@ -35,6 +35,7 @@ class VideoOps {
   static Future<VideoEditorController?> initializeVideoEditorController({
     required File? file,
     double aspectRatio = 9 / 16,
+    int maxDurationMs = 5000,
     Function(String error)? onError,
   }) async {
     VideoEditorController? _controller;
@@ -43,8 +44,8 @@ class VideoOps {
 
       _controller = VideoEditorController.file(
         file,
-        minDuration: const Duration(seconds: 1),
-        maxDuration: const Duration(seconds: 10),
+        minDuration: const Duration(milliseconds: 1),
+        maxDuration: Duration(seconds: maxDurationMs),
         coverStyle: VideoOps.getCoverStyle,
         coverThumbnailsQuality: 100,
         cropStyle: VideoOps.getCropStyle,
@@ -453,6 +454,28 @@ class VideoOps {
   );
   // --------------------------------------------------------------------------
 
+  /// PLAYING
+
+  // --------------------
+  static Future<void> snapVideoToStartingTrim({
+    required VideoEditorController? controller,
+  }) async {
+    final int _startMs = getTrimTimeMinMs(
+      controller: controller,
+    );
+    await controller?.video.seekTo(Duration(milliseconds: _startMs));
+
+  }
+  // --------------------
+  static Future<void> snapVideoToSecond({
+    required VideoEditorController? controller,
+    required double second,
+  }) async {
+    final int _startMs = (second * 1000).toInt();
+    await controller?.video.seekTo(Duration(milliseconds: _startMs));
+  }
+  // --------------------------------------------------------------------------
+
   /// FORMATTING
 
   // --------------------
@@ -463,7 +486,6 @@ class VideoOps {
       duration.inSeconds.remainder(60).toString().padLeft(2, '0')
     ].join(':');
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static String formatDurationToSeconds({
@@ -480,6 +502,68 @@ class VideoOps {
     )!;
 
     return '${_stringified}s';
+  }
+  // --------------------------------------------------------------------------
+
+  /// TRIM TIMES
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static int getTrimTimeMinMs({
+    required VideoEditorController? controller,
+  }){
+    final double _start = controller?.minTrim ?? 0;
+    final int _durationMs = controller?.videoDuration.inMilliseconds ?? 0;
+    return (_start * _durationMs).toInt();
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static int getTrimTimeMaxMs({
+    required VideoEditorController? controller,
+  }){
+    final double _start = controller?.maxTrim ?? 0;
+    final int _durationMs = controller?.videoDuration.inMilliseconds ?? 0;
+    return (_start * _durationMs).toInt();
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getTrimTimeMinS({
+    required VideoEditorController? controller,
+  }){
+    final int _startMs = getTrimTimeMinMs(
+      controller: controller,
+    );
+
+    return _startMs / 1000;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getTrimTimeMaxS({
+    required VideoEditorController? controller,
+  }){
+    final int _startMs = getTrimTimeMaxMs(
+      controller: controller,
+    );
+
+    return _startMs / 1000;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getClearTrimDurationS({
+    required VideoEditorController? controller,
+  }){
+
+    final int _startMs = getTrimTimeMinMs(
+      controller: controller,
+    );
+
+    final int _endMs = getTrimTimeMaxMs(
+      controller: controller,
+    );
+
+    final int _diff = _endMs - _startMs;
+
+    return _diff / 1000;
   }
   // --------------------------------------------------------------------------
 
