@@ -11,6 +11,26 @@ class Byter {
 
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Uint8List? fromMediaModel(MediaModel? media){
+    return media?.bytes;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<Uint8List> fromMediaModels(List<MediaModel> medias){
+    final List<Uint8List> _output = [];
+
+    if (Lister.checkCanLoop(medias) == true){
+      for (final MediaModel pic in medias){
+        if (pic.bytes != null){
+          _output.add(pic.bytes!);
+        }
+      }
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<Uint8List?> fromByteData(ByteData? byteData) async {
     Uint8List? _output;
 

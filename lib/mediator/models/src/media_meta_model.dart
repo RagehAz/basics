@@ -250,7 +250,7 @@ class MediaMetaModel {
       );
     }
 
-    blogStorageMetaModel(_output);
+    // blogStorageMetaModel(_output);
 
     return _output;
   }

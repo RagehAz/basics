@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'cropper_corner.dart';
 
 class CropperPages extends StatelessWidget {
-  /// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   const CropperPages({
     required this.pageController,
     required this.screenHeight,
@@ -26,7 +26,7 @@ class CropperPages extends StatelessWidget {
     required this.mounted,
     super.key
   });
-  /// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   final PageController pageController;
   final double screenHeight;
   final ValueNotifier<int> currentImageIndex;
@@ -56,7 +56,7 @@ class CropperPages extends StatelessWidget {
 
     }
   }
-  /// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
@@ -148,5 +148,5 @@ class CropperPages extends StatelessWidget {
     );
 
   }
-  /// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

@@ -463,6 +463,24 @@ class VideoOps {
       duration.inSeconds.remainder(60).toString().padLeft(2, '0')
     ].join(':');
   }
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String formatDurationToSeconds({
+    required Duration duration,
+    required int factions,
+  }){
+    final int _milliseconds = duration.inMilliseconds;
+    final double _seconds = _milliseconds / 1000;
+    final double _rounded = Numeric.roundFractions(_seconds, factions)!;
+    final String _stringified = Numeric.formatDoubleWithinDigits(
+        value: _rounded,
+        digits: factions,
+        addPlus: false,
+    )!;
+
+    return '${_stringified}s';
+  }
   // --------------------------------------------------------------------------
 
   /// BLOG

@@ -188,6 +188,39 @@ class MediaModelCreator {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<MediaModel>> fromAssetEntities({
+    required List<AssetEntity>? entities,
+    required String Function(int index, String? title) uploadPathGenerator,
+    MediaOrigin? mediaOrigin,
+    List<String>? ownersIDs,
+  }) async {
+    final List<MediaModel> _output = [];
+
+    if (Lister.checkCanLoop(entities) == true){
+
+      for (int i = 0; i < entities!.length; i++){
+
+        final AssetEntity _entity = entities[i];
+
+        final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
+          entity: _entity,
+          mediaOrigin: mediaOrigin,
+          uploadPath: uploadPathGenerator.call(i, _entity.title),
+          ownersIDs: ownersIDs,
+        );
+
+        if (_model != null){
+          _output.add(_model);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// FROM LOCAL ASSET

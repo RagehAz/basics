@@ -269,23 +269,6 @@ class MediaModel {
   String? getOriginalURl(){
     return meta?.getOriginalURL();
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static List<Uint8List> getBytezzFromMediaModels({
-    required List<MediaModel> mediaModels,
-  }){
-    final List<Uint8List> _output = [];
-
-    if (Lister.checkCanLoop(mediaModels) == true){
-      for (final MediaModel pic in mediaModels){
-        if (pic.bytes != null){
-          _output.add(pic.bytes!);
-        }
-      }
-    }
-
-    return _output;
-  }
   // -----------------------------------------------------------------------------
   
   /// MODIFIERS

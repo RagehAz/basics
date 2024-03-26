@@ -69,6 +69,7 @@ class PicMaker {
     AssetEntity? selectedAsset,
     String confirmText = 'Crop',
     Function(String? error)? onError,
+    Future<MediaModel?> Function(MediaModel? media)? onCrop,
   }) async {
     MediaModel? _output;
 
@@ -84,6 +85,7 @@ class PicMaker {
         onError: onError,
         ownersIDs: ownersIDs,
         uploadPathMaker: uploadPathMaker,
+        onCrop: onCrop,
       );
     }
 
@@ -111,6 +113,10 @@ class PicMaker {
           return uploadPathMaker(title);
           },
         ownersIDs: ownersIDs,
+        onCrop: onCrop == null ? null : (List<MediaModel> medias) async {
+          final MediaModel? _received = await onCrop(medias.firstOrNull);
+          return _received == null ? [] : [_received];
+        },
       );
 
       if (Lister.checkCanLoop(_mediaModels) == true){
@@ -134,6 +140,7 @@ class PicMaker {
     int? compressWithQuality,
     String confirmText = 'Crop',
     bool appIsLTR = true,
+    Future<MediaModel?> Function(MediaModel? media)? onCrop,
   }) async {
     MediaModel? _output;
 
@@ -170,6 +177,7 @@ class PicMaker {
         aspectRatio: aspectRatio,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
+        onCrop: onCrop,
       );
     }
 
@@ -213,6 +221,7 @@ class PicMaker {
     List<AssetEntity>? selectedAssets,
     String confirmText = 'Crop',
     Function(String? error)? onError,
+    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
   }) async {
 
     /// PICK
@@ -235,6 +244,7 @@ class PicMaker {
         aspectRatio: aspectRatio,
         appIsLTR: appIsLTR,
         confirmText: confirmText,
+        onCrop: onCrop,
       );
     }
 
@@ -270,7 +280,7 @@ class PicMaker {
     required List<String>? ownersIDs,
   }) async {
 
-    final List<MediaModel> _output = <MediaModel>[];
+    List<MediaModel> _output = <MediaModel>[];
 
     final bool _canPick = await PermitProtocol.fetchGalleryPermit(
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
@@ -301,29 +311,15 @@ class PicMaker {
             ),
           );
 
-          },
-      );
-
-      if (Lister.checkCanLoop(pickedAssets) == true){
-
-        for (int i = 0; i < pickedAssets!.length; i++){
-
-          final AssetEntity asset = pickedAssets![i];
-
-          final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
-            entity: asset,
+          _output = await MediaModelCreator.fromAssetEntities(
+            entities: pickedAssets,
+            uploadPathGenerator: uploadPathGenerator,
             mediaOrigin: MediaOrigin.galleryImage,
-            uploadPath: uploadPathGenerator.call(i, asset.title),
             ownersIDs: ownersIDs,
           );
 
-          if (_model != null){
-            _output.add(_model);
-          }
-
-        }
-
-      }
+          },
+      );
 
     }
 
@@ -349,6 +345,7 @@ class PicMaker {
     int? compressWithQuality,
     String confirmText = 'Crop',
     Function(String? error)? onError,
+    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
   }) async {
 
     MediaModel? _output;
@@ -377,6 +374,7 @@ class PicMaker {
           aspectRatio: aspectRatio,
           confirmText: confirmText,
           appIsLTR: appIsLTR,
+          onCrop: onCrop,
         );
       }
 
@@ -488,8 +486,9 @@ class PicMaker {
     required double aspectRatio,
     required String confirmText,
     required bool appIsLTR,
+    Future<MediaModel?> Function(MediaModel? media)? onCrop,
   }) async {
-    MediaModel? _bytes;
+    MediaModel? _output = mediaModel;
 
     final List<MediaModel> _mediaModels = await cropPics(
       context: context,
@@ -497,13 +496,17 @@ class PicMaker {
       aspectRatio: aspectRatio,
       appIsLTR: appIsLTR,
       confirmText: confirmText,
+      onCrop: onCrop == null ? null : (List<MediaModel> medias) async {
+        final MediaModel? _received = await onCrop(medias.firstOrNull);
+        return _received == null ? [] : [_received];
+      },
     );
 
     if (Lister.checkCanLoop(_mediaModels) == true){
-      _bytes = _mediaModels.first;
+      _output = _mediaModels.first;
     }
 
-    return _bytes;
+    return _output;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -513,30 +516,33 @@ class PicMaker {
     required double aspectRatio,
     required String confirmText,
     required bool appIsLTR,
+    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
   }) async {
-
-    List<MediaModel> _output = <MediaModel>[];
+    List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
     if (Lister.checkCanLoop(mediaModels) == true){
 
-      _output = await resizePics(
+      if (onCrop == null){
+
+        _output = await resizePics(
           mediaModels: mediaModels!,
           resizeToWidth: maxPicWidthBeforeCrop,
-      );
+        );
 
-      final List<MediaModel>? _received = await Nav.goToNewScreen(
-        appIsLTR: appIsLTR,
-        context: context,
-        screen: CroppingScreen(
-          mediaModels: mediaModels,
-          aspectRatio: aspectRatio,
+        _output = await Nav.goToNewScreen(
           appIsLTR: appIsLTR,
-          confirmText: confirmText,
-        ),
-      );
+          context: context,
+          screen: CroppingScreen(
+            mediaModels: _output,
+            aspectRatio: aspectRatio,
+            appIsLTR: appIsLTR,
+            confirmText: confirmText,
+          ),
+        );
 
-      if (Lister.checkCanLoop(_received) == true){
-        _output = _received!;
+      }
+      else {
+        _output = await onCrop(_output);
       }
 
     }
@@ -559,7 +565,6 @@ class PicMaker {
 
     if (mediaModel != null && resizeToWidth != null){
 
-
       final Uint8List? _bytes = await Byter.resize(
         bytes: mediaModel.bytes,
         fileName: _output?.meta?.name,
@@ -580,14 +585,16 @@ class PicMaker {
     required List<MediaModel>? mediaModels,
     required double resizeToWidth,
   }) async {
-    final List<MediaModel> _output = <MediaModel>[];
+    List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
     if (Lister.checkCanLoop(mediaModels) == true){
+
+      _output = [];
 
       for (final MediaModel mediaModel in mediaModels!){
 
         final MediaModel? _resized = await resizePic(
-          mediaModel:mediaModel,
+          mediaModel: mediaModel,
           resizeToWidth: resizeToWidth,
         );
 
@@ -695,9 +702,11 @@ class PicMaker {
     required List<MediaModel>? mediaModels,
     required int quality,
   }) async {
-    final List<MediaModel> _output = <MediaModel>[];
+    List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
     if (Lister.checkCanLoop(mediaModels) == true){
+
+      _output = [];
 
       for (final MediaModel mediaModel in mediaModels!){
 

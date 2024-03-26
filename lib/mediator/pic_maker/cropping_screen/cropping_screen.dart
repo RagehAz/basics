@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/scale.dart';
@@ -87,9 +88,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
       asyncInSync(() async {
 
-        final List<Uint8List> _bytezz = MediaModel.getBytezzFromMediaModels(
-          mediaModels: widget.mediaModels,
-        );
+        final List<Uint8List> _bytezz = Byter.fromMediaModels(widget.mediaModels,);
 
         setNotifier(
           notifier: _croppedBytezz,
