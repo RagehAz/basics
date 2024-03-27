@@ -467,12 +467,11 @@ class VideoOps {
 
   }
   // --------------------
-  static Future<void> snapVideoToSecond({
+  static Future<void> snapVideoToMs({
     required VideoEditorController? controller,
-    required double second,
+    required int milliSecond,
   }) async {
-    final int _startMs = (second * 1000).toInt();
-    await controller?.video.seekTo(Duration(milliseconds: _startMs));
+    await controller?.video.seekTo(Duration(milliseconds: milliSecond));
   }
   // --------------------------------------------------------------------------
 
@@ -567,6 +566,58 @@ class VideoOps {
   }
   // --------------------------------------------------------------------------
 
+  /// CHECKERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkCurrentTimeIsOutOfTrimRange({
+    required int currentMs,
+    required VideoEditorController controller,
+  }){
+
+    /// CURRENT SECOND
+    final int _currentMs = currentMs;
+
+    /// START
+    final int _start = VideoOps.getTrimTimeMinMs(controller: controller);
+    final bool _isBeforeStart = _currentMs <= _start;
+
+    /// END
+    final int _end = VideoOps.getTrimTimeMaxMs(controller: controller);
+    final bool _isAfterEnd = _currentMs >= _end;
+
+    return _isBeforeStart || _isAfterEnd;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkCurrentTimeIsCloseToStart({
+    required int currentMs,
+    required VideoEditorController controller,
+    /// THE DURATION IN SECONDS WHERE THE SYSTEM CONSIDERS THAT THE VIDEO IS CLOSE TO START OF AT END
+    required double snapThresholdMs,
+  }){
+    final int _currentMs = currentMs;
+    final int _startMs = getTrimTimeMinMs(controller: controller);
+    final double _startDiff = Numeric.modulus((_currentMs - _startMs).toDouble())!;
+    final bool _isCloseToStart = _startDiff <= snapThresholdMs;
+    return _isCloseToStart;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkCurrentTimeIsCloseToEnd({
+    required int currentMs,
+    required VideoEditorController controller,
+    /// THE DURATION IN MILLI SECONDS WHERE THE SYSTEM CONSIDERS THAT THE VIDEO IS CLOSE TO START OF AT END
+    required double snapThresholdMs,
+  }){
+    final int _currentMs = currentMs;
+    final int _endMs = getTrimTimeMaxMs(controller: controller);
+    final double _endDiff = Numeric.modulus((_currentMs - _endMs).toDouble())!;
+    final bool _isCloseToEnd = _endDiff <= snapThresholdMs;
+    return _isCloseToEnd;
+  }
+  // --------------------------------------------------------------------------
+
   /// BLOG
 
   // --------------------
@@ -580,7 +631,6 @@ class VideoOps {
     }
 
     else {
-
       blog('controller.file : ${controller.file}');
       blog('controller.video : ${controller.video}');
       blog('controller.initialized : ${controller.initialized}');
