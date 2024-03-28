@@ -478,6 +478,7 @@ class VideoOps {
   /// FORMATTING
 
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static String formatDuration(Duration duration){
     return [
@@ -485,6 +486,7 @@ class VideoOps {
       duration.inSeconds.remainder(60).toString().padLeft(2, '0')
     ].join(':');
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static String formatDurationToSeconds({
@@ -525,6 +527,7 @@ class VideoOps {
     return (_start * _durationMs).toInt();
   }
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static double getTrimTimeMinS({
     required VideoEditorController? controller,
@@ -535,7 +538,9 @@ class VideoOps {
 
     return _startMs / 1000;
   }
+   */
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static double getTrimTimeMaxS({
     required VideoEditorController? controller,
@@ -546,6 +551,7 @@ class VideoOps {
 
     return _startMs / 1000;
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static double getClearTrimDurationS({
