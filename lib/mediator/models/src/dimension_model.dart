@@ -166,7 +166,47 @@ class Dimensions {
   }
   // -----------------------------------------------------------------------------
 
-  /// CHECKERS
+  /// ORIENTATION CHECKERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool checkIsPortrait(){
+
+    if (Numeric.isGreaterThan(number: height, isGreaterThan: width) == true){
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool checkIsLandscape(){
+
+    if (Numeric.isGreaterThan(number: width, isGreaterThan: height) == true){
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool checkIsSquared(){
+
+    if (width == height){
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// EQUALITY CHECKERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
