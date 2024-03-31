@@ -342,8 +342,6 @@ class MediaModel {
       final String? _newPath = FilePathing.replaceFileNameInPath(
           oldPath: meta?.uploadPath,
           fileName: _newName,
-          bytes: bytes,
-          includeFileExtension: false,
       );
 
       // blog('--> renameFile | _newName : $_newName | _newPath : $_newPath | id : ${createID(uploadPath: _newPath)} |');
@@ -460,6 +458,7 @@ class MediaModel {
     meta: $meta
     ''';
 
+    blog('blooging Media Model : $invoker');
     blog(_text);
 
   }

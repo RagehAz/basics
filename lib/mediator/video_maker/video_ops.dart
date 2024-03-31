@@ -172,14 +172,24 @@ class VideoOps {
         // isFiltersEnabled: true, // DEFAULT
         commandBuilder: (FFmpegVideoEditorConfig config, String videoPath, String outputPath) {
 
+          /// TRIM
+          final String _trim = _createTrimParameters(
+            controller: config.controller,
+          );
+
+          /// CROP
+          final String _filters = _createFiltersParameters(
+            controller: config.controller,
+          );
+
           /// VIDEO_SIZE_DIM_QUALITY_CALIBRATION
+          // 1.2 ~ 2M = 2.5
+          // 1.2 ~ xM = 1.2
           const String _bitRate = '-b:v 1M ';
           final String _mute = mute ? '-an ' : '';
 
-          // 1.2 ~ 2M = 2.5
-          // 1.2 ~ xM = 1.2
 
-          return '-i $videoPath $_mute$_bitRate$outputPath';
+          return '$_trim -i $videoPath $_mute $_bitRate $_filters $outputPath';
 
         },
       );
@@ -293,6 +303,60 @@ class VideoOps {
     );
   }
    */
+  // --------------------------------------------------------------------------
+
+  /// EXECUTION FILTERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String _createFiltersParameters({
+    required VideoEditorController controller,
+  }){
+
+    final String _crop = _createCropFilter(
+      controller: controller,
+    );
+
+    return '-vf "$_crop"';
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String _createCropFilter({
+    required VideoEditorController controller,
+  }){
+
+    final Offset topLeft = controller.minCrop;
+    final Offset bottomRight = controller.maxCrop;
+    final Rect _rect = Rect.fromPoints(topLeft, bottomRight);
+
+    final int width = (_rect.width * controller.videoWidth).toInt();
+    final int height = (_rect.height * controller.videoHeight).toInt();
+    final int x = (_rect.left * controller.videoWidth).toInt();
+    final int y = (_rect.top * controller.videoHeight).toInt();
+
+    return 'crop=$width:$height:$x:$y';
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String _createTrimParameters({
+    required VideoEditorController controller,
+  }){
+
+    final int _durationMs = controller.videoDuration.inMilliseconds;
+
+    final DateTime _start = DateTime(0, 0, 0, 0, 0, 0, (controller.minTrim * _durationMs).toInt());
+    final double _fromSeconds = _start.second + (_start.millisecond / 1000);
+    final String _from = '${_start.hour}:${_start.minute}:$_fromSeconds';
+
+    final DateTime _end = DateTime(0, 0, 0, 0, 0, 0, (controller.maxTrim * _durationMs).toInt());
+    final double _toSeconds = _end.second + (_end.millisecond / 1000);
+    final String _to = '${_end.hour}:${_end.minute}:$_toSeconds';
+
+    // blog('startTime : $_from : endTime : $_to');
+
+    return '-ss $_from -to $_to';
+
+  }
   // --------------------------------------------------------------------------
 
   /// GETTERS

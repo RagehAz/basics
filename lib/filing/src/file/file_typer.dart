@@ -128,37 +128,7 @@ class FileTyper {
 
       if (_mime != null){
 
-        switch (_mime){
-
-          case _mime_pdf         : _output = FileExtType.pdf;
-          case _mime_postScript  : _output = FileExtType.postScript;
-          case _mime_aiff        : _output = FileExtType.aiff;
-          case _mime_flac        : _output = FileExtType.flac;
-          case _mime_wav         : _output = FileExtType.wav;
-          case _mime_gif         : _output = FileExtType.gif;
-          case _mime_jpeg        : _output = FileExtType.jpeg;
-          case _mime_png         : _output = FileExtType.png;
-          case _mime_tiff        : _output = FileExtType.tiff;
-          case _mime_aac         : _output = FileExtType.aac;
-          case _mime_weba        : _output = FileExtType.weba;
-          case _mime_mpeg        : _output = FileExtType.mpeg;
-          case _mime_ogg         : _output = FileExtType.ogg;
-          case _mime_gpp         : _output = FileExtType.gpp;
-          case _mime_mp4         : _output = FileExtType.mp4;
-          case _mime_gltf        : _output = FileExtType.gltf;
-          case _mime_webp        : _output = FileExtType.webp;
-          case _mime_woff        : _output = FileExtType.woff;
-          case _mime_heic        : _output = FileExtType.heic;
-          case _mime_heif        : _output = FileExtType.heif;
-
-          case _mime_bmp         : _output = FileExtType.bmp;
-          case _mime_vmpeg       : _output = FileExtType.vmpeg;
-          case _mime_quicktime   : _output = FileExtType.quicktime;
-          case _mime_msword      : _output = FileExtType.msword;
-          case _mime_plain       : _output = FileExtType.plainText;
-          case _mime_mp3         : _output = FileExtType.mp3;
-
-        }
+        _output = getTypeByMime(_mime) ?? FileExtType.unknown;
 
       }
 
@@ -169,18 +139,23 @@ class FileTyper {
   // --------------------
   /// TESTED : WORKS GOOD
   static String? detectBytesMime(Uint8List? bytes) {
-
     final FileExtType fileType = detectBytesType(bytes);
     return getMimeByType(fileType);
-
   }
   // --------------------
   /// TESTED : WORKS GOOD
   static String? detectBytesExtension(Uint8List? bytes) {
-
     final FileExtType fileType = detectBytesType(bytes);
     return getExtensionByType(fileType);
-
+  }
+  // --------------------
+  /// TESTED : WORKS GOOD
+  static FileExtType detectFileExtType({
+    required File file,
+    required Uint8List? bytes,
+  }){
+    final String? _mime = lookupMimeType(file.path, headerBytes: bytes);
+    return getTypeByMime(_mime) ?? FileExtType.unknown;
   }
   // -----------------------------------------------------------------------------
 

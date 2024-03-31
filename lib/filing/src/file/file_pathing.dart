@@ -330,8 +330,8 @@ class FilePathing {
   static String? replaceFileNameInPath({
     required String? oldPath,
     required String? fileName,
-    required Uint8List? bytes,
-    required bool includeFileExtension,
+    // required Uint8List? bytes,
+    // required bool includeFileExtension,
   }){
     String? _output = oldPath;
 
@@ -344,13 +344,13 @@ class FilePathing {
 
       if (TextCheck.isEmpty(_pathWithoutFileName) == false){
 
-        final String? _newFileName = fixFileName(
-          includeFileExtension: includeFileExtension,
-          fileName: fileName,
-          bytes: bytes,
-        );
+        // final String? _newFileName = fixFileName(
+        //   includeFileExtension: includeFileExtension,
+        //   fileName: fileName,
+        //   bytes: bytes,
+        // );
 
-        _output = '$_pathWithoutFileName/$_newFileName';
+        _output = '$_pathWithoutFileName/$fileName';
 
       }
 

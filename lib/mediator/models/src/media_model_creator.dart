@@ -33,8 +33,6 @@ class MediaModelCreator {
       final String? _uploadPath = FilePathing.replaceFileNameInPath(
         oldPath: uploadPath,
         fileName: _fileName,
-        bytes: bytes,
-        includeFileExtension: false,
       );
       final String? _id = MediaModel.createID(
         uploadPath: _uploadPath,
@@ -70,6 +68,89 @@ class MediaModelCreator {
               map: {
                 'aspectRatio': _aspectRatio.toString(),
                 'sizeB': bytes.length.toString(),
+                'sizeKB': _kilo.toString(),
+                'source': MediaModel.cipherMediaOrigin(mediaOrigin),
+                'deviceID': _deviceID,
+                'deviceName': _deviceName,
+                'platform': _devicePlatform,
+              },
+            ),
+          ),
+        );
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FILE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<MediaModel?> fromFile({
+    required File? file,
+    required String uploadPath,
+    MediaOrigin? mediaOrigin,
+    List<String>? ownersIDs,
+  }) async {
+    MediaModel? _output;
+
+    final Uint8List? _bytes = await Byter.fromFile(file);
+
+    if (file != null && _bytes != null && TextCheck.isEmpty(uploadPath) == false){
+
+      final String? _fileName = file.fileNameWithoutExtension;
+
+      final String? _uploadPath = FilePathing.replaceFileNameInPath(
+        oldPath: uploadPath,
+        fileName: _fileName,
+      );
+
+      final String? _id = MediaModel.createID(
+        uploadPath: _uploadPath,
+      );
+
+      if (_id != null){
+
+        final Dimensions? _dims =  await DimensionsGetter.fromFile(
+          file: file,
+        );
+        final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+        final double? _mega = FileSizer.getFileSizeWithUnit(
+          file: file,
+          unit: FileSizeUnit.megaByte,
+        );
+        final double? _kilo = FileSizer.getFileSizeWithUnit(
+          file: file,
+          unit: FileSizeUnit.kiloByte,
+        );
+        final String? _deviceID = await DeviceChecker.getDeviceID();
+        final String? _deviceName = await DeviceChecker.getDeviceName();
+        final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+        // final String? _extension = FileTyper.getExtension(object: bytes);
+
+        final FileExtType? _fileExtensionType = FileTyper.detectFileExtType(
+          file: file,
+          bytes: _bytes,
+        );
+
+        _output = MediaModel(
+          id: _id,
+          bytes: _bytes,
+          meta: MediaMetaModel(
+            sizeMB: _mega,
+            width: _dims?.width,
+            height: _dims?.height,
+            fileExt: _fileExtensionType,
+            name: _fileName,
+            ownersIDs: ownersIDs ?? [],
+            uploadPath: _uploadPath,
+            data: MapperSS.cleanNullPairs(
+              map: {
+                'aspectRatio': _aspectRatio.toString(),
+                'sizeB': _bytes.length.toString(),
                 'sizeKB': _kilo.toString(),
                 'source': MediaModel.cipherMediaOrigin(mediaOrigin),
                 'deviceID': _deviceID,

@@ -483,11 +483,15 @@ class Filer {
   }) async {
     File? _output = file;
 
-    final String? _newPath = FilePathing.replaceFileNameInPath(
+    final String? _newName = FilePathing.fixFileName(
       fileName: newName,
-      oldPath: file?.path,
       bytes: await Byter.fromFile(file),
       includeFileExtension: false,
+    );
+
+    final String? _newPath = FilePathing.replaceFileNameInPath(
+      fileName: _newName,
+      oldPath: file?.path,
     );
 
     if (_newPath != null){
