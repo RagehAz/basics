@@ -156,6 +156,7 @@ class MediaModelCreator {
                 'deviceID': _deviceID,
                 'deviceName': _deviceName,
                 'platform': _devicePlatform,
+                'file_path': file.path,
               },
             ),
           ),
@@ -256,10 +257,10 @@ class MediaModelCreator {
 
     if (entity != null){
 
-      final Uint8List? _bytes = await entity.originBytes;
+      final File? _file = await entity.originFile;
 
-      _output = await fromBytes(
-        bytes: _bytes,
+      _output = await fromFile(
+        file: _file,
         mediaOrigin: mediaOrigin,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,

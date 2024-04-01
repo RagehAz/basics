@@ -269,6 +269,11 @@ class MediaModel {
   String? getOriginalURl(){
     return meta?.getOriginalURL();
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getFilePath(){
+    return meta?.getFilePath();
+  }
   // -----------------------------------------------------------------------------
   
   /// MODIFIERS
@@ -599,7 +604,26 @@ class MediaModel {
     '''
     PicModel(
       bytes: ${bytes?.length} bytes,
-      meta: $meta
+      meta: StorageMetaModel(
+        width: ${meta?.width},
+        height: ${meta?.height},
+        sizeMB: ${meta?.sizeMB},
+        name: ${meta?.name},
+        uploadPath: ${meta?.uploadPath},
+        fileExt: ${meta?.fileExt},
+        ownersIDs: ${meta?.ownersIDs},
+        data: {
+          'aspectRatio': ${meta?.data?['aspectRatio']},
+          'sizeB': ${meta?.data?['sizeB']},
+          'sizeKB': ${meta?.data?['sizeKB']},
+          'source': ${meta?.data?['source']},
+          'deviceID': ${meta?.data?['deviceID']},
+          'deviceName': ${meta?.data?['deviceName']},
+          'platform': ${meta?.data?['platform']},
+          'original_url': ${meta?.data?['original_url']},
+          'file_path': ${meta?.data?['file_path']},
+        },
+      ),
     );
     ''';
 

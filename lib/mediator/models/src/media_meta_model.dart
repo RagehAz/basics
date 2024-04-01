@@ -186,6 +186,13 @@ class MediaMetaModel {
   String? getOriginalURL(){
     return data?['original_url'];
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getFilePath({
+    bool withExtension = true,
+  }){
+    return data?['file_path'];
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
