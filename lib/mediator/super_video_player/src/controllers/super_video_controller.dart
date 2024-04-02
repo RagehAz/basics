@@ -35,7 +35,7 @@ class SuperVideoController {
 
       _videoPlayerController!.addListener(_listenToVideo);
 
-      _setupPlayer(
+      _setupFilePlayer(
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
@@ -48,7 +48,7 @@ class SuperVideoController {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void loadAsset({
     required String? asset,
     bool autoPlay = false,
@@ -73,7 +73,7 @@ class SuperVideoController {
 
       _videoPlayerController!.addListener(_listenToVideo);
 
-      _setupPlayer(
+      _setupFilePlayer(
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
@@ -96,7 +96,7 @@ class SuperVideoController {
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
 
-      final bool _isYoutubeLink = YoutubeVideoPlayer.checkIsValidYoutubeLink(url);
+      final bool _isYoutubeLink = checkIsValidYoutubeLink(url);
 
       /// YOUTUBE URL
       if (_isYoutubeLink == true){
@@ -104,7 +104,6 @@ class SuperVideoController {
           url: url!,
           autoPlay: autoPlay,
           loop: loop,
-          showVolumeSlider: showVolumeSlider,
         );
       }
 
@@ -127,15 +126,32 @@ class SuperVideoController {
     required String url,
     required bool autoPlay,
     required bool loop,
-    required bool showVolumeSlider,
   }){
 
+    final String? _videoID = extractVideoIDFromYoutubeURL(url);
+
+    final bool _isValidVideoID = checkIsValidYoutubeVideoID(_videoID);
+
+    if (_videoID != null && _isValidVideoID == true){
+
+      _youtubeController = YoutubePlayerController(
+        initialVideoId: _videoID,
+        // flags: const YoutubePlayerFlags(
+        //   autoPlay: true,
+        // ),
+      );
+
+      _setupYoutubePlayer(
+        autoPlay: autoPlay,
+      );
+
+    }
 
     _isYoutubeURL = true;
     _videoURL = url;
 
     /// SHOW VOLUME SLIDER
-    _showVolumeSlider = showVolumeSlider;
+    _showVolumeSlider = true;
 
   }
   // --------------------
@@ -162,7 +178,7 @@ class SuperVideoController {
 
     _videoPlayerController!.addListener(_listenToVideo);
 
-    _setupPlayer(
+    _setupFilePlayer(
       autoPlay: autoPlay,
       loop: loop,
       showVolumeSlider: showVolumeSlider,
@@ -174,7 +190,7 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void _setupPlayer({
+  void _setupFilePlayer({
     required bool loop,
     required bool autoPlay,
     required bool showVolumeSlider,
@@ -191,14 +207,39 @@ class SuperVideoController {
 
     /// AUTO PLAY
     if (autoPlay == true){
-      _videoPlayerController?.play();
+      play();
     }
     else {
-      _videoPlayerController?.pause();
+      pause();
     }
 
     /// SHOW VOLUME SLIDER
     _showVolumeSlider = showVolumeSlider;
+
+    /// IS AUTO PLAY
+    _isAutoPlay = autoPlay;
+
+  }
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void _setupYoutubePlayer({
+    required bool autoPlay,
+  }){
+
+    /// VOLUME
+    _youtubeController?.setVolume(100);
+
+    /// AUTO PLAY
+    if (autoPlay == true){
+      play();
+    }
+    else {
+      pause();
+    }
+
+    /// IS AUTO PLAY
+    _isAutoPlay = autoPlay;
 
   }
   // --------------------------------------------------------------------------
@@ -213,6 +254,7 @@ class SuperVideoController {
     _isChangingVolume.dispose();
     _videoPlayerController?.dispose();
     _volume.dispose();
+    _youtubeController?.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -257,6 +299,15 @@ class SuperVideoController {
   // --------------------
   double _volumeBeforeMute = 1;
   double get volumeBeforeMute => _volumeBeforeMute;
+  // --------------------
+  YoutubePlayerController? _youtubeController;
+  YoutubePlayerController? get youtubeController => _youtubeController;
+  // --------------------
+  bool _isPlaying = false;
+  bool get isPlaying => _isPlaying;
+  // --------------------
+  bool _isAutoPlay = false;
+  bool get isAutoPlay => _isAutoPlay;
   // --------------------------------------------------------------------------
 
   /// LISTENING
@@ -281,15 +332,39 @@ class SuperVideoController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
+  void onVideoTap(){
+
+    if (Mapper.boolIsTrue(_videoValue.value?.isPlaying) == true){
+      pause();
+    }
+    else {
+      play();
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   void play(){
-    _videoPlayerController?.play();
-    _videoPlayerController?.setLooping(true);
+
+    if (_isPlaying = false){
+      _isPlaying = true;
+      _videoPlayerController?.play();
+      _youtubeController?.play();
+    }
+
+    // _videoPlayerController?.setLooping(true);
+
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   void pause(){
-    _videoPlayerController?.pause();
-    _videoPlayerController?.setLooping(false);
+
+    if (_isPlaying = true){
+      _videoPlayerController?.pause();
+      _youtubeController?.pause();
+    }
+
+    // _videoPlayerController?.setLooping(false);
   }
   // --------------------------------------------------------------------------
 
@@ -436,6 +511,173 @@ class SuperVideoController {
   ///
   bool checkIsMuted(){
     return _volume.value == 0;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// YOUTUBE CHECKERS
+
+  // --------------------
+  /// AI TESTED
+  static bool checkIsValidYoutubeVideoID(String? videoID) {
+    if (videoID == null){
+      return false;
+    }
+    else {
+      final youtubeVideoIdPattern = RegExp(r'^[a-zA-Z0-9_-]+$');
+      return youtubeVideoIdPattern.hasMatch(videoID) && videoID.length <= 11;
+    }
+  }
+  // --------------------
+  /// AI TESTED
+  static bool checkIsValidYoutubeLink(String? link) {
+
+    if (TextCheck.isEmpty(link) == true){
+      return false;
+    }
+
+    else {
+      final youtubeLinkPattern = RegExp(
+          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
+      return youtubeLinkPattern.hasMatch(link!);
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// YOUTUBE VIDEO ID
+
+  // --------------------
+  /// AI TESTED
+  static String? extractVideoIDFromYoutubeURL(String? youtubeURL) {
+    String? _output;
+
+    if (checkIsValidYoutubeLink(youtubeURL) == true) {
+
+      final youtubeLinkPattern = RegExp(
+          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
+
+      final match = youtubeLinkPattern.firstMatch(youtubeURL!);
+
+      if (match != null){
+        _output = match.group(3);
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// YOUTUBE COVER IMAGE
+
+  // --------------------
+  /// TASK : TEST ME
+  String? getYouTubeVideoCoverImageURL(){
+    String? _output;
+
+    final bool _isYoutubeLink = checkIsValidYoutubeLink(_videoURL);
+
+    if (_youtubeController != null && _isYoutubeLink == true){
+
+      // final String link = 'https://www.youtube.com/watch?v=$videoID';
+      // final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
+
+      final YoutubeMetaData? videoMetaData = _youtubeController?.metadata;
+      final String? id = videoMetaData?.videoId;
+
+      if (id != null){
+        _output = 'https://img.youtube.com/vi/$id/0.jpg';
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
+  /// SUPER LOADER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<void> superLoadMedia({
+    required dynamic object,
+    bool autoPlay = true,
+    bool loop = false,
+    bool showVolumeSlider = false,
+    String? fileNameIfObjectIsBytes,
+  }) async {
+
+    if (object != null){
+
+      /// FILE
+      if (object is File){
+        loadFile(
+          file: object,
+          autoPlay: autoPlay,
+          showVolumeSlider: showVolumeSlider,
+          loop: loop,
+        );
+      }
+
+      /// URL
+      else if (ObjectCheck.isAbsoluteURL(object) == true){
+        loadURL(
+          url: object,
+          loop: loop,
+          showVolumeSlider: showVolumeSlider,
+          autoPlay: autoPlay,
+        );
+      }
+
+      /// ASSET
+      else if (object is String){
+        loadAsset(
+          asset: object,
+          autoPlay: autoPlay,
+          showVolumeSlider: showVolumeSlider,
+          loop: loop,
+        );
+      }
+
+      /// MEDIA MODEL
+      else if (object is MediaModel){
+
+        final File? _file = await Filer.createFromMediaModel(
+          mediaModel: object,
+        );
+
+        if (_file != null){
+          loadFile(
+            file: _file,
+            loop: loop,
+            showVolumeSlider: showVolumeSlider,
+            autoPlay: autoPlay,
+          );
+        }
+
+      }
+
+      /// BYTES
+      else if (object is Uint8List){
+
+        final File? _file = await Filer.createFromBytes(
+          bytes: object,
+          fileName: fileNameIfObjectIsBytes,
+        );
+
+        if (_file != null){
+          loadFile(
+            file: _file,
+            autoPlay: autoPlay,
+            showVolumeSlider: showVolumeSlider,
+            loop: loop,
+          );
+        }
+
+      }
+
+    }
+
   }
   // --------------------------------------------------------------------------
 }

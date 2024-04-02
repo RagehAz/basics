@@ -1,8 +1,8 @@
 part of super_video_player;
 
-class _TheVideoPlayer extends StatelessWidget {
+class _FilePlayer extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const _TheVideoPlayer({
+  const _FilePlayer({
     required this.superVideoController,
     required this.width,
     this.errorIcon,
@@ -13,18 +13,6 @@ class _TheVideoPlayer extends StatelessWidget {
   final double width;
   final String? errorIcon;
   final dynamic corners;
-  // --------------------
-  /// TASK : TEST_ME_NOW
-  void _onVideoTap(){
-
-    if (Mapper.boolIsTrue(superVideoController.videoValue.value?.isPlaying) == true){
-      superVideoController.pause();
-    }
-    else {
-      superVideoController.play();
-    }
-
-  }
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -56,7 +44,7 @@ class _TheVideoPlayer extends StatelessWidget {
 
         return GestureDetector(
           key: const ValueKey<String>('_TheVideoPlayer'),
-          onTap: value == null ? null : _onVideoTap,
+          onTap: value == null ? null : superVideoController.onVideoTap,
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
