@@ -1,5 +1,5 @@
 part of super_video_player;
-
+///
 class SuperVideoController {
   // --------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ class SuperVideoController {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void loadURL({
     required String? url,
     bool autoPlay = false,
@@ -121,7 +121,7 @@ class SuperVideoController {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void _loadYoutubeURL({
     required String url,
     required bool autoPlay,
@@ -155,7 +155,7 @@ class SuperVideoController {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void _loadVideoURL({
     required String url,
     required bool autoPlay,
@@ -417,13 +417,28 @@ class SuperVideoController {
   /// MUTING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
+  void onMutingTap(){
+
+    final bool _isMuted = checkIsMuted();
+
+    if (_isMuted){
+      unMute();
+    }
+
+    else {
+      mute();
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   void mute(){
     _volumeBeforeMute = _volume.value;
     setVolume(0);
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void unMute(){
     setVolume(_volumeBeforeMute);
   }
@@ -509,7 +524,7 @@ class SuperVideoController {
     return _videoValue.value != null && _videoValue.value!.hasError == true;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   bool checkIsMuted(){
     return _volume.value == 0;
   }
