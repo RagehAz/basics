@@ -37,6 +37,7 @@ class _VideoBox extends StatelessWidget {
         borderRadius: _corners,
         color: boxColor,
       ),
+      alignment: Alignment.center,
       child: ClipRRect(
         borderRadius: _corners,
         child: child,

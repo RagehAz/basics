@@ -61,7 +61,7 @@ class _TheYoutubePlayer extends StatelessWidget {
         width: width,
         boxColor: Colorz.black255,
         corners: _corners,
-        aspectRatio: 19/6,
+        aspectRatio: 16/9,
         child: YoutubePlayer(
           /// MAIN
           key: const ValueKey<String>('YoutubeVideoPlayer'),

@@ -334,7 +334,7 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void onVideoTap(){
 
-    if (Mapper.boolIsTrue(_videoValue.value?.isPlaying) == true){
+    if (_isPlaying == true){
       pause();
     }
     else {
@@ -346,25 +346,26 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void play(){
 
-    if (_isPlaying = false){
+    if (_isPlaying == false){
       _isPlaying = true;
       _videoPlayerController?.play();
       _youtubeController?.play();
+      _videoPlayerController?.setLooping(true);
     }
 
-    // _videoPlayerController?.setLooping(true);
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   void pause(){
 
-    if (_isPlaying = true){
+    if (_isPlaying == true){
+      _isPlaying = false;
       _videoPlayerController?.pause();
       _youtubeController?.pause();
+      _videoPlayerController?.setLooping(false);
     }
 
-    // _videoPlayerController?.setLooping(false);
   }
   // --------------------------------------------------------------------------
 
