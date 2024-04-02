@@ -31,6 +31,7 @@ class _VideoCard extends StatelessWidget {
       ),
       child: Card(
           clipBehavior: Clip.antiAlias,
+          margin: EdgeInsets.zero,
           /// to clip the child corners to be circular forcefully
           shape: RoundedRectangleBorder(borderRadius: _corners),
           // color: Colorz.black255,

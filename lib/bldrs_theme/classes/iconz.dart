@@ -296,6 +296,8 @@ class Iconz {
   static const String colorCircle = '$iconDirectory/gi_color_circle.svg';
   static const String recorder = '$iconDirectory/gi_recorder.svg';
   static const String video = '$iconDirectory/gi_video.svg';
+  static const String volumeOn = '$iconDirectory/gi_volume_on.svg';
+  static const String volumeOff = '$iconDirectory/gi_volume_off.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -552,6 +554,10 @@ class Iconz {
       mailSpamScreenshot: true,
       anonymousUser: true,
       colorCircle: true,
+      recorder: true,
+      video: true,
+      volumeOn: true,
+      volumeOff: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
@@ -590,9 +596,6 @@ class Iconz {
       loveSilver: true,
       loveGold: true,
       lovesGold: true,
-
-      recorder: true,
-      video: true,
 
       comAppStorePlain: true,
       comGooglePlayPlain: true,
