@@ -1,10 +1,9 @@
 part of super_video_player;
 
-class VideoPlayIcon extends StatelessWidget {
+class _VideoPlayIcon extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const VideoPlayIcon({
+  const _VideoPlayIcon({
     required this.videoWidth,
-    super.key
   });
   // --------------------
   final double videoWidth;

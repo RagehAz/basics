@@ -680,4 +680,37 @@ class SuperVideoController {
 
   }
   // --------------------------------------------------------------------------
+
+  /// SCALES
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getHeightByAspectRatio({
+    required double? aspectRatio,
+    required double width,
+    required bool force169,
+  }){
+    double _output = width / (16 / 9);
+
+    if (aspectRatio != null && force169 == false) {
+      /// AspectRatio = (widthA / heightA)
+      ///             = (widthB / heightB)
+      ///
+      /// so heightB = widthB / aspectRatio
+      _output = width / aspectRatio;
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static BorderRadius getCorners({
+    required double width,
+    required dynamic corners,
+  }) {
+    return Borderers.superCorners(
+      corners: corners ?? BorderRadius.circular(width * 0.02),
+    );
+  }
+  // --------------------------------------------------------------------------
 }

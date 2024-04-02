@@ -32,7 +32,7 @@ class SuperVideoPlayer extends StatelessWidget {
     }
     // --------------------
     else {
-      return SuperVideoControllerPlayer(
+      return _SuperVideoControllerPlayer(
         width: width,
         superVideoController: controller,
         corners: corners,

@@ -1,10 +1,9 @@
 part of super_video_player;
 
-class VideoLoadingIndicator extends StatelessWidget {
+class _VideoLoadingIndicator extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const VideoLoadingIndicator({
+  const _VideoLoadingIndicator({
     required this.videoWidth,
-    super.key
   });
   // --------------------
   final double videoWidth;

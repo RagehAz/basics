@@ -1,8 +1,8 @@
 part of super_video_player;
 
-class VideoVolumeSlider extends StatelessWidget {
+class _VideoVolumeSlider extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const VideoVolumeSlider({
+  const _VideoVolumeSlider({
     required this.width,
     required this.height,
     required this.initialVolume,
@@ -10,7 +10,6 @@ class VideoVolumeSlider extends StatelessWidget {
     required this.onVolumeChanged,
     required this.onVolumeChangeStarted,
     required this.onVolumeChangeEnded,
-    super.key
   });
   // --------------------
   final double width;

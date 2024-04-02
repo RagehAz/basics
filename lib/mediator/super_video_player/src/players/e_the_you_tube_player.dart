@@ -16,8 +16,9 @@ class _TheYoutubePlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final BorderRadius _corners = Borderers.superCorners(
-      corners: corners ?? BorderRadius.circular(width * 0.02),
+    final BorderRadius _corners = SuperVideoController.getCorners(
+      corners: corners,
+      width: width,
     );
     // --------------------
     /// THUMBNAIL
@@ -56,8 +57,11 @@ class _TheYoutubePlayer extends StatelessWidget {
 
     /// YOUTUBE PLAYER
     else {
-      return VideoBox(
+      return _VideoBox(
         width: width,
+        boxColor: Colorz.black255,
+        corners: _corners,
+        aspectRatio: 19/6,
         child: YoutubePlayer(
           /// MAIN
           key: const ValueKey<String>('YoutubeVideoPlayer'),

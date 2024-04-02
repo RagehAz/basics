@@ -1,13 +1,12 @@
 part of super_video_player;
 
-class VideoCard extends StatelessWidget {
+class _VideoCard extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const VideoCard({
+  const _VideoCard({
     required this.width,
     required this.height,
     required this.corners,
     required this.controller,
-    super.key
   });
   // --------------------
   final double width;
@@ -18,8 +17,9 @@ class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final BorderRadius _corners = Borderers.superCorners(
-      corners: corners ?? BorderRadius.circular(width * 0.02),
+    final BorderRadius _corners = SuperVideoController.getCorners(
+      corners: corners,
+      width: width,
     );
     // --------------------
     return Container(

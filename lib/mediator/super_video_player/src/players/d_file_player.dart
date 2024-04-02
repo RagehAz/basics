@@ -21,7 +21,7 @@ class _FilePlayer extends StatelessWidget {
       valueListenable: superVideoController.videoValue,
       builder: (_, VideoPlayerValue? value, Widget? child) {
 
-        final double _boxHeight = VideoBox.getHeightByAspectRatio(
+        final double _boxHeight = SuperVideoController.getHeightByAspectRatio(
           width: width,
           aspectRatio: value?.aspectRatio ?? 19/6,
           force169: false,
@@ -51,7 +51,7 @@ class _FilePlayer extends StatelessWidget {
 
               /// VIDEO CARD
               if (_showVideo == true)
-                VideoCard(
+                _VideoCard(
                   width: width,
                   height: _boxHeight,
                   corners: corners,
@@ -60,26 +60,26 @@ class _FilePlayer extends StatelessWidget {
 
               /// LOADING
               if (_isLoading == true)
-                VideoLoadingIndicator(
+                _VideoLoadingIndicator(
                   videoWidth: width,
                 ),
 
               /// PLAY ICON
               if (_showPlayIcon == true)
-                VideoPlayIcon(
+                _VideoPlayIcon(
                   videoWidth: width,
                 ),
 
               /// ERROR ICON
               if (_hasError == true)
-                VideoErrorIcon(
+                _VideoErrorIcon(
                   videoWidth: width,
                   icon: errorIcon,
                 ),
 
               /// VOLUME SLIDER
               if (superVideoController.showVolumeSlider == true)
-                VideoVolumeSlider(
+                _VideoVolumeSlider(
                   width: width,
                   height: _boxHeight,
                   initialVolume: value?.volume ?? 1,

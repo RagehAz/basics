@@ -1,13 +1,12 @@
 part of super_video_player;
 
-class SuperVideoControllerPlayer extends StatelessWidget {
+class _SuperVideoControllerPlayer extends StatelessWidget {
   /// --------------------------------------------------------------------------
-  const SuperVideoControllerPlayer({
+  const _SuperVideoControllerPlayer({
     required this.superVideoController,
     required this.width,
     this.errorIcon,
     this.corners = 10,
-    super.key
   });
   // --------------------
   final SuperVideoController? superVideoController;
@@ -19,9 +18,12 @@ class SuperVideoControllerPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
 
     if (superVideoController == null){
-      return VideoBox(
+      return _VideoBox(
         width: width,
         aspectRatio: 19/6,
+        corners: corners,
+        boxColor: Colorz.black255,
+        child: null,
       );
     }
 

@@ -103,7 +103,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
     // --------------------
     /// PLAYER
     else {
-      return SuperVideoControllerPlayer(
+      return _SuperVideoControllerPlayer(
         width: widget.width,
         superVideoController: _controller,
         corners: widget.corners,

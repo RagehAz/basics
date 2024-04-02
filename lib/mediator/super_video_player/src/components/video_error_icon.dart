@@ -1,11 +1,10 @@
 part of super_video_player;
 
-class VideoErrorIcon extends StatelessWidget {
+class _VideoErrorIcon extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const VideoErrorIcon({
+  const _VideoErrorIcon({
     required this.videoWidth,
     required this.icon,
-    super.key
   });
   // --------------------
   final double videoWidth;
