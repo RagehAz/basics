@@ -254,6 +254,7 @@ class Numeric {
   // --------------------
   /// AI TESTED
   static String formatToRomanA(int number) {
+
     // Define mappings for Roman numerals and their corresponding values.
     final Map<String, int> romanNumerals = {
       'M': 1000,
@@ -325,8 +326,7 @@ class Numeric {
 
     final builder = StringBuffer();
     for (var a = 0; a < arabianRomanNumbers.length; a++) {
-      final times = (num / arabianRomanNumbers[a])
-          .truncate(); // equals 1 only when arabianRomanNumbers[a] = num
+      final times = (num / arabianRomanNumbers[a]).truncate(); // equals 1 only when arabianRomanNumbers[a] = num
       // executes n times where n is the number of times you have to add
       // the current roman number value to reach current num.
       builder.write(romanNumbers[a] * times);

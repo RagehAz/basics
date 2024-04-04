@@ -219,7 +219,9 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
           return <Widget>[
 
             SuperBox(
-              width: BottomDialog.clearWidth(context),
+              width: BottomDialog.clearWidth(
+                context: context,
+              ),
               height: 40,
               text: 'Clear ${widget.ldbDocName} data',
               textScaleFactor: 0.7,

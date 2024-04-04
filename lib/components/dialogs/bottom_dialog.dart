@@ -25,6 +25,8 @@ class BottomDialog extends StatelessWidget {
     this.draggable = true,
     this.child,
     this.title,
+    this.corners = Ratioz.bottomSheetCorner,
+    this.padding = standardPadding,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -32,7 +34,30 @@ class BottomDialog extends StatelessWidget {
   final bool draggable;
   final Widget? child;
   final String? title;
+  final double corners;
+  final double padding;
   // --------------------------------------------------------------------------
+
+  /// PADDINGS
+
+  // --------------------
+  static const double standardPadding = 15;
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static EdgeInsets getDialogPaddings({
+    required double padding,
+  }){
+    return EdgeInsets.only(
+      left: padding,
+      right: padding,
+      top: padding,
+    );
+  }
+  // --------------------------------------------------------------------------
+
+  /// DRAGGER
+
+  // --------------------
   /// TESTED : WORKS PERFECT
   static double draggerMarginValue({
     /// one side value only
@@ -40,8 +65,7 @@ class BottomDialog extends StatelessWidget {
   }) {
     final double _draggerHeight = draggerHeight(draggable: draggable);
     final double _draggerZoneHeight = draggerZoneHeight(draggable: draggable);
-    final double _draggerMarginValue =
-    draggable != true ? 0 : (_draggerZoneHeight - _draggerHeight) / 2;
+    final double _draggerMarginValue = draggable != true ? 0 : (_draggerZoneHeight - _draggerHeight) / 2;
     return _draggerMarginValue;
   }
   // --------------------
@@ -61,7 +85,7 @@ class BottomDialog extends StatelessWidget {
   static double draggerZoneHeight({
     required bool draggable
   }) {
-    final double _draggerZoneHeight = draggable == true ? 10 * 3.0 : 0.0;
+    final double _draggerZoneHeight = draggable == true ? 10 * 3.0 : 0;
     return _draggerZoneHeight;
   }
   // --------------------
@@ -79,6 +103,10 @@ class BottomDialog extends StatelessWidget {
     final double _draggerWidth = Scale.screenWidth(context) * 0.35;
     return _draggerWidth;
   }
+  // --------------------------------------------------------------------------
+
+  /// TITLE
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static double titleZoneHeight({
@@ -99,6 +127,10 @@ class BottomDialog extends StatelessWidget {
 
     return _titleZoneHeight;
   }
+  // --------------------------------------------------------------------------
+
+  /// MAIN SCALES
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static double calculateDialogHeight({
@@ -112,27 +144,6 @@ class BottomDialog extends StatelessWidget {
     final double _topZoneHeight = _draggerHeight + _titleHeight + childHeight;
 
     return _topZoneHeight;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double dialogWidth(BuildContext context) {
-    return Scale.screenWidth(context);
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static const double dialogMarginValue = 15;
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static const EdgeInsets dialogMargins = EdgeInsets.symmetric(
-      horizontal: dialogMarginValue
-  );
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double clearWidth(BuildContext context) {
-    final double _dialogClearWidth  = Scale.screenWidth(context)
-                                    - (dialogMarginValue * 2);
-
-    return _dialogClearWidth;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -157,9 +168,46 @@ class BottomDialog extends StatelessWidget {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static double dialogWidth(BuildContext context) {
+    return Scale.screenWidth(context);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static BorderRadius dialogCorners({
+    required BuildContext context,
+    required double? corners,
+  }) {
+    final BorderRadius _dialogCorners = Borderers.cornerOnly(
+      appIsLTR: true,
+      enTopLeft: corners ?? Ratioz.bottomSheetCorner,
+      enBottomLeft: 0,
+      enBottomRight: 0,
+      enTopRight: corners ?? Ratioz.bottomSheetCorner,
+    );
+    return _dialogCorners;
+  }
+  // --------------------------------------------------------------------------
+
+  /// CLEAR SCALES
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double clearWidth({
+    required BuildContext context,
+    double padding = standardPadding,
+  }) {
+
+    final double _dialogClearWidth  = Scale.screenWidth(context)
+                                    - (padding * 2);
+
+    return _dialogClearWidth;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static double clearHeight({
     required BuildContext context,
     required bool draggable,
+    double padding = standardPadding,
     double? overridingDialogHeight,
     bool? titleIsOn,
   }) {
@@ -174,37 +222,45 @@ class BottomDialog extends StatelessWidget {
 
     final double _titleZoneHeight = titleZoneHeight(titleIsOn: titleIsOn);
     final double _draggerZoneHeight = draggerZoneHeight(draggable: draggable);
-    return _dialogHeight - _titleZoneHeight - _draggerZoneHeight;
+    return _dialogHeight - _titleZoneHeight - _draggerZoneHeight - padding;
+  }
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double dialogClearCornerValue({
+    required double? corner,
+    required double padding,
+  }) {
+    final double _corner = corner ?? Ratioz.appBarCorner;
+    return _corner - padding;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static BorderRadius dialogCorners(BuildContext context) {
-    final BorderRadius _dialogCorners = Borderers.cornerOnly(
-      appIsLTR: true,
-      enTopLeft: Ratioz.bottomSheetCorner,
-      enBottomLeft: 0,
-      enBottomRight: 0,
-      enTopRight: Ratioz.bottomSheetCorner,
+  static BorderRadius dialogClearCorners({
+    required BuildContext context,
+    required double corners,
+    required double padding,
+  }) {
+
+    final double _clearValue = dialogClearCornerValue(
+      corner: corners,
+      padding: padding,
     );
-    return _dialogCorners;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double dialogClearCornerValue({double? corner}) {
-    return corner ?? Ratioz.appBarCorner;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static BorderRadius dialogClearCorners(BuildContext context) {
+
     final BorderRadius _corners = Borderers.cornerOnly(
       appIsLTR: true,
       enBottomRight: 0,
       enBottomLeft: 0,
-      enTopRight: dialogClearCornerValue(),
-      enTopLeft: dialogClearCornerValue(),
+      enTopRight: _clearValue,
+      enTopLeft: _clearValue,
     );
+
     return _corners;
   }
+  // --------------------------------------------------------------------------
+
+  /// SHOWING
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> showBottomDialog({
@@ -212,8 +268,11 @@ class BottomDialog extends StatelessWidget {
     required bool draggable,
     required Widget child,
     Color? backgroundColor,
+    Color? dialogColor,
     double? height,
     String? title,
+    double corners = Ratioz.bottomSheetCorner,
+    double padding = standardPadding,
   }) async {
 
     final double _height = height ?? BottomDialog.dialogHeight(
@@ -226,13 +285,13 @@ class BottomDialog extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: Borderers.cornerOnly(
               appIsLTR: true,
-              enTopLeft: Ratioz.bottomSheetCorner,
+              enTopLeft: corners,
               enBottomLeft: 0,
               enBottomRight: 0,
-              enTopRight: Ratioz.bottomSheetCorner,
+              enTopRight: corners,
             )
         ),
-        backgroundColor: Colorz.blackSemi255,
+        backgroundColor: dialogColor ?? Colorz.blackSemi255,
         barrierColor: backgroundColor ?? Colorz.black150,
         enableDrag: draggable,
         elevation: 20,
@@ -255,6 +314,8 @@ class BottomDialog extends StatelessWidget {
                       height: _height,
                       draggable: draggable,
                       title: title,
+                      corners: corners,
+                      padding: padding,
                       child: child,
                     ),
                   ),
@@ -276,6 +337,8 @@ class BottomDialog extends StatelessWidget {
     double buttonHeight = wideButtonHeight,
     String? title,
     Color? backgroundColor,
+    double corners = Ratioz.bottomSheetCorner,
+    double padding = standardPadding,
   }) async {
 
     final double _spacing = buttonHeight * 0.1;
@@ -286,6 +349,8 @@ class BottomDialog extends StatelessWidget {
       height: Scale.screenHeight(context) * 0.5,
       title: title,
       backgroundColor: backgroundColor,
+      corners: corners,
+      // padding: standardPadding,
       builder: (BuildContext ctx, Function? setState){
 
         final List<Widget> _widgets = builder(ctx, setState);
@@ -316,6 +381,8 @@ class BottomDialog extends StatelessWidget {
     required BuildContext context,
     required Widget Function(BuildContext, Function setState) builder,
     required String? title,
+    double padding = standardPadding,
+    double corners = Ratioz.bottomSheetCorner,
     bool draggable = true,
     double? height,
     Color? backgroundColor,
@@ -329,7 +396,10 @@ class BottomDialog extends StatelessWidget {
 
     await showModalBottomSheet(
       shape: RoundedRectangleBorder(
-        borderRadius: BottomDialog.dialogCorners(context),
+        borderRadius: BottomDialog.dialogCorners(
+          context: context,
+          corners: corners,
+        ),
       ),
       backgroundColor: Colorz.blackSemi255,
       barrierColor: backgroundColor ?? Colorz.black150,
@@ -347,6 +417,8 @@ class BottomDialog extends StatelessWidget {
               height: _height,
               draggable: draggable,
               title: title,
+              padding: padding,
+              corners: corners,
               child: StatefulBuilder(
                 builder: (_, Function setState){
 
@@ -371,11 +443,15 @@ class BottomDialog extends StatelessWidget {
     bool isDisabled = false,
     Function? onDisabledTap,
     Color? color,
+    double margin = standardPadding,
   }) {
 
     return SuperBox(
       height: height,
-      width: clearWidth(context),
+      width: clearWidth(
+        context: context,
+        padding: margin,
+      ),
       text: text,
       textScaleFactor: 1.1,
       // verseItalic: false,
@@ -412,7 +488,10 @@ class BottomDialog extends StatelessWidget {
     // --------------------
     final double _dialogWidth = dialogWidth(context);
     final double _dialogHeight = dialogHeight(context: context, overridingDialogHeight: height);
-    final BorderRadius _dialogCorners = dialogCorners(context);
+    final BorderRadius _dialogCorners = dialogCorners(
+      context: context,
+      corners: corners,
+    );
     // --------------------
     final double _draggerZoneHeight = draggerZoneHeight(draggable: draggable);
     final double _draggerHeight = draggerHeight(draggable: draggable);
@@ -423,15 +502,23 @@ class BottomDialog extends StatelessWidget {
     final bool _titleIsOn = _titleIsOnCheck();
     final double _titleZoneHeight = titleZoneHeight(titleIsOn: _titleIsOn);
     // --------------------
-    final double _dialogClearWidth = clearWidth(context);
+    final double _dialogClearWidth = clearWidth(
+      context: context,
+      padding: padding,
+    );
     final double _dialogClearHeight = clearHeight(
-        context: context,
-        titleIsOn: _titleIsOn,
-        overridingDialogHeight: height,
-        draggable: draggable
+      context: context,
+      titleIsOn: _titleIsOn,
+      overridingDialogHeight: height,
+      draggable: draggable,
+      padding: padding,
     );
     // --------------------
-    final BorderRadius _dialogClearCorners = dialogClearCorners(context);
+    final BorderRadius _dialogClearCorners = dialogClearCorners(
+      context: context,
+      corners: corners,
+      padding: padding,
+    );
     // --------------------
     return Container(
       width: _dialogWidth,
@@ -466,6 +553,7 @@ class BottomDialog extends StatelessWidget {
             width: _dialogWidth,
             height: _dialogHeight,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
 
                 /// --- DRAGGER
