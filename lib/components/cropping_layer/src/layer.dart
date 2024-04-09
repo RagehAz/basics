@@ -58,7 +58,8 @@ class _CroppingLayerState extends State<CroppingLayer> {
   @override
   void initState() {
     super.initState();
-    initializeRect();
+
+    _initializeRect();
 
   }
   // --------------------
@@ -76,32 +77,43 @@ class _CroppingLayerState extends State<CroppingLayer> {
     ) {
 
       setState(() {
-        initializeRect();
+        _initializeRect();
       });
 
     }
   }
   // --------------------
-  void initializeRect(){
+  void _initializeRect(){
+
     _maxRect = Rect.fromLTRB(0, 0, widget.width, widget.height);
-    _rect = _getInitialRect();
+    _rect = widget.initialRect ?? _getRectByScale();
+
+    // blog('LAYER : initializing _rect : $_rect : widget.initialRect : ${widget.initialRect}');
+    // blog('LAYER : initializing _maxRect : $_maxRect');
+
   }
   // --------------------
+  /*
   Rect _getInitialRect(){
 
-    if (widget.initialRect != null){
-      return widget.initialRect!;
-    }
+    // print('LAYER : _getInitialRect : widget.initialRect : ${widget.initialRect}');
 
-    else {
+    if (_rect == null){
       return _getRectByScale();
     }
 
+    else {
+      return _rect;
+    }
+
   }
+   */
   // --------------------
   Rect _getRectByScale(){
 
-    final double _scale = widget.initialSize ?? 1;
+    // blog('getting rect by scale');
+
+    final double _scale = widget.initialSize ?? 0.7;
 
     final double _fillX = widget.width * _scale;
     final double _fillY = widget.aspectRatio == null ? widget.height * _scale : _fillX / widget.aspectRatio!;
@@ -117,6 +129,44 @@ class _CroppingLayerState extends State<CroppingLayer> {
 
     return Rect.fromLTRB(_left, _top, _right, _bottom);
   }
+  // --------------------
+  /*
+  Rect _getRectFromInitialRect(){
+
+    final double _initialRectAspectRatio = widget.initialRect!.width / widget.initialRect!.height;
+
+    if (widget.initialRect == null){
+      return _getRectByScale();
+    }
+
+    // else if (widget.aspectRatio == null){
+    //   return widget.initialRect!;
+    // }
+
+    else if (widget.aspectRatio != _initialRectAspectRatio){
+
+      final double _fillX = widget.initialRect!.width;
+      final double _fillY = _fillX / widget.aspectRatio!;
+
+      final double _totalMarginX = widget.width - _fillX;
+      final double _totalMarginY = widget.height - _fillY;
+
+      final double _left = _totalMarginX / 2;
+      final double _right = widget.width - _left;
+
+      final double _top = _totalMarginY / 2;
+      final double _bottom = widget.height - _top;
+
+      return Rect.fromLTRB(_left, _top, _right, _bottom);
+
+    }
+
+    else {
+      return widget.initialRect!;
+    }
+
+  }
+   */
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
