@@ -727,12 +727,12 @@ class Filer {
         }
       }
 
-      if (_identical == false){
-        blogFilesDifferences(
-          file1: file1,
-          file2: file2,
-        );
-      }
+      // if (_identical == false){
+      //   blogFilesDifferences(
+      //     file1: file1,
+      //     file2: file2,
+      //   );
+      // }
 
       return _identical;
     }

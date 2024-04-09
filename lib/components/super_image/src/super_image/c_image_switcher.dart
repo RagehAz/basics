@@ -190,8 +190,6 @@ class ImageSwitcher extends StatelessWidget {
 
         final MediaModel _mediaModel = pic;
 
-        _mediaModel.blogPic(invoker: 'xyz');
-
         return CachelessImage(
           key: const ValueKey<String>('SuperImage_MediaModel'),
           bytes: _mediaModel.bytes,
