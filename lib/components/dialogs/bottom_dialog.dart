@@ -27,6 +27,7 @@ class BottomDialog extends StatelessWidget {
     this.title,
     this.corners = Ratioz.bottomSheetCorner,
     this.padding = standardPadding,
+    this.dialogColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -36,6 +37,7 @@ class BottomDialog extends StatelessWidget {
   final String? title;
   final double corners;
   final double padding;
+  final Color? dialogColor;
   // --------------------------------------------------------------------------
 
   /// PADDINGS
@@ -316,6 +318,7 @@ class BottomDialog extends StatelessWidget {
                       title: title,
                       corners: corners,
                       padding: padding,
+                      dialogColor: dialogColor,
                       child: child,
                     ),
                   ),
@@ -337,6 +340,7 @@ class BottomDialog extends StatelessWidget {
     double buttonHeight = wideButtonHeight,
     String? title,
     Color? backgroundColor,
+    Color? dialogColor,
     double corners = Ratioz.bottomSheetCorner,
     double padding = standardPadding,
   }) async {
@@ -349,6 +353,7 @@ class BottomDialog extends StatelessWidget {
       height: Scale.screenHeight(context) * 0.5,
       title: title,
       backgroundColor: backgroundColor,
+      dialogColor: dialogColor,
       corners: corners,
       // padding: standardPadding,
       builder: (BuildContext ctx, Function? setState){
@@ -386,6 +391,7 @@ class BottomDialog extends StatelessWidget {
     bool draggable = true,
     double? height,
     Color? backgroundColor,
+    Color? dialogColor,
   }) async {
 
     final double _height = height ?? BottomDialog.dialogHeight(
@@ -401,7 +407,8 @@ class BottomDialog extends StatelessWidget {
           corners: corners,
         ),
       ),
-      backgroundColor: Colorz.blackSemi255,
+
+      backgroundColor: dialogColor ?? Colorz.blackSemi255,
       barrierColor: backgroundColor ?? Colorz.black150,
       enableDrag: draggable,
       elevation: 20,
@@ -419,6 +426,7 @@ class BottomDialog extends StatelessWidget {
               title: title,
               padding: padding,
               corners: corners,
+              dialogColor: dialogColor,
               child: StatefulBuilder(
                 builder: (_, Function setState){
 
@@ -524,7 +532,7 @@ class BottomDialog extends StatelessWidget {
       width: _dialogWidth,
       height: _dialogHeight,
       decoration: BoxDecoration(
-        color: Colorz.white10,
+        color: dialogColor ?? Colorz.white10,
         borderRadius: _dialogCorners,
       ),
       child: Stack(

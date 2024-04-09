@@ -30,10 +30,10 @@ class BlurLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (blurIsOn == true) {
-      return SizedBox(
+      return Container(
         key: const ValueKey<String>('BlurLayer'),
         width: width,
+        color: color,
         height: height,
         child: ClipRRect(
           borderRadius: borders ?? BorderRadius.zero,
@@ -41,9 +41,7 @@ class BlurLayer extends StatelessWidget {
             alignment: alignment ?? Alignment.center,
             children: <Widget>[
 
-              // if (child != null)
-              // child!,
-
+              if (blurIsOn == true)
               IgnorePointer(
                 child: BackdropFilter(
                   filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
@@ -51,7 +49,7 @@ class BlurLayer extends StatelessWidget {
                     width: width,
                     height: height,
                     decoration: BoxDecoration(
-                      color: color,
+                      // color: color,
                       borderRadius: borders,
                       border: borderColor == null ? null : Border.all(
                         color: borderColor!,
@@ -71,12 +69,6 @@ class BlurLayer extends StatelessWidget {
       );
     }
 
-    else {
-      return const SizedBox();
-    }
-
-
-  }
   /// --------------------------------------------------------------------------
 }
 // -----------------------------------------------------------------------------
