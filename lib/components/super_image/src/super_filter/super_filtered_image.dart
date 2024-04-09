@@ -222,7 +222,7 @@ class _FilteredImageState extends State<_FilteredImage> {
     else if (widget.pic is SuperFile && oldWidget.pic is SuperFile){
       _bytesAreIdentical = SuperFile.checkFilesAreIdentical(file1: widget.pic, file2: oldWidget.pic);
     }
-    else if (widget.pic is SuperFile && oldWidget.pic is SuperFile){
+    else if (widget.pic is MediaModel && oldWidget.pic is MediaModel){
       _bytesAreIdentical = MediaModel.checkMediaModelsAreIdentical(model1: widget.pic, model2: oldWidget.pic);
     }
     else {

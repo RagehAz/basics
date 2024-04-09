@@ -179,6 +179,22 @@ class Imager{
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkImgImagesAreIdentical({
+    required img.Image? image1,
+    required img.Image? image2,
+  }){
+
+    final Uint8List? _bytes1 = image1?.getBytes();
+    final Uint8List? _bytes2 = image2?.getBytes();
+
+    return Byter.checkBytesAreIdentical(
+        bytes1: _bytes1,
+        bytes2: _bytes2
+    );
+
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
@@ -216,6 +232,63 @@ class Imager{
 
     }
 
+  }
+  // -----------------------------------------------------------------------------
+
+  /// CHECKER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> checkImagesAreIdentical(dynamic image1, dynamic image2) async {
+    bool _identical = false;
+
+    if (image1 == null && image2 == null){
+      _identical = true;
+    }
+    else if (image1 != null && image2 != null){
+
+      if (image1.runtimeType == image2.runtimeType){
+
+        /// BYTES
+        if (image1 is Uint8List){
+          _identical = Byter.checkBytesAreIdentical(bytes1: image1, bytes2: image2);
+        }
+
+        /// FILE
+        else if (image1 is File){
+          _identical = Filer.checkFilesAreIdentical(file1: image1, file2: image2);
+        }
+
+        /// XFILE
+        else if (image1 is XFile){
+          _identical = await XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
+        }
+
+        /// SUPER FILE
+        else if (image1 is SuperFile){
+          _identical = SuperFile.checkFilesAreIdentical(file1: image1, file2: image2);
+        }
+
+        /// MEDIA FILE
+        else if (image1 is MediaModel){
+          _identical = MediaModel.checkMediaModelsAreIdentical(model1: image1, model2: image2);
+        }
+
+        /// UI IMAGE
+        else if (image1 is ui.Image){
+          _identical = checkUiImagesAreIdentical(image1, image2);
+        }
+
+        /// IMAGE IMAGE
+        else if (image1 is img.Image){
+          _identical = checkImgImagesAreIdentical(image1: image1, image2: image2);
+        }
+
+      }
+
+    }
+
+    return _identical;
   }
   // -----------------------------------------------------------------------------
 
