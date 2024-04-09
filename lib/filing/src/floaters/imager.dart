@@ -239,7 +239,7 @@ class Imager{
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> checkImagesAreIdentical(dynamic image1, dynamic image2) async {
+  static bool checkImagesAreIdentical(dynamic image1, dynamic image2) {
     bool _identical = false;
 
     if (image1 == null && image2 == null){
@@ -259,10 +259,10 @@ class Imager{
           _identical = Filer.checkFilesAreIdentical(file1: image1, file2: image2);
         }
 
-        /// XFILE
-        else if (image1 is XFile){
-          _identical = await XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
-        }
+        // /// XFILE
+        // else if (image1 is XFile){
+        //   _identical = await XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
+        // }
 
         /// SUPER FILE
         else if (image1 is SuperFile){
