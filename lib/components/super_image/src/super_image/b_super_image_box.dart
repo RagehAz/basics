@@ -48,12 +48,14 @@ class SuperImageBox extends StatelessWidget {
       // width: 1,
     );
 
+    final BorderRadius _corners = Borderers.superCorners(
+      corners: corners,
+    );
+
     if (greyscale == true){
       return ClipRRect(
         key: const ValueKey<String>('SuperImageBox1'),
-        borderRadius: Borderers.superCorners(
-          corners: corners,
-        ),
+        borderRadius: _corners,
         child: ColorFiltered(
           colorFilter: getGreyScaleFilter(solidGrey: solidGreyScale),
           child: Container(
@@ -62,6 +64,7 @@ class SuperImageBox extends StatelessWidget {
             decoration: BoxDecoration(
               color: backgroundColor,
               border: _border,
+              borderRadius: _corners,
               // boxShadow: <BoxShadow>[
               //   Shadowz.CustomBoxShadow(
               //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
@@ -89,6 +92,7 @@ class SuperImageBox extends StatelessWidget {
         decoration: BoxDecoration(
           color: backgroundColor,
           border: _border,
+          borderRadius: _corners,
           // boxShadow: <BoxShadow>[
           //   Shadowz.CustomBoxShadow(
           //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
@@ -112,8 +116,9 @@ class SuperImageBox extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
-            color: backgroundColor,
-            border: _border,
+          color: backgroundColor,
+          border: _border,
+          borderRadius: _corners,
             // boxShadow: <BoxShadow>[
             //   Shadowz.CustomBoxShadow(
             //       color: bubble == true ? Colorz.black200 : Colorz.nothing,
@@ -127,9 +132,7 @@ class SuperImageBox extends StatelessWidget {
         child: Transform.scale(
           scale: scale,
           child: ClipRRect(
-            borderRadius: Borderers.superCorners(
-              corners: corners,
-            ),
+            borderRadius: _corners,
             child: child,
           ),
         ),

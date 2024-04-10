@@ -163,15 +163,28 @@ class ImageSwitcher extends StatelessWidget {
 
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
-        return CachelessImage(
+
+        return Image.memory(
+          pic!,
           key: const ValueKey<String>('SuperImage_bytes'),
-          bytes: pic,
+          fit: _boxFit,
           width: width,
           height: height,
-          color: backgroundColor,
-          boxFit: _boxFit,
-          // blendMode: BlendMode.color,
+          color: iconColor,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
         );
+
+        // return CachelessImage(
+        //   key: const ValueKey<String>('SuperImage_bytes'),
+        //   bytes: pic,
+        //   width: width,
+        //   height: height,
+        //   color: backgroundColor,
+        //   boxFit: _boxFit,
+        //   // blendMode: BlendMode.color,
+        // );
+
       }
 
       /// SUPER FILE
@@ -181,7 +194,7 @@ class ImageSwitcher extends StatelessWidget {
           file: pic,
           width: width,
           height: height,
-          fit: boxFit,
+          fit: _boxFit,
         );
       }
 
@@ -202,7 +215,7 @@ class ImageSwitcher extends StatelessWidget {
           return Image.memory(
             _mediaModel.bytes!,
             key: const ValueKey<String>('SuperImage_file'),
-            fit: boxFit,
+            fit: _boxFit,
             width: width,
             height: height,
             color: iconColor,
@@ -229,7 +242,7 @@ class ImageSwitcher extends StatelessWidget {
         return Image.file(
           pic,
           key: const ValueKey<String>('SuperImage_file'),
-          fit: boxFit,
+          fit: _boxFit,
           width: width,
           height: height,
           errorBuilder: _errorBuilder,
@@ -242,7 +255,7 @@ class ImageSwitcher extends StatelessWidget {
         return Image(
           image: XFileImage(pic),
           key: const ValueKey<String>('SuperImage_xfile'),
-          fit: boxFit,
+          fit: _boxFit,
           width: width,
           height: height,
           errorBuilder: _errorBuilder,
@@ -256,7 +269,7 @@ class ImageSwitcher extends StatelessWidget {
         return Image.network(
           pic.trim(),
           key: const ValueKey<String>('SuperImage_url'),
-          fit: boxFit,
+          fit: _boxFit,
           width: width,
           height: height,
           errorBuilder: _errorBuilder,
@@ -272,7 +285,7 @@ class ImageSwitcher extends StatelessWidget {
         return Image.asset(
           pic,
           key: const ValueKey<String>('SuperImage_png_or_jpg'),
-          fit: boxFit,
+          fit: _boxFit,
           width: width,
           height: height,
           errorBuilder: _errorBuilder,
@@ -337,7 +350,7 @@ class ImageSwitcher extends StatelessWidget {
 
           /// POSITIONING
           // alignment: Alignment.center, // DEFAULT
-          fit: boxFit,
+          fit: _boxFit,
 
           /// DUNNO
           // centerSlice: ,
