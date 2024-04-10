@@ -190,15 +190,36 @@ class ImageSwitcher extends StatelessWidget {
 
         final MediaModel _mediaModel = pic;
 
-        return CachelessImage(
-          key: const ValueKey<String>('SuperImage_MediaModel'),
-          bytes: _mediaModel.bytes,
-          width: width,
-          height: height,
-          color: backgroundColor,
-          boxFit: _boxFit,
-          // blendMode: BlendMode.color,
-        );
+        if (_mediaModel.bytes == null){
+          return Container(
+            width: width,
+            height: height,
+            color: backgroundColor,
+          );
+        }
+
+        else {
+          return Image.memory(
+            _mediaModel.bytes!,
+            key: const ValueKey<String>('SuperImage_file'),
+            fit: boxFit,
+            width: width,
+            height: height,
+            color: iconColor,
+            errorBuilder: _errorBuilder,
+            gaplessPlayback: _gaplessPlayback,
+          );
+        }
+
+        // return CachelessImage(
+        //   key: const ValueKey<String>('SuperImage_MediaModel'),
+        //   bytes: _mediaModel.bytes,
+        //   width: width,
+        //   height: height,
+        //   color: backgroundColor,
+        //   boxFit: _boxFit,
+        //   // blendMode: BlendMode.color,
+        // );
 
       }
 
