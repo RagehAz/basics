@@ -7,12 +7,18 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
     this.media,
     this.corners,
     this.errorIcon,
+    this.isMuted = false,
+    this.autoPlay = true,
+    this.loop = false,
   });
   // --------------------
   final double width;
   final dynamic corners;
   final String? errorIcon;
   final dynamic media;
+  final bool isMuted;
+  final bool autoPlay;
+  final bool loop;
   // --------------------
   @override
   _SuperVideoDynamicObjectLoaderState createState() => _SuperVideoDynamicObjectLoaderState();
@@ -85,6 +91,9 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
 
     await _controller!.superLoadMedia(
       object: widget.media,
+      autoPlay: widget.autoPlay,
+      loop: widget.loop,
+      isMuted: widget.isMuted,
     );
 
     setState(() {});

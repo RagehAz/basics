@@ -13,9 +13,10 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void loadFile({
     required File? file,
-    bool autoPlay = false,
-    bool loop = false,
-    bool showVolumeSlider = false,
+    required bool autoPlay,
+    required bool loop,
+    required bool showVolumeSlider,
+    required bool isMuted,
   }){
 
     if (file != null){
@@ -39,6 +40,7 @@ class SuperVideoController {
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
+        isMuted: isMuted,
       );
 
       _isFile = true;
@@ -51,9 +53,10 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void loadAsset({
     required String? asset,
-    bool autoPlay = false,
-    bool loop = false,
-    bool showVolumeSlider = false,
+    required bool autoPlay,
+    required bool loop,
+    required bool showVolumeSlider,
+    required bool isMuted,
   }){
 
     if (asset != null){
@@ -77,6 +80,7 @@ class SuperVideoController {
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
+        isMuted: isMuted,
       );
 
       _isAsset = true;
@@ -89,9 +93,10 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void loadURL({
     required String? url,
-    bool autoPlay = false,
-    bool loop = false,
-    bool showVolumeSlider = false,
+    required bool autoPlay,
+    required bool loop,
+    required bool showVolumeSlider,
+    required bool isMuted,
   }){
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
@@ -104,6 +109,7 @@ class SuperVideoController {
           url: url!,
           autoPlay: autoPlay,
           loop: loop,
+          isMuted: isMuted,
         );
       }
 
@@ -114,6 +120,7 @@ class SuperVideoController {
           autoPlay: autoPlay,
           loop: loop,
           showVolumeSlider: showVolumeSlider,
+          isMuted: isMuted,
         );
       }
 
@@ -126,6 +133,7 @@ class SuperVideoController {
     required String url,
     required bool autoPlay,
     required bool loop,
+    required bool isMuted,
   }){
 
     final String? _videoID = extractVideoIDFromYoutubeURL(url);
@@ -143,6 +151,7 @@ class SuperVideoController {
 
       _setupYoutubePlayer(
         autoPlay: autoPlay,
+        isMuted: isMuted,
       );
 
     }
@@ -161,6 +170,7 @@ class SuperVideoController {
     required bool autoPlay,
     required bool loop,
     required bool showVolumeSlider,
+    required bool isMuted,
   }){
 
     final VideoPlayerOptions _options = VideoPlayerOptions(
@@ -182,6 +192,7 @@ class SuperVideoController {
       autoPlay: autoPlay,
       loop: loop,
       showVolumeSlider: showVolumeSlider,
+      isMuted: isMuted,
     );
 
     _isVideoURL = true;
@@ -194,11 +205,14 @@ class SuperVideoController {
     required bool loop,
     required bool autoPlay,
     required bool showVolumeSlider,
+    required bool isMuted,
   }){
 
     if (_videoPlayerController != null){
-      _videoPlayerController!..initialize()..setVolume(1);
+      _videoPlayerController!.initialize();
     }
+
+    setVolume(isMuted ? 0 : 1);
 
     /// LOOP
     if (loop == true){
@@ -225,10 +239,11 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void _setupYoutubePlayer({
     required bool autoPlay,
+    required bool isMuted,
   }){
 
     /// VOLUME
-    _youtubeController?.setVolume(100);
+    _youtubeController?.setVolume(isMuted ? 0 : 100);
 
     /// AUTO PLAY
     if (autoPlay == true){
@@ -378,6 +393,8 @@ class SuperVideoController {
     if (_volume.value != volume){
 
       _videoPlayerController?.setVolume(volume);
+
+      _youtubeController?.setVolume((volume * 100).toInt());
 
       setNotifier(
           notifier: _volume,
@@ -621,6 +638,7 @@ class SuperVideoController {
     bool loop = false,
     bool showVolumeSlider = false,
     String? fileNameIfObjectIsBytes,
+    bool isMuted = false,
   }) async {
 
     if (object != null){
@@ -632,6 +650,7 @@ class SuperVideoController {
           autoPlay: autoPlay,
           showVolumeSlider: showVolumeSlider,
           loop: loop,
+          isMuted: isMuted,
         );
       }
 
@@ -642,6 +661,7 @@ class SuperVideoController {
           loop: loop,
           showVolumeSlider: showVolumeSlider,
           autoPlay: autoPlay,
+          isMuted: isMuted,
         );
       }
 
@@ -652,6 +672,7 @@ class SuperVideoController {
           autoPlay: autoPlay,
           showVolumeSlider: showVolumeSlider,
           loop: loop,
+          isMuted: isMuted,
         );
       }
 
@@ -668,6 +689,7 @@ class SuperVideoController {
             loop: loop,
             showVolumeSlider: showVolumeSlider,
             autoPlay: autoPlay,
+            isMuted: isMuted,
           );
         }
 
@@ -687,6 +709,7 @@ class SuperVideoController {
             autoPlay: autoPlay,
             showVolumeSlider: showVolumeSlider,
             loop: loop,
+            isMuted: isMuted,
           );
         }
 

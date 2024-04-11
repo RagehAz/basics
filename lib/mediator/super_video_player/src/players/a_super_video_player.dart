@@ -8,6 +8,9 @@ class SuperVideoPlayer extends StatelessWidget {
     this.corners,
     this.controller,
     this.errorIcon,
+    this.isMuted = false,
+    this.autoPlay = true,
+    this.loop = false,
     super.key
   });
   // --------------------
@@ -16,7 +19,9 @@ class SuperVideoPlayer extends StatelessWidget {
   final SuperVideoController? controller;
   final String? errorIcon;
   final dynamic media;
-  // --------------------
+  final bool isMuted;
+  final bool autoPlay;
+  final bool loop;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -27,6 +32,9 @@ class SuperVideoPlayer extends StatelessWidget {
         errorIcon: errorIcon,
         corners: corners,
         media: media,
+        isMuted: isMuted,
+        autoPlay: autoPlay,
+        loop: loop,
         // controller: null,
       );
     }
