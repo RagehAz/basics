@@ -5,12 +5,14 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
   const _SuperVideoControllerPlayer({
     required this.superVideoController,
     required this.width,
+    required this.height,
     this.errorIcon,
     this.corners = 10,
   });
   // --------------------
   final SuperVideoController? superVideoController;
   final double width;
+  final double height;
   final String? errorIcon;
   final dynamic corners;
   // --------------------------------------------------------------------------
@@ -20,7 +22,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
     if (superVideoController == null){
       return _VideoBox(
         width: width,
-        aspectRatio: 19/6,
+        aspectRatio: width / height,
         corners: corners,
         boxColor: Colorz.black255,
         child: null,
@@ -41,6 +43,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
         return _FilePlayer(
           superVideoController: superVideoController!,
           width: width,
+          height: height,
           corners: corners,
           errorIcon: errorIcon,
         );

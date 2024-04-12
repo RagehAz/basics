@@ -4,6 +4,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   // --------------------------------------------------------------------------
   const _SuperVideoDynamicObjectLoader({
     required this.width,
+    required this.height,
     this.media,
     this.corners,
     this.errorIcon,
@@ -13,6 +14,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   });
   // --------------------
   final double width;
+  final double height;
   final dynamic corners;
   final String? errorIcon;
   final dynamic media;
@@ -89,6 +91,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
 
     else if (
         oldWidget.width != widget.width ||
+        oldWidget.height != widget.height ||
         oldWidget.corners != widget.corners ||
         oldWidget.errorIcon != widget.errorIcon
     ){
@@ -138,6 +141,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
     /// PLAYER
     else {
       return _SuperVideoControllerPlayer(
+        height: widget.height,
         width: widget.width,
         superVideoController: _controller,
         corners: widget.corners,

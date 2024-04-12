@@ -769,5 +769,58 @@ class SuperVideoController {
       corners: corners ?? BorderRadius.circular(width * 0.02),
     );
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getHeightOnScreen({
+    required double videoWidth,
+    required double videoHeight,
+    required double areaWidth,
+    required double areaHeight,
+  }){
+    final Dimensions _dims = Dimensions(width: videoWidth, height: videoHeight);
+    final double _areaHeight = areaHeight;
+
+    final double _videoRatio = _dims.getAspectRatio();  // w / h
+    final double _areaWidth = areaWidth;
+
+    if (_dims.checkIsSquared() == true){
+      return _areaWidth > _areaHeight ? _areaHeight : _areaWidth;
+    }
+    else if (_dims.checkIsLandscape() == true){
+      return _areaWidth / _videoRatio;
+    }
+    else if (_dims.checkIsPortrait() == true){
+      return _areaHeight;
+    }
+    else {
+      return _areaHeight;
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double getWidthOnScreen({
+    required double videoWidth,
+    required double videoHeight,
+    required double areaWidth,
+    required double areaHeight,
+  }){
+
+    final Dimensions _dims = Dimensions(width: videoWidth, height: videoHeight);
+    final double _videoRatio = _dims.getAspectRatio();  // w / h
+
+    // blog('===> _cropped : $_dims : $_videoRatio');
+    // final Dimensions _real = Dimensions.fromSize(controller.videoDimension);
+    // blog('===> real : $_real : ${_real.getAspectRatio()}');
+    // blog('===> areaWidth : $areaWidth : areaHeight : $areaHeight');
+
+    return _videoRatio * getHeightOnScreen(
+      videoWidth: videoWidth,
+      videoHeight: videoHeight,
+      areaWidth: areaWidth,
+      areaHeight: areaHeight,
+    );
+
+  }
   // --------------------------------------------------------------------------
 }

@@ -22,20 +22,24 @@ class _VideoCard extends StatelessWidget {
       width: width,
     );
     // --------------------
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: _corners,
-        // color: Colorz.bloodTest,
-      ),
-      child: Card(
-          clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.zero,
-          /// to clip the child corners to be circular forcefully
-          shape: RoundedRectangleBorder(borderRadius: _corners),
-          // color: Colorz.black255,
-          child: VideoPlayer(controller),
+    return Center(
+      child: ClipRRect(
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius: _corners,
+            // color: Colorz.bloodTest,
+          ),
+          child: Card(
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.zero,
+              /// to clip the child corners to be circular forcefully
+              shape: RoundedRectangleBorder(borderRadius: _corners),
+              // color: Colorz.black255,
+              child: VideoPlayer(controller),
+          ),
+        ),
       ),
     );
     // --------------------
