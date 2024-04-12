@@ -384,6 +384,24 @@ class SuperVideoController {
   }
   // --------------------------------------------------------------------------
 
+  /// LOOPING
+
+  // --------------------
+  void setLooping(bool setTo){
+
+    if (setTo == true){
+      _videoPlayerController?.setLooping(true);
+      play();
+    }
+
+    else {
+      _videoPlayerController?.setLooping(false);
+      pause();
+    }
+
+  }
+  // --------------------------------------------------------------------------
+
   /// VOLUME
 
   // --------------------

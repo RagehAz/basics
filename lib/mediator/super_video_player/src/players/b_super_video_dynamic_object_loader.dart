@@ -62,15 +62,40 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
     super.didChangeDependencies();
   }
   // --------------------
-  /*
   @override
-  void didUpdateWidget(TheStatefulScreen oldWidget) {
+  void didUpdateWidget(_SuperVideoDynamicObjectLoader oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.thing != widget.thing) {
-      unawaited(_doStuff());
+
+    if (oldWidget.media != widget.media) {
+      _loadController();
     }
+
+    else if (oldWidget.isMuted != widget.isMuted){
+      _controller?.onMutingTap();
+    }
+
+    else if (oldWidget.loop != widget.loop){
+      _controller?.setLooping(widget.loop);
+    }
+
+    else if (oldWidget.autoPlay != widget.autoPlay){
+      if (widget.autoPlay == true){
+        _controller?.play();
+      }
+      else {
+        _controller?.pause();
+      }
+    }
+
+    else if (
+        oldWidget.width != widget.width ||
+        oldWidget.corners != widget.corners ||
+        oldWidget.errorIcon != widget.errorIcon
+    ){
+      setState(() {});
+    }
+
   }
-   */
   // --------------------
   @override
   void dispose() {
