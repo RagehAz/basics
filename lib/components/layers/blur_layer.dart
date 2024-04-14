@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class BlurLayer extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const BlurLayer({
+    required this.blurIsAbove,
     this.borders,
     this.blur = Ratioz.blur1,
     this.width = double.infinity,
@@ -26,6 +27,7 @@ class BlurLayer extends StatelessWidget {
   final Widget? child;
   final Alignment? alignment;
   final Color? borderColor;
+  final bool blurIsAbove;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class BlurLayer extends StatelessWidget {
             alignment: alignment ?? Alignment.center,
             children: <Widget>[
 
-              if (child != null)
+              if (blurIsAbove == true && child != null)
                 child!,
 
               if (blurIsOn == true)
@@ -61,6 +63,9 @@ class BlurLayer extends StatelessWidget {
                   ),
                 ),
               ),
+
+              if (blurIsAbove == false && child != null)
+                child!,
 
             ],
           ),

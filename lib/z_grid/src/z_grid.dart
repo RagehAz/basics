@@ -90,6 +90,7 @@ class ZGrid extends StatelessWidget {
                               color: Colorz.black125,
                               blurIsOn: blurBackgroundOnZoomedIn,
                               alignment: Alignment.topCenter,
+                              blurIsAbove: false,
                               child: Container( // => THIS TREE STARTING HERE IS USED TWICE : COPY THIS TEXT TO FIND WHERE
                                 width: gridScale.bigItemWidth,
                                 height: gridScale.bigItemHeight,
