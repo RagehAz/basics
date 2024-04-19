@@ -1,4 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
+import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/components/bubbles/bubble/bubble.dart';
 import 'package:basics/components/bubbles/bubble/bubble_header.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
@@ -167,12 +168,12 @@ class TileBubble extends StatelessWidget {
           ),
           child: BulletPoints(
             bulletPoints: bulletPoints,
-            textHeight: 20,
+            textHeight: 18,
             boxWidth: _childWidth,
             appIsLTR: appIsLTR,
             textDirection: textDirection ?? TextDirection.ltr,
             maxLines: bulletPointsMaxLines,
-            font: font,
+            font: BldrsThemeFonts.fontBody,
             showBottomLine: false,
           ),
         ),
