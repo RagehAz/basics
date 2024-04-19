@@ -22,7 +22,6 @@ class TileBubble extends StatelessWidget {
     this.secondLineTextHeight = 15,
     this.iconIsBubble = true,
     this.insideDialog = false,
-    this.moreBtOnTap,
     this.child,
     this.bulletPoints,
     this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
@@ -46,7 +45,6 @@ class TileBubble extends StatelessWidget {
   final double? secondLineTextHeight;
   final bool iconIsBubble;
   final bool insideDialog;
-  final Function? moreBtOnTap;
   final Widget? child;
   final List<String>? bulletPoints;
   final Color? bubbleColor;

@@ -138,6 +138,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
     _zoomAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
+
     );
 
     /// REMOVED
@@ -199,6 +200,8 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   @override
   Widget build(BuildContext context) {
 
+    blog('is Constrained aho');
+
     return GestureDetector(
       onTap: () async {
 
@@ -214,13 +217,13 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
 
       },
       onDoubleTap: _onDoubleTap,
-
+      onLongPress: _resetZoom,
       child: InteractiveViewer(
         // key: widget.key,
         // panEnabled: false,
         // scaleEnabled: true,
         transformationController: _transformationController,
-        constrained: false,
+        // constrained: true,
         maxScale: widget.maxZoom,
         minScale: widget.minZoom,
         boundaryMargin: const EdgeInsets.all(double.infinity),
@@ -251,7 +254,9 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
         //   blog('scaleUpdateDetails : $scaleUpdateDetails');
         //   },
 
-        child: widget.child ?? const SizedBox(),
+        child: Center(
+          child: widget.child ?? const SizedBox(),
+        ),
       ),
 
     );

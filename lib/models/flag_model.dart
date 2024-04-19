@@ -577,9 +577,9 @@ class Flag {
 
     final String? _areaNumbers = counterCaliber(flag?.areaSqKm);
     final String? _population = counterCaliber(flag?.population);
-    final double? _popDensityValue = (flag?.population ?? 0) / (flag?.areaSqKm ?? 0);
+    final double? _popDensityValue = flag?.population == null || flag?.areaSqKm == null ||  flag?.areaSqKm == 0 ? 0 : flag!.population!  / flag.areaSqKm;
     final String? _popDensity = Numeric.formatNumToSeparatedKilos(
-      number: _popDensityValue,
+      number: _popDensityValue ?? 0,
       fractions: 0,
     );
 

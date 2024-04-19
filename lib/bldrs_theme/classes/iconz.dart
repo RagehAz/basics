@@ -289,7 +289,7 @@ class Iconz {
   static const String arrowBlackLeft  = '$iconDirectory/gi_arrow_black_left.svg';
   static const String shop  = '$iconDirectory/gi_shop.svg';
   static const String masterCard  = '$iconDirectory/gi_mastercard.svg';
-  static const String paypal  = '$iconDirectory/gi_paypal.svg';
+  static const String paypal = '$iconDirectory/gi_paypal.svg';
   static const String visa  = '$iconDirectory/gi_visa.svg';
   static const String pdf = '$iconDirectory/gi_pdf.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
@@ -298,6 +298,7 @@ class Iconz {
   static const String video = '$iconDirectory/gi_video.svg';
   static const String volumeOn = '$iconDirectory/gi_volume_on.svg';
   static const String volumeOff = '$iconDirectory/gi_volume_off.svg';
+  static const String bzState = '$iconDirectory/gi_bz_state.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
