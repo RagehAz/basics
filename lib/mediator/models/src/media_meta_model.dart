@@ -193,6 +193,11 @@ class MediaMetaModel {
   }){
     return data?['file_path'];
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getCaption(){
+    return data?['caption'];
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING

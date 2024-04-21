@@ -16,6 +16,7 @@ class MediaModelCreator {
     required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -73,6 +74,7 @@ class MediaModelCreator {
                 'deviceID': _deviceID,
                 'deviceName': _deviceName,
                 'platform': _devicePlatform,
+                'caption': caption,
               },
             ),
           ),
@@ -94,6 +96,7 @@ class MediaModelCreator {
     required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -157,6 +160,7 @@ class MediaModelCreator {
                 'deviceName': _deviceName,
                 'platform': _devicePlatform,
                 'file_path': file.path,
+                'caption': caption,
               },
             ),
           ),
@@ -178,6 +182,7 @@ class MediaModelCreator {
     required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -195,6 +200,7 @@ class MediaModelCreator {
         ownersIDs: ownersIDs,
         uploadPath: uploadPath,
         mediaOrigin: mediaOrigin,
+        caption: caption,
       );
 
     }
@@ -211,6 +217,8 @@ class MediaModelCreator {
     required String? url,
     required String uploadPath,
     List<String>? ownersIDs,
+    MediaOrigin? mediaOrigin,
+    String? caption,
   }) async {
 
     if (ObjectCheck.isAbsoluteURL(url) == false){
@@ -222,9 +230,10 @@ class MediaModelCreator {
 
       final MediaModel? _mediaModel = await  MediaModelCreator.fromBytes(
         bytes: _bytes,
-        mediaOrigin: MediaOrigin.downloaded,
+        mediaOrigin: mediaOrigin ?? MediaOrigin.downloaded,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
+        caption: caption,
       );
 
       return _mediaModel?.copyWith(
@@ -252,6 +261,7 @@ class MediaModelCreator {
     required String uploadPath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -264,6 +274,7 @@ class MediaModelCreator {
         mediaOrigin: mediaOrigin,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
+        caption: caption,
       );
 
     }
@@ -291,6 +302,11 @@ class MediaModelCreator {
           mediaOrigin: mediaOrigin,
           uploadPath: uploadPathGenerator.call(i, _entity.title),
           ownersIDs: ownersIDs,
+          // caption: null,
+        );
+
+        _model?.setOriginalURL(
+            originalURL: await _entity.getMediaUrl(),
         );
 
         if (_model != null){
@@ -313,6 +329,7 @@ class MediaModelCreator {
     required String localAsset,
     required String uploadPath,
     List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -326,7 +343,8 @@ class MediaModelCreator {
         mediaOrigin: MediaOrigin.generated,
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
-        bytes: _bytes
+        bytes: _bytes,
+        caption: caption,
       );
 
     }
@@ -348,6 +366,7 @@ class MediaModelCreator {
         final MediaModel? _pic = await fromLocalAsset(
           localAsset: asset,
           uploadPath: FilePathing.getNameFromLocalAsset(asset)!,
+          // caption: null,
           // ownersIDs: ,
         );
 
@@ -372,6 +391,7 @@ class MediaModelCreator {
     required MediaOrigin? mediaOrigin,
     required String uploadPath,
     required List<String>? ownersIDs,
+    String? caption,
   }) async {
     MediaModel? _output;
 
@@ -399,6 +419,7 @@ class MediaModelCreator {
           ownersIDs: ownersIDs,
           uploadPath: uploadPath,
           mediaOrigin: mediaOrigin,
+          caption: caption,
         );
 
       }

@@ -7,4 +7,8 @@ enum MediaOrigin {
   galleryVideo,
   generated,
   downloaded,
+  facebook,
+  instagram,
+  amazon,
+  website,
 }

@@ -161,6 +161,12 @@ class MediaModel {
       case MediaOrigin.galleryVideo: return 'galleryVideo';
       case MediaOrigin.generated:    return 'generated';
       case MediaOrigin.downloaded:   return 'downloaded';
+
+      case MediaOrigin.facebook:    return 'facebook';
+      case MediaOrigin.instagram:   return 'instagram';
+      case MediaOrigin.amazon:      return 'amazon';
+      case MediaOrigin.website:     return 'website';
+
       default: return null;
     }
   }
@@ -174,6 +180,12 @@ class MediaModel {
       case 'galleryVideo':  return    MediaOrigin.galleryVideo;
       case 'generated':     return    MediaOrigin.generated;
       case 'downloaded':    return    MediaOrigin.downloaded;
+
+      case 'facebook':      return    MediaOrigin.facebook;
+      case 'instagram':     return    MediaOrigin.instagram;
+      case 'amazon':        return    MediaOrigin.amazon;
+      case 'website':       return    MediaOrigin.website;
+
       default: return null;
     }
   }
@@ -395,7 +407,7 @@ class MediaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  MediaModel addOriginalURL({
+  MediaModel setOriginalURL({
     required String? originalURL,
   }){
 
@@ -436,6 +448,33 @@ class MediaModel {
           map: meta?.data,
           key: 'source',
           value: MediaModel.cipherMediaOrigin(mediaOrigin)!,
+          overrideExisting: true,
+        ),
+      );
+
+      return copyWith(
+        meta: _meta,
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  MediaModel setCaption({
+    required String? caption,
+  }){
+
+    if (caption == null){
+      return this;
+    }
+    else {
+
+      final MediaMetaModel? _meta = meta?.copyWith(
+        data: MapperSS.insertPairInMapWithStringValue(
+          map: meta?.data,
+          key: 'caption',
+          value: caption,
           overrideExisting: true,
         ),
       );
