@@ -69,6 +69,43 @@ class Searching {
     }
 
   }
+  // --------------------
+  /// AI TESTED
+  static bool triggerSearching({
+    required String? text,
+    required bool isSearching,
+    int minCharLimit = 3,
+
+
+  }){
+
+    /// WHEN GOING MORE THAN MIN LENGTH
+    if (text != null && text.length >= minCharLimit){
+
+      /// ONLY SWITCH ON SEARCHING IF ITS NOT ALREADY ON
+      if (isSearching != true){
+        return true;
+      }
+      else {
+        return isSearching;
+      }
+
+    }
+
+    /// WHEN GOING LESS THAN MIN LENGTH
+    else {
+
+      /// ONLY SWITCH OFF SEARCHING IF ITS NOT ALREADY OFF
+      if (isSearching != false){
+        return false;
+      }
+      else {
+        return isSearching;
+      }
+
+    }
+
+  }
   // --------------------------------------------------------------------------
 
   /// CANCEL SEARCH

@@ -451,6 +451,8 @@ class BottomDialog extends StatelessWidget {
     bool isDisabled = false,
     Function? onDisabledTap,
     Color? color,
+    Color textColor = Colorz.white255,
+    Color? iconColor,
     double margin = standardPadding,
   }) {
 
@@ -465,12 +467,14 @@ class BottomDialog extends StatelessWidget {
       // verseItalic: false,
       icon: icon,
       iconSizeFactor: 0.6,
+      iconColor: iconColor,
       textCentered: verseCentered,
       textMaxLines: 2,
       onTap: onTap,
       isDisabled: isDisabled,
       onDisabledTap: onDisabledTap,
       color: color,
+      textColor: textColor,
       textFont: BldrsThemeFonts.fontHead,
       textItalic: true,
     );

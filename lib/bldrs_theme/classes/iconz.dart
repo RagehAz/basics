@@ -299,6 +299,8 @@ class Iconz {
   static const String volumeOn = '$iconDirectory/gi_volume_on.svg';
   static const String volumeOff = '$iconDirectory/gi_volume_off.svg';
   static const String bzState = '$iconDirectory/gi_bz_state.svg';
+  static const String fishTank = '$iconDirectory/gi_fish_tank.svg';
+  static const String fish = '$iconDirectory/gi_fish.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -559,6 +561,8 @@ class Iconz {
       video: true,
       volumeOn: true,
       volumeOff: true,
+      fishTank: true,
+      fish: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

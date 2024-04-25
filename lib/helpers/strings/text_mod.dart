@@ -393,6 +393,31 @@ class TextMod {
 
   }
   // --------------------
+  /// TASK : TEST_ME
+  static String? removeTextAfterNumberOfCharacters({
+    required String? string,
+    required int? numberOfCharacters,
+  }) {
+
+    if (string == null || string.isEmpty) {
+      return null; // If the string is null or empty, return null
+    }
+
+    else {
+
+      final int _numberOfCharacters = numberOfCharacters ?? 0;
+
+      if (string.length <= _numberOfCharacters) {
+        return string;
+      }
+      else {
+        return string.substring(0, _numberOfCharacters);
+      }
+
+    }
+
+  }
+  // --------------------
   /// AI TESTED
   static String? removeSpacesFromAString(String? string) {
     String? _output;

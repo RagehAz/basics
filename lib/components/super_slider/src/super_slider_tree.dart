@@ -98,6 +98,24 @@ class SuperSlider extends StatelessWidget {
     );
   }
   /// --------------------------------------------------------------------------
+  static List<int> createIndexedDivisions({
+    required List<dynamic> list,
+  }){
+    final List<int> _output = [];
+
+    if (Lister.checkCanLoop(list) == true){
+
+      for (int i = 0; i < list.length; i++){
+
+        _output.add(i);
+
+      }
+
+    }
+
+    return _output;
+  }
+  /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
