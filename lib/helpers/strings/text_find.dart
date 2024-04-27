@@ -1,4 +1,3 @@
-import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
@@ -35,7 +34,6 @@ class TextFind {
       _output = regex.allMatches(text!).map((match){
 
         final String _grouped = match.group(0)!;
-        blog('----> match : $match : grouped : $_grouped');
 
         return _grouped;
 
@@ -51,7 +49,7 @@ class TextFind {
 
   // --------------------
   /// FAIR ENOUGH
-  static List<String> phoneNumbers({
+  static List<String> phones({
     required String? text,
   }) {
     List<String> phoneNumbers = [];
@@ -119,9 +117,6 @@ class TextFind {
         addTheseChars: _charsToMove,
       );
 
-      blog('--> text : $text');
-      blog('--> cleaned : $_cleaned');
-
       if (TextCheck.isEmpty(text) == false){
 
         // final List<String> _matches1 = getStringsByRegEx(
@@ -138,10 +133,6 @@ class TextFind {
           text: _cleaned,
           pattern: r'\b\d{6,}\b',
         );
-
-        // blog('--> _matches1 : $_matches1');
-        // blog('--> _matches2 : $_matches2');
-        blog('--> _moreThan5Numbers : $_moreThan5Numbers');
 
         phoneNumbers = Stringer.addStringsToStringsIfDoNotContainThem(
           listToTake: phoneNumbers,
@@ -171,16 +162,12 @@ class TextFind {
 
     if (TextCheck.isEmpty(text) == false){
 
-      blog('--> text : $text');
-
       if (TextCheck.isEmpty(text) == false){
 
         final List<String> _matches = getStringsByRegEx(
           text: text,
           pattern: r'\bhttps?:\/\/[\w\-_]+(\.[\w\-_]+)+[\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#]',
         );
-
-        blog('--> _matches : $_matches');
 
         _output = Stringer.addStringsToStringsIfDoNotContainThem(
           listToTake: _output,
@@ -208,17 +195,12 @@ class TextFind {
 
     if (TextCheck.isEmpty(text) == false){
 
-      blog('--> text : $text');
-
       if (TextCheck.isEmpty(text) == false){
 
         final List<String> _matches = getStringsByRegEx(
           text: text,
           pattern: r'\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b',
         );
-
-
-        blog('--> _matches : $_matches');
 
         _output = Stringer.addStringsToStringsIfDoNotContainThem(
           listToTake: _output,

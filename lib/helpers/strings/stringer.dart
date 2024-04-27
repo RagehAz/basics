@@ -192,6 +192,19 @@ class Stringer {
 
   // --------------------
   /// AI TESTED
+  static List<String> removeStringFromStrings({
+    required List<String>? removeFrom,
+    required String? removeThis,
+  }){
+
+    return removeStringsFromStrings(
+      removeFrom: removeFrom,
+      removeThis: removeThis == null ? [] : [removeThis],
+    );
+
+  }
+  // --------------------
+  /// AI TESTED
   static List<String> removeStringsFromStrings({
     required List<String>? removeFrom,
     required List<String>? removeThis,

@@ -196,45 +196,45 @@ void main(){
   group('TextFind.phoneNumbers', () {
 
     test('Extracts phone number without country code', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Contact me at 1234567890');
+      final List<String> result = TextFind.phones(text: 'Contact me at 1234567890');
       expect(result, contains('1234567890'));
     });
 
     test('Extracts phone number with country code', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Call +1234567890');
+      final List<String> result = TextFind.phones(text: 'Call +1234567890');
       expect(result, contains('001234567890'));
     });
 
 
     test('Ignores non-phone numbers', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'No phone numbers here');
+      final List<String> result = TextFind.phones(text: 'No phone numbers here');
       expect(result, isEmpty);
     });
 
 
     test('Handles multiple phone numbers in text', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Call 123-456-7890 or +9876543210');
+      final List<String> result = TextFind.phones(text: 'Call 123-456-7890 or +9876543210');
       expect(result, contains('1234567890'));
       expect(result, contains('009876543210'));
     });
 
     test('Replaces specified characters in text', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Contact me at 12-34-56-7890');
+      final List<String> result = TextFind.phones(text: 'Contact me at 12-34-56-7890');
       expect(result, contains('1234567890'));
     });
 
     test('Ignores malformed phone numbers', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Invalid number 12345');
+      final List<String> result = TextFind.phones(text: 'Invalid number 12345');
       expect(result, isEmpty);
     });
 
     test('Extracts phone number with special characters', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Reach me at 123-456-7890');
+      final List<String> result = TextFind.phones(text: 'Reach me at 123-456-7890');
       expect(result, contains('1234567890'));
     });
 
     test('Handles complex input with different replacements', () {
-      final List<String> result = TextFind.phoneNumbers(text: 'Text: 123-45-67890 and 987654321');
+      final List<String> result = TextFind.phones(text: 'Text: 123-45-67890 and 987654321');
       expect(result, contains('1234567890'));
       expect(result, contains('987654321'));
     });
