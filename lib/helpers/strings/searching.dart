@@ -75,8 +75,6 @@ class Searching {
     required String? text,
     required bool isSearching,
     int minCharLimit = 3,
-
-
   }){
 
     /// WHEN GOING MORE THAN MIN LENGTH

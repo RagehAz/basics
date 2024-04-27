@@ -1,4 +1,5 @@
 import 'package:basics/helpers/strings/stringer.dart';
+import 'package:basics/helpers/strings/text_find.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // write a flutter test group that includes several tests for following function
@@ -857,31 +858,31 @@ void main(){
   /// findHashtags
 
   // --------------------
-  group('Stringer.findHashtags', () {
+  group('TextFind.findHashtags', () {
 
     test('Returns an empty list when text is null', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: null,
       );
       expect(result, []);
     });
 
     test('Returns an empty list when text is an empty string', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: '',
       );
       expect(result, isEmpty);
     });
 
     test('Returns an empty list when no hashtags are present', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: 'This is a sample text without hashtags.',
       );
       expect(result, []);
     });
 
     test('Returns a list with hashtags when considerDash is true and removeHash is false', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: 'This is a sample text with #hashtags and #multiple-dash-tags.',
         // considerDash: true, // default
         // removeHash: false, // default
@@ -890,7 +891,7 @@ void main(){
     });
 
     test('test', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: 'This is a sample text with #hashtags and #multiple-dash-tags.',
         considerDash: false,
         // removeHash: false, // default
@@ -899,7 +900,7 @@ void main(){
     });
 
     test('Returns a list without the hash symbol when considerDash is true and removeHash is true', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: 'This is a sample text with #hashtags and #multiple-dash-tags.',
         // considerDash: true, // default
         removeHash: true,
@@ -908,7 +909,7 @@ void main(){
     });
 
     test('Returns a list with hashtags when considerDash is false and removeHash is true', () {
-      final List<String> result = Stringer.findHashtags(
+      final List<String> result = TextFind.hashtags(
         text: 'This is a sample text with #hashtags and #multiple-dash-tags.',
         considerDash: false,
         removeHash: true,

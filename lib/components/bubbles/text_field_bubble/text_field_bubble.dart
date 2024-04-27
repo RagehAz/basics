@@ -484,6 +484,10 @@ class TextFieldBubble extends StatelessWidget {
             ),
           ),
 
+          /// CHILDREN SPACING
+          if (Lister.checkCanLoop(columnChildren) == true)
+            const SizedBox(width: 5, height: 5),
+
           /// CHILDREN
           if (Lister.checkCanLoop(columnChildren) == true)
             Disabler(

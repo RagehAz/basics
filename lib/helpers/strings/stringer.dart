@@ -74,7 +74,7 @@ class Stringer {
   }
   // -----------------------------------------------------------------------------
 
-  /// MODIFIERS
+  /// ADD
 
   // --------------------
   /// AI TESTED
@@ -161,6 +161,35 @@ class Stringer {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// PUT IF ABSENT
+
+  // --------------------
+  /// AI TESTED
+  static List<String> putStringInStringsIfAbsent({
+    required List<String>? strings,
+    required String? string,
+  }){
+    final List<String> _output = <String>[...?strings];
+
+    if (string != null) {
+      final bool _contains = checkStringsContainString(
+        strings: _output,
+        string: string,
+      );
+
+      if (_contains == false) {
+        _output.add(string);
+      }
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// REMOVE
+
   // --------------------
   /// AI TESTED
   static List<String> removeStringsFromStrings({
@@ -188,27 +217,6 @@ class Stringer {
 
       }
 
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// AI TESTED
-  static List<String> putStringInStringsIfAbsent({
-    required List<String>? strings,
-    required String? string,
-  }){
-    final List<String> _output = <String>[...?strings];
-
-    if (string != null) {
-      final bool _contains = checkStringsContainString(
-        strings: _output,
-        string: string,
-      );
-
-      if (_contains == false) {
-        _output.add(string);
-      }
     }
 
     return _output;
@@ -256,6 +264,10 @@ class Stringer {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// NULLIFY
+
   // --------------------
   /// AI TESTED
   static dynamic nullifyNullString(dynamic input){
@@ -834,56 +846,7 @@ class Stringer {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
 
-  /// HASHTAGS
-
-  // --------------------
-  /// AI TESTED
-  static List<String> findHashtags({
-    required String? text,
-    bool considerDash = true,
-    bool removeHash = false,
-  }){
-    final List<String> _output = <String>[];
-
-    if (text != null && text.isNotEmpty == true){
-
-      String _rawExp;
-      /// CONSIDER DASH
-      if (considerDash == true){
-        _rawExp = r'\B#[\w-]+';
-      }
-      /// IGNORE DASH
-      else {
-        _rawExp = r'\B#\w\w+';
-      }
-
-      final RegExp exp = RegExp(_rawExp);
-      exp.allMatches(text).forEach((match){
-
-        final String? _match = match.group(0);
-
-        if (_match != null) {
-          /// REMOVE HASH
-          if (removeHash == true) {
-            final String _cleaned = TextMod.removeTextBeforeFirstSpecialCharacter(
-                text: _match,
-                specialCharacter: '#')!;
-            _output.add(_cleaned);
-          }
-
-          /// KEEP HASH
-          else {
-            _output.add(_match);
-          }
-        }
-      });
-
-    }
-
-    return _output;
-  }
   // -----------------------------------------------------------------------------
 
   /// RANDOMS

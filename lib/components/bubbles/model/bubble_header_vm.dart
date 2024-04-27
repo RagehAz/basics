@@ -15,6 +15,7 @@ class BubbleHeaderVM {
     this.hasMoreButton = false,
     this.headlineText,
     this.headlineColor = const Color.fromARGB(255, 255, 255, 255),
+    this.headlineMaxLines = 2,
     this.switchValue = false,
     this.onSwitchTap,
     this.onMoreButtonTap,
@@ -47,6 +48,7 @@ class BubbleHeaderVM {
   final bool hasMoreButton;
   final String? headlineText;
   final Color? headlineColor;
+  final int headlineMaxLines;
   final bool centered;
   final bool switchValue;
   final ValueChanged<bool>? onSwitchTap;
@@ -91,6 +93,7 @@ class BubbleHeaderVM {
     bool? hasMoreButton,
     String? headlineText,
     Color? headlineColor,
+    int? headlineMaxLines,
     bool? switchValue,
     ValueChanged<bool>? onSwitchTap,
     Function? onMoreButtonTap,
@@ -123,6 +126,7 @@ class BubbleHeaderVM {
       hasMoreButton: hasMoreButton ?? this.hasMoreButton,
       headlineText: headlineText ?? this.headlineText,
       headlineColor: headlineColor ?? this.headlineColor,
+      headlineMaxLines: headlineMaxLines ?? this.headlineMaxLines,
       switchValue: switchValue ?? this.switchValue,
       onSwitchTap: onSwitchTap ?? this.onSwitchTap,
       onMoreButtonTap: onMoreButtonTap ?? this.onMoreButtonTap,
@@ -183,6 +187,7 @@ class BubbleHeaderVM {
           model1.hasMoreButton == model2.hasMoreButton &&
           model1.headlineText == model2.headlineText &&
           model1.headlineColor == model2.headlineColor &&
+          model1.headlineMaxLines == model2.headlineMaxLines &&
           model1.switchValue == model2.switchValue &&
           model1.redDot == model2.redDot &&
           model1.centered == model2.centered &&
@@ -253,6 +258,7 @@ class BubbleHeaderVM {
       hasMoreButton.hashCode^
       headlineText.hashCode^
       headlineColor.hashCode^
+      headlineMaxLines.hashCode^
       switchValue.hashCode^
       onSwitchTap.hashCode^
       onMoreButtonTap.hashCode^

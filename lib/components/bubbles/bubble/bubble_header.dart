@@ -82,7 +82,7 @@ class BubbleHeader extends StatelessWidget {
             text: viewModel!.headlineText,
             textColor: viewModel!.headlineColor,
             textHeight: viewModel!.headlineHeight,
-            maxLines: 3,
+            maxLines: viewModel!.headlineMaxLines,
             centered: viewModel!.centered,
             redDot: viewModel!.redDot,
             margins: const EdgeInsets.only(
