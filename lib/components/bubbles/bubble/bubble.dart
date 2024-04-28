@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 import 'package:basics/components/bubbles/bubble/bubble_header.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
+import 'package:basics/components/drawing/spacing.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/aligner.dart';
 import 'package:basics/helpers/space/borderers.dart';
@@ -254,6 +255,9 @@ class _BubbleContents extends StatelessWidget {
             ),
           ),
 
+          if (child != null || Lister.checkCanLoop(columnChildren) == true)
+            const Spacing(size: 5),
+
           if (Lister.checkCanLoop(columnChildren) == true)
           ...columnChildren!,
 
@@ -265,5 +269,5 @@ class _BubbleContents extends StatelessWidget {
     );
 
   }
-/// --------------------------------------------------------------------------
+  /// --------------------------------------------------------------------------
 }

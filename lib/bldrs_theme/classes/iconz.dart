@@ -301,6 +301,8 @@ class Iconz {
   static const String bzState = '$iconDirectory/gi_bz_state.svg';
   static const String fishTank = '$iconDirectory/gi_fish_tank.svg';
   static const String fish = '$iconDirectory/gi_fish.svg';
+  static const String carousel = '$iconDirectory/gi_carousel.svg';
+  static const String reel = '$iconDirectory/gi_reel.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -563,6 +565,8 @@ class Iconz {
       volumeOff: true,
       fishTank: true,
       fish: true,
+      carousel: true,
+      reel: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
