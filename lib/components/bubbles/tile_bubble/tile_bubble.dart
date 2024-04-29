@@ -15,6 +15,7 @@ class TileBubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const TileBubble({
     this.bubbleHeaderVM,
+    this.borderColor,
     this.bubbleWidth,
     this.textColor = const Color.fromARGB(255, 255, 255, 255),
     this.onTileTap,
@@ -57,6 +58,7 @@ class TileBubble extends StatelessWidget {
   final FocusNode? focusNode;
   final int bulletPointsMaxLines;
   final bool hasBottomPadding;
+  final Color? borderColor;
   /// --------------------------------------------------------------------------
   static const double iconBoxWidth = 30; /// delete me 5alas (im in BubbleHeader class)
   // -----------------------------------------------------------------------------
@@ -137,6 +139,7 @@ class TileBubble extends StatelessWidget {
 
     return Bubble(
       bubbleHeaderVM: const BubbleHeaderVM(),
+      borderColor: borderColor,
       width: _bubbleWidth,
       onBubbleTap: onTileTap,
       bubbleColor: validatorBubbleColor(

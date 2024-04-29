@@ -13,6 +13,7 @@ class Bubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const Bubble({
     required this.bubbleHeaderVM,
+    this.borderColor,
     this.columnChildren,
     this.child,
     this.childrenCentered = false,
@@ -43,6 +44,7 @@ class Bubble extends StatelessWidget {
   final bool appIsLTR;
   final Color splashColor;
   final bool hasBottomPadding;
+  final Color? borderColor;
   // -----------------------------------------------------------------------------
   static double clearWidth({
     required BuildContext context,
@@ -144,6 +146,7 @@ class Bubble extends StatelessWidget {
         boxColor: bubbleColor,
         margin: _bubbleMargins.copyWith(bottom: _pageMargin),
         corners: _corners,
+        borderColor: borderColor,
         onTap: onBubbleTap == null ? null : () => onBubbleTap!(),
         onDoubleTap: onBubbleDoubleTap == null ? null : () => onBubbleDoubleTap!(),
         splashColor: onBubbleTap == null ? const Color.fromARGB(0, 255, 255, 255) : splashColor,
