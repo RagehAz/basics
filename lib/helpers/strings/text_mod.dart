@@ -54,7 +54,7 @@ class TextMod {
   // --------------------
   /// AI TESTED
   static String? idifyString(String? text){
-    String? _output;
+    String? _output = text;
 
     if (TextCheck.isEmpty(text) == false){
 

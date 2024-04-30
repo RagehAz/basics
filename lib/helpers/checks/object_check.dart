@@ -238,21 +238,6 @@ class ObjectCheck {
 
     return _isImgImage;
   }
-  // --------------------
-  /// AI TESTED
-  static bool objectIsFireStoragePicPath(dynamic object){
-    bool _isPicPath = false;
-
-    if (object != null && object is String){
-
-      final String _path = object;
-
-      _isPicPath = TextCheck.stringStartsExactlyWith(text: _path, startsWith: 'storage/');
-
-    }
-
-    return _isPicPath;
-  }
   // -----------------------------------------------------------------------------
 
   /// NUMERALS - STRINGS

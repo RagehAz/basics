@@ -1,3 +1,4 @@
+import 'package:basics/helpers/strings/phoner.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
@@ -147,7 +148,7 @@ class TextFind {
 
     }
 
-    return phoneNumbers;
+    return Phoner.cleanNumbers(phones: phoneNumbers);
   }
   // -----------------------------------------------------------------------------
 
