@@ -418,7 +418,8 @@ class _SuperTextFieldState extends State<SuperTextField> {
               );
             }
 
-          }),
+          }
+          ),
     );
 
   }

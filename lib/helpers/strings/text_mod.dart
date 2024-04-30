@@ -71,6 +71,30 @@ class TextMod {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// CASING
+
+  // --------------------
+  ///
+  static List<String> stringsToLowerCase({
+    required List<String>? strings,
+  }){
+    final List<String> _output = [];
+
+    if (Lister.checkCanLoop(strings) == true){
+
+      for (final String text in strings!){
+
+        final String _lowered = text.toLowerCase();
+        _output.add(_lowered);
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
   /// TEXT TAGS MODIFIER
 
   // --------------------

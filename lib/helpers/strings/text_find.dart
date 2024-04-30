@@ -181,7 +181,7 @@ class TextFind {
 
     }
 
-    return _output;
+    return TextMod.stringsToLowerCase(strings: _output);
   }
   // -----------------------------------------------------------------------------
 
@@ -214,7 +214,7 @@ class TextFind {
 
     }
 
-    return _output;
+    return TextMod.stringsToLowerCase(strings: _output);
   }
   // -----------------------------------------------------------------------------
 
@@ -267,5 +267,4 @@ class TextFind {
     return _output;
   }
   // -----------------------------------------------------------------------------
-  void x(){}
 }
