@@ -24,7 +24,7 @@ class HttpException implements Exception {
 /// TESTED : WORKS PERFECT
 Future<void> tryAndCatch({
   required Future<void> Function() functions,
-  String? invoker,
+  required String invoker,
   ValueChanged<String>? onError,
   int? timeout,
 }) async {

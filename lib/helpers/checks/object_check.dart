@@ -29,6 +29,7 @@ class ObjectCheck {
       final String _url = object.trim();
 
       tryAndCatch(
+        invoker: 'ObjectCheck.isAbsoluteURL',
         functions: () async {
           final parsedUri = Uri.parse(_url);
           _isValidURL = parsedUri.isAbsolute;

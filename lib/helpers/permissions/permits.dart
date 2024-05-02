@@ -9,7 +9,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 export 'package:permission_handler/permission_handler.dart';
 
-
 /// => TAMAM
 class Permit {
   // -----------------------------------------------------------------------------
@@ -154,10 +153,11 @@ class Permit {
     PermissionState? per;
 
     await tryAndCatch(
+        invoker: 'Permit.requestPhotoManagerPermission',
         functions: () async {
           per = await PhotoManager.requestPermissionExtend();
         }
-    );
+        );
 
     return per;
   }

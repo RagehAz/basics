@@ -27,6 +27,7 @@ class LocalJSON {
     );
 
     await tryAndCatch(
+      invoker: 'LocalJSON.export',
       functions: () async {
         final String jsonString = jsonEncode(map);
         await _file!.writeAsString(jsonString);

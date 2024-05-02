@@ -39,13 +39,14 @@ class DeviceChecker {
     ConnectivityResult? _result;
 
     await tryAndCatch(
+        invoker: 'DeviceChecker.checkConnectivity',
         functions: () async {
           _result = streamResult ?? await getConnectivity().checkConnectivity();
-        },
+          },
         onError: (String error){
           blog('DISCONNECTED : $error');
         }
-    );
+        );
 
 
     /// THROUGH MOBILE NETWORK
