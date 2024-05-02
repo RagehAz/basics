@@ -34,6 +34,11 @@ class ObjectCheck {
           final parsedUri = Uri.parse(_url);
           _isValidURL = parsedUri.isAbsolute;
         },
+        onError: (String? error){
+          blog('1/2: ObjectCheck.isAbsoluteURL : tryAndCatch ERROR : $error');
+          blog('2/2: ObjectCheck.isAbsoluteURL : object : $object');
+        }
+
       );
     }
 
