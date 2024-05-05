@@ -801,17 +801,17 @@ class Stringer {
   }
   // --------------------
   /// AI TESTED
-  static List<String?> getRemovedStrings({
-    required List<String?>? oldStrings,
-    required List<String?>? newStrings,
+  static List<String> getRemovedStrings({
+    required List<String>? oldStrings,
+    required List<String>? newStrings,
   }){
-    final List<String?> _output = <String?>[];
+    final List<String> _output = <String>[];
 
     if (Lister.checkCanLoop(oldStrings) == true){
 
       for (int i = 0; i < oldStrings!.length; i++){
 
-        final String? _string = oldStrings[i];
+        final String _string = oldStrings[i];
 
         final bool _newStringsContains = checkStringsContainString(
           strings: newStrings,

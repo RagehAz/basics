@@ -845,13 +845,6 @@ void main(){
       expect(result, equals(['B', 'D']));
     });
 
-    test('Returns an empty list when oldStrings contains null values', () {
-      final List<String?> result = Stringer.getRemovedStrings(
-        oldStrings: ['A', null, 'C', 'D'],
-        newStrings: ['A', 'C'],
-      );
-      expect(result, equals([null, 'D']));
-    });
   });
   // -----------------------------------------------------------------------------
 
@@ -969,11 +962,6 @@ void main(){
       );
       expect(_removed3, []);
 
-      final List<String?>? _removed4 = Stringer.getRemovedStrings(
-        oldStrings: [null],
-        newStrings: ['a', 'b', 'c', 'd'],
-      );
-      expect(_removed4, [null]); // indeed it should remove the null
     });
     // -----------------------------------------------------------------------------
     test('removeStringsFromStrings', () async {
