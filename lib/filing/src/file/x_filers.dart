@@ -88,6 +88,7 @@ class XFiler {
       fileName: fileName,
       bytes: bytes,
       includeFileExtension: false,
+      filePath: null,
     );
 
     if (_fileName != null && bytes != null){

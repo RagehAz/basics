@@ -75,13 +75,15 @@ class Filer {
     required Uint8List? bytes,
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
+    bool includeFileExtension = false,
   }) async {
     File? _output;
 
     final String? _fileName = FilePathing.fixFileName(
       fileName: fileName,
+      filePath: null,
       bytes: bytes,
-      includeFileExtension: false,
+      includeFileExtension: includeFileExtension,
     );
 
     if (kIsWeb == true || bytes == null || _fileName == null){
@@ -188,6 +190,7 @@ class Filer {
   static Future<File?> createFromMediaModel({
     required MediaModel? mediaModel,
     DirectoryType directoryType = DirectoryType.app,
+    bool includeFileExtension = false,
   }) async {
     File? _output;
 
@@ -195,8 +198,9 @@ class Filer {
 
       _output = await Filer.createFromBytes(
         bytes: mediaModel.bytes,
-        fileName: mediaModel.getName(withExtension: false),
+        fileName: mediaModel.getName(withExtension: includeFileExtension),
         directoryType: directoryType,
+        includeFileExtension: includeFileExtension,
       );
 
     }
@@ -209,6 +213,7 @@ class Filer {
     required String? url,
     String? fileName,
     DirectoryType directoryType = DirectoryType.app,
+    bool includeFileExtension = false,
   }) async {
 
     if (kIsWeb == true || url == null){
@@ -233,7 +238,15 @@ class Filer {
           _file = await createFromBytes(
             bytes: _bytes,
             fileName: _fileName,
+            includeFileExtension: includeFileExtension,
           );
+
+          _file = await Filer.renameFile(
+            file: _file,
+            newName: _fileName,
+            includeFileExtension: includeFileExtension,
+          );
+
 
         }
 
@@ -337,6 +350,7 @@ class Filer {
     final String? _fileName = FilePathing.fixFileName(
       fileName: newName,
       bytes: await Byter.fromFile(file),
+      filePath: file?.path,
       includeFileExtension: false,
     );
 
@@ -480,30 +494,38 @@ class Filer {
   static Future<File?> renameFile({
     required File? file,
     required String? newName,
+    required bool includeFileExtension,
   }) async {
     File? _output = file;
 
     final String? _newName = FilePathing.fixFileName(
       fileName: newName,
       bytes: await Byter.fromFile(file),
-      includeFileExtension: false,
+      includeFileExtension: includeFileExtension,
+      filePath: file?.path,
     );
 
-    final String? _newPath = FilePathing.replaceFileNameInPath(
-      fileName: _newName,
-      oldPath: file?.path,
-    );
+    final String? _oldName = file?.getFileName(withExtension: includeFileExtension);
 
-    if (_newPath != null){
+    if (_oldName != _newName){
 
-      await tryAndCatch(
-        invoker: 'Filer.renameFile',
-        functions: () async {
+      final String? _newPath = FilePathing.replaceFileNameInPath(
+        fileName: _newName,
+        oldPath: file?.path,
+      );
 
-          _output = await file?.rename(_newPath);
+      if (_newPath != null){
+
+        await tryAndCatch(
+          invoker: 'Filer.renameFile',
+          functions: () async {
+
+            _output = await file?.rename(_newPath);
 
           },
-      );
+        );
+
+      }
 
     }
 

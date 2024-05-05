@@ -17,6 +17,7 @@ class MediaModelCreator {
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
@@ -29,7 +30,8 @@ class MediaModelCreator {
       final String? _fileName = FilePathing.fixFileName(
         fileName: _lastPathNode,
         bytes: bytes,
-        includeFileExtension: false,
+        includeFileExtension: includeFileExtension,
+        filePath: null,
       );
       final String? _uploadPath = FilePathing.replaceFileNameInPath(
         oldPath: uploadPath,
@@ -219,6 +221,7 @@ class MediaModelCreator {
     List<String>? ownersIDs,
     MediaOrigin? mediaOrigin,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
 
     if (ObjectCheck.isAbsoluteURL(url) == false){
@@ -234,6 +237,7 @@ class MediaModelCreator {
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
         caption: caption,
+        includeFileExtension: includeFileExtension,
       );
 
       return _mediaModel?.copyWith(

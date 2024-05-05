@@ -299,6 +299,7 @@ class FilePathing {
   /// TESTED : WORKS PERFECT
   static String? fixFileName({
     required String? fileName,
+    required String? filePath,
     required Uint8List? bytes,
     required bool includeFileExtension,
   }){
@@ -313,7 +314,12 @@ class FilePathing {
 
       if (includeFileExtension == true){
 
-        final String? _extension = FileTyper.detectBytesExtension(bytes);
+        final String? _extension = FileTyper.detectBytesExtension(
+          bytes: bytes,
+          filePath: filePath,
+        );
+
+        blog('fixFileName : $fileName : extension : $_extension');
 
         if (_extension != null){
           _output = '$_output.$_extension';

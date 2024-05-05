@@ -119,12 +119,15 @@ class FileTyper {
 
   // --------------------
   /// TESTED : WORKS GOOD
-  static FileExtType detectBytesType(Uint8List? bytes) {
+  static FileExtType detectBytesType({
+    required Uint8List? bytes,
+    required String? filePath,
+  }) {
     FileExtType _output = FileExtType.unknown;
 
     if (bytes != null){
 
-      final String? _mime = lookupMimeType('', headerBytes: bytes);
+      final String? _mime = lookupMimeType(filePath ?? '', headerBytes: bytes);
 
       if (_mime != null){
 
@@ -138,23 +141,35 @@ class FileTyper {
   }
   // --------------------
   /// TESTED : WORKS GOOD
-  static String? detectBytesMime(Uint8List? bytes) {
-    final FileExtType fileType = detectBytesType(bytes);
+  static String? detectBytesMime({
+    required Uint8List? bytes,
+    required String filePath,
+  }) {
+    final FileExtType fileType = detectBytesType(
+      bytes: bytes,
+      filePath: filePath,
+    );
     return getMimeByType(fileType);
   }
   // --------------------
   /// TESTED : WORKS GOOD
-  static String? detectBytesExtension(Uint8List? bytes) {
-    final FileExtType fileType = detectBytesType(bytes);
+  static String? detectBytesExtension({
+    required Uint8List? bytes,
+    required String? filePath,
+  }) {
+    final FileExtType fileType = detectBytesType(
+      bytes: bytes,
+      filePath: filePath,
+    );
     return getExtensionByType(fileType);
   }
   // --------------------
   /// TESTED : WORKS GOOD
   static FileExtType detectFileExtType({
-    required File file,
+    required File? file,
     required Uint8List? bytes,
   }){
-    final String? _mime = lookupMimeType(file.path, headerBytes: bytes);
+    final String? _mime = lookupMimeType(file?.path ?? '', headerBytes: bytes);
     return getTypeByMime(_mime) ?? FileExtType.unknown;
   }
   // -----------------------------------------------------------------------------
@@ -500,11 +515,11 @@ class FileTyper {
       }
       else if (object is MediaModel){
         final MediaModel _media = object;
-        _output = detectBytesExtension(_media.bytes);
+        _output = detectBytesExtension(bytes: _media.bytes, filePath: _media.getFilePath());
       }
       else if (object is Uint8List){
         final Uint8List _bytes = object;
-        _output = detectBytesExtension(_bytes);
+        _output = detectBytesExtension(bytes: _bytes, filePath: null);
       }
 
 

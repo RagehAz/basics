@@ -287,6 +287,25 @@ class MediaModel {
     return meta?.getFilePath();
   }
   // -----------------------------------------------------------------------------
+
+  /// CHECKERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool isVideo(){
+    return meta?.checkFileIsVideo() ?? false;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool isImage(){
+    return meta?.checkFileIsImage() ?? false;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool isAudio(){
+    return meta?.checkFileIsAudio() ?? false;
+  }
+  // -----------------------------------------------------------------------------
   
   /// MODIFIERS
 
@@ -354,6 +373,7 @@ class MediaModel {
         fileName: newName,
         bytes: bytes,
         includeFileExtension: false,
+        filePath: getFilePath(),
       );
 
       final String? _newPath = FilePathing.replaceFileNameInPath(

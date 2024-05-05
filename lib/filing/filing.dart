@@ -2,6 +2,7 @@ library filing;
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:isolate';
 import 'package:android_path_provider/android_path_provider.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
@@ -20,6 +21,9 @@ import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/ldb/methods/ldb_ops.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:cross_file/cross_file.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/media_information.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
@@ -44,6 +48,7 @@ part 'src/file/director.dart';
 part 'src/file/cache_ops.dart';
 part 'src/file/entities.dart';
 part 'src/file/super_file.dart';
+part'src/file/format_detector.dart';
 
 part 'src/floaters/byter.dart';
 part 'src/floaters/imager.dart';

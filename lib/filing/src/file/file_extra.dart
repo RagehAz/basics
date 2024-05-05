@@ -26,6 +26,17 @@ extension FileExtention on File {
 
     return _without;
   }
+  // --------------------
+  String? getFileName ({
+    required bool withExtension,
+  }){
+
+    return FilePathing.getNameFromPath(
+        path: path,
+        withExtension: withExtension
+    );
+
+  }
   // -----------------------------------------------------------------------------
 
   /// EXTENSION

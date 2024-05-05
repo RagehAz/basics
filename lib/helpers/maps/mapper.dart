@@ -1104,7 +1104,7 @@ class Mapper {
 
   // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
-  static void blogMap(Map<String, dynamic>? map, {String invoker = ''}) {
+  static void blogMap(Map<dynamic, dynamic>? map, {String invoker = ''}) {
 
     if (map != null){
 
@@ -1120,7 +1120,15 @@ class Mapper {
           listLength: _keys.length,
         );
 
-        blog('         $_index. ${_keys[i]} : <${_values[i].runtimeType}>( ${_values[i]} ), ');
+        if (_values[i] is Map){
+          blog('         $_index. ${_keys[i]} : <${_values[i].runtimeType}>(');
+          blogMap(_values[i], invoker: invoker,);
+          blog('         ), ');
+        }
+        else {
+          blog('         $_index. ${_keys[i]} : <${_values[i].runtimeType}>( ${_values[i]} ), ');
+        }
+
       }
 
       blog('      }.........Length : ${_keys.length} keys <~~~');

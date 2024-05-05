@@ -7,6 +7,72 @@ class LocalJSON {
 
   // -----------------------------------------------------------------------------
 
+  /// FILE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<bool> exportFile({
+    required File? file,
+    required Function(Permission) onPermissionPermanentlyDenied,
+    String exportToPath = '/storage/emulated/0/Misc'
+  }) async {
+    bool _success = false;
+
+    if (file != null){
+
+      final bool _can = await Permit.requestPermission(
+        permission: Permission.storage,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      );
+
+      if (_can == true){
+        await tryAndCatch(
+          invoker: 'exportJSON',
+          functions: () async {
+
+            await Isolate.run(() async {
+              await file.copy('$exportToPath/${file.fileName}');
+            });
+
+            _success = true;
+          },
+          onError: (String? error) async {
+
+            final bool _pathNotFound = TextCheck.stringContainsSubString(
+                string: error,
+                subString: 'PathNotFoundException',
+            );
+
+            if (_pathNotFound == true){
+
+              await tryAndCatch(
+                invoker: 'exportJSON_2',
+                functions: () async {
+
+                  await Directory(exportToPath).create(recursive: true);
+
+                  await Isolate.run(() async {
+                    await file.copy('$exportToPath/${file.fileName}');
+                  });
+
+                  _success = true;
+
+                },
+              );
+
+            }
+
+          }
+
+        );
+      }
+
+    }
+
+    return _success;
+  }
+  // -----------------------------------------------------------------------------
+
   /// JSON
 
   // --------------------
@@ -17,7 +83,6 @@ class LocalJSON {
     required Function(Permission) onPermissionPermanentlyDenied,
     String exportToPath = '/storage/emulated/0/Misc'
   }) async {
-    bool _success = false;
 
     final String _fileName = '$fileName.json';
 
@@ -34,21 +99,11 @@ class LocalJSON {
       },
     );
 
-    final bool _can = await Permit.requestPermission(
-      permission: Permission.storage,
+    final bool _success = await exportFile(
+      file: _file,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      exportToPath: exportToPath,
     );
-
-    if (_can == true){
-      await tryAndCatch(
-        invoker: 'exportJSON',
-        functions: () async {
-          await _file?.copy('$exportToPath/$_fileName');
-          _success = true;
-        },
-
-      );
-    }
 
     return _success;
   }
