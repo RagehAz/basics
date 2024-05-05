@@ -27,11 +27,10 @@ class MediaModelCreator {
           path: uploadPath,
           withExtension: false,
       );
-      final String? _fileName = FilePathing.fixFileName(
+      final String? _fileName = await FormatDetector.fixFileNameByBytes(
         fileName: _lastPathNode,
         bytes: bytes,
         includeFileExtension: includeFileExtension,
-        filePath: null,
       );
       final String? _uploadPath = FilePathing.replaceFileNameInPath(
         oldPath: uploadPath,
@@ -53,8 +52,15 @@ class MediaModelCreator {
         final String? _deviceID = await DeviceChecker.getDeviceID();
         final String? _deviceName = await DeviceChecker.getDeviceName();
         final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-        final String? _extension = FileTyper.getExtension(object: bytes);
-        final FileExtType? _fileExtensionType = FileTyper.getTypeByExtension(_extension);
+
+        FileExtType? _fileExtensionType;
+        if (includeFileExtension == true){
+          final String? _ext = FileTyper.getExtensionFromPath(_fileName);
+          _fileExtensionType = FileTyper.getTypeByExtension(_ext);
+        }
+        else {
+          _fileExtensionType = await FormatDetector.detectBytes(bytes: bytes, fileName: _fileName);
+        }
 
         _output = MediaModel(
           id: _id,
@@ -136,9 +142,8 @@ class MediaModelCreator {
         final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
         // final String? _extension = FileTyper.getExtension(object: bytes);
 
-        final FileExtType? _fileExtensionType = FileTyper.detectFileExtType(
+        final FileExtType? _fileExtensionType = await FormatDetector.detectFile(
           file: file,
-          bytes: _bytes,
         );
 
         _output = MediaModel(

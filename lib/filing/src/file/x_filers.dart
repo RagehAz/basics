@@ -81,14 +81,14 @@ class XFiler {
     required Uint8List? bytes,
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
+    bool includeFileExtension = false,
   }) async {
     XFile? _output;
 
-    final String? _fileName = FilePathing.fixFileName(
+    final String? _fileName = await FormatDetector.fixFileNameByBytes(
       fileName: fileName,
       bytes: bytes,
-      includeFileExtension: false,
-      filePath: null,
+      includeFileExtension: includeFileExtension,
     );
 
     if (_fileName != null && bytes != null){

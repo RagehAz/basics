@@ -43,9 +43,7 @@ extension FileExtention on File {
 
   // --------------------
   String? get extension {
-    return FileTyper.getExtension(
-      object: path,
-    );
+    return FileTyper.getExtensionFromPath(path);
   }
   // -----------------------------------------------------------------------------
 

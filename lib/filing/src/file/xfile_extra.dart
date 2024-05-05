@@ -29,9 +29,7 @@ extension Extra on XFile {
 
   // --------------------
   String? get extension {
-    return FileTyper.getExtension(
-      object: path,
-    );
+    return FileTyper.getExtensionFromPath(path);
   }
   // -----------------------------------------------------------------------------
 

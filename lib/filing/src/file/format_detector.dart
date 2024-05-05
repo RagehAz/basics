@@ -7,6 +7,77 @@ class FormatDetector {
 
   // --------------------------------------------------------------------------
 
+  /// FIXERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> fixFileNameByFile({
+    required File? file,
+    required bool includeFileExtension,
+    String? rename,
+  }) async {
+    String? _output = rename ?? file?.fileNameWithoutExtension;
+
+    if (_output != null && file != null){
+
+      if (includeFileExtension == true){
+
+        final FileExtType _extType = await detectFile(
+          file: file,
+        );
+
+        final String? _extension = FileTyper.getExtensionByType(_extType);
+
+        if (_extension != null){
+          _output = '$_output.$_extension';
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> fixFileNameByBytes({
+    required String? fileName,
+    required Uint8List? bytes,
+    required bool includeFileExtension,
+  }) async {
+    String? _output = fileName;
+
+    if (_output != null && bytes != null){
+
+      /// NAME WITHOUT EXTENSION
+      _output = TextMod.removeTextAfterLastSpecialCharacter(
+        text: _output,
+        specialCharacter: '.',
+      );
+
+      if (includeFileExtension == true){
+
+        final FileExtType _extType = await detectBytes(
+            bytes: bytes,
+            fileName: fileName,
+        );
+
+        final String? _extension = FileTyper.getExtensionByType(_extType);
+
+        blog('fixFileName : $fileName : extension : $_extension');
+
+        if (_extension != null){
+          _output = '$_output.$_extension';
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
   /// DETECTORS
 
   // --------------------

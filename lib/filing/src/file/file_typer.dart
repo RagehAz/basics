@@ -118,28 +118,7 @@ class FileTyper {
   /// DETECTION
 
   // --------------------
-  /// TESTED : WORKS GOOD
-  static FileExtType detectBytesType({
-    required Uint8List? bytes,
-    required String? filePath,
-  }) {
-    FileExtType _output = FileExtType.unknown;
-
-    if (bytes != null){
-
-      final String? _mime = lookupMimeType(filePath ?? '', headerBytes: bytes);
-
-      if (_mime != null){
-
-        _output = getTypeByMime(_mime) ?? FileExtType.unknown;
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
+  /*
   /// TESTED : WORKS GOOD
   static String? detectBytesMime({
     required Uint8List? bytes,
@@ -163,15 +142,7 @@ class FileTyper {
     );
     return getExtensionByType(fileType);
   }
-  // --------------------
-  /// TESTED : WORKS GOOD
-  static FileExtType detectFileExtType({
-    required File? file,
-    required Uint8List? bytes,
-  }){
-    final String? _mime = lookupMimeType(file?.path ?? '', headerBytes: bytes);
-    return getTypeByMime(_mime) ?? FileExtType.unknown;
-  }
+   */
   // -----------------------------------------------------------------------------
 
   /// MIME CIPHERS
@@ -490,6 +461,7 @@ class FileTyper {
   /// FILE EXTENSION GETTERS
 
   // --------------------
+  /*
   /// AI TESTED
   static String? getExtension({
     required dynamic object
@@ -515,7 +487,7 @@ class FileTyper {
       }
       else if (object is MediaModel){
         final MediaModel _media = object;
-        _output = detectBytesExtension(bytes: _media.bytes, filePath: _media.getFilePath());
+        _output = _media.getExtension();//detectBytesExtension(bytes: _media.bytes, filePath: _media.getFilePath());
       }
       else if (object is Uint8List){
         final Uint8List _bytes = object;
@@ -527,22 +499,27 @@ class FileTyper {
 
     return _output;
   }
+   */
   // --------------------
   /// AI TESTED
-  static String? _getExtensionFromPath(String? path){
+  static String? getExtensionFromPath(dynamic path){
     String? _output;
 
-    final bool _containsExtension = TextCheck.stringContainsSubString(
-      string: path,
-      subString: '.',
-    );
+    if (path != null && path is String){
 
-    if (_containsExtension == true){
-
-      _output = TextMod.removeTextBeforeLastSpecialCharacter(
-        text: path,
-        specialCharacter: '.',
+      final bool _containsExtension = TextCheck.stringContainsSubString(
+        string: path,
+        subString: '.',
       );
+
+      if (_containsExtension == true){
+
+        _output = TextMod.removeTextBeforeLastSpecialCharacter(
+          text: path,
+          specialCharacter: '.',
+        );
+
+      }
 
     }
 

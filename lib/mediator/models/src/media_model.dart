@@ -286,6 +286,12 @@ class MediaModel {
   String? getFilePath(){
     return meta?.getFilePath();
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getExtension(){
+    final FileExtType? _type = meta?.fileExt;
+    return FileTyper.getExtensionByType(_type);
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
@@ -362,6 +368,7 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   Future<MediaModel> renameFile({
     required String? newName,
+    bool includeFileExtension = false,
   }) async {
 
     if (TextCheck.isEmpty(newName) == true){
@@ -369,16 +376,15 @@ class MediaModel {
     }
     else {
 
-      final String? _newName = FilePathing.fixFileName(
+      final String? _newName = await FormatDetector.fixFileNameByBytes(
         fileName: newName,
         bytes: bytes,
-        includeFileExtension: false,
-        filePath: getFilePath(),
+        includeFileExtension: includeFileExtension,
       );
 
       final String? _newPath = FilePathing.replaceFileNameInPath(
-          oldPath: meta?.uploadPath,
-          fileName: _newName,
+        oldPath: meta?.uploadPath,
+        fileName: _newName,
       );
 
       // blog('--> renameFile | _newName : $_newName | _newPath : $_newPath | id : ${createID(uploadPath: _newPath)} |');

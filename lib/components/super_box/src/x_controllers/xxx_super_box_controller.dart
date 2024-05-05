@@ -17,28 +17,32 @@ class SuperBoxController {
     required bool loading,
     double? iconSizeFactor = 1,
   }) {
+    double _output = 0;
 
     if (icon == null && loading == false){
-      return 0;
+      _output = 0;
     }
     else if (height == null || height == 0){
-      return 0;
+      _output = 0;
     }
     else if (loading == true){
-      return height * iconSizeFactor!;
+      _output = height * iconSizeFactor!;
     }
-    else if (
-        FileTyper.getExtension(object: icon) == 'svg' ||
-        FileTyper.getExtension(object: icon) == 'jpg' ||
-        FileTyper.getExtension(object: icon) == 'jpeg' ||
-        FileTyper.getExtension(object: icon) == 'png'
-    ){
-      return height * iconSizeFactor!;
+    else if (icon is String){
+
+      final bool _isSVG = ObjectCheck.objectIsSVG(icon);
+      final bool _isImage = ObjectCheck.objectIsJPGorPNG(icon);
+      
+      if (_isSVG || _isImage){
+        _output = height * iconSizeFactor!;
+      }
+      
     }
     else {
-      return height;
+      _output = height;
     }
 
+    return _output;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

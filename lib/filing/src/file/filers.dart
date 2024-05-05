@@ -79,9 +79,8 @@ class Filer {
   }) async {
     File? _output;
 
-    final String? _fileName = FilePathing.fixFileName(
+    final String? _fileName = await FormatDetector.fixFileNameByBytes(
       fileName: fileName,
-      filePath: null,
       bytes: bytes,
       includeFileExtension: includeFileExtension,
     );
@@ -347,10 +346,9 @@ class Filer {
   }) async {
     File? _output;
 
-    final String? _fileName = FilePathing.fixFileName(
-      fileName: newName,
-      bytes: await Byter.fromFile(file),
-      filePath: file?.path,
+    final String? _fileName = await FormatDetector.fixFileNameByFile(
+      rename: newName,
+      file: file,
       includeFileExtension: false,
     );
 
@@ -498,11 +496,10 @@ class Filer {
   }) async {
     File? _output = file;
 
-    final String? _newName = FilePathing.fixFileName(
-      fileName: newName,
-      bytes: await Byter.fromFile(file),
+    final String? _newName = await FormatDetector.fixFileNameByFile(
+      file: file,
+      rename: newName,
       includeFileExtension: includeFileExtension,
-      filePath: file?.path,
     );
 
     final String? _oldName = file?.getFileName(withExtension: includeFileExtension);
