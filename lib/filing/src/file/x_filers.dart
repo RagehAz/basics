@@ -7,6 +7,41 @@ class XFiler {
 
   // -----------------------------------------------------------------------------
 
+  /// CREATE TEMP
+
+  // --------------------
+  /// TASK : TEST_ME
+  static Future<void> getOrCreateTempXFile({
+    required String? fileName,
+    required Uint8List? bytes,
+    required Function(XFile xFile) ops,
+  }) async {
+    XFile? _xFile;
+
+    final bool _fileExists = await checkFileExistsByName(name: fileName);
+
+    if (_fileExists == true){
+      _xFile = await readByName(name: fileName);
+    }
+    else {
+      _xFile = await createFromBytes(
+        bytes: bytes,
+        fileName: fileName,
+        includeFileExtension: FileExtensioning.checkNameHasExtension(fileName),
+      );
+    }
+
+    if (_xFile != null){
+      await ops(_xFile);
+    }
+
+    if (_fileExists == false){
+      await deleteFile(_xFile);
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
   /// CREATE
 
   // --------------------
@@ -174,7 +209,7 @@ class XFiler {
       // width: width,
     );
 
-    final String? _fileName = FilePathing.getNameFromPath(
+    final String? _fileName = FileNaming.getNameFromPath(
       path: localAsset,
       withExtension: true,
     );

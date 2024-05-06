@@ -3,7 +3,6 @@ library media_models;
 import 'dart:io';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';

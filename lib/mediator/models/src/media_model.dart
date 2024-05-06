@@ -228,7 +228,7 @@ class MediaModel {
           specialCharacter: '.',
       );
 
-      _name ??= FilePathing.getNameFromPath(
+      _name ??= FileNaming.getNameFromPath(
           path: meta?.uploadPath,
           withExtension: withExtension
       );
@@ -290,7 +290,7 @@ class MediaModel {
   /// TESTED : WORKS PERFECT
   String? getExtension(){
     final FileExtType? _type = meta?.fileExt;
-    return FileTyper.getExtensionByType(_type);
+    return FileExtensioning.getExtensionByType(_type);
   }
   // -----------------------------------------------------------------------------
 
@@ -345,7 +345,7 @@ class MediaModel {
 
     if (uploadPath != meta?.uploadPath){
 
-      final String? _fileName = FilePathing.getNameFromPath(
+      final String? _fileName = FileNaming.getNameFromPath(
           path: uploadPath,
           withExtension: false,
       );

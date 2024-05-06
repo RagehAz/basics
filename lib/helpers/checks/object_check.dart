@@ -183,12 +183,12 @@ class ObjectCheck {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsSVG(dynamic object) {
-    return FileTyper.getExtensionFromPath(object) == 'svg';
+    return FileExtensioning.getExtensionFromPath(object) == 'svg';
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool objectIsGIF(dynamic object) {
-    return FileTyper.getExtensionFromPath(object) == 'gif';
+    return FileExtensioning.getExtensionFromPath(object) == 'gif';
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -197,11 +197,11 @@ class ObjectCheck {
 
     if (object != null){
       if (
-          FileTyper.getExtensionFromPath(object) == 'jpeg'
+          FileExtensioning.getExtensionFromPath(object) == 'jpeg'
           ||
-          FileTyper.getExtensionFromPath(object) == 'jpg'
+          FileExtensioning.getExtensionFromPath(object) == 'jpg'
           ||
-          FileTyper.getExtensionFromPath(object) == 'png'
+          FileExtensioning.getExtensionFromPath(object) == 'png'
       ) {
         _objectIsJPGorPNG = true;
       }

@@ -27,7 +27,6 @@ import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
-import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'dart:async';
@@ -48,9 +47,13 @@ part 'src/file/director.dart';
 part 'src/file/cache_ops.dart';
 part 'src/file/entities.dart';
 part 'src/file/super_file.dart';
-part'src/file/format_detector.dart';
+part 'src/file/file_extension_detector.dart';
+part'src/file/file_naming.dart';
+part 'src/file/file_extensioning.dart';
+part 'src/file/file_miming.dart';
 
 part 'src/floaters/byter.dart';
 part 'src/floaters/imager.dart';
+part 'src/floaters/decoding.dart';
 
 part 'src/json/local_json.dart';

@@ -8,7 +8,7 @@ extension Extra on XFile {
   // --------------------
   String? get fileName {
 
-    return FilePathing.getNameFromPath(
+    return FileNaming.getNameFromPath(
       path: path,
       withExtension: true,
     );
@@ -17,7 +17,7 @@ extension Extra on XFile {
   // --------------------
   String? get fileNameWithoutExtension {
 
-    return FilePathing.getNameFromPath(
+    return FileNaming.getNameFromPath(
       path: path,
         withExtension: false,
     );
@@ -29,7 +29,7 @@ extension Extra on XFile {
 
   // --------------------
   String? get extension {
-    return FileTyper.getExtensionFromPath(path);
+    return FileExtensioning.getExtensionFromPath(path);
   }
   // -----------------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ extension Extra on XFile {
   /// TESTED : WORKS PERFECT
   Future<Dimensions?> readDimensions() async {
     final Dimensions? _dims =  await DimensionsGetter.fromXFile(
-      file: this,
+      xFile: this,
     );
     return _dims;
   }

@@ -58,7 +58,7 @@ class MediaMetaModel {
   Map<String, dynamic> cipherToLDB(){
     return <String, dynamic>{
       'ownersIDs': ownersIDs,
-      'fileType': FileTyper.getMimeByType(fileExt),
+      'fileType': FileMiming.getMimeByType(fileExt),
       'width': width,
       'height': height,
       'name': name,
@@ -75,7 +75,7 @@ class MediaMetaModel {
     if (map != null){
       _output = MediaMetaModel(
         ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
-        fileExt: FileTyper.getTypeByMime(map['fileType']),
+        fileExt: FileMiming.getTypeByMime(map['fileType']),
         width: map['width'],
         height: map['height'],
         name: map['name'],
@@ -123,7 +123,7 @@ class MediaMetaModel {
           map: customMetadata,
           value: 'cool',
         ),
-        fileExt: FileTyper.getTypeByMime(customMetadata['fileType']),
+        fileExt: FileMiming.getTypeByMime(customMetadata['fileType']),
         width: Numeric.transformStringToDouble(customMetadata['width']),
         height: Numeric.transformStringToDouble(customMetadata['height']),
         name: customMetadata['name'],
@@ -509,7 +509,7 @@ class MediaMetaModel {
           sizeMB : $sizeMB,
           name : $name,
           uploadPath: $uploadPath,
-          fileType: ${FileTyper.getMimeByType(fileExt)},
+          fileType: ${FileMiming.getMimeByType(fileExt)},
           data : $data,
         )
         ''';

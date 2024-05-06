@@ -7,6 +7,41 @@ class Filer {
 
   // -----------------------------------------------------------------------------
 
+  /// CREATE TEMP
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> getOrCreateTempFile({
+    required String? fileName,
+    required Uint8List? bytes,
+    required Function(File xFile) ops,
+  }) async {
+    File? _file;
+
+    final bool _fileExists = await checkFileExistsByName(name: fileName);
+
+    if (_fileExists == true){
+      _file = await readByName(name: fileName);
+    }
+    else {
+      _file = await createFromBytes(
+        bytes: bytes,
+        fileName: fileName,
+        includeFileExtension: FileExtensioning.checkNameHasExtension(fileName),
+      );
+    }
+
+    if (_file != null){
+      await ops(_file);
+    }
+
+    if (_fileExists == false){
+      await deleteFile(_file);
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
   /// CREATE
 
   // --------------------
@@ -178,7 +213,7 @@ class Filer {
         localAsset: localAsset,
       );
 
-      final String? _fileName = FilePathing.getNameFromLocalAsset(localAsset);
+      final String? _fileName = FileNaming.getNameFromLocalAsset(localAsset);
 
       _output = await createFromBytes(
         bytes: _bytes,
@@ -236,17 +271,20 @@ class Filer {
 
           final String _fileName = fileName ?? TextMod.idifyString(url)!;
 
+          blog('---> 1 : createFromURL : $_fileName');
           _file = await createFromBytes(
             bytes: _bytes,
             fileName: _fileName,
             includeFileExtension: includeFileExtension,
           );
 
-          _file = await Filer.renameFile(
-            file: _file,
-            newName: _fileName,
-            includeFileExtension: includeFileExtension,
-          );
+          blog('---> 2 : _file : $_file');
+
+          // _file = await Filer.renameFile(
+          //   file: _file,
+          //   newName: _fileName,
+          //   includeFileExtension: includeFileExtension,
+          // );
 
         }
 
@@ -469,7 +507,7 @@ class Filer {
 
       if (_directoryType != null){
 
-        final String _fileName = FilePathing.getNameFromFile(
+        final String _fileName = FileNaming.getNameFromFile(
             file: file,
             withExtension: true,
         )!;
@@ -550,8 +588,8 @@ class Filer {
           directoryType: dir,
         );
 
-        blog('_exists : $_exists');
-        Filer.blogFile(file: file, invoker: 'Filer.deleteFile');
+        // blog('_exists : $_exists');
+        // Filer.blogFile(file: file, invoker: 'Filer.deleteFile');
 
         if (_exists == true){
 
@@ -565,6 +603,9 @@ class Filer {
               await ImageCacheOps.wipeCaches();
 
             },
+            onError: (String? error){
+              // do not blog
+            }
           );
 
         }
@@ -644,7 +685,7 @@ class Filer {
         'lastAccessedSync()': getLastAccessedSync(file),
         'lastModifiedSync()': getLastModifiedSync(file),
         'existsSync()': file.existsSync(),
-        // 'hashCode': file.hashCode,
+        'hashCode': file.hashCode,
       };
 
       Mapper.blogMap(_map, invoker: invoker,);

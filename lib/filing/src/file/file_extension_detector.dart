@@ -1,5 +1,5 @@
 part of filing;
-
+/// => TAMAM
 class FormatDetector {
   // --------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ class FormatDetector {
           file: file,
         );
 
-        final String? _extension = FileTyper.getExtensionByType(_extType);
+        final String? _extension = FileExtensioning.getExtensionByType(_extType);
 
         if (_extension != null){
           _output = '$_output.$_extension';
@@ -62,7 +62,7 @@ class FormatDetector {
             fileName: fileName,
         );
 
-        final String? _extension = FileTyper.getExtensionByType(_extType);
+        final String? _extension = FileExtensioning.getExtensionByType(_extType);
 
         blog('fixFileName : $fileName : extension : $_extension');
 
@@ -91,7 +91,7 @@ class FormatDetector {
 
       /// MIME BY PATH ONLY
       String? _mime = lookupMimeType(xFile.path);
-      _output = FileTyper.getTypeByMime(_mime);
+      _output = FileMiming.getTypeByMime(_mime);
 
       if (_output == null){
 
@@ -105,7 +105,7 @@ class FormatDetector {
         if (_output == null){
           final Uint8List? _bytes = await Byter.fromXFile(xFile);
           _mime = lookupMimeType(xFile.path, headerBytes: _bytes);
-          _output = FileTyper.getTypeByMime(_mime);
+          _output = FileMiming.getTypeByMime(_mime);
         }
 
       }
@@ -139,13 +139,20 @@ class FormatDetector {
     required Uint8List? bytes,
     required String? fileName,
   }) async {
+    FileExtType? _type;
 
-    final XFile? _xFile = await XFiler.createFromBytes(
-        bytes: bytes,
-        fileName: fileName,
+    await XFiler.getOrCreateTempXFile(
+      fileName: fileName,
+      bytes: bytes,
+      ops: (XFile xFile) async {
+
+        _type = await detectXFile(xFile: xFile);
+
+      }
     );
 
-    return detectXFile(xFile: _xFile);
+
+    return _type ?? FileExtType.unknown;
 
   }
   // --------------------
@@ -154,11 +161,11 @@ class FormatDetector {
     required MediaModel? mediaModel,
   }) async {
 
-    final XFile? _xFile = await XFiler.createFromMediaModel(
-      mediaModel: mediaModel,
+    return detectBytes(
+      bytes: mediaModel?.bytes,
+      fileName: mediaModel?.getName(),
     );
 
-    return detectXFile(xFile: _xFile);
   }
   // --------------------------------------------------------------------------
 
@@ -202,14 +209,14 @@ class FormatDetector {
 
       for (final String format in _formats){
 
-        final FileExtType? _type = FileTyper.getTypeByExtension(format);
+        final FileExtType? _type = FileExtensioning.getTypeByExtension(format);
 
         if (_type != null){
           _output = _type;
           break;
         }
         else {
-          blog('_getExtTypeFromSession : format : $format : NOT DETECTED');
+          // blog('_getExtTypeFromSession : format : $format : NOT DETECTED');
         }
 
       }
@@ -218,5 +225,35 @@ class FormatDetector {
 
     return _output;
   }
+  // -----------------------------------------------------------------------------
+
+  /// DEPRECATED
+
+  // --------------------
+  /*
+  /// TESTED : WORKS GOOD
+  static String? detectBytesMime({
+    required Uint8List? bytes,
+    required String filePath,
+  }) {
+    final FileExtType fileType = detectBytesType(
+      bytes: bytes,
+      filePath: filePath,
+    );
+    return getMimeByType(fileType);
+  }
+  // --------------------
+  /// TESTED : WORKS GOOD
+  static String? detectBytesExtension({
+    required Uint8List? bytes,
+    required String? filePath,
+  }) {
+    final FileExtType fileType = detectBytesType(
+      bytes: bytes,
+      filePath: filePath,
+    );
+    return getExtensionByType(fileType);
+  }
+   */
   // --------------------------------------------------------------------------
 }

@@ -77,7 +77,7 @@ class LocalJSON {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> export({
+  static Future<bool> exportJSON({
     required Map<String, dynamic> map,
     required String fileName,
     required Function(Permission) onPermissionPermanentlyDenied,
@@ -104,6 +104,8 @@ class LocalJSON {
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       exportToPath: exportToPath,
     );
+
+    await Filer.deleteFile(_file);
 
     return _success;
   }

@@ -35,7 +35,7 @@ class SuperFile {
     required bool withExtension,
   }){
 
-    return FilePathing.getNameFromPath(
+    return FileNaming.getNameFromPath(
         path: path,
         withExtension: withExtension
     );
@@ -136,7 +136,7 @@ class SuperFile {
       final Uint8List? _bytes = await Byter.fromLocalAsset(
           localAsset: localAsset,
       );
-      final String? _fileName = renameFile ?? FilePathing.getNameFromLocalAsset(localAsset);
+      final String? _fileName = renameFile ?? FileNaming.getNameFromLocalAsset(localAsset);
 
       if (_bytes != null && _fileName != null){
 
@@ -291,7 +291,7 @@ class SuperFile {
               docName: getFolderName(),
               primaryKey: primaryKey,
               input: {
-                primaryKey: FilePathing.getNameFromPath(
+                primaryKey: FileNaming.getNameFromPath(
                   path: _newPath,
                   withExtension: false,
                 ),

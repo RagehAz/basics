@@ -8,7 +8,7 @@ extension FileExtention on File {
   // --------------------
   String? get fileName {
 
-    return FilePathing.getNameFromPath(
+    return FileNaming.getNameFromPath(
       path: path,
       withExtension: true,
     );
@@ -17,7 +17,7 @@ extension FileExtention on File {
   // --------------------
   String? get fileNameWithoutExtension {
 
-    final String? _without = FilePathing.getNameFromPath(
+    final String? _without = FileNaming.getNameFromPath(
       path: path,
       withExtension: false,
     );
@@ -31,7 +31,7 @@ extension FileExtention on File {
     required bool withExtension,
   }){
 
-    return FilePathing.getNameFromPath(
+    return FileNaming.getNameFromPath(
         path: path,
         withExtension: withExtension
     );
@@ -43,7 +43,7 @@ extension FileExtention on File {
 
   // --------------------
   String? get extension {
-    return FileTyper.getExtensionFromPath(path);
+    return FileExtensioning.getExtensionFromPath(path);
   }
   // -----------------------------------------------------------------------------
 

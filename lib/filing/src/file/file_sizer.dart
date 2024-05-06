@@ -25,7 +25,7 @@ class FileSizer {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<double?> getsUPERFileSizeWithUnit({
+  static Future<double?> getSuperileSizeWithUnit({
     required SuperFile? file,
     required FileSizeUnit unit,
     int fractionDigits = 1,

@@ -102,7 +102,7 @@ class ImageSwitcher extends StatelessWidget {
 
       }
       else {
-        return child ?? const SizedBox();
+        return child ?? _emptyBox();
       }
 
     }
@@ -124,6 +124,14 @@ class ImageSwitcher extends StatelessWidget {
   }
    */
   // -----------------------------------------------------------------------------
+  Widget _emptyBox(){
+    return SizedBox(
+      width: width,
+      height: height,
+      // color: Colorz.errorColor,
+    );
+  }
+  // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
@@ -136,6 +144,7 @@ class ImageSwitcher extends StatelessWidget {
         );
     }
 
+    /// HAS IMAGE
     else if (pic != null && pic != '' && width != null){
 
       final BoxFit _boxFit = boxFit ?? BoxFit.cover;
@@ -409,22 +418,15 @@ class ImageSwitcher extends StatelessWidget {
 
         // blog('SUPER IMAGE ERROR : ${pic.runtimeType} : $pic');
 
-        return SizedBox(
-          width: width,
-          height: height,
-          // color: Colorz.errorColor,
-        );
+        return _emptyBox();
 
       }
 
     }
 
+    /// EMPTY
     else {
-      return SizedBox(
-        width: width,
-        height: height,
-        // color: Colorz.errorColor,
-      );
+      return _emptyBox();
     }
 
   }

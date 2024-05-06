@@ -767,44 +767,44 @@ void main() {
 
   group('getFileNameFromAsset', () {
     test('getFileNameFromAsset returns null when asset is null', () {
-      expect(FilePathing.getNameFromLocalAsset(null), isNull);
+      expect(FileNaming.getNameFromLocalAsset(null), isNull);
     });
 
     test('getFileNameFromAsset returns null when asset is empty', () {
-      expect(FilePathing.getNameFromLocalAsset(''), isNull);
+      expect(FileNaming.getNameFromLocalAsset(''), isNull);
     });
 
     test('getFileNameFromAsset returns the correct file name', () {
       expect(
-        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/builds_1.jpg'),
+        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns the correct file name with multiple slashes', () {
       expect(
-        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/images/builds_1.jpg'),
+        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/images/builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns the correct file name when asset has no path', () {
       expect(
-        FilePathing.getNameFromLocalAsset('builds_1.jpg'),
+        FileNaming.getNameFromLocalAsset('builds_1.jpg'),
         equals('builds_1.jpg'),
       );
     });
 
     test('getFileNameFromAsset returns null when asset has no file name', () {
       expect(
-        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/'),
+        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/'),
         '',
       );
     });
 
     test('getFileNameFromAsset returns null when asset ends with a slash', () {
       expect(
-        FilePathing.getNameFromLocalAsset('assets/xx/pp_sodic/'),
+        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/'),
         '',
       );
     });

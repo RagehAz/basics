@@ -27,7 +27,7 @@ abstract class DimensionsGetter {
 
     /// X FILE
     else if (ObjectCheck.objectIsXFile(object) == true){
-      return fromXFile(file: object);
+      return fromXFile(xFile: object);
     }
 
     /// FILE
@@ -72,13 +72,16 @@ abstract class DimensionsGetter {
 
     if (_output == null){
 
-      final XFile? _xFile = await XFiler.createFromBytes(
-        bytes: _bytes,
-        fileName: file?.getFileName(withExtension: true),
-      );
+      await XFiler.getOrCreateTempXFile(
+          fileName: file?.getFileName(withExtension: true),
+          bytes: _bytes,
+          ops: (XFile xFile) async {
 
-      _output = await _getVideoDimensions(
-        xFile: _xFile,
+            _output = await _getVideoDimensions(
+              xFile: xFile,
+            );
+
+          }
       );
 
     }
@@ -91,23 +94,19 @@ abstract class DimensionsGetter {
     required Uint8List? bytes,
     required String? fileName,
   }) async {
+    Dimensions? _output;
 
-    Dimensions? _output = await _getImageDimensions(
-      bytes: bytes,
-    );
-
-    if (_output == null){
-
-      final XFile? _xFile = await XFiler.createFromBytes(
-        bytes: bytes,
+    await XFiler.getOrCreateTempXFile(
         fileName: fileName,
-      );
+        bytes: bytes,
+        ops: (XFile xFile) async {
 
-      _output = await _getVideoDimensions(
-        xFile: _xFile,
-      );
+          _output = await fromXFile(
+            xFile: xFile,
+          );
 
-    }
+        }
+    );
 
     return _output;
   }
@@ -123,7 +122,7 @@ abstract class DimensionsGetter {
 
     return fromBytes(
       bytes: _bytes,
-      fileName: FilePathing.getNameFromLocalAsset(localAsset),
+      fileName: FileNaming.getNameFromLocalAsset(localAsset),
     );
   }
   // --------------------
@@ -163,22 +162,22 @@ abstract class DimensionsGetter {
       _xFile = XFiler.readFile(file: file);
     }
 
-    return fromXFile(file: _xFile);
+    return fromXFile(xFile: _xFile);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Dimensions?> fromXFile({
-    required XFile? file,
+    required XFile? xFile,
   }) async {
 
-    final Uint8List? _bytes = await Byter.fromXFile(file);
+    final Uint8List? _bytes = await Byter.fromXFile(xFile);
 
     Dimensions? _output = await _getImageDimensions(
       bytes: _bytes,
     );
 
     _output ??= await _getVideoDimensions(
-      xFile: file,
+      xFile: xFile,
     );
 
     return _output;
@@ -196,33 +195,26 @@ abstract class DimensionsGetter {
 
     if (bytes != null){
 
-      await tryAndCatch(
-        invoker: 'getImageDimensions',
-        functions: () async {
-
-          final img.Decoder? _decoder = FileTyper.getImageDecoderFromBytes(
-            bytes: bytes,
-          );
-
-          // blog('decoder.runtimeType : ${_decoder?.runtimeType}');
-
-          if (_decoder != null){
-
-            final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
-            final int? width = _image?.width;
-            final int? height = _image?.height;
-
-            if (width != null && height != null){
-              _output = Dimensions(
-                width: width.toDouble(),
-                height: height.toDouble(),
-              );
-            }
-
-          }
-
-        },
+      final bool _isDecodable = Decoding.checkImageIsDecodable(
+        bytes: bytes,
       );
+
+      // blog('decoder.runtimeType : ${_decoder?.runtimeType}');
+
+      if (_isDecodable == true){
+
+        final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
+        final int? width = _image?.width;
+        final int? height = _image?.height;
+
+        if (width != null && height != null){
+          _output = Dimensions(
+            width: width.toDouble(),
+            height: height.toDouble(),
+          );
+        }
+
+      }
 
     }
 
@@ -248,7 +240,7 @@ abstract class DimensionsGetter {
       // await VideoOps.blogMediaInformationSession(session: session);
 
       if (information == null) {
-        // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
+        /// CHECK THE FOLLOWING ATTRIBUTES ON ERROR
         // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
         // final returnCode = await session.getReturnCode();
         // final failStackTrace = await session.getFailStackTrace();

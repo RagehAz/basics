@@ -20,12 +20,12 @@ void main (){
   group('fileExtensionOf', () {
 
     test('should return null when file is null', () {
-      final result = FileTyper.getExtensionFromPath(null);
+      final result = FileExtensioning.getExtensionFromPath(null);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.getExtensionFromPath('example.txt');
+      final result = FileExtensioning.getExtensionFromPath('example.txt');
       expect(result, 'txt');
     });
 
@@ -42,7 +42,7 @@ void main (){
     // });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.getExtensionFromPath('example.txt');
+      final result = FileExtensioning.getExtensionFromPath('example.txt');
       expect(result, 'txt');
       expect(result, File('example.txt').extension);
     });
@@ -73,12 +73,12 @@ void main (){
   group('fileExtensionOf', () {
 
     test('should return null when file is null', () {
-      final result = FileTyper.getExtensionFromPath(null);
+      final result = FileExtensioning.getExtensionFromPath(null);
       expect(result, isNull);
     });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.getExtensionFromPath('example.txt');
+      final result = FileExtensioning.getExtensionFromPath('example.txt');
       expect(result, 'txt');
     });
 
@@ -95,7 +95,7 @@ void main (){
     // });
 
     test('should return the file extension when file is a string', () {
-      final result = FileTyper.getExtensionFromPath('example.txt');
+      final result = FileExtensioning.getExtensionFromPath('example.txt');
       expect(result, 'txt');
       expect(result, File('example.txt').extension);
     });

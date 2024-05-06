@@ -23,21 +23,13 @@ class MediaModelCreator {
 
     if (bytes != null && TextCheck.isEmpty(uploadPath) == false){
 
-      final String? _lastPathNode = FilePathing.getNameFromPath(
-          path: uploadPath,
-          withExtension: false,
+      final String? _fileName = FileNaming.getNameFromPath(
+        path: uploadPath,
+        withExtension: true,
       );
-      final String? _fileName = await FormatDetector.fixFileNameByBytes(
-        fileName: _lastPathNode,
-        bytes: bytes,
-        includeFileExtension: includeFileExtension,
-      );
-      final String? _uploadPath = FilePathing.replaceFileNameInPath(
-        oldPath: uploadPath,
-        fileName: _fileName,
-      );
+
       final String? _id = MediaModel.createID(
-        uploadPath: _uploadPath,
+        uploadPath: uploadPath,
       );
 
       if (_id != null){
@@ -55,8 +47,8 @@ class MediaModelCreator {
 
         FileExtType? _fileExtensionType;
         if (includeFileExtension == true){
-          final String? _ext = FileTyper.getExtensionFromPath(_fileName);
-          _fileExtensionType = FileTyper.getTypeByExtension(_ext);
+          final String? _ext = FileExtensioning.getExtensionFromPath(_fileName);
+          _fileExtensionType = FileExtensioning.getTypeByExtension(_ext);
         }
         else {
           _fileExtensionType = await FormatDetector.detectBytes(bytes: bytes, fileName: _fileName);
@@ -70,9 +62,10 @@ class MediaModelCreator {
             width: _dims?.width,
             height: _dims?.height,
             fileExt: _fileExtensionType,
+            /// RULE : should be exactly the name in the upload path
             name: _fileName,
             ownersIDs: ownersIDs ?? [],
-            uploadPath: _uploadPath,
+            uploadPath: uploadPath,
             data: MapperSS.cleanNullPairs(
               map: {
                 'aspectRatio': _aspectRatio.toString(),
@@ -112,11 +105,11 @@ class MediaModelCreator {
 
     if (file != null && _bytes != null && TextCheck.isEmpty(uploadPath) == false){
 
-      final String? _fileName = file.fileNameWithoutExtension;
+      final String? _originalFileName = file.fileNameWithoutExtension;
 
       final String? _uploadPath = FilePathing.replaceFileNameInPath(
         oldPath: uploadPath,
-        fileName: _fileName,
+        fileName: _originalFileName,
       );
 
       final String? _id = MediaModel.createID(
@@ -154,7 +147,7 @@ class MediaModelCreator {
             width: _dims?.width,
             height: _dims?.height,
             fileExt: _fileExtensionType,
-            name: _fileName,
+            name: _originalFileName,
             ownersIDs: ownersIDs ?? [],
             uploadPath: _uploadPath,
             data: MapperSS.cleanNullPairs(
@@ -193,7 +186,7 @@ class MediaModelCreator {
   }) async {
     MediaModel? _output;
 
-    final String? _fileName = FilePathing.getNameFromPath(
+    final String? _fileName = FileNaming.getNameFromPath(
         path: uploadPath,
         withExtension: false,
     );
@@ -374,7 +367,7 @@ class MediaModelCreator {
 
         final MediaModel? _pic = await fromLocalAsset(
           localAsset: asset,
-          uploadPath: FilePathing.getNameFromLocalAsset(asset)!,
+          uploadPath: FileNaming.getNameFromLocalAsset(asset)!,
           // caption: null,
           // ownersIDs: ,
         );
@@ -411,7 +404,7 @@ class MediaModelCreator {
 
       // blog('  2.combinePicModel bytes exists bytes != null');
 
-      final String? _fileName = FilePathing.getNameFromPath(
+      final String? _fileName = FileNaming.getNameFromPath(
         path: uploadPath,
         withExtension: false,
       );
