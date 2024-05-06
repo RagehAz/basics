@@ -562,8 +562,9 @@ class Byter {
         return null;
       }
       else {
-        final List<int> imageBytes = _file.readAsBytesSync();
-        return base64Encode(imageBytes);
+        final Uint8List? _bytes = Filer.getReadAsBytesSync(_file);
+        final List<int>? _ints = Byter.intsFromBytes(_bytes);
+        return _ints == null ? null : base64Encode(_ints);
       }
     }
 

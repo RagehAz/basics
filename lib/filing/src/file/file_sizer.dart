@@ -76,7 +76,7 @@ class FileSizer {
     }
 
     else {
-      final int _bytes = file.lengthSync();
+      final int _bytes = Filer.getLengthSync(file);
       final double? _output = calculateSize(_bytes, unit);
       return Numeric.roundFractions(_output, fractionDigits);
     }

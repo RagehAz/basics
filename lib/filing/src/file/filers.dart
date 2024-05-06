@@ -51,17 +51,25 @@ class Filer {
           await Directory(_pathWithoutDocName).create(recursive: true);
         }
 
+        blog('1. createEmptyFile. _filePath : $_filePath');
+
         /// FILE REF
         _output = File(_filePath);
 
+        blog('2. createEmptyFile. _output : $_output');
+
         /// DELETE EXISTING FILE IF EXISTS
         await deleteFile(_output);
+
+        blog('3. createEmptyFile. deleted');
 
         /// CREATE
         await _output.create(
           // recursive: ,
           // exclusive: ,
         );
+
+        blog('4. createEmptyFile. created');
 
       }
 
@@ -90,8 +98,6 @@ class Filer {
     }
 
     else {
-
-
 
       await tryAndCatch(
         invoker: 'Filer.createByBytes',
@@ -228,11 +234,7 @@ class Filer {
 
         if (_bytes != null){
 
-          final String _fileName = fileName
-              ??
-              TextMod.idifyString(url)
-              ??
-              Numeric.createUniqueID().toString();
+          final String _fileName = fileName ?? TextMod.idifyString(url)!;
 
           _file = await createFromBytes(
             bytes: _bytes,
@@ -245,7 +247,6 @@ class Filer {
             newName: _fileName,
             includeFileExtension: includeFileExtension,
           );
-
 
         }
 
@@ -549,6 +550,9 @@ class Filer {
           directoryType: dir,
         );
 
+        blog('_exists : $_exists');
+        Filer.blogFile(file: file, invoker: 'Filer.deleteFile');
+
         if (_exists == true){
 
           await tryAndCatch(
@@ -627,21 +631,25 @@ class Filer {
 
     else {
 
-      final Map<String, dynamic> _map = {
+      final Map<String, dynamic>? _map = {
         'path': file.path,
         'absolute': file.absolute,
         'fileNameWithExtension': file.fileName,
         'runtimeType': file.runtimeType,
         'isAbsolute': file.isAbsolute,
         'parent': file.parent,
-        'lengthSync()': file.lengthSync(),
-        'file.readAsBytesSync().length': file.readAsBytesSync().length,
+        'lengthSync()': getLengthSync(file),
+        'file.readAsBytesSync().length': getReadAsBytesSync(file)?.length,
         'toString()': file.toString(),
-        'lastAccessedSync()': file.lastAccessedSync(),
-        'lastModifiedSync()': file.lastModifiedSync(),
+        'lastAccessedSync()': getLastAccessedSync(file),
+        'lastModifiedSync()': getLastModifiedSync(file),
         'existsSync()': file.existsSync(),
-        'hashCode': file.hashCode,
+        // 'hashCode': file.hashCode,
       };
+
+      Mapper.blogMap(_map, invoker: invoker,);
+
+
       // blog('blogFile : $invoker : file.resolveSymbolicLinksSync() : ${file.resolveSymbolicLinksSync()}');
       // blog('blogFile : $invoker : file.openSync() : ${file.openSync()}');
       // blog('blogFile : $invoker : file.openWrite() : ${file.openWrite()}');
@@ -653,8 +661,6 @@ class Filer {
       // blog('blogFile : $invoker : file.readAsLinesSync() : ${file.readAsLinesSync()}'); /// Unhandled Exception: FileSystemException: Failed to decode data using encoding 'utf-8',
       // blog('blogFile : $invoker : file.readAsStringSync() : ${file.readAsStringSync()}'); /// ERROR WITH IMAGE FILES
       // blog('blogFile : $invoker : file.readAsBytesSync() : ${file.readAsBytesSync()}'); /// TOO LONG
-
-      Mapper.blogMap(_map, invoker: invoker,);
 
     }
 
@@ -683,7 +689,7 @@ class Filer {
       if (file1.path != file2.path){
         blog('blogFilesDifferences: files paths are not Identical');
       }
-      if (file1.lengthSync() != file2.lengthSync()){
+      if (getLengthSync(file1) != getLengthSync(file2)){
         blog('blogFilesDifferences: files lengthSync()s are not Identical');
       }
       if (file1.resolveSymbolicLinksSync() != file2.resolveSymbolicLinksSync()){
@@ -726,7 +732,7 @@ class Filer {
 
       else if (file1 != null && file2 != null){
         if (file1.path == file2.path){
-          if (file1.lengthSync() == file2.lengthSync()){
+          if (getLengthSync(file1) == getLengthSync(file2)){
             if (file1.resolveSymbolicLinksSync() == file2.resolveSymbolicLinksSync()){
 
               final bool _lastModifiedAreIdentical = Timers.checkTimesAreIdentical(
@@ -778,6 +784,78 @@ class Filer {
     }
 
     return _exists;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// GETTERS OVERRIDES
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static int getLengthSync(File? file){
+    int _output = 0;
+
+    tryAndCatch(
+      invoker: 'getFileLength',
+      functions: () async {
+        _output = file?.lengthSync() ?? 0;
+        },
+      onError: (String? error){
+        // DO NOT BLOG ERROR
+      },
+    );
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Uint8List? getReadAsBytesSync(File? file){
+    Uint8List? _output;
+
+    tryAndCatch(
+      invoker: 'getReadAsBytesSync',
+      functions: () async {
+        _output = file?.readAsBytesSync();
+      },
+      onError: (String? error){
+        // DO NOT BLOG ERROR
+      },
+    );
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static DateTime? getLastAccessedSync(File? file){
+    DateTime? _output;
+
+    tryAndCatch(
+      invoker: 'getLastAccessedSync',
+      functions: () async {
+        _output = file?.lastAccessedSync();
+      },
+      onError: (String? error){
+        // DO NOT BLOG ERROR
+      },
+    );
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static DateTime? getLastModifiedSync(File? file){
+    DateTime? _output;
+
+    tryAndCatch(
+      invoker: 'getLastModifiedSync',
+      functions: () async {
+        _output = file?.lastModifiedSync();
+      },
+      onError: (String? error){
+        // DO NOT BLOG ERROR
+      },
+    );
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 }
