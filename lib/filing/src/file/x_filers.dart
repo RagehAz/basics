@@ -10,32 +10,42 @@ class XFiler {
   /// CREATE TEMP
 
   // --------------------
-  /// TASK : TEST_ME
+  /// TESTED : WORKS PERFECT
   static Future<void> getOrCreateTempXFile({
     required String? fileName,
     required Uint8List? bytes,
-    required Function(XFile xFile) ops,
+    required Future Function(XFile xFile) ops,
   }) async {
     XFile? _xFile;
 
+    // blog('1. getOrCreateTempXFile : START');
+
     final bool _fileExists = await checkFileExistsByName(name: fileName);
+
+    // blog('2. getOrCreateTempXFile : _fileExists : $_fileExists');
 
     if (_fileExists == true){
       _xFile = await readByName(name: fileName);
+      // blog('3. getOrCreateTempXFile : read by file name : $_xFile');
     }
+
     else {
       _xFile = await createFromBytes(
         bytes: bytes,
         fileName: fileName,
-        includeFileExtension: FileExtensioning.checkNameHasExtension(fileName),
+        // includeFileExtension: false, // no need + to avoid recursive loop of detection
       );
+      // blog('3. getOrCreateTempXFile : created from bytes : $_xFile');
     }
 
     if (_xFile != null){
+      // blog('4. getOrCreateTempXFile : starting ops');
       await ops(_xFile);
+      // blog('6. getOrCreateTempXFile : ended ops');
     }
 
     if (_fileExists == false){
+      // blog('7. getOrCreateTempXFile : deleting file');
       await deleteFile(_xFile);
     }
 

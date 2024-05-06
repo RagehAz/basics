@@ -41,6 +41,7 @@ class FormatDetector {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String?> fixFileNameByBytes({
+    /// FILE NAME WITH OR WITHOUT EXTENSION
     required String? fileName,
     required Uint8List? bytes,
     required bool includeFileExtension,
@@ -64,7 +65,7 @@ class FormatDetector {
 
         final String? _extension = FileExtensioning.getExtensionByType(_extType);
 
-        blog('fixFileName : $fileName : extension : $_extension');
+        // blog('fixFileName : $fileName : extension : $_extension');
 
         if (_extension != null){
           _output = '$_output.$_extension';
@@ -141,16 +142,23 @@ class FormatDetector {
   }) async {
     FileExtType? _type;
 
+    // blog('1. detectBytes : START');
+
     await XFiler.getOrCreateTempXFile(
       fileName: fileName,
       bytes: bytes,
       ops: (XFile xFile) async {
 
+        // blog('2. detectBytes : xFile : $xFile');
+
         _type = await detectXFile(xFile: xFile);
+
+        // blog('3. detectBytes : _type : $_type');
 
       }
     );
 
+    // blog('4. detectBytes : output : $_type');
 
     return _type ?? FileExtType.unknown;
 
@@ -181,10 +189,17 @@ class FormatDetector {
 
     if (xFile != null && fileName != null){
 
-      final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
+      await tryAndCatch(
+          invoker: 'FormatDetector._byInfo',
+          functions: () async {
 
-      _output = _getExtTypeFromSession(
-        session: session,
+            final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
+
+            _output = _getExtTypeFromSession(
+              session: session,
+            );
+
+          },
       );
 
     }

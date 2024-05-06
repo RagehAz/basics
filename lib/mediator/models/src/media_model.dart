@@ -460,6 +460,33 @@ class MediaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  MediaModel setFilePath({
+    required String? filePath,
+  }){
+
+    if (filePath == null){
+      return this;
+    }
+    else {
+
+      final MediaMetaModel? _meta = meta?.copyWith(
+        data: MapperSS.insertPairInMapWithStringValue(
+          map: meta?.data,
+          key: 'file_path',
+          value: filePath,
+          overrideExisting: true,
+        ),
+      );
+
+      return copyWith(
+        meta: _meta,
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   MediaModel setMediaOrigin({
     required MediaOrigin? mediaOrigin,
   }){

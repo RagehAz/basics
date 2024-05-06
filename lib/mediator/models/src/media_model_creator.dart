@@ -7,6 +7,81 @@ class MediaModelCreator {
 
   // -----------------------------------------------------------------------------
 
+  /// FILE NAME ADJUSTMENT
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, String?>> _adjustPathAndName({
+    required String uploadPath,
+    required bool includeFileExtension,
+    required Uint8List? bytes,
+  }) async {
+    String? _uploadPathOutput;
+    String? _fileNameOutput;
+    String? _fileExtension = FileExtensioning.getExtensionFromPath(uploadPath);
+
+    // blog('1. _adjustPathAndName : start');
+
+    /// WITH FILE EXTENSION : WILL NEED DETECTION
+    if (includeFileExtension == true){
+
+      // blog('2. _adjustPathAndName : includeFileExtension : $includeFileExtension');
+
+      final String? _fileNameWithoutExtension = FileNaming.getNameFromPath(
+        path: uploadPath,
+        withExtension: true,
+      );
+
+      // blog('3. _adjustPathAndName : _fileNameWithoutExtension : $_fileNameWithoutExtension');
+
+      _fileNameOutput = await FormatDetector.fixFileNameByBytes(
+        fileName: _fileNameWithoutExtension,
+        bytes: bytes,
+        includeFileExtension: true,
+      );
+
+      // blog('4. _adjustPathAndName : _fileNameOutput : $_fileNameOutput');
+
+      /// REPLACE IT IN PATH ANYWAYS : NAME MIGHT ORIGINALLY WAS WITH EXTENSION IN THE PATH
+      _uploadPathOutput = FilePathing.replaceFileNameInPath(
+        oldPath: uploadPath,
+        fileName: _fileNameOutput,
+      );
+
+      // blog('5. _adjustPathAndName : _uploadPathOutput : $_uploadPathOutput');
+
+      _fileExtension = FileExtensioning.getExtensionFromPath(_uploadPathOutput);
+
+      // blog('6. _adjustPathAndName : _fileExtension : $_fileExtension');
+
+    }
+
+    /// WITHOUT FILE EXTENSION : NO DETECTION NEEDED
+    else {
+
+      /// GET NAME WITHOUT EXTENSION
+      _fileNameOutput = FileNaming.getNameFromPath(
+        path: uploadPath,
+        withExtension: false,
+      );
+
+      /// REPLACE IT IN PATH ANYWAYS : NAME MIGHT ORIGINALLY WAS WITH EXTENSION IN THE PATH
+      _uploadPathOutput = FilePathing.replaceFileNameInPath(
+        oldPath: uploadPath,
+        fileName: _fileNameOutput,
+      );
+
+    }
+
+    return {
+      'id': MediaModel.createID(uploadPath: _uploadPathOutput),
+      'uploadPath': _uploadPathOutput,
+      'fileName': _fileNameOutput,
+      'fileExtension': _fileExtension,
+    };
+  }
+  // -----------------------------------------------------------------------------
+
   /// BYTES
 
   // --------------------
@@ -21,16 +96,22 @@ class MediaModelCreator {
   }) async {
     MediaModel? _output;
 
+    // blog('fromBytes : START : bytes != null : ${bytes != null} : TextCheck.isEmpty(uploadPath) == false : ${TextCheck.isEmpty(uploadPath) == false}');
+
     if (bytes != null && TextCheck.isEmpty(uploadPath) == false){
 
-      final String? _fileName = FileNaming.getNameFromPath(
-        path: uploadPath,
-        withExtension: true,
-      );
-
-      final String? _id = MediaModel.createID(
+      final Map<String, String?> _adjustedPaths = await _adjustPathAndName(
+        includeFileExtension: includeFileExtension,
+        bytes: bytes,
         uploadPath: uploadPath,
       );
+
+      final String? _fileName = _adjustedPaths['fileName'];
+      final String? _uploadPath = _adjustedPaths['uploadPath'];
+      final String? _id = _adjustedPaths['id'];
+      final String? _fileExtension = _adjustedPaths['fileExtension'];
+
+      // Mapper.blogMap(_adjustedPaths, invoker: 'fromBytes');
 
       if (_id != null){
 
@@ -45,14 +126,8 @@ class MediaModelCreator {
         final String? _deviceName = await DeviceChecker.getDeviceName();
         final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
 
-        FileExtType? _fileExtensionType;
-        if (includeFileExtension == true){
-          final String? _ext = FileExtensioning.getExtensionFromPath(_fileName);
-          _fileExtensionType = FileExtensioning.getTypeByExtension(_ext);
-        }
-        else {
-          _fileExtensionType = await FormatDetector.detectBytes(bytes: bytes, fileName: _fileName);
-        }
+        FileExtType? _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
+        _fileExtensionType ??= await FormatDetector.detectBytes(bytes: bytes, fileName: _fileName);
 
         _output = MediaModel(
           id: _id,
@@ -65,7 +140,7 @@ class MediaModelCreator {
             /// RULE : should be exactly the name in the upload path
             name: _fileName,
             ownersIDs: ownersIDs ?? [],
-            uploadPath: uploadPath,
+            uploadPath: _uploadPath,
             data: MapperSS.cleanNullPairs(
               map: {
                 'aspectRatio': _aspectRatio.toString(),
@@ -98,78 +173,89 @@ class MediaModelCreator {
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
     final Uint8List? _bytes = await Byter.fromFile(file);
 
-    if (file != null && _bytes != null && TextCheck.isEmpty(uploadPath) == false){
+    _output = await fromBytes(
+      bytes: _bytes,
+      uploadPath: uploadPath,
+      caption: caption,
+      mediaOrigin: mediaOrigin,
+      ownersIDs: ownersIDs,
+      includeFileExtension: includeFileExtension,
+    );
 
-      final String? _originalFileName = file.fileNameWithoutExtension;
 
-      final String? _uploadPath = FilePathing.replaceFileNameInPath(
-        oldPath: uploadPath,
-        fileName: _originalFileName,
-      );
+    // if (file != null && _bytes != null && TextCheck.isEmpty(uploadPath) == false){
+    //
+    //   final String? _originalFileName = file.fileNameWithoutExtension;
+    //
+    //   final String? _uploadPath = FilePathing.replaceFileNameInPath(
+    //     oldPath: uploadPath,
+    //     fileName: _originalFileName,
+    //   );
+    //
+    //   final String? _id = MediaModel.createID(
+    //     uploadPath: _uploadPath,
+    //   );
+    //
+    //   if (_id != null){
+    //
+    //     final Dimensions? _dims =  await DimensionsGetter.fromFile(
+    //       file: file,
+    //     );
+    //     final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+    //     final double? _mega = FileSizer.getFileSizeWithUnit(
+    //       file: file,
+    //       unit: FileSizeUnit.megaByte,
+    //     );
+    //     final double? _kilo = FileSizer.getFileSizeWithUnit(
+    //       file: file,
+    //       unit: FileSizeUnit.kiloByte,
+    //     );
+    //     final String? _deviceID = await DeviceChecker.getDeviceID();
+    //     final String? _deviceName = await DeviceChecker.getDeviceName();
+    //     final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+    //     // final String? _extension = FileTyper.getExtension(object: bytes);
+    //
+    //     final FileExtType? _fileExtensionType = await FormatDetector.detectFile(
+    //       file: file,
+    //     );
+    //
+    //     _output = MediaModel(
+    //       id: _id,
+    //       bytes: _bytes,
+    //       meta: MediaMetaModel(
+    //         sizeMB: _mega,
+    //         width: _dims?.width,
+    //         height: _dims?.height,
+    //         fileExt: _fileExtensionType,
+    //         name: _originalFileName,
+    //         ownersIDs: ownersIDs ?? [],
+    //         uploadPath: _uploadPath,
+    //         data: MapperSS.cleanNullPairs(
+    //           map: {
+    //             'aspectRatio': _aspectRatio.toString(),
+    //             'sizeB': _bytes.length.toString(),
+    //             'sizeKB': _kilo.toString(),
+    //             'source': MediaModel.cipherMediaOrigin(mediaOrigin),
+    //             'deviceID': _deviceID,
+    //             'deviceName': _deviceName,
+    //             'platform': _devicePlatform,
+    //             'file_path': file.path,
+    //             'caption': caption,
+    //           },
+    //         ),
+    //       ),
+    //     );
+    //   }
+    //
+    // }
 
-      final String? _id = MediaModel.createID(
-        uploadPath: _uploadPath,
-      );
-
-      if (_id != null){
-
-        final Dimensions? _dims =  await DimensionsGetter.fromFile(
-          file: file,
-        );
-        final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-        final double? _mega = FileSizer.getFileSizeWithUnit(
-          file: file,
-          unit: FileSizeUnit.megaByte,
-        );
-        final double? _kilo = FileSizer.getFileSizeWithUnit(
-          file: file,
-          unit: FileSizeUnit.kiloByte,
-        );
-        final String? _deviceID = await DeviceChecker.getDeviceID();
-        final String? _deviceName = await DeviceChecker.getDeviceName();
-        final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-        // final String? _extension = FileTyper.getExtension(object: bytes);
-
-        final FileExtType? _fileExtensionType = await FormatDetector.detectFile(
-          file: file,
-        );
-
-        _output = MediaModel(
-          id: _id,
-          bytes: _bytes,
-          meta: MediaMetaModel(
-            sizeMB: _mega,
-            width: _dims?.width,
-            height: _dims?.height,
-            fileExt: _fileExtensionType,
-            name: _originalFileName,
-            ownersIDs: ownersIDs ?? [],
-            uploadPath: _uploadPath,
-            data: MapperSS.cleanNullPairs(
-              map: {
-                'aspectRatio': _aspectRatio.toString(),
-                'sizeB': _bytes.length.toString(),
-                'sizeKB': _kilo.toString(),
-                'source': MediaModel.cipherMediaOrigin(mediaOrigin),
-                'deviceID': _deviceID,
-                'deviceName': _deviceName,
-                'platform': _devicePlatform,
-                'file_path': file.path,
-                'caption': caption,
-              },
-            ),
-          ),
-        );
-      }
-
-    }
-
-    return _output;
+    return _output?.setFilePath(filePath: file?.path);
   }
   // -----------------------------------------------------------------------------
 
@@ -183,24 +269,26 @@ class MediaModelCreator {
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
-    final String? _fileName = FileNaming.getNameFromPath(
-        path: uploadPath,
-        withExtension: false,
-    );
-    SuperFile? _file = await file?.rename(newName: _fileName);
-    _file ??= file;
+    // final String? _fileName = FileNaming.getNameFromPath(
+    //     path: uploadPath,
+    //     withExtension: false,
+    // );
+    // SuperFile? _file = await file?.rename(newName: _fileName);
+    // _file ??= file;
 
-    if (_file != null){
+    if (file != null){
 
       _output = await fromBytes(
-        bytes: await _file.readBytes(),
+        bytes: await file.readBytes(),
         ownersIDs: ownersIDs,
         uploadPath: uploadPath,
         mediaOrigin: mediaOrigin,
         caption: caption,
+        includeFileExtension: includeFileExtension,
       );
 
     }
@@ -225,6 +313,7 @@ class MediaModelCreator {
     if (ObjectCheck.isAbsoluteURL(url) == false){
       return null;
     }
+
     else {
 
       final Uint8List? _bytes = await Byter.fromURL(url);
@@ -238,16 +327,18 @@ class MediaModelCreator {
         includeFileExtension: includeFileExtension,
       );
 
-      return _mediaModel?.copyWith(
-        meta: _mediaModel.meta?.copyWith(
-            data: MapperSS.insertPairInMapWithStringValue(
-              map: _mediaModel.meta?.data,
-              key: 'original_url',
-              value: url!,
-              overrideExisting: true,
-            )
-        ),
-      );
+      return _mediaModel?.setOriginalURL(originalURL: url);
+
+      // return _mediaModel?.copyWith(
+      //   meta: _mediaModel.meta?.copyWith(
+      //       data: MapperSS.insertPairInMapWithStringValue(
+      //         map: _mediaModel.meta?.data,
+      //         key: 'original_url',
+      //         value: url!,
+      //         overrideExisting: true,
+      //       )
+      //   ),
+      // );
 
     }
 
@@ -264,6 +355,7 @@ class MediaModelCreator {
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
@@ -277,6 +369,7 @@ class MediaModelCreator {
         uploadPath: uploadPath,
         ownersIDs: ownersIDs,
         caption: caption,
+        includeFileExtension: includeFileExtension,
       );
 
     }
@@ -290,6 +383,7 @@ class MediaModelCreator {
     required String Function(int index, String? title) uploadPathGenerator,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
+    bool includeFileExtension = false,
   }) async {
     final List<MediaModel> _output = [];
 
@@ -304,6 +398,7 @@ class MediaModelCreator {
           mediaOrigin: mediaOrigin,
           uploadPath: uploadPathGenerator.call(i, _entity.title),
           ownersIDs: ownersIDs,
+          includeFileExtension: includeFileExtension,
           // caption: null,
         );
 
@@ -332,6 +427,7 @@ class MediaModelCreator {
     required String uploadPath,
     List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
@@ -347,6 +443,7 @@ class MediaModelCreator {
         ownersIDs: ownersIDs,
         bytes: _bytes,
         caption: caption,
+        includeFileExtension: includeFileExtension,
       );
 
     }
@@ -357,6 +454,7 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> fromLocalAssets({
     required List<String> localAssets,
+    bool includeFileExtension = false,
     // required int width,
   }) async {
     final List<MediaModel> _output = [];
@@ -368,6 +466,7 @@ class MediaModelCreator {
         final MediaModel? _pic = await fromLocalAsset(
           localAsset: asset,
           uploadPath: FileNaming.getNameFromLocalAsset(asset)!,
+          includeFileExtension: includeFileExtension,
           // caption: null,
           // ownersIDs: ,
         );
@@ -394,6 +493,7 @@ class MediaModelCreator {
     required String uploadPath,
     required List<String>? ownersIDs,
     String? caption,
+    bool includeFileExtension = false,
   }) async {
     MediaModel? _output;
 
@@ -422,6 +522,7 @@ class MediaModelCreator {
           uploadPath: uploadPath,
           mediaOrigin: mediaOrigin,
           caption: caption,
+          includeFileExtension: includeFileExtension,
         );
 
       }
