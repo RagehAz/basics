@@ -242,7 +242,7 @@ class Byter {
 
       _uints = await Rest.readBytes(
         rawLink: url!.trim(),
-        invoker: 'getUint8ListFromURL',
+        invoker: 'Byter.fromURL',
       );
 
     }

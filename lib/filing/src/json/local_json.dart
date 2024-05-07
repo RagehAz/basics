@@ -26,45 +26,60 @@ class LocalJSON {
       );
 
       if (_can == true){
+
         await tryAndCatch(
-          invoker: 'exportJSON',
+          invoker: 'LocalJSON.exportFile',
           functions: () async {
 
-            await Isolate.run(() async {
-              await file.copy('$exportToPath/${file.fileName}');
-            });
+            // blog('1. exportFile : creating directory : $exportToPath');
+            await Directory(exportToPath).create(recursive: true);
 
+            // blog('2. exportFile : creating file : $exportToPath/${file.fileName}');
+            await file.copy('$exportToPath/${file.fileName}');
+
+            // blog('3. exportFile : success');
             _success = true;
+
           },
-          onError: (String? error) async {
-
-            final bool _pathNotFound = TextCheck.stringContainsSubString(
-                string: error,
-                subString: 'PathNotFoundException',
-            );
-
-            if (_pathNotFound == true){
-
-              await tryAndCatch(
-                invoker: 'exportJSON_2',
-                functions: () async {
-
-                  await Directory(exportToPath).create(recursive: true);
-
-                  await Isolate.run(() async {
-                    await file.copy('$exportToPath/${file.fileName}');
-                  });
-
-                  _success = true;
-
-                },
-              );
-
-            }
-
-          }
-
         );
+
+        // await tryAndCatch(
+        //   invoker: 'exportJSON',
+        //   functions: () async {
+        //
+        //     await file.copy('$exportToPath/${file.fileName}');
+        //
+        //     _success = true;
+        //   },
+        //   onError: (String? error) async {
+        //
+        //     final bool _pathNotFound = TextCheck.stringContainsSubString(
+        //         string: error,
+        //         subString: 'PathNotFoundException',
+        //     );
+        //
+        //     if (_pathNotFound == true){
+        //
+        //       await tryAndCatch(
+        //         invoker: 'exportJSON_2',
+        //         functions: () async {
+        //
+        //           await Directory(exportToPath).create(
+        //             recursive: true,
+        //           );
+        //
+        //           await file.copy('$exportToPath/${file.fileName}');
+        //
+        //           _success = true;
+        //
+        //         },
+        //       );
+        //
+        //     }
+        //
+        //   }
+        // );
+
       }
 
     }
@@ -92,7 +107,7 @@ class LocalJSON {
     );
 
     await tryAndCatch(
-      invoker: 'LocalJSON.export',
+      invoker: 'exportJSON.export',
       functions: () async {
         final String jsonString = jsonEncode(map);
         await _file!.writeAsString(jsonString);
@@ -119,7 +134,7 @@ class LocalJSON {
     if (path != null){
 
       await tryAndCatch(
-        invoker: 'readLocalJSON',
+        invoker: 'exportJSON.read',
         functions: () async {
 
           final String _jsonStringValues = await rootBundle.loadString(path);

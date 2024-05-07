@@ -271,14 +271,14 @@ class Filer {
 
           final String _fileName = fileName ?? TextMod.idifyString(url)!;
 
-          blog('---> 1 : createFromURL : $_fileName');
+          // blog('---> 1 : createFromURL : $_fileName');
           _file = await createFromBytes(
             bytes: _bytes,
             fileName: _fileName,
             includeFileExtension: includeFileExtension,
           );
 
-          blog('---> 2 : _file : $_file');
+          // blog('---> 2 : _file : $_file');
 
           // _file = await Filer.renameFile(
           //   file: _file,
