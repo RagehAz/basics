@@ -327,7 +327,8 @@ class Flag {
     if (countryID != null && countryID != planetID) {
 
       if (America.checkCountryIDIsStateID(countryID) == true){
-        _output = America.statePhoneCodes[countryID];
+        /// because americans use different state phones while in other states but all use the '+1'
+        _output = '+1'; // America.statePhoneCodes[countryID];
       }
 
       else {

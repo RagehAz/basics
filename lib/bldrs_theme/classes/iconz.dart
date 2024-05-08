@@ -303,6 +303,7 @@ class Iconz {
   static const String fish = '$iconDirectory/gi_fish.svg';
   static const String carousel = '$iconDirectory/gi_carousel.svg';
   static const String reel = '$iconDirectory/gi_reel.svg';
+  static const String repo = '$iconDirectory/gi_repo.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';

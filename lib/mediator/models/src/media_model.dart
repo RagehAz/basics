@@ -514,6 +514,28 @@ class MediaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  MediaModel setOwnersIDs({
+    required List<String>? ownersIDs,
+  }){
+
+    if (Lister.checkCanLoop(ownersIDs) == false){
+      return this;
+    }
+    else {
+
+      final MediaMetaModel? _meta = meta?.copyWith(
+        ownersIDs: ownersIDs,
+      );
+
+      return copyWith(
+        meta: _meta,
+      );
+
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   MediaModel setCaption({
     required String? caption,
   }){
