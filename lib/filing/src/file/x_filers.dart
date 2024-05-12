@@ -18,11 +18,11 @@ class XFiler {
   }) async {
     XFile? _xFile;
 
-    // blog('1. getOrCreateTempXFile : START');
+    // blog('1. getOrCreateTempXFile : START---->');
 
     final bool _fileExists = await checkFileExistsByName(name: fileName);
 
-    // blog('2. getOrCreateTempXFile : _fileExists : $_fileExists');
+    // blog('2. getOrCreateTempXFile : _fileExists : $_fileExists : fileName : $fileName');
 
     if (_fileExists == true){
       _xFile = await readByName(name: fileName);
@@ -35,19 +35,21 @@ class XFiler {
         fileName: fileName,
         // includeFileExtension: false, // no need + to avoid recursive loop of detection
       );
-      // blog('3. getOrCreateTempXFile : created from bytes : $_xFile');
+      // blog('3. getOrCreateTempXFile : created from bytes : ${_xFile?.path}');
     }
 
     if (_xFile != null){
       // blog('4. getOrCreateTempXFile : starting ops');
       await ops(_xFile);
-      // blog('6. getOrCreateTempXFile : ended ops');
+      // blog('5. getOrCreateTempXFile : ended ops');
     }
 
     if (_fileExists == false){
-      // blog('7. getOrCreateTempXFile : deleting file');
-      await deleteFile(_xFile);
+      // blog('6. getOrCreateTempXFile : WILL NOT delete file');
+      // await deleteFile(_xFile);
     }
+
+    // blog('7. getOrCreateTempXFile : END <--');
 
   }
   // -----------------------------------------------------------------------------

@@ -206,7 +206,7 @@ class Colorizer {
     Color? _output;
 
     if (file != null){
-      final Uint8List? _bytes = await Byter.fromXFile(file);
+      final Uint8List? _bytes = await Byter.fromXFile(file, 'getAverageColorFromXFile');
       _output = await getAverageColor(_bytes);
     }
 

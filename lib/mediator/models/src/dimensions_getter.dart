@@ -15,6 +15,7 @@ abstract class DimensionsGetter {
   static Future<Dimensions?> fromDynamic({
     required dynamic object,
     required String fileName,
+    required String invoker,
   }) async {
 
     if (object is MediaModel){
@@ -27,7 +28,7 @@ abstract class DimensionsGetter {
 
     /// X FILE
     else if (ObjectCheck.objectIsXFile(object) == true){
-      return fromXFile(xFile: object);
+      return fromXFile(xFile: object, invoker: 'DimensionsGetter.fromDynamic.invoker');
     }
 
     /// FILE
@@ -103,6 +104,7 @@ abstract class DimensionsGetter {
 
           _output = await fromXFile(
             xFile: xFile,
+            invoker: 'DimensionsGetter.fromBytes(getOrCreateTempXFile)',
           );
 
         }
@@ -162,15 +164,16 @@ abstract class DimensionsGetter {
       _xFile = XFiler.readFile(file: file);
     }
 
-    return fromXFile(xFile: _xFile);
+    return fromXFile(xFile: _xFile, invoker: 'DG.fromFile');
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Dimensions?> fromXFile({
     required XFile? xFile,
+    required String invoker,
   }) async {
 
-    final Uint8List? _bytes = await Byter.fromXFile(xFile);
+    final Uint8List? _bytes = await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile.$invoker');
 
     Dimensions? _output = await _getImageDimensions(
       bytes: _bytes,

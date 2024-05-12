@@ -24,6 +24,7 @@ class FormatDetector {
 
         final FileExtType _extType = await detectFile(
           file: file,
+          invoker: 'fixFileNameByFile',
         );
 
         final String? _extension = FileExtensioning.getExtensionByType(_extType);
@@ -85,6 +86,7 @@ class FormatDetector {
   /// TESTED : WORKS PERFECT
   static Future<FileExtType> detectXFile({
     required XFile? xFile,
+    required String invoker,
   }) async {
     FileExtType? _output;
 
@@ -104,7 +106,7 @@ class FormatDetector {
 
         /// MIME BY PATH AND BYTES
         if (_output == null){
-          final Uint8List? _bytes = await Byter.fromXFile(xFile);
+          final Uint8List? _bytes = await Byter.fromXFile(xFile, 'detectXFile.$invoker');
           _mime = lookupMimeType(xFile.path, headerBytes: _bytes);
           _output = FileMiming.getTypeByMime(_mime);
         }
@@ -119,6 +121,7 @@ class FormatDetector {
   /// TESTED : WORKS PERFECT
   static Future<FileExtType> detectFile({
     required File? file,
+    required String invoker,
   }) async {
     FileExtType? _output;
 
@@ -128,6 +131,7 @@ class FormatDetector {
 
       _output = await detectXFile(
         xFile: _xFile,
+        invoker: 'detectFile.$invoker',
       );
 
     }
@@ -151,7 +155,7 @@ class FormatDetector {
 
         // blog('2. detectBytes : xFile : $xFile');
 
-        _type = await detectXFile(xFile: xFile);
+        _type = await detectXFile(xFile: xFile, invoker: 'detectBytes(getOrCreateTempXFile)');
 
         // blog('3. detectBytes : _type : $_type');
 

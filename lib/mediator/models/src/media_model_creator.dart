@@ -115,19 +115,31 @@ class MediaModelCreator {
 
       if (_id != null){
 
-        final Dimensions? _dims =  await DimensionsGetter.fromBytes(
+        Dimensions? _dims;
+        FileExtType? _fileExtensionType;
+
+        await XFiler.getOrCreateTempXFile(
+          fileName: _id,
           bytes: bytes,
-          fileName: _fileName,
+          ops: (XFile xFile) async {
+
+            _dims =  await DimensionsGetter.fromXFile(
+              xFile: xFile,
+              invoker: 'createTheMediaModelFromBytes',
+            );
+            _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
+            _fileExtensionType ??= await FormatDetector.detectXFile(xFile: xFile, invoker: 'createTheMediaModelFromBytes');
+
+          },
         );
+
+
         final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
         final double? _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
         final double? _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
         final String? _deviceID = await DeviceChecker.getDeviceID();
         final String? _deviceName = await DeviceChecker.getDeviceName();
         final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-
-        FileExtType? _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
-        _fileExtensionType ??= await FormatDetector.detectBytes(bytes: bytes, fileName: _fileName);
 
         _output = MediaModel(
           id: _id,

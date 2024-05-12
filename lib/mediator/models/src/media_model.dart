@@ -573,6 +573,7 @@ class MediaModel {
 
     final String _text =
     '''
+    id: $id,
     bytes: ${bytes?.length} bytes,
     meta: $meta
     ''';
@@ -717,6 +718,7 @@ class MediaModel {
     final String _text =
     '''
     PicModel(
+      id: $id,
       bytes: ${bytes?.length} bytes,
       meta: StorageMetaModel(
         width: ${meta?.width},

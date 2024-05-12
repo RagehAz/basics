@@ -65,12 +65,12 @@ class Byter {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> fromXFile(XFile? file) async {
+  static Future<Uint8List?> fromXFile(XFile? file, String invoker) async {
     Uint8List? _uInt;
 
     if (file != null){
       await tryAndCatch(
-        invoker:  'Byter.fromXFile',
+        invoker:  'Byter.fromXFile.$invoker',
         functions: () async {
 
           _uInt = await file.readAsBytes();

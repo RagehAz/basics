@@ -46,7 +46,7 @@ extension Extra on XFile {
   Future<double?> readSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
-    final Uint8List? _bytes = await Byter.fromXFile(this);
+    final Uint8List? _bytes = await Byter.fromXFile(this, 'readSize');
     return FileSizer.calculateSize(_bytes?.length, fileSizeUnit);
   }
   // -----------------------------------------------------------------------------
@@ -58,6 +58,7 @@ extension Extra on XFile {
   Future<Dimensions?> readDimensions() async {
     final Dimensions? _dims =  await DimensionsGetter.fromXFile(
       xFile: this,
+      invoker: 'readDimensions',
     );
     return _dims;
   }

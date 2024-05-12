@@ -37,7 +37,7 @@ class Imager{
     ui.Image? _output;
 
     if (file != null) {
-      final Uint8List? _bytes = await Byter.fromXFile(file);
+      final Uint8List? _bytes = await Byter.fromXFile(file, 'getUiImageFromXFile');
       _output = await getUiImageFromBytes(_bytes);
     }
 
