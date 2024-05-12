@@ -140,12 +140,26 @@ class Lister {
       return _isAtLast;
     }
      */
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static int getItemIndex({
+    required List<dynamic>? items,
+    required dynamic item,
+  }){
+    int _output = -1;
+
+    if (checkCanLoop(items) == true){
+      _output = items!.indexWhere((element) => element == item);
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// FILLERS
 
   // --------------------
-  /// SHOULD GO TO LISTER
+  /// TESTED : WORKS PERFECT
   static List<dynamic> fillEmptySlotsUntilIndex({
     required List<dynamic> list,
     required dynamic fillValue,

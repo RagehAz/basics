@@ -343,6 +343,44 @@ class MediaModelCreator {
     }
 
   }
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<MediaModel>> fromURLs({
+    required List<String>? urls,
+    required String Function(int index) uploadPathGenerator,
+    MediaOrigin? mediaOrigin,
+    List<String>? ownersIDs,
+    bool includeFileExtension = false,
+    List<String>? captions,
+  }) async {
+    final List<MediaModel> _output = [];
+
+    if (Lister.checkCanLoop(urls) == true){
+
+      for (int i = 0; i < urls!.length; i++){
+
+        final String _url = urls[i];
+
+        final MediaModel? _model = await MediaModelCreator.fromURL(
+          url: _url,
+          mediaOrigin: mediaOrigin,
+          uploadPath: uploadPathGenerator.call(i),
+          ownersIDs: ownersIDs,
+          includeFileExtension: includeFileExtension,
+          caption: captions?[i],
+        );
+
+        if (_model != null){
+          _output.add(_model);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// ASSET ENTITY
