@@ -37,12 +37,14 @@ import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
 
+export 'package:sembast/sembast.dart';
+export 'package:sembast/src/api/filter.dart';
+
 part 'src/ldb_viewer/ldb_browser_screen.dart';
 part 'src/ldb_viewer/ldb_viewer_screen.dart';
 part 'src/ldb_viewer/sembast_test_screen.dart';
 part 'src/ldb_viewer/small_button.dart';
 part 'src/ldb_viewer/value_box.dart';
-part 'src/models/ldb_finder.dart';
 part 'src/models/ldb_mapper.dart';
 part 'src/ops/ldb_ops.dart';
 part 'src/ops/ldb_search.dart';
