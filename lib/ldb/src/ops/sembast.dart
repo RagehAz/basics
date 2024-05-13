@@ -1,17 +1,5 @@
 // ignore_for_file: unused_element
-
-import 'dart:async';
-import 'dart:io';
-import 'package:basics/helpers/checks/error_helpers.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
-import 'package:flutter/foundation.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
-import 'package:path/path.dart';
-import 'package:sembast_web/sembast_web.dart';
+part of ldb;
 
 class Sembast  {
   // -----------------------------------------------------------------------------
@@ -58,7 +46,7 @@ class Sembast  {
       final String packageName = _packageInfo.packageName;
       // blog('3--> LDB : packageName : $packageName');
 
-      final String _dbPath = kIsWeb == true ? packageName : join(_appDocDir!.path, packageName);
+      final String _dbPath = kIsWeb == true ? packageName : path.join(_appDocDir!.path, packageName);
       // blog('4--> LDB : _dbPath : $_dbPath');
 
       final DatabaseFactory factory = kIsWeb == true ? databaseFactoryWeb : databaseFactoryIo;
@@ -480,189 +468,6 @@ class Sembast  {
     return _maps;
   }
  */
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchArrays({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required dynamic searchValue,
-    required String? docName,
-  }) async {
-
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-        fieldToSortBy != null &&
-        searchField != null &&
-        searchValue != null &&
-        docName != null
-    ){
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null){
-
-         final _finder = Finder(
-        filter: Filter.matches(searchField, searchValue, anyInList: true),
-        sortOrders: <SortOrder>[
-          SortOrder(fieldToSortBy)
-        ],
-      );
-
-      final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-        _db,
-        finder: _finder,
-      );
-
-      _output = _recordSnapshots.map((snapshot){
-        return snapshot.value;
-      }).toList();
-
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> search({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required bool? fieldIsList,
-    required dynamic searchValue,
-    required String? docName,
-  }) async {
-
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-        fieldToSortBy != null &&
-        searchField != null &&
-        fieldIsList != null &&
-        searchValue != null &&
-        docName != null
-    ){
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null) {
-
-        final Finder _finder = Finder(
-          filter: Filter.equals(searchField, searchValue, anyInList: fieldIsList),
-          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
-        );
-
-        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-          _db,
-          finder: _finder,
-        );
-
-        // blog('fieldToSortBy : $fieldToSortBy');
-        // blog('searchField : $searchField');
-        // blog('searchValue : $searchValue');
-        // blog('docName : $docName');
-        // blog('_doc : $_doc');
-        // blog('_db : $_db');
-        // blog('_finder : $_finder');
-        // blog('_recordSnapshots : $_recordSnapshots');
-
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
-      }
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>?> findFirst({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required dynamic searchValue,
-    required String? docName,
-  }) async {
-    Map<String, dynamic>? _output;
-
-    if (
-        fieldToSortBy != null &&
-        searchField != null &&
-        searchValue != null &&
-        docName != null
-    ) {
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null) {
-
-        final Finder _finder = Finder(
-          filter: Filter.equals(searchField, searchValue, anyInList: false),
-          // sortOrders: <SortOrder>[
-          //   SortOrder(fieldToSortBy)
-          // ],
-        );
-
-        // blog('_finder is : $_finder');
-
-        final RecordSnapshot<int, Map<String, dynamic>>? _recordSnapshot = await _doc.findFirst(
-          _db,
-          finder: _finder,
-        );
-
-        // blog('_recordSnapshot : $_recordSnapshot');
-
-        _output = _recordSnapshot?.value;
-      }
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchMultiple({
-    required String? docName,
-    required String? searchField,
-    required List<dynamic>? searchObjects,
-    required String? fieldToSortBy,
-  }) async {
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-        docName != null &&
-        searchField != null &&
-        Lister.checkCanLoop(searchObjects) == true &&
-        fieldToSortBy != null
-    ){
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null){
-
-        final Finder _finder = Finder(
-          filter: Filter.inList(searchField, <Object>[...?searchObjects]),
-          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
-        );
-
-        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-          _db,
-          finder: _finder,
-        );
-
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
-      }
-
-    }
-
-    return _output;
-  }
   // -----------------------------------------------------------------------------
 
   /// DELETE
@@ -839,6 +644,193 @@ class Sembast  {
         else {
           _output = true;
         }
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// SEARCH
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<Map<String, dynamic>>> searchArrays({
+    required String? fieldToSortBy,
+    required String? searchField,
+    required dynamic searchValue,
+    required String? docName,
+  }) async {
+
+    List<Map<String, dynamic>> _output = [];
+
+    if (
+    fieldToSortBy != null &&
+        searchField != null &&
+        searchValue != null &&
+        docName != null
+    ){
+
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
+      final Database? _db = await _getDB();
+
+      if (_doc != null && _db != null){
+
+        final _finder = Finder(
+          filter: Filter.matches(searchField, searchValue, anyInList: true),
+          sortOrders: <SortOrder>[
+            SortOrder(fieldToSortBy)
+          ],
+        );
+
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
+          _db,
+          finder: _finder,
+        );
+
+        _output = _recordSnapshots.map((snapshot){
+          return snapshot.value;
+        }).toList();
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<Map<String, dynamic>>> search({
+    required String? fieldToSortBy,
+    required String? searchField,
+    required bool? fieldIsList,
+    required dynamic searchValue,
+    required String? docName,
+  }) async {
+
+    List<Map<String, dynamic>> _output = [];
+
+    if (
+    fieldToSortBy != null &&
+        searchField != null &&
+        fieldIsList != null &&
+        searchValue != null &&
+        docName != null
+    ){
+
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
+      final Database? _db = await _getDB();
+
+      if (_doc != null && _db != null) {
+
+        final Finder _finder = Finder(
+          filter: Filter.equals(searchField, searchValue, anyInList: fieldIsList),
+          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
+        );
+
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
+          _db,
+          finder: _finder,
+        );
+
+        // blog('fieldToSortBy : $fieldToSortBy');
+        // blog('searchField : $searchField');
+        // blog('searchValue : $searchValue');
+        // blog('docName : $docName');
+        // blog('_doc : $_doc');
+        // blog('_db : $_db');
+        // blog('_finder : $_finder');
+        // blog('_recordSnapshots : $_recordSnapshots');
+
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
+          return snapshot.value;
+        }).toList();
+      }
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>?> findFirst({
+    required String? fieldToSortBy,
+    required String? searchField,
+    required dynamic searchValue,
+    required String? docName,
+  }) async {
+    Map<String, dynamic>? _output;
+
+    if (
+    fieldToSortBy != null &&
+        searchField != null &&
+        searchValue != null &&
+        docName != null
+    ) {
+
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
+      final Database? _db = await _getDB();
+
+      if (_doc != null && _db != null) {
+
+        final Finder _finder = Finder(
+          filter: Filter.equals(searchField, searchValue, anyInList: false),
+          // sortOrders: <SortOrder>[
+          //   SortOrder(fieldToSortBy)
+          // ],
+        );
+
+        // blog('_finder is : $_finder');
+
+        final RecordSnapshot<int, Map<String, dynamic>>? _recordSnapshot = await _doc.findFirst(
+          _db,
+          finder: _finder,
+        );
+
+        // blog('_recordSnapshot : $_recordSnapshot');
+
+        _output = _recordSnapshot?.value;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<List<Map<String, dynamic>>> searchMultiple({
+    required String? docName,
+    required String? searchField,
+    required List<dynamic>? searchObjects,
+    required String? fieldToSortBy,
+  }) async {
+    List<Map<String, dynamic>> _output = [];
+
+    if (
+    docName != null &&
+        searchField != null &&
+        Lister.checkCanLoop(searchObjects) == true &&
+        fieldToSortBy != null
+    ){
+
+      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
+      final Database? _db = await _getDB();
+
+      if (_doc != null && _db != null){
+
+        final Finder _finder = Finder(
+          filter: Filter.inList(searchField, <Object>[...?searchObjects]),
+          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
+        );
+
+        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
+          _db,
+          finder: _finder,
+        );
+
+        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
+          return snapshot.value;
+        }).toList();
       }
 
     }

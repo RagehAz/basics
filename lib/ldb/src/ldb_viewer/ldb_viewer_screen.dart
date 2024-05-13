@@ -1,24 +1,4 @@
-import 'dart:async';
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/components/animators/scroller.dart';
-import 'package:basics/components/dialogs/bottom_dialog.dart';
-import 'package:basics/components/dialogs/center_dialog.dart';
-import 'package:basics/components/dialogs/top_dialog.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/colors/colorizer.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
-import 'package:basics/layouts/layouts/basic_layout.dart';
-import 'package:basics/layouts/nav/nav.dart';
-import 'package:basics/ldb/methods/ldb_ops.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'value_box.dart';
+part of ldb;
 
 class LDBViewerScreen extends StatefulWidget {
   /// --------------------------------------------------------------------------

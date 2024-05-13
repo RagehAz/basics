@@ -17,7 +17,6 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
-import 'package:basics/ldb/methods/ldb_ops.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
@@ -34,6 +33,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mime/mime.dart';
+import 'package:basics/ldb/ldb.dart';
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';

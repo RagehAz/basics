@@ -1,8 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:flutter/material.dart';
+part of ldb;
 
 class SmallButton extends StatelessWidget {
   /// --------------------------------------------------------------------------

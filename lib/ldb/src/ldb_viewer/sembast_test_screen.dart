@@ -1,22 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/components/dialogs/bottom_dialog.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/colors/colorizer.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/helpers/nums/numeric.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
-import 'package:basics/layouts/layouts/basic_layout.dart';
-import 'package:basics/layouts/nav/nav.dart';
-import 'package:basics/ldb/ldb_viewer/ldb_viewer_screen.dart';
-import 'package:basics/ldb/ldb_viewer/small_button.dart';
-import 'package:basics/ldb/methods/ldb_ops.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:flutter/material.dart';
+part of ldb;
 
 class SembastTestScreen extends StatefulWidget {
   /// --------------------------------------------------------------------------

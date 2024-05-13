@@ -1,17 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/strings/text_mod.dart';
-import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
-import 'package:basics/layouts/layouts/basic_layout.dart';
-import 'package:basics/layouts/nav/nav.dart';
-import 'package:basics/components/drawing/separator_line.dart';
-import 'package:basics/layouts/views/floating_list.dart';
-import 'package:basics/ldb/ldb_viewer/ldb_viewer_screen.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:flutter/material.dart';
+part of ldb;
 
 class LDBBrowserScreen extends StatelessWidget {
   // -----------------------------------------------------------------------------

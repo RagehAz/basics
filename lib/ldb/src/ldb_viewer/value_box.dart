@@ -1,8 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/strings/text_clip_board.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:flutter/material.dart';
+part of ldb;
 
 class ValueBox extends StatelessWidget {
   /// --------------------------------------------------------------------------
