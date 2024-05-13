@@ -1,7 +1,7 @@
 // ignore_for_file: unused_element
 part of ldb;
 
-class Sembast  {
+class _Sembast  {
   // -----------------------------------------------------------------------------
   /// Simple Embedded Application Store database
   // -----------------------------------------------------------------------------
@@ -10,11 +10,11 @@ class Sembast  {
 
   // --------------------
   /// private constructor to create instances of this class only in itself
-  Sembast._thing();
+  _Sembast._thing();
   /// Singleton instance
-  static final Sembast _singleton = Sembast._thing();
+  static final _Sembast _singleton = _Sembast._thing();
   /// Singleton accessor
-  static Sembast get instance => _singleton;
+  static _Sembast get instance => _singleton;
   // --------------------
   /// local instance : to transform from synchronous into asynchronous
   Completer<Database>? _dbOpenCompleter;
@@ -75,7 +75,7 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Database?> _getDB() async {
-    final Database? _result = await Sembast.instance.database;
+    final Database? _result = await _Sembast.instance.database;
     return _result;
   }
   // --------------------
@@ -409,9 +409,9 @@ class Sembast  {
           finder: _finder,
         );
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
+        _output = LDBMapper.getMapsFromSnapshots(
+            snapshots: _recordSnapshots,
+        );
 
       }
       // blog('Sembast : readMaps : $docName : $primaryKeyName : ${_maps.length} maps');
@@ -428,46 +428,27 @@ class Sembast  {
     List<Map<String, dynamic>> _output = [];
 
     if (docName != null) {
+
       final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
       final Database? _db = await _getDB();
 
       if (_db != null && _doc != null) {
+
         final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
           _db,
           // finder: _finder,
         );
 
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
+        _output = LDBMapper.getMapsFromSnapshots(
+          snapshots: _recordSnapshots,
+        );
+
       }
+
     }
 
     return _output;
   }
-
-  // --------------------
-  /*
-  static Future<List<Map<String, dynamic>>> readAllNewMethod({
-    required String docName,
-  }) async {
-
-    final StoreRef<int, Map<String, dynamic>> _doc = _getStore(docName: docName);
-    final Database _db = await _getDB();
-
-    final QueryRef<int, Map<String, dynamic>> _query = _doc.query();
-
-    final List<RecordSnapshot<int, Map<String, dynamic>>> _snaps = await _query.getSnapshots(_db);
-
-    final List<Map<String, dynamic>> _maps = [];
-
-    for (final snap in _snaps){
-      _maps.add(snap.value);
-    }
-
-    return _maps;
-  }
- */
   // -----------------------------------------------------------------------------
 
   /// DELETE
@@ -475,12 +456,12 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMap({
-    required String? objectID,
+    required String? id,
     required String? docName,
     required String? primaryKey,
   }) async {
 
-    if (objectID != null && docName != null && primaryKey != null){
+    if (id != null && docName != null && primaryKey != null){
 
       /// NOTE : Deletes all maps with the given primary key,
       /// as LDB allows duplicate maps of same ID "same value of the primary key"
@@ -494,7 +475,7 @@ class Sembast  {
       if (_db != null && _doc != null){
 
         final Finder _finder = Finder(
-          filter: Filter.equals(primaryKey, objectID),
+          filter: Filter.equals(primaryKey, id),
         );
 
         await _doc.delete(
@@ -512,13 +493,13 @@ class Sembast  {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteMaps({
-    required String? primaryKeyName,
+    required String? primaryKey,
     required List<String>? ids,
     required String? docName,
   }) async {
 
     if (
-        primaryKeyName != null &&
+        primaryKey != null &&
         Lister.checkCanLoop(ids) == true &&
         docName != null
     ){
@@ -533,7 +514,7 @@ class Sembast  {
       if (_db != null && _doc != null){
 
         final Finder _finder = Finder(
-          filter: Filter.inList(primaryKeyName, ids!),
+          filter: Filter.inList(primaryKey, ids!),
         );
 
         await _doc.delete(
@@ -547,44 +528,6 @@ class Sembast  {
     }
 
   }
-  // --------------------
-  /// DEPRECATED
-  /*
-  /// TESTED :
-  static Future<void> deleteAllOneByOne({
-    required String docName,
-  }) async {
-
-    final List<Map<String, dynamic>> _allMaps = await readAll(
-      docName: docName,
-    );
-
-    if (Lister.checkCanLoopList(_allMaps) == true){
-
-      final String _primaryKey = LDBDoc.getPrimaryKey(docName);
-
-      await Future.wait(<Future>[
-
-        ...List.generate(_allMaps.length, (index){
-
-          final String _id = _allMaps[index][_primaryKey];
-
-          blog('Sembast : deleteAll : $docName : _id : $_id');
-
-          return deleteMap(
-            objectID: _id,
-            docName: docName,
-          );
-
-        }),
-
-      ]);
-
-    }
-
-  // -----------------------------------------------------------------------------
-  }
-   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> deleteAllAtOnce({
@@ -654,44 +597,37 @@ class Sembast  {
 
   /// SEARCH
 
+
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchArrays({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required dynamic searchValue,
+  static Future<List<Map<String, dynamic>>> searchMaps({
     required String? docName,
+    required Finder finder,
   }) async {
-
     List<Map<String, dynamic>> _output = [];
 
-    if (
-    fieldToSortBy != null &&
-        searchField != null &&
-        searchValue != null &&
-        docName != null
-    ){
+    if (docName != null){
 
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
+      final StoreRef<int, Map<String, dynamic>>? _doc = _Sembast._getStore(
+        docName: docName,
+      );
 
-      if (_doc != null && _db != null){
+      if (_doc != null){
 
-        final _finder = Finder(
-          filter: Filter.matches(searchField, searchValue, anyInList: true),
-          sortOrders: <SortOrder>[
-            SortOrder(fieldToSortBy)
-          ],
-        );
+        final Database? _db = await _Sembast._getDB();
 
-        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-          _db,
-          finder: _finder,
-        );
+        if (_db != null){
 
-        _output = _recordSnapshots.map((snapshot){
-          return snapshot.value;
-        }).toList();
+          final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
+            _db,
+            finder: finder,
+          );
+
+          _output = LDBMapper.getMapsFromSnapshots(
+            snapshots: _recordSnapshots,
+          );
+
+        }
 
       }
 
@@ -701,136 +637,35 @@ class Sembast  {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> search({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required bool? fieldIsList,
-    required dynamic searchValue,
+  static Future<Map<String, dynamic>?> searchFirst({
     required String? docName,
-  }) async {
-
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-    fieldToSortBy != null &&
-        searchField != null &&
-        fieldIsList != null &&
-        searchValue != null &&
-        docName != null
-    ){
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null) {
-
-        final Finder _finder = Finder(
-          filter: Filter.equals(searchField, searchValue, anyInList: fieldIsList),
-          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
-        );
-
-        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-          _db,
-          finder: _finder,
-        );
-
-        // blog('fieldToSortBy : $fieldToSortBy');
-        // blog('searchField : $searchField');
-        // blog('searchValue : $searchValue');
-        // blog('docName : $docName');
-        // blog('_doc : $_doc');
-        // blog('_db : $_db');
-        // blog('_finder : $_finder');
-        // blog('_recordSnapshots : $_recordSnapshots');
-
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
-      }
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>?> findFirst({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required dynamic searchValue,
-    required String? docName,
+    required Finder finder,
   }) async {
     Map<String, dynamic>? _output;
 
-    if (
-    fieldToSortBy != null &&
-        searchField != null &&
-        searchValue != null &&
-        docName != null
-    ) {
+    if (docName != null){
 
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
+      final StoreRef<int, Map<String, dynamic>>? _doc = _Sembast._getStore(
+        docName: docName,
+      );
 
-      if (_doc != null && _db != null) {
+      if (_doc != null){
 
-        final Finder _finder = Finder(
-          filter: Filter.equals(searchField, searchValue, anyInList: false),
-          // sortOrders: <SortOrder>[
-          //   SortOrder(fieldToSortBy)
-          // ],
-        );
+        final Database? _db = await _Sembast._getDB();
 
-        // blog('_finder is : $_finder');
+        if (_db != null){
 
-        final RecordSnapshot<int, Map<String, dynamic>>? _recordSnapshot = await _doc.findFirst(
-          _db,
-          finder: _finder,
-        );
+          final RecordSnapshot<int, Map<String, dynamic>>? _recordSnapshot = await _doc.findFirst(
+            _db,
+            finder: finder,
+          );
 
-        // blog('_recordSnapshot : $_recordSnapshot');
+          // blog('_recordSnapshot : $_recordSnapshot');
 
-        _output = _recordSnapshot?.value;
-      }
+          _output = _recordSnapshot?.value;
 
-    }
+        }
 
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchMultiple({
-    required String? docName,
-    required String? searchField,
-    required List<dynamic>? searchObjects,
-    required String? fieldToSortBy,
-  }) async {
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-    docName != null &&
-        searchField != null &&
-        Lister.checkCanLoop(searchObjects) == true &&
-        fieldToSortBy != null
-    ){
-
-      final StoreRef<int, Map<String, dynamic>>? _doc = _getStore(docName: docName);
-      final Database? _db = await _getDB();
-
-      if (_doc != null && _db != null){
-
-        final Finder _finder = Finder(
-          filter: Filter.inList(searchField, <Object>[...?searchObjects]),
-          sortOrders: <SortOrder>[SortOrder(fieldToSortBy)],
-        );
-
-        final List<RecordSnapshot<int, Map<String, dynamic>>> _recordSnapshots = await _doc.find(
-          _db,
-          finder: _finder,
-        );
-
-        _output = _recordSnapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-          return snapshot.value;
-        }).toList();
       }
 
     }

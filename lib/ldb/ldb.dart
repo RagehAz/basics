@@ -43,5 +43,7 @@ part 'src/ldb_viewer/sembast_test_screen.dart';
 part 'src/ldb_viewer/small_button.dart';
 part 'src/ldb_viewer/value_box.dart';
 part 'src/models/ldb_finder.dart';
+part 'src/models/ldb_mapper.dart';
 part 'src/ops/ldb_ops.dart';
-part 'src/ops/sembast.dart';
+part 'src/ops/ldb_search.dart';
+part 'src/foundation/sembast_ops.dart';

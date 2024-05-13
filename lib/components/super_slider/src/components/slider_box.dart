@@ -32,7 +32,7 @@ class _SliderBox extends StatelessWidget {
       child: SliderTheme(
         data: sliderThemData,
         child: Stack(
-          children: [
+          children: <Widget>[
 
             Container(
               width: width,

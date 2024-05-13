@@ -203,11 +203,11 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   // --------------------
   Future<void> _search() async {
 
-    final List<Map<String, dynamic>> _result = await LDBOps.searchMultipleValues(
+    final List<Map<String, dynamic>> _result = await LDBSearch.anyInList(
         docName: _docName,
-        fieldToSortBy: 'id',
-        searchField: 'id',
-        searchObjects: ['x1'],
+        sortByField: 'id',
+        field: 'id',
+        list: ['x1'],
     );
 
     Mapper.blogMaps(_result);

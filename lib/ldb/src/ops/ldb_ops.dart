@@ -1,6 +1,5 @@
 part of ldb;
 
-
 /// => TAMAM
 class LDBOps {
   // -----------------------------------------------------------------------------
@@ -20,7 +19,7 @@ class LDBOps {
     bool allowDuplicateIDs = false,
   }) async {
 
-    final bool _success = await Sembast.insert(
+    final bool _success = await _Sembast.insert(
       map: input,
       docName: docName,
       primaryKey: primaryKey,
@@ -38,7 +37,7 @@ class LDBOps {
     bool allowDuplicateIDs = false,
   }) async {
 
-    await Sembast.insertAll(
+    await _Sembast.insertAll(
       maps: inputs,
       docName: docName,
       primaryKey: primaryKey,
@@ -107,7 +106,7 @@ class LDBOps {
     required String? primaryKey,
   }) async {
 
-    final List<Map<String, dynamic>> _maps = await Sembast.readMaps(
+    final List<Map<String, dynamic>> _maps = await _Sembast.readMaps(
       primaryKeyName: primaryKey,
       ids: ids,
       docName: docName,
@@ -121,122 +120,8 @@ class LDBOps {
     required String? docName,
   }) async {
 
-    final List<Map<String, dynamic>> _result = await Sembast.readAll(
+    final List<Map<String, dynamic>> _result = await _Sembast.readAll(
       docName: docName,
-    );
-
-    return _result;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Map<String, dynamic>?> searchFirstMap({
-    required String? sortFieldName,
-    required String? searchFieldName,
-    required dynamic searchValue,
-    required String? docName,
-  }) async {
-
-    final Map<String, dynamic>? _result = await Sembast.findFirst(
-      docName: docName,
-      fieldToSortBy: sortFieldName,
-      searchField: searchFieldName,
-      searchValue: searchValue,
-    );
-
-    // blog('LDBOps.searchMap in ${docName} : ${searchField} : ${searchValue} : _result has value ? : ${_result != null}');
-
-    return _result;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchAllMaps({
-    required String? fieldToSortBy,
-    required String? searchField,
-    required bool fieldIsList,
-    required dynamic searchValue,
-    required String? docName,
-  }) async {
-
-    final List<Map<String, dynamic>> _result = await Sembast.search(
-      docName: docName,
-      fieldToSortBy: fieldToSortBy,
-      fieldIsList: fieldIsList,
-      searchField: searchField,
-      searchValue: searchValue,
-    );
-
-    // blog('searchMaps : _result : $_result');
-
-    final List<Map<String, dynamic>> _fixedMaps = _result; //_decipherSembastMapsToFirebaseMaps
-    // (_result);
-
-    return _fixedMaps;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchPhrasesDoc({
-    required dynamic searchValue,
-    required String? docName,
-    required String? langCode,
-  }) async {
-
-    // blog('receiving value : $searchValue');
-
-    final List<Map<String, dynamic>> _result = await Sembast.searchArrays(
-      searchValue: searchValue,
-      docName: docName,
-      fieldToSortBy: 'value',
-      searchField: 'trigram',
-    );
-
-    if (Lister.checkCanLoop(_result) == true){
-      // blog('searchPhrases : found ${_result.length} phrases');
-
-      return _result;
-
-    }
-    else {
-      // blog('searchPhrases : did not find anything');
-
-      return [];
-    }
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchLDBDocTrigram({
-    required dynamic searchValue,
-    required String? docName,
-    required String? searchField,
-    required String? primaryKey,
-  }) async {
-
-    /// NOTE : REQUIRES ( Phrase.cipherMixedLangPhrasesToMap ) cipher for 'phrases' field
-
-    final List<Map<String, dynamic>> _result = await Sembast.search(
-      fieldToSortBy: primaryKey,
-      searchField: searchField,
-      fieldIsList: true,
-      searchValue: searchValue,
-      docName: docName,
-    );
-
-    return _result;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<List<Map<String, dynamic>>> searchMultipleValues({
-    required String? docName,
-    required String? fieldToSortBy,
-    required String? searchField,
-    required List<dynamic>? searchObjects,
-  }) async {
-
-    final List<Map<String, dynamic>> _result = await Sembast.searchMultiple(
-      docName: docName,
-      searchField: searchField,
-      searchObjects: searchObjects,
-      fieldToSortBy: fieldToSortBy,
     );
 
     return _result;
@@ -253,9 +138,9 @@ class LDBOps {
     required String? primaryKey,
   }) async {
 
-    await Sembast.deleteMap(
+    await _Sembast.deleteMap(
       docName: docName,
-      objectID: objectID,
+      id: objectID,
       primaryKey: primaryKey,
     );
 
@@ -268,9 +153,9 @@ class LDBOps {
     required String? primaryKey,
   }) async {
 
-    await Sembast.deleteMaps(
+    await _Sembast.deleteMaps(
       docName: docName,
-      primaryKeyName: primaryKey,
+      primaryKey: primaryKey,
       ids: ids,
     );
 
@@ -295,7 +180,7 @@ class LDBOps {
     required String? docName,
   }) async {
 
-    await Sembast.deleteAllAtOnce(docName: docName);
+    await _Sembast.deleteAllAtOnce(docName: docName);
 
   }
   // -----------------------------------------------------------------------------
@@ -312,7 +197,7 @@ class LDBOps {
     bool _exists = false;
 
     if (id != null) {
-      _exists = await Sembast.checkMapExists(
+      _exists = await _Sembast.checkMapExists(
         docName: docName,
         id: id,
         primaryKey: primaryKey,
