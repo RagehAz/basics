@@ -54,9 +54,11 @@ class TextMod {
   // --------------------
   /// AI TESTED
   static String? idifyString(String? text){
-    String? _output = text;
+    String? _output;
 
     if (TextCheck.isEmpty(text) == false){
+
+      _output = text;
 
       _output = fixCountryName(
         input: _output,
@@ -797,52 +799,6 @@ class TextMod {
     if (controller != null){
       controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
     }
-  }
-  // -----------------------------------------------------------------------------
-
-  /// PHONE NUMBER
-
-  // --------------------
-  /// AI TESTED
-  static String? initializePhoneNumber({
-    required String? number,
-    required String? countryPhoneCode,
-  }){
-    String? initialNumber;
-
-    /// NO NUMBER GIVEN
-    if (TextCheck.isEmpty(number) == true){
-
-      if (TextCheck.isEmpty(countryPhoneCode) == false){
-        initialNumber = countryPhoneCode;
-      }
-
-    }
-
-    /// NUMBER IS GIVEN
-    else {
-      initialNumber = number;
-    }
-
-    return initialNumber;
-  }
-  // --------------------
-  /// AI TESTED
-  static String? nullifyNumberIfOnlyCountryCode({
-    required String? number,
-    required String? countryPhoneCode,
-  }){
-    String? _output;
-
-    if (number != null && countryPhoneCode != null){
-
-      if (countryPhoneCode != number){
-        _output = TextMod.removeSpacesFromAString(number);
-      }
-
-    }
-
-    return _output;
   }
   // -----------------------------------------------------------------------------
 

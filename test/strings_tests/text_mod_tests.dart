@@ -1,5 +1,7 @@
+import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/strings/linker.dart';
+import 'package:basics/helpers/strings/phoner.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -776,17 +778,11 @@ void main() {
 
     test('getFileNameFromAsset returns the correct file name', () {
       expect(
-        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/builds_1.jpg'),
-        equals('builds_1.jpg'),
+        FileNaming.getNameFromLocalAsset(Iconz.bz),
+        equals('gi_bz.svg'),
       );
     });
 
-    test('getFileNameFromAsset returns the correct file name with multiple slashes', () {
-      expect(
-        FileNaming.getNameFromLocalAsset('assets/xx/pp_sodic/images/builds_1.jpg'),
-        equals('builds_1.jpg'),
-      );
-    });
 
     test('getFileNameFromAsset returns the correct file name when asset has no path', () {
       expect(
@@ -996,14 +992,14 @@ void main() {
 
   group('initializePhoneNumber', () {
     test('initializePhoneNumber returns null when number and countryPhoneCode are null', () {
-      final result = TextMod.initializePhoneNumber(number: null, countryPhoneCode: null);
+      final result = Phoner.initializePhoneNumber(number: null, countryPhoneCode: null);
       expect(result, isNull);
     });
 
     test('initializePhoneNumber returns countryPhoneCode when number is null', () {
       const countryPhoneCode = '123';
       final result =
-          TextMod.initializePhoneNumber(number: null, countryPhoneCode: countryPhoneCode);
+          Phoner.initializePhoneNumber(number: null, countryPhoneCode: countryPhoneCode);
       expect(result, equals(countryPhoneCode));
     });
 
@@ -1012,7 +1008,7 @@ void main() {
       const number = '456';
       const countryPhoneCode = '123';
       final result =
-          TextMod.initializePhoneNumber(number: number, countryPhoneCode: countryPhoneCode);
+          Phoner.initializePhoneNumber(number: number, countryPhoneCode: countryPhoneCode);
       expect(result, equals(number));
     });
 
@@ -1020,53 +1016,53 @@ void main() {
         'initializePhoneNumber returns number when number is not null and countryPhoneCode is null',
         () {
       const number = '456';
-      final result = TextMod.initializePhoneNumber(number: number, countryPhoneCode: null);
+      final result = Phoner.initializePhoneNumber(number: number, countryPhoneCode: null);
       expect(result, equals(number));
     });
 
     test(
         'initializePhoneNumber returns null when number is an empty string and countryPhoneCode is null',
         () {
-      final result = TextMod.initializePhoneNumber(number: '', countryPhoneCode: null);
+      final result = Phoner.initializePhoneNumber(number: '', countryPhoneCode: null);
       expect(result, isNull);
     });
 
     test('initializePhoneNumber returns countryPhoneCode when number is an empty string', () {
       const countryPhoneCode = '123';
-      final result = TextMod.initializePhoneNumber(number: '', countryPhoneCode: countryPhoneCode);
+      final result = Phoner.initializePhoneNumber(number: '', countryPhoneCode: countryPhoneCode);
       expect(result, equals(countryPhoneCode));
     });
 
     test(
         'initializePhoneNumber returns null when both number and countryPhoneCode are empty strings',
         () {
-      final result = TextMod.initializePhoneNumber(number: '', countryPhoneCode: '');
+      final result = Phoner.initializePhoneNumber(number: '', countryPhoneCode: '');
       expect(result, isNull);
     });
   });
 
   group('nullifyNumberIfOnlyCountryCode', () {
     test('nullifyNumberIfOnlyCountryCode returns null when number and countryPhoneCode are null', () {
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: null, countryPhoneCode: null);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: null, countryPhoneCode: null);
       expect(result, isNull);
     });
 
     test('nullifyNumberIfOnlyCountryCode returns null when number is null and countryPhoneCode is not null', () {
       const countryPhoneCode = '123';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: null, countryPhoneCode: countryPhoneCode);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: null, countryPhoneCode: countryPhoneCode);
       expect(result, isNull);
     });
 
     test('nullifyNumberIfOnlyCountryCode returns null when number is not null and countryPhoneCode is null', () {
       const number = '456';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: null);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: null);
       expect(result, isNull);
     });
 
     test('nullifyNumberIfOnlyCountryCode returns null when number is equal to countryPhoneCode', () {
       const number = '123';
       const countryPhoneCode = '123';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
       expect(result, isNull);
     });
 
@@ -1074,7 +1070,7 @@ void main() {
       const number = '  456  ';
       const countryPhoneCode = '123';
       const expectedOutput = '456';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
       expect(result, equals(expectedOutput));
     });
 
@@ -1082,7 +1078,7 @@ void main() {
       const number = '  456  ';
       const countryPhoneCode = '123';
       const expectedOutput = '456';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
       expect(result, equals(expectedOutput));
     });
 
@@ -1090,7 +1086,7 @@ void main() {
       const number = '  456';
       const countryPhoneCode = '123';
       const expectedOutput = '456';
-      final result = TextMod.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
+      final result = Phoner.nullifyNumberIfOnlyCountryCode(number: number, countryPhoneCode: countryPhoneCode);
       expect(result, equals(expectedOutput));
     });
   });

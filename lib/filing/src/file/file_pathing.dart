@@ -40,14 +40,24 @@ class FilePathing {
   /// PATH FIXING
 
   // --------------------
-  static final String slash = kIsWeb ? '/' : Platform.pathSeparator;
+  static String slash(String? path){
+
+    if (path == null){
+      return kIsWeb ? '/' : Platform.pathSeparator;
+    }
+
+    else {
+      return TextCheck.stringContainsSubString(string: path, subString: '/') ? '/': r'\';
+    }
+
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? fixFilePath(String? path) {
     String? _output = path;
     if (path != null) {
-      _output = path.replaceAll(r'\', slash);
-      _output = path.replaceAll(r'/', slash);
+      _output = path.replaceAll(r'\', slash(path));
+      _output = path.replaceAll(r'/', slash(path));
     }
     return _output;
   }
@@ -63,7 +73,7 @@ class FilePathing {
 
     return TextMod.removeTextAfterLastSpecialCharacter(
         text: filePath,
-        specialCharacter: slash,
+        specialCharacter: slash(filePath),
     );
 
   }

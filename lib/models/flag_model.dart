@@ -5,6 +5,7 @@ import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/models/america.dart';
@@ -249,6 +250,15 @@ class Flag {
     }
     return _ids;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getAllISO2s() {
+    final List<String> _output = <String>[...America.statesISO2];
+    for (final Flag flag in allFlags) {
+      _output.add(flag.iso2);
+    }
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// ICON GETTER
@@ -344,6 +354,7 @@ class Flag {
     return _output;
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   static List<String> searchCountriesByPhoneCode({
     required String? phoneCode,
   }){
@@ -377,6 +388,7 @@ class Flag {
     return _countriesIDs;
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Map<String, dynamic> _createCountriesPhonesMap(){
     Map<String, dynamic> _output = {};
 
@@ -393,9 +405,24 @@ class Flag {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> createCountriesPhoneCodes(){
+    final List<String> _output = [];
+
+    for (final Flag flag in allFlags){
+      _output.add(flag.phoneCode);
+    }
+
+    final List<String> _usaCodes = Stringer.getStringsFromDynamics(America.statePhoneCodes.values.toList());
+    _output.addAll(_usaCodes);
+
+    return _output;
+
+  }
   // -----------------------------------------------------------------------------
 
-  /// PHONE CODE GETTERS
+  /// CURRENCY CODE GETTERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -562,6 +589,7 @@ class Flag {
   /// STRING GENERATORS
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static String generateDemographicsLine({
     required Flag? flag,
     required String thousand,
@@ -586,6 +614,102 @@ class Flag {
 
     final String _areaLine = '🧍 $_population person / 🌉 $_areaNumbers km² = 👪 $_popDensity person/km²';
     return _areaLine;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// ID DETECTION
+
+  // --------------------
+  /// TASK : TEST_ME
+  static String? detectISO2InEndOfText({
+    required String? text,
+    required List<String> iso2s,
+    String separator = '.',
+  }){
+    String? _output;
+
+    if (text != null){
+
+      final String? _endOfText = TextMod.removeTextBeforeLastSpecialCharacter(text: text, specialCharacter: separator);
+
+      final bool _endOfTextIsISO2 = Stringer.checkStringsContainString(strings: iso2s, string: _endOfText);
+
+      if (_endOfTextIsISO2 == true){
+        _output = _endOfText;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME
+  static List<String> detectISO2sInText({
+    required String? text,
+    required List<String> iso2s,
+  }){
+    List<String> _output = [];
+
+    if (text != null){
+
+      final List<String> _parts = text.split(' ');
+
+      _output = Stringer.getSharedStrings(
+        strings1: _parts,
+        strings2: iso2s,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME
+  static List<String> detectCountriesIDsInText({
+    required String? text,
+    required List<String> countriesIDs,
+  }){
+    List<String> _output = [];
+
+    if (text != null){
+
+      final List<String> _parts = text.split(' ');
+
+      _output = Stringer.getSharedStrings(
+        strings1: _parts,
+        strings2: countriesIDs,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME
+  static List<String> detectCountriesNamesInText({
+    required String? text,
+    required List<Phrase> countriesPhrases,
+  }){
+    final List<String> _output = [];
+
+    if (text != null){
+
+      for (final Phrase phrase in countriesPhrases){
+
+        final bool _included = TextCheck.stringContainsSubString(
+            string: text,
+            subString: phrase.value,
+        );
+
+        if (_included == true && phrase.id != null){
+          _output.add(phrase.id!);
+        }
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

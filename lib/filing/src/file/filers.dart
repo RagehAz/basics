@@ -81,7 +81,7 @@ class Filer {
         if (DeviceChecker.deviceIsWindows() == true) {
           final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
             text: _filePath,
-            specialCharacter: FilePathing.slash,
+            specialCharacter: FilePathing.slash(_filePath),
           )!;
           await Directory(_pathWithoutDocName).create(recursive: true);
         }
