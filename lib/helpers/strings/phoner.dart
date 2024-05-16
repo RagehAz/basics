@@ -326,7 +326,9 @@ class Phoner {
           allCodes: allPhoneCodes,
         );
 
-        _output = Flag.searchCountriesByPhoneCode(
+        // blog('_codeFromPhone : $_codeFromPhone');
+
+        _output = Flag.searchCountryPhoneCodesEqual(
           phoneCode: _codeFromPhone,
         );
 

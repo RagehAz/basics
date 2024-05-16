@@ -355,7 +355,43 @@ class Flag {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String> searchCountriesByPhoneCode({
+  static List<String> searchCountryPhoneCodesContain({
+    required String? phoneCode,
+  }){
+    final List<String> _countriesIDs = [];
+
+    if (TextCheck.stringStartsExactlyWith(text: phoneCode, startsWith: '+') == true){
+
+      final Map<String, dynamic> _phonesMap = Mapper.insertMapInMap(
+        baseMap: America.statePhoneCodes,
+        insert: _createCountriesPhonesMap(),
+      );
+
+      for (final String countryID in _phonesMap.keys.toSet()){
+
+        final String _code = _phonesMap[countryID];
+
+        final bool _match = TextCheck.stringContainsSubString(
+          string: _code,
+          subString: phoneCode,
+        );
+
+
+        if (_match == true){
+          // blog('Contain : $countryID : $_code : $_match : $phoneCode');
+          _countriesIDs.add(countryID);
+        }
+
+      }
+
+
+    }
+
+    return _countriesIDs;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> searchCountryPhoneCodesStartingWith({
     required String? phoneCode,
   }){
     final List<String> _countriesIDs = [];
@@ -371,12 +407,45 @@ class Flag {
 
         final String _code = _phonesMap[countryID];
 
-        final bool _match = TextCheck.stringContainsSubString(
-            string: _code,
-            subString: phoneCode,
+        final bool _match = TextCheck.stringStartsExactlyWith(
+            text: _code,
+            startsWith: phoneCode,
         );
 
         if (_match == true){
+          // blog('startingWith : $countryID : $_code : $_match : $phoneCode');
+          _countriesIDs.add(countryID);
+        }
+
+      }
+
+
+    }
+
+    return _countriesIDs;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> searchCountryPhoneCodesEqual({
+    required String? phoneCode,
+  }){
+    final List<String> _countriesIDs = [];
+
+    if (TextCheck.stringStartsExactlyWith(text: phoneCode, startsWith: '+') == true){
+
+      final Map<String, dynamic> _phonesMap = Mapper.insertMapInMap(
+        baseMap: America.statePhoneCodes,
+        insert: _createCountriesPhonesMap(),
+      );
+
+      for (final String countryID in _phonesMap.keys.toSet()){
+
+        final String _code = _phonesMap[countryID];
+
+        final bool _match = _code == phoneCode;
+
+        if (_match == true){
+          // blog('Equal : $countryID : $_code : $_match : $phoneCode');
           _countriesIDs.add(countryID);
         }
 
