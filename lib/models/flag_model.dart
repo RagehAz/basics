@@ -12,6 +12,7 @@ import 'package:basics/models/america.dart';
 import 'package:basics/models/phrase_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:basics/helpers/strings/text_casing.dart';
 
 /// => TAMAM
 @immutable
@@ -699,9 +700,15 @@ class Flag {
 
     if (text != null){
 
-      final String? _endOfText = TextMod.removeTextBeforeLastSpecialCharacter(text: text, specialCharacter: separator);
+      final String? _endOfText = TextMod.removeTextBeforeLastSpecialCharacter(
+          text: text,
+          specialCharacter: separator,
+      );
 
-      final bool _endOfTextIsISO2 = Stringer.checkStringsContainString(strings: iso2s, string: _endOfText);
+      final bool _endOfTextIsISO2 = Stringer.checkStringsContainString(
+          strings: iso2s,
+          string: _endOfText?.toUpperCase()
+      );
 
       if (_endOfTextIsISO2 == true){
         _output = _endOfText;
@@ -721,7 +728,7 @@ class Flag {
 
     if (text != null){
 
-      final List<String> _parts = text.split(' ');
+      final List<String> _parts = text.toLowerCase().split(' ');
 
       _output = Stringer.getSharedStrings(
         strings1: _parts,
@@ -742,11 +749,11 @@ class Flag {
 
     if (text != null){
 
-      final List<String> _parts = text.split(' ');
+      final List<String> _parts = text.toLowerCase().split(' ');
 
       _output = Stringer.getSharedStrings(
         strings1: _parts,
-        strings2: countriesIDs,
+        strings2: TextCasing.lowerCaseAll(strings: countriesIDs),
       );
 
     }
@@ -766,8 +773,8 @@ class Flag {
       for (final Phrase phrase in countriesPhrases){
 
         final bool _included = TextCheck.stringContainsSubString(
-            string: text,
-            subString: phrase.value,
+            string: text.toLowerCase(),
+            subString: phrase.value?.toLowerCase(),
         );
 
         if (_included == true && phrase.id != null){

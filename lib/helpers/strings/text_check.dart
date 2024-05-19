@@ -325,6 +325,7 @@ class TextCheck {
             subString: subString
         );
 
+
         if (_contains == true){
           _output = true;
           break;

@@ -899,6 +899,38 @@ String generateStringsList_index_hh_i_mm_i_ss({
 
     return _output;
   }
+  // --------------------
+  ///
+  static DateTime? pushTime({
+    required DateTime? time,
+    int year = 0,
+    int month = 0,
+    int day = 0,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+  }){
+
+    if (time == null){
+      return null;
+    }
+
+    else {
+      return createDateTime(
+        year: time.year + year,
+        month: time.month + month,
+        day: time.day + day,
+        hour: time.hour + hour,
+        minute: time.minute + minute,
+        second: time.second + second,
+        millisecond: time.millisecond + millisecond,
+        microsecond: time.microsecond + microsecond,
+      );
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// GETTERS
