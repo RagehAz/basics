@@ -81,22 +81,22 @@ class Filer {
         if (DeviceChecker.deviceIsWindows() == true) {
           final String _pathWithoutDocName = TextMod.removeTextAfterLastSpecialCharacter(
             text: _filePath,
-            specialCharacter: FilePathing.slash(_filePath),
+            specialCharacter: FilePathing.getSlash(_filePath),
           )!;
           await Directory(_pathWithoutDocName).create(recursive: true);
         }
 
-        blog('1. createEmptyFile. _filePath : $_filePath');
+        // blog('1. createEmptyFile. _filePath : $_filePath');
 
         /// FILE REF
         _output = File(_filePath);
 
-        blog('2. createEmptyFile. _output : $_output');
+        // blog('2. createEmptyFile. _output : $_output');
 
         /// DELETE EXISTING FILE IF EXISTS
         await deleteFile(_output);
 
-        blog('3. createEmptyFile. deleted');
+        // blog('3. createEmptyFile. deleted');
 
         /// CREATE
         await _output.create(
@@ -104,7 +104,7 @@ class Filer {
           // exclusive: ,
         );
 
-        blog('4. createEmptyFile. created');
+        // blog('4. createEmptyFile. created');
 
       }
 

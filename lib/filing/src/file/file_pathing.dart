@@ -28,7 +28,8 @@ class FilePathing {
       );
 
       if (_directory != null){
-        _output = fixFilePath('${_directory.path}$slash$fileName');
+        final String _slash = getSlash(_directory.path);
+        _output = fixFilePath('${_directory.path}$_slash$fileName');
       }
 
     }
@@ -40,7 +41,7 @@ class FilePathing {
   /// PATH FIXING
 
   // --------------------
-  static String slash(String? path){
+  static String getSlash(String? path){
 
     if (path == null){
       return kIsWeb ? '/' : Platform.pathSeparator;
@@ -56,8 +57,8 @@ class FilePathing {
   static String? fixFilePath(String? path) {
     String? _output = path;
     if (path != null) {
-      _output = path.replaceAll(r'\', slash(path));
-      _output = path.replaceAll(r'/', slash(path));
+      _output = path.replaceAll(r'\', getSlash(path));
+      _output = path.replaceAll(r'/', getSlash(path));
     }
     return _output;
   }
@@ -73,7 +74,7 @@ class FilePathing {
 
     return TextMod.removeTextAfterLastSpecialCharacter(
         text: filePath,
-        specialCharacter: slash(filePath),
+        specialCharacter: getSlash(filePath),
     );
 
   }

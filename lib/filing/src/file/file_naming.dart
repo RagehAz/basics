@@ -22,7 +22,7 @@ class FileNaming {
       /// this trims paths like 'assets/xx/pp_sodic/builds_1.jpg' to 'builds_1.jpg'
       return TextMod.removeTextBeforeLastSpecialCharacter(
         text: assetPath,
-        specialCharacter: FilePathing.slash(assetPath),
+        specialCharacter: FilePathing.getSlash(assetPath),
       );
     }
 
@@ -81,7 +81,7 @@ class FileNaming {
 
       _fileName = TextMod.removeTextBeforeLastSpecialCharacter(
         text: path,
-        specialCharacter: FilePathing.slash(path),
+        specialCharacter: FilePathing.getSlash(path),
       );
 
       if (withExtension == false) {
