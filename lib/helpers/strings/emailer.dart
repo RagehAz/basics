@@ -89,14 +89,42 @@ class Emailer {
   static String? cleanEmail({
     required String? email,
   }){
-    String? _output;
+    String? _output = email;
 
-    if (TextCheck.isEmpty(email) == false){
+    if (TextCheck.isEmpty(_output) == false){
+
+      _output = getEmailFromOutlookPaste(_output);
 
       _output = TextMod.removeTextBeforeFirstSpecialCharacter(
-        text: TextMod.removeSpacesFromAString(email),
+        text: TextMod.removeSpacesFromAString(_output),
         specialCharacter: ':',
       )?.toLowerCase();
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getEmailFromOutlookPaste(String? text){
+    String? _output = text;
+
+    if (TextCheck.isEmpty(text) == false){
+
+      /// LOOKS LIKE THIS
+      // info@jddesign.ae <info@jddesign.ae>;
+
+      final List<String> parts = text!.trim().split(' ');
+
+      if (Lister.superLength(parts) == 2){
+        final String _first = parts[0];
+        final String _second = parts[1];
+
+        if (_second == '<$_first>;'){
+          _output = _first;
+        }
+
+      }
 
     }
 

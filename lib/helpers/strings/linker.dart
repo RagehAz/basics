@@ -181,6 +181,14 @@ class Linker {
 
     return _output;
   }
+  // --------------------
+  ///
+  static String? removeTextAfterFirstQuestionMark(String? link){
+    return TextMod.removeTextAfterFirstSpecialCharacter(
+      text: link,
+      specialCharacter: '?',
+    );
+  }
   // -----------------------------------------------------------------------------
 
   /// U R I

@@ -10,7 +10,7 @@ void blog(dynamic msg, {String? invoker}){
 
     assert((){
         if (kDebugMode) {
-          print(msg);
+          debugPrint(msg);
         }
       return true;
     }(), '_');

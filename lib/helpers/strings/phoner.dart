@@ -223,13 +223,17 @@ class Phoner {
 
       value = TextMod.replaceAllCharacters(characterToReplace: '(', replacement: '', input: value);
       value = TextMod.replaceAllCharacters(characterToReplace: ')', replacement: '', input: value);
+      value = TextMod.replaceAllCharacters(characterToReplace: '[', replacement: '', input: value);
+      value = TextMod.replaceAllCharacters(characterToReplace: ']', replacement: '', input: value);
+      value = TextMod.replaceAllCharacters(characterToReplace: '.', replacement: '', input: value);
       value = TextMod.replaceAllCharacters(characterToReplace: ' ', replacement: '', input: value);
       value = TextMod.replaceAllCharacters(characterToReplace: '-', replacement: '', input: value);
       value = TextMod.replaceAllCharacters(characterToReplace: '_', replacement: '', input: value);
-      if (TextCheck.stringStartsExactlyWith(text: value, startsWith: '00') == true){
-        final String _n = TextMod.removeNumberOfCharactersFromBeginningOfAString(string: value, numberOfCharacters: 2)!;
-        value = '+$_n';
-      }
+      value = plusifyPhone(phone: value);
+      // if (TextCheck.stringStartsExactlyWith(text: value, startsWith: '00') == true){
+      //   final String _n = TextMod.removeNumberOfCharactersFromBeginningOfAString(string: value, numberOfCharacters: 2)!;
+      //   value = '+$_n';
+      // }
 
     }
 
