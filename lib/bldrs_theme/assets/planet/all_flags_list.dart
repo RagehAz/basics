@@ -5266,6 +5266,30 @@ const List<Flag> allFlags = <Flag>[
     ],
   ),
 
+  Flag(
+    id: 'xk',
+    iso2: 'XK',
+    icon: '$_path/flag_eu_s_kosovo.svg',
+    region: 'Southern Europe',
+    continent: 'Europe',
+    language: 'en',
+    currencyID: 'EUR',
+    phoneCode: '+383',
+    capital: 'Pristina',
+    langCodes: 'sq,sr',
+    areaSqKm: 10887,
+    population: 1800000,
+    phrases: <Phrase>[
+      Phrase(langCode: 'de', value: 'Kosovo', id: 'xk'),
+      Phrase(langCode: 'ar', value: 'كوسوفو', id: 'xk'),
+      Phrase(langCode: 'en', value: 'Kosovo', id: 'xk'),
+      Phrase(langCode: 'fr', value: 'Kosovo', id: 'xk'),
+      Phrase(langCode: 'es', value: 'Kosovo', id: 'xk'),
+      Phrase(langCode: 'zh', value: '科索沃', id: 'xk'),
+      Phrase(langCode: 'it', value: 'Kosovo', id: 'xk'),
+    ],
+  )
+
 ];
 
 const List<String> arabCountries = <String>[

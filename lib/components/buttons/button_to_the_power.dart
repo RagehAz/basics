@@ -1,5 +1,4 @@
 import 'package:basics/helpers/space/aligner.dart';
-import 'package:bldrs/c_protocols/main_providers/ui_provider.dart';
 import 'package:flutter/material.dart';
 
 class ButtonToThePower extends StatelessWidget {
@@ -8,6 +7,7 @@ class ButtonToThePower extends StatelessWidget {
     required this.totalWidth,
     required this.bottomChild,
     required this.topChild,
+    required this.appIsLTR,
     this.topChildWidthRatio = 0.1,
     super.key
   });
@@ -16,6 +16,7 @@ class ButtonToThePower extends StatelessWidget {
   final double topChildWidthRatio;
   final Widget Function(double width) bottomChild;
   final Widget Function(double width) topChild;
+  final bool appIsLTR;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class ButtonToThePower extends StatelessWidget {
       child: Center(
         child: Stack(
           alignment: Aligner.top(
-            appIsLTR: UiProvider.checkAppIsLeftToRight(),
+            appIsLTR: appIsLTR,
             inverse: true,
           ),
           children: <Widget>[
