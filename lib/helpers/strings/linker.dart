@@ -11,6 +11,24 @@ class Linker {
 
   // -----------------------------------------------------------------------------
 
+  /// COMMON DOMAINS
+
+  // --------------------
+  static const List<String> commonDomains = [
+    'facebook.com',
+    'linkedin.com',
+    'youtube.com',
+    'instagram.com',
+    'pinterest.com',
+    'pinterest.it',
+    'tiktok.com',
+    'twitter.com',
+    'behance.net',
+    'behance.com',
+    'vimeo.com',
+  ];
+  // -----------------------------------------------------------------------------
+
   /// EXTRACT DOMAIN FROM WEBSITE
 
   // --------------------

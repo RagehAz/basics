@@ -474,6 +474,8 @@ class Byter {
         fileName: fileName,
       );
 
+      _dims?.blogDimensions(invoker: '$fileName : $resizeToWidth');
+
       if (Numeric.isLesserThan(number: resizeToWidth, isLesserThan: _dims?.width) == true){
 
         final double? _aspectRatio = _dims?.getAspectRatio();

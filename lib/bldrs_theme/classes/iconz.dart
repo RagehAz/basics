@@ -119,6 +119,7 @@ class Iconz {
   static const String comAppStore = '$iconDirectory/com_app_store.svg';
   static const String comAppGallery = '$iconDirectory/com_app_gallery.svg';
   static const String comBehance = '$iconDirectory/com_behance.svg';
+  static const String comVimeo = '$iconDirectory/com_vimeo.svg';
 
   // --------------------
   /// COMM PLAIN
@@ -135,6 +136,7 @@ class Iconz {
   static const String comAppStorePlain = '$iconDirectory/com_app_store_plain.svg';
   static const String comGooglePlayPlain = '$iconDirectory/com_google_play_plain.svg';
   static const String comBehancePlain = '$iconDirectory/com_behance_plain.svg';
+  static const String comVimeoPlain = '$iconDirectory/com_vimeo_plain.svg';
   // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';
@@ -383,6 +385,7 @@ class Iconz {
       comPinterest: true,
       comGoogleLogo: true,
       comBehance: true,
+      comVimeo: true,
 
       comFacebookPlain: true,
       comInstagramPlain: true,
@@ -394,6 +397,7 @@ class Iconz {
       comPinterestPlain: true,
       comSnapchatPlain: true,
       comBehancePlain: true,
+      comVimeoPlain: true,
 
       dvBlankSVG: true,
       dvGouran: true,
