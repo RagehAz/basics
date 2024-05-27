@@ -164,8 +164,13 @@ class LDBSearch {
       const String _field = 'trigram';
       const String _sortBy = 'value';
 
+      dynamic _value = value;
+      if (_value is String){
+        _value = TextMod.replaceAllCharacters(characterToReplace: r'\', replacement: '', input: _value.trim());
+      }
+
       final Finder _finder = Finder(
-        filter: Filter.matches(_field, value, anyInList: true),
+        filter: Filter.matches(_field, _value, anyInList: true),
         sortOrders: <SortOrder>[
           SortOrder(_sortBy)
         ],
