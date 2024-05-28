@@ -207,7 +207,7 @@ class Linker {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static String? removeTextAfterFirstQuestionMark(String? link){
     return TextMod.removeTextAfterFirstSpecialCharacter(
       text: link,
