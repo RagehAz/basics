@@ -1,4 +1,6 @@
+import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/models/flag_model.dart';
@@ -216,8 +218,10 @@ class Phoner {
 
     if (TextCheck.isEmpty(phone) == false){
 
+      value = cleanWhatsappLink(phone: phone);
+
       value = TextMod.removeTextBeforeFirstSpecialCharacter(
-        text: TextMod.removeSpacesFromAString(phone),
+        text: TextMod.removeSpacesFromAString(value),
         specialCharacter: ':',
       )?.toLowerCase();
 
@@ -256,6 +260,64 @@ class Phoner {
           _output.add(_cleaned);
         }
 
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? fixEgyptPhoneFromFacebook({
+    required String? text,
+    required String? countryID,
+  }){
+    String? _output = text;
+
+    if (TextCheck.isEmpty(text) == false && TextCheck.isEmpty(countryID) == false){
+
+      if (countryID == 'egy'){
+
+        final bool _startsWithOne = TextCheck.stringStartsExactlyWith(
+            text: text,
+            startsWith: '1',
+        );
+        final bool _isTenCharsLong = text?.length == 10;
+
+        if (_startsWithOne && _isTenCharsLong){
+
+          _output = '+20$_output';
+
+        }
+
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? cleanWhatsappLink({
+    required String? phone,
+  }){
+    String? _output = phone;
+
+    if (TextCheck.isEmpty(phone) == false){
+
+      final bool _startsWithTel = TextCheck.stringStartsExactlyWith(
+          text: phone,
+          startsWith: 'tel:',
+      );
+
+      final bool _includesTheMark = TextCheck.stringContainsSubString(
+          string: phone,
+          subString: '%',
+      );
+
+      if (_startsWithTel && _includesTheMark){
+        _output = TextMod.replaceAllCharacters(characterToReplace: '%20', replacement: '', input: _output);
       }
 
     }
@@ -343,7 +405,7 @@ class Phoner {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME
+  /// TESTED : WORKS PERFECT
   static List<String> detectCountryIDFromPhones({
     required List<String> phones,
     required List<String> allPhoneCodes,
@@ -361,6 +423,62 @@ class Phoner {
 
         if (Lister.checkCanLoop(_countriesIDs) == true){
           _output.addAll(_countriesIDs);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? detectPhoneFromWhatsappURL({
+    required String? text,
+  }){
+    String? _output;
+
+    if (ObjectCheck.isAbsoluteURL(text) == true){
+
+      final bool _isWhatsapp = TextCheck.stringContainsSubString(
+          string: text,
+          subString: 'whatsapp',
+      );
+
+      if (_isWhatsapp == true){
+
+        // https://api.whatsapp.com/send/?phone=5511976960971&text&type=phone_number&app_absent=0
+        String? _text = TextMod.removeTextBeforeFirstSpecialCharacter(
+            text: text,
+            specialCharacter: '?',
+        );
+
+        // phone=5511976960971&text&type=phone_number&app_absent=0
+        final bool _startsWithPhone = TextCheck.stringStartsExactlyWith(
+            text: _text,
+            startsWith: 'phone=',
+        );
+
+        if (_startsWithPhone == true){
+
+          // phone=5511976960971&text&type=phone_number&app_absent=0
+          _text = TextMod.removeTextAfterFirstSpecialCharacter(
+              text: _text,
+              specialCharacter: '&',
+          );
+
+          // phone=5511976960971
+          _text = TextMod.removeTextBeforeFirstSpecialCharacter(
+            text: _text,
+            specialCharacter: '=',
+          );
+
+          // 5511976960971
+          final bool _isNumber = Numeric.transformStringToInt(_text) != null;
+          if (_isNumber == true){
+            _output = '+$_text';
+          }
+
         }
 
       }

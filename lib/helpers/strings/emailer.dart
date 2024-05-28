@@ -3,7 +3,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:email_validator/email_validator.dart';
-
+/// => TAMAM
 class Emailer {
   // -----------------------------------------------------------------------------
 

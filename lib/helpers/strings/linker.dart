@@ -27,6 +27,13 @@ class Linker {
     'behance.com',
     'vimeo.com',
   ];
+  static const List<String> commonLinkersDomains = [
+    'linktr.ee',
+    'bit.ly',
+    'linkin.bio',
+    't.me',
+    'linkr.bio',
+  ];
   // -----------------------------------------------------------------------------
 
   /// EXTRACT DOMAIN FROM WEBSITE
