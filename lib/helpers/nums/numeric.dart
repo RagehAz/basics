@@ -251,6 +251,10 @@ class Numeric {
     );
 
   }
+  // -----------------------------------------------------------------------------
+
+  /// TRANSFORMERS
+
   // --------------------
   /// AI TESTED
   static String formatToRomanA(int number) {
