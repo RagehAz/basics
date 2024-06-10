@@ -33,21 +33,23 @@ class DeviceChecker {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkConnectivity({
-    ConnectivityResult? streamResult,
+    List<ConnectivityResult>? streamResult,
   }) async {
 
-    ConnectivityResult? _result;
+    List<ConnectivityResult>? _results;
 
     await tryAndCatch(
         invoker: 'DeviceChecker.checkConnectivity',
         functions: () async {
-          _result = streamResult ?? await getConnectivity().checkConnectivity();
+          _results = streamResult ?? await getConnectivity().checkConnectivity();
           },
         onError: (String error){
           blog('DISCONNECTED : $error');
         }
         );
 
+    /// TEST_CONNECTIVITY_SENSOR
+    final ConnectivityResult? _result = _results?.firstOrNull;
 
     /// THROUGH MOBILE NETWORK
     if (_result == ConnectivityResult.mobile) {

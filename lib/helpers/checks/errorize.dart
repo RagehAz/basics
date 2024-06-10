@@ -189,7 +189,7 @@ class Sentrize {
       options.sendDefaultPii = true;
       options.environment = 'production';
       options.attachScreenshot = true;
-      options.beforeSend = (SentryEvent? event,{Hint? hint}) async {
+      options.beforeSend = (SentryEvent? event,Hint? hint) async {
         blog('XXX === >>> CRASH : ${event?.message}');
         return event;
       };

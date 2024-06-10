@@ -1,6 +1,6 @@
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:flutter/material.dart';
-
+/// TEST_THE_POPPER
 class Popper extends StatelessWidget {
   // --------------------------------------------------------------------------
   const Popper({
@@ -40,27 +40,31 @@ class Popper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
-      key: const ValueKey<String>('Popper'),
-      onWillPop: () async {
-
-        await onGoBack(
-          context: context,
-          canGoBack: canGoBack,
-          onBack: onBack,
-        );
-
-        return false;
-      },
-      child: child,
-    );
-
-    // return PopScope(
+    // return WillPopScope(
     //   key: const ValueKey<String>('Popper'),
-    //   canPop: canGoBack,
-    //   onPopInvoked: (bool value) => onBack?.call(),
+    //   onWillPop: () async {
+    //
+    //     await onGoBack(
+    //       context: context,
+    //       canGoBack: canGoBack,
+    //       onBack: onBack,
+    //     );
+    //
+    //     return false;
+    //   },
     //   child: child,
     // );
+
+    return PopScope(
+      key: const ValueKey<String>('Popper'),
+      canPop: canGoBack,
+      onPopInvoked: (bool value) => onGoBack(
+        context: context,
+        canGoBack: canGoBack,
+        onBack: onBack,
+      ),
+      child: child,
+    );
 
   }
   // --------------------------------------------------------------------------

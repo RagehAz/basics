@@ -66,7 +66,7 @@ class WeChatPickerConfigs {
           /// BRIGHTNESS
           brightness: Brightness.dark,
           /// DEVICE FOLDERS LIST BACKGROUND
-          background: Colorz.black200,
+          // background: Colorz.black200,
           /// APP BAR BACKGROUND
           surface: Colorz.black255,
           /// BUTTON AND CHECK BACKGROUND COLOR
@@ -79,7 +79,8 @@ class WeChatPickerConfigs {
           // errorContainer: Colorz.white50,
           // onErrorContainer: Colorz.white50,
           /// UNKNOWN
-          onBackground: Colorz.nothing,
+          // onBackground: Colorz.nothing,
+          onSurface: Colorz.nothing,
           /// primary
           onPrimary: Colorz.nothing,
           // inversePrimary: Colorz.green50,
@@ -87,7 +88,7 @@ class WeChatPickerConfigs {
           // onPrimaryContainer: Colorz.green50,
           // primaryContainer: Colorz.white50,
           /// surface
-          onSurface: Colorz.nothing,
+          // onSurface: Colorz.nothing,
           // onSurfaceVariant: Colorz.green50,
           // inverseSurface: Colorz.green50,
           // surfaceTint: Colorz.green50,

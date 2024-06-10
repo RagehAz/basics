@@ -104,7 +104,7 @@ class _TheSensor extends StatefulWidget {
 class _TheSensorState extends State<_TheSensor> {
   // -----------------------------------------------------------------------------
   final ValueNotifier<bool?>? _isConnected = ValueNotifier(null);
-  StreamSubscription<ConnectivityResult>? _subscription;
+  StreamSubscription<List<ConnectivityResult>>? _subscription;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -115,7 +115,7 @@ class _TheSensorState extends State<_TheSensor> {
     _subscription = DeviceChecker
         .getConnectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult result) async {
+        .listen((List<ConnectivityResult> result) async {
 
           final bool _connected = await DeviceChecker.checkConnectivity();
 
