@@ -80,9 +80,10 @@ class WeChatPickerConfigs {
           // onErrorContainer: Colorz.white50,
           /// UNKNOWN
           // onBackground: Colorz.nothing,
-          onSurface: Colorz.nothing,
+          /// TEXT COLOR
+          onSurface: Colorz.white255,
           /// primary
-          onPrimary: Colorz.nothing,
+          onPrimary: Colorz.white255,
           // inversePrimary: Colorz.green50,
           // primaryVariant: Colorz.white50, // deprecated on favor of primaryContainer
           // onPrimaryContainer: Colorz.green50,
