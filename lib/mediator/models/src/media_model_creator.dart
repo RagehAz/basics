@@ -116,16 +116,12 @@ class MediaModelCreator {
 
       if (_id != null){
 
-        Dimensions? _dims;
-        FileExtType? _fileExtensionType;
-        double? _aspectRatio;
-        double? _mega;
-        double? _kilo;
-        String? _deviceID;
-        String? _deviceName;
-        String? _devicePlatform;
+        MediaMetaModel? _meta;
 
         if (skipMetaData == false){
+
+          Dimensions? _dims;
+          FileExtType? _fileExtensionType;
 
           await XFiler.getOrCreateTempXFile(
             fileName: _id,
@@ -142,20 +138,8 @@ class MediaModelCreator {
             },
           );
 
-          _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-          _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
-          _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
-          _deviceID = await DeviceChecker.getDeviceID();
-          _deviceName = await DeviceChecker.getDeviceName();
-          _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-
-        }
-
-        _output = MediaModel(
-          id: _id,
-          bytes: bytes,
-          meta: MediaMetaModel(
-            sizeMB: _mega,
+          _meta = MediaMetaModel(
+            sizeMB: FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte),
             width: _dims?.width,
             height: _dims?.height,
             fileExt: _fileExtensionType,
@@ -165,18 +149,26 @@ class MediaModelCreator {
             uploadPath: _uploadPath,
             data: MapperSS.cleanNullPairs(
               map: {
-                'aspectRatio': _aspectRatio.toString(),
+                'aspectRatio': Numeric.roundFractions(_dims?.getAspectRatio(), 2)?.toString(),
                 'sizeB': bytes.length.toString(),
-                'sizeKB': _kilo.toString(),
+                'sizeKB': FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte)?.toString(),
                 'source': MediaModel.cipherMediaOrigin(mediaOrigin),
-                'deviceID': _deviceID,
-                'deviceName': _deviceName,
-                'platform': _devicePlatform,
+                'deviceID': await DeviceChecker.getDeviceID(),
+                'deviceName': await DeviceChecker.getDeviceName(),
+                'platform': kIsWeb == true ? 'web' : Platform.operatingSystem,
                 'caption': caption,
               },
             ),
-          ),
+          );
+
+        }
+
+        _output = MediaModel(
+          id: _id,
+          bytes: bytes,
+          meta: _meta,
         );
+
       }
 
     }
