@@ -577,6 +577,22 @@ class Stringer {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String generateSpaces({
+    required int count,
+    String? character = ' ',
+  }){
+    String _output = '';
+
+    for (int i = 0; i < count; i++){
+
+      _output = '$_output$character';
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING
