@@ -327,10 +327,13 @@ class MediaModel {
     else {
 
       final MediaModel? _output = await MediaModelCreator.fromBytes(
-          bytes: bytes,
-          mediaOrigin: getMediaOrigin(),
-          uploadPath: meta!.uploadPath!,
-          ownersIDs: meta?.ownersIDs,
+        bytes: bytes,
+        mediaOrigin: getMediaOrigin(),
+        uploadPath: meta!.uploadPath!,
+        ownersIDs: meta?.ownersIDs,
+        skipMetaData: false,
+        // caption: ,
+        // includeFileExtension: ,
       );
 
       return _output ?? this;
@@ -622,6 +625,7 @@ class MediaModel {
       localAsset: localAsset ?? Iconz.bldrsAppIcon,
       ownersIDs: const ['OwnerID'],
       uploadPath: 'storage/bldrs/bldrs_app_icon.png',
+      skipMetaData: false,
       // renameFile: null,
     );
 

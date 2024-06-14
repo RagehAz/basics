@@ -89,6 +89,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromBytes({
     required Uint8List? bytes,
     required String uploadPath,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
@@ -117,29 +118,38 @@ class MediaModelCreator {
 
         Dimensions? _dims;
         FileExtType? _fileExtensionType;
+        double? _aspectRatio;
+        double? _mega;
+        double? _kilo;
+        String? _deviceID;
+        String? _deviceName;
+        String? _devicePlatform;
 
-        await XFiler.getOrCreateTempXFile(
-          fileName: _id,
-          bytes: bytes,
-          ops: (XFile xFile) async {
+        if (skipMetaData == false){
 
-            _dims =  await DimensionsGetter.fromXFile(
-              xFile: xFile,
-              invoker: 'createTheMediaModelFromBytes',
-            );
-            _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
-            _fileExtensionType ??= await FormatDetector.detectXFile(xFile: xFile, invoker: 'createTheMediaModelFromBytes');
+          await XFiler.getOrCreateTempXFile(
+            fileName: _id,
+            bytes: bytes,
+            ops: (XFile xFile) async {
 
-          },
-        );
+              _dims =  await DimensionsGetter.fromXFile(
+                xFile: xFile,
+                invoker: 'createTheMediaModelFromBytes',
+              );
+              _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
+              _fileExtensionType ??= await FormatDetector.detectXFile(xFile: xFile, invoker: 'createTheMediaModelFromBytes');
 
+            },
+          );
 
-        final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-        final double? _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
-        final double? _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
-        final String? _deviceID = await DeviceChecker.getDeviceID();
-        final String? _deviceName = await DeviceChecker.getDeviceName();
-        final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+          _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
+          _mega = FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte);
+          _kilo = FileSizer.calculateSize(bytes.length, FileSizeUnit.kiloByte);
+          _deviceID = await DeviceChecker.getDeviceID();
+          _deviceName = await DeviceChecker.getDeviceName();
+          _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
+
+        }
 
         _output = MediaModel(
           id: _id,
@@ -182,6 +192,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromFile({
     required File? file,
     required String uploadPath,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
@@ -198,6 +209,7 @@ class MediaModelCreator {
       mediaOrigin: mediaOrigin,
       ownersIDs: ownersIDs,
       includeFileExtension: includeFileExtension,
+      skipMetaData: skipMetaData,
     );
 
 
@@ -278,6 +290,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromSuperFile({
     required SuperFile? file,
     required String uploadPath,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
@@ -301,6 +314,7 @@ class MediaModelCreator {
         mediaOrigin: mediaOrigin,
         caption: caption,
         includeFileExtension: includeFileExtension,
+        skipMetaData: skipMetaData,
       );
 
     }
@@ -316,6 +330,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromURL({
     required String? url,
     required String uploadPath,
+    required bool skipMetaData,
     List<String>? ownersIDs,
     MediaOrigin? mediaOrigin,
     String? caption,
@@ -337,6 +352,7 @@ class MediaModelCreator {
         ownersIDs: ownersIDs,
         caption: caption,
         includeFileExtension: includeFileExtension,
+        skipMetaData: skipMetaData,
       );
 
       return _mediaModel?.setOriginalURL(originalURL: url);
@@ -361,6 +377,7 @@ class MediaModelCreator {
   static Future<List<MediaModel>> fromURLs({
     required List<String>? urls,
     required String Function(int index) uploadPathGenerator,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     bool includeFileExtension = false,
@@ -381,6 +398,7 @@ class MediaModelCreator {
           ownersIDs: ownersIDs,
           includeFileExtension: includeFileExtension,
           caption: captions?[i],
+          skipMetaData: skipMetaData,
         );
 
         if (_model != null){
@@ -402,6 +420,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromAssetEntity({
     required AssetEntity? entity,
     required String uploadPath,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
@@ -420,6 +439,7 @@ class MediaModelCreator {
         ownersIDs: ownersIDs,
         caption: caption,
         includeFileExtension: includeFileExtension,
+        skipMetaData: skipMetaData,
       );
 
     }
@@ -431,6 +451,7 @@ class MediaModelCreator {
   static Future<List<MediaModel>> fromAssetEntities({
     required List<AssetEntity>? entities,
     required String Function(int index, String? title) uploadPathGenerator,
+    required bool skipMetaData,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     bool includeFileExtension = false,
@@ -449,6 +470,7 @@ class MediaModelCreator {
           uploadPath: uploadPathGenerator.call(i, _entity.title),
           ownersIDs: ownersIDs,
           includeFileExtension: includeFileExtension,
+          skipMetaData: skipMetaData,
           // caption: null,
         );
 
@@ -475,6 +497,7 @@ class MediaModelCreator {
   static Future<MediaModel?> fromLocalAsset({
     required String localAsset,
     required String uploadPath,
+    required bool skipMetaData,
     List<String>? ownersIDs,
     String? caption,
     bool includeFileExtension = false,
@@ -494,6 +517,7 @@ class MediaModelCreator {
         bytes: _bytes,
         caption: caption,
         includeFileExtension: includeFileExtension,
+        skipMetaData: skipMetaData,
       );
 
     }
@@ -504,6 +528,7 @@ class MediaModelCreator {
   /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> fromLocalAssets({
     required List<String> localAssets,
+    required bool skipMetaData,
     bool includeFileExtension = false,
     // required int width,
   }) async {
@@ -517,6 +542,7 @@ class MediaModelCreator {
           localAsset: asset,
           uploadPath: FileNaming.getNameFromLocalAsset(asset)!,
           includeFileExtension: includeFileExtension,
+          skipMetaData: skipMetaData,
           // caption: null,
           // ownersIDs: ,
         );
@@ -542,6 +568,7 @@ class MediaModelCreator {
     required MediaOrigin? mediaOrigin,
     required String uploadPath,
     required List<String>? ownersIDs,
+    required bool skipMetaData,
     String? caption,
     bool includeFileExtension = false,
   }) async {
@@ -573,6 +600,7 @@ class MediaModelCreator {
           mediaOrigin: mediaOrigin,
           caption: caption,
           includeFileExtension: includeFileExtension,
+          skipMetaData: skipMetaData,
         );
 
       }

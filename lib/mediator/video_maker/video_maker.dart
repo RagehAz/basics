@@ -67,6 +67,7 @@ class VideoMaker {
               ownersIDs: ownersIDs,
               mediaOrigin: MediaOrigin.galleryVideo,
               uploadPath: uploadPathMaker(_entity.title),
+              skipMetaData: false,
             );
 
           }
@@ -128,6 +129,7 @@ class VideoMaker {
               ownersIDs: ownersIDs,
               mediaOrigin: MediaOrigin.galleryVideo,
               uploadPath: uploadPathMaker(entity.title),
+              skipMetaData: false,
             );
           }
 

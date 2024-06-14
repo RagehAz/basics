@@ -162,6 +162,7 @@ class PicMaker {
             mediaOrigin: MediaOrigin.galleryImage,
             uploadPath: uploadPathMaker(_file.fileName),
             ownersIDs: ownersIDs,
+            skipMetaData: false,
           );
 
         }
@@ -316,6 +317,7 @@ class PicMaker {
             uploadPathGenerator: uploadPathGenerator,
             mediaOrigin: MediaOrigin.galleryImage,
             ownersIDs: ownersIDs,
+            skipMetaData: false,
           );
 
           },
@@ -459,6 +461,7 @@ class PicMaker {
             mediaOrigin: MediaOrigin.cameraImage,
             uploadPath: uploadPathMaker(entity!.title),
             ownersIDs: ownersIDs,
+            skipMetaData: false,
           );
 
           return _model;
