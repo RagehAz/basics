@@ -191,9 +191,11 @@ class FormatDetector {
   }) async {
     FileExtType? _output;
 
-    if (xFile != null && fileName != null){
+    if (DeviceChecker.deviceIsWindows() == false){
 
-      await tryAndCatch(
+      if (xFile != null && fileName != null){
+
+        await tryAndCatch(
           invoker: 'FormatDetector._byInfo',
           functions: () async {
 
@@ -204,7 +206,9 @@ class FormatDetector {
             );
 
           },
-      );
+        );
+
+      }
 
     }
 

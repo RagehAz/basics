@@ -12,27 +12,48 @@ class Director {
 
   const Director();
 
+  static bool canHaveDirectory(){
+    return kIsWeb == false && DeviceChecker.deviceIsWindows() == false;
+  }
   // -----------------------------------------------------------------------------
 
   /// ALL DIRECTORIES
 
   // --------------------
-  static List<DirectoryType> allDirectoryTypes = [
-    if (kIsWeb == false)
-    DirectoryType.app,
-    if (kIsWeb == false)
-    DirectoryType.temp,
-    if (kIsWeb == false)
-    DirectoryType.external,
-    if (kIsWeb == false)
-    DirectoryType.download,
-  ];
+  static List<DirectoryType> allDirectoryTypes(){
+
+    /// WEB
+    if (kIsWeb){
+      return [];
+    }
+
+    /// WINDOWS
+    else if (DeviceChecker.deviceIsWindows() == true){
+      return [
+        DirectoryType.app,
+        DirectoryType.temp,
+        // DirectoryType.external, // NOT AVAILABLE FOR WINDOWS
+        DirectoryType.download,
+      ];
+    }
+
+    /// ANDROID + IOS
+    else {
+      return [
+          DirectoryType.app,
+          DirectoryType.temp,
+          DirectoryType.external,
+          DirectoryType.download,
+      ];
+    }
+
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String?> dirDownloadDirPath() async {
     String? _output;
 
-    if (kIsWeb){
+    if (canHaveDirectory()){
       /// NOT IMPLEMENTED
     }
     if (DeviceChecker.deviceIsAndroid() == true){
@@ -83,7 +104,7 @@ class Director {
   static Future<List<String>> getAllDirectoriesPaths() async {
     final List<String> _output = [];
 
-    for (final DirectoryType type in allDirectoryTypes){
+    for (final DirectoryType type in allDirectoryTypes()){
 
       final Directory? _directory = await getDirectory(
         type: type,
@@ -142,6 +163,9 @@ class Director {
             );
 
           },
+          onError: (String? error){
+            blog('readDirectoryFilesPaths : ERROR : $error : PATH : $_path');
+          }
         );
 
       }
@@ -216,7 +240,7 @@ class Director {
 
     if (_fileDirectoryPath != null){
 
-      for (final DirectoryType type in allDirectoryTypes){
+      for (final DirectoryType type in allDirectoryTypes()){
 
         final Directory? _directory = await getDirectory(
           type: type,
