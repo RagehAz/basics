@@ -17,7 +17,7 @@ class SuperBoxIcon extends StatelessWidget {
     required this.backgroundColor,
     required this.package,
     required this.isDisabled,
-        super.key
+    super.key
   }); 
   /// --------------------------------------------------------------------------
   final double height;

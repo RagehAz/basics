@@ -36,7 +36,7 @@ class BoxIcon extends StatelessWidget {
 
     if (loading == true){
       return Loading(
-        size: size * 0.7,
+        size: size * (iconSizeFactor ?? 0.7),
         color: const Color.fromARGB(650, 255, 255, 255),
       );
     }

@@ -15,18 +15,18 @@ class SuperBoxController {
     required dynamic icon,
     required double? height,
     required bool loading,
-    double? iconSizeFactor = 1,
+    double? iconSizeFactor,
   }) {
     double _output = 0;
 
-    if (icon == null && loading == false){
+    if (icon == null){
       _output = 0;
     }
     else if (height == null || height == 0){
       _output = 0;
     }
     else if (loading == true){
-      _output = height * iconSizeFactor!;
+      _output = height * (iconSizeFactor ?? 0.7);
     }
     else if (icon is String){
 
@@ -34,7 +34,7 @@ class SuperBoxController {
       final bool _isImage = ObjectCheck.objectIsJPGorPNG(icon);
       
       if (_isSVG || _isImage){
-        _output = height * iconSizeFactor!;
+        _output = height * (iconSizeFactor ?? 1);
       }
       
     }
@@ -50,7 +50,6 @@ class SuperBoxController {
     required double? width,
     required double iconMargin,
     required double graphicWidth,
-    required bool hasIcon,
   }) {
 
     double? _output;
@@ -73,7 +72,6 @@ class SuperBoxController {
     required double? maxWidth,
     required double iconMargin,
     required double graphicWidth,
-    required bool hasIcon,
   }){
     double? _output;
 
@@ -212,7 +210,9 @@ class SuperBoxController {
     required bool loading,
   }) {
 
-    if (text == null || icon == null || height == null){
+    final bool _hasIcon = icon != null || loading == true;
+
+    if (text == null || _hasIcon == false || height == null){
       return 0;
     }
 
