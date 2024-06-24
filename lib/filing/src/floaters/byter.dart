@@ -577,11 +577,31 @@ class Byter {
 
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static String? base64FromBytes(Uint8List? bytes){
     String? _output;
     if (Lister.checkCanLoop(bytes) == true){
-      _output = base64Encode(bytes!);
+      tryAndCatch(
+          invoker: 'base64FromBytes',
+          functions: () async {
+            _output = base64Encode(bytes!);
+          },
+      );
+
+    }
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Uint8List? fromBase64(String? base64){
+    Uint8List? _output;
+    if (base64 != null){
+      tryAndCatch(
+          invoker: 'bytesFromBase64',
+          functions: () async {
+            _output = base64Decode(base64);
+          },
+      );
     }
     return _output;
   }
