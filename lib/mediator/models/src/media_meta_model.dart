@@ -55,7 +55,7 @@ class MediaMetaModel {
 
   // --------------------
   static Map<String, String>? generateSettableMap({
-    required Uint8List? bytes,
+    // required Uint8List? bytes,
     required MediaMetaModel? meta,
     Map<String, String>? extraData,
   }){
@@ -179,19 +179,22 @@ class MediaMetaModel {
   }){
     MediaMetaModel? _output;
 
+    // blog('decipherMetaMap : customMetadata[fileType] : ${customMetadata?['fileType']} : customMetadata[filetype] : ${customMetadata?['filetype']}');
+
     if (customMetadata != null){
+
       _output = MediaMetaModel(
         ownersIDs: MapperSS.getKeysHavingThisValue(
           map: customMetadata,
           value: 'cool',
         ),
-        fileExt: FileMiming.getTypeByMime(customMetadata['fileType']),
+        fileExt: FileMiming.getTypeByMime(customMetadata['fileType'] ?? customMetadata['filetype']),
         width: Numeric.transformStringToDouble(customMetadata['width']),
         height: Numeric.transformStringToDouble(customMetadata['height']),
         name: customMetadata['name'],
-        sizeMB: Numeric.transformStringToDouble(customMetadata['sizeMB']),
+        sizeMB: Numeric.transformStringToDouble(customMetadata['sizeMB'] ?? customMetadata['sizemb']),
         data: _getRemainingData(customMetadata),
-        uploadPath: customMetadata['uploadPath'],
+        uploadPath: customMetadata['uploadPath'] ?? customMetadata['uploadpath'],
       );
 
     }
