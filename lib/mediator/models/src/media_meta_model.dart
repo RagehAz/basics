@@ -398,15 +398,15 @@ class MediaMetaModel {
 
     }
 
-    // if (_output == false){
-    //   Mapper.blogMapsDifferences(
-    //     // map1: meta1?.cipherToLDB(),
-    //     // map2: meta2?.cipherToLDB(),
-    //     map1: meta1?.data,
-    //     map2: meta2?.data,
-    //     invoker: 'checkMetaDatasAreIdentical',
-    //   );
-    // }
+    if (_output == false){
+      Mapper.blogMapsDifferences(
+        map1: meta1?.cipherToLDB(),
+        map2: meta2?.cipherToLDB(),
+        // map1: meta1?.data,
+        // map2: meta2?.data,
+        invoker: 'checkMetaDatasAreIdentical',
+      );
+    }
 
     return _output;
   }

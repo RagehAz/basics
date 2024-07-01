@@ -237,6 +237,43 @@ class MapperSS {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Map<String, String>? lowerCaseAllKeys({
+    required Map<String, String>? map,
+  }){
+    Map<String, String>? _output;
+
+    if (map != null){
+
+      final List<String> _keys = map.keys.toList();
+
+      if (Lister.checkCanLoop(_keys) == true){
+
+        _output = {};
+
+        for (final String key in _keys){
+
+          final String _key = key.toLowerCase();
+          final String? _value = map[key];
+
+          if (_value != null){
+            _output = insertPairInMapWithStringValue(
+              map: _output,
+              key: _key,
+              value: _value,
+              overrideExisting: true,
+            );
+          }
+
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CLEANERS
