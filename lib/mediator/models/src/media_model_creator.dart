@@ -20,19 +20,19 @@ class MediaModelCreator {
     String? _fileNameOutput;
     String? _fileExtension = FileExtensioning.getExtensionFromPath(uploadPath);
 
-    blog('1. _adjustPathAndName : start');
+    // blog('1. _adjustPathAndName : start');
 
     /// WITH FILE EXTENSION : WILL NEED DETECTION
     if (includeFileExtension == true){
 
-      blog('2. _adjustPathAndName : includeFileExtension : $includeFileExtension');
+      // blog('2. _adjustPathAndName : includeFileExtension : $includeFileExtension');
 
       final String? _fileNameWithoutExtension = FileNaming.getNameFromPath(
         path: uploadPath,
         withExtension: true,
       );
 
-      blog('3. _adjustPathAndName : _fileNameWithoutExtension : $_fileNameWithoutExtension');
+      // blog('3. _adjustPathAndName : _fileNameWithoutExtension : $_fileNameWithoutExtension');
 
       _fileNameOutput = await FormatDetector.fixFileNameByBytes(
         fileName: _fileNameWithoutExtension,
@@ -40,7 +40,7 @@ class MediaModelCreator {
         includeFileExtension: true,
       );
 
-      blog('4. _adjustPathAndName : _fileNameOutput : $_fileNameOutput');
+      // blog('4. _adjustPathAndName : _fileNameOutput : $_fileNameOutput');
 
       /// REPLACE IT IN PATH ANYWAYS : NAME MIGHT ORIGINALLY WAS WITH EXTENSION IN THE PATH
       _uploadPathOutput = FilePathing.replaceFileNameInPath(
@@ -48,11 +48,11 @@ class MediaModelCreator {
         fileName: _fileNameOutput,
       );
 
-      blog('5. _adjustPathAndName : _uploadPathOutput : $_uploadPathOutput');
+      // blog('5. _adjustPathAndName : _uploadPathOutput : $_uploadPathOutput');
 
       _fileExtension = FileExtensioning.getExtensionFromPath(_uploadPathOutput);
 
-      blog('6. _adjustPathAndName : _fileExtension : $_fileExtension');
+      // blog('6. _adjustPathAndName : _fileExtension : $_fileExtension');
 
     }
 
