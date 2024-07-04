@@ -104,14 +104,16 @@ class PaginationController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void clear(){
-    setNotifier(mounted: mounted, notifier: paginatorMaps, value: <Map<String, dynamic>>[]);
-    setNotifier(mounted: mounted, notifier: replaceMap, value: null);
-    setNotifier(mounted: mounted, notifier: addMap, value: null);
-    setNotifier(mounted: mounted, notifier: deleteMap, value: null);
-    setNotifier(mounted: mounted, notifier: startAfter, value: null);
-    setNotifier(mounted: mounted, notifier: isPaginating, value: false);
-    setNotifier(mounted: mounted, notifier: canKeepReading, value: true);
+  void clear({
+    bool? isMounted,
+  }){
+    setNotifier(mounted: isMounted ?? mounted, notifier: paginatorMaps, value: <Map<String, dynamic>>[]);
+    setNotifier(mounted: isMounted ?? mounted, notifier: replaceMap, value: null);
+    setNotifier(mounted: isMounted ?? mounted, notifier: addMap, value: null);
+    setNotifier(mounted: isMounted ?? mounted, notifier: deleteMap, value: null);
+    setNotifier(mounted: isMounted ?? mounted, notifier: startAfter, value: null);
+    setNotifier(mounted: isMounted ?? mounted, notifier: isPaginating, value: false);
+    setNotifier(mounted: isMounted ?? mounted, notifier: canKeepReading, value: true);
   }
   // --------------------
   /*
