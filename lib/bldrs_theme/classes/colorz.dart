@@ -92,6 +92,9 @@ abstract class Colorz {
   static const Color googleRed = Color.fromARGB(255, 234, 67, 53);
   static const Color purple = Color.fromARGB(255, 87, 42, 105);
   // --------------------
+  static const Color telegramLightBlue = Color.fromARGB(255, 56, 176, 227);
+  static const Color telegramDarkBlue = Color.fromARGB(255, 29, 147, 210);
+  // --------------------
   static const Color appBarColor = white20;
   static const Color bzPageBGColor = Colorz.black80;
   // -------------------------------------------------------------------------
@@ -163,6 +166,8 @@ abstract class Colorz {
     googleRed,
     appBarColor,
     bzPageBGColor,
+    telegramLightBlue,
+    telegramDarkBlue,
   ];
   // -----------------------------------------------------------------------------
 }

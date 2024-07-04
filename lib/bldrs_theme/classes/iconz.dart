@@ -121,6 +121,8 @@ class Iconz {
   static const String comBehance = '$iconDirectory/com_behance.svg';
   static const String comVimeo = '$iconDirectory/com_vimeo.svg';
 
+  static const String comTelegram = '$iconDirectory/com_telegram.svg';
+
   // --------------------
   /// COMM PLAIN
   static const String comFacebookPlain = '$iconDirectory/com_facebook_plain.svg';
@@ -137,6 +139,7 @@ class Iconz {
   static const String comGooglePlayPlain = '$iconDirectory/com_google_play_plain.svg';
   static const String comBehancePlain = '$iconDirectory/com_behance_plain.svg';
   static const String comVimeoPlain = '$iconDirectory/com_vimeo_plain.svg';
+  static const String comTelegramPlain = '$iconDirectory/com_telegram_plain.svg';
   // --------------------
   /// dev
   static const String dvBlankSVG = '$iconDirectory/dv_blank.svg';
