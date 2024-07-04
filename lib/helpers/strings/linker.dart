@@ -179,7 +179,7 @@ class Linker {
         _output = link!;
       }
       else {
-        _output = 'http://$link';
+        _output = 'https://$link';
       }
 
     }
