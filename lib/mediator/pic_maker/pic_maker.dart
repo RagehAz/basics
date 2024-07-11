@@ -309,6 +309,7 @@ class PicMaker {
               // titleTextSpacing: ,
               // gridCount: ,
               // pageSize: ,
+              requestType: RequestType.image,
             ),
           );
 

@@ -37,7 +37,7 @@ class VideoMaker {
     if (_canPick == true){
 
       await tryAndCatch(
-        invoker: '_pickMultiplePics',
+        invoker: 'pickVideo',
         onError: onError,
         functions: () async {
 
