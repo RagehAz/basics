@@ -581,6 +581,8 @@ class Filer {
         filePath: file.path,
       );
 
+      // blog('got directory : ${dir?.name}');
+
       if (dir != null){
 
         final bool _exists = await checkFileExistsByName(

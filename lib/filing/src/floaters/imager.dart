@@ -14,11 +14,11 @@ class Imager{
   static Future<ui.Image?> getUiImageFromBytes(Uint8List? uInt) async {
     ui.Image? _decodedImage;
 
-    if (uInt != null) {
+    if (Lister.checkCanLoop(uInt) == true) {
       await tryAndCatch(
           invoker: 'getUiImageFromUint8List',
           functions: () async {
-            _decodedImage = await decodeImageFromList(uInt);
+            _decodedImage = await decodeImageFromList(uInt!);
           },
           onError: (String error){
             // final Uint8List? _bytes = uInt;
@@ -128,20 +128,20 @@ class Imager{
   static Future<img.Image?> getImgImageFromUint8List(Uint8List? uInt) async {
     img.Image? imgImage;
 
-    if (uInt != null){
+    if (Lister.checkCanLoop(uInt) == true){
 
       await tryAndCatch(
           invoker: 'Imager.getImgImageFromUint8List.png',
           functions: () async {
-            imgImage = img.decodePng(uInt);
-          }
+            imgImage = img.decodePng(uInt!);
+          },
       );
 
       if (imgImage == null){
         await tryAndCatch(
             invoker: 'Imager.getImgImageFromUint8List.image',
             functions: () async {
-              imgImage = img.decodeImage(uInt);
+              imgImage = img.decodeImage(uInt!);
             });
       }
     }

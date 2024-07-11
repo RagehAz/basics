@@ -12,8 +12,14 @@ class Director {
 
   const Director();
 
+  // -----------------------------------------------------------------------------
   static bool canHaveDirectory(){
     return kIsWeb == false && DeviceChecker.deviceIsWindows() == false;
+  }
+  // --------------------
+  static bool checkDirectoryIsActive(DirectoryType type){
+    final List<DirectoryType> _allTypes = allDirectoryTypes();
+    return _allTypes.contains(type);
   }
   // -----------------------------------------------------------------------------
 
@@ -37,8 +43,8 @@ class Director {
       ];
     }
 
-    /// ANDROID + IOS
-    else {
+    /// ANDROID
+    else if (DeviceChecker.deviceIsAndroid() == true){
       return [
           DirectoryType.app,
           DirectoryType.temp,
@@ -47,6 +53,17 @@ class Director {
       ];
     }
 
+    /// IOS
+    else if (DeviceChecker.deviceIsIOS() == true){
+      return [
+        DirectoryType.app,
+        DirectoryType.temp,
+      ];
+    }
+
+    else {
+      return [];
+    }
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -90,11 +107,21 @@ class Director {
     Directory? _output;
 
     switch (type){
-      case DirectoryType.app: _output = kIsWeb ? null : await getApplicationDocumentsDirectory();
-      case DirectoryType.temp: _output = kIsWeb ? null : await getTemporaryDirectory();
-      case DirectoryType.external: _output = kIsWeb ? null : await getExternalStorageDirectory();
-      case DirectoryType.download: _output = kIsWeb ? null : await getDownloadsDirectory();
+
+      case DirectoryType.app:
+        _output = !checkDirectoryIsActive(DirectoryType.app) ? null : await getApplicationDocumentsDirectory();
+
+      case DirectoryType.temp:
+        _output = !checkDirectoryIsActive(DirectoryType.temp) ? null : await getTemporaryDirectory();
+
+      case DirectoryType.external:
+        _output = !checkDirectoryIsActive(DirectoryType.external) ? null : await getExternalStorageDirectory();
+
+      case DirectoryType.download:
+        _output = !checkDirectoryIsActive(DirectoryType.download) ? null : await getDownloadsDirectory();
+
       default: _output = null;
+
     }
 
     return _output;
@@ -312,20 +339,28 @@ class Director {
 
     if (kIsWeb == false && directoryType != null){
 
-      final Directory? _dir = await Director.getDirectory(
+      final List<File> _all = await Filer.readAllDirectoryFiles(
         type: directoryType,
       );
 
-      await tryAndCatch(
-        invoker: 'Filer.deleteAllDirectoryFiles',
-        functions: () async {
+      /// THIS FAILS IN IOS : BECAUSE IT DELETES THE DIRECTORY WHILE THE CREATE METHOD
+      /// STUCKS IF THE DIRECTORY IS NOT THERE
+      // final Directory? _dir = await Director.getDirectory(
+      //   type: directoryType,
+      // );
+      // await tryAndCatch(
+      //   invoker: 'Filer.deleteAllDirectoryFiles',
+      //   functions: () async {
+      //     await _dir?.delete(
+      //       recursive: false,
+      //     );
+      //   },
+      // );
 
-          await _dir?.delete(
-            recursive: true,
-          );
-
-        },
-      );
+      for (int i = 0; i <_all.length; i++){
+        final File _file = _all[i];
+        await Filer.deleteFile(_file);
+      }
 
     }
 
