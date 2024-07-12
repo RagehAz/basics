@@ -7,6 +7,31 @@ class Entities {
 
   // -----------------------------------------------------------------------------
 
+  /// ASSET URL
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> getAssetEntityURL(AssetEntity? entity) async {
+    String? _output;
+
+    if (entity != null){
+
+      await tryAndCatch(
+        invoker: 'getAssetEntityURL',
+        functions: () async {
+          _output = await entity.getMediaUrl();
+        },
+        onError: (String? error){
+          blog('getAssetEntityURL : error : $error');
+        },
+      );
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
   /// BLOG
 
   // --------------------
@@ -78,7 +103,7 @@ class Entities {
       blog('  titleAsyncWithSubtype  : ${await entity.titleAsyncWithSubtype}');
       blog('[I] ======================> OTHER');
       blog('  thumbnailData                      : ${await entity.thumbnailData}');
-      blog('  getMediaUrl()                      : ${await entity.getMediaUrl()}');
+      blog('  getMediaUrl()                      : ${await getAssetEntityURL(entity)}');
       blog('  obtainForNewProperties()           : ${await entity.obtainForNewProperties()}');
       // blog('thumbnailDataWithOption(option)    : ${entity.thumbnailDataWithOption(option)}');
       // blog('thumbnailDataWithSize(size)        : ${entity.thumbnailDataWithSize(size)}');

@@ -467,7 +467,7 @@ class MediaModelCreator {
         );
 
         _model?.setOriginalURL(
-            originalURL: await _entity.getMediaUrl(),
+            originalURL: await Entities.getAssetEntityURL(_entity),
         );
 
         if (_model != null){
