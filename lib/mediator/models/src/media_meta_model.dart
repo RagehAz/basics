@@ -363,6 +363,8 @@ class MediaMetaModel {
   /// CHECKERS
 
   // --------------------
+  /// DEPRECATED
+  /*
   /// TESTED : WORKS PERFECT
   static bool checkMetaDatasAreIdentical({
     required MediaMetaModel? meta1,
@@ -406,6 +408,69 @@ class MediaMetaModel {
         // map2: meta2?.data,
         invoker: 'checkMetaDatasAreIdentical',
       );
+    }
+
+    return _output;
+  }
+   */
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkMetaDatasAreSimilar({
+    required MediaMetaModel? meta1,
+    required MediaMetaModel? meta2,
+  }){
+    bool _output = false;
+
+    if (meta1 == null && meta2 == null){
+      _output = true;
+    }
+
+    else if (meta1 != null && meta2 != null){
+
+      if (
+          meta1.width == meta2.width
+          &&
+          meta1.height == meta2.height
+          &&
+          meta1.fileExt == meta2.fileExt
+          &&
+          meta1.sizeMB == meta2.sizeMB
+          &&
+          meta1.name == meta2.name
+          &&
+          meta1.uploadPath == meta2.uploadPath
+      ){
+        _output = true;
+      }
+
+    }
+
+    if (_output == false){
+
+      if (meta1?.width != meta2?.width){
+        blog('meta1?.width : ${meta1?.width} != meta2?.width : ${meta2?.width} ');
+      }
+
+      if (meta1?.height != meta2?.height){
+        blog('meta1?.height : ${meta1?.height} != meta2?.height : ${meta2?.height} ');
+      }
+
+      if (meta1?.fileExt != meta2?.fileExt){
+        blog('meta1?.fileExt : ${meta1?.fileExt} != meta2?.fileExt : ${meta2?.fileExt} ');
+      }
+
+      if (meta1?.sizeMB != meta2?.sizeMB){
+        blog('meta1?.sizeMB : ${meta1?.sizeMB} != meta2?.sizeMB : ${meta2?.sizeMB} ');
+      }
+
+      if (meta1?.name != meta2?.name){
+        blog('meta1?.name : ${meta1?.name} != meta2?.name : ${meta2?.name} ');
+      }
+
+      if (meta1?.uploadPath != meta2?.uploadPath){
+        blog('meta1?.uploadPath : ${meta1?.uploadPath} != meta2?.uploadPath : ${meta2?.uploadPath} ');
+      }
+
     }
 
     return _output;
@@ -591,7 +656,7 @@ class MediaMetaModel {
 
     bool _areIdentical = false;
     if (other is MediaMetaModel){
-      _areIdentical = checkMetaDatasAreIdentical(
+      _areIdentical = checkMetaDatasAreSimilar(
         meta1: this,
         meta2: other,
       );

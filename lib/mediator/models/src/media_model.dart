@@ -637,6 +637,8 @@ class MediaModel {
   /// EQUALITY
 
   // --------------------
+  /// DEPRECATED
+  /*
   /// TESTED : WORKS PERFECT
   static bool checkMediaModelsAreIdentical({
     required MediaModel? model1,
@@ -711,6 +713,86 @@ class MediaModel {
     return _listsAreIdentical;
 
   }
+   */
+  // -----------------------------------------------------------------------------
+
+  /// SIMILARITY
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkMediaModelsAreSimilar({
+    required MediaModel? model1,
+    required MediaModel? model2,
+  }) {
+    bool _identical = false;
+
+    if (model1 == null && model2 == null){
+      _identical = true;
+    }
+    else if (model1 != null && model2 != null){
+
+      if (MediaMetaModel.checkMetaDatasAreSimilar(meta1: model1.meta, meta2: model2.meta) == true){
+
+        _identical = Byter.checkBytesAreIdentical(
+          bytes1: model1.bytes,
+          bytes2: model2.bytes,
+        );
+
+      }
+
+    }
+
+    return _identical;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkMediaModelsListsAreSimilar({
+    required List<MediaModel>? models1,
+    required List<MediaModel>? models2,
+  }) {
+
+    bool _listsAreIdentical = false;
+
+    if (models1 == null && models2 == null){
+      _listsAreIdentical = true;
+    }
+    else if (models1 != null && models1.isEmpty == true && models2 != null && models2.isEmpty == true){
+      _listsAreIdentical = true;
+    }
+
+    else if (Lister.checkCanLoop(models1) == true && Lister.checkCanLoop(models2) == true){
+
+      if (models1!.length != models2!.length) {
+        _listsAreIdentical = false;
+      }
+
+      else {
+        for (int i = 0; i < models1.length; i++) {
+
+          final bool _pairAreIdentical = checkMediaModelsAreSimilar(
+              model1: models1[i],
+              model2: models2[i]
+          );
+
+          if (_pairAreIdentical == false) {
+            _listsAreIdentical = false;
+            break;
+          }
+
+          else {
+            _listsAreIdentical = true;
+          }
+
+        }
+      }
+
+    }
+
+    // blog('checkPicsListsAreIdentical : _listsAreIdentical : $_listsAreIdentical');
+
+    return _listsAreIdentical;
+
+  }
   // -----------------------------------------------------------------------------
 
   /// OVERRIDES
@@ -760,7 +842,7 @@ class MediaModel {
 
     bool _areIdentical = false;
     if (other is MediaModel){
-      _areIdentical = checkMediaModelsAreIdentical(
+      _areIdentical = checkMediaModelsAreSimilar(
         model1: this,
         model2: other,
       );

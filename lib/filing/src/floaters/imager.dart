@@ -271,7 +271,7 @@ class Imager{
 
         /// MEDIA FILE
         else if (image1 is MediaModel){
-          _identical = MediaModel.checkMediaModelsAreIdentical(model1: image1, model2: image2);
+          _identical = MediaModel.checkMediaModelsAreSimilar(model1: image1, model2: image2);
         }
 
         /// UI IMAGE
