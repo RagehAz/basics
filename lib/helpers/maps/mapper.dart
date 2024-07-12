@@ -1241,12 +1241,23 @@ class Mapper {
 
       else {
         for (final String key in _allKeys){
+
           final dynamic value2 = map2[key];
           final dynamic value1 = map1[key];
-          final bool _identical = value1 == value2;
-          final String _identicalArrow = _identical == true ? '' : 'x--->';
-          final String _identicalString = _identical == true ? '=' : '!=';
-          blog('||| $_identicalArrow   [$key] : [$_identicalString] : 1[$value1] : 2[$value2]');
+
+          if (value1 is Map && value2 is Map){
+            blogMapsDifferences(
+              invoker: '$invoker : $key :-',
+              map1: Mapper.getMapFromIHLMOO(ihlmoo: value1),
+              map2: Mapper.getMapFromIHLMOO(ihlmoo: value2),
+            );
+          }
+          else {
+            final bool _identical = value1 == value2;
+            final String _identicalArrow = _identical == true ? '' : 'x--->';
+            final String _identicalString = _identical == true ? '=' : '!=';
+            blog('||| $_identicalArrow   [$key] : [$_identicalString] : 1[$value1] : 2[$value2]');
+          }
         }
       }
 
