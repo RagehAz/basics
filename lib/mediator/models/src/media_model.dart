@@ -742,6 +742,14 @@ class MediaModel {
 
     }
 
+    if (_identical == false){
+      blogMediaMainDifferences(
+        model1: model1,
+        model2: model2,
+        invoker: 'checkMediaModelsAreSimilar',
+      );
+    }
+
     return _identical;
   }
   // --------------------
@@ -792,6 +800,65 @@ class MediaModel {
 
     return _listsAreIdentical;
 
+  }
+  // -----------------------------------------------------------------------------
+
+  /// BLOGGING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void blogMediaMainDifferences({
+    required MediaModel? model1,
+    required MediaModel? model2,
+    required String invoker,
+  }){
+    blog('| $invoker | blogMediaMainDifferences | START --------o');
+
+    if (model1 == null){
+      blog('||| model1 is null');
+    }
+
+    if (model2 == null){
+      blog('||| model2 is null');
+    }
+
+    if (model1 != null && model2 != null){
+
+      if (model1.meta?.width != model2.meta?.width){
+        blog('| model1.meta?.width != model2.meta?.width');
+      }
+
+      if (model1.meta?.height != model2.meta?.height){
+        blog ('| model1.meta?.height != model2.meta?.height');
+      }
+      if (model1.meta?.fileExt != model2.meta?.fileExt){
+        blog ('| model1.meta?.fileExt != model2.meta?.fileExt');
+      }
+
+      if (model1.meta?.sizeMB != model2.meta?.sizeMB){
+        blog ('| model1.meta?.sizeMB != model2.meta?.sizeMB');
+      }
+
+      if (model1.meta?.name != model2.meta?.name){
+        blog ('| model1.meta?.name != model2.meta?.name');
+      }
+
+      if (model1.meta?.uploadPath != model2.meta?.uploadPath){
+        blog ('| model1.meta?.uploadPath != model2.meta?.uploadPath');
+      }
+
+      final bool _bytesAreIdentical = Byter.checkBytesAreIdentical(
+        bytes1: model1.bytes,
+        bytes2: model2.bytes,
+      );
+
+      if (_bytesAreIdentical == false){
+        blog('| _bytesAreIdentical = false');
+      }
+
+    }
+
+    blog('| $invoker | blogMediaMainDifferences | : END --------o');
   }
   // -----------------------------------------------------------------------------
 
