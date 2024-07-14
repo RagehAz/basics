@@ -46,7 +46,7 @@ class XFiler {
 
     if (_fileExists == false){
       // blog('6. getOrCreateTempXFile : WILL NOT delete file');
-      // await deleteFile(_xFile);
+      await deleteFile(_xFile);
     }
 
     // blog('7. getOrCreateTempXFile : END <--');
