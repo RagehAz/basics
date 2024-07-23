@@ -141,6 +141,7 @@ class PicMaker {
     String confirmText = 'Crop',
     bool appIsLTR = true,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
+    ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
     MediaModel? _output;
 
@@ -196,6 +197,7 @@ class PicMaker {
       _output = await compressPic(
         mediaModel: _output!,
         quality: compressWithQuality,
+        outputType: outputType,
       );
     }
 
@@ -223,6 +225,7 @@ class PicMaker {
     String confirmText = 'Crop',
     Function(String? error)? onError,
     Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
+    ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
 
     /// PICK
@@ -261,8 +264,9 @@ class PicMaker {
     /// COMPRESS
     if (compressWithQuality != null && Lister.checkCanLoop(_mediaModels) == true){
       _mediaModels = await compressPics(
-        mediaModels: _mediaModels,
+          mediaModels: _mediaModels,
           quality: compressWithQuality,
+          outputType: outputType,
       );
     }
 
@@ -349,6 +353,7 @@ class PicMaker {
     String confirmText = 'Crop',
     Function(String? error)? onError,
     Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
+    ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
 
     MediaModel? _output;
@@ -392,8 +397,9 @@ class PicMaker {
       /// COMPRESS
       if (compressWithQuality != null && Lister.checkCanLoop(_models) ==true){
       _models = await compressPics(
-          mediaModels: _models,
-          quality: compressWithQuality,
+        mediaModels: _models,
+        quality: compressWithQuality,
+        outputType: outputType,
       );
     }
 
@@ -621,6 +627,7 @@ class PicMaker {
   static Future<MediaModel?> compressPic({
     required MediaModel? mediaModel,
     required int quality,
+    required ImageOutputType outputType,
   }) async {
     MediaModel? _output = mediaModel;
 
@@ -656,9 +663,9 @@ class PicMaker {
               );
 
               final Configuration config = Configuration(
-                outputType: ImageOutputType.png,
-                /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.pngÏ
-                useJpgPngNativeCompressor: false,
+                outputType: outputType,
+                /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.png
+                useJpgPngNativeCompressor: outputType == ImageOutputType.jpg || outputType == ImageOutputType.png,
                 /// set quality between 0-100
                 quality: quality,
               );
@@ -705,6 +712,7 @@ class PicMaker {
   static Future<List<MediaModel>> compressPics({
     required List<MediaModel>? mediaModels,
     required int quality,
+    required ImageOutputType outputType,
   }) async {
     List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
@@ -717,6 +725,7 @@ class PicMaker {
         final MediaModel? _resized = await compressPic(
           mediaModel: mediaModel,
           quality: quality,
+          outputType: outputType,
         );
 
         if (_resized != null){

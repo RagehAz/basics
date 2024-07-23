@@ -474,9 +474,16 @@ class Byter {
         fileName: fileName,
       );
 
-      _dims?.blogDimensions(invoker: '$fileName : $resizeToWidth');
+      final bool _canResize = Numeric.isLesserThan(
+          number: resizeToWidth,
+          isLesserThan: _dims?.width,
+      );
 
-      if (Numeric.isLesserThan(number: resizeToWidth, isLesserThan: _dims?.width) == true){
+      // _dims?.blogDimensions(invoker: '$fileName : $resizeToWidth');
+
+      blog('resize[$fileName] : from(${_dims?.width}) to($resizeToWidth) : canResize($_canResize)');
+
+      if (_canResize == true){
 
         final double? _aspectRatio = _dims?.getAspectRatio();
         final double? _resizeToHeight = Dimensions.getHeightByAspectRatio(
@@ -498,7 +505,7 @@ class Byter {
                 height: _resizeToHeight.toInt(),
               );
 
-              _output = img.encodePng(resizedImage);
+              _output = img.encodeJpg(resizedImage);
 
             }
 
