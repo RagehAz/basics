@@ -627,7 +627,7 @@ class PicMaker {
   static Future<MediaModel?> compressPic({
     required MediaModel? mediaModel,
     required int quality,
-    required ImageOutputType outputType,
+    ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
     MediaModel? _output = mediaModel;
 
@@ -712,7 +712,7 @@ class PicMaker {
   static Future<List<MediaModel>> compressPics({
     required List<MediaModel>? mediaModels,
     required int quality,
-    required ImageOutputType outputType,
+    ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
     List<MediaModel> _output = <MediaModel>[...?mediaModels];
 

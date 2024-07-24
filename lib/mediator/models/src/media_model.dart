@@ -131,6 +131,27 @@ class MediaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static List<Map<String, dynamic>> cipherMediasToLDB(List<MediaModel> medias){
+    final List<Map<String, dynamic>> _output = [];
+
+    if (Lister.checkCanLoop(medias) == true){
+
+      for (final MediaModel media in medias){
+
+        final Map<String, dynamic>? _map = cipherToLDB(media);
+
+        if (_map != null){
+          _output.add(_map);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static MediaModel? decipherFromLDB(Map<String, dynamic>? map){
     MediaModel? _picModel;
 
@@ -291,6 +312,58 @@ class MediaModel {
   String? getExtension(){
     final FileExtType? _type = meta?.fileExt;
     return FileExtensioning.getExtensionByType(_type);
+  }
+  // -----------------------------------------------------------------------------
+
+  /// MEDIAS GETTERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getMediasUploadPaths({
+    required List<MediaModel> medias,
+  }){
+    List<String> _output = [];
+
+    if (Lister.checkCanLoop(medias) == true){
+
+      for (final MediaModel media in medias){
+
+        _output = Stringer.addStringToListIfDoesNotContainIt(
+            strings: _output,
+            stringToAdd: media.meta?.uploadPath,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getMediasParentUploadPaths({
+    required List<MediaModel> medias,
+  }){
+    List<String> _output = [];
+
+    if (Lister.checkCanLoop(medias) == true){
+
+      for (final MediaModel media in medias){
+
+        final String? _parentFolder = Pathing.removeLastPathNode(
+            path: media.meta?.uploadPath,
+        );
+
+        _output = Stringer.addStringToListIfDoesNotContainIt(
+          strings: _output,
+          stringToAdd: _parentFolder,
+        );
+
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

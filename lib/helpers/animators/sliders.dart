@@ -356,13 +356,13 @@ class Sliders {
   }) async {
 
     if (controller != null) {
-      // if (controller.positions.isEmpty == true){
+      if (controller.hasClients == true){
       await controller.animateTo(
         offset,
         duration: duration,
         curve: curve,
       );
-      // }
+      }
     }
 
   }
