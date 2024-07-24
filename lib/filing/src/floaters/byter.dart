@@ -480,9 +480,7 @@ class Byter {
           isLesserThan: _dims?.width,
       );
 
-      // _dims?.blogDimensions(invoker: '$fileName : $resizeToWidth');
-
-      blog('resize[$fileName] : from(${_dims?.width}) to($resizeToWidth) : canResize($_canResize)');
+      // blog('resize[$fileName] : from(${_dims?.width}) to($resizeToWidth) : canResize($_canResize)');
 
       if (_canResize == true){
 
@@ -519,27 +517,6 @@ class Byter {
 
           return _bytes;
         });
-
-        // await tryAndCatch(
-        //   invoker: 'Byter.resize',
-        //   functions: () async {
-        //
-        //     final img.Image? _img = img.decodeImage(bytes);
-        //
-        //     if (_img != null && _resizeToHeight != null){
-        //
-        //       final img.Image resizedImage = img.copyResize(
-        //         _img,
-        //         width: resizeToWidth.toInt(),
-        //         height: _resizeToHeight.toInt(),
-        //       );
-        //
-        //       _output = img.encodeJpg(resizedImage);
-        //
-        //     }
-        //
-        //     },
-        // );
 
       }
 

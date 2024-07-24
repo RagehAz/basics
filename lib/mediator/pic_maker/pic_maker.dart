@@ -658,8 +658,6 @@ class PicMaker {
             invoker: 'compressPic',
             functions: () async {
 
-                blog('a');
-
                 final ImageFile input = ImageFile(
                   filePath: _filePath ?? Numeric.createRandomIndex().toString(),
                   rawBytes: _bytes,
@@ -667,8 +665,6 @@ class PicMaker {
                   // height: _dims.height?.toInt(),
                   // contentType: ,
                 );
-
-                blog('2');
 
                 final Configuration config = Configuration(
                   outputType: outputType,
@@ -678,18 +674,12 @@ class PicMaker {
                   quality: quality,
                 );
 
-                blog('3');
-
                 final ImageFileConfiguration param = ImageFileConfiguration(
                   input: input,
                   config: config,
                 );
 
-                blog('4');
-
                 final ImageFile outputFile = await compressor.compress(param);
-
-                blog('5');
 
                 _bytes = outputFile.rawBytes;
 

@@ -981,20 +981,31 @@ class Phrase {
     required String? inputText,
   }){
     final List<Phrase> _foundPhrases = <Phrase>[];
-    final String? _fixedString = TextMod.fixCountryName(input: inputText);
 
     if (Lister.checkCanLoop(sourcePhrases) == true){
+
+      final String? _fixedString = TextMod.fixCountryName(
+        input: inputText,
+        addTheseChars: {
+          'space'               : {'char': ' '    ,'replacement': ' '},
+        },
+      );
 
       for (final Phrase source in sourcePhrases!){
 
         final List<String>? _trigram = source.trigram;
 
         final bool _trigramContains = Stringer.checkStringsContainString(
-            strings: _trigram,
-            string: _fixedString
+            strings: TextMod.stringsToLowerCase(strings: _trigram),
+            string: _fixedString?.toLowerCase(),
         );
 
-        if (_trigramContains == true){
+        final bool _valueContaines = TextCheck.stringContainsSubString(
+            string: source.value?.toLowerCase(),
+            subString: _fixedString?.toLowerCase(),
+        );
+
+        if (_trigramContains || _valueContaines){
           _foundPhrases.add(source);
         }
 

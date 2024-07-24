@@ -145,8 +145,8 @@ class Pathing {
     if (Lister.checkCanLoop(paths) && subString != null) {
       for (final String path in paths!) {
         final bool _containsSubString = TextCheck.stringContainsSubString(
-          string: path,
-          subString: subString,
+          string: path.toLowerCase(),
+          subString: subString.toLowerCase(),
         );
 
         if (_containsSubString == true) {
