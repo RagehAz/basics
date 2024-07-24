@@ -642,63 +642,79 @@ class PicMaker {
           _dims != null
               &&
           _aspectRatio != null
+          &&
+          mediaModel.bytes != null
       ){
 
-        await tryAndCatch(
-          invoker: 'compressPic',
-          functions: () async {
+        final String? _filePath = await FilePathing.createPathByName(
+          fileName: mediaModel.getName(withExtension: true),
+        );
 
-            if (mediaModel.bytes != null){
+        // final Uint8List? _compressed = await Isolate.run(() async {
 
-              final String? _filePath = await FilePathing.createPathByName(
-                fileName: mediaModel.getName(withExtension: true),
-              );
+          Uint8List _bytes = mediaModel.bytes!;
 
-              final ImageFile input = ImageFile(
-                filePath: _filePath ?? Numeric.createRandomIndex().toString(),
-                rawBytes: mediaModel.bytes!,
-                // width: _dims.width?.toInt(),
-                // height: _dims.height?.toInt(),
-                // contentType: ,
-              );
+          await tryAndCatch(
+            invoker: 'compressPic',
+            functions: () async {
 
-              final Configuration config = Configuration(
-                outputType: outputType,
-                /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.png
-                useJpgPngNativeCompressor: outputType == ImageOutputType.jpg || outputType == ImageOutputType.png,
-                /// set quality between 0-100
-                quality: quality,
-              );
+                blog('a');
 
-              final ImageFileConfiguration param = ImageFileConfiguration(
-                input: input,
-                config: config,
-              );
+                final ImageFile input = ImageFile(
+                  filePath: _filePath ?? Numeric.createRandomIndex().toString(),
+                  rawBytes: _bytes,
+                  // width: _dims.width?.toInt(),
+                  // height: _dims.height?.toInt(),
+                  // contentType: ,
+                );
 
-              final ImageFile outputFile = await compressor.compress(param);
+                blog('2');
 
-              _output = await _output?.replaceBytes(
-                bytes: outputFile.rawBytes,
-              );
+                final Configuration config = Configuration(
+                  outputType: outputType,
+                  /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.png
+                  useJpgPngNativeCompressor: outputType == ImageOutputType.jpg || outputType == ImageOutputType.png,
+                  /// set quality between 0-100
+                  quality: quality,
+                );
 
-            }
+                blog('3');
 
+                final ImageFileConfiguration param = ImageFileConfiguration(
+                  input: input,
+                  config: config,
+                );
+
+                blog('4');
+
+                final ImageFile outputFile = await compressor.compress(param);
+
+                blog('5');
+
+                _bytes = outputFile.rawBytes;
 
             },
-          onError: (String error) async {
-            // blog(error);
-            // _output = await FlutterImageCompress.compressWithList(
-            //   bytes,
-            //   minWidth: compressToWidth.toInt(),
-            //   minHeight: _compressToHeight.toInt(),
-            //   quality: quality,
-            //   // autoCorrectionAngle: ,
-            //   // format: ,
-            //   // inSampleSize: ,
-            //   // keepExif: ,
-            //   // rotate: ,
-            // );
+            onError: (String error) async {
+              // blog(error);
+              // _output = await FlutterImageCompress.compressWithList(
+              //   bytes,
+              //   minWidth: compressToWidth.toInt(),
+              //   minHeight: _compressToHeight.toInt(),
+              //   quality: quality,
+              //   // autoCorrectionAngle: ,
+              //   // format: ,
+              //   // inSampleSize: ,
+              //   // keepExif: ,
+              //   // rotate: ,
+              // );
             },
+          );
+
+        //   return _bytes;
+        // });
+
+        _output = await _output?.replaceBytes(
+          bytes: _bytes,
         );
 
       }

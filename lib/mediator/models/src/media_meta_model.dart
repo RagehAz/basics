@@ -54,6 +54,7 @@ class MediaMetaModel {
   /// TO SETTABLE MAP
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Map<String, String>? generateSettableMap({
     // required Uint8List? bytes,
     required MediaMetaModel? meta,

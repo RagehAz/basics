@@ -464,12 +464,13 @@ class Byter {
     required Uint8List? bytes,
     required String? fileName,
     required double? resizeToWidth,
+    Dimensions? fileDims,
   }) async {
     Uint8List? _output = bytes;
 
     if (bytes != null && resizeToWidth != null){
 
-      final Dimensions? _dims = await DimensionsGetter.fromBytes(
+      final Dimensions? _dims = fileDims ?? await DimensionsGetter.fromBytes(
         bytes: bytes,
         fileName: fileName,
       );
@@ -491,26 +492,54 @@ class Byter {
           width: resizeToWidth,
         );
 
-        await tryAndCatch(
-          invoker: 'Byter.resize',
-          functions: () async {
+        _output = await Isolate.run(() async {
 
-            final img.Image? _img = img.decodeImage(bytes);
+          Uint8List? _bytes;
 
-            if (_img != null && _resizeToHeight != null){
+          await tryAndCatch(
+            invoker: 'Byter.resize',
+            functions: () async {
 
-              final img.Image resizedImage = img.copyResize(
-                _img,
-                width: resizeToWidth.toInt(),
-                height: _resizeToHeight.toInt(),
-              );
+              final img.Image? _img = img.decodeImage(bytes);
 
-              _output = img.encodeJpg(resizedImage);
+              if (_img != null && _resizeToHeight != null){
 
-            }
+                final img.Image resizedImage = img.copyResize(
+                  _img,
+                  width: resizeToWidth.toInt(),
+                  height: _resizeToHeight.toInt(),
+                );
+
+                _bytes = img.encodeJpg(resizedImage);
+
+              }
 
             },
-        );
+          );
+
+          return _bytes;
+        });
+
+        // await tryAndCatch(
+        //   invoker: 'Byter.resize',
+        //   functions: () async {
+        //
+        //     final img.Image? _img = img.decodeImage(bytes);
+        //
+        //     if (_img != null && _resizeToHeight != null){
+        //
+        //       final img.Image resizedImage = img.copyResize(
+        //         _img,
+        //         width: resizeToWidth.toInt(),
+        //         height: _resizeToHeight.toInt(),
+        //       );
+        //
+        //       _output = img.encodeJpg(resizedImage);
+        //
+        //     }
+        //
+        //     },
+        // );
 
       }
 

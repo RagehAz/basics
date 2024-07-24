@@ -130,20 +130,26 @@ class Imager{
 
     if (Lister.checkCanLoop(uInt) == true){
 
-      await tryAndCatch(
+      imgImage = await Isolate.run(() async {
+
+        await tryAndCatch(
           invoker: 'Imager.getImgImageFromUint8List.png',
           functions: () async {
             imgImage = img.decodePng(uInt!);
           },
-      );
+        );
 
-      if (imgImage == null){
-        await tryAndCatch(
-            invoker: 'Imager.getImgImageFromUint8List.image',
-            functions: () async {
-              imgImage = img.decodeImage(uInt!);
-            });
-      }
+        if (imgImage == null){
+          await tryAndCatch(
+              invoker: 'Imager.getImgImageFromUint8List.image',
+              functions: () async {
+                imgImage = img.decodeImage(uInt!);
+              });
+        }
+
+        return imgImage;
+      });
+
     }
 
     return imgImage;
