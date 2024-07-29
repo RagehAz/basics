@@ -212,7 +212,7 @@ class Timers {
                 'isMinified': ObjectCheck.objectIsMinified(time),
                 'hasTheStringPattern': _hasTheStringPattern(time),
                 'iso8601': decipherDateTimeIso8601(
-                  timeString: time,
+                  timeString: time?.toString(),
                   toLocal: toLocal,
                 )?.toString(),
                 'error': error,
@@ -244,9 +244,9 @@ class Timers {
     else {
 
       final RegExp regexA = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}Z');
-      final bool aHasMatch = regexA.firstMatch(input) != null;
+      final bool aHasMatch = regexA.firstMatch(input?.toString() ??'') != null;
       final RegExp regexB = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}');
-      final bool bHasMatch = regexB.firstMatch(input) != null;
+      final bool bHasMatch = regexB.firstMatch(input?.toString() ?? '') != null;
 
       if (aHasMatch == true || bHasMatch == true) {
         return true;

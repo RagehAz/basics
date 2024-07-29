@@ -311,6 +311,7 @@ class Iconz {
   static const String carousel = '$iconDirectory/gi_carousel.svg';
   static const String reel = '$iconDirectory/gi_reel.svg';
   static const String repo = '$iconDirectory/gi_repo.svg';
+  static const String priceTag = '$iconDirectory/gi_price_tag.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -579,6 +580,8 @@ class Iconz {
       fish: true,
       carousel: true,
       reel: true,
+      repo: true,
+      priceTag: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

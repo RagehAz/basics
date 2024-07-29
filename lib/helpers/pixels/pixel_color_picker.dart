@@ -99,7 +99,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
     this.indicatorSize = 20,
     this.showIndicator = true,
     this.showCrossHair = true,
-    this.onPixelChanged,
+    this.onColorChanged,
     super.key
   });
   // --------------------
@@ -110,7 +110,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
   final double indicatorSize;
   final bool showIndicator;
   final bool showCrossHair;
-  final Function(img.Pixel? pixel)? onPixelChanged;
+  final Function(Color? color)? onColorChanged;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
         indicatorSize: indicatorSize,
         showIndicator: showIndicator,
         showCrossHair: showCrossHair,
-        onPixelChanged: onPixelChanged,
+        onColorChanged: onColorChanged,
         child: child,
       );
     }
@@ -146,7 +146,7 @@ class _PixelColorPickerOn extends StatefulWidget {
     required this.indicatorSize,
     required this.showIndicator,
     required this.showCrossHair,
-    required this.onPixelChanged,
+    required this.onColorChanged,
     // super.key
   });
   /// --------------------------------------------------------------------------
@@ -156,7 +156,7 @@ class _PixelColorPickerOn extends StatefulWidget {
   final double indicatorSize;
   final bool showIndicator;
   final bool showCrossHair;
-  final Function(img.Pixel? pixel)? onPixelChanged;
+  final Function(Color? color)? onColorChanged;
   /// --------------------------------------------------------------------------
   @override
   _PixelColorPickerOnState createState() => _PixelColorPickerOnState();
@@ -258,8 +258,6 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
       scaleToImage: true,
     );
 
-    widget.onPixelChanged?.call(_pixel);
-
     if (_pixel != null){
 
       _offset = Offset(_pixel.x.toDouble(), _pixel.y.toDouble());
@@ -267,6 +265,8 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
       final Color? _color = Pixelizer.getPixelColor(
         pixel: _pixel,
       );
+
+      widget.onColorChanged?.call(_color);
 
       if (_color != null){
         _stateController.add(_color);
