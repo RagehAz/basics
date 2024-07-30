@@ -312,6 +312,9 @@ class Iconz {
   static const String reel = '$iconDirectory/gi_reel.svg';
   static const String repo = '$iconDirectory/gi_repo.svg';
   static const String priceTag = '$iconDirectory/gi_price_tag.svg';
+  static const String levelOne = '$iconDirectory/gi_level_one.svg';
+  static const String levelTwo = '$iconDirectory/gi_level_two.svg';
+  static const String levelThree = '$iconDirectory/gi_level_three.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -582,6 +585,9 @@ class Iconz {
       reel: true,
       repo: true,
       priceTag: true,
+      levelOne: true,
+      levelTwo: true,
+      levelThree: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
