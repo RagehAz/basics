@@ -591,7 +591,7 @@ class Iconz {
       levelOne: true,
       levelTwo: true,
       levelThree: true,
-      gi_flyer_order: true,
+      flyerOrder: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
