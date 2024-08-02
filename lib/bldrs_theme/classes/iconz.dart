@@ -299,6 +299,7 @@ class Iconz {
   static const String paypal = '$iconDirectory/gi_paypal.svg';
   static const String visa  = '$iconDirectory/gi_visa.svg';
   static const String pdf = '$iconDirectory/gi_pdf.svg';
+  static const String pdfOnFlyer = '$iconDirectory/gi_pdf_on_flyer.svg';
   static const String hidden = '$iconDirectory/gi_hidden.svg';
   static const String colorCircle = '$iconDirectory/gi_color_circle.svg';
   static const String recorder = '$iconDirectory/gi_recorder.svg';
@@ -315,6 +316,7 @@ class Iconz {
   static const String levelOne = '$iconDirectory/gi_level_one.svg';
   static const String levelTwo = '$iconDirectory/gi_level_two.svg';
   static const String levelThree = '$iconDirectory/gi_level_three.svg';
+  static const String flyerOrder = '$iconDirectory/gi_flyer_order.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -544,6 +546,7 @@ class Iconz {
       paypal: true,
       visa: true,
       pdf: true,
+      pdfOnFlyer: true,
       hidden: true,
       pyramidsYellow: true,
       pyramidsWhite: true,
@@ -588,6 +591,7 @@ class Iconz {
       levelOne: true,
       levelTwo: true,
       levelThree: true,
+      gi_flyer_order: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
