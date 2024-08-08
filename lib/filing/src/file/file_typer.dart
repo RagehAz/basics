@@ -73,7 +73,7 @@ class FileTyper {
       case FileExtType.gpp       : return false; // <-video
       case FileExtType.mp4       : return false; // <-video
       case FileExtType.gltf      : return false; // <-3d
-      case FileExtType.webp      : return false; // <-video
+      case FileExtType.webp      : return true; /// <----- PIC OR VIDEO !!!
       case FileExtType.woff      : return false; // <-font
       case FileExtType.heic      : return true; /// <----- pic
       case FileExtType.heif      : return true; /// <----- pic

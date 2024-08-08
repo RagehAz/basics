@@ -403,8 +403,13 @@ class Mapper {
     required Map<String, dynamic>? baseMap,
     required Map<String, dynamic>? insert,
     bool replaceDuplicateKeys = true,
+    bool cleanByRecoding = true,
   }){
-    Map<String, dynamic>? _output = cloneMap(baseMap);
+    Map<String, dynamic>? _output = baseMap;
+
+    if (cleanByRecoding == true){
+      _output = cloneMap(baseMap);
+    }
 
     if (insert != null){
 
@@ -1136,7 +1141,7 @@ class Mapper {
     }
 
     else {
-      blog('MAP IS NULL');
+      blog('MAP IS NULL : invoker : $invoker');
     }
 
   }
