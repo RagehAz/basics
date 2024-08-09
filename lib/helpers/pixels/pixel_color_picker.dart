@@ -232,10 +232,14 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
         });
       }
 
-      final Uint8List? _bytes = await Pixelizer.snapshotWidget(
-        key: paintKey,
-        context: context,
-      );
+      Uint8List? _bytes;
+
+      if (mounted){
+        _bytes = await Pixelizer.snapshotWidget(
+          key: paintKey,
+          context: context,
+        );
+      }
 
       if (mounted == true){
         setState(() {

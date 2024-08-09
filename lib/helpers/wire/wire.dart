@@ -25,7 +25,33 @@ extension ExtraWire<T> on Wire<T> {
   void clear(){
     dispose();
   }
-// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
+
+  /// BUILDERS
+
+  // --------------------
+  ///
+  Widget liveWire({
+    required Widget Function(T value, Widget? child) builder,
+    Widget? child,
+  }){
+    return LiveWire(
+      wire: this,
+      builder: builder,
+      child: child,
+    );
+  }
+  // --------------------
+  ///
+  Widget singleWire({
+    required Widget Function(T value) builder,
+  }){
+    return SingleWire(
+      wire: this,
+      builder: builder,
+    );
+  }
+  // -----------------------------------------------------------------------------
 }
 
 class LiveWire<T> extends StatelessWidget {
