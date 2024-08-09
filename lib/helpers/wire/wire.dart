@@ -9,7 +9,7 @@ extension ExtraWire<T> on Wire<T> {
   /// SET
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void set({
     required T value,
     bool mounted = true,
@@ -30,7 +30,7 @@ extension ExtraWire<T> on Wire<T> {
   /// BUILDERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Widget liveWire({
     required Widget Function(T value, Widget? child) builder,
     Widget? child,
@@ -42,7 +42,7 @@ extension ExtraWire<T> on Wire<T> {
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Widget singleWire({
     required Widget Function(T value) builder,
   }){
