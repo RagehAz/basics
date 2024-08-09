@@ -8,6 +8,7 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/painting.dart';
 import 'package:image/image.dart' as img;
+import 'package:basics/helpers/checks/tracers.dart';
 /// => TAMAM
 class Colorizer {
   // -----------------------------------------------------------------------------
@@ -299,6 +300,15 @@ class Colorizer {
       return Color(int.parse(hex.replaceFirst('#', '0x')));
     }
 
+  }
+  // -----------------------------------------------------------------------------
+
+  /// BLOGGING
+
+  // --------------------
+  ///
+  static void blogColor(Color? color){
+    blog('Color.r(${color?.red}).g(${color?.green}).b(${color?.blue}).o(${color?.opacity})');
   }
   // -----------------------------------------------------------------------------
 }

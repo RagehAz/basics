@@ -41,6 +41,10 @@ class BoxIcon extends StatelessWidget {
       );
     }
 
+    else if (icon is Widget){
+      return icon;
+    }
+
     else {
 
       final Color? _iconColor = SuperBoxController.iconColor(

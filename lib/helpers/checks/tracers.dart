@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // -----------------------------------------------------------------------------
@@ -87,33 +86,33 @@ void setNotifier({
   }
 
 }
-  // -----------------------------------------------------------------------------
-  void asyncInSync(Function? asynchronous) {
+// -----------------------------------------------------------------------------
+void asyncInSync(Function? asynchronous) {
 
-    if (asynchronous != null){
+  if (asynchronous != null){
 
-      Future<void> _start() async {}
+    Future<void> _start() async {}
 
-      _start().then((_) async {
-        await asynchronous();
-      });
-
-    }
+    _start().then((_) async {
+      await asynchronous();
+    });
 
   }
-  // --------------------
-  Future<void> awaiter({
-    required bool wait,
-    required Function function,
-  }) async {
 
-    if (wait == true){
-      await function();
-    }
+}
+// --------------------
+Future<void> awaiter({
+  required bool wait,
+  required Function function,
+}) async {
 
-    else {
-      unawaited(function());
-    }
-
+  if (wait == true){
+    await function();
   }
+
+  else {
+    unawaited(function());
+  }
+
+}
 // -----------------------------------------------------------------------------
