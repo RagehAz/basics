@@ -30,27 +30,33 @@ extension ExtraWire<T> on Wire<T> {
   /// BUILDERS
 
   // --------------------
+  /// BAD PRACTICE
+  /*
   /// TESTED : WORKS PERFECT
   Widget liveWire({
     required Widget Function(T value, Widget? child) builder,
     Widget? child,
   }){
-    return LiveWire(
+    return LiveWire<T>(
       wire: this,
       builder: builder,
       child: child,
     );
   }
+   */
   // --------------------
+  /// BAD PRACTICE
+  /*
   /// TESTED : WORKS PERFECT
   Widget singleWire({
     required Widget Function(T value) builder,
   }){
-    return SingleWire(
+    return SingleWire<T>(
       wire: this,
       builder: builder,
     );
   }
+   */
   // -----------------------------------------------------------------------------
 }
 

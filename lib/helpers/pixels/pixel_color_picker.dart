@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:basics/components/animators/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/pixels/pixelizer.dart';
 import 'package:basics/components/drawing/spacing.dart';
@@ -57,17 +58,8 @@ class PixelColorPicker extends StatelessWidget {
             child: x!,
             builder: (bool isLoading, Color? color, Widget y) {
               // --------------------
-              setNotifier(
-                  notifier: pickedColor,
-                  mounted: mounted,
-                  value: color
-              );
-              // --------------------
-                setNotifier(
-                  notifier: loading,
-                  mounted: mounted,
-                  value: isLoading,
-                );
+              pickedColor?.set(value: color, mounted: mounted);
+              loading?.set(value: isLoading, mounted: mounted);
               // --------------------
                 onPicked?.call(color);
               // --------------------
@@ -94,7 +86,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
   // --------------------------------------------------------------------------
   const PixelColorPickerBuilder({
     required this.child,
-    required this.builder,
+    this.builder,
     this.isOn = true,
     this.initialColor = Colorz.white255,
     this.indicatorSize = 20,
@@ -102,11 +94,12 @@ class PixelColorPickerBuilder extends StatelessWidget {
     this.showCrossHair = true,
     this.onColorChanged,
     this.onColorChangeEnded,
+    this.onSnapshotCreated,
     super.key
   });
   // --------------------
   final Widget child;
-  final Widget Function(bool loading, Color? color, Widget child) builder;
+  final Widget Function(bool loading, Color? color, Widget child)? builder;
   final Color initialColor;
   final bool isOn;
   final double indicatorSize;
@@ -114,6 +107,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
   final bool showCrossHair;
   final Function(Color? color)? onColorChanged;
   final Function(Color? color)? onColorChangeEnded;
+  final Function(Uint8List? bytes)? onSnapshotCreated;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -127,12 +121,16 @@ class PixelColorPickerBuilder extends StatelessWidget {
         showCrossHair: showCrossHair,
         onColorChanged: onColorChanged,
         onColorChangeEnded: onColorChangeEnded,
+        onSnapshotCreated: onSnapshotCreated,
         child: child,
       );
     }
     // --------------------
+    else if (builder == null){
+      return child;
+    }
     else {
-      return builder(false, initialColor, child);
+      return builder!(false, initialColor, child);
     }
     // --------------------
   }
@@ -152,17 +150,19 @@ class _PixelColorPickerOn extends StatefulWidget {
     required this.showCrossHair,
     required this.onColorChanged,
     this.onColorChangeEnded,
+    this.onSnapshotCreated,
     // super.key
   });
   /// --------------------------------------------------------------------------
   final Widget child;
-  final Widget Function(bool loading, Color? color, Widget child) builder;
+  final Widget Function(bool loading, Color? color, Widget child)? builder;
   final Color initialColor;
   final double indicatorSize;
   final bool showIndicator;
   final bool showCrossHair;
   final Function(Color? color)? onColorChanged;
   final Function(Color? color)? onColorChangeEnded;
+  final Function(Uint8List? bytes)? onSnapshotCreated;
   /// --------------------------------------------------------------------------
   @override
   _PixelColorPickerOnState createState() => _PixelColorPickerOnState();
@@ -172,12 +172,13 @@ class _PixelColorPickerOn extends StatefulWidget {
 class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // --------------------
   final Wire<Color?> _colorWire = Wire<Color?>(null);
+  final Wire<Offset> _offset = Wire<Offset>(Offset.zero);
+  final Wire<img.Image?> _photo = Wire<img.Image?>(null);
+  final Wire<Uint8List?> _bytes = Wire<Uint8List?>(null);
+  final Wire<bool> _indicatorIsOn = Wire<bool>(false);
+  final Wire<bool> _loading = Wire<bool>(false);
   // --------------------
   GlobalKey paintKey = GlobalKey();
-  // final StreamController<Color> _stateController = StreamController<Color>();
-  img.Image? photo;
-  final Wire<Offset> _offset = Wire(Offset.zero);
-  bool _indicatorIsOn = false;
   // -----------------------------------------------------------------------------
   /*
   @override
@@ -204,50 +205,81 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   void didUpdateWidget(_PixelColorPickerOn oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    Future.delayed(const Duration(milliseconds: 100), () {
-      photo = null;
-      unawaited(_snapshotWidgetTree());
-    });
+    // if (widget.child != oldWidget.child){
+    //   blog('-pixel picker : child changed');
+    // }
+    if (widget.initialColor != oldWidget.initialColor){
+      blog('-pixel picker : initialColor changed');
+    }
+    // if (widget.onColorChanged != oldWidget.onColorChanged){
+    //   blog('-pixel picker : onColorChanged changed');
+    // }
+
+    if (widget.child.key != oldWidget.child.key){
+      blog('-pixel picker : child keys changed');
+    }
+
+    if (
+          widget.child.key != oldWidget.child.key
+        || widget.initialColor != oldWidget.initialColor
+        || widget.indicatorSize != oldWidget.indicatorSize
+        || widget.showIndicator != oldWidget.showIndicator
+        || widget.showCrossHair != oldWidget.showCrossHair
+        // || widget.onColorChanged != oldWidget.onColorChanged
+    ) {
+
+      Future.delayed(const Duration(milliseconds: 100), () {
+        _photo.set(value: null, mounted: mounted);
+        unawaited(_snapshotWidgetTree());
+      });
+
+    }
 
   }
   // --------------------
   @override
   void dispose() {
-    // _stateController.close();
     _colorWire.clear();
     _offset.clear();
+    _photo.clear();
+    _bytes.clear();
+    _indicatorIsOn.clear();
+    _loading.clear();
     super.dispose();
   }
   // --------------------
-  bool _loading = false;
   Future<void> _snapshotWidgetTree() async {
 
     await Future.delayed(const Duration(milliseconds: 200));
 
-    if (photo == null){
-
-      if (mounted == true){
-        setState(() {
-          _loading = true;
-        });
-      }
-
-      Uint8List? _bytes;
+    if (_photo.value == null){
 
       if (mounted){
-        _bytes = await Pixelizer.snapshotWidget(
+
+        _loading.set(value: true, mounted: mounted);
+
+        final Uint8List? _b = await Pixelizer.snapshotWidget(
           key: paintKey,
           context: context,
         );
-      }
 
-      if (mounted == true){
-        setState(() {
-          if (_bytes != null){
-            photo = img.decodeImage(_bytes);
+        if (_b != null){
+
+          final bool _identical = Byter.checkBytesAreIdentical(
+            bytes1: _b,
+            bytes2: _bytes.value,
+          );
+
+          if (_identical == false){
+            _bytes.set(mounted: mounted, value: _b);
+            _photo.set(value: img.decodeImage(_b), mounted: mounted);
+            await widget.onSnapshotCreated?.call(_b);
           }
-          _loading = false;
-        });
+
+        }
+
+        _loading.set(value: false, mounted: mounted);
+
       }
 
     }
@@ -260,15 +292,15 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   }) async {
     Color? _color;
 
-    _indicatorIsOn = true;
+    _indicatorIsOn.set(value: true, mounted: mounted);
 
-    if (photo == null) {
+    if (_photo.value == null) {
       await _snapshotWidgetTree();
     }
 
     final img.Pixel? _pixel = Pixelizer.getPixelFromGlobalPosition(
       key: paintKey,
-      image: photo,
+      image: _photo.value,
       globalPosition: globalPosition,
       scaleToImage: true,
     );
@@ -280,9 +312,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
         mounted: mounted,
       );
 
-       _color = Pixelizer.getPixelColor(
-        pixel: _pixel,
-      );
+       _color = Pixelizer.getPixelColor(pixel: _pixel);
 
       widget.onColorChanged?.call(_color);
 
@@ -301,11 +331,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // --------------------
   Future<void> _hideIndicator() async {
     await Future.delayed(const Duration(seconds: 1), () {
-      if (mounted == true){
-        setState(() {
-          _indicatorIsOn = false;
-        });
-      }
+      _indicatorIsOn.set(value: false, mounted: mounted);
     });
   }
   // -----------------------------------------------------------------------------
@@ -338,73 +364,46 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
 
         },
 
-        child: LiveWire<Color?>(
-          wire: _colorWire,
-          child: widget.child,
-          builder: (Color? _color, Widget? child) {
+        child: Stack(
+          children: <Widget>[
 
-            return Stack(
-              children: <Widget>[
-
-                widget.builder(_loading, _color, child!),
-
-                if (widget.showIndicator == true)
-                  LiveWire(
-                    wire: _offset,
-                    builder: (Offset offset, Widget? child) {
-                      return Positioned(
-                        top: offset.dy - (widget.indicatorSize / 2) - (widget.indicatorSize) - 10,
-                        left: offset.dx - (widget.indicatorSize / 2),
-                        child: child!,
-                      );
-                    },
-                    child: WidgetFader(
-                      fadeType: _indicatorIsOn == true ? FadeType.fadeIn : FadeType.fadeOut,
-                      duration: _indicatorIsOn == true ?
-                      const Duration(milliseconds: 200)
-                          :
-                      const Duration(milliseconds: 400),
-                      curve: Curves.easeOutCubic,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-
-                          Container(
-                            width: widget.indicatorSize,
-                            height: widget.indicatorSize,
-                            decoration: BoxDecoration(
-                              color: _color,
-                              border: Border.all(
-                                color: Colorz.white200,
-                              ),
-                              borderRadius: BorderRadius.circular(widget.indicatorSize / 2),
-                            ),
-                          ),
-
-                          if (widget.showCrossHair == true)
-                            const Spacing(
-                              // size: 10
-                            ),
-
-                          if (widget.showCrossHair == true)
-                            Material(
-                              child: SuperBox(
-                                width: widget.indicatorSize,
-                                height: widget.indicatorSize,
-                                icon: '+',
-                                bubble: false,
-                              ),
-                            ),
-
-                        ],
-                      ),
-                    ),
+            if (widget.builder != null)
+              LiveWire(
+                  wire: _colorWire,
+                  child: widget.child,
+                  builder: (Color? _color, Widget? child) {
+                    return LiveWire(
+                        wire: _loading,
+                        child: child,
+                        builder: (bool isLoading, Widget? child) {
+                          return widget.builder!(isLoading, _color, child!);
+                        }
+                        );
+                  }
                   ),
 
-              ],
-            );
+            if (widget.builder == null)
+              widget.child,
 
-          }
+            if (widget.showIndicator == true)
+              LiveWire(
+                wire: _offset,
+                builder: (Offset offset, Widget? child) {
+                  return Positioned(
+                    top: offset.dy - (widget.indicatorSize / 2) - (widget.indicatorSize) - 10,
+                    left: offset.dx - (widget.indicatorSize / 2),
+                    child: child!,
+                  );
+                },
+                child: _Indicator(
+                  color: _colorWire,
+                  showCrossHair: widget.showCrossHair,
+                  indicatorSize: widget.indicatorSize,
+                  indicatorIsOn: _indicatorIsOn,
+                ),
+              ),
+
+          ],
         ),
       ),
     );
@@ -413,255 +412,79 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // -----------------------------------------------------------------------------
 }
 
-
 // -----------------------------------------------------------------------------
 
-/// ORIGINAL
+class _Indicator extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const _Indicator({
+    required this.indicatorSize,
+    required this.showCrossHair,
+    required this.color,
+    required this.indicatorIsOn,
+  });
+  // --------------------
+  final double indicatorSize;
+  final bool showCrossHair;
+  final Wire<Color?> color;
+  final Wire<bool> indicatorIsOn;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    return LiveWire(
+      wire: indicatorIsOn,
+      builder: (bool indicatorOn, Widget? indicator) {
 
-// class _PixelColorPickerOn extends StatefulWidget {
-//   /// --------------------------------------------------------------------------
-//   const _PixelColorPickerOn({
-//     required this.child,
-//     required this.builder,
-//     required this.initialColor,
-//     required this.indicatorSize,
-//     required this.showIndicator,
-//     required this.showCrossHair,
-//     required this.onColorChanged,
-//     // super.key
-//   });
-//   /// --------------------------------------------------------------------------
-//   final Widget child;
-//   final Widget Function(bool loading, Color color, Widget child) builder;
-//   final Color initialColor;
-//   final double indicatorSize;
-//   final bool showIndicator;
-//   final bool showCrossHair;
-//   final Function(Color? color)? onColorChanged;
-//   /// --------------------------------------------------------------------------
-//   @override
-//   _PixelColorPickerOnState createState() => _PixelColorPickerOnState();
-// /// --------------------------------------------------------------------------
-// }
-//
-// class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
-//   // --------------------
-//   GlobalKey paintKey = GlobalKey();
-//   final StreamController<Color> _stateController = StreamController<Color>();
-//   img.Image? photo;
-//   Offset _offset = Offset.zero;
-//   bool _indicatorIsOn = false;
-//   // -----------------------------------------------------------------------------
-//   /*
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-//    */
-//   // --------------------
-//   bool _isInit = true;
-//   @override
-//   void didChangeDependencies() {
-//     if (_isInit && mounted) {
-//       _isInit = false; // good
-//
-//       asyncInSync(() async {
-//         await _snapshotWidgetTree();
-//       });
-//
-//     }
-//     super.didChangeDependencies();
-//   }
-//   // --------------------
-//   @override
-//   void didUpdateWidget(_PixelColorPickerOn oldWidget) {
-//     super.didUpdateWidget(oldWidget);
-//
-//     Future.delayed(const Duration(milliseconds: 100), () {
-//       photo = null;
-//       unawaited(_snapshotWidgetTree());
-//     });
-//
-//   }
-//   // --------------------
-//   @override
-//   void dispose() {
-//     _stateController.close();
-//     super.dispose();
-//   }
-//   // --------------------
-//   bool _loading = false;
-//   Future<void> _snapshotWidgetTree() async {
-//
-//     await Future.delayed(const Duration(milliseconds: 200));
-//
-//     if (photo == null){
-//
-//       if (mounted == true){
-//         setState(() {
-//           _loading = true;
-//         });
-//       }
-//
-//       final Uint8List? _bytes = await Pixelizer.snapshotWidget(
-//         key: paintKey,
-//         context: context,
-//       );
-//
-//       if (mounted == true){
-//         setState(() {
-//           if (_bytes != null){
-//             photo = img.decodeImage(_bytes);
-//           }
-//           _loading = false;
-//         });
-//       }
-//
-//     }
-//
-//   }
-//   // --------------------
-//   Future<void> _calculatePixel({
-//     required Offset? globalPosition,
-//     required bool autoHideIndicator,
-//   }) async {
-//
-//     _indicatorIsOn = true;
-//
-//     if (photo == null) {
-//       await _snapshotWidgetTree();
-//     }
-//
-//     final img.Pixel? _pixel = Pixelizer.getPixelFromGlobalPosition(
-//       key: paintKey,
-//       image: photo,
-//       globalPosition: globalPosition,
-//       scaleToImage: true,
-//     );
-//
-//     if (_pixel != null){
-//
-//       _offset = Offset(_pixel.x.toDouble(), _pixel.y.toDouble());
-//
-//       final Color? _color = Pixelizer.getPixelColor(
-//         pixel: _pixel,
-//       );
-//
-//       widget.onColorChanged?.call(_color);
-//
-//       if (_color != null){
-//         _stateController.add(_color);
-//       }
-//
-//     }
-//
-//     if (autoHideIndicator == true){
-//       await _hideIndicator();
-//     }
-//
-//   }
-//   // --------------------
-//   Future<void> _hideIndicator() async {
-//     await Future.delayed(const Duration(seconds: 1), () {
-//       if (mounted == true){
-//         setState(() {
-//           _indicatorIsOn = false;
-//         });
-//       }
-//     });
-//   }
-//   // -----------------------------------------------------------------------------
-//   @override
-//   Widget build(BuildContext context) {
-//     // --------------------
-//     return StreamBuilder(
-//         initialData: widget.initialColor,
-//         stream: _stateController.stream,
-//         builder: (buildContext, snapshot) {
-//
-//           final Color _color = snapshot.data ?? widget.initialColor;
-//
-//           return RepaintBoundary(
-//             key: paintKey,
-//             child: GestureDetector(
-//
-//               /// ON START
-//               onPanStart: (details) => _calculatePixel(
-//                 globalPosition: details.globalPosition,
-//                 autoHideIndicator: false,
-//               ),
-//               /// ON MOVING
-//               onPanUpdate: (details) => _calculatePixel(
-//                 globalPosition: details.globalPosition,
-//                 autoHideIndicator: false,
-//               ),
-//               /// ON END
-//               onPanEnd: (details) => _calculatePixel(
-//                 globalPosition: _offset,
-//                 autoHideIndicator: true,
-//               ),
-//
-//               child: Stack(
-//                 children: <Widget>[
-//
-//                   widget.builder(_loading, _color, widget.child),
-//
-//                   if (widget.showIndicator == true)
-//                     Positioned(
-//                       top: _offset.dy - (widget.indicatorSize / 2) - (widget.indicatorSize) - 10,
-//                       left: _offset.dx - (widget.indicatorSize / 2),
-//                       child: WidgetFader(
-//                         fadeType: _indicatorIsOn == true ? FadeType.fadeIn : FadeType.fadeOut,
-//                         duration: _indicatorIsOn == true ?
-//                         const Duration(milliseconds: 200)
-//                             :
-//                         const Duration(milliseconds: 400),
-//                         curve: Curves.easeOutCubic,
-//                         child: Column(
-//                           mainAxisAlignment: MainAxisAlignment.end,
-//                           children: <Widget>[
-//
-//                             Container(
-//                               width: widget.indicatorSize,
-//                               height: widget.indicatorSize,
-//                               decoration: BoxDecoration(
-//                                 color: _color,
-//                                 border: Border.all(
-//                                   color: Colorz.white200,
-//                                 ),
-//                                 borderRadius: BorderRadius.circular(widget.indicatorSize / 2),
-//                               ),
-//                             ),
-//
-//                             if (widget.showCrossHair == true)
-//                               const Spacing(
-//                                 // size: 10
-//                               ),
-//
-//                             if (widget.showCrossHair == true)
-//                               Material(
-//                                 child: SuperBox(
-//                                   width: widget.indicatorSize,
-//                                   height: widget.indicatorSize,
-//                                   icon: '+',
-//                                   bubble: false,
-//                                 ),
-//                               ),
-//
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//
-//                 ],
-//               ),
-//             ),
-//           );
-//
-//         });
-//     // --------------------
-//   }
-// // -----------------------------------------------------------------------------
-// }
+        return WidgetFader(
+          fadeType: indicatorOn == true ? FadeType.fadeIn : FadeType.fadeOut,
+          duration: indicatorOn == true ? const Duration(milliseconds: 200) : const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
+          child: indicator,
+        );
+
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+
+          SingleWire(
+            wire: color,
+              builder: (Color? _color) {
+                return Container(
+                  width: indicatorSize,
+                  height: indicatorSize,
+                  decoration: BoxDecoration(
+                    color: _color,
+                    border: Border.all(
+                      color: Colorz.white200,
+                    ),
+                    borderRadius: BorderRadius.circular(indicatorSize / 2),
+                  ),
+                );
+              }
+          ),
+
+          if (showCrossHair == true)
+            const Spacing(
+              // size: 10
+            ),
+
+          if (showCrossHair == true)
+            Material(
+              child: SuperBox(
+                width: indicatorSize,
+                height: indicatorSize,
+                icon: '+',
+                bubble: false,
+              ),
+            ),
+
+        ],
+      ),
+    );
+    // --------------------
+  }
+  // --------------------------------------------------------------------------
+}
 
 // -----------------------------------------------------------------------------
