@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:basics/filing/filing.dart';
+import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -71,18 +72,42 @@ class Pixelizer {
   static Color? getPixelColor({
     required img.Pixel? pixel,
   }) {
+    Color? _output;
 
     if (pixel == null) {
       return null;
     }
 
     else {
-      return Color.fromARGB(
-        (pixel.a * 255 / pixel.maxIndexValue).round(),
-        (pixel.r * 255 / pixel.maxIndexValue).round(),
-        (pixel.g * 255 / pixel.maxIndexValue).round(),
-        (pixel.b * 255 / pixel.maxIndexValue).round(),
+
+      int _calculate(num color, num maxIndex){
+        if (color == 0 || maxIndex == 0){
+          return 0;
+        }
+        else {
+          return (color * 255 / maxIndex).round();
+        }
+      }
+
+      tryAndCatch(
+          invoker: 'getPixelColor',
+          functions: () async {
+
+            _output = Color.fromARGB(
+              _calculate(pixel.a, pixel.maxIndexValue),
+              _calculate(pixel.r, pixel.maxIndexValue),
+              _calculate(pixel.g, pixel.maxIndexValue),
+              _calculate(pixel.b, pixel.maxIndexValue),
+            );
+
+          },
+        // onError: (String error){
+        //     blog('error : $error');
+        //     blog('pixel.a(${pixel.a}) pixel.maxIndexValue(${pixel.maxIndexValue})');
+        // }
       );
+
+      return _output;
     }
 
   }

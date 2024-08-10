@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor/image_editor.dart' as image_editor;
 import 'package:matrix2d/matrix2d.dart';
+import 'package:websafe_svg/websafe_svg.dart';
 import 'src/super_image/c_image_switcher.dart';
 // --------------------------------------------------------------------------
 part 'src/super_filter/color_filter_generator.dart';
