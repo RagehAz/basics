@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:basics/components/animators/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/pixels/pixelizer.dart';
 import 'package:basics/components/drawing/spacing.dart';
@@ -13,9 +12,9 @@ import 'package:image/image.dart' as img;
 
 // -----------------------------------------------------------------------------
 
-class PixelColorPicker extends StatelessWidget {
+class PixelColorPickerOld extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const PixelColorPicker({
+  const PixelColorPickerOld({
     required this.child,
     required this.mounted,
     required this.isOn,
@@ -49,7 +48,7 @@ class PixelColorPicker extends StatelessWidget {
       builder: (_, bool on, Widget? x) {
 
         if (on == true){
-          return PixelColorPickerBuilder(
+          return PixelColorPickerBuilderOld(
             initialColor: initialColor,
             isOn: on,
             showCrossHair: showCrossHair,
@@ -82,9 +81,9 @@ class PixelColorPicker extends StatelessWidget {
 
 // -----------------------------------------------------------------------------
 
-class PixelColorPickerBuilder extends StatelessWidget {
+class PixelColorPickerBuilderOld extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const PixelColorPickerBuilder({
+  const PixelColorPickerBuilderOld({
     required this.child,
     this.builder,
     this.isOn = true,
@@ -140,7 +139,7 @@ class PixelColorPickerBuilder extends StatelessWidget {
 // -----------------------------------------------------------------------------
 
 class _PixelColorPickerOn extends StatefulWidget {
-  /// --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   const _PixelColorPickerOn({
     required this.child,
     required this.builder,
@@ -153,7 +152,7 @@ class _PixelColorPickerOn extends StatefulWidget {
     this.onSnapshotCreated,
     // super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------
   final Widget child;
   final Widget Function(bool loading, Color? color, Widget child)? builder;
   final Color initialColor;
@@ -163,14 +162,14 @@ class _PixelColorPickerOn extends StatefulWidget {
   final Function(Color? color)? onColorChanged;
   final Function(Color? color)? onColorChangeEnded;
   final Function(Uint8List? bytes)? onSnapshotCreated;
-  /// --------------------------------------------------------------------------
+  // --------------------
   @override
   _PixelColorPickerOnState createState() => _PixelColorPickerOnState();
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
-  // --------------------
+  // -----------------------------------------------------------------------------
   final Wire<Color?> _colorWire = Wire<Color?>(null);
   final Wire<Offset> _offset = Wire<Offset>(Offset.zero);
   final Wire<img.Image?> _photo = Wire<img.Image?>(null);
@@ -208,16 +207,15 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
     // if (widget.child != oldWidget.child){
     //   blog('-pixel picker : child changed');
     // }
-    if (widget.initialColor != oldWidget.initialColor){
-      blog('-pixel picker : initialColor changed');
-    }
+    // if (widget.initialColor != oldWidget.initialColor){
+    //   blog('-pixel picker : initialColor changed');
+    // }
     // if (widget.onColorChanged != oldWidget.onColorChanged){
     //   blog('-pixel picker : onColorChanged changed');
     // }
-
-    if (widget.child.key != oldWidget.child.key){
-      blog('-pixel picker : child keys changed');
-    }
+    // if (widget.child.key != oldWidget.child.key){
+    //   blog('-pixel picker : child keys changed');
+    // }
 
     if (
           widget.child.key != oldWidget.child.key
@@ -250,35 +248,37 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // --------------------
   Future<void> _snapshotWidgetTree() async {
 
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 1000));
 
     if (_photo.value == null){
 
       if (mounted){
 
-        _loading.set(value: true, mounted: mounted);
-
-        final Uint8List? _b = await Pixelizer.snapshotWidget(
-          key: paintKey,
-          context: context,
-        );
-
-        if (_b != null){
-
-          final bool _identical = Byter.checkBytesAreIdentical(
-            bytes1: _b,
-            bytes2: _bytes.value,
-          );
-
-          if (_identical == false){
-            _bytes.set(mounted: mounted, value: _b);
-            _photo.set(value: img.decodeImage(_b), mounted: mounted);
-            await widget.onSnapshotCreated?.call(_b);
-          }
-
-        }
-
-        _loading.set(value: false, mounted: mounted);
+        // _loading.set(value: true, mounted: mounted);
+        //
+        // // paintKey = GlobalKey();
+        //
+        // final Uint8List? _b = await Pixelizer.snapshotWidget(
+        //   key: paintKey,
+        //   context: context,
+        // );
+        //
+        // if (_b != null){
+        //
+        //   final bool _identical = Byter.checkBytesAreIdentical(
+        //     bytes1: _b,
+        //     bytes2: _bytes.value,
+        //   );
+        //
+        //   if (_identical == false){
+        //     _bytes.set(mounted: mounted, value: _b);
+        //     _photo.set(value: img.decodeImage(_b), mounted: mounted);
+        //     await widget.onSnapshotCreated?.call(_b);
+        //   }
+        //
+        // }
+        //
+        // _loading.set(value: false, mounted: mounted);
 
       }
 
@@ -337,6 +337,7 @@ class _PixelColorPickerOnState extends State<_PixelColorPickerOn> {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+
     // --------------------
     return RepaintBoundary(
       key: paintKey,

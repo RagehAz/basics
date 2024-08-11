@@ -2,6 +2,7 @@
 
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -17,6 +18,20 @@ class Sliders {
 
   const Sliders();
 
+  // -----------------------------------------------------------------------------
+
+  /// GETTERS
+
+  // --------------------
+  // static getPage({
+  //   required PageController controller,
+  // }){
+  //
+  //   double getPixelsFromPage(double page) {
+  //     return page * viewportDimension * viewportFraction + _initialPageOffset;
+  //   }
+  //
+  // }
   // -----------------------------------------------------------------------------
 
   /// SLIDE TO
@@ -588,19 +603,15 @@ class Sliders {
       );
 
       if (_canPaginate == true){
-        setNotifier(
-          notifier: isPaginating,
-          mounted: mounted,
-          value: true,
-        );
+
+        isPaginating.set(mounted: mounted, value: true);
+
         if (onPaginate != null){
           await onPaginate.call();
         }
-        setNotifier(
-          notifier: isPaginating,
-          mounted: mounted,
-          value: false,
-        );
+
+        isPaginating.set(mounted: mounted, value: false);
+
       }
     }
 
