@@ -19,13 +19,12 @@ class Pixelizer {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> snapshotWidget({
-    required BuildContext context,
     required GlobalKey? key,
   }) async {
     Uint8List? _output;
 
     if (key != null){
-      final RenderRepaintBoundary? boxPaint = key.currentContext?.findRenderObject() as RenderRepaintBoundary;
+      final RenderRepaintBoundary? boxPaint = key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
       final ui.Image? capture = await boxPaint?.toImage();
       _output = await Byter.fromUiImage(capture);
       capture?.dispose();

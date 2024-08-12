@@ -6,13 +6,11 @@ class _Indicator extends StatelessWidget {
     required this.controller,
     required this.indicatorSize,
     required this.showCrossHair,
-    required this.indicatorIsOn,
   });
   // --------------------
   final ColorPickerController controller;
   final double indicatorSize;
   final bool showCrossHair;
-  final bool indicatorIsOn;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -26,10 +24,16 @@ class _Indicator extends StatelessWidget {
           child: child!,
         );
       },
-      child: WidgetFader(
-        fadeType: indicatorIsOn == true ? FadeType.fadeIn : FadeType.fadeOut,
-        duration: indicatorIsOn == true ? const Duration(milliseconds: 200) : const Duration(milliseconds: 400),
-        curve: Curves.easeOutCubic,
+      child: LiveWire(
+        wire: controller.indicatorIsVisible,
+        builder: (bool isVisible, Widget? child) {
+          return WidgetFader(
+            fadeType: isVisible == true ? FadeType.fadeIn : FadeType.fadeOut,
+            duration: isVisible == true ? const Duration(milliseconds: 200) : const Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
+            child: child!,
+          );
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[

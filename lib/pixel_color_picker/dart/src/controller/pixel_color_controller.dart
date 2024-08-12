@@ -11,6 +11,7 @@ class ColorPickerController {
   final Wire<img.Image?> photo = Wire<img.Image?>(null);
   final Wire<Uint8List?> bytes = Wire<Uint8List?>(null);
   final Wire<bool> isPicking = Wire<bool>(false);
+  final Wire<bool> indicatorIsVisible = Wire<bool>(false);
   final Wire<bool> loading = Wire<bool>(false);
   GlobalKey paintKey = GlobalKey();
   // --------------------
@@ -20,9 +21,11 @@ class ColorPickerController {
     photo.clear();
     bytes.clear();
     isPicking.clear();
+    indicatorIsVisible.clear();
     loading.clear();
   }
   // --------------------
+  /*
   void _onDidUpdateWidget({
     required PixelColorPicker oldWidget,
     required PixelColorPicker newWidget,
@@ -57,7 +60,7 @@ class ColorPickerController {
         awaiter(
           wait: false,
           function: () => snapshotWidgetTree(
-            context: context,
+            // context: context,
             mounted: mounted,
           ),
         );
@@ -66,6 +69,7 @@ class ColorPickerController {
     }
 
   }
+   */
   // -----------------------------------------------------------------------------
 
   /// SCREENSHOT
@@ -73,11 +77,11 @@ class ColorPickerController {
   // --------------------
   Future<Uint8List?> snapshotWidgetTree({
     required bool mounted,
-    required BuildContext context,
+    // required BuildContext context,
   }) async {
     Uint8List? _output;
 
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     if (photo.value == null){
 
@@ -87,7 +91,6 @@ class ColorPickerController {
 
         _output = await Pixelizer.snapshotWidget(
           key: paintKey,
-          context: context,
         );
 
         if (_output != null){
@@ -126,14 +129,14 @@ class ColorPickerController {
   }) async {
     Color? _color;
 
-    isPicking.set(value: true, mounted: mounted);
+    indicatorIsVisible.set(value: true, mounted: mounted);
 
-    if (photo.value == null) {
-      await snapshotWidgetTree(
-        mounted: mounted,
-        context: context,
-      );
-    }
+    // if (photo.value == null) {
+    //   await snapshotWidgetTree(
+    //     mounted: mounted,
+    //     // context: context,
+    //   );
+    // }
 
     final img.Pixel? _pixel = Pixelizer.getPixelFromGlobalPosition(
       key: paintKey,
@@ -161,7 +164,7 @@ class ColorPickerController {
 
     if (autoHideIndicator == true){
       await awaiter(
-        wait: false,
+        wait: true,
         function: () => _hideIndicator(mounted: mounted),
       );
     }
@@ -173,7 +176,7 @@ class ColorPickerController {
     required bool mounted,
   }) async {
     await Future.delayed(const Duration(seconds: 1), () {
-      isPicking.set(value: false, mounted: mounted);
+      indicatorIsVisible.set(value: false, mounted: mounted);
     });
   }
   // -----------------------------------------------------------------------------
@@ -205,7 +208,7 @@ class ColorPickerController {
 
     await _calculatePixel(
       globalPosition: globalPosition,
-      autoHideIndicator: false,
+      autoHideIndicator: true,
       context: context,
       mounted: mounted,
       onColorChanged: onColorChangeEnded,
