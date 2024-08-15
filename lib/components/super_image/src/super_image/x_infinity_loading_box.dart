@@ -32,13 +32,13 @@ class InfiniteLoadingBox extends StatelessWidget {
           // fadeType: FadeType.stillAtMin,
           // min: 0.4,
           curve: Curves.easeIn,
-          duration: const Duration(milliseconds: 2300),
+          duration: const Duration(milliseconds: 1900),
           builder: (double value, Widget? child){
 
             return Stack(
               children: <Widget>[
 
-                ///
+                /// UPPER HALF
                 Positioned(
                   bottom: (_height * value * 1.6)  - _stripHeight - _stripHeight,
                   left: 0,
@@ -61,7 +61,7 @@ class InfiniteLoadingBox extends StatelessWidget {
                   ),
                 ),
 
-                ///
+                /// LOWER HALF
                 Positioned(
                   bottom: (_height * value * 1.6) + (_stripHeight * 0.999) - _stripHeight - _stripHeight,
                   left: 0,
@@ -79,16 +79,7 @@ class InfiniteLoadingBox extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // child: Transform.scale(
-                  //   scaleX: _width / _stripHeight,
-                  //   child: WebsafeSvg.asset(
-                  //     Iconz.boxShadowWhite,
-                  //     fit: BoxFit.fitWidth,
-                  //     colorFilter: const ColorFilter.mode(Colorz.red125, BlendMode.hardLight),
-                  //     width: _width,
-                  //     height: _stripHeight,
-                  //   ),
-                  // ),
+
                 ),
 
               ],

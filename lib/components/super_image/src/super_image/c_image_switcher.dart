@@ -220,6 +220,15 @@ class ImageSwitcher extends StatelessWidget {
           );
         }
 
+        /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
+        else if (_mediaModel.isVideo() == true){
+          return InfiniteLoadingBox(
+            width: width!,
+            height: height,
+            color: Colorz.red255,
+          );
+        }
+
         else {
           return Image.memory(
             _mediaModel.bytes!,

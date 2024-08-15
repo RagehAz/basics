@@ -1,4 +1,5 @@
 import 'package:basics/components/super_image/super_image.dart';
+import 'package:basics/helpers/space/borderers.dart';
 import 'package:flutter/material.dart';
 import '../../super_box.dart';
 /// => TAMAM
@@ -35,10 +36,21 @@ class BoxIcon extends StatelessWidget {
   Widget build(BuildContext context) {
 
     if (loading == true){
-      return Loading(
-        size: size * (iconSizeFactor ?? 0.7),
-        color: const Color.fromARGB(650, 255, 255, 255),
+
+      return ClipRRect(
+        borderRadius: Borderers.superCorners(corners: corners),
+        child: InfiniteLoadingBox(
+          width: size,
+          height: size,
+          color: backgroundColor,
+        ),
       );
+      /// DEPRECATED
+      // return Loading(
+      //   size: size * (iconSizeFactor ?? 0.7),
+      //   color: const Color.fromARGB(650, 255, 255, 255),
+      // );
+
     }
 
     else if (icon is Widget){
