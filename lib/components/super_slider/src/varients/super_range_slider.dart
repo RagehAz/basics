@@ -38,6 +38,50 @@ class _SuperRangeSliderState extends State<SuperRangeSlider> {
     _live = widget.initialValue ?? widget.range?.first ?? 0;
     super.initState();
   }
+  // --------------------
+  /*
+  bool _isInit = true;
+  @override
+  void didChangeDependencies() {
+
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
+      asyncInSync(() async {
+
+        await _triggerLoading(setTo: true);
+        /// GO BABY GO
+        await _triggerLoading(setTo: false);
+
+      });
+
+    }
+    super.didChangeDependencies();
+  }
+   */
+  // --------------------
+  @override
+  void didUpdateWidget(SuperRangeSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (
+        oldWidget.initialValue != widget.initialValue ||
+        oldWidget.draggerColor != widget.draggerColor ||
+        oldWidget.trackColor != widget.trackColor ||
+        Lister.checkListsAreIdentical(list1: oldWidget.range, list2: widget.range) == false ||
+        oldWidget.roundFractions != widget.roundFractions
+    ) {
+      setState(() {
+        _live = widget.initialValue ?? widget.range?.first ?? 0;
+      });
+    }
+  }
+  // --------------------
+  /*
+  @override
+  void dispose() {
+    super.dispose();
+  }
+   */
   // -----------------------------------------------------------------------------
 
   /// LABEL
@@ -98,6 +142,7 @@ class _SuperRangeSliderState extends State<SuperRangeSlider> {
       onChangeEnd: _onChangeEnd,
       onChangeStart: widget.onChangeStart,
       onChanged: _onChange,
+
       // semanticFormatterCallback: (value){
       //
       //   // if(_isInit == true){

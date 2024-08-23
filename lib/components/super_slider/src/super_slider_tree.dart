@@ -17,7 +17,8 @@ class SuperSlider extends StatelessWidget {
     this.showIndicator = true,
     this.textStyle,
     this.roundFractions = 2,
-    this.initialValueOnIndex,
+    this.initialValueOrIndex,
+    this.inactiveTrackColor,
     super.key,
   });
   /// --------------------------------------------------------------------------
@@ -35,7 +36,8 @@ class SuperSlider extends StatelessWidget {
   final TextStyle? textStyle;
   final bool snap;
   final int roundFractions;
-  final dynamic initialValueOnIndex;
+  final dynamic initialValueOrIndex;
+  final Color? inactiveTrackColor;
   /// --------------------------------------------------------------------------
   static SliderThemeData bldrsSliderTheme({
     required BuildContext context,
@@ -43,6 +45,7 @@ class SuperSlider extends StatelessWidget {
     required double boxHeight,
     required TextStyle? textStyle,
     required Color trackColor,
+    required Color? inactiveTrackColor,
     required Color draggerColor,
     required double boxWidth,
   }){
@@ -59,7 +62,7 @@ class SuperSlider extends StatelessWidget {
       // disabledActiveTrackColor: Colorz.white10, // not effective
 
       /// TRACK : INACTIVE
-      inactiveTrackColor: trackColor.withOpacity(0.1),
+      inactiveTrackColor: inactiveTrackColor ?? trackColor.withOpacity(0.1),
       // disabledInactiveTrackColor: Colorz.white10, // not effective
 
       /// TICK : ACTIVE
@@ -131,6 +134,7 @@ class SuperSlider extends StatelessWidget {
           textStyle: textStyle,
           trackColor: trackColor,
           draggerColor: draggerColor,
+          inactiveTrackColor: inactiveTrackColor,
           boxWidth: width,
         ),
         child: SuperStepSlider(
@@ -141,7 +145,7 @@ class SuperSlider extends StatelessWidget {
           onChangeStart: onChangeStart,
           trackColor: trackColor,
           draggerColor: draggerColor,
-          initialIndex: initialValueOnIndex,
+          initialIndex: initialValueOrIndex,
         ),
       );
     }
@@ -159,8 +163,10 @@ class SuperSlider extends StatelessWidget {
           textStyle: textStyle,
           trackColor: trackColor,
           draggerColor: draggerColor,
+          inactiveTrackColor: inactiveTrackColor,
           boxWidth: width,
         ),
+        // child: Container(),
         child: SuperRangeSlider(
           range: range,
           onChanged: onChanged,
@@ -169,7 +175,7 @@ class SuperSlider extends StatelessWidget {
           trackColor: trackColor,
           draggerColor: draggerColor,
           roundFractions: roundFractions,
-          initialValue: initialValueOnIndex,
+          initialValue: initialValueOrIndex,
         ),
       );
     }

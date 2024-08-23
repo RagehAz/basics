@@ -55,13 +55,13 @@ class Shadower {
   /// FLYER SHADOWS
 
   // --------------------
-  static const List<BoxShadow> flyerZoneShadow = <BoxShadow>[
+  // static const List<BoxShadow> flyerZoneShadow = <BoxShadow>[
     // CustomBoxShadow(
     //     color: Colorz.black230,
     //     blurRadius: 5,
     //     style: BlurStyle.outer
     // ),
-  ];
+  // ];
   // --------------------
   /*
   static List<BoxShadow> flyerHeaderShadow(double flyerBoxWidth) {

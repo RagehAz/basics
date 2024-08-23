@@ -22,7 +22,7 @@ class _SliderBox extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final double _half = height / 2;
-    const double _dotRadius = 3;
+    final double _dotRadius = _half;
     final double _sideMargin = _half - _dotRadius;
     final double _lineZoneWidth = width - (2 * _sideMargin);
 

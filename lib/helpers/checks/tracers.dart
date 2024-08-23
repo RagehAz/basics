@@ -116,3 +116,30 @@ Future<void> awaiter({
 
 }
 // -----------------------------------------------------------------------------
+
+class UnNullify<T> extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const UnNullify({
+    required this.value,
+    required this.builder,
+    this.nullChild,
+    super.key
+  });
+  // --------------------
+  final T? value;
+  final Widget? nullChild;
+  final Widget Function(T value) builder;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    if (value == null){
+      return nullChild ?? const SizedBox();
+    }
+    else {
+      return builder(value!);
+    }
+    // --------------------
+  }
+// --------------------------------------------------------------------------
+}
