@@ -21,12 +21,13 @@ class InfiniteLoadingBox extends StatelessWidget {
     final double _width = width ?? 40;
     final double _height = height ?? _width;
     final double _stripHeight = _height * 0.5;
-    const Color _color = Colorz.white50;
+    final Color _color = color ?? Colorz.white50;
 
     return Center(
-      child: SizedBox(
+      child: Container(
         width: _width,
         height: _height,
+        color: backgroundColor,
         child: WidgetFader(
           fadeType: FadeType.repeatForwards,
           // fadeType: FadeType.stillAtMin,
@@ -52,7 +53,7 @@ class InfiniteLoadingBox extends StatelessWidget {
                         scaleX: _width / _stripHeight,
                         child: WebsafeSvg.asset(
                           Iconz.boxShadowBlack,
-                          colorFilter: const ColorFilter.mode(_color, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(_color, BlendMode.srcIn),
                           width: _width,
                           height: _stripHeight,
                         ),
@@ -73,7 +74,7 @@ class InfiniteLoadingBox extends StatelessWidget {
                       child: WebsafeSvg.asset(
                         Iconz.boxShadowBlack,
                         // fit: BoxFit.fitWidth,
-                        colorFilter: const ColorFilter.mode(_color, BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(_color, BlendMode.srcIn),
                         width: _width,
                         height: _stripHeight,
                       ),

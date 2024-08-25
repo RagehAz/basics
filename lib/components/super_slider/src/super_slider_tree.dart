@@ -121,7 +121,7 @@ class SuperSlider extends StatelessWidget {
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
+    // --------------------
     if (snap == true){
       return _SliderBox(
         width: width,

@@ -403,11 +403,11 @@ class Mapper {
     required Map<String, dynamic>? baseMap,
     required Map<String, dynamic>? insert,
     bool replaceDuplicateKeys = true,
-    bool cleanByRecoding = true,
+    bool cleanByDecoding = true,
   }){
     Map<String, dynamic>? _output = baseMap;
 
-    if (cleanByRecoding == true){
+    if (cleanByDecoding == true){
       _output = cloneMap(baseMap);
     }
 

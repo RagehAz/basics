@@ -152,13 +152,13 @@ class ImageSwitcher extends StatelessWidget {
       if (pic is IconData){
         return Container(
           width: width,
-          height: height * (scale ?? 1) * 1.2,
+          height: height * (scale ?? 1) * 1.3,
           alignment: Alignment.center,
           child: Icon(
             pic,
             key: const ValueKey<String>('SuperImage_iconData'),
             // semanticLabel: 'SuperImage_iconData',
-            size: height * (scale ?? 1) * 1.2,
+            size: height * (scale ?? 1) * 1.3,
             color: iconColor ?? Colorz.white255,
             // weight: 1,
             // fill: 1,

@@ -28,6 +28,9 @@ class SuperBoxController {
     else if (loading == true){
       _output = height * (iconSizeFactor ?? 0.7);
     }
+    else if (icon is IconData){
+      _output = height * (iconSizeFactor ?? 1);
+    }
     else if (icon is String){
 
       final bool _isSVG = ObjectCheck.objectIsSVG(icon);
