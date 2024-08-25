@@ -157,7 +157,7 @@ class TapLayer extends StatelessWidget {
           alignment: alignment,
           borderColor: borderColor,
           child: GestureDetector(
-              onTap: () => onDisabledTap!(),
+              onTap: () => onDisabledTap!.call(),
               child: child,
             ),
         );
