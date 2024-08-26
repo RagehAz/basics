@@ -51,6 +51,7 @@ class SuperBox extends StatelessWidget {
     this.borderColor,
     this.solidGreyScale = false,
     this.maxWidth,
+    this.loadingIsPulse = false,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -103,6 +104,7 @@ class SuperBox extends StatelessWidget {
   final Color? borderColor;
   final bool solidGreyScale;
   final double? maxWidth;
+  final bool loadingIsPulse;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -177,6 +179,7 @@ class SuperBox extends StatelessWidget {
           textFont: textFont,
           isDisabled: isDisabled,
           letterSpacing: letterSpacing,
+          loadingIsPulse: loadingIsPulse,
         ),
 
         /// HIGHLIGHT

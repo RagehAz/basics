@@ -17,6 +17,7 @@ class BoxIcon extends StatelessWidget {
     required this.backgroundColor,
     required this.package,
     required this.isDisabled,
+    required this.loadingIsPulse,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -31,25 +32,30 @@ class BoxIcon extends StatelessWidget {
   final Color? backgroundColor;
   final String? package;
   final bool isDisabled;
+  final bool loadingIsPulse;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
 
     if (loading == true){
 
-      return ClipRRect(
-        borderRadius: Borderers.superCorners(corners: corners),
-        child: InfiniteLoadingBox(
-          width: size,
-          height: size,
-          color: backgroundColor,
-        ),
-      );
-      /// DEPRECATED
-      // return Loading(
-      //   size: size * (iconSizeFactor ?? 0.7),
-      //   color: const Color.fromARGB(650, 255, 255, 255),
-      // );
+      if (loadingIsPulse == true){
+        return Loading(
+          size: size * (iconSizeFactor ?? 0.7),
+          color: const Color.fromARGB(650, 255, 255, 255),
+        );
+      }
+
+      else {
+        return ClipRRect(
+          borderRadius: Borderers.superCorners(corners: corners),
+          child: InfiniteLoadingBox(
+            width: size,
+            height: size,
+            color: backgroundColor,
+          ),
+        );
+      }
 
     }
 

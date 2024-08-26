@@ -17,6 +17,7 @@ class SuperBoxIcon extends StatelessWidget {
     required this.backgroundColor,
     required this.package,
     required this.isDisabled,
+    required this.loadingIsPulse,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -31,6 +32,7 @@ class SuperBoxIcon extends StatelessWidget {
   final Color? backgroundColor;
   final String? package;
   final bool isDisabled;
+  final bool loadingIsPulse;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,7 @@ class SuperBoxIcon extends StatelessWidget {
               backgroundColor: backgroundColor,
               package: package,
               isDisabled: isDisabled,
+              loadingIsPulse: loadingIsPulse,
             ),
 
             /// --- BUTTON BLACK LAYER IF GREYED OUT

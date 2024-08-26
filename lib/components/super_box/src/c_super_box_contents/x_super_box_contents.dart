@@ -40,6 +40,7 @@ class SuperBoxContents extends StatelessWidget {
     required this.textFont,
     required this.isDisabled,
     required this.letterSpacing,
+    required this.loadingIsPulse,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -76,6 +77,7 @@ class SuperBoxContents extends StatelessWidget {
   final String? textFont;
   final bool isDisabled;
   final double? letterSpacing;
+  final bool loadingIsPulse;
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -110,6 +112,7 @@ class SuperBoxContents extends StatelessWidget {
             icon: icon,
             backgroundColor: backgroundColor,
             package: package,
+            loadingIsPulse: loadingIsPulse,
           ),
 
         /// --- VERSE LEFT SPACING

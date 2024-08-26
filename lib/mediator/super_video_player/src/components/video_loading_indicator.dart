@@ -18,6 +18,7 @@ class _VideoLoadingIndicator extends StatelessWidget {
       bubble: false,
       opacity: 0.5,
       loading: true,
+      loadingIsPulse: true,
     );
     // --------------------
   }
