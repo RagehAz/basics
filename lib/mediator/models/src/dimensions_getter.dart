@@ -202,7 +202,7 @@ abstract class DimensionsGetter {
         bytes: bytes,
       );
 
-      // blog('decoder.runtimeType : ${_decoder?.runtimeType}');
+      blog('_getImageDimensions  _isDecodable($_isDecodable)');
 
       if (_isDecodable == true){
 
@@ -210,7 +210,7 @@ abstract class DimensionsGetter {
         final int? width = _image?.width;
         final int? height = _image?.height;
 
-        // blog('==> _width : $width : _height : $height');
+        blog('==> _width : $width : _height : $height');
 
         if (width != null && height != null){
           _output = Dimensions(
@@ -242,7 +242,7 @@ abstract class DimensionsGetter {
       final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
       final MediaInformation? information = session.getMediaInformation();
 
-      // await VideoOps.blogMediaInformationSession(session: session);
+      await VideoOps.blogMediaInformationSession(session: session);
 
       if (information == null) {
         /// CHECK THE FOLLOWING ATTRIBUTES ON ERROR
