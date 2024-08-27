@@ -242,7 +242,7 @@ abstract class DimensionsGetter {
       final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
       final MediaInformation? information = session.getMediaInformation();
 
-      await VideoOps.blogMediaInformationSession(session: session);
+      // await VideoOps.blogMediaInformationSession(session: session);
 
       if (information == null) {
         /// CHECK THE FOLLOWING ATTRIBUTES ON ERROR
@@ -253,19 +253,21 @@ abstract class DimensionsGetter {
         // final output = await session.getOutput();
       }
 
-      else {
+      if (information != null) {
         final Map<dynamic, dynamic>? _maw = information.getAllProperties();
         final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
         final List<Object?> _objects = _map['streams'];
         final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
-
-        if( Lister.checkCanLoop(_maps) == true){
-          final Map<String, dynamic>? _data = _maps.first;
-          final int? height = _data?['height'];
-          final int? _width = _data?['width'];
-          _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
+        if(Lister.checkCanLoop(_maps) == true){
+          for (final Map<String, dynamic> _data in _maps){
+            final int? height = _data['height'];
+            final int? _width = _data['width'];
+            if (height != null && _width != null){
+              _output = Dimensions(width: _width.toDouble(), height: height.toDouble());
+              break;
+            }
+          }
         }
-
       }
 
     }
