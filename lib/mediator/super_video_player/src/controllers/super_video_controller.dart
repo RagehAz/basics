@@ -19,8 +19,6 @@ class SuperVideoController {
     required bool isMuted,
   }){
 
-    blog('loadFile : $file');
-
     if (file != null){
 
       final VideoPlayerOptions _options = VideoPlayerOptions(
@@ -211,7 +209,6 @@ class SuperVideoController {
   }){
 
     if (_videoPlayerController != null){
-      blog('initializing video controller aho');
       _videoPlayerController!.initialize();
     }
 
