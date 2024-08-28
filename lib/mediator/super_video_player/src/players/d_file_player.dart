@@ -43,16 +43,16 @@ class _FilePlayer extends StatelessWidget {
         // final Dimensions _screen = Dimensions(width: width, height: _boxHeight);
         // blog('xxx -> screen : $_screen : ${_screen.getAspectRatio()}');
 
-        blog('''
-        value :
-        isInitialized : ${value?.isInitialized} :
-        isBuffering : ${value?.isBuffering} :
-        isPlaying ${value?.isPlaying} :
-        hasError ${value?.hasError} :
-        errorDescription: ${value?.errorDescription} :
-        isLooping : ${value?.isLooping} :
-        aspectRatio : ${value?.aspectRatio} :
-            ''');
+        // blog('''
+        // value :
+        // isInitialized : ${value?.isInitialized} :
+        // isBuffering : ${value?.isBuffering} :
+        // isPlaying ${value?.isPlaying} :
+        // hasError ${value?.hasError} :
+        // errorDescription: ${value?.errorDescription} :
+        // isLooping : ${value?.isLooping} :
+        // aspectRatio : ${value?.aspectRatio} :
+        //     ''');
 
         final bool _isLoading = superVideoController.checkVideoIsLoading();
         final bool _showPlayIcon = superVideoController.checkCanShowPlayIcon();
