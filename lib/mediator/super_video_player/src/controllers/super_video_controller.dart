@@ -19,6 +19,8 @@ class SuperVideoController {
     required bool isMuted,
   }){
 
+    blog('loadFile : $file');
+
     if (file != null){
 
       final VideoPlayerOptions _options = VideoPlayerOptions(
@@ -209,6 +211,7 @@ class SuperVideoController {
   }){
 
     if (_videoPlayerController != null){
+      blog('initializing video controller aho');
       _videoPlayerController!.initialize();
     }
 
@@ -699,6 +702,7 @@ class SuperVideoController {
 
         final File? _file = await Filer.createFromMediaModel(
           mediaModel: object,
+          includeFileExtension: true, /// breaks on ios if file has no extension
         );
 
         if (_file != null){
@@ -719,6 +723,7 @@ class SuperVideoController {
         final File? _file = await Filer.createFromBytes(
           bytes: object,
           fileName: fileNameIfObjectIsBytes,
+          includeFileExtension: true, /// breaks on ios if file has no extension
         );
 
         if (_file != null){
