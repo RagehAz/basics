@@ -179,11 +179,15 @@ class SuperVideoController {
       // allowBackgroundPlayback: false,
     );
 
+    blog('_loadVideoURL:url($url)');
+
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(url),
       videoPlayerOptions: _options,
       // closedCaptionFile: ,
-      // httpHeaders: ,
+      httpHeaders: {
+        'Range': 'bytes=0-', // Range request header
+      },
     );
 
     _videoPlayerController!.addListener(_listenToVideo);

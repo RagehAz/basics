@@ -251,6 +251,7 @@ class Rest {
   /// TESTED : WORKS PERFECT
   static void blogResponse({
     required http.Response? response,
+    bool blogBody = true,
   }){
 
      if (response == null){
@@ -258,7 +259,9 @@ class Rest {
      }
      else {
 
-       blog('response.body : ${response.body}');
+       if (blogBody){
+        blog('response.body : ${response.body}');
+       }
        blog('response.bodyBytes.length : ${response.bodyBytes.length}');
        blog('response.statusCode : ${response.statusCode}');
        blog('response.request : ${response.request}');
