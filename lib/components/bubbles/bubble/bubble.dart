@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class Bubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const Bubble({
-    required this.bubbleHeaderVM,
+    this.bubbleHeaderVM,
     this.borderColor,
     this.columnChildren,
     this.child,
@@ -32,7 +32,7 @@ class Bubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   final List<Widget>? columnChildren;
   final Widget? child;
-  final BubbleHeaderVM bubbleHeaderVM;
+  final BubbleHeaderVM? bubbleHeaderVM;
   final bool childrenCentered;
   final Color? bubbleColor;
   final double? width;
@@ -235,7 +235,7 @@ class _BubbleContents extends StatelessWidget {
     return Padding(
       key: const ValueKey<String>('_BubbleContents'),
       padding: EdgeInsets.only(
-        top: Bubble._pageMargin,
+        // top: Bubble._pageMargin,
         right: Bubble._pageMargin,
         left: Bubble._pageMargin,
         bottom: hasBottomPadding == true ? Bubble._pageMargin : 0,
@@ -252,6 +252,10 @@ class _BubbleContents extends StatelessWidget {
         CrossAxisAlignment.start,
         children: <Widget>[
 
+          if (headerViewModel != null)
+            const Spacing(),
+
+          if (headerViewModel != null)
           BubbleHeader(
             viewModel: headerViewModel?.copyWith(
                 headerWidth: headerViewModel?.headerWidth ?? (width == null ? null : width!-20)

@@ -1,3 +1,4 @@
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/components/bubbles/bubble/bubble.dart';
 import 'package:basics/components/bubbles/bubble/bubble_switcher.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
@@ -70,7 +71,8 @@ class BubbleHeader extends StatelessWidget {
               iconSizeFactor: viewModel!.leadingIconSizeFactor,
               color: viewModel!.leadingIconBoxColor,
               margins: EdgeInsets.zero,
-              bubble: viewModel!.leadingIconIsBubble,
+              bubble: false,
+              borderColor: viewModel!.onLeadingIconTap == null ? null : Colorz.white50,
               onTap: viewModel!.onLeadingIconTap,
               textFont: viewModel!.font,
               loading: viewModel!.loading,
@@ -123,6 +125,8 @@ class BubbleHeader extends StatelessWidget {
               iconSizeFactor: viewModel!.moreButtonIconSizeFactor,
               onTap: viewModel!.onMoreButtonTap,
               textFont: viewModel!.font,
+              bubble: false,
+              borderColor: Colorz.white50,
               // margins: const EdgeInsets.symmetric(horizontal: 5),
             ),
 

@@ -18,6 +18,7 @@ class FloatingList extends StatelessWidget {
     this.boxCorners,
     this.boxColor,
     this.scrollController,
+    this.borderColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -33,6 +34,7 @@ class FloatingList extends StatelessWidget {
   final dynamic boxCorners;
   final Color? boxColor;
   final ScrollController? scrollController;
+  final Color? borderColor;
   /// --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,13 @@ class FloatingList extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: boxColor,
-              borderRadius: Borderers.superCorners(corners: boxCorners),
+                borderRadius: Borderers.superCorners(corners: boxCorners),
+                border: borderColor == null ? null :
+                Border.all(
+                  width: 0.5,
+                  color: borderColor!,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                )
             ),
             alignment: boxAlignment,
             padding: padding,

@@ -227,4 +227,13 @@ class Borderers {
     return _cornerBorders;
   }
   // -----------------------------------------------------------------------------
+
+  static Border? simpleBorder(Color? color){
+    return color == null ? null : Border.all(
+      width: 0.5,
+      color: color,
+      strokeAlign: BorderSide.strokeAlignOutside,
+    );
+  }
+
 }
