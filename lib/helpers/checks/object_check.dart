@@ -26,20 +26,29 @@ class ObjectCheck {
     bool _isValidURL = false;
 
     if (object != null && object is String) {
+
       final String _url = object.trim();
 
-      tryAndCatch(
-        invoker: 'ObjectCheck.isAbsoluteURL',
-        functions: () async {
-          final parsedUri = Uri.parse(_url);
-          _isValidURL = parsedUri.isAbsolute;
-        },
-        onError: (String? error){
-          // blog('1/2: ObjectCheck.isAbsoluteURL : tryAndCatch ERROR : $error');
-          // blog('2/2: ObjectCheck.isAbsoluteURL : object : $object');
-        }
+      final bool _hasWrongSlashes1 = TextCheck.stringContainsSubString(string: _url, subString: 'https:///');
+      final bool _hasWrongSlashes2 = TextCheck.stringContainsSubString(string: _url, subString: 'http:///');
+      final bool _slashesAreGood = _hasWrongSlashes1 == false && _hasWrongSlashes2 == false;
 
-      );
+      if (_slashesAreGood == true){
+
+        tryAndCatch(
+            invoker: 'ObjectCheck.isAbsoluteURL',
+            functions: () async {
+              final parsedUri = Uri.parse(_url);
+              _isValidURL = parsedUri.isAbsolute || (parsedUri.scheme.isNotEmpty && parsedUri.host.isNotEmpty);
+            },
+            onError: (String? error){
+              // blog('1/2: ObjectCheck.isAbsoluteURL : tryAndCatch ERROR : $error');
+              // blog('2/2: ObjectCheck.isAbsoluteURL : object : $object');
+            }
+        );
+
+      }
+
     }
 
     return _isValidURL;
