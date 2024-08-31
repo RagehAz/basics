@@ -467,6 +467,7 @@ class TextFieldBubble extends StatelessWidget {
                         textFont: bubbleHeaderVM.font,
                         // package: bubbleHeaderVM.package,
                         letterSpacing: bubbleHeaderVM.letterSpacing,
+                        bubble: false,
                       ),
 
                   ],

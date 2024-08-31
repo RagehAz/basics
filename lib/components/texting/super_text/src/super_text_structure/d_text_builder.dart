@@ -26,6 +26,13 @@ class TextBuilder extends StatelessWidget {
   final bool centered;
   final Color? highlightColor;
   final TextDirection textDirection;
+  // -----------------------------------------------------------------------------
+  static double getTextLabelCorner({
+    required double? textHeight,
+  }){
+    final double _textHeight = textHeight ?? 20;
+    return _textHeight * 0.3;
+  }
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static List<TextSpan> _generateTextSpans({
@@ -101,7 +108,9 @@ class TextBuilder extends StatelessWidget {
       final double _sidePaddingValues = _textHeight * 0.15;
       final double _sidePaddings = labelColor == null ? 0 : _sidePaddingValues;
       // --------------------
-      final double _labelCornerValues = _textHeight * 0.3;
+      final double _labelCornerValues = getTextLabelCorner(
+        textHeight: textHeight,
+      );
       final double _labelCorner = labelColor == null ? 0 : _labelCornerValues;
       // --------------------
       final TextAlign _textAlign = SuperText.getTextAlign(centered: centered);

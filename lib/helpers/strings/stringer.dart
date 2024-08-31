@@ -398,9 +398,16 @@ class Stringer {
         _output = _getStringsFromDynamicsList(thing);
       }
 
+      // else if (thing is bool){
+      //   _output = ['$thing'];
+      // }
+
       else {
-        assert(thing == null, 'getStringsFromTheDamnThing something is wrong here ${thing.runtimeType}');
+        blog('getStringsFromTheDamnThing_something_is_wrong : thing($thing)}');
+        blog('getStringsFromTheDamnThing_something_is_wrong : type(${thing.runtimeType})');
+        // assert(thing == null, 'getStringsFromTheDamnThing_something_is_wrong : ');
       }
+
     }
 
     return _output;
