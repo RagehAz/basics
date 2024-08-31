@@ -13,6 +13,7 @@ class ColorPickerController {
   final Wire<bool> isPicking = Wire<bool>(false);
   final Wire<bool> indicatorIsVisible = Wire<bool>(false);
   final Wire<bool> loading = Wire<bool>(false);
+  // --------------------
   GlobalKey paintKey = GlobalKey();
   // --------------------
   void dispose(){
