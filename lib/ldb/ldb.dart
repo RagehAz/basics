@@ -23,7 +23,6 @@ import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_clip_board.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
-import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';

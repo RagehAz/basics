@@ -7,6 +7,7 @@ class InfiniteLoadingBox extends StatelessWidget {
     required this.height,
     this.color,
     this.backgroundColor = Colorz.white50,
+    this.milliseconds = 1900,
     super.key
   }); 
   // --------------------
@@ -14,6 +15,7 @@ class InfiniteLoadingBox extends StatelessWidget {
   final double? height;
   final Color? color;
   final Color backgroundColor;
+  final int milliseconds;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class InfiniteLoadingBox extends StatelessWidget {
           // fadeType: FadeType.stillAtMin,
           // min: 0.4,
           curve: Curves.easeIn,
-          duration: const Duration(milliseconds: 1900),
+          duration: Duration(milliseconds: milliseconds),
           builder: (double value, Widget? child){
 
             return Stack(

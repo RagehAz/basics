@@ -1,3 +1,4 @@
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class BoxIcon extends StatelessWidget {
       if (loadingIsPulse == true){
         return Loading(
           size: size * (iconSizeFactor ?? 0.7),
-          color: const Color.fromARGB(650, 255, 255, 255),
+          color: iconColor ?? const Color.fromARGB(650, 255, 255, 255),
         );
       }
 
@@ -52,7 +53,8 @@ class BoxIcon extends StatelessWidget {
           child: InfiniteLoadingBox(
             width: size,
             height: size,
-            color: backgroundColor,
+            color: iconColor,
+            backgroundColor: backgroundColor ?? Colorz.white50,
           ),
         );
       }

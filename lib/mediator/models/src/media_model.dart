@@ -313,6 +313,11 @@ class MediaModel {
     final FileExtType? _type = meta?.fileExt;
     return FileExtensioning.getExtensionByType(_type);
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getUploadPath(){
+    return meta?.uploadPath;
+  }
   // -----------------------------------------------------------------------------
 
   /// MEDIAS GETTERS
@@ -365,6 +370,66 @@ class MediaModel {
 
     return _output;
   }
+  // --------------------
+  /// TASK : TEST_ME_findTheNotUploaded
+  static List<MediaModel> findTheNotUploaded({
+    required List<MediaModel> allMedias,
+    required List<MediaModel> uploadedMedias,
+  }){
+    List<MediaModel> _output = [];
+
+    if (Lister.checkCanLoop(uploadedMedias) == false){
+      _output = allMedias;
+    }
+    else if (Lister.checkCanLoop(allMedias) == true){
+
+      for (final MediaModel media in allMedias){
+
+        final MediaModel? _uploaded = findMediaByUploadPath(
+            medias: uploadedMedias,
+            uploadPath: media.getUploadPath(),
+        );
+
+        /// NO FOUND IN UPLOADED LIST
+        if (_uploaded == null){
+          _output.add(media);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FINDERS
+
+  // --------------------
+  /// TASK : TEST_ME_findMediaByUploadPath
+  static MediaModel? findMediaByUploadPath({
+    required List<MediaModel> medias,
+    required String? uploadPath,
+  }){
+    MediaModel? _output;
+
+    if (Lister.checkCanLoop(medias) == true && uploadPath != null){
+
+      for (final MediaModel _media in medias){
+
+        final String? _mediaUploadPath = _media.getUploadPath();
+        if (_mediaUploadPath == uploadPath){
+          _output = _media;
+          break;
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
