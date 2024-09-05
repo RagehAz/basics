@@ -125,7 +125,7 @@ class ImageSwitcher extends StatelessWidget {
    */
   // -----------------------------------------------------------------------------
   Widget _emptyBox(){
-    return SizedBox(
+    return Container(
       width: width,
       height: height,
       // color: Colorz.errorColor,
@@ -138,10 +138,11 @@ class ImageSwitcher extends StatelessWidget {
     /// LOADING
     if (loading == true){
       return InfiniteLoadingBox(
-          width: width!,
-          height: height,
-          color: backgroundColor,
-        );
+        width: width!,
+        height: height,
+        color: iconColor,
+        backgroundColor: backgroundColor ?? Colorz.white50,
+      );
     }
 
     /// HAS IMAGE
@@ -232,7 +233,7 @@ class ImageSwitcher extends StatelessWidget {
         else {
           return Image.memory(
             _mediaModel.bytes!,
-            key: const ValueKey<String>('SuperImage_file'),
+            // key: const ValueKey<String>('SuperImage_file'),
             fit: _boxFit,
             width: width,
             height: height,
