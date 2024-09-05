@@ -371,7 +371,7 @@ class MediaModel {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME_findTheNotUploaded
+  /// AI TESTED
   static List<MediaModel> findTheNotUploaded({
     required List<MediaModel> allMedias,
     required List<MediaModel> uploadedMedias,
@@ -406,7 +406,7 @@ class MediaModel {
   /// FINDERS
 
   // --------------------
-  /// TASK : TEST_ME_findMediaByUploadPath
+  /// AI TESTED
   static MediaModel? findMediaByUploadPath({
     required List<MediaModel> medias,
     required String? uploadPath,
@@ -429,7 +429,6 @@ class MediaModel {
 
     return _output;
   }
-
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
