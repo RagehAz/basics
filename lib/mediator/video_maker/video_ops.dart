@@ -163,6 +163,14 @@ class VideoOps {
 
     if (videoEditorController != null){
 
+      int? _bitRate = await VideoOps.readFileBitrate(file: videoEditorController.file);
+      _bitRate ??= 1000000;
+      blog('_bitRateWas($_bitRate) : scale($scale)');
+      double _mbps = _bitRate.clamp(500000, 5000000).toDouble();
+      _mbps = _mbps / 1000000;
+      _mbps = Numeric.roundFractions(_mbps, 5)!;
+      final String _bigRateString = Numeric.stringifyDouble(_mbps);
+
       final VideoFFmpegVideoEditorConfig config = VideoFFmpegVideoEditorConfig(
         videoEditorController,
         format: format, // DEFAULT
@@ -182,14 +190,19 @@ class VideoOps {
             controller: config.controller,
           );
 
+          /// MUTE
+          final String _mute = mute ? '-an' : '';
+
           /// VIDEO_SIZE_DIM_QUALITY_CALIBRATION
           // 1.2 ~ 2M = 2.5
           // 1.2 ~ xM = 1.2
-          const String _bitRate = '-b:v 1M ';
-          final String _mute = mute ? '-an ' : '';
-
+          final String _bitRate = '$bitRateBasedCompression ${_bigRateString}M';
+          // const String _quality = constantRateFactor;
+          // const String _preset = presetSlow;
+          blog('_bitRateIs($_bitRate)');
 
           return '$_trim -i $videoPath $_mute $_bitRate $_filters $outputPath';
+          // return '$_trim -i $videoPath $_mute $_bitRate $_quality $_preset $_filters $outputPath';
 
         },
       );
@@ -206,6 +219,18 @@ class VideoOps {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static const String tuneFilm = '-tune film';
+  static const String tuneAnimation = '-tune animation';
+  static const String presetVerySlow = '-preset veryslow';
+  static const String presetSlow = '-preset slow';
+  static const String presetMedium = '-preset medium';
+  static const String constantRateFactor = '-crf 0'; /// range : lossless 0 -> 23 default -> 51 max
+  static const String bitRateBasedCompression = '-b:v';
+  static const String bitRate720p = '2.5M';
+  static const String bitRate1080p = '5M';
+  static const String bitRate4K = '15M';
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<File?> exportMirroredVideo({
@@ -521,6 +546,7 @@ class VideoOps {
   /// PLAYING
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<void> snapVideoToStartingTrim({
     required VideoEditorController? controller,
   }) async {
@@ -531,6 +557,7 @@ class VideoOps {
 
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<void> snapVideoToMs({
     required VideoEditorController? controller,
     required int milliSecond,
@@ -858,4 +885,53 @@ class VideoOps {
     return _filesAreIdentical;
   }
   // --------------------------------------------------------------------------
+
+  /// FILE INFO
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<int?> readFileBitrate({
+    required File? file,
+  }) async {
+    int? _output;
+
+    if (file != null){
+
+      final Map<String, dynamic>? _info = await Filer.readFileInfo(
+        file: file,
+      );
+
+      final String? _asText = _info?['format']?['bit_rate']?.toString();
+
+      _output = Numeric.transformStringToInt(_asText);
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> reportFileChange({
+    required File? fileBefore,
+    required File? fileAfter,
+  }) async {
+
+    final int? _bitRateBefore = await VideoOps.readFileBitrate(file: fileBefore);
+    final double? _kiloWas = FileSizer.getFileSizeWithUnit(file: fileBefore, unit: FileSizeUnit.kiloByte);
+
+    final int? _bitRateAfter = await VideoOps.readFileBitrate(file: fileAfter);
+    final double? _kiloIs = FileSizer.getFileSizeWithUnit(file: fileAfter, unit: FileSizeUnit.kiloByte);
+
+    double? _changeRatio = ((_kiloIs??0) / (_kiloWas??1)) * 100;
+    _changeRatio = Numeric.roundFractions(_changeRatio, 1);
+
+    double? _bitRateChange = ((_bitRateAfter??0) / (_bitRateBefore??1)) * 100;
+    _bitRateChange = Numeric.roundFractions(_bitRateChange, 1);
+
+    blog('reportFileChange [fileSize] : before($_kiloWas kb) : after($_kiloIs kb) : change($_changeRatio%)');
+    blog('reportFileChange [bitRate] : before($_bitRateBefore) : after($_bitRateAfter) : change($_bitRateChange%)');
+
+  }
+  // --------------------------------------------------------------------------
+  void x(){}
 }

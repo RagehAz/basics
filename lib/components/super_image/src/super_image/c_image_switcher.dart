@@ -125,7 +125,7 @@ class ImageSwitcher extends StatelessWidget {
    */
   // -----------------------------------------------------------------------------
   Widget _emptyBox(){
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       // color: Colorz.errorColor,

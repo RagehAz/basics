@@ -238,24 +238,11 @@ abstract class DimensionsGetter {
 
     if (xFile != null){
 
-      /// '<file path or url>'
-      final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
-      final MediaInformation? information = session.getMediaInformation();
+      final Map<String, dynamic>? _map = await XFiler.readXFileInfo(
+        xFile: xFile,
+      );
 
-      // await VideoOps.blogMediaInformationSession(session: session);
-
-      if (information == null) {
-        /// CHECK THE FOLLOWING ATTRIBUTES ON ERROR
-        // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
-        // final returnCode = await session.getReturnCode();
-        // final failStackTrace = await session.getFailStackTrace();
-        // final duration = await session.getDuration();
-        // final output = await session.getOutput();
-      }
-
-      if (information != null) {
-        final Map<dynamic, dynamic>? _maw = information.getAllProperties();
-        final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
+      if (_map != null) {
         final List<Object?> _objects = _map['streams'];
         final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
         if(Lister.checkCanLoop(_maps) == true){
@@ -274,5 +261,5 @@ abstract class DimensionsGetter {
 
     return _output;
   }
-// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

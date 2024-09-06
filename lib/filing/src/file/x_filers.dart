@@ -640,5 +640,32 @@ class XFiler {
 
     return _exists;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+
+  /// FILE INFO
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>?> readXFileInfo({
+    required XFile? xFile,
+  }) async {
+    Map<String, dynamic>? _output;
+
+    if (xFile != null){
+      final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
+      final MediaInformation? information = session.getMediaInformation();
+      final Map<dynamic, dynamic>? _maw = information?.getAllProperties();
+      _output = Mapper.convertDynamicMap(_maw);
+      // await VideoOps.blogMediaInformationSession(session: session);
+      /// CHECK THE FOLLOWING ATTRIBUTES ON ERROR
+      // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
+      // final returnCode = await session.getReturnCode();
+      // final failStackTrace = await session.getFailStackTrace();
+      // final duration = await session.getDuration();
+      // final output = await session.getOutput();
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
 }

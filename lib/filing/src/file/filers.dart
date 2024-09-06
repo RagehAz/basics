@@ -900,5 +900,25 @@ class Filer {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+
+  /// FILE INFO
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>?> readFileInfo({
+    required File? file,
+  }) async {
+    Map<String, dynamic>? _output;
+
+    if (file != null){
+      final XFile? _xFile = XFiler.readFile(file: file);
+      _output = await XFiler.readXFileInfo(
+        xFile: _xFile,
+      );
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
 }
