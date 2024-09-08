@@ -84,6 +84,7 @@ class FloatingList extends StatelessWidget {
           physics: physics,
           scrollDirection: scrollDirection,
           controller: scrollController,
+          // reverse: false,
           child: Container(
             height: height ?? Scale.screenHeight(context),
             constraints: BoxConstraints(

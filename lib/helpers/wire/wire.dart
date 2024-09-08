@@ -66,18 +66,21 @@ class LiveWire<T> extends StatelessWidget {
     required this.wire,
     required this.builder,
     this.child,
+    this.nullChild,
     super.key
   });
   // --------------------
   final Wire<T>? wire;
   final Widget Function(T value, Widget? child) builder;
   final Widget? child;
+  final Widget? nullChild;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
     return UnNullify<Wire<T>>(
         value: wire,
+        nullChild: nullChild,
         builder: (Wire<T> _wire){
 
           return ValueListenableBuilder<T>(
@@ -100,17 +103,20 @@ class SingleWire<T> extends StatelessWidget {
   const SingleWire({
     required this.wire,
     required this.builder,
+    this.nullChild,
     super.key
   });
   // --------------------
   final Wire<T>? wire;
   final Widget Function(T value) builder;
+  final Widget? nullChild;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
     return LiveWire(
         wire: wire,
+        nullChild: nullChild,
         builder: (T value, Widget? child){
           return builder(value);
         }
