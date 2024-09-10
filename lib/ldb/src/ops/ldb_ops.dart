@@ -132,13 +132,13 @@ class LDBOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteMap({
+  static Future<bool> deleteMap({
     required String? objectID,
     required String? docName,
     required String? primaryKey,
   }) async {
 
-    await _Sembast.deleteMap(
+    return _Sembast.deleteMap(
       docName: docName,
       id: objectID,
       primaryKey: primaryKey,

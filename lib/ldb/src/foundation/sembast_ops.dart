@@ -455,11 +455,12 @@ class _Sembast  {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteMap({
+  static Future<bool> deleteMap({
     required String? id,
     required String? docName,
     required String? primaryKey,
   }) async {
+    bool _success = false;
 
     if (id != null && docName != null && primaryKey != null){
 
@@ -478,9 +479,17 @@ class _Sembast  {
           filter: Filter.equals(primaryKey, id),
         );
 
-        await _doc.delete(
-          _db,
-          finder: _finder,
+        await tryAndCatch(
+            invoker: 'deleteMap',
+            functions: () async {
+
+              await _doc.delete(
+                _db,
+                finder: _finder,
+              );
+              _success = true;
+              
+            },
         );
 
         // blog('Sembast : deleteMap : $docName : $primaryKey : $objectID');
@@ -489,6 +498,7 @@ class _Sembast  {
 
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
