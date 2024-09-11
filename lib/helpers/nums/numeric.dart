@@ -990,6 +990,25 @@ class Numeric {
 
     return _val;
   }
+  // --------------------
+  /// AI TESTED
+  static int? modulusInteger(int? num){
+    int? _val;
+
+    if (num != null){
+
+      if (num < 0){
+        _val = num * -1;
+      }
+      else {
+        _val = num;
+      }
+
+
+    }
+
+    return _val;
+  }
   // -----------------------------------------------------------------------------
 
   /// INDEX MANIPULATION
