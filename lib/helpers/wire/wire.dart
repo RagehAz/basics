@@ -126,6 +126,37 @@ class SingleWire<T> extends StatelessWidget {
 // --------------------------------------------------------------------------
 }
 
+class NullableWire<T> extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const NullableWire({
+    required this.wire,
+    required this.builder,
+    super.key
+  });
+  // --------------------
+  final Wire<T?>? wire;
+  final Widget Function(T? value) builder;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    if (wire == null){
+      return builder(null);
+    }
+    else {
+      return ValueListenableBuilder(
+          valueListenable: wire!,
+          builder: (_, T? value, Widget? child){
+            return builder(value);
+          }
+      );
+    }
+
+    // --------------------
+  }
+// --------------------------------------------------------------------------
+}
+
 class MultiWires extends StatelessWidget {
   // --------------------------------------------------------------------------
   const MultiWires({
