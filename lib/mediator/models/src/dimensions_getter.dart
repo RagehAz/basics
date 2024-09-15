@@ -243,7 +243,7 @@ abstract class DimensionsGetter {
       );
 
       if (_map != null) {
-        final List<Object?> _objects = _map['streams'];
+        final List<Object?> _objects = _map['streams'] ?? <Object?>[];
         final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
         if(Lister.checkCanLoop(_maps) == true){
           for (final Map<String, dynamic> _data in _maps){
