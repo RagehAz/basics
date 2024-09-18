@@ -27,6 +27,8 @@ class VideoMaker {
     required Function(String? error)? onError,
     required List<String> ownersIDs,
     required String Function (String? title) uploadPathMaker,
+    required int maxDurationS,
+    required Function? onVideoExceedsMaxDuration,
   }) async {
     MediaModel? _output;
 
@@ -50,6 +52,7 @@ class VideoMaker {
               maxAssets: 1,
               selectedAssets: null,
               langCode: langCode,
+              maxDurationS: maxDurationS,
               // titleTextStyle: ,
               // textStyle: ,
               // titleTextSpacing: ,
@@ -62,22 +65,24 @@ class VideoMaker {
 
             final AssetEntity _entity = pickedAssets!.first;
 
-            _output = await MediaModelCreator.fromAssetEntity(
-              entity: _entity,
-              ownersIDs: ownersIDs,
-              mediaOrigin: MediaOrigin.galleryVideo,
-              uploadPath: uploadPathMaker(_entity.title),
-              skipMetaData: false,
-            );
+            if (_entity.duration > maxDurationS){
+              await onVideoExceedsMaxDuration?.call();
+            }
+
+            else {
+              _output = await MediaModelCreator.fromAssetEntity(
+                entity: _entity,
+                ownersIDs: ownersIDs,
+                mediaOrigin: MediaOrigin.galleryVideo,
+                uploadPath: uploadPathMaker(_entity.title),
+                skipMetaData: false,
+              );
+            }
 
           }
 
         },
       );
-
-
-
-
 
     }
 
@@ -97,6 +102,8 @@ class VideoMaker {
     required Locale? locale,
     required List<String> ownersIDs,
     required String Function (String? title) uploadPathMaker,
+    required int maxDurationS,
+    required Function? onVideoExceedsMaxDuration,
   }) async {
     MediaModel? _output;
 
@@ -111,26 +118,35 @@ class VideoMaker {
         onError: onError,
         functions: () async {
 
-          final AssetEntity? entity = await CameraPicker.pickFromCamera(
+          final AssetEntity? _entity = await CameraPicker.pickFromCamera(
             context,
             pickerConfig: WeChatPickerConfigs.camera(
               langCode: langCode,
               isVideo: true,
+              maxDurationS: maxDurationS,
             ),
+
             // createPickerState: ,
             // pageRouteBuilder: ,
             // useRootNavigator: ,
             locale: locale,
           );
 
-          if (entity != null){
-            _output = await MediaModelCreator.fromAssetEntity(
-              entity: entity,
-              ownersIDs: ownersIDs,
-              mediaOrigin: MediaOrigin.galleryVideo,
-              uploadPath: uploadPathMaker(entity.title),
-              skipMetaData: false,
-            );
+          if (_entity != null){
+
+            if (_entity.duration > maxDurationS){
+              await onVideoExceedsMaxDuration?.call();
+            }
+            else {
+              _output = await MediaModelCreator.fromAssetEntity(
+                entity: _entity,
+                ownersIDs: ownersIDs,
+                mediaOrigin: MediaOrigin.galleryVideo,
+                uploadPath: uploadPathMaker(_entity.title),
+                skipMetaData: false,
+              );
+            }
+
           }
 
 

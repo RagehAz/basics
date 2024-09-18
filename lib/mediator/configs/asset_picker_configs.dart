@@ -162,6 +162,7 @@ class WeChatPickerConfigs {
     TextStyle? titleTextStyle,
     double? titleTextSpacing,
     RequestType requestType = RequestType.image,
+    int maxDurationS = 10,
   }) {
 
     return AssetPickerConfig(
@@ -217,46 +218,61 @@ class WeChatPickerConfigs {
       // },
       // specialPickerType: SpecialPickerType.wechatMoment,
       //
-      // filterOptions: FilterOptionGroup(
-      //   audioOption: const FilterOption(
-      //     durationConstraint: DurationConstraint(
-      //       allowNullable: false,
-      //       max: const Duration(days: 1),
-      //       min: Duration.zero,
-      //     ),
-      //     needTitle: true,
-      //     sizeConstraint: SizeConstraint(
-      //       maxHeight: 100000,
-      //       minHeight: 0,
-      //       ignoreSize: true,
-      //       maxWidth: 100000,
-      //       minWidth: 0,
-      //     ),
-      //   ),
-      //   containsEmptyAlbum: true,
-      //   containsLivePhotos: true,
-      //   containsPathModified: true,
-      //   createTimeCond: DateTimeCond(
-      //     ignore: true,
-      //     min: DateTime.now(),
-      //     max: DateTime.now(),
-      //   ),
-      //   imageOption: FilterOption(
-      //     sizeConstraint: SizeConstraint(
-      //       maxHeight: 100000,
-      //       minHeight: 0,
-      //       ignoreSize: true,
-      //       maxWidth: 100000,
-      //       minWidth: 0,
-      //     ),
-      //     needTitle: true,
-      //     durationConstraint: DurationConstraint(
-      //       allowNullable: false,
-      //       max: const Duration(days: 1),
-      //       min: Duration.zero,
-      //     ),
-      //   ),
-      //   onlyLivePhotos: false,
+      filterOptions: FilterOptionGroup(
+        videoOption: FilterOption(
+          durationConstraint: DurationConstraint(
+            allowNullable: false,
+            max: Duration(seconds: maxDurationS),
+            min: Duration.zero,
+          ),
+          // needTitle: false,
+          // sizeConstraint: SizeConstraint(
+          //   maxHeight: 100000,
+          //   minHeight: 0,
+          //   ignoreSize: true,
+          //   maxWidth: 100000,
+          //   minWidth: 0,
+          // ),
+        ),
+        // audioOption: const FilterOption(
+        //   durationConstraint: DurationConstraint(
+        //     allowNullable: false,
+        //     max: const Duration(days: 1),
+        //     min: Duration.zero,
+        //   ),
+        //   needTitle: true,
+        //   sizeConstraint: SizeConstraint(
+        //     maxHeight: 100000,
+        //     minHeight: 0,
+        //     ignoreSize: true,
+        //     maxWidth: 100000,
+        //     minWidth: 0,
+        //   ),
+        // ),
+        // // containsEmptyAlbum: true,
+        // containsLivePhotos: true,
+        // containsPathModified: true,
+        // createTimeCond: DateTimeCond(
+        //   ignore: true,
+        //   min: DateTime.now(),
+        //   max: DateTime.now(),
+        // ),
+        // imageOption: FilterOption(
+        //   sizeConstraint: SizeConstraint(
+        //     maxHeight: 100000,
+        //     minHeight: 0,
+        //     ignoreSize: true,
+        //     maxWidth: 100000,
+        //     minWidth: 0,
+        //   ),
+        //   needTitle: true,
+        //   durationConstraint: DurationConstraint(
+        //     allowNullable: false,
+        //     max: const Duration(days: 1),
+        //     min: Duration.zero,
+        //   ),
+        // ),
+        // onlyLivePhotos: false,
       //   orders: <OrderOption>[
       //     OrderOption(
       //       asc: false,
@@ -268,16 +284,7 @@ class WeChatPickerConfigs {
       //     min: 0,
       //     max: ,
       //   ),
-      //   videoOption: FilterOption(
-      //     sizeConstraint: SizeConstraint(
-      //       maxHeight: 100000,
-      //       minHeight: 0,
-      //       ignoreSize: true,
-      //       maxWidth: 100000,
-      //       minWidth: 0,
-      //     ),
-      //   ),
-      // ),
+      ),
     );
 
   }
@@ -293,6 +300,7 @@ class WeChatPickerConfigs {
     TextStyle? textStyle,
     TextStyle? titleTextStyle,
     double? titleTextSpacing,
+    int maxDurationS = 10,
   }){
 
     return CameraPickerConfig(
@@ -321,7 +329,7 @@ class WeChatPickerConfigs {
       enableRecording: isVideo,
       enableTapRecording: isVideo,
       onlyEnableRecording: isVideo,
-      maximumRecordingDuration: const Duration(seconds: 10), // DEFAULT
+      maximumRecordingDuration: Duration(seconds: maxDurationS), // DEFAULT
 
       /// FORMAT
       imageFormatGroup: DeviceChecker.deviceIsIOS() == true ? ImageFormatGroup.bgra8888 : ImageFormatGroup.jpeg, // DEFAULT
