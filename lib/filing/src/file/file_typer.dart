@@ -20,7 +20,8 @@ enum FileExtType {
   gpp,
   mp4,
   gltf,
-  webp,
+  imageWebp,
+  videoWebp,
   woff,
   heic,
   heif,
@@ -73,7 +74,8 @@ class FileTyper {
       case FileExtType.gpp       : return false; // <-video
       case FileExtType.mp4       : return false; // <-video
       case FileExtType.gltf      : return false; // <-3d
-      case FileExtType.webp      : return true; /// <----- PIC OR VIDEO !!!
+      case FileExtType.imageWebp : return true; /// <----- pic
+      case FileExtType.videoWebp : return false; // <-video
       case FileExtType.woff      : return false; // <-font
       case FileExtType.heic      : return true; /// <----- pic
       case FileExtType.heif      : return true; /// <----- pic
@@ -120,7 +122,8 @@ class FileTyper {
       case FileExtType.gpp       : return true; /// <----- video
       case FileExtType.mp4       : return true; /// <----- video
       case FileExtType.gltf      : return false; // <-3d
-      case FileExtType.webp      : return true; /// <----- video
+      case FileExtType.imageWebp : return false; // <- pic
+      case FileExtType.videoWebp : return true; /// <----- video
       case FileExtType.woff      : return false; // <-font
       case FileExtType.heic      : return false; // <- pic
       case FileExtType.heif      : return false; // <- pic
@@ -167,7 +170,8 @@ class FileTyper {
       case FileExtType.gpp       : return false; // <-video
       case FileExtType.mp4       : return false; // <-video
       case FileExtType.gltf      : return false; // <-3d
-      case FileExtType.webp      : return false; // <-video
+      case FileExtType.imageWebp : return false; // <- pic
+      case FileExtType.videoWebp : return false; // <-video
       case FileExtType.woff      : return false; // <-font
       case FileExtType.heic      : return false; // <- pic
       case FileExtType.heif      : return false; // <- pic

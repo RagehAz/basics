@@ -110,7 +110,7 @@ class MediaModelCreator {
       final String? _fileName = _adjustedPaths['fileName'];
       final String? _uploadPath = _adjustedPaths['uploadPath'];
       final String? _id = _adjustedPaths['id'];
-      final String? _fileExtension = _adjustedPaths['fileExtension'];
+      // final String? _fileExtension = _adjustedPaths['fileExtension'];
 
       // Mapper.blogMap(_adjustedPaths, invoker: 'fromBytes');
 
@@ -120,23 +120,12 @@ class MediaModelCreator {
 
         if (skipMetaData == false){
 
-          Dimensions? _dims;
-          FileExtType? _fileExtensionType;
-
-          await XFiler.getOrCreateTempXFile(
-            fileName: _id,
+          final Map<String?, dynamic> _map = await _getDimsAndFileType(
+            id: _id,
             bytes: bytes,
-            ops: (XFile xFile) async {
-
-              _dims =  await DimensionsGetter.fromXFile(
-                xFile: xFile,
-                invoker: 'createTheMediaModelFromBytes',
-              );
-              _fileExtensionType = FileExtensioning.getTypeByExtension(_fileExtension);
-              _fileExtensionType ??= await FormatDetector.detectXFile(xFile: xFile, invoker: 'createTheMediaModelFromBytes');
-
-            },
           );
+          final Dimensions? _dims = _map['dims'];
+          final FileExtType? _fileExtensionType = _map['fileExtensionType'];
 
           _meta = MediaMetaModel(
             sizeMB: FileSizer.calculateSize(bytes.length, FileSizeUnit.megaByte),
@@ -174,6 +163,57 @@ class MediaModelCreator {
     }
 
     return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Map<String, dynamic>> _getDimsAndFileType({
+    required String id,
+    required Uint8List bytes,
+  }) async {
+
+    Dimensions? _dims;
+    FileExtType? _fileExtensionType;
+
+    await XFiler.getOrCreateTempXFile(
+      fileName: id,
+      bytes: bytes,
+      ops: (XFile xFile) async {
+
+        await Future.wait(<Future>[
+
+          /// DIMS
+          awaiter(
+            wait: true,
+            function: () async {
+              _dims =  await DimensionsGetter.fromXFile(
+                xFile: xFile,
+                invoker: 'createTheMediaModelFromBytes',
+              );
+            },
+          ),
+
+          /// FILE TYPE
+          awaiter(
+            wait: true,
+            function: () async {
+              _fileExtensionType = await FormatDetector.detectXFile(
+                xFile: xFile,
+                invoker: 'createTheMediaModelFromBytes',
+                bytesIfThere: bytes,
+              );
+            },
+          ),
+
+        ]);
+
+      },
+    );
+
+    return {
+      'dims': _dims,
+      'fileExtensionType': _fileExtensionType,
+    };
+
   }
   // -----------------------------------------------------------------------------
 

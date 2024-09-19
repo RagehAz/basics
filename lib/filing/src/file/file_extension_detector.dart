@@ -87,31 +87,28 @@ class FormatDetector {
   static Future<FileExtType> detectXFile({
     required XFile? xFile,
     required String invoker,
+    Uint8List? bytesIfThere,
   }) async {
     FileExtType? _output;
 
     if (xFile != null){
 
       /// MIME BY PATH ONLY
-      String? _mime = lookupMimeType(xFile.path);
+      String? _mime = lookupMimeType(xFile.path, headerBytes: bytesIfThere);
       _output = FileMiming.getTypeByMime(_mime);
 
+      /// MIME BY PATH AND BYTES
       if (_output == null){
-
-        /// BY FILE INFO
-        _output = await _byInfo(
-            xFile: xFile,
-            fileName: xFile.fileName
-        );
-
-        /// MIME BY PATH AND BYTES
-        if (_output == null){
-          final Uint8List? _bytes = await Byter.fromXFile(xFile, 'detectXFile.$invoker');
-          _mime = lookupMimeType(xFile.path, headerBytes: _bytes);
-          _output = FileMiming.getTypeByMime(_mime);
-        }
-
+        final Uint8List? _bytes = bytesIfThere ?? await Byter.fromXFile(xFile, 'detectXFile.$invoker');
+        _mime = lookupMimeType(xFile.path, headerBytes: _bytes);
+        _output = FileMiming.getTypeByMime(_mime);
       }
+
+      /// BY FILE INFO : MOST LIKELY WILL NOT BE AN IMAGE
+      _output ??= await _byInfo(
+          xFile: xFile,
+          fileName: xFile.fileName,
+        );
 
     }
 
@@ -201,9 +198,36 @@ class FormatDetector {
 
             final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
 
-            _output = _getExtTypeFromSession(
-              session: session,
-            );
+            final MediaInformation? information = session.getMediaInformation();
+
+            /// looks like : 'mov,mp4,m4a,3gp,3g2,mj2'
+            final String? _formatLine = information?.getFormat();
+
+            if (_formatLine != null){
+
+              final List<String> _formats = _formatLine.split(',');
+
+              for (final String format in _formats){
+
+                FileExtType? _type = FileExtensioning.getTypeByExtension(format);
+
+                if (_type != null){
+
+                  _type = await _fixWebpSituation(
+                    type: _type,
+                    info: information!,
+                  );
+
+                  _output = _type;
+                  break;
+                }
+                else {
+                  // blog('_getExtTypeFromSession : format : $format : NOT DETECTED');
+                }
+
+              }
+
+            }
 
           },
         );
@@ -215,38 +239,26 @@ class FormatDetector {
    return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static FileExtType? _getExtTypeFromSession({
-    required MediaInformationSession session,
-  }) {
-    FileExtType? _output;
+  /// BETTER THAN NOTHING
+  static Future<FileExtType> _fixWebpSituation({
+    required FileExtType type,
+    required MediaInformation info,
+  }) async {
+    FileExtType output = type;
 
-    final MediaInformation? information = session.getMediaInformation();
+    if (type == FileExtType.imageWebp || type == FileExtType.videoWebp){
 
-    /// looks like : 'mov,mp4,m4a,3gp,3g2,mj2'
-    final String? _formatLine = information?.getFormat();
-
-    if (_formatLine != null){
-
-      final List<String> _formats = _formatLine.split(',');
-
-      for (final String format in _formats){
-
-        final FileExtType? _type = FileExtensioning.getTypeByExtension(format);
-
-        if (_type != null){
-          _output = _type;
-          break;
-        }
-        else {
-          // blog('_getExtTypeFromSession : format : $format : NOT DETECTED');
-        }
-
+      final String? _duration = info.getDuration();
+      if (_duration == null){
+        output = FileExtType.imageWebp;
+      }
+      else {
+        output = FileExtType.videoWebp;
       }
 
     }
 
-    return _output;
+    return output;
   }
   // -----------------------------------------------------------------------------
 

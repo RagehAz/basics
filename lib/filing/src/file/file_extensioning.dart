@@ -67,7 +67,8 @@ class FileExtensioning {
       case FileExtType.gpp          : _output = _ext_gpp        ;
       case FileExtType.mp4          : _output = _ext_mp4        ;
       case FileExtType.gltf         : _output = _ext_gltf       ;
-      case FileExtType.webp         : _output = _ext_webp       ;
+      case FileExtType.imageWebp    : _output = _ext_webp       ;
+      case FileExtType.videoWebp    : _output = _ext_webp       ;
       case FileExtType.woff         : _output = _ext_woff       ;
       case FileExtType.heic         : _output = _ext_heic       ;
       case FileExtType.heif         : _output = _ext_heif       ;
@@ -85,7 +86,7 @@ class FileExtensioning {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS GOOD
+  /// CAN NOT BE DEPENDED ON BECAUSE fileName.webP can either be image or video
   static FileExtType? getTypeByExtension(String? extension) {
     FileExtType? _output;
 
@@ -107,7 +108,8 @@ class FileExtensioning {
       case _ext_gpp         : _output = FileExtType.gpp;
       case _ext_mp4         : _output = FileExtType.mp4;
       case _ext_gltf        : _output = FileExtType.gltf;
-      case _ext_webp        : _output = FileExtType.webp;
+      case _ext_webp        : _output = FileExtType.imageWebp; // || FileExtType.imageWebp; // CANT DO THIS
+      case 'webp_pipe'      : _output = FileExtType.imageWebp; // || FileExtType.imageWebp; // CANT DO THIS
       case _ext_woff        : _output = FileExtType.woff;
       case _ext_heic        : _output = FileExtType.heic;
       case _ext_heif        : _output = FileExtType.heif;

@@ -28,7 +28,8 @@ class FileMiming {
   static const String _mime_gpp = 'video/3gpp';
   static const String _mime_mp4 = 'video/mp4';
   static const String _mime_gltf = 'model/gltf-binary';
-  static const String _mime_webp = 'image/webp';
+  static const String _mime_image_webp = 'image/webp';
+  static const String _mime_video_webp = 'video/webp';
   static const String _mime_woff = 'font/woff2';
   static const String _mime_heic = 'image/heic';
   static const String _mime_heif = 'image/heif';
@@ -67,7 +68,8 @@ class FileMiming {
       case FileExtType.gpp          : _output = _mime_gpp        ;
       case FileExtType.mp4          : _output = _mime_mp4        ;
       case FileExtType.gltf         : _output = _mime_gltf       ;
-      case FileExtType.webp         : _output = _mime_webp       ;
+      case FileExtType.imageWebp    : _output = _mime_image_webp ;
+      case FileExtType.videoWebp    : _output = _mime_video_webp ;
       case FileExtType.woff         : _output = _mime_woff       ;
       case FileExtType.heic         : _output = _mime_heic       ;
       case FileExtType.heif         : _output = _mime_heif       ;
@@ -107,7 +109,8 @@ class FileMiming {
       case _mime_gpp         : _output = FileExtType.gpp;
       case _mime_mp4         : _output = FileExtType.mp4;
       case _mime_gltf        : _output = FileExtType.gltf;
-      case _mime_webp        : _output = FileExtType.webp;
+      case _mime_image_webp  : _output = FileExtType.imageWebp;
+      case _mime_video_webp  : _output = FileExtType.videoWebp;
       case _mime_woff        : _output = FileExtType.woff;
       case _mime_heic        : _output = FileExtType.heic;
       case _mime_heif        : _output = FileExtType.heif;

@@ -11,6 +11,7 @@ import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
 import 'package:basics/mediator/models/media_models.dart';
+import 'package:basics/mediator/super_video_player/super_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'dart:ui' as ui;
@@ -223,10 +224,13 @@ class ImageSwitcher extends StatelessWidget {
 
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
         else if (_mediaModel.isVideo() == true){
-          return InfiniteLoadingBox(
+          return SuperVideoPlayer(
             width: width!,
             height: height,
-            color: Colorz.red255,
+            media: _mediaModel,
+            isMuted: true,
+            loop: true,
+            // autoPlay: true,
           );
         }
 
