@@ -34,7 +34,7 @@ dependencies:
   just_audio: ^0.9.38
   crop_your_image: ^1.1.0
   video_player: ^2.8.6
-  youtube_player_flutter: ^9.0.1
+  youtube_player_flutter: 9.0.1
   wechat_camera_picker: ^4.2.2
   wechat_assets_picker: ^9.0.4
   image_picker: ^1.1.2
