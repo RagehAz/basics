@@ -47,14 +47,14 @@ dependencies:
   cross_file_image: ^1.1.0
   cross_file: ^0.3.4+2
   email_validator: ^2.1.17
-  cloud_firestore: ^5.4.2
-  http: ^1.2.2
   intl: ^0.19.0
   mime: ^1.0.6
   flutter_svg: ^2.0.10+1
   websafe_svg: ^3.0.1+2
   flutter_cache_manager: ^3.4.1
   device_info_plus: ^10.1.2
+  cloud_firestore: ^5.4.2
+  http: ^1.2.2
   # --------------------------------------------------------------------------------
 dev_dependencies:
   flutter_test:
