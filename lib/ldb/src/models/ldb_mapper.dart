@@ -1,5 +1,5 @@
 part of ldb;
-
+/// => TAMAM
 class LDBMapper {
   // -----------------------------------------------------------------------------
 
@@ -12,11 +12,11 @@ class LDBMapper {
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>> getMapsFromSnapshots({
-    required List<RecordSnapshot<int, Map<String, dynamic>>> snapshots,
+    required List<DBSnap> snaps,
   }){
 
-    return snapshots.map((RecordSnapshot<int, Map<String, dynamic>> snapshot) {
-      return snapshot.value;
+    return snaps.map((RecordSnapshot<int, Map<String, dynamic>> snap) {
+      return snap.value;
     }).toList();
 
   }

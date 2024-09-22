@@ -12,25 +12,12 @@ class LDBSearch {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> byFinder({
-    required Finder? finder,
+    required Finder finder,
     required String? docName,
-  }) async {
-    List<Map<String, dynamic>> _output = [];
-
-    if (
-        finder != null &&
-        docName != null
-    ) {
-
-      _output = await _Sembast.searchMaps(
-        docName: docName,
-        finder: finder,
-      );
-
-    }
-
-    return _output;
-  }
+  }) => SembastSearch.searchMaps(
+    docName: docName,
+    finder: finder,
+  );
   // -----------------------------------------------------------------------------
 
   /// FOR MAP
@@ -41,6 +28,7 @@ class LDBSearch {
     required String? field,
     required dynamic value,
     required String? docName,
+    required String invoker,
   }) async {
     Map<String, dynamic>? _output;
 
@@ -50,16 +38,15 @@ class LDBSearch {
         docName != null
     ) {
 
-      final Finder _finder = Finder(
-        filter: Filter.equals(field, value, anyInList: false),
-        // sortOrders: <SortOrder>[
-        //   SortOrder(fieldToSortBy)
-        // ],
-      );
-
-      _output = await _Sembast.searchFirst(
+      _output = await SembastSearch.searchFirst(
         docName: docName,
-        finder: _finder,
+        invoker: invoker,
+        finder: Finder(
+          filter: Filter.equals(field, value, anyInList: false),
+          // sortOrders: <SortOrder>[
+          //   SortOrder(fieldToSortBy)
+          // ],
+        ),
       );
 
     }
@@ -88,14 +75,12 @@ class LDBSearch {
         docName != null
     ){
 
-      final Finder _finder = Finder(
-        filter: Filter.equals(field, value, anyInList: fieldIsList),
-        sortOrders: <SortOrder>[SortOrder(sortByField)],
-      );
-
-      _output = await _Sembast.searchMaps(
+      _output = await SembastSearch.searchMaps(
         docName: docName,
-        finder: _finder,
+        finder: Finder(
+          filter: Filter.equals(field, value, anyInList: fieldIsList),
+          sortOrders: <SortOrder>[SortOrder(sortByField)],
+        ),
       );
 
       // blog('fieldToSortBy : $fieldToSortBy');
@@ -128,14 +113,12 @@ class LDBSearch {
         sortByField != null
     ){
 
-      final Finder _finder = Finder(
-        filter: Filter.inList(field, <Object>[...list!]),
-        sortOrders: <SortOrder>[SortOrder(sortByField)],
-      );
-
-      _output = await _Sembast.searchMaps(
+      _output = await SembastSearch.searchMaps(
         docName: docName,
-        finder: _finder,
+        finder: Finder(
+          filter: Filter.inList(field, <Object>[...list!]),
+          sortOrders: <SortOrder>[SortOrder(sortByField)],
+        ),
       );
 
     }
@@ -169,16 +152,14 @@ class LDBSearch {
         _value = TextMod.replaceAllCharacters(characterToReplace: r'\', replacement: '', input: _value.trim());
       }
 
-      final Finder _finder = Finder(
-        filter: Filter.matches(_field, _value, anyInList: true),
-        sortOrders: <SortOrder>[
-          SortOrder(_sortBy)
-        ],
-      );
-
-      _output = await _Sembast.searchMaps(
+      _output = await SembastSearch.searchMaps(
         docName: docName,
-        finder: _finder,
+        finder: Finder(
+          filter: Filter.matches(_field, _value, anyInList: true),
+          sortOrders: <SortOrder>[
+            SortOrder(_sortBy)
+          ],
+        ),
       );
 
     }
