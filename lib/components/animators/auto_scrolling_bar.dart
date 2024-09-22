@@ -11,7 +11,7 @@ class AutoScrollingBar extends StatefulWidget {
     super.key
   });
   /// --------------------------------------------------------------------------
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
   final double height;
   final Widget child;
   /// --------------------------------------------------------------------------
@@ -28,7 +28,7 @@ class _AutoScrollingBarState extends State<AutoScrollingBar> {
   void initState() {
 
     /// REMOVED
-    widget.scrollController.addListener(_scrollListener);
+    widget.scrollController?.addListener(_scrollListener);
 
     super.initState();
   }
@@ -64,7 +64,7 @@ class _AutoScrollingBarState extends State<AutoScrollingBar> {
   // --------------------
   @override
   void dispose() {
-    widget.scrollController.removeListener(_scrollListener);
+    widget.scrollController?.removeListener(_scrollListener);
     _scroll.dispose();
     super.dispose();
   }
@@ -75,8 +75,8 @@ class _AutoScrollingBarState extends State<AutoScrollingBar> {
       notifier: _scroll,
       mounted: mounted,
       value: {
-        'offset': widget.scrollController.offset,
-        'direction': widget.scrollController.positions.first.userScrollDirection,
+        'offset': widget.scrollController?.offset,
+        'direction': widget.scrollController?.positions.first.userScrollDirection,
       },
     );
 
