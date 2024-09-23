@@ -52,9 +52,40 @@ class SembastSearch {
         finder: finder,
       );
 
-      blog('($invoker) : searchFirst: _snap : $_snap');
+      // blog('($invoker) : searchFirst: _snap : $_snap');
 
       _output = _snap?.value;
+
+    }
+
+    return _output;
+  }
+
+
+  static Future<int?> findRecordKey({
+    required String? docName,
+    required String primaryKey,
+    required String id,
+    DBModel? dbModel,
+  }) async {
+    int? _output;
+
+    if (docName != null){
+
+      final DBModel? _dbModel = dbModel ?? await SembastInit.getDBModel(docName);
+
+      if (_dbModel != null){
+
+        _output = await _dbModel.doc.findKey(
+          _dbModel.database,
+          finder: Finder(
+            filter: Filter.equals(primaryKey, id,
+              anyInList: false,
+            ),
+          ),
+        );
+
+      }
 
     }
 

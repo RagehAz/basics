@@ -23,22 +23,19 @@ class SembastCheck {
         final int? _val = await _dbModel.doc.findKey(
           _dbModel.database,
           finder: Finder(
-            filter: Filter.equals(primaryKey, id, anyInList: false),
+            filter: Filter.equals(primaryKey, id,
+              anyInList: false,
+            ),
           ),
         );
 
-        /// NOT FOUND
-        if (_val == null) {
-          _output = false;
-        }
+        _output = _val != null;
 
-        /// FOUND
-        else {
-          _output = true;
-        }
       }
 
     }
+
+    blog('checkMapExists.($docName).($id):$_output');
 
     return _output;
   }

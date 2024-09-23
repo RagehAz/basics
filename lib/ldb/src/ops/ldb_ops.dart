@@ -16,7 +16,7 @@ class LDBOps {
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
-  }) => SembastInsert.insert(
+  }) => SembastInsertSingle.insert(
     map: input,
     docName: docName,
     primaryKey: primaryKey,
@@ -29,7 +29,7 @@ class LDBOps {
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
-  }) => SembastInsert.insertAll(
+  }) => SembastInsertMultiple.insertAll(
     maps: inputs,
     docName: docName,
     primaryKey: primaryKey,

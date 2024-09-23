@@ -281,63 +281,61 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
             SizedBox(
               width: _screenWidth,
               height: Scale.screenHeight(context) - 40,
-              child: Scroller(
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _maps.length,
-                  itemBuilder: (_, int index){
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: _maps.length,
+                itemBuilder: (_, int index){
 
-                    final Map<String, dynamic> _map = _maps[index];
-                    final List<String> _keys = _map.keys.toList();
-                    final List<dynamic> _values = _map.values.toList();
-                    // final String _primaryValue = _map[_primaryKey];
+                  final Map<String, dynamic> _map = _maps[index];
+                  final List<String> _keys = _map.keys.toList();
+                  final List<dynamic> _values = _map.values.toList();
+                  // final String _primaryValue = _map[_primaryKey];
 
-                    return SizedBox(
-                      width: _screenWidth,
-                      height: 42,
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: <Widget>[
+                  return SizedBox(
+                    width: _screenWidth,
+                    height: 42,
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
 
-                          /// MORE OPTIONS
-                          SuperBox(
-                            height: 37,
-                            width: 37,
-                            icon: Iconz.more,
-                            iconSizeFactor: 0.4,
-                            onTap: () => _onRowTap(_map),
-                            // margins: EdgeInsets.all(5),
-                          ),
+                        /// MORE OPTIONS
+                        SuperBox(
+                          height: 37,
+                          width: 37,
+                          icon: Iconz.more,
+                          iconSizeFactor: 0.4,
+                          onTap: () => _onRowTap(_map),
+                          // margins: EdgeInsets.all(5),
+                        ),
 
-                          /// ROW NUMBER
-                          SuperBox(
-                            height: 40,
-                            width: 40,
-                            // maxWidth: 40,
-                            text: '${index + 1}',
-                            textScaleFactor: 0.4,
-                            margins: const EdgeInsets.all(5),
-                            bubble: false,
-                            color: Colorz.white10,
-                          ),
+                        /// ROW NUMBER
+                        SuperBox(
+                          height: 40,
+                          width: 40,
+                          // maxWidth: 40,
+                          text: '${index + 1}',
+                          textScaleFactor: 0.4,
+                          margins: const EdgeInsets.all(5),
+                          bubble: false,
+                          color: Colorz.white10,
+                        ),
 
-                          /// ROW VALUES
-                          ...List<Widget>.generate(_values.length, (int i) {
-                            final String _key = _keys[i];
-                            final String _value = _values[i].toString();
-                            return ValueBox(
-                              dataKey: _key,
-                              value: _value,
-                              color: Colorz.green125,
-                            );
-                          }),
+                        /// ROW VALUES
+                        ...List<Widget>.generate(_values.length, (int i) {
+                          final String _key = _keys[i];
+                          final String _value = _values[i].toString();
+                          return ValueBox(
+                            dataKey: _key,
+                            value: _value,
+                            color: Colorz.green125,
+                          );
+                        }),
 
-                        ],
-                      ),
-                    );
-                    },
-                ),
+                      ],
+                    ),
+                  );
+                  },
               ),
             ),
 
