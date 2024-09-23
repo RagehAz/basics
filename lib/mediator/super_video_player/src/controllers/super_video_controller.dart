@@ -136,31 +136,32 @@ class SuperVideoController {
     required bool isMuted,
   }){
 
-    final String? _videoID = extractVideoIDFromYoutubeURL(url);
-
-    final bool _isValidVideoID = checkIsValidYoutubeVideoID(_videoID);
-
-    if (_videoID != null && _isValidVideoID == true){
-
-      _youtubeController = YoutubePlayerController(
-        initialVideoId: _videoID,
-        // flags: const YoutubePlayerFlags(
-        //   autoPlay: true,
-        // ),
-      );
-
-      _setupYoutubePlayer(
-        autoPlay: autoPlay,
-        isMuted: isMuted,
-      );
-
-    }
-
-    _isYoutubeURL = true;
-    _videoURL = url;
-
-    /// SHOW VOLUME SLIDER
-    _showVolumeSlider = true;
+    /// TURNED_OFF_YOUTUBE_PLAYER
+    // final String? _videoID = extractVideoIDFromYoutubeURL(url);
+    //
+    // final bool _isValidVideoID = checkIsValidYoutubeVideoID(_videoID);
+    //
+    // if (_videoID != null && _isValidVideoID == true){
+    //
+    //   _youtubeController = YoutubePlayerController(
+    //     initialVideoId: _videoID,
+    //     // flags: const YoutubePlayerFlags(
+    //     //   autoPlay: true,
+    //     // ),
+    //   );
+    //
+    //   _setupYoutubePlayer(
+    //     autoPlay: autoPlay,
+    //     isMuted: isMuted,
+    //   );
+    //
+    // }
+    //
+    // _isYoutubeURL = true;
+    // _videoURL = url;
+    //
+    // /// SHOW VOLUME SLIDER
+    // _showVolumeSlider = true;
 
   }
   // --------------------
@@ -240,27 +241,28 @@ class SuperVideoController {
   }
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  void _setupYoutubePlayer({
-    required bool autoPlay,
-    required bool isMuted,
-  }){
-
-    /// VOLUME
-    _youtubeController?.setVolume(isMuted ? 0 : 100);
-
-    /// AUTO PLAY
-    if (autoPlay == true){
-      play();
-    }
-    else {
-      pause();
-    }
-
-    /// IS AUTO PLAY
-    _isAutoPlay = autoPlay;
-
-  }
+  /// TURNED_OFF_YOUTUBE_PLAYER
+  // /// TESTED : WORKS PERFECT
+  // void _setupYoutubePlayer({
+  //   required bool autoPlay,
+  //   required bool isMuted,
+  // }){
+  //
+  //   /// VOLUME
+  //   _youtubeController?.setVolume(isMuted ? 0 : 100);
+  //
+  //   /// AUTO PLAY
+  //   if (autoPlay == true){
+  //     play();
+  //   }
+  //   else {
+  //     pause();
+  //   }
+  //
+  //   /// IS AUTO PLAY
+  //   _isAutoPlay = autoPlay;
+  //
+  // }
   // --------------------------------------------------------------------------
 
   /// DISPOSE
@@ -273,7 +275,8 @@ class SuperVideoController {
     _isChangingVolume.dispose();
     _videoPlayerController?.dispose();
     _volume.dispose();
-    _youtubeController?.dispose();
+    /// TURNED_OFF_YOUTUBE_PLAYER
+    // _youtubeController?.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -301,8 +304,9 @@ class SuperVideoController {
   bool _isVideoURL = false;
   bool get isVideoURL => _isVideoURL;
   // --------------------
-  bool _isYoutubeURL = false;
-  bool get isYoutubeURL => _isYoutubeURL;
+  /// TURNED_OFF_YOUTUBE_PLAYER
+  // bool _isYoutubeURL = false;
+  // bool get isYoutubeURL => _isYoutubeURL;
   // --------------------
   File? _videoFile;
   File? get videoFile => _videoFile;
@@ -319,8 +323,9 @@ class SuperVideoController {
   double _volumeBeforeMute = 1;
   double get volumeBeforeMute => _volumeBeforeMute;
   // --------------------
-  YoutubePlayerController? _youtubeController;
-  YoutubePlayerController? get youtubeController => _youtubeController;
+  /// TURNED_OFF_YOUTUBE_PLAYER
+  // YoutubePlayerController? _youtubeController;
+  // YoutubePlayerController? get youtubeController => _youtubeController;
   // --------------------
   bool _isPlaying = false;
   bool get isPlaying => _isPlaying;
@@ -368,7 +373,8 @@ class SuperVideoController {
     if (_isPlaying == false){
       _isPlaying = true;
       _videoPlayerController?.play();
-      _youtubeController?.play();
+      /// TURNED_OFF_YOUTUBE_PLAYER
+      // _youtubeController?.play();
       _videoPlayerController?.setLooping(true);
     }
 
@@ -381,7 +387,8 @@ class SuperVideoController {
     if (_isPlaying == true){
       _isPlaying = false;
       _videoPlayerController?.pause();
-      _youtubeController?.pause();
+      /// TURNED_OFF_YOUTUBE_PLAYER
+      // _youtubeController?.pause();
       _videoPlayerController?.setLooping(false);
     }
 
@@ -416,7 +423,8 @@ class SuperVideoController {
 
       _videoPlayerController?.setVolume(volume);
 
-      _youtubeController?.setVolume((volume * 100).toInt());
+      /// TURNED_OFF_YOUTUBE_PLAYER
+      // _youtubeController?.setVolume((volume * 100).toInt());
 
       setNotifier(
           notifier: _volume,
@@ -630,21 +638,22 @@ class SuperVideoController {
   String? getYouTubeVideoCoverImageURL(){
     String? _output;
 
-    final bool _isYoutubeLink = checkIsValidYoutubeLink(_videoURL);
-
-    if (_youtubeController != null && _isYoutubeLink == true){
-
-      // final String link = 'https://www.youtube.com/watch?v=$videoID';
-      // final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
-
-      final YoutubeMetaData? videoMetaData = _youtubeController?.metadata;
-      final String? id = videoMetaData?.videoId;
-
-      if (id != null){
-        _output = 'https://img.youtube.com/vi/$id/0.jpg';
-      }
-
-    }
+    /// TURNED_OFF_YOUTUBE_PLAYER
+    // final bool _isYoutubeLink = checkIsValidYoutubeLink(_videoURL);
+    //
+    // if (_youtubeController != null && _isYoutubeLink == true){
+    //
+    //   // final String link = 'https://www.youtube.com/watch?v=$videoID';
+    //   // final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
+    //
+    //   final YoutubeMetaData? videoMetaData = _youtubeController?.metadata;
+    //   final String? id = videoMetaData?.videoId;
+    //
+    //   if (id != null){
+    //     _output = 'https://img.youtube.com/vi/$id/0.jpg';
+    //   }
+    //
+    // }
 
     return _output;
   }

@@ -31,15 +31,16 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
 
     else {
 
-      if (superVideoController!.isYoutubeURL == true){
-        return _TheYoutubePlayer(
-          superVideoController: superVideoController!,
-          width: width,
-          corners: corners,
-        );
-      }
-
-      else {
+      /// TURNED_OFF_YOUTUBE_PLAYER
+      // if (superVideoController!.isYoutubeURL == true){
+      //   return _TheYoutubePlayer(
+      //     superVideoController: superVideoController!,
+      //     width: width,
+      //     corners: corners,
+      //   );
+      // }
+      //
+      // else {
         return _FilePlayer(
           superVideoController: superVideoController!,
           width: width,
@@ -47,7 +48,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
           corners: corners,
           errorIcon: errorIcon,
         );
-      }
+      // }
 
     }
 

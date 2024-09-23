@@ -13,8 +13,9 @@ import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+/// TURNED_OFF_YOUTUBE_PLAYER
+// import 'package:basics/components/super_image/super_image.dart';
+// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:video_player/video_player.dart';
 export 'package:video_player/video_player.dart';
 
