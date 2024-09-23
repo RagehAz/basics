@@ -29,4 +29,21 @@ class SembastInfo {
     return _output;
   }
   // -----------------------------------------------------------------------------
+
+  /// REPORTING
+
+  // --------------------
+  static const bool _canReport = kDebugMode;
+  // --------------------
+  static void report({
+    required String invoker,
+    required bool success,
+    required String? docName,
+    required String? key,
+  }){
+    if (_canReport == true){
+      blog('LDB($invoker).docName($docName).key($key).success($success)');
+    }
+  }
+  // -----------------------------------------------------------------------------
 }

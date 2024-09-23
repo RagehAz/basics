@@ -32,6 +32,13 @@ class SembastSearch {
 
     }
 
+    SembastInfo.report(
+      invoker: 'searchMaps',
+      success: _output.isNotEmpty,
+      docName: docName,
+      key: finder.toString(),
+    );
+
     return _output;
   }
   // --------------------
@@ -58,10 +65,21 @@ class SembastSearch {
 
     }
 
+    SembastInfo.report(
+      invoker: 'searchFirst',
+      success: _output != null,
+      docName: docName,
+      key: finder.toString(),
+    );
+
     return _output;
   }
+  // -----------------------------------------------------------------------------
 
+  /// RECORD KEY FINDER
 
+  // --------------------
+  ///
   static Future<int?> findRecordKey({
     required String? docName,
     required String primaryKey,

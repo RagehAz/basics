@@ -75,6 +75,13 @@ class SembastInit {
       },
     );
 
+    SembastInfo.report(
+      invoker: '_createSmartPhoneDatabase',
+      success: _db != null,
+      docName: '...',
+      key: '...',
+    );
+
     // blog('4--> LDB : done : _db : $_db');
     return _db;
   }

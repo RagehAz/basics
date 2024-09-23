@@ -45,15 +45,23 @@ class SembastDelete {
 
     }
 
+    SembastInfo.report(
+      invoker: 'deleteMap',
+      success: _success,
+      docName: docName,
+      key: id,
+    );
+
     return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteMaps({
+  static Future<bool> deleteMaps({
     required String? primaryKey,
     required List<String>? ids,
     required String? docName,
   }) async {
+    bool _success = false;
 
     if (
         primaryKey != null &&
@@ -65,11 +73,20 @@ class SembastDelete {
 
       if (_dbModel != null){
 
-        await _dbModel.doc.delete(
-          _dbModel.database,
-          finder: Finder(
-            filter: Filter.inList(primaryKey, ids!),
-          ),
+        await tryAndCatch(
+            invoker: 'deleteMaps',
+            functions: () async {
+
+              await _dbModel.doc.delete(
+                _dbModel.database,
+                finder: Finder(
+                  filter: Filter.inList(primaryKey, ids!),
+                ),
+              );
+
+              _success = true;
+
+            },
         );
 
         // blog('Sembast : deleteDocs : $docName : $primaryKeyName : $ids');
@@ -77,19 +94,45 @@ class SembastDelete {
 
     }
 
+    SembastInfo.report(
+      invoker: 'deleteMap',
+      success: _success,
+      docName: docName,
+      key: ids.toString(),
+    );
+
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteAllAtOnce({
+  static Future<bool> deleteAllAtOnce({
     required String? docName,
   }) async {
+    bool _success = false;
 
     final DBModel? _dbModel = await SembastInit.getDBModel(docName);
 
     if (_dbModel != null){
-      await _dbModel.doc.delete(_dbModel.database);
+      await tryAndCatch(
+        invoker: 'deleteAllAtOnce',
+        functions: () async {
+
+          await _dbModel.doc.delete(_dbModel.database);
+          _success = true;
+
+          },
+
+      );
     }
 
+    SembastInfo.report(
+      invoker: 'deleteMap',
+      success: _success,
+      docName: docName,
+      key: '...',
+    );
+
+    return _success;
   }
   // -----------------------------------------------------------------------------
 }

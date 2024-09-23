@@ -30,6 +30,13 @@ class SembastRead {
 
     }
 
+    SembastInfo.report(
+      invoker: 'readMap',
+      success: _output != null,
+      docName: docName,
+      key: id,
+    );
+
     return _output;
   }
   // --------------------
@@ -51,6 +58,13 @@ class SembastRead {
 
       _output = map?[fieldName];
     }
+
+    SembastInfo.report(
+      invoker: 'readField',
+      success: _output != null,
+      docName: docName,
+      key: id,
+    );
 
     return _output;
   }
@@ -81,9 +95,14 @@ class SembastRead {
           ),
       );
 
-      // blog('Sembast : readMaps : $docName : $primaryKeyName : ${_output.length} maps');
-
     }
+
+    // SembastInfo.report(
+    //   invoker: 'readMaps',
+    //   success: _output.isNotEmpty,
+    //   docName: docName,
+    //   key: ids.toString(),
+    // );
 
     return _output;
   }
@@ -93,10 +112,19 @@ class SembastRead {
     required String? docName,
   }) async {
 
-    return SembastSearch.searchMaps(
+    final List<Map<String, dynamic>> _output = await SembastSearch.searchMaps(
       docName: docName,
       finder: null,
     );
+
+    // SembastInfo.report(
+    //   invoker: 'readMaps',
+    //   success: _output.isNotEmpty,
+    //   docName: docName,
+    //   key: '...',
+    // );
+
+    return _output;
 
   }
   // -----------------------------------------------------------------------------

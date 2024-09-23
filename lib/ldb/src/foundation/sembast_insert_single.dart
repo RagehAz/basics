@@ -23,6 +23,7 @@ class SembastInsertSingle {
         docName: docName,
         map: map,
         primaryKey: primaryKey,
+        report: true,
       );
     }
 
@@ -41,6 +42,7 @@ class SembastInsertSingle {
     required Map<String, dynamic>? map,
     required String? docName,
     required String? primaryKey,
+    required bool report,
   }) async {
     bool _success = false;
 
@@ -65,7 +67,14 @@ class SembastInsertSingle {
 
     }
 
-    blog('insertAllowingDuplicateIDs.docName($docName).key(${map?[primaryKey??'id']}).success($_success)');
+    if (report){
+      SembastInfo.report(
+          invoker: 'insertAllowingDuplicateIDs',
+          success: _success,
+          docName: docName,
+          key: map?[primaryKey] ?? 'id',
+      );
+    }
 
     return _success;
   }
@@ -96,6 +105,7 @@ class SembastInsertSingle {
             docName: docName,
             map: map,
             primaryKey: primaryKey,
+            report: false,
           );
         }
 
@@ -110,7 +120,12 @@ class SembastInsertSingle {
 
     }
 
-    blog('insertAllowingDuplicateIDs.docName($docName).key(${map?[primaryKey??'id']}).success($_success)');
+    SembastInfo.report(
+      invoker: '_insertWithoutAllowingDuplicateIDs',
+      success: _success,
+      docName: docName,
+      key: map?[primaryKey??'id'],
+    );
 
     return _success;
   }

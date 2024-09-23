@@ -11,27 +11,30 @@ class SembastInsertMultiple {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> insertAll({
+  static Future<bool> insertAll({
     required List<Map<String, dynamic>>? maps,
     required String? docName,
     required String? primaryKey,
     required bool allowDuplicateIDs,
   }) async {
+    bool _success = false;
 
     if (allowDuplicateIDs == true){
-      await _SembastInsertionAllowingDuplicateID().insert(
+      _success = await _SembastInsertionAllowingDuplicateID().insert(
           maps: maps,
           docName: docName,
       );
     }
+
     else {
-      await _SembastInsertionPreventingDuplicateID().insert(
+      _success = await _SembastInsertionPreventingDuplicateID().insert(
           maps: maps,
           docName: docName,
           primaryKey: primaryKey,
       );
     }
 
+    return _success;
   }
   // --------------------
   /// DEPRECATED
@@ -72,11 +75,12 @@ class SembastInsertMultiple {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> insertAllOnCleanSlate({
+  static Future<bool> insertAllOnCleanSlate({
     required List<Map<String, dynamic>> maps,
     required String? docName,
     required String? primaryKey,
   }) async {
+    bool _success = false;
 
     if (
         Lister.checkCanLoop(maps) == true &&
@@ -84,19 +88,30 @@ class SembastInsertMultiple {
         primaryKey != null
     ){
 
-      await SembastDelete.deleteAllAtOnce(
+      final bool _go = await SembastDelete.deleteAllAtOnce(
         docName: docName,
       );
 
-      await SembastInsertMultiple.insertAll(
-        maps: maps,
-        docName: docName,
-        primaryKey: primaryKey,
-        allowDuplicateIDs: false,
-      );
+      if (_go == true){
+
+        _success = await SembastInsertMultiple.insertAll(
+          maps: maps,
+          docName: docName,
+          primaryKey: primaryKey,
+          allowDuplicateIDs: false,
+        );
+      }
 
     }
 
+    SembastInfo.report(
+      invoker: 'insertAllOnCleanSlate',
+      success: _success,
+      docName: docName,
+      key: '${maps.length} maps',
+    );
+
+    return _success;
   }
   // -----------------------------------------------------------------------------
 }
@@ -112,11 +127,12 @@ class _SembastInsertionPreventingDuplicateID {
   final Map<String, Map<String, dynamic>> _notFound = {};
   // --------------------
   ///
-  Future<void> insert({
+  Future<bool> insert({
     required List<Map <String, dynamic>>? maps,
     required String? docName,
     required String? primaryKey,
   }) async {
+    bool _success = false;
 
     final bool _canRun = _checkCanRun(
       maps: maps,
@@ -139,19 +155,41 @@ class _SembastInsertionPreventingDuplicateID {
 
         await _filterEachMapByExistence();
 
+        bool _notFoundSuccess = false;
+        bool _foundSuccess = false;
+
         await Future.wait(<Future>[
 
-          _insertTheNotFound(),
+          awaiter(
+              wait: true,
+              function: () async {
+                _notFoundSuccess = await _insertTheNotFound();
+              },
+          ),
 
-          _overrideTheFound(),
+          awaiter(
+            wait: true,
+            function: () async {
+              _foundSuccess = await _overrideTheFound();
+            },
+          ),
 
         ]);
+
+        _success = _notFoundSuccess && _foundSuccess;
 
       }
 
     }
 
+    SembastInfo.report(
+      invoker: '_SembastInsertionPreventingDuplicateID',
+      success: _success,
+      docName: docName,
+      key: Mapper.getMapsPrimaryKeysValues(maps: maps).toString(),
+    );
 
+    return _success;
   }
   // --------------------
   ///
@@ -224,8 +262,8 @@ class _SembastInsertionPreventingDuplicateID {
 
   // --------------------
   ///
-  Future<void> _insertTheNotFound() async {
-
+  Future<bool> _insertTheNotFound() async {
+    bool _success = false;
 
     final List<Map<String, dynamic>> maps = Mapper.getMapsFromDynamics(
       dynamics: _notFound.values.toList(),
@@ -236,14 +274,20 @@ class _SembastInsertionPreventingDuplicateID {
         invoker: '_insertTheNotFound',
         functions: () async {
           await _dbModel!.doc.addAll(_dbModel!.database, maps);
+          _success = true;
           },
       );
     }
+    else {
+      _success = true;
+    }
 
+    return _success;
   }
   // --------------------
   ///
-  Future<void> _overrideTheFound() async {
+  Future<bool> _overrideTheFound() async {
+    bool _success = false;
 
     final List<int> _recordsNumbers = _found.keys.toList();
 
@@ -258,37 +302,60 @@ class _SembastInsertionPreventingDuplicateID {
         invoker: '_overrideTheFound',
         functions: () async {
           await _records.update(_dbModel!.database, _maps);
+          _success = true;
         },
       );
 
     }
+    else {
+      _success = true;
+    }
 
+    return _success;
   }
   // -----------------------------------------------------------------------------
 }
 
 class _SembastInsertionAllowingDuplicateID {
 
-  Future<void> insert({
+  Future<bool> insert({
     required List<Map<String, dynamic>>? maps,
     required String? docName,
   }) async {
+    bool _success = false;
 
-    if (Lister.checkCanLoop(maps) == true && docName != null) {
+    if (docName != null) {
 
       final DBModel? _dbModel = await SembastInit.getDBModel(docName);
 
       if (_dbModel != null){
-        await tryAndCatch(
-          invoker: '_SembastInsertionAllowingDuplicateID',
-          functions: () async {
-            await _dbModel.doc.addAll(_dbModel.database, maps!);
+
+        if (Lister.checkCanLoop(maps) == true){
+          await tryAndCatch(
+            invoker: '_SembastInsertionAllowingDuplicateID',
+            functions: () async {
+              await _dbModel.doc.addAll(_dbModel.database, maps!);
+              _success = true;
             },
-        );
+          );
+        }
+
+        else {
+          _success = true;
+        }
+
       }
 
     }
 
+    SembastInfo.report(
+      invoker: '_SembastInsertionAllowingDuplicateID',
+      success: _success,
+      docName: docName,
+      key: Mapper.getMapsPrimaryKeysValues(maps: maps).toString(),
+    );
+
+    return _success;
   }
 
 }
