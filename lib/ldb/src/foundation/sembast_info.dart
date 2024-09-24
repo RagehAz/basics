@@ -33,7 +33,7 @@ class SembastInfo {
   /// REPORTING
 
   // --------------------
-  static const bool _canReport = kDebugMode;
+  static const bool _canReport = false; // kDebugMode;
   // --------------------
   static void report({
     required String invoker,
