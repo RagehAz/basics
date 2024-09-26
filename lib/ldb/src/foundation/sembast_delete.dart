@@ -28,11 +28,13 @@ class SembastDelete {
           timeout: SembastInfo.theTimeOutS,
           functions: () async {
 
+            final Finder _finder = Finder(
+              filter: Filter.equals(primaryKey, id),
+            );
+
             await _dbModel.doc.delete(
               _dbModel.database,
-              finder: Finder(
-                filter: Filter.equals(primaryKey, id),
-              ),
+              finder: _finder,
             );
 
             _success = true;
@@ -79,11 +81,13 @@ class SembastDelete {
           timeout: SembastInfo.theTimeOutS,
             functions: () async {
 
+              final Finder _finder = Finder(
+                filter: Filter.inList(primaryKey, ids!),
+              );
+
               await _dbModel.doc.delete(
                 _dbModel.database,
-                finder: Finder(
-                  filter: Filter.inList(primaryKey, ids!),
-                ),
+                finder: _finder,
               );
 
               _success = true;

@@ -20,12 +20,14 @@ class SembastRead {
 
     if (docName != null && id != null && primaryKey != null){
 
+      final Finder _finder = Finder(
+        filter: Filter.equals(primaryKey, id),
+      );
+
       _output = await SembastSearch.searchFirst(
           docName: docName,
           invoker: 'readMap',
-          finder: Finder(
-            filter: Filter.equals(primaryKey, id),
-          ),
+          finder: _finder,
       );
 
     }
@@ -88,11 +90,13 @@ class SembastRead {
         primaryKey != null
     ){
 
+      final Finder _finder = Finder(
+        filter: Filter.inList(primaryKey, ids!),
+      );
+
       _output = await SembastSearch.searchMaps(
           docName: docName,
-          finder: Finder(
-            filter: Filter.inList(primaryKey, ids!),
-          ),
+          finder: _finder,
       );
 
     }

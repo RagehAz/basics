@@ -30,7 +30,7 @@ class SembastInfo {
   }
   // --------------------
   ///
-  static int? theTimeOutS = 1;
+  static int? theTimeOutS = null;
   // -----------------------------------------------------------------------------
 
   /// REPORTING

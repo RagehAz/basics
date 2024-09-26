@@ -54,14 +54,16 @@ class SembastInit {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<Database?> _createSmartPhoneDatabase() async {
-    // blog('_openSmartPhoneDatabase start');
+    blog('_openSmartPhoneDatabase start');
     final Directory? _appDocDir = await getApplicationDocumentsDirectory();
-    await _appDocDir?.create(recursive: true);
-    // blog('1--> LDB : _appDocDir : $_appDocDir');
+    await _appDocDir?.create(
+        recursive: false
+    );
+    blog('1--> LDB : _appDocDir : $_appDocDir');
     final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-    // blog('2--> LDB : _packageInfo : ${_packageInfo.packageName}');
+    blog('2--> LDB : _packageInfo : ${_packageInfo.packageName}');
     final String _dbPath = path.join(_appDocDir!.path, _packageInfo.packageName);
-    // blog('3--> LDB : _dbPath : $_dbPath');
+    blog('3--> LDB : _dbPath : $_dbPath');
 
     Database? _db;
     await tryAndCatch(
@@ -70,8 +72,8 @@ class SembastInit {
         _db = await databaseFactoryIo.openDatabase(_dbPath);
       },
       onError: (String? error) async {
-        // blog('_openSmartPhoneDatabase : error : $error');
-        // await _appDocDir.delete();
+        blog('_openSmartPhoneDatabase : error : $error');
+        await _appDocDir.delete();
       },
     );
 
@@ -82,7 +84,7 @@ class SembastInit {
       key: '...',
     );
 
-    // blog('4--> LDB : done : _db : $_db');
+    blog('4--> LDB : done : _db : $_db');
     return _db;
   }
   // -----------------------------------------------------------------------------

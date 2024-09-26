@@ -20,16 +20,26 @@ class SembastCheck {
 
       if (_dbModel != null) {
 
-        final int? _val = await _dbModel.doc.findKey(
-          _dbModel.database,
-          finder: Finder(
-            filter: Filter.equals(primaryKey, id,
-              anyInList: false,
-            ),
-          ),
-        );
+        await tryAndCatch(
+            invoker: 'checkMapExists',
+            timeout: SembastInfo.theTimeOutS,
+            functions: () async {
 
-        _output = _val != null;
+              final Finder _finder = Finder(
+                filter: Filter.equals(primaryKey, id,
+                  anyInList: false,
+                ),
+              );
+
+              final int? _val = await _dbModel.doc.findKey(
+                _dbModel.database,
+                finder: _finder,
+              );
+
+              _output = _val != null;
+
+            },
+        );
 
       }
 
