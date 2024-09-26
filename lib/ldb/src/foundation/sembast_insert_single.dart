@@ -54,6 +54,7 @@ class SembastInsertSingle {
 
         await tryAndCatch(
           invoker: 'Sembast._addMap',
+          timeout: SembastInfo.theTimeOutS,
           functions: () async {
 
             /// NOTE : this ignores if there is an existing map with same ID

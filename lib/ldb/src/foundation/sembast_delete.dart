@@ -25,6 +25,7 @@ class SembastDelete {
 
         await tryAndCatch(
           invoker: 'deleteMap',
+          timeout: SembastInfo.theTimeOutS,
           functions: () async {
 
             await _dbModel.doc.delete(
@@ -75,6 +76,7 @@ class SembastDelete {
 
         await tryAndCatch(
             invoker: 'deleteMaps',
+          timeout: SembastInfo.theTimeOutS,
             functions: () async {
 
               await _dbModel.doc.delete(
@@ -115,6 +117,7 @@ class SembastDelete {
     if (_dbModel != null){
       await tryAndCatch(
         invoker: 'deleteAllAtOnce',
+        timeout: SembastInfo.theTimeOutS,
         functions: () async {
 
           await _dbModel.doc.delete(_dbModel.database);

@@ -272,6 +272,7 @@ class _SembastInsertionPreventingDuplicateID {
     if (Lister.checkCanLoop(maps) == true) {
       await tryAndCatch(
         invoker: '_insertTheNotFound',
+        timeout: SembastInfo.theTimeOutS,
         functions: () async {
           await _dbModel!.doc.addAll(_dbModel!.database, maps);
           _success = true;
@@ -300,6 +301,7 @@ class _SembastInsertionPreventingDuplicateID {
 
       await tryAndCatch(
         invoker: '_overrideTheFound',
+        timeout: SembastInfo.theTimeOutS,
         functions: () async {
           await _records.update(_dbModel!.database, _maps);
           _success = true;
@@ -333,6 +335,7 @@ class _SembastInsertionAllowingDuplicateID {
         if (Lister.checkCanLoop(maps) == true){
           await tryAndCatch(
             invoker: '_SembastInsertionAllowingDuplicateID',
+            timeout: SembastInfo.theTimeOutS,
             functions: () async {
               await _dbModel.doc.addAll(_dbModel.database, maps!);
               _success = true;

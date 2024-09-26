@@ -21,13 +21,21 @@ class SembastSearch {
 
     if (_dbModel != null){
 
-      final List<DBSnap> _snaps = await _dbModel.doc.find(
-        _dbModel.database,
-        finder: finder,
-      );
+      await tryAndCatch(
+        invoker: 'searchMaps',
+        timeout: SembastInfo.theTimeOutS,
+        functions: () async {
 
-      _output = LDBMapper.getMapsFromSnapshots(
-        snaps: _snaps,
+          final List<DBSnap> _snaps = await _dbModel.doc.find(
+            _dbModel.database,
+            finder: finder,
+          );
+
+          _output = LDBMapper.getMapsFromSnapshots(
+            snaps: _snaps,
+          );
+
+        },
       );
 
     }
@@ -54,14 +62,19 @@ class SembastSearch {
 
     if (_dbModel != null){
 
-      final DBSnap? _snap = await _dbModel.doc.findFirst(
-        _dbModel.database,
-        finder: finder,
+      await tryAndCatch(
+        invoker: 'searchFirst',
+        timeout: SembastInfo.theTimeOutS,
+        functions: () async {
+          final DBSnap? _snap = await _dbModel.doc.findFirst(
+            _dbModel.database,
+            finder: finder,
+          );
+          // blog('($invoker) : searchFirst: _snap : $_snap');
+          _output = _snap?.value;
+
+          },
       );
-
-      // blog('($invoker) : searchFirst: _snap : $_snap');
-
-      _output = _snap?.value;
 
     }
 
@@ -94,13 +107,21 @@ class SembastSearch {
 
       if (_dbModel != null){
 
-        _output = await _dbModel.doc.findKey(
-          _dbModel.database,
-          finder: Finder(
-            filter: Filter.equals(primaryKey, id,
-              anyInList: false,
-            ),
-          ),
+        await tryAndCatch(
+          invoker: 'findRecordKey',
+          timeout: SembastInfo.theTimeOutS,
+          functions: () async {
+
+            _output = await _dbModel.doc.findKey(
+              _dbModel.database,
+              finder: Finder(
+                filter: Filter.equals(primaryKey, id,
+                  anyInList: false,
+                ),
+              ),
+            );
+
+          },
         );
 
       }

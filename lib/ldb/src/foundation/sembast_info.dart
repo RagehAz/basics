@@ -28,12 +28,15 @@ class SembastInfo {
 
     return _output;
   }
+  // --------------------
+  ///
+  static int? theTimeOutS = 1;
   // -----------------------------------------------------------------------------
 
   /// REPORTING
 
   // --------------------
-  static const bool _canReport = false; // kDebugMode;
+  static const bool _canReport = kDebugMode;
   // --------------------
   static void report({
     required String invoker,
