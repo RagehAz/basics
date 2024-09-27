@@ -56,9 +56,7 @@ class SembastInit {
   Future<Database?> _createSmartPhoneDatabase() async {
     blog('_openSmartPhoneDatabase start');
     final Directory? _appDocDir = await getApplicationDocumentsDirectory();
-    await _appDocDir?.create(
-        recursive: false
-    );
+    await _appDocDir?.create(recursive: true);
     blog('1--> LDB : _appDocDir : $_appDocDir');
     final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
     blog('2--> LDB : _packageInfo : ${_packageInfo.packageName}');
@@ -94,14 +92,16 @@ class SembastInit {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<void> close() async {
-    await tryAndCatch(
-      invoker: '_Sembast.close',
-      functions: () async {
-        final dynamic result = await _database?.close();
-        blog('closeDatabase: resultType(${result.runtimeType}) : result($result)');
-        _database = null;
-      },
-    );
+    if (_database != null){
+      await tryAndCatch(
+        invoker: '_Sembast.close',
+        functions: () async {
+          final dynamic result = await _database?.close();
+          blog('closeDatabase: resultType(${result.runtimeType}) : result($result)');
+          _database = null;
+        },
+      );
+    }
   }
   // --------------------
   /// TESTED : WORKS PERFECT

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 part of ldb;
 /// => TAMAM
 class SembastDelete {
