@@ -44,6 +44,71 @@ final _entities = <obx_int.ModelEntity>[
             indexId: const obx_int.IdUid(2, 1114470720014744710))
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(2, 1195820800955246620),
+      name: 'MediaBobModel',
+      lastPropertyId: const obx_int.IdUid(11, 8730685736654660504),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2361510480238287480),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 8241749055123332785),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(3, 1476099916988770708)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4177870990506408543),
+            name: 'bytes',
+            type: 23,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 4558821143565786823),
+            name: 'ownersIDs',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6954375480105500610),
+            name: 'width',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 1474383028530090504),
+            name: 'height',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 600366288698377296),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 1968442547714709082),
+            name: 'sizeMB',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 2614491178650348929),
+            name: 'fileMime',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 1832269601723728046),
+            name: 'uploadPath',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 8730685736654660504),
+            name: 'data',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -82,8 +147,8 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 9210586487968812159),
-      lastIndexId: const obx_int.IdUid(2, 1114470720014744710),
+      lastEntityId: const obx_int.IdUid(2, 1195820800955246620),
+      lastIndexId: const obx_int.IdUid(3, 1476099916988770708),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -126,6 +191,87 @@ obx_int.ModelDefinition getObjectBoxModel() {
               BobModel(bobID: bobIDParam, id: idParam, value: valueParam);
 
           return object;
+        }),
+    MediaBobModel: obx_int.EntityDefinition<MediaBobModel>(
+        model: _entities[1],
+        toOneRelations: (MediaBobModel object) => [],
+        toManyRelations: (MediaBobModel object) => {},
+        getId: (MediaBobModel object) => object.bobID,
+        setId: (MediaBobModel object, int id) {
+          object.bobID = id;
+        },
+        objectToFB: (MediaBobModel object, fb.Builder fbb) {
+          final idOffset = fbb.writeString(object.id);
+          final bytesOffset =
+              object.bytes == null ? null : fbb.writeListInt8(object.bytes!);
+          final ownersIDsOffset = fbb.writeList(
+              object.ownersIDs.map(fbb.writeString).toList(growable: false));
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final fileMimeOffset = object.fileMime == null
+              ? null
+              : fbb.writeString(object.fileMime!);
+          final uploadPathOffset = object.uploadPath == null
+              ? null
+              : fbb.writeString(object.uploadPath!);
+          final dataOffset =
+              object.data == null ? null : fbb.writeString(object.data!);
+          fbb.startTable(12);
+          fbb.addInt64(0, object.bobID);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, bytesOffset);
+          fbb.addOffset(3, ownersIDsOffset);
+          fbb.addFloat64(4, object.width);
+          fbb.addFloat64(5, object.height);
+          fbb.addOffset(6, nameOffset);
+          fbb.addFloat64(7, object.sizeMB);
+          fbb.addOffset(8, fileMimeOffset);
+          fbb.addOffset(9, uploadPathOffset);
+          fbb.addOffset(10, dataOffset);
+          fbb.finish(fbb.endTable());
+          return object.bobID;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final bobIDParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final idParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final bytesParam = const fb.Uint8ListReader(lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 8) as Uint8List?;
+          final ownersIDsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGet(buffer, rootOffset, 10, []);
+          final fileMimeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 20);
+          final uploadPathParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 22);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final widthParam = const fb.Float64Reader()
+              .vTableGetNullable(buffer, rootOffset, 12);
+          final heightParam = const fb.Float64Reader()
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final sizeMBParam = const fb.Float64Reader()
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final dataParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 24);
+          final object = MediaBobModel(
+              bobID: bobIDParam,
+              id: idParam,
+              bytes: bytesParam,
+              ownersIDs: ownersIDsParam,
+              fileMime: fileMimeParam,
+              uploadPath: uploadPathParam,
+              name: nameParam,
+              width: widthParam,
+              height: heightParam,
+              sizeMB: sizeMBParam,
+              data: dataParam);
+
+          return object;
         })
   };
 
@@ -145,4 +291,51 @@ class BobModel_ {
   /// See [BobModel.value].
   static final value =
       obx.QueryStringProperty<BobModel>(_entities[0].properties[2]);
+}
+
+/// [MediaBobModel] entity fields to define ObjectBox queries.
+class MediaBobModel_ {
+  /// See [MediaBobModel.bobID].
+  static final bobID =
+      obx.QueryIntegerProperty<MediaBobModel>(_entities[1].properties[0]);
+
+  /// See [MediaBobModel.id].
+  static final id =
+      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[1]);
+
+  /// See [MediaBobModel.bytes].
+  static final bytes =
+      obx.QueryByteVectorProperty<MediaBobModel>(_entities[1].properties[2]);
+
+  /// See [MediaBobModel.ownersIDs].
+  static final ownersIDs =
+      obx.QueryStringVectorProperty<MediaBobModel>(_entities[1].properties[3]);
+
+  /// See [MediaBobModel.width].
+  static final width =
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[4]);
+
+  /// See [MediaBobModel.height].
+  static final height =
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[5]);
+
+  /// See [MediaBobModel.name].
+  static final name =
+      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[6]);
+
+  /// See [MediaBobModel.sizeMB].
+  static final sizeMB =
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[7]);
+
+  /// See [MediaBobModel.fileMime].
+  static final fileMime =
+      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[8]);
+
+  /// See [MediaBobModel.uploadPath].
+  static final uploadPath =
+      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[9]);
+
+  /// See [MediaBobModel.data].
+  static final data =
+      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[10]);
 }

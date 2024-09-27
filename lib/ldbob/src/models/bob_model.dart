@@ -118,7 +118,7 @@ class BobOps {
   /// INSERT
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERECT
   static Future<BobModel?> insert({
     required BobModel? bobModel,
   }) async {
@@ -267,7 +267,7 @@ class BobOps {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERECT
   static Future<List<BobModel>> readAll() async {
     List<BobModel>? _output = [];
 
