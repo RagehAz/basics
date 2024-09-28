@@ -50,7 +50,7 @@ class MediaBobOps {
   /// CONVERTER
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static MediaBobModel? toBobModel({
     required MediaModel? media,
   }){
@@ -77,7 +77,7 @@ class MediaBobOps {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<MediaBobModel> toBobModels({
     required List<MediaModel> medias,
   }){
@@ -100,7 +100,7 @@ class MediaBobOps {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static MediaModel? toMediaModel({
     required MediaBobModel? bob,
   }){
@@ -128,7 +128,7 @@ class MediaBobOps {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<MediaModel> toMediaModels({
     required List<MediaBobModel> bobs,
   }){
@@ -155,6 +155,7 @@ class MediaBobOps {
   /// BOX INITIALIZER
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<Box<MediaBobModel>?> _getStoreBox() async {
     final Store? _store = await BobInit.getTheStore();
     return _store?.box<MediaBobModel>();
@@ -164,7 +165,7 @@ class MediaBobOps {
   /// CLEANING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<MediaBobModel> cleanNullModels(List<MediaBobModel?>? models){
     final List<MediaBobModel> _output = [];
 
@@ -187,7 +188,7 @@ class MediaBobOps {
   /// GETTERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<int> getBobsIDs(List<MediaBobModel?>? models){
     final List<int> _output = [];
 
@@ -210,7 +211,7 @@ class MediaBobOps {
   /// INSERT
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> insert({
     required MediaModel? media,
   }) async {
@@ -232,6 +233,8 @@ class MediaBobOps {
             final Box<MediaBobModel>? _box = await _getStoreBox();
 
             final int? _newBobID = await _box?.putAsync(_bob);
+
+            blog('_newBobID($_newBobID)');
 
             if (_newBobID != null && _newBobID > 0){
               _success = true;
@@ -318,7 +321,7 @@ class MediaBobOps {
   /// READ
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<MediaModel?> readByBobID({
     required int? bobID,
   }) async {
@@ -370,7 +373,7 @@ class MediaBobOps {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> readAll() async {
     List<MediaModel>? _output = [];
 
@@ -395,20 +398,20 @@ class MediaBobOps {
   /// FIND FIRST
 
   // --------------------
-  ///
-  static Future<MediaModel?> findByModelID({
+  /// TESTED : WORKS PERFECT
+  static Future<MediaModel?> findMediaByModelID({
     required String? modelID,
   }) async {
 
-    final MediaBobModel? _bob =  await _findBobByBobID(
+    final MediaBobModel? _bob =  await _findBobByModelID(
       modelID: modelID,
     );
 
     return toMediaModel(bob: _bob);
   }
   // --------------------
-  ///
-  static Future<MediaBobModel?> _findBobByBobID({
+  /// TESTED : WORKS PERFECT
+  static Future<MediaBobModel?> _findBobByModelID({
     required String? modelID,
   }) async {
     MediaBobModel? _output;
@@ -428,7 +431,8 @@ class MediaBobOps {
               // alias:  , // future version thing
             );
             final Query<MediaBobModel> _query = (_box.query(_condition)..order(MediaBobModel_.id)).build();
-            _output =  await _query.findFirstAsync();
+            _output =  await _query.findUniqueAsync();
+            blog('_findBobByModelID : ${_output?.bobID}');
             _query.close();
           }
 
@@ -493,7 +497,7 @@ class MediaBobOps {
   /// DELETE SINGLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteByBobID(int? bobID) async {
     bool? _success = false;
 
@@ -511,7 +515,7 @@ class MediaBobOps {
     return _success ?? false;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteByID({
     required String? id,
   }) async {
@@ -519,13 +523,22 @@ class MediaBobOps {
 
     if (id != null) {
 
-      final MediaBobModel? _bob = await _findBobByBobID(
+      final MediaBobModel? _bob = await _findBobByModelID(
         modelID: id,
       );
 
-      _success = await deleteByBobID(_bob?.bobID);
+      if (_bob == null){
+        _success = true;
+      }
+      else {
+        _success = await deleteByBobID(_bob.bobID);
+      }
+
+      blog('deleteByID : id($id) : bobID(${_bob?.bobID}) : _success($_success)');
 
     }
+
+
 
     return _success;
   }
@@ -573,7 +586,7 @@ class MediaBobOps {
   /// DELETE ALL
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteAll() async {
     bool _success = false;
 
@@ -612,6 +625,7 @@ class MediaBobOps {
   /// CHECKERS
 
    // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkExistsByID({
     required String? id,
   }) async {
@@ -632,8 +646,9 @@ class MediaBobOps {
               // alias:  , // future version thing
             );
             final Query<MediaBobModel> _query = (_box.query(_condition)..order(MediaBobModel_.id)).build();
-            final int _bobID = _query.entityId;
-            _output = _bobID > 0;
+            final int _count = _query.count();
+            blog('checkExistsByID ID($id) => _count($_count)');
+            _output = _count > 0;
             _query.close();
           }
 
