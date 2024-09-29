@@ -232,6 +232,7 @@ class MediaBobOps {
           if (_bob != null){
 
             final Box<MediaBobModel>? _box = await _getStoreBox(docName);
+            blog('_box : ${_box?.count()} ITEMS');
 
             // final int? _newBobID = await _box?.putAsync(_bob);
             final int? _newBobID = _box?.put(_bob);

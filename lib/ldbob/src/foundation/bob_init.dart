@@ -1,8 +1,6 @@
 part of bob;
-
 // flutter pub run build_runner watch
 // dart run build_runner build
-
 class BobInit {
   // -----------------------------------------------------------------------------
   /// local data Base Object Box
@@ -25,11 +23,10 @@ class BobInit {
   /// GET STORE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<Store?> getStore({
     required String docName,
   }) async {
-    Store? _output;
 
     StoreModel? _storeModel = StoreModel.getStoreByDocName(
       stores: _stores,
@@ -47,14 +44,11 @@ class BobInit {
       }
 
     }
-    else {
-      _output = _storeModel.store;
-    }
 
-    return _output;
+    return  _storeModel?.store;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<Store?> getTheStore(String docName) => BobInit.instance.getStore(docName: docName);
   // -----------------------------------------------------------------------------
 
@@ -91,7 +85,7 @@ class BobInit {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<void> closeTheStore(String docName) => BobInit.instance.closeStore(docName: docName);
   // -----------------------------------------------------------------------------
 }
