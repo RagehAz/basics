@@ -22,3 +22,4 @@ part 'src/foundation/bob_init.dart';
 part 'src/models/bob_model.dart';
 part 'src/foundation/bob_info.dart';
 part 'src/models/media_bob.dart';
+part 'src/models/store_model.dart';

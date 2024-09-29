@@ -87,8 +87,8 @@ class BobOps {
   /// BOX INITIALIZER
 
   // --------------------
-  static Future<Box<BobModel>?> _getStoreBox() async {
-    final Store? _store = await BobInit.getTheStore();
+  static Future<Box<BobModel>?> _getStoreBox(String docName) async {
+    final Store? _store = await BobInit.getTheStore(docName);
     return _store?.box<BobModel>();
   }
   // -----------------------------------------------------------------------------
@@ -118,9 +118,10 @@ class BobOps {
   /// INSERT
 
   // --------------------
-  /// TESTED : WORKS PERECT
+  /// TESTED : WORKS PERFECT
   static Future<BobModel?> insert({
     required BobModel? bobModel,
+    required String docName,
   }) async {
     BobModel? _output;
 
@@ -131,7 +132,7 @@ class BobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
 
           final int? _newBobID = await _box?.putAsync(bobModel);
 
@@ -154,6 +155,7 @@ class BobOps {
   ///
   static Future<bool> insertMany({
     required List<BobModel> models,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -164,7 +166,7 @@ class BobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
 
           final List<int>? _ids = await _box?.putManyAsync(
             models,
@@ -186,6 +188,7 @@ class BobOps {
   ///
   static Future<bool> insertManyTransaction({
     required List<BobModel> models,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -195,7 +198,7 @@ class BobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Store? _store = await BobInit.getTheStore();
+          final Store? _store = await BobInit.getTheStore(docName);
 
           if (_store != null) {
 
@@ -223,6 +226,7 @@ class BobOps {
   ///
   static Future<BobModel?> readByBobID({
     required int? bobID,
+    required String docName,
   }) async {
     BobModel? _output;
 
@@ -232,7 +236,7 @@ class BobOps {
         invoker: 'readByBobID',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
           _output = await _box?.getAsync(bobID);
         },
       );
@@ -245,6 +249,7 @@ class BobOps {
   ///
   static Future<List<BobModel>> readByBobIDs({
     required List<int> bobIDs,
+    required String docName,
   }) async {
     List<BobModel> _output = [];
 
@@ -255,7 +260,7 @@ class BobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
           final List<BobModel?>? _models = await _box?.getManyAsync(bobIDs, growableResult: false);
           _output = cleanNullModels(_models);
 
@@ -268,14 +273,16 @@ class BobOps {
   }
   // --------------------
   /// TESTED : WORKS PERECT
-  static Future<List<BobModel>> readAll() async {
+  static Future<List<BobModel>> readAll({
+    required String docName,
+  }) async {
     List<BobModel>? _output = [];
 
     await tryAndCatch(
       invoker: 'readByBobID',
       timeout: BobInfo.theTimeOutS,
       functions: () async {
-        final Box<BobModel>? _box = await _getStoreBox();
+        final Box<BobModel>? _box = await _getStoreBox(docName);
         _output = await _box?.getAllAsync();
       },
     );
@@ -290,6 +297,7 @@ class BobOps {
   ///
   static Future<BobModel?> findByModelID({
     required String? modelID,
+    required String docName,
   }) async {
     BobModel? _output;
 
@@ -300,7 +308,7 @@ class BobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
 
           if (_box != null){
             final Condition<BobModel> _condition = BobModel_.id.equals(modelID,
@@ -325,7 +333,10 @@ class BobOps {
 
   // --------------------
   ///
-  static Future<bool> deleteByBobID(int? bobID) async {
+  static Future<bool> deleteByBobID({
+    required int? bobID,
+    required String docName,
+  }) async {
     bool? _success = false;
 
     if (bobID != null){
@@ -333,7 +344,7 @@ class BobOps {
         invoker: 'delete',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
           _success = await _box?.removeAsync(bobID);
         },
       );
@@ -345,6 +356,7 @@ class BobOps {
   ///
   static Future<bool> deleteByBobIDs({
     required List<int>? bobIDs,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -354,7 +366,7 @@ class BobOps {
         invoker: 'delete',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<BobModel>? _box = await _getStoreBox();
+          final Box<BobModel>? _box = await _getStoreBox(docName);
           final int? _countRemoved = await _box?.removeManyAsync(bobIDs!);
           _success = bobIDs!.length == _countRemoved;
         },
@@ -370,8 +382,10 @@ class BobOps {
 
   // --------------------
   ///
-  static Future<int?> countItemsInBob() async {
-    final Box<BobModel>? _box = await _getStoreBox();
+  static Future<int?> countItemsInBob({
+    required String docName,
+  }) async {
+    final Box<BobModel>? _box = await _getStoreBox(docName);
     return _box?.count();
   }
   // -----------------------------------------------------------------------------

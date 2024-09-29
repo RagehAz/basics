@@ -156,8 +156,8 @@ class MediaBobOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Box<MediaBobModel>?> _getStoreBox() async {
-    final Store? _store = await BobInit.getTheStore();
+  static Future<Box<MediaBobModel>?> _getStoreBox(String docName) async {
+    final Store? _store = await BobInit.getTheStore(docName);
     return _store?.box<MediaBobModel>();
   }
   // -----------------------------------------------------------------------------
@@ -214,6 +214,7 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> insert({
     required MediaModel? media,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -230,9 +231,10 @@ class MediaBobOps {
 
           if (_bob != null){
 
-            final Box<MediaBobModel>? _box = await _getStoreBox();
+            final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
-            final int? _newBobID = await _box?.putAsync(_bob);
+            // final int? _newBobID = await _box?.putAsync(_bob);
+            final int? _newBobID = _box?.put(_bob);
 
             blog('_newBobID($_newBobID)');
 
@@ -253,6 +255,7 @@ class MediaBobOps {
   ///
   static Future<bool> insertMany({
     required List<MediaModel> models,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -265,9 +268,13 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<MediaBobModel>? _box = await _getStoreBox();
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
-          final List<int>? _ids = await _box?.putManyAsync(
+          // final List<int>? _ids = await _box?.putManyAsync(
+          //   _bobs,
+          //   mode: PutMode.insert,
+          // );
+          final List<int>? _ids = _box?.putMany(
             _bobs,
             mode: PutMode.insert,
           );
@@ -285,6 +292,7 @@ class MediaBobOps {
   ///
   static Future<bool> insertManyTransaction({
     required List<MediaModel> models,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -296,7 +304,7 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Store? _store = await BobInit.getTheStore();
+          final Store? _store = await BobInit.getTheStore(docName);
 
           if (_store != null) {
 
@@ -324,6 +332,7 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> readByBobID({
     required int? bobID,
+    required String docName,
   }) async {
     MediaModel? _output;
 
@@ -333,8 +342,9 @@ class MediaBobOps {
         invoker: 'readByBobID',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<MediaBobModel>? _box = await _getStoreBox();
-          final MediaBobModel? _bob = await _box?.getAsync(bobID);
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
+          // final MediaBobModel? _bob = await _box?.getAsync(bobID);
+          final MediaBobModel? _bob = _box?.get(bobID);
           _output = toMediaModel(bob: _bob);
         },
       );
@@ -347,6 +357,7 @@ class MediaBobOps {
   ///
   static Future<List<MediaModel>> readByBobIDs({
     required List<int> bobIDs,
+    required String docName,
   }) async {
     List<MediaModel> _output = [];
 
@@ -357,9 +368,10 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<MediaBobModel>? _box = await _getStoreBox();
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
-          final List<MediaBobModel?>? _models = await _box?.getManyAsync(bobIDs, growableResult: false);
+          // final List<MediaBobModel?>? _models = await _box?.getManyAsync(bobIDs, growableResult: false);
+          final List<MediaBobModel?>? _models = _box?.getMany(bobIDs, growableResult: false);
 
           _output = toMediaModels(
               bobs: cleanNullModels(_models),
@@ -374,7 +386,9 @@ class MediaBobOps {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<List<MediaModel>> readAll() async {
+  static Future<List<MediaModel>> readAll({
+    required String docName,
+  }) async {
     List<MediaModel>? _output = [];
 
     await tryAndCatch(
@@ -382,9 +396,10 @@ class MediaBobOps {
       timeout: BobInfo.theTimeOutS,
       functions: () async {
 
-        final Box<MediaBobModel>? _box = await _getStoreBox();
+        final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
-        final List<MediaBobModel>? _bobs = await _box?.getAllAsync();
+        // final List<MediaBobModel>? _bobs = await _box?.getAllAsync();
+        final List<MediaBobModel>? _bobs = _box?.getAll();
 
         _output = toMediaModels(bobs: cleanNullModels(_bobs));
 
@@ -401,10 +416,12 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> findMediaByModelID({
     required String? modelID,
+    required String docName,
   }) async {
 
     final MediaBobModel? _bob =  await _findBobByModelID(
       modelID: modelID,
+      docName: docName,
     );
 
     return toMediaModel(bob: _bob);
@@ -413,6 +430,7 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<MediaBobModel?> _findBobByModelID({
     required String? modelID,
+    required String docName,
   }) async {
     MediaBobModel? _output;
 
@@ -423,7 +441,7 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<MediaBobModel>? _box = await _getStoreBox();
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
           if (_box != null){
             final Condition<MediaBobModel> _condition = MediaBobModel_.id.equals(modelID,
@@ -431,7 +449,8 @@ class MediaBobOps {
               // alias:  , // future version thing
             );
             final Query<MediaBobModel> _query = (_box.query(_condition)..order(MediaBobModel_.id)).build();
-            _output =  await _query.findUniqueAsync();
+            // _output =  await _query.findUniqueAsync();
+            _output =  _query.findUnique();
             blog('_findBobByModelID : ${_output?.bobID}');
             _query.close();
           }
@@ -451,6 +470,7 @@ class MediaBobOps {
   ///
   static Future<List<MediaBobModel>> _findBobsByIDs({
     required List<String>? ids,
+    required String docName,
   }) async {
     List<MediaBobModel> _output = [];
 
@@ -461,7 +481,7 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<MediaBobModel>? _box = await _getStoreBox();
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
           if (_box != null){
             final Condition<MediaBobModel> _condition = MediaBobModel_.id.oneOf(ids!,
@@ -484,10 +504,12 @@ class MediaBobOps {
   ///
   static Future<List<MediaModel>> findByIDs({
     required List<String> ids,
+    required String docName,
   }) async {
 
     final List<MediaBobModel> _bobs = await _findBobsByIDs(
       ids: ids,
+      docName: docName,
     );
 
     return toMediaModels(bobs: _bobs);
@@ -498,7 +520,10 @@ class MediaBobOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> deleteByBobID(int? bobID) async {
+  static Future<bool> deleteByBobID({
+    required int? bobID,
+    required String docName,
+  }) async {
     bool? _success = false;
 
     if (bobID != null){
@@ -506,8 +531,9 @@ class MediaBobOps {
         invoker: 'delete',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<MediaBobModel>? _box = await _getStoreBox();
-          _success = await _box?.removeAsync(bobID);
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
+          // _success = await _box?.removeAsync(bobID);
+          _success = _box?.remove(bobID);
         },
       );
     }
@@ -518,6 +544,7 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteByID({
     required String? id,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -525,20 +552,22 @@ class MediaBobOps {
 
       final MediaBobModel? _bob = await _findBobByModelID(
         modelID: id,
+        docName: docName,
       );
 
       if (_bob == null){
         _success = true;
       }
       else {
-        _success = await deleteByBobID(_bob.bobID);
+        _success = await deleteByBobID(
+          bobID: _bob.bobID,
+          docName: docName,
+        );
       }
 
       blog('deleteByID : id($id) : bobID(${_bob?.bobID}) : _success($_success)');
 
     }
-
-
 
     return _success;
   }
@@ -550,6 +579,7 @@ class MediaBobOps {
   ///
   static Future<bool> deleteByBobIDs({
     required List<int>? bobIDs,
+    required String docName,
   }) async {
     bool _success = false;
 
@@ -559,8 +589,9 @@ class MediaBobOps {
         invoker: 'delete',
         timeout: BobInfo.theTimeOutS,
         functions: () async {
-          final Box<MediaBobModel>? _box = await _getStoreBox();
-          final int? _countRemoved = await _box?.removeManyAsync(bobIDs!);
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
+          // final int? _countRemoved = await _box?.removeManyAsync(bobIDs!);
+          final int? _countRemoved = _box?.removeMany(bobIDs!);
           _success = bobIDs!.length == _countRemoved;
         },
       );
@@ -573,13 +604,18 @@ class MediaBobOps {
   ///
   static Future<bool> deleteByIDs({
     required List<String>? ids,
+    required String docName,
   }) async {
 
     final List<MediaBobModel> _bobs = await _findBobsByIDs(
       ids: ids,
+      docName: docName,
     );
 
-    return deleteByBobIDs(bobIDs: getBobsIDs(_bobs));
+    return deleteByBobIDs(
+      bobIDs: getBobsIDs(_bobs),
+      docName: docName,
+    );
   }
   // -----------------------------------------------------------------------------
 
@@ -587,7 +623,9 @@ class MediaBobOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> deleteAll() async {
+  static Future<bool> deleteAll({
+    required String docName,
+  }) async {
     bool _success = false;
 
     await tryAndCatch(
@@ -595,11 +633,12 @@ class MediaBobOps {
       timeout: BobInfo.theTimeOutS,
       functions: () async {
 
-        final Box<MediaBobModel>? _box = await _getStoreBox();
+        final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
         if (_box != null){
 
-          final int _count = await _box.removeAllAsync();
+          // final int _count = await _box.removeAllAsync();
+          final int _count = _box.removeAll();
 
           _success = _count >= 0;
 
@@ -616,8 +655,10 @@ class MediaBobOps {
 
   // --------------------
   ///
-  static Future<int?> countItemsInBob() async {
-    final Box<MediaBobModel>? _box = await _getStoreBox();
+  static Future<int?> countItemsInBob({
+    required String docName,
+  }) async {
+    final Box<MediaBobModel>? _box = await _getStoreBox(docName);
     return _box?.count();
   }
   // -----------------------------------------------------------------------------
@@ -628,6 +669,7 @@ class MediaBobOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> checkExistsByID({
     required String? id,
+    required String docName,
   }) async {
     bool _output = false;
 
@@ -638,7 +680,7 @@ class MediaBobOps {
         timeout: BobInfo.theTimeOutS,
         functions: () async {
 
-          final Box<MediaBobModel>? _box = await _getStoreBox();
+          final Box<MediaBobModel>? _box = await _getStoreBox(docName);
 
           if (_box != null){
             final Condition<MediaBobModel> _condition = MediaBobModel_.id.equals(id,

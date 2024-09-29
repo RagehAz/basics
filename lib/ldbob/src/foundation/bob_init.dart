@@ -19,100 +19,79 @@ class BobInit {
   /// DATABASE SINGLETON
 
   // --------------------
-  Store? _store;
-  Future<Store?> get store async =>  _store ??= await _createDatabase();
-  static Future<Store?> getTheStore() => BobInit.instance.store;
+  final List<StoreModel> _stores = [];
+  // -----------------------------------------------------------------------------
+
+  /// GET STORE
+
   // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<Store?> _createDatabase() async {
-    Store? _output = _store;
+  ///
+  Future<Store?> getStore({
+    required String docName,
+  }) async {
+    Store? _output;
 
-    if (_store == null){
+    StoreModel? _storeModel = StoreModel.getStoreByDocName(
+      stores: _stores,
+      docName: docName,
+    );
 
-      if (kIsWeb){
-        _output = await _createWebDatabase();
+    if (_storeModel == null){
+
+      _storeModel = await StoreModel.createNewModel(
+          docName: docName
+      );
+
+      if (_storeModel != null){
+        _stores.add(_storeModel);
       }
-      else {
-        _output = await _createSmartPhoneDatabase();
-      }
 
-      if (_output != null){
-        _store = _output;
-      }
-
+    }
+    else {
+      _output = _storeModel.store;
     }
 
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<Store?> _createWebDatabase() async {
-    return null;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<Store?> _createSmartPhoneDatabase() async {
-
-    // blog('_openSmartPhoneDatabase start');
-
-    final Directory? _appDocDir = await getApplicationDocumentsDirectory();
-
-    // blog('1--> BOB : _appDocDir : $_appDocDir');
-
-    if (_appDocDir != null){
-
-      // _store = Store(getObjectBoxModel(),
-      //   directory: '${_appDocDir.path}/objectbox', // join(_appDocDir.path, 'objectbox')
-      //   // maxDataSizeInKB: ,
-      //   // maxDBSizeInKB: ,
-      //   // maxReaders: ,
-      //   // debugFlags: ,
-      //   // fileMode: ,
-      //   // macosApplicationGroup: ,
-      // );
-
-      _store = await openStore(
-        directory: join(_appDocDir.path, 'bobStore'),
-        // queriesCaseSensitiveDefault: ,
-        // macosApplicationGroup: ,
-        // fileMode: ,
-        // maxReaders: ,
-        // maxDBSizeInKB: ,
-        // maxDataSizeInKB: ,
-      );
-
-    }
-
-    // SembastInfo.report(
-    //   invoker: '_createSmartPhoneDatabase',
-    //   success: _db != null,
-    //   docName: '...',
-    //   key: '...',
-    // );
-
-    blog('4--> BOB : done : _store($_store)');
-    return _store;
-  }
+  ///
+  static Future<Store?> getTheStore(String docName) => BobInit.instance.getStore(docName: docName);
   // -----------------------------------------------------------------------------
 
-  /// CLOSING
+  /// CLOSE STORE
 
   // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<void> close() async {
-    if (_store != null){
+  ///
+  Future<void> closeStore({
+    required String docName,
+  }) async {
+
+    final StoreModel? _storeModel = StoreModel.getStoreByDocName(
+      stores: _stores,
+      docName: docName,
+    );
+
+    if (_storeModel != null){
+
       await tryAndCatch(
-        invoker: 'BobInit.close',
+        invoker: 'BobInit.closeStore',
         functions: () async {
-          _store!.close();
-          blog('closeDatabase: closed');
-          _store = null;
+
+          _storeModel.store.close();
+
+          _stores.removeWhere((StoreModel model){
+            return model.docName == docName;
+          });
+
         },
       );
+
     }
+
+
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<void> closeDatabase() => BobInit.instance.close();
+  ///
+  static Future<void> closeTheStore(String docName) => BobInit.instance.closeStore(docName: docName);
   // -----------------------------------------------------------------------------
 }
