@@ -14,7 +14,7 @@ class ZGrid extends StatelessWidget {
     required this.bigItemFootprint,
     required this.builder,
     required this.appIsLTR,
-    required this.bigItemCover,
+    this.bigItemCover,
     super.key
   });
   // --------------------
