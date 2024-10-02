@@ -2,7 +2,7 @@ part of tap_layer;
 
 /// => TAMAM
 class TapLayer extends StatelessWidget {
-  /// --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   const TapLayer({
     required this.width,
     required this.height,
@@ -24,7 +24,7 @@ class TapLayer extends StatelessWidget {
     this.customBorder,
     super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------
   final double? width;
   final double? height;
   final Color? splashColor;
@@ -43,9 +43,9 @@ class TapLayer extends StatelessWidget {
   final Alignment? alignment;
   final Color? borderColor;
   final ShapeBorder? customBorder;
-// --------------------------------------------------------------------------
+  // --------------------
   static const double borderThickness = 0.75;
-  // --------------------------------------------------------------------------
+  // --------------------
   static BoxBorder? getBorder({
     required Color? color,
   }){
@@ -55,7 +55,7 @@ class TapLayer extends StatelessWidget {
       strokeAlign: BorderSide.strokeAlignOutside,
     );
   }
-  // --------------------------------------------------------------------------
+  // --------------------
   bool _checkNoTapsGiven(){
     return  onTap == null &&
         onDoubleTap == null &&
