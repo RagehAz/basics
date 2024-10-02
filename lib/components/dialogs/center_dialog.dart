@@ -392,10 +392,7 @@ class CenterDialog extends StatelessWidget {
               child: bubble,
               builder: ({required Widget? child, required bool isVisible}){
 
-                final double _keyboardHeight = isVisible == true ?
-                MediaQuery.of(context).viewInsets.bottom
-                    :
-                0;
+                final double _keyboardHeight = isVisible == true ? context.screenInsets.bottom : 0;
 
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 500),

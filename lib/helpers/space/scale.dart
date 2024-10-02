@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-extension Coco on BuildContext{
-  double get screenWidth => MediaQuery.of(this).size.width;
-  double get screenHeight => MediaQuery.of(this).size.height;
-}
-
 /// => TAMAM
 class Scale {
   // -----------------------------------------------------------------------------
@@ -18,21 +13,27 @@ class Scale {
   // --------------------
   /// TESTED : WORKS PERFECT
   static double screenWidth(BuildContext context) {
-    return MediaQuery.of(context).size.width;
+    return MediaQuery.sizeOf(context).width;
+    // return MediaQuery.of(context).size.width;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static double screenHeight(BuildContext context) {
 
-    return    MediaQuery.of(context).size.height
-            - MediaQuery.of(context).padding.top
-            - MediaQuery.of(context).padding.bottom;
+    return    MediaQuery.sizeOf(context).height
+            - MediaQuery.paddingOf(context).top
+            - MediaQuery.paddingOf(context).bottom;
+
+    // return    MediaQuery.of(context).size.height
+    //         - MediaQuery.of(context).padding.top
+    //         - MediaQuery.of(context).padding.bottom;
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static double screenHeightGross(BuildContext context) {
-    return MediaQuery.of(context).size.height;
+    return MediaQuery.sizeOf(context).height;
+    // return MediaQuery.of(context).size.height;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -46,11 +47,13 @@ class Scale {
     final bool _isLandscape = isLandScape(context);
 
     if (_isLandscape == true) {
-      return MediaQuery.of(context).size.height;
+      return MediaQuery.sizeOf(context).height;
+      // return MediaQuery.of(context).size.height;
     }
 
     else {
-      return MediaQuery.of(context).size.width;
+      return MediaQuery.sizeOf(context).width;
+      // return MediaQuery.of(context).size.width;
     }
 
   }
@@ -61,11 +64,13 @@ class Scale {
     final bool _isLandscape = isLandScape(context);
 
     if (_isLandscape == true) {
-      return MediaQuery.of(context).size.width;
+      return MediaQuery.sizeOf(context).width;
+      // return MediaQuery.of(context).size.width;
     }
 
     else {
-      return MediaQuery.of(context).size.height;
+      return MediaQuery.sizeOf(context).height;
+      // return MediaQuery.of(context).size.height;
     }
 
   }
@@ -76,7 +81,8 @@ class Scale {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool isLandScape(BuildContext context){
-    return MediaQuery.of(context).orientation == Orientation.landscape;
+    return MediaQuery.orientationOf(context) == Orientation.landscape;
+    // return MediaQuery.of(context).orientation == Orientation.landscape;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -151,7 +157,8 @@ class Scale {
   // --------------------
   /// TESTED : WORKS PERFECT
   static double superSafeAreaTopPadding(BuildContext context) {
-    return MediaQuery.of(context).padding.top;
+    return MediaQuery.paddingOf(context).top;
+    // return MediaQuery.of(context).padding.top;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -242,7 +249,26 @@ class Scale {
   // --------------------
   /// TESTED : WORKS PERFECT
   static double superDeviceRatio(BuildContext context) {
-    return MediaQuery.of(context).size.aspectRatio;
+    return MediaQuery.sizeOf(context).aspectRatio;
+    // return MediaQuery.of(context).size.aspectRatio;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double devicePixelRatio(BuildContext context) {
+    // return MediaQuery.of(context).devicePixelRatio,
+    return MediaQuery.devicePixelRatioOf(context);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static EdgeInsets screenInsets(BuildContext context){
+    return MediaQuery.viewInsetsOf(context);
+    // return MediaQuery.of(context).viewInsets;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Size screenSize(BuildContext context){
+    return MediaQuery.sizeOf(context);
+    // return MediaQuery.of(context).size;
   }
   // -----------------------------------------------------------------------------
 
@@ -289,5 +315,73 @@ class Scale {
 
     return _width;
   }
+  // -----------------------------------------------------------------------------
+}
+
+extension Contexual on BuildContext {
+  // -----------------------------------------------------------------------------
+  double get screenWidth => Scale.screenWidth(this);
+  double get screenHeight => Scale.screenHeight(this);
+  double get screenHeightGross => Scale.screenHeightGross(this);
+  double get superScreenHeightWithoutSafeArea => Scale.superScreenHeightWithoutSafeArea(this);
+  double get screenShortestSide => Scale.screenShortestSide(this);
+  double get screenLongestSide => Scale.screenLongestSide(this);
+  bool get isLandScape => Scale.isLandScape(this);
+  double get superSafeAreaTopPadding => Scale.superSafeAreaTopPadding(this);
+  double get superDeviceRatio => Scale.superDeviceRatio(this);
+  double get devicePixelRatio => Scale.devicePixelRatio(this);
+  EdgeInsets get screenInsets => Scale.screenInsets(this);
+  Size get screenSize => Scale.screenSize(this);
+  // --------------------
+  EdgeInsets superInsets({
+    required BuildContext context,
+    required bool appIsLTR,
+    double bottom = 0,
+    double enLeft = 0,
+    double enRight = 0,
+    double top = 0,
+  }) => Scale.superInsets(
+    context: this,
+    appIsLTR: appIsLTR,
+    top: top,
+    bottom: bottom,
+    enLeft: enLeft,
+    enRight: enRight,
+  );
+  // --------------------
+  EdgeInsets superMargins({
+    dynamic margin
+  }) => Scale.superMargins(
+      margin: margin
+  );
+  // --------------------
+  double responsive({
+    required double? landscape,
+    required double? portrait,
+  }) => Scale.responsive(context: this, landscape: landscape, portrait: portrait);
+  // --------------------
+  double adaptiveWidth({
+    required double? ratio,
+  }) => Scale.adaptiveWidth(this, ratio);
+  // --------------------
+  double adaptiveHeight({
+    required double? ratio,
+  }) => Scale.adaptiveHeight(this, ratio);
+  // --------------------
+  double superWidth({
+    required double? ratio,
+  }) => Scale.superWidth(this, ratio);
+  // --------------------
+  double getUniformRowItemWidth({
+    required int? numberOfItems,
+    required double? boxWidth,
+    double spacing = 10,
+    bool considerMargins = true,
+  }) => Scale.getUniformRowItemWidth(
+    boxWidth: boxWidth,
+    numberOfItems: numberOfItems,
+    considerMargins: considerMargins,
+    spacing: spacing,
+  );
   // -----------------------------------------------------------------------------
 }

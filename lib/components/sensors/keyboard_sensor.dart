@@ -1,6 +1,5 @@
-
-
-import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 
 class KeyboardSensor extends StatefulWidget {
@@ -9,10 +8,11 @@ class KeyboardSensor extends StatefulWidget {
     required this.child,
     required this.builder,
   super.key
-  });  // -----------------------------------------------------------------------------
+  });
+  // --------------------
   final Widget? child;
   final Widget Function({required bool isVisible, required Widget? child}) builder;
-  // -----------------------------------------------------------------------------
+  // --------------------
   @override
   State<KeyboardSensor> createState() => _KeyboardSensorState();
   // -----------------------------------------------------------------------------
@@ -20,31 +20,32 @@ class KeyboardSensor extends StatefulWidget {
 
 class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObserver {
   // -----------------------------------------------------------------------------
-  final ValueNotifier<bool> _isVisible = ValueNotifier(false);
+  ValueNotifier<bool>? _isVisible;
   // --------------------
   @override
   void initState() {
     super.initState();
+    _isVisible = ValueNotifier(false);
     WidgetsBinding.instance.addObserver(this);
   }
   // --------------------
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _isVisible.dispose();
+    _isVisible?.dispose();
+    _isVisible = null;
     super.dispose();
   }
   // --------------------
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
-    final mediaQueryData = MediaQuery.of(context);
-    final bool _visible = mediaQueryData.viewInsets.bottom > 0;
 
-    setNotifier(
+    final bool _visible = context.screenInsets.bottom > 0;
+
+    _isVisible?.set(
       value: _visible,
       mounted: mounted,
-      notifier: _isVisible,
     );
 
   }
@@ -52,10 +53,11 @@ class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
 
-    return ValueListenableBuilder(
-        valueListenable: _isVisible,
+    return LiveWire(
+        wire: _isVisible,
+        nullChild: widget.child ?? const SizedBox(),
         child: widget.child ?? const SizedBox(),
-        builder: (_, bool isVisible, Widget? child){
+        builder: (bool isVisible, Widget? child){
 
           return widget.builder(isVisible: isVisible, child: child);
 

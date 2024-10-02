@@ -38,7 +38,7 @@ class BulletPoints extends StatelessWidget {
 
     else {
 
-      final double screenWidth = MediaQuery.of(context).size.width;
+      final double screenWidth = context.screenWidth;
       final double _boxWidth = boxWidth ?? (screenWidth - 20);
 
       return Padding(

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_int_literals
 
 import 'dart:math';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:flutter/material.dart';
 
 /// Gesture detector that reports user drags in terms of [PolarCoord]s with the
@@ -227,21 +228,22 @@ class _CircleListState extends State<CircleList>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // -----------------------------------------------------------------------------
+    final Size size = Scale.screenSize(context);
     final outCircleDiameter = min(size.width, size.height);
     final double outerRadius = widget.outerRadius ?? outCircleDiameter / 2;
     final double innerRadius = widget.innerRadius ?? outerRadius / 2;
     final double betweenRadius = (outerRadius + innerRadius) / 2;
     final rotateMode = widget.rotateMode ?? RotateMode.onlyChildrenRotate;
     final dragAngleRange = widget.dragAngleRange;
-
+    // --------------------
     ///the origin is the point to left and top
     final Offset origin = widget.origin ?? Offset(0, -outerRadius);
     double backgroundCircleAngle = 0.0;
     if (rotateMode == RotateMode.allRotate) {
       backgroundCircleAngle = dragModel.angleDiff + widget.initialAngle;
     }
-
+    // --------------------
     return SizedBox(
       width: outerRadius * 2,
       height: outerRadius * 2,
@@ -370,6 +372,7 @@ class _CircleListState extends State<CircleList>
         ],
       ),
     );
+    // -----------------------------------------------------------------------------
   }
 
   Offset getChildPoint(int index, int length, double betweenRadius, double childrenDiameter) {

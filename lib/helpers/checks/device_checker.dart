@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
@@ -327,17 +328,7 @@ class DeviceChecker {
   // --------------------
   /// TESTED : WORKS PERFECT
   static bool deviceIsLandscape(BuildContext context){
-
-    final MediaQueryData _mediaQuery = MediaQuery.of(context);
-
-    if (_mediaQuery.orientation == Orientation.landscape){
-      return true;
-    }
-
-    else {
-      return false;
-    }
-
+    return context.isLandScape;
   }
   // -----------------------------------------------------------------------------
 }

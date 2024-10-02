@@ -271,9 +271,11 @@ class SuperTextFieldController {
     required BuildContext context,
   }){
 
+    final EdgeInsets _insets = context.screenInsets;
+
     final EdgeInsets _scrollPadding = EdgeInsets.only(
-      bottom: 100 + MediaQuery.of(context).viewInsets.bottom,
-      top: 100 + MediaQuery.of(context).viewInsets.top,
+      bottom: 100 + _insets.bottom,
+      top: 100 + _insets.top,
     );
 
     return _scrollPadding;

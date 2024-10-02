@@ -4,6 +4,7 @@ import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/components/layers/tap_layer/tap_layer.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/space/borderers.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_directioners.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
