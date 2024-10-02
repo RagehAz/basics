@@ -5,6 +5,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   const _SuperVideoDynamicObjectLoader({
     required this.width,
     required this.height,
+    required this.cover,
     this.media,
     this.corners,
     this.errorIcon,
@@ -21,6 +22,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   final bool isMuted;
   final bool autoPlay;
   final bool loop;
+  final dynamic cover;
   // --------------------
   @override
   _SuperVideoDynamicObjectLoaderState createState() => _SuperVideoDynamicObjectLoaderState();
@@ -93,6 +95,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
         oldWidget.width != widget.width ||
         oldWidget.height != widget.height ||
         oldWidget.corners != widget.corners ||
+        oldWidget.cover != widget.cover ||
         oldWidget.errorIcon != widget.errorIcon
     ){
       if (mounted){
@@ -150,6 +153,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
         superVideoController: _controller,
         corners: widget.corners,
         errorIcon: widget.errorIcon,
+        cover: widget.cover,
       );
     }
     // --------------------

@@ -2,11 +2,13 @@ library super_video_player;
 
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/strings/text_check.dart';
+import 'package:basics/helpers/wire/wire.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';

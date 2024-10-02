@@ -6,6 +6,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
     required this.superVideoController,
     required this.width,
     required this.height,
+    required this.cover,
     this.errorIcon,
     this.corners = 10,
   });
@@ -15,6 +16,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
   final double height;
   final String? errorIcon;
   final dynamic corners;
+  final dynamic cover;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
           height: height,
           corners: corners,
           errorIcon: errorIcon,
+          cover: cover,
         );
       // }
 

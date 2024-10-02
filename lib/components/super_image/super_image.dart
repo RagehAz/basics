@@ -12,7 +12,6 @@ import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/borderers.dart';
-import 'package:basics/helpers/space/trinity.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +37,4 @@ part 'src/super_image/x_future_bytes_image.dart';
 part 'src/super_image/x_infinity_loading_box.dart';
 /// LOCAL ASSET CHECKER
 part 'src/super_image/x_local_asset_checker.dart';
-/// ZOOMABLE IMAGE
-part 'src/zoomable_image/zoomable_image.dart';
 // --------------------------------------------------------------------------

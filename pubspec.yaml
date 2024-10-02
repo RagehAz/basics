@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics.
-version: 5.2.0
+version: 5.3.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/basics.git
 # --------------------------------------------------------------------------------
@@ -54,10 +54,10 @@ dependencies:
   flutter_cache_manager: ^3.4.1
   device_info_plus: ^10.1.2
   cloud_firestore: ^5.4.2
+  pinch_zoom_release_unzoom: ^1.0.3
   http: ^1.2.2
   objectbox: ^4.0.2
   objectbox_flutter_libs: any
-  # --------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------
 dev_dependencies:
   flutter_test:

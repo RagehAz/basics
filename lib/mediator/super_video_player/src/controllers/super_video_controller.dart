@@ -567,6 +567,33 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  bool checkShowCover(){
+
+    if (_videoValue.value == null) {
+      return true;
+    }
+
+    else if (Mapper.boolIsTrue(_videoValue.value?.hasError) == true){
+      return true;
+    }
+
+    else if (Mapper.boolIsTrue(_videoValue.value?.isInitialized) == false) {
+      return false;
+    }
+
+    else if (Mapper.boolIsTrue(_videoValue.value?.isBuffering) == true){
+      return false;
+    }
+    else if (Mapper.boolIsTrue(_videoValue.value?.isPlaying) == true){
+      return false;
+    }
+    else {
+      return false;
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   bool checkHasError(){
     return _videoValue.value != null && _videoValue.value!.hasError == true;
   }

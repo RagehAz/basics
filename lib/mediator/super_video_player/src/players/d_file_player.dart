@@ -6,6 +6,7 @@ class _FilePlayer extends StatelessWidget {
     required this.superVideoController,
     required this.width,
     required this.height,
+    required this.cover,
     this.errorIcon,
     this.corners = 10,
   });
@@ -15,13 +16,14 @@ class _FilePlayer extends StatelessWidget {
   final double height;
   final String? errorIcon;
   final dynamic corners;
+  final dynamic cover;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    return ValueListenableBuilder(
-      valueListenable: superVideoController.videoValue,
-      builder: (_, VideoPlayerValue? value, Widget? child) {
+    return SingleWire<VideoPlayerValue?>(
+      wire: superVideoController.videoValue,
+      builder: (VideoPlayerValue? value) {
 
         final double _videoHeight = SuperVideoController.getHeightOnScreen(
           videoHeight: value?.size.height ?? height,
@@ -58,6 +60,7 @@ class _FilePlayer extends StatelessWidget {
         final bool _showPlayIcon = superVideoController.checkCanShowPlayIcon();
         final bool _showVideo = superVideoController.checkCanShowVideo();
         final bool _hasError = superVideoController.checkHasError();
+        final bool _showCover = _isLoading || _hasError;
 
         return GestureDetector(
           key: const ValueKey<String>('_TheVideoPlayer'),
@@ -73,6 +76,15 @@ class _FilePlayer extends StatelessWidget {
                   height: _videoHeight,
                   corners: corners,
                   controller: superVideoController.videoPlayerController!,
+                ),
+
+              if (cover != null && _showCover == true)
+                SuperImage(
+                  loading: false,
+                  width: width,
+                  height: height,
+                  pic: cover,
+                  // fit: BoxFit.cover,
                 ),
 
               /// LOADING

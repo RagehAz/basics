@@ -7,11 +7,8 @@ class BobInfo {
 
   // --------------------
   ///
-  static Future<int?> getStoreItemsCount(String? docName) async {
-    int? _output;
-
-
-
+  // static Future<int?> getStoreItemsCount(String? docName) async {
+  //   int? _output;
     // if (docName != null){
     //
     //   final DBModel? _ldbModel = await SembastInit.getDBModel(docName);
@@ -27,9 +24,8 @@ class BobInfo {
     //
     // }
     //
-
-    return _output;
-  }
+  //   return _output;
+  // }
   // --------------------
   ///
   static const int? theTimeOutS = null;
@@ -38,7 +34,7 @@ class BobInfo {
   /// REPORTING
 
   // --------------------
-  static const bool _canReport = kDebugMode;
+  static const bool _canReport = false; // kDebugMode;
   // --------------------
   static void report({
     required String invoker,

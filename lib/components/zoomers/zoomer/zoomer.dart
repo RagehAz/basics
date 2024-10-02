@@ -1,9 +1,11 @@
-// ignore_for_file: unused_element
-part of super_image;
+import 'dart:async';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/space/trinity.dart';
+import 'package:flutter/material.dart';
 
-class ZoomableImage extends StatelessWidget {
+class Zoomer extends StatelessWidget {
   /// --------------------------------------------------------------------------
-  const ZoomableImage({
+  const Zoomer({
     required this.child,
     this.onTap,
     this.autoShrink = true,
@@ -14,7 +16,7 @@ class ZoomableImage extends StatelessWidget {
     this.maxZoom = 3,
     this.offset,
     super.key
-  }); 
+  });
   /// --------------------------------------------------------------------------
   final Widget child;
   final bool autoShrink;
@@ -64,6 +66,7 @@ class ZoomableImage extends StatelessWidget {
     // --------------------
     if (canZoom == true){
       return _ZoomableChild(
+        key: const ValueKey<String>('TheZoomerChild'),
         onTap: onTap,
         autoShrink: autoShrink,
         isFullScreen: isFullScreen,
@@ -74,13 +77,13 @@ class ZoomableImage extends StatelessWidget {
         child: child,
       );
     }
-
+    // --------------------
     else {
       return child;
     }
     // --------------------
   }
-  /// --------------------------------------------------------------------------
+/// --------------------------------------------------------------------------
 }
 
 class _ZoomableChild extends StatefulWidget {
@@ -95,7 +98,7 @@ class _ZoomableChild extends StatefulWidget {
     required this.maxZoom,
     required this.offset,
     super.key
-  }); 
+  });
   /// --------------------------------------------------------------------------
   final Widget? child;
   final bool autoShrink;
@@ -170,7 +173,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   // --------------------
   Future<void> _animateToMatrix(Matrix4 matrixTo) async {
 
-    await ZoomableImage.animateToMatrix(
+    await Zoomer.animateToMatrix(
       matrixTo: matrixTo,
       mounted: mounted,
       transformationController: _transformationController,
@@ -200,7 +203,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   @override
   Widget build(BuildContext context) {
 
-    blog('is Constrained aho');
+    // blog('is Constrained aho');
 
     return GestureDetector(
       onTap: () async {

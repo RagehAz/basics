@@ -12,6 +12,7 @@ class SuperVideoPlayer extends StatelessWidget {
     this.isMuted = false,
     this.autoPlay = true,
     this.loop = false,
+    this.cover,
     super.key
   });
   // --------------------
@@ -24,6 +25,7 @@ class SuperVideoPlayer extends StatelessWidget {
   final bool isMuted;
   final bool autoPlay;
   final bool loop;
+  final dynamic cover;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class SuperVideoPlayer extends StatelessWidget {
         isMuted: isMuted,
         autoPlay: autoPlay,
         loop: loop,
+        cover: cover,
         // controller: null,
       );
     }
@@ -49,6 +52,7 @@ class SuperVideoPlayer extends StatelessWidget {
         superVideoController: controller,
         corners: corners,
         errorIcon: errorIcon,
+        cover: cover,
       );
     }
     // --------------------
