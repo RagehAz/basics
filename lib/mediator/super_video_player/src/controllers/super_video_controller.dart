@@ -505,7 +505,7 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isInitialized) == false) {
+    else if (checkIsInitialed() == false) {
       return true;
     }
 
@@ -530,7 +530,7 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isInitialized) == false) {
+    else if (checkIsInitialed() == false) {
       return false;
     }
 
@@ -557,7 +557,7 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isInitialized) == false) {
+    else if (checkIsInitialed() == false) {
       return false;
     }
     else {
@@ -577,7 +577,7 @@ class SuperVideoController {
       return true;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isInitialized) == false) {
+    else if (checkIsInitialed() == false) {
       return false;
     }
 
@@ -596,6 +596,11 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   bool checkHasError(){
     return _videoValue.value != null && _videoValue.value!.hasError == true;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool checkIsInitialed(){
+    return Mapper.boolIsTrue(_videoValue.value?.isInitialized);
   }
   // --------------------
   /// TESTED : WORKS PERFECT

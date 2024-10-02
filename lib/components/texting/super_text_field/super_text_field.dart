@@ -1,7 +1,7 @@
 library super_text_field;
 // -----------------------------------------------------------------------------
 import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/components/super_box/src/f_super_box_tap_layer/x_tap_layer.dart';
+import 'package:basics/components/layers/tap_layer/tap_layer.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/strings/text_directioners.dart';

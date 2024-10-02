@@ -2,11 +2,11 @@
 import 'package:basics/components/bubbles/bubble/bubble_header.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/components/drawing/spacing.dart';
+import 'package:basics/components/layers/tap_layer/tap_layer.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/aligner.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/components/super_box/src/f_super_box_tap_layer/x_tap_layer.dart';
 import 'package:flutter/material.dart';
 
 class Bubble extends StatelessWidget {

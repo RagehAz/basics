@@ -1,9 +1,9 @@
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/components/layers/tap_layer/tap_layer.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/components/super_box/src/f_super_box_tap_layer/x_tap_layer.dart';
 import 'package:basics/components/super_image/super_image.dart';
 import 'package:flutter/material.dart';
 

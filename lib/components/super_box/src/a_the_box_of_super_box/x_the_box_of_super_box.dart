@@ -1,8 +1,7 @@
 // ignore_for_file: unused_element
-import 'package:basics/components/super_box/src/f_super_box_tap_layer/x_tap_layer.dart';
+import 'package:basics/components/layers/tap_layer/tap_layer.dart';
+import 'package:basics/components/super_box/super_box.dart';
 import 'package:flutter/material.dart';
-
-import '../../super_box.dart';
 
 /// => TAMAM
 class TheBoxOfSuperBox extends StatelessWidget {

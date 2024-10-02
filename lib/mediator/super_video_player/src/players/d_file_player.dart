@@ -60,7 +60,7 @@ class _FilePlayer extends StatelessWidget {
         final bool _showPlayIcon = superVideoController.checkCanShowPlayIcon();
         final bool _showVideo = superVideoController.checkCanShowVideo();
         final bool _hasError = superVideoController.checkHasError();
-        final bool _showCover = _isLoading || _hasError;
+        final bool _videoInitialized = superVideoController.checkIsInitialed();
 
         return GestureDetector(
           key: const ValueKey<String>('_TheVideoPlayer'),
@@ -78,7 +78,8 @@ class _FilePlayer extends StatelessWidget {
                   controller: superVideoController.videoPlayerController!,
                 ),
 
-              if (cover != null && _showCover == true)
+              /// COVER
+              if (cover != null && _videoInitialized == false)
                 SuperImage(
                   loading: false,
                   width: width,
