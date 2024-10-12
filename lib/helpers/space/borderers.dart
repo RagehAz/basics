@@ -1,4 +1,4 @@
-
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
 
 class Borderers {
@@ -228,12 +228,51 @@ class Borderers {
   }
   // -----------------------------------------------------------------------------
 
-  static Border? simpleBorder(Color? color){
-    return color == null ? null : Border.all(
+  /// BORDER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Border? borderSimple(Color? color){
+    return color == null || color == Colorz.nothing ? null : Border.all(
       width: 0.5,
       color: color,
       strokeAlign: BorderSide.strokeAlignOutside,
     );
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Border? borderOnly({
+    Color? color,
+    bool enLeft = false,
+    bool enRight = false,
+    bool top = false,
+    bool bottom = false,
+    bool appIsLTR = true,
+  }){
 
+    if (color == null || color == Colorz.nothing || color == Colorz.black0){
+      return null;
+    }
+    else {
+
+      BorderSide _getBorder(bool isOn){
+        return BorderSide(
+          // style: BorderStyle.solid,
+          width: 0.5,
+          color: color,
+          strokeAlign: BorderSide.strokeAlignOutside,
+        );
+      }
+
+      return Border(
+        top: _getBorder(top),
+        bottom: _getBorder(bottom),
+        left: appIsLTR ? _getBorder(enLeft) : _getBorder(enRight),
+        right: appIsLTR ? _getBorder(enRight) : _getBorder(enLeft),
+      );
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }

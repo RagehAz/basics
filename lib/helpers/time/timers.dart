@@ -842,7 +842,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
   /// MODIFIERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<DateTime?> putTimeInTimes({
     required DateTime? time,
     required List<DateTime?>? times,
@@ -900,7 +900,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static DateTime? pushTime({
     required DateTime? time,
     int year = 0,
@@ -1111,7 +1111,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
     return _areIdentical;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkTimesContainTime({
     required List<DateTime?>? times,
     required DateTime? time,
@@ -1141,7 +1141,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
     return _contains;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkTimeIsAfter({
     required DateTime? existing,
     required DateTime? timeAfter,
@@ -1157,7 +1157,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
     return _isAfter;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkTimeIsEmpty({
     required DateTime? time,
     // required TimeAccuracy accuracy,
@@ -1171,7 +1171,7 @@ String generateStringsList_index_hh_i_mm_i_ss({
     return _isEmpty;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
    static bool objectIsTimeStamp(dynamic object) {
     return object?.runtimeType == Timestamp;
   }
