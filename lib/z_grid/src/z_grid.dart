@@ -279,7 +279,7 @@ class _BigItemOnZoomIn extends StatelessWidget {
                     direction: _freeze ?
                     DismissiblePageDismissDirection.none
                         :
-                    DismissiblePageDismissDirection.down,
+                    DismissiblePageDismissDirection.vertical,
                     // isFullScreen: true,
                     dragSensitivity: .4,
                     maxTransformValue: 4,

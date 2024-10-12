@@ -76,7 +76,6 @@ class ZGridController {
   static const Curve zoomedItemFadeInCurve = Curves.easeInOutCubic;
   static const Duration zoomingDuration = Duration(milliseconds: 300);
   static const Curve zoomingCurve = Curves.easeOutExpo;
-
   static const Duration backgroundBlurDelayDuration = Duration(milliseconds: 300);
   // -----------------------------------------------------------------------------
 
