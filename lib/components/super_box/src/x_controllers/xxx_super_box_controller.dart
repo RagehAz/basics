@@ -324,8 +324,12 @@ class SuperBoxController {
     required Color? colorOverride
   }) {
 
-    if (greyScale == true || isDisabled == true) {
+    if (isDisabled == true) {
       return Colorz.white50;
+    }
+
+    else if (greyScale == true){
+      return colorOverride ?? Colorz.white50;
     }
 
     else {
@@ -347,11 +351,7 @@ class SuperBoxController {
 
     else {
 
-      if (greyScale == true && color != const Color.fromARGB(0, 255, 255, 255)) {
-        return const Color.fromARGB(80, 121, 121, 121);
-      }
-
-      else if (greyScale == true && color == const Color.fromARGB(0, 255, 255, 255)) {
+      if (greyScale == true && color == const Color.fromARGB(0, 255, 255, 255)) {
         return const Color.fromARGB(0, 255, 255, 255);
       }
 
@@ -370,8 +370,12 @@ class SuperBoxController {
     required bool greyScale,
   }){
 
-    if (greyScale == true || isDisabled == true){
+    if (isDisabled == true){
       return const Color.fromARGB(30, 255, 255, 255);
+    }
+
+    else if (greyScale == true){
+      return colorOverride ?? Colorz.white50;
     }
 
     else {

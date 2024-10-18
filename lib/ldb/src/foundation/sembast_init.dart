@@ -71,6 +71,16 @@ class SembastInit {
       },
       onError: (String? error) async {
         blog('_openSmartPhoneDatabase : error : $error');
+        /*
+        E/flutter ( 6925): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: FileSystemException: Deletion failed, path = '/data/user/0/net.bldrs.app/app_flutter' (OS Error: Directory not empty, errno = 39)
+        E/flutter ( 6925): #0      _checkForErrorResponse (dart:io/common.dart:55:9)
+        E/flutter ( 6925): #1      _Directory._delete.<anonymous closure> (dart:io/directory_impl.dart:180:7)
+        E/flutter ( 6925): <asynchronous suspension>
+        E/flutter ( 6925): #2      SembastInit._createSmartPhoneDatabase.<anonymous closure> (package:basics/ldb/src/foundation/sembast_init.dart:74:9)
+        E/flutter ( 6925): <asynchronous suspension>
+        E/flutter ( 6925):
+         */
+        /// SEMBAST_THROWS_ERROR_IN_BASICS
         await _appDocDir.delete();
       },
     );

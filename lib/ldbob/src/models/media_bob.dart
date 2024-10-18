@@ -232,12 +232,12 @@ class MediaBobOps {
           if (_bob != null){
 
             final Box<MediaBobModel>? _box = await _getStoreBox(docName);
-            blog('_box : ${_box?.count()} ITEMS');
+            // blog('_box : ${_box?.count()} ITEMS');
 
             // final int? _newBobID = await _box?.putAsync(_bob);
             final int? _newBobID = _box?.put(_bob);
 
-            blog('_newBobID($_newBobID)');
+            // blog('_newBobID($_newBobID)');
 
             if (_newBobID != null && _newBobID > 0){
               _success = true;
@@ -452,7 +452,7 @@ class MediaBobOps {
             final Query<MediaBobModel> _query = (_box.query(_condition)..order(MediaBobModel_.id)).build();
             // _output =  await _query.findUniqueAsync();
             _output =  _query.findUnique();
-            blog('_findBobByModelID : ${_output?.bobID}');
+            // blog('_findBobByModelID : ${_output?.bobID}');
             _query.close();
           }
 

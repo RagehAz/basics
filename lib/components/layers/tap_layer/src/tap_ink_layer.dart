@@ -25,43 +25,57 @@ class _TapInkLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final BorderRadius _corners = corners ?? BorderRadius.circular(0);
+    if (splashColor == null || splashColor == Colorz.nothing){
+      return GestureDetector(
+        key: key,
+        onTap: onTap == null ? null : () => onTap!.call(),
+        onTapCancel: onTapCancel == null ? null : () => onTapCancel!(),
+        onLongPress: onLongTap == null ? null : () => onLongTap!(),
+        onDoubleTap: onDoubleTap == null ? null : () => onDoubleTap!(),
+        child: child,
+      );
+    }
     // --------------------
-    return InkWell(
-      key: key,
-      splashColor: onTap == null ? Colorz.nothing : splashColor,
-      highlightColor: onTap == null ? Colorz.nothing :Colorz.black20,
-      onTap: onTap == null ? null : () => onTap!.call(),
-      onTapCancel: onTapCancel == null ? null : () => onTapCancel!(),
-      onLongPress: onLongTap == null ? null : () => onLongTap!(),
-      onDoubleTap: onDoubleTap == null ? null : () => onDoubleTap!(),
-      borderRadius: _corners,
-      // hoverColor: Colorz.white10,
-      customBorder: customBorder,
-      // overlayColor: ,
-      // highlightColor: ,
-      // key: ,
-      // autofocus: ,
-      // canRequestFocus: ,
-      // enableFeedback: ,
-      // excludeFromSemantics: ,
-      // focusColor: ,
-      // focusNode: ,
-      // mouseCursor: ,
-      // onFocusChange: ,
-      // onHighlightChanged: ,
-      // onHover: ,
-      // onSecondaryTap: ,
-      // onSecondaryTapCancel: ,
-      // onSecondaryTapDown: ,
-      // onSecondaryTapUp: ,
-      // onTapDown: ,
-      // onTapUp: ,
-      // radius: ,
-      // splashFactory: ,
-      // statesController: ,
-      child: child,
-    );
+    else {
+
+      final BorderRadius _corners = corners ?? BorderRadius.circular(0);
+
+      return InkWell(
+        key: key,
+        splashColor: onTap == null ? Colorz.nothing : splashColor,
+        highlightColor: onTap == null ? Colorz.nothing :Colorz.black20,
+        onTap: onTap == null ? null : () => onTap!.call(),
+        onTapCancel: onTapCancel == null ? null : () => onTapCancel!(),
+        onLongPress: onLongTap == null ? null : () => onLongTap!(),
+        onDoubleTap: onDoubleTap == null ? null : () => onDoubleTap!(),
+        borderRadius: _corners,
+        // hoverColor: Colorz.white10,
+        customBorder: customBorder,
+        // overlayColor: ,
+        // highlightColor: ,
+        // key: ,
+        // autofocus: ,
+        // canRequestFocus: ,
+        // enableFeedback: ,
+        // excludeFromSemantics: ,
+        // focusColor: ,
+        // focusNode: ,
+        // mouseCursor: ,
+        // onFocusChange: ,
+        // onHighlightChanged: ,
+        // onHover: ,
+        // onSecondaryTap: ,
+        // onSecondaryTapCancel: ,
+        // onSecondaryTapDown: ,
+        // onSecondaryTapUp: ,
+        // onTapDown: ,
+        // onTapUp: ,
+        // radius: ,
+        // splashFactory: ,
+        // statesController: ,
+        child: child,
+      );
+    }
     // --------------------
   }
   // --------------------------------------------------------------------------
