@@ -24,7 +24,7 @@ class BobInit {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Store?> getStore({
+  Future<Store?> getStoreRecursive({
     required String docName,
   }) async {
 
@@ -35,12 +35,30 @@ class BobInit {
 
     if (_storeModel == null){
 
-      _storeModel = await StoreModel.createNewModel(
-          docName: docName
-      );
+      /// IS CREATING
+      if (_checkIsCreatingStore(docName) == true){
 
-      if (_storeModel != null){
-        _stores.add(_storeModel);
+        await Future.delayed(const Duration(milliseconds: 100));
+
+        return getStoreRecursive(docName: docName);
+
+      }
+
+      /// IS NOT CREATING IT
+      else {
+
+        _markStoreInCreation(docName);
+
+        _storeModel = await StoreModel.createNewModel(
+            docName: docName
+        );
+
+        if (_storeModel != null){
+          _stores.add(_storeModel);
+        }
+
+        _removeStoreFromInCreation(docName);
+
       }
 
     }
@@ -49,7 +67,46 @@ class BobInit {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Store?> getTheStore(String docName) => BobInit.instance.getStore(docName: docName);
+  static Future<Store?> getTheStore(String docName) async {
+    Store? _store;
+
+    await tryAndCatch(
+      invoker: 'getTheStore',
+      timeout: 5,
+      functions: () async {
+        _store = await BobInit.instance.getStoreRecursive(docName: docName);
+        },
+    );
+
+    return _store;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// STORES IN CREATION
+
+  // --------------------
+  List<String> _storesInCreation = [];
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void _markStoreInCreation(String docName){
+    _storesInCreation = Stringer.addStringToListIfDoesNotContainIt(
+      strings: _storesInCreation,
+      stringToAdd: docName,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void _removeStoreFromInCreation(String docName){
+    _storesInCreation = Stringer.removeStringFromStrings(
+      removeFrom: _storesInCreation,
+      removeThis: docName,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool _checkIsCreatingStore(String docName){
+    return Stringer.checkStringsContainString(strings: _storesInCreation, string: docName);
+  }
   // -----------------------------------------------------------------------------
 
   /// CLOSE STORE

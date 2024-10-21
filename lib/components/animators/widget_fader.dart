@@ -27,7 +27,7 @@ class WidgetFader extends StatelessWidget {
   });
   /// --------------------------------------------------------------------------
   final Widget? child;
-  final FadeType fadeType;
+  final FadeType? fadeType;
   final double max;
   final double min;
   final Duration? duration;
@@ -39,9 +39,13 @@ class WidgetFader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (fadeType == FadeType.stillAtMin || fadeType == FadeType.stillAtMax) {
+    if (fadeType == null){
+      return child ?? const SizedBox();
+    }
+
+    else if (fadeType == FadeType.stillAtMin || fadeType == FadeType.stillAtMax) {
       return _StillFade(
-        fadeType: fadeType,
+        fadeType: fadeType!,
         builder: builder,
         max: max,
         min: min,
@@ -52,7 +56,7 @@ class WidgetFader extends StatelessWidget {
 
     else {
       return _AnimatedFade(
-        fadeType: fadeType,
+        fadeType: fadeType!,
         builder: builder,
         max: max,
         min: min,
