@@ -72,11 +72,11 @@ class ZGridController {
   /// ANIMATION DURATIONS - CURVES
 
   // --------------------
-  static const Duration zoomedItemFadeInDuration = Duration(milliseconds: 200);
+  static const Duration zoomedItemFadeInDuration = Duration(milliseconds: 100);
   static const Curve zoomedItemFadeInCurve = Curves.easeInOutCubic;
-  static const Duration zoomingDuration = Duration(milliseconds: 300);
+  static const Duration zoomingDuration = Duration(milliseconds: 150);
   static const Curve zoomingCurve = Curves.easeOutExpo;
-  static const Duration backgroundBlurDelayDuration = Duration(milliseconds: 300);
+  static const Duration backgroundBlurDelayDuration = Duration(milliseconds: 150);
   // -----------------------------------------------------------------------------
 
   /// MICRO ZOOMING CONTROLLERS

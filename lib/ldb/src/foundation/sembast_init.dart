@@ -17,27 +17,41 @@ class SembastInit {
 
   // --------------------
   Database? _database;
-  Future<Database?> get database async =>  _database ??= await _createDatabase();
+  Future<Database?> get database async =>  _database ??= await _createDatabaseRecursive();
   static Future<Database?> _getTheDatabase() => SembastInit.instance.database;
   static StoreRef<int, Map<String, dynamic>> _getTheStore(String? docName) => intMapStoreFactory.store(docName);
-  bool _canCreateNewDatabase = true;
+  bool _isCreatingDB = true;
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Database?> _createDatabase() async {
-    Database? _output;
+  Future<Database?> _createDatabaseRecursive() async {
+    Database? _output = _database;
 
-    if (_database == null && _canCreateNewDatabase == true){
+    if (_database == null){
 
-      if (kIsWeb){
-        _output = await _createWebDatabase();
+      /// IS CREATING
+      if (_isCreatingDB == true){
+        await Future.delayed(const Duration(milliseconds: 100));
+        return _createDatabaseRecursive();
       }
+
+      /// IS NOT CREATING IT
       else {
-        _output = await _createSmartPhoneDatabase();
-      }
 
-      if (_output != null){
-        _database = _output;
-        _canCreateNewDatabase = false;
+        _isCreatingDB = true;
+
+        if (kIsWeb){
+          _output = await _createWebDatabase();
+        }
+        else {
+          _output = await _createSmartPhoneDatabase();
+        }
+
+        if (_output != null){
+          _database = _output;
+        }
+
+        _isCreatingDB = false;
+
       }
 
     }
@@ -47,52 +61,43 @@ class SembastInit {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<Database?> _createWebDatabase() async {
-    final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-    final Database _db = await databaseFactoryWeb.openDatabase(_packageInfo.packageName);
+    Database? _db;
+    await tryAndCatch(
+      invoker: '_createWebDatabase',
+      functions: () async {
+        final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+        _db = await databaseFactoryWeb.openDatabase(_packageInfo.packageName);
+      },
+      onError: (String? error) async {
+        blog('_createWebDatabase : error : $error');
+      },
+    );
+
     return _db;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<Database?> _createSmartPhoneDatabase() async {
-    blog('_openSmartPhoneDatabase start');
-    final Directory? _appDocDir = await getApplicationDocumentsDirectory();
-    await _appDocDir?.create(recursive: true);
-    blog('1--> LDB : _appDocDir : $_appDocDir');
-    final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-    blog('2--> LDB : _packageInfo : ${_packageInfo.packageName}');
-    final String _dbPath = path.join(_appDocDir!.path, _packageInfo.packageName);
-    blog('3--> LDB : _dbPath : $_dbPath');
-
     Database? _db;
     await tryAndCatch(
       invoker: '_openSmartPhoneDatabase',
       functions: () async {
+        final Directory? _appDocDir = await getApplicationDocumentsDirectory();
+        await _appDocDir?.create(recursive: true);
+        final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+        final String _dbPath = path.join(_appDocDir!.path, _packageInfo.packageName);
         _db = await databaseFactoryIo.openDatabase(_dbPath);
       },
       onError: (String? error) async {
         blog('_openSmartPhoneDatabase : error : $error');
-        /*
-        E/flutter ( 6925): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: FileSystemException: Deletion failed, path = '/data/user/0/net.bldrs.app/app_flutter' (OS Error: Directory not empty, errno = 39)
-        E/flutter ( 6925): #0      _checkForErrorResponse (dart:io/common.dart:55:9)
-        E/flutter ( 6925): #1      _Directory._delete.<anonymous closure> (dart:io/directory_impl.dart:180:7)
-        E/flutter ( 6925): <asynchronous suspension>
-        E/flutter ( 6925): #2      SembastInit._createSmartPhoneDatabase.<anonymous closure> (package:basics/ldb/src/foundation/sembast_init.dart:74:9)
-        E/flutter ( 6925): <asynchronous suspension>
-        E/flutter ( 6925):
-         */
-        /// SEMBAST_THROWS_ERROR_IN_BASICS
-        await _appDocDir.delete();
       },
     );
-
     SembastInfo.report(
       invoker: '_createSmartPhoneDatabase',
       success: _db != null,
       docName: '...',
       key: '...',
     );
-
-    blog('4--> LDB : done : _db : $_db');
     return _db;
   }
   // -----------------------------------------------------------------------------
@@ -146,8 +151,6 @@ class SembastInit {
       }
 
     }
-
-
 
     return _output;
   }

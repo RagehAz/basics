@@ -42,8 +42,8 @@ class Sliders {
     required PageController? pageController,
     required int? numberOfSlides,
     required int currentSlide,
-    Duration duration = const Duration(milliseconds: 200),
-    Curve curve = Curves.easeInOutCirc,
+    Duration duration = const Duration(milliseconds: 100),
+    Curve curve = Curves.easeOut,
   }) async {
 
     if ((currentSlide + 1 == numberOfSlides) || pageController == null) {
@@ -66,8 +66,8 @@ class Sliders {
   static Future<int> slideToBackAndGetNewIndex({
     required PageController? pageController,
     required int currentSlide,
-    Duration duration = const Duration(milliseconds: 200),
-    Curve curve = Curves.easeInOutCirc,
+    Duration duration = const Duration(milliseconds: 100),
+    Curve curve = Curves.easeOut,
   }) async {
 
     /// this checks if its the first slide, it won't change index and won't slide, otherwise
