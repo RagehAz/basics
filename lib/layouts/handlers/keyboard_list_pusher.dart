@@ -20,10 +20,10 @@ class KeyboardPusher extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      width: context.screenWidth,
+      width: Scale.screenWidth(context),
       height: initialHeight,
       margin: EdgeInsets.only(
-        bottom: context.screenInsets.bottom * sizingFactor,
+        bottom: Scale.screenInsets(context).bottom * sizingFactor,
       ),
     );
 

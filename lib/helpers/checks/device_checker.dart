@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_udid/flutter_udid.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 
 /// => TAMAM
@@ -320,15 +317,6 @@ class DeviceChecker {
       return 'GhostOS';
     }
 
-  }
-  // -----------------------------------------------------------------------------
-
-  /// SCREEN DIRECTION
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static bool deviceIsLandscape(BuildContext context){
-    return context.isLandScape;
   }
   // -----------------------------------------------------------------------------
 }

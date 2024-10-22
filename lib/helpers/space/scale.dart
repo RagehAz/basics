@@ -36,10 +36,12 @@ class Scale {
     // return MediaQuery.of(context).size.height;
   }
   // --------------------
+  /*
   /// TESTED : WORKS PERFECT
   static double superScreenHeightWithoutSafeArea(BuildContext context) {
     return screenHeight(context) - superSafeAreaTopPadding(context);
   }
+   */
   // --------------------
   /// TESTED : WORKS PERFECT
   static double screenShortestSide(BuildContext context){
@@ -315,73 +317,5 @@ class Scale {
 
     return _width;
   }
-  // -----------------------------------------------------------------------------
-}
-
-extension Contexual on BuildContext {
-  // -----------------------------------------------------------------------------
-  double get screenWidth => Scale.screenWidth(this);
-  double get screenHeight => Scale.screenHeight(this);
-  double get screenHeightGross => Scale.screenHeightGross(this);
-  double get superScreenHeightWithoutSafeArea => Scale.superScreenHeightWithoutSafeArea(this);
-  double get screenShortestSide => Scale.screenShortestSide(this);
-  double get screenLongestSide => Scale.screenLongestSide(this);
-  bool get isLandScape => Scale.isLandScape(this);
-  double get superSafeAreaTopPadding => Scale.superSafeAreaTopPadding(this);
-  double get superDeviceRatio => Scale.superDeviceRatio(this);
-  double get devicePixelRatio => Scale.devicePixelRatio(this);
-  EdgeInsets get screenInsets => Scale.screenInsets(this);
-  Size get screenSize => Scale.screenSize(this);
-  // --------------------
-  EdgeInsets superInsets({
-    required BuildContext context,
-    required bool appIsLTR,
-    double bottom = 0,
-    double enLeft = 0,
-    double enRight = 0,
-    double top = 0,
-  }) => Scale.superInsets(
-    context: this,
-    appIsLTR: appIsLTR,
-    top: top,
-    bottom: bottom,
-    enLeft: enLeft,
-    enRight: enRight,
-  );
-  // --------------------
-  EdgeInsets superMargins({
-    dynamic margin
-  }) => Scale.superMargins(
-      margin: margin
-  );
-  // --------------------
-  double responsive({
-    required double? landscape,
-    required double? portrait,
-  }) => Scale.responsive(context: this, landscape: landscape, portrait: portrait);
-  // --------------------
-  double adaptiveWidth({
-    required double? ratio,
-  }) => Scale.adaptiveWidth(this, ratio);
-  // --------------------
-  double adaptiveHeight({
-    required double? ratio,
-  }) => Scale.adaptiveHeight(this, ratio);
-  // --------------------
-  double superWidth({
-    required double? ratio,
-  }) => Scale.superWidth(this, ratio);
-  // --------------------
-  double getUniformRowItemWidth({
-    required int? numberOfItems,
-    required double? boxWidth,
-    double spacing = 10,
-    bool considerMargins = true,
-  }) => Scale.getUniformRowItemWidth(
-    boxWidth: boxWidth,
-    numberOfItems: numberOfItems,
-    considerMargins: considerMargins,
-    spacing: spacing,
-  );
   // -----------------------------------------------------------------------------
 }

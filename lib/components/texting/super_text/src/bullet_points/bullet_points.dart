@@ -38,7 +38,7 @@ class BulletPoints extends StatelessWidget {
 
     else {
 
-      final double screenWidth = context.screenWidth;
+      final double screenWidth = Scale.screenWidth(context);
       final double _boxWidth = boxWidth ?? (screenWidth - 20);
 
       return Padding(

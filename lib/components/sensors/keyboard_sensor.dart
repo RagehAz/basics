@@ -41,7 +41,7 @@ class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObse
   void didChangeMetrics() {
     super.didChangeMetrics();
 
-    final bool _visible = context.screenInsets.bottom > 0;
+    final bool _visible = Scale.screenInsets(context).bottom > 0;
 
     _isVisible?.set(
       value: _visible,
