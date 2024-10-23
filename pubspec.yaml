@@ -32,7 +32,6 @@ dependencies:
   package_info_plus: ^8.0.2
   stop_watch_timer: ^3.2.1
   just_audio: ^0.9.40
-  crop_your_image: ^1.1.0
   video_player: ^2.9.1
 #  youtube_player_flutter: ^9.0.4
   wechat_camera_picker: ^4.3.2
