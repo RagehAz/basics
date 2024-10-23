@@ -1,13 +1,13 @@
-import 'dart:typed_data';
-
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
+import 'package:basics/components/super_box/super_box.dart';
+import 'package:basics/components/super_image/super_image.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/aligner.dart';
 import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/super_image/super_image.dart';
+import 'package:basics/helpers/wire/wire.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 
 class CropperFooter extends StatelessWidget {
@@ -15,7 +15,7 @@ class CropperFooter extends StatelessWidget {
   const CropperFooter({
     required this.currentImageIndex,
     required this.onCropImages,
-    required this.bytezz,
+    required this.pics,
     required this.onImageTap,
     required this.aspectRatio,
     required this.screenHeight,
@@ -25,15 +25,15 @@ class CropperFooter extends StatelessWidget {
     super.key
   });
   // -----------------------------------------------------------------------------
-  final ValueNotifier<int> currentImageIndex;
+  final Wire<int> currentImageIndex;
   final Function onCropImages;
-  final List<Uint8List> bytezz;
-  final ValueChanged<int> onImageTap;
+  final List<MediaModel> pics;
+  final Function(int index) onImageTap;
   final double aspectRatio;
   final double screenHeight;
   final bool appIsLTR;
   final String confirmText;
-  final ValueNotifier<bool> loading;
+  final Wire<bool> loading;
   // --------------------
   static const double imagesSpacing = 5;
   // --------------------
@@ -65,22 +65,22 @@ class CropperFooter extends StatelessWidget {
       width: _screenWidth,
       height: _imagesFooterHeight,
       alignment: Alignment.bottomLeft,
-      child: ValueListenableBuilder(
-        valueListenable: currentImageIndex,
-        builder: (_, int imageIndex, Widget? confirmButton){
+      child: LiveWire(
+        wire: currentImageIndex,
+        builder: (int imageIndex, Widget? confirmButton){
 
           return Stack(
             children: <Widget>[
 
               /// MINI PICTURES
-              if (Lister.superLength(bytezz) > 1)
+              if (Lister.superLength(pics) > 1)
               SizedBox(
                 width: _screenWidth,
                 height: _imagesFooterHeight,
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: bytezz.length,
+                  itemCount: pics.length,
                   padding: Scale.superInsets(
                     context: context,
                     appIsLTR: appIsLTR,
@@ -110,7 +110,7 @@ class CropperFooter extends StatelessWidget {
                           child: SuperImage(
                             width: _miniImageWidth,
                             height: _miniImageWidth,
-                            pic: bytezz[index],
+                            pic: pics[index],
                             loading: false, //loading,
                           ),
                         ),

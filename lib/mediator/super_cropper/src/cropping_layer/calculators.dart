@@ -1,4 +1,4 @@
-part of cropping_layer;
+part of super_cropper;
 
 abstract class _Calculator {
 

@@ -1,4 +1,4 @@
-part of cropping_layer;
+part of super_cropper;
 
 class CroppingLayer extends StatefulWidget {
   // --------------------------------------------------------------------------
@@ -10,6 +10,7 @@ class CroppingLayer extends StatefulWidget {
     this.initialSize,
     this.aspectRatio,
     this.onMoved,
+    this.onStarted,
     this.maskColor = Colorz.black80,
     this.child,
     this.image,
@@ -23,6 +24,7 @@ class CroppingLayer extends StatefulWidget {
   final Rect? initialRect;
   final double? aspectRatio;
   final Function(Rect rect)? onMoved;
+  final Function(Rect rect)? onStarted;
   final Color maskColor;
   final Widget? child;
   final dynamic image;
@@ -58,9 +60,22 @@ class _CroppingLayerState extends State<CroppingLayer> {
   @override
   void initState() {
     super.initState();
-
     _initializeRect();
+  }
+  // --------------------
+  bool _isInit = true;
+  @override
+  void didChangeDependencies() {
 
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
+      asyncInSync(() async {
+        widget.onStarted?.call(_rect);
+      });
+
+    }
+    super.didChangeDependencies();
   }
   // --------------------
   @override

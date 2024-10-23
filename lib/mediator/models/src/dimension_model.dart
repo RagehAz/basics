@@ -99,6 +99,40 @@ class Dimensions {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? getWidthByAspectRatio({
+    required double? aspectRatio,
+    required double? height,
+  }){
+    double? _output;
+
+    if (aspectRatio != null && height != null){
+      /// AspectRatio = (widthA / heightA)
+      ///             = (widthB / heightB)
+      ///
+      /// so widthB = aspectRatio * heightB
+      _output = aspectRatio * height;
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  double? getHeightForWidth({
+    required double? width,
+  }){
+    final double _aspectRatio = getAspectRatio();
+    return getHeightByAspectRatio(aspectRatio: _aspectRatio, width: width);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  double? getWidthForHeight({
+    required double? height,
+  }){
+    final double _aspectRatio = getAspectRatio();
+    return getWidthByAspectRatio(aspectRatio: _aspectRatio, height: height);
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING

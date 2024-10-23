@@ -1,16 +1,12 @@
-import 'dart:typed_data';
-
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/helpers/wire/wire.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
-import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropper_footer.dart';
 import 'package:basics/mediator/pic_maker/cropping_screen/cropper_pages.dart';
-import 'package:crop_your_image/crop_your_image.dart';
+import 'package:basics/mediator/super_cropper/super_cropper.dart';
 import 'package:flutter/material.dart';
 
 class CroppingScreen extends StatefulWidget {
@@ -42,23 +38,18 @@ class CroppingScreen extends StatefulWidget {
     final double _imageSpaceHeight = screenHeight - Ratioz.stratosphere - _imagesFooterHeight;
     return _imageSpaceHeight;
   }
-  // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 }
 
 class _CroppingScreenState extends State<CroppingScreen> {
   // -----------------------------------------------------------------------------
-  final ValueNotifier<List<Uint8List>?> _croppedBytezz = ValueNotifier(null);
-  List<Uint8List> _originalBytezz = [];
-  final ValueNotifier<int> _currentImageIndex = ValueNotifier(0);
-  final List<CropController> _controllers = <CropController>[];
+  final Wire<List<MediaModel>> _cropped = Wire<List<MediaModel>>([]);
+  final Wire<int> _currentImageIndex = Wire<int>(0);
+  final List<PicMediaCropController> _controllers = <PicMediaCropController>[];
   final PageController _pageController = PageController();
-  /// ON CROP TAP : ALL CONTROLLERS CROP, TAKE TIME THEN END AND ADD A CropStatus.ready to this list
-  /// when it reaches the length of the given files,, goes back with new cropped files
-  ValueNotifier<List<CropStatus>>? _statuses;
-  bool _canGoBack = false;
   // -----------------------------------------------------------------------------
   /// --- FUTURE LOADING BLOCK
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
+  final Wire<bool> _loading = Wire<bool>(false);
   // -----------------------------------
   Future<void> _triggerLoading({required bool setTo}) async {
     setNotifier(
@@ -71,12 +62,7 @@ class _CroppingScreenState extends State<CroppingScreen> {
   @override
   void initState() {
     super.initState();
-
-
     _initializeControllers();
-
-    /// REMOVED
-    _statuses?.addListener(_statusesListener);
   }
   // --------------------
   bool _isInit = true;
@@ -88,24 +74,13 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
       asyncInSync(() async {
 
-        final List<Uint8List> _bytezz = Byter.fromMediaModels(widget.mediaModels,);
-
-        setNotifier(
-          notifier: _croppedBytezz,
+        _cropped.set(
           mounted: mounted,
-          value: _bytezz,
+          value: widget.mediaModels,
         );
-
-        setState(() {
-          _originalBytezz = _bytezz;
-        });
 
       });
 
-      // _triggerLoading(setTo: true).then((_) async {
-      //
-      //   await _triggerLoading(setTo: false);
-      // });
     }
 
     super.didChangeDependencies();
@@ -113,12 +88,13 @@ class _CroppingScreenState extends State<CroppingScreen> {
   // --------------------
   @override
   void dispose() {
-    _statuses?.removeListener(_statusesListener);
     _loading.dispose();
     _pageController.dispose();
     _currentImageIndex.dispose();
-    _statuses?.dispose();
-    _croppedBytezz.dispose();
+    _cropped.dispose();
+    PicMediaCropController.disposeMultiple(
+      controllers: _controllers,
+    );
     super.dispose();
   }
   // -----------------------------------------------------------------------------
@@ -128,48 +104,10 @@ class _CroppingScreenState extends State<CroppingScreen> {
   // --------------------
   /// TESTED : WORKS PERFECT
   void _initializeControllers(){
-
     for (int i = 0; i < widget.mediaModels.length; i++){
-      final CropController _controller = CropController();
+      final PicMediaCropController _controller = PicMediaCropController();
       _controllers.add(_controller);
     }
-
-    final List<CropStatus> _statusesList =  List.filled(widget.mediaModels.length, CropStatus.nothing);
-    _statuses = ValueNotifier(_statusesList);
-
-  }
-  // -----------------------------------------------------------------------------
-
-  /// LISTENER
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<void> _statusesListener() async {
-
-    /// CHECK IF STATUSES ARE ALL READY
-    final bool _allImagesCropped = Lister.checkListsAreIdentical(
-      list1: _statuses?.value,
-      list2: List.filled(widget.mediaModels.length, CropStatus.ready),
-    );
-
-    if (_allImagesCropped == true && _canGoBack == true){
-
-      final List<MediaModel> _mediaModels = await MediaModel.replaceBytezzInMediaModels(
-        mediaModels: widget.mediaModels,
-        bytezz: _croppedBytezz.value,
-      );
-
-      await _triggerLoading(setTo: false);
-
-      /// GO BACK AND PASS THE FILES
-      await Nav.goBack(
-        context: context,
-        invoker: 'CroppingScreen',
-        passedData: _mediaModels,
-      );
-
-    }
-
   }
   // -----------------------------------------------------------------------------
 
@@ -181,9 +119,8 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
     await _triggerLoading(setTo: true);
 
-    for (final CropController controller in _controllers){
-      controller.crop();
-
+    for (final PicMediaCropController controller in _controllers){
+      await controller.cropPic();
     }
 
   }
@@ -207,15 +144,12 @@ class _CroppingScreenState extends State<CroppingScreen> {
 
           /// CROPPER PAGES
           CropperPages(
-            currentImageIndex: _currentImageIndex,
             aspectRatio: widget.aspectRatio,
             screenHeight: _screenHeight,
             controllers: _controllers,
-            croppedImages: _croppedBytezz,
-            originalBytezz: _originalBytezz,
+            originalPics: widget.mediaModels,
             pageController: _pageController,
-            statuses: _statuses!,
-            mounted: mounted,
+            onPageChanged: (int index) => _currentImageIndex.set(value: index, mounted: mounted),
           ),
 
           /// CROPPER FOOTER
@@ -226,21 +160,18 @@ class _CroppingScreenState extends State<CroppingScreen> {
             screenHeight: _screenHeight,
             aspectRatio: widget.aspectRatio,
             currentImageIndex: _currentImageIndex,
-            bytezz: _originalBytezz, /// PUT CROPPED BYTEZZ HERE IF YOU WANT TO LISTEN TO CHANGES
-            onCropImages: () async {
-
-              await _cropImages();
-              _canGoBack = true;
-
-            },
+            pics: widget.mediaModels, /// PUT CROPPED BYTEZZ HERE IF YOU WANT TO LISTEN TO CHANGES
+            onCropImages: _cropImages,
             onImageTap: (int index) async {
 
-              setNotifier(notifier: _currentImageIndex, mounted: mounted, value: index);
+              _currentImageIndex.set(mounted: mounted, value: index);
 
-              await _pageController.animateToPage(index,
-                duration: Ratioz.durationFading200,
-                curve: Curves.easeInOut,
-              );
+              if (widget.mediaModels.length > 1){
+                await _pageController.animateToPage(index,
+                  duration: Ratioz.durationFading200,
+                  curve: Curves.easeInOut,
+                );
+              }
 
             },
           ),
@@ -252,3 +183,243 @@ class _CroppingScreenState extends State<CroppingScreen> {
   }
 // -----------------------------------------------------------------------------
 }
+
+// class OldCroppingScreen extends StatefulWidget {
+//   /// -----------------------------------------------------------------------------
+//   const OldCroppingScreen({
+//     required this.mediaModels,
+//     this.confirmText = 'Continue',
+//     this.appIsLTR = true,
+//     this.aspectRatio = 1,
+//     super.key
+//   });
+//   /// -----------------------------------------------------------------------------
+//   final List<MediaModel> mediaModels;
+//   final double aspectRatio;
+//   final String confirmText;
+//   final bool appIsLTR;
+//   /// -----------------------------------------------------------------------------
+//   @override
+//   _OldCroppingScreenState createState() => _OldCroppingScreenState();
+//   /// -----------------------------------------------------------------------------
+//   static double getFooterHeight(){
+//     return Ratioz.horizon;
+//   }
+//   // -----------------------------------------------------------------------------
+//   static double getImagesZoneHeight({
+//     required double screenHeight,
+//   }){
+//     final double _imagesFooterHeight = OldCroppingScreen.getFooterHeight();
+//     final double _imageSpaceHeight = screenHeight - Ratioz.stratosphere - _imagesFooterHeight;
+//     return _imageSpaceHeight;
+//   }
+//   // -----------------------------------------------------------------------------
+// }
+//
+// class _OldCroppingScreenState extends State<OldCroppingScreen> {
+//   // -----------------------------------------------------------------------------
+//   final ValueNotifier<List<Uint8List>?> _croppedBytezz = ValueNotifier(null);
+//   List<Uint8List> _originalBytezz = [];
+//   final ValueNotifier<int> _currentImageIndex = ValueNotifier(0);
+//   final List<CropController> _controllers = <CropController>[];
+//   final PageController _pageController = PageController();
+//   /// ON CROP TAP : ALL CONTROLLERS CROP, TAKE TIME THEN END AND ADD A CropStatus.ready to this list
+//   /// when it reaches the length of the given files,, goes back with new cropped files
+//   ValueNotifier<List<CropStatus>>? _statuses;
+//   bool _canGoBack = false;
+//   // -----------------------------------------------------------------------------
+//   /// --- FUTURE LOADING BLOCK
+//   final ValueNotifier<bool> _loading = ValueNotifier(false);
+//   // -----------------------------------
+//   Future<void> _triggerLoading({required bool setTo}) async {
+//     setNotifier(
+//       notifier: _loading,
+//       mounted: mounted,
+//       value: setTo,
+//     );
+//   }
+//   // -----------------------------------------------------------------------------
+//   @override
+//   void initState() {
+//     super.initState();
+//
+//
+//     _initializeControllers();
+//
+//     /// REMOVED
+//     _statuses?.addListener(_statusesListener);
+//   }
+//   // --------------------
+//   bool _isInit = true;
+//   @override
+//   void didChangeDependencies() {
+//
+//     if (_isInit && mounted) {
+//       _isInit = false; // good
+//
+//       asyncInSync(() async {
+//
+//         final List<Uint8List> _bytezz = Byter.fromMediaModels(widget.mediaModels,);
+//
+//         setNotifier(
+//           notifier: _croppedBytezz,
+//           mounted: mounted,
+//           value: _bytezz,
+//         );
+//
+//         setState(() {
+//           _originalBytezz = _bytezz;
+//         });
+//
+//       });
+//
+//       // _triggerLoading(setTo: true).then((_) async {
+//       //
+//       //   await _triggerLoading(setTo: false);
+//       // });
+//     }
+//
+//     super.didChangeDependencies();
+//   }
+//   // --------------------
+//   @override
+//   void dispose() {
+//     _statuses?.removeListener(_statusesListener);
+//     _loading.dispose();
+//     _pageController.dispose();
+//     _currentImageIndex.dispose();
+//     _statuses?.dispose();
+//     _croppedBytezz.dispose();
+//     super.dispose();
+//   }
+//   // -----------------------------------------------------------------------------
+//
+//   /// INITIALIZATION
+//
+//   // --------------------
+//   /// TESTED : WORKS PERFECT
+//   void _initializeControllers(){
+//
+//     for (int i = 0; i < widget.mediaModels.length; i++){
+//       final CropController _controller = CropController();
+//       _controllers.add(_controller);
+//     }
+//
+//     final List<CropStatus> _statusesList =  List.filled(widget.mediaModels.length, CropStatus.nothing);
+//     _statuses = ValueNotifier(_statusesList);
+//
+//   }
+//   // -----------------------------------------------------------------------------
+//
+//   /// LISTENER
+//
+//   // --------------------
+//   /// TESTED : WORKS PERFECT
+//   Future<void> _statusesListener() async {
+//
+//     /// CHECK IF STATUSES ARE ALL READY
+//     final bool _allImagesCropped = Lister.checkListsAreIdentical(
+//       list1: _statuses?.value,
+//       list2: List.filled(widget.mediaModels.length, CropStatus.ready),
+//     );
+//
+//     if (_allImagesCropped == true && _canGoBack == true){
+//
+//       final List<MediaModel> _mediaModels = await MediaModel.replaceBytezzInMediaModels(
+//         mediaModels: widget.mediaModels,
+//         bytezz: _croppedBytezz.value,
+//       );
+//
+//       await _triggerLoading(setTo: false);
+//
+//       /// GO BACK AND PASS THE FILES
+//       await Nav.goBack(
+//         context: context,
+//         invoker: 'CroppingScreen',
+//         passedData: _mediaModels,
+//       );
+//
+//     }
+//
+//   }
+//   // -----------------------------------------------------------------------------
+//
+//   /// CROP
+//
+//   // --------------------
+//   /// TESTED : WORKS PERFECT
+//   Future<void> _cropImages() async {
+//
+//     await _triggerLoading(setTo: true);
+//
+//     for (final CropController controller in _controllers){
+//       controller.crop();
+//
+//     }
+//
+//   }
+//   // -----------------------------------------------------------------------------
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     final double _screenHeight = Scale.screenHeight(context);
+//
+//     return BasicLayout(
+//       safeAreaIsOn: true,
+//       // backgroundColor: Colorz.red255,
+//       body:  Column(
+//         children: <Widget>[
+//
+//           /// STRATOSPHERE SPACING
+//           const SizedBox(
+//             width: 10,
+//             height: Ratioz.stratosphere,
+//           ),
+//
+//           /// CROPPER PAGES
+//           OldCropperPages(
+//             currentImageIndex: _currentImageIndex,
+//             aspectRatio: widget.aspectRatio,
+//             screenHeight: _screenHeight,
+//             controllers: _controllers,
+//             croppedImages: _croppedBytezz,
+//             originalBytezz: _originalBytezz,
+//             pageController: _pageController,
+//             statuses: _statuses!,
+//             mounted: mounted,
+//           ),
+//
+//           /// CROPPER FOOTER
+//           CropperFooter(
+//             loading: _loading,
+//             appIsLTR: widget.appIsLTR,
+//             confirmText: widget.confirmText,
+//             screenHeight: _screenHeight,
+//             aspectRatio: widget.aspectRatio,
+//             currentImageIndex: _currentImageIndex,
+//             bytezz: _originalBytezz, /// PUT CROPPED BYTEZZ HERE IF YOU WANT TO LISTEN TO CHANGES
+//             onCropImages: () async {
+//
+//               await _cropImages();
+//               _canGoBack = true;
+//
+//             },
+//             onImageTap: (int index) async {
+//
+//               setNotifier(notifier: _currentImageIndex, mounted: mounted, value: index);
+//
+//               await _pageController.animateToPage(index,
+//                 duration: Ratioz.durationFading200,
+//                 curve: Curves.easeInOut,
+//               );
+//
+//             },
+//           ),
+//
+//         ],
+//       ),
+//     );
+//
+//   }
+// // -----------------------------------------------------------------------------
+// }

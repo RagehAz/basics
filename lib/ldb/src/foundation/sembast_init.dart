@@ -20,7 +20,7 @@ class SembastInit {
   Future<Database?> get database async =>  _database ??= await _createDatabaseRecursive();
   static Future<Database?> _getTheDatabase() => SembastInit.instance.database;
   static StoreRef<int, Map<String, dynamic>> _getTheStore(String? docName) => intMapStoreFactory.store(docName);
-  bool _isCreatingDB = true;
+  bool _isCreatingDB = false;
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<Database?> _createDatabaseRecursive() async {
@@ -154,5 +154,5 @@ class SembastInit {
 
     return _output;
   }
-// -----------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

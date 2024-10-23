@@ -1,4 +1,4 @@
-part of cropping_layer;
+part of super_cropper;
 
 class _CropAreaClipper extends CustomClipper<Path> {
   _CropAreaClipper(this.rect, this.radius);
