@@ -146,6 +146,7 @@ class FormatDetector {
     // blog('1. detectBytes : START');
 
     await XFiler.getOrCreateTempXFile(
+      invoker: 'detectBytes',
       fileName: fileName,
       bytes: bytes,
       ops: (XFile xFile) async {

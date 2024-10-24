@@ -123,7 +123,7 @@ class _CroppingLayerState extends State<CroppingLayer> {
   /// TESTED : WORKS PERFECT
   Rect _getRectByScale(){
 
-    blog('getting rect by scaleeeee');
+    // blog('getting rect by scaleeeee');
 
     final double _scale = widget.initialSize ?? 0.7;
 

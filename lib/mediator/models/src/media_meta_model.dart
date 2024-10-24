@@ -301,6 +301,7 @@ class MediaMetaModel {
     ){
 
       final Dimensions? _dims = await DimensionsGetter.fromBytes(
+        invoker: 'completeMeta',
           bytes: bytes,
           fileName: _output?.name,
       );
@@ -446,33 +447,33 @@ class MediaMetaModel {
 
     }
 
-    if (_output == false){
-
-      if (meta1?.width != meta2?.width){
-        blog('meta1?.width : ${meta1?.width} != meta2?.width : ${meta2?.width} ');
-      }
-
-      if (meta1?.height != meta2?.height){
-        blog('meta1?.height : ${meta1?.height} != meta2?.height : ${meta2?.height} ');
-      }
-
-      if (meta1?.fileExt != meta2?.fileExt){
-        blog('meta1?.fileExt : ${meta1?.fileExt} != meta2?.fileExt : ${meta2?.fileExt} ');
-      }
-
-      if (meta1?.sizeMB != meta2?.sizeMB){
-        blog('meta1?.sizeMB : ${meta1?.sizeMB} != meta2?.sizeMB : ${meta2?.sizeMB} ');
-      }
-
-      if (meta1?.name != meta2?.name){
-        blog('meta1?.name : ${meta1?.name} != meta2?.name : ${meta2?.name} ');
-      }
-
-      if (meta1?.uploadPath != meta2?.uploadPath){
-        blog('meta1?.uploadPath : ${meta1?.uploadPath} != meta2?.uploadPath : ${meta2?.uploadPath} ');
-      }
-
-    }
+    // if (_output == false){
+    //
+    //   if (meta1?.width != meta2?.width){
+    //     blog('meta1?.width : ${meta1?.width} != meta2?.width : ${meta2?.width} ');
+    //   }
+    //
+    //   if (meta1?.height != meta2?.height){
+    //     blog('meta1?.height : ${meta1?.height} != meta2?.height : ${meta2?.height} ');
+    //   }
+    //
+    //   if (meta1?.fileExt != meta2?.fileExt){
+    //     blog('meta1?.fileExt : ${meta1?.fileExt} != meta2?.fileExt : ${meta2?.fileExt} ');
+    //   }
+    //
+    //   if (meta1?.sizeMB != meta2?.sizeMB){
+    //     blog('meta1?.sizeMB : ${meta1?.sizeMB} != meta2?.sizeMB : ${meta2?.sizeMB} ');
+    //   }
+    //
+    //   if (meta1?.name != meta2?.name){
+    //     blog('meta1?.name : ${meta1?.name} != meta2?.name : ${meta2?.name} ');
+    //   }
+    //
+    //   if (meta1?.uploadPath != meta2?.uploadPath){
+    //     blog('meta1?.uploadPath : ${meta1?.uploadPath} != meta2?.uploadPath : ${meta2?.uploadPath} ');
+    //   }
+    //
+    // }
 
     return _output;
   }

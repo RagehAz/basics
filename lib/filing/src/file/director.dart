@@ -299,29 +299,35 @@ class Director {
 
     if (kIsWeb == false && name != null){
 
-      // blog('findFilePathByName: searching for : $name');
+      // void xBlog(String text){
+      //   if (name == 'pic'){
+      //     blog(text);
+      //   }
+      // }
+
+      // xBlog('findFilePathByName: searching for : $name');
 
       final List<String> _allPaths = await Director.readDirectoryFilesPaths(
         type: directoryType,
       );
 
-      // blog('findFilePathByName: found : $_allPaths');
+      // xBlog('findFilePathByName: found : $_allPaths');
 
       final String? _nameWithoutExtension = TextMod.removeTextAfterLastSpecialCharacter(
           text: name,
           specialCharacter: '.',
       );
 
-      final List<String> _matches = Pathing.findPathsContainingSubstring(
+      final List<String> _matches = Pathing.findPathsHavingLastNode(
         paths: _allPaths,
-        subString: _nameWithoutExtension,
+        lastNode: _nameWithoutExtension,
       );
 
-      // blog('findFilePathByName: _matches : $_matches');
+      // xBlog('findFilePathByName: _matches : $_matches');
 
       _output = _matches.firstOrNull;
 
-      // blog('findFilePathByName: _output : $_output');
+      // xBlog('findFilePathByName: _output : $_output');
 
     }
 

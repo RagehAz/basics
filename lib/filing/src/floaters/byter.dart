@@ -471,6 +471,7 @@ class Byter {
     if (bytes != null && resizeToWidth != null){
 
       final Dimensions? _dims = fileDims ?? await DimensionsGetter.fromBytes(
+        invoker: 'resize',
         bytes: bytes,
         fileName: fileName,
       );

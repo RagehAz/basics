@@ -157,7 +157,28 @@ class Pathing {
 
     return _foundPaths;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> findPathsHavingLastNode({
+    required List<String>? paths,
+    required String? lastNode,
+  }){
+    final List<String> _foundPaths = <String>[];
 
+    if (Lister.checkCanLoop(paths) == true && TextCheck.isEmpty(lastNode) == false) {
+      for (final String path in paths!) {
+
+        final String? _lastNode = getLastPathNode(path);
+
+        if (lastNode == _lastNode) {
+          _foundPaths.add(path);
+        }
+
+      }
+    }
+
+    return _foundPaths;
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<String> findPathsContainingSubStrings({

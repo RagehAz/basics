@@ -514,6 +514,7 @@ class PicMaker {
         bytes: mediaModel.bytes,
         fileName: _output?.meta?.name,
         resizeToWidth: resizeToWidth,
+
       );
 
       _output = await _output?.replaceBytes(

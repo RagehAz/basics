@@ -38,7 +38,7 @@ abstract class DimensionsGetter {
 
     /// BYTES
     else if (ObjectCheck.objectIsUint8List(object) == true){
-      return fromBytes(bytes: object, fileName: fileName);
+      return fromBytes(bytes: object, fileName: fileName, invoker: 'fromDynamic');
     }
 
     /// URL
@@ -74,16 +74,15 @@ abstract class DimensionsGetter {
     if (_output == null){
 
       await XFiler.getOrCreateTempXFile(
+          invoker: 'fromSuperFile',
           fileName: file?.getFileName(withExtension: true),
           bytes: _bytes,
           ops: (XFile xFile) async {
-
             _output = await _getVideoDimensions(
               xFile: xFile,
             );
-
           }
-      );
+          );
 
     }
 
@@ -94,17 +93,21 @@ abstract class DimensionsGetter {
   static Future<Dimensions?> fromBytes({
     required Uint8List? bytes,
     required String? fileName,
+    required String invoker,
   }) async {
     Dimensions? _output;
 
+    // blog('fromBytes : fileName : $fileName');
+
     await XFiler.getOrCreateTempXFile(
+        invoker: 'fromBytes',
         fileName: fileName,
         bytes: bytes,
         ops: (XFile xFile) async {
 
           _output = await fromXFile(
             xFile: xFile,
-            invoker: 'DimensionsGetter.fromBytes(getOrCreateTempXFile)',
+            invoker: 'fromBytes($invoker)',
           );
 
         }
@@ -125,6 +128,7 @@ abstract class DimensionsGetter {
     return fromBytes(
       bytes: _bytes,
       fileName: FileNaming.getNameFromLocalAsset(localAsset),
+      invoker: 'fromLocalAsset',
     );
   }
   // --------------------
@@ -133,6 +137,7 @@ abstract class DimensionsGetter {
     required MediaModel? mediaModel,
   }) async {
     return fromBytes(
+      invoker: 'fromMediaModel',
       bytes: mediaModel?.bytes,
       fileName: mediaModel?.getName(
           // withExtension: true
@@ -149,6 +154,7 @@ abstract class DimensionsGetter {
     final Uint8List? _bytes = await Byter.fromURL(url);
 
     return fromBytes(
+      invoker: 'fromURL',
       bytes: _bytes,
       fileName: fileName,
     );
@@ -173,7 +179,7 @@ abstract class DimensionsGetter {
     required String invoker,
   }) async {
 
-    final Uint8List? _bytes = await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile.$invoker');
+    final Uint8List? _bytes = await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
 
     Dimensions? _output = await _getImageDimensions(
       bytes: _bytes,

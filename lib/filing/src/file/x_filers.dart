@@ -12,13 +12,14 @@ class XFiler {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> getOrCreateTempXFile({
+    required String invoker,
     required String? fileName,
     required Uint8List? bytes,
     required Future Function(XFile xFile) ops,
   }) async {
     XFile? _xFile;
 
-    // blog('1. getOrCreateTempXFile : START---->');
+    // blog('1. getOrCreateTempXFile : ($invoker) : START---->');
 
     final bool _fileExists = await checkFileExistsByName(name: fileName);
 
@@ -26,7 +27,7 @@ class XFiler {
 
     if (_fileExists == true){
       _xFile = await readByName(name: fileName);
-      // blog('3. getOrCreateTempXFile : read by file name : $_xFile');
+      // blog('3. getOrCreateTempXFile : read by file name : ${_xFile?.path}....');
     }
 
     else {
@@ -44,9 +45,14 @@ class XFiler {
       // blog('5. getOrCreateTempXFile : ended ops');
     }
 
-    if (_fileExists == false){
-      // blog('6. getOrCreateTempXFile : WILL NOT delete file');
+    if (_fileExists == true){
+      // blog('6. getOrCreateTempXFile : file was already there, will not delete ot');
+    }
+    else {
+      // blog('6. getOrCreateTempXFile : file was temp created and new will delete');
+      // final bool _fileDeleted =
       await deleteFile(_xFile);
+      // blog('6. getOrCreateTempXFile : file is deleted ($_fileDeleted)');
     }
 
     // blog('7. getOrCreateTempXFile : END <--');
@@ -480,7 +486,8 @@ class XFiler {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteFile(XFile? file) async {
+  static Future<bool> deleteFile(XFile? file) async {
+    bool _success = false;
 
     if (file != null){
 
@@ -503,6 +510,7 @@ class XFiler {
 
               await Directory(file.path).delete(recursive: true);
               await ImageCacheOps.wipeCaches();
+              _success = true;
 
             },
           );
@@ -513,6 +521,7 @@ class XFiler {
 
     }
 
+    return _success;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

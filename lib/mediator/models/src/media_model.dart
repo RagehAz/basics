@@ -879,13 +879,13 @@ class MediaModel {
 
     }
 
-    if (_identical == false){
-      blogMediaMainDifferences(
-        model1: model1,
-        model2: model2,
-        invoker: 'checkMediaModelsAreSimilar',
-      );
-    }
+    // if (_identical == false){
+    //   blogMediaMainDifferences(
+    //     model1: model1,
+    //     model2: model2,
+    //     invoker: 'checkMediaModelsAreSimilar',
+    //   );
+    // }
 
     return _identical;
   }

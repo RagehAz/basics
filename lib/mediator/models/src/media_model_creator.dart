@@ -175,6 +175,7 @@ class MediaModelCreator {
     FileExtType? _fileExtensionType;
 
     await XFiler.getOrCreateTempXFile(
+      invoker: '_getDimsAndFileType',
       fileName: id,
       bytes: bytes,
       ops: (XFile xFile) async {
