@@ -21,6 +21,7 @@ class PicMediaCropController {
     required Rect theCropRect,
     required double theViewWidth,
     required double theViewHeight,
+    required double aspectRatio, /// MAKE CROPPER USE A PREDEFINED ASPECT RATIO IN BASICS
   }){
     setNotifier(notifier: originalPic, mounted: mounted, value: theOriginalPic);
     setNotifier(notifier: currentRect, mounted: mounted, value: theCropRect);
@@ -57,29 +58,40 @@ class PicMediaCropController {
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<MediaModel?> cropPic() async {
-    MediaModel? _output;
+    MediaModel? _output = originalPic.value;
 
-    if (originalPic.value != null){
+    if (mounted == true && originalPic.value != null){
 
-      isCropping.set(value: true, mounted: mounted);
-
-      croppedRect.set(value: currentRect.value, mounted: mounted);
-
-      final Uint8List? _cropped = await _cropBytes(
-        bytes: originalPic.value!.bytes,
-        cropRect: croppedRect.value,
-        viewWidth: viewWidth.value,
-        imageWidth: originalPic.value!.getDimensions()!.width!,
+      final bool _isDecodable = Decoding.checkImageIsDecodable(
+        bytes: originalPic.value?.bytes,
       );
 
-      _output = await MediaModelCreator.fromBytes(
-        bytes: _cropped,
-        uploadPath: '${originalPic.value!.getUploadPath()}_cropped',
-        skipMetaData: false,
-      );
+      if (_isDecodable == true){
 
-      theCroppedPic.set(value: _output, mounted: mounted);
-      isCropping.set(value: false, mounted: mounted);
+        isCropping.set(value: true, mounted: mounted);
+        croppedRect.set(value: currentRect.value, mounted: mounted);
+
+        final Uint8List? _cropped = await _cropBytes(
+          bytes: originalPic.value!.bytes,
+          cropRect: croppedRect.value,
+          viewWidth: viewWidth.value,
+          imageWidth: originalPic.value!.getDimensions()!.width!,
+        );
+
+        if (mounted == true){
+
+          _output = await MediaModelCreator.fromBytes(
+            bytes: _cropped,
+            uploadPath: '${originalPic.value!.getUploadPath()}_cropped',
+            skipMetaData: false,
+          );
+
+          theCroppedPic.set(value: _output, mounted: mounted);
+          isCropping.set(value: false, mounted: mounted);
+
+        }
+
+      }
 
     }
 

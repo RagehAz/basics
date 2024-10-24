@@ -1,14 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/space/aligner.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/helpers/wire/wire.dart';
-import 'package:basics/mediator/models/media_models.dart';
-import 'package:flutter/material.dart';
+part of super_cropper;
 
 class CropperFooter extends StatelessWidget {
   /// -----------------------------------------------------------------------------
@@ -27,7 +17,7 @@ class CropperFooter extends StatelessWidget {
   // -----------------------------------------------------------------------------
   final Wire<int> currentImageIndex;
   final Function onCropImages;
-  final List<MediaModel> pics;
+  final List<MediaModel>? pics;
   final Function(int index) onImageTap;
   final double aspectRatio;
   final double screenHeight;
@@ -80,7 +70,7 @@ class CropperFooter extends StatelessWidget {
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: pics.length,
+                  itemCount: pics?.length,
                   padding: Scale.superInsets(
                     context: context,
                     appIsLTR: appIsLTR,
@@ -110,7 +100,7 @@ class CropperFooter extends StatelessWidget {
                           child: SuperImage(
                             width: _miniImageWidth,
                             height: _miniImageWidth,
-                            pic: pics[index],
+                            pic: pics?[index],
                             loading: false, //loading,
                           ),
                         ),

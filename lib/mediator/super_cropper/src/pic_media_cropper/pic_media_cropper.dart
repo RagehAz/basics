@@ -8,6 +8,7 @@ class PicMediaCropper extends StatelessWidget {
     required this.viewWidth,
     required this.media,
     required this.loading,
+    required this.aspectRatio,
     super.key
   });
   // --------------------
@@ -16,6 +17,7 @@ class PicMediaCropper extends StatelessWidget {
   final double viewHeight;
   final MediaModel? media;
   final bool loading;
+  final double aspectRatio;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class PicMediaCropper extends StatelessWidget {
                   theCropRect: newRect,
                   theViewWidth: viewWidth,
                   theViewHeight: viewHeight,
+                  aspectRatio: aspectRatio,
                 );
               },
               onMoved: (Rect newRect){
@@ -56,6 +59,7 @@ class PicMediaCropper extends StatelessWidget {
                   theCropRect: newRect,
                   theViewWidth: viewWidth,
                   theViewHeight: viewHeight,
+                  aspectRatio: aspectRatio,
                 );
               },
             ),

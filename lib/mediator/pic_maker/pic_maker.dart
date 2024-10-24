@@ -14,7 +14,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/media_models.dart';
-import 'package:basics/mediator/pic_maker/cropping_screen/cropping_screen.dart';
+import 'package:basics/mediator/super_cropper/super_cropper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
