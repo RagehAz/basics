@@ -1211,6 +1211,20 @@ class Numeric {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static bool isGreaterThanOrEqual({
+    required num? number,
+    required num? isGreaterThan,
+  }){
+    bool _output = false;
+
+    if (number != null && isGreaterThan != null){
+      _output = number >= isGreaterThan;
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static bool isLesserThan({
     required num? number,
     required num? isLesserThan,
@@ -1219,6 +1233,20 @@ class Numeric {
 
     if (number != null && isLesserThan != null){
       _output = number < isLesserThan;
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool isLesserThanOrEqual({
+    required num? number,
+    required num? isLesserThan,
+  }){
+    bool _output = false;
+
+    if (number != null && isLesserThan != null){
+      _output = number <= isLesserThan;
     }
 
     return _output;

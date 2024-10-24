@@ -196,4 +196,38 @@ class PicMediaCropController {
     );
   }
   // -----------------------------------------------------------------------------
+
+  /// CANVAS SCALING
+
+  // --------------------
+  ///
+  static Dimensions getImageDimsFitToCanvas({
+    required Dimensions? canvasDims,
+    required Dimensions? imageDims,
+  }){
+    Dimensions _output = Dimensions.zero;
+
+    if (canvasDims?.width != null && canvasDims?.height != null && imageDims?.width != null && imageDims?.height != null){
+
+      /// FITTING WIDTH
+      if (Numeric.isLesserThanOrEqual(number: imageDims?.getHeightForWidth(width: canvasDims?.width), isLesserThan: canvasDims?.height)){
+        _output = Dimensions(
+          width: canvasDims!.width,
+          height: imageDims!.getHeightForWidth(width: canvasDims.width),
+        );
+      }
+
+      /// FITTING HEIGHT
+      if (Numeric.isLesserThanOrEqual(number: imageDims?.getWidthForHeight(height: canvasDims?.height), isLesserThan: canvasDims?.width)){
+        _output = Dimensions(
+          width: imageDims!.getWidthForHeight(height: canvasDims!.height),
+          height: canvasDims.height,
+        );
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
 }

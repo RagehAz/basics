@@ -98,14 +98,10 @@ class _CroppingLayerState extends State<CroppingLayer> {
     }
   }
   // --------------------
+  /// TESTED : WORKS PERFECT
   void _initializeRect(){
-
     _maxRect = Rect.fromLTRB(0, 0, widget.width, widget.height);
     _rect = widget.initialRect ?? _getRectByScale();
-
-    // blog('LAYER : initializing _rect : $_rect : widget.initialRect : ${widget.initialRect}');
-    // blog('LAYER : initializing _maxRect : $_maxRect');
-
   }
   // --------------------
   /*
@@ -124,25 +120,72 @@ class _CroppingLayerState extends State<CroppingLayer> {
   }
    */
   // --------------------
+  /// TESTED : WORKS PERFECT
   Rect _getRectByScale(){
 
-    // blog('getting rect by scale');
+    blog('getting rect by scaleeeee');
 
     final double _scale = widget.initialSize ?? 0.7;
 
-    final double _fillX = widget.width * _scale;
-    final double _fillY = widget.aspectRatio == null ? widget.height * _scale : _fillX / widget.aspectRatio!;
+    final Dimensions _fillBox = getMaxCropBoxRespectingAspectRatio(
+      imageDims: Dimensions(
+        width: widget.width,
+        height: widget.height,
+      ),
+      cropAspectRatio: widget.aspectRatio ?? 1,
+    );
+
+    // final double _fillXSub = widget.width * _scale;
+    // final double _fillYSub = widget.aspectRatio == null ? widget.height * _scale : _fillXSub / widget.aspectRatio!;
+
+    final double _fillX = _fillBox.width! * _scale;
+    final double _fillY = _fillBox.height! * _scale;
 
     final double _totalMarginX = widget.width - _fillX;
     final double _totalMarginY = widget.height - _fillY;
 
     final double _left = _totalMarginX / 2;
     final double _right = widget.width - _left;
-
     final double _top = _totalMarginY / 2;
     final double _bottom = widget.height - _top;
 
     return Rect.fromLTRB(_left, _top, _right, _bottom);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Dimensions getMaxCropBoxRespectingAspectRatio({
+    required Dimensions imageDims,
+    required double cropAspectRatio,
+  }){
+
+    // aspectRatio = width / height
+
+    /// RESPECT WIDTH
+    final double _heightWhenFitWidth = imageDims.width! / cropAspectRatio;
+    final bool _respectWidth = _heightWhenFitWidth <=  imageDims.height!;
+
+    /// RESPECT HEIGHT
+    final double _widthOnFitHeight = cropAspectRatio * imageDims.height!;
+    final bool _respectHeight = _widthOnFitHeight <= imageDims.width!;
+
+    if (_respectWidth == true){
+      return Dimensions(
+          width: imageDims.width,
+          height: _heightWhenFitWidth
+      );
+    }
+
+    else if (_respectHeight == true){
+      return Dimensions(
+          width: _widthOnFitHeight,
+          height: imageDims.height
+      );
+    }
+
+    else {
+      return Dimensions.zero;
+    }
+
   }
   // --------------------
   /*
