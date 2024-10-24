@@ -53,6 +53,7 @@ class SuperBoxController {
     required double? width,
     required double iconMargin,
     required double graphicWidth,
+    required bool hasIcon,
   }) {
 
     double? _output;
@@ -62,8 +63,8 @@ class SuperBoxController {
         return    width
                 - (iconMargin * 2)
                 - graphicWidth
-                - getVerseLeftSpacing(iconMargin: iconMargin)
-                - getVerseRightSpacing(iconMargin: iconMargin);
+                - getVerseLeftSpacing(iconMargin: iconMargin, hasIcon: hasIcon, widthIsGiven: true)
+                - getVerseRightSpacing(iconMargin: iconMargin, hasIcon: hasIcon, widthIsGiven: true);
 
     }
 
@@ -75,6 +76,7 @@ class SuperBoxController {
     required double? maxWidth,
     required double iconMargin,
     required double graphicWidth,
+    required bool hasIcon,
   }){
     double? _output;
 
@@ -83,8 +85,8 @@ class SuperBoxController {
         return    maxWidth
                 - (iconMargin * 2)
                 - graphicWidth
-                - getVerseLeftSpacing(iconMargin: iconMargin)
-                - getVerseRightSpacing(iconMargin: iconMargin);
+                - getVerseLeftSpacing(iconMargin: iconMargin, hasIcon: hasIcon, widthIsGiven: true)
+                - getVerseRightSpacing(iconMargin: iconMargin, hasIcon: hasIcon, widthIsGiven: true);
 
     }
 
@@ -202,7 +204,28 @@ class SuperBoxController {
   /// MARGINS
 
   // --------------------
-    static double verseHorizontalMargin = 10;
+  static double verseHorizontalMargin({
+    required bool hasIcon,
+    required bool widthIsGiven,
+  }){
+
+    if (widthIsGiven == true && hasIcon == true){
+      return 3;
+    }
+    else if (widthIsGiven == true && hasIcon == false){
+      return 5;
+    }
+    else if (widthIsGiven == false && hasIcon == true){
+      return 10;
+    }
+    else if (widthIsGiven == false && hasIcon == false){
+      return 10;
+    }
+    else {
+      return 5;
+    }
+
+  }
   // --------------------
   /// TESTED : WORKS PERFECT
   static double iconMargin({
@@ -236,16 +259,21 @@ class SuperBoxController {
   /// TESTED : WORKS PERFECT
   static double getVerseLeftSpacing({
     required double iconMargin,
+    required bool hasIcon,
+    required bool widthIsGiven,
   }){
-    return verseHorizontalMargin - iconMargin < 0 ? 0 : verseHorizontalMargin - iconMargin;
+    final double _horizontalMargin = verseHorizontalMargin(hasIcon: hasIcon, widthIsGiven: widthIsGiven);
+    return _horizontalMargin - iconMargin < 0 ? 0 : _horizontalMargin - iconMargin;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static double getVerseRightSpacing({
     required double iconMargin,
+    required bool hasIcon,
+    required bool widthIsGiven,
   }){
 
-    return verseHorizontalMargin + iconMargin
+    return verseHorizontalMargin(hasIcon: hasIcon, widthIsGiven: widthIsGiven) + iconMargin
     // + 5 // bugs the shit out of all buttons without icon
     ;
 

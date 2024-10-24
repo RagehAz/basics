@@ -119,8 +119,12 @@ class SuperBoxContents extends StatelessWidget {
         if (text != null)
           SizedBox(
             // color: Colorz.bloodTest,
-            width: SuperBoxController.getVerseLeftSpacing(iconMargin: _iconMargin),
             height: height,
+            width: SuperBoxController.getVerseLeftSpacing(
+              iconMargin: _iconMargin,
+              hasIcon: icon != null,
+              widthIsGiven: width != null,
+            ),
           ),
 
         /// --- VERSES
@@ -160,7 +164,11 @@ class SuperBoxContents extends StatelessWidget {
         if (text != null)
           SizedBox(
             height: height,
-            width: SuperBoxController.getVerseRightSpacing(iconMargin: _iconMargin),
+            width: SuperBoxController.getVerseRightSpacing(
+              iconMargin: _iconMargin,
+              hasIcon: icon != null,
+              widthIsGiven: width != null,
+            ),
             // color: Colorz.bloodTest,
           ),
 

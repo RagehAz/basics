@@ -91,6 +91,7 @@ class SuperBoxTexts extends StatelessWidget {
       graphicWidth: _graphicWidth,
       width: width,
       iconMargin: _iconMargin,
+      hasIcon: icon != null,
     );
     // --------------------
     final CrossAxisAlignment _versesCrossAlignment = SuperBoxController.versesCrossAlignment(
@@ -115,6 +116,7 @@ class SuperBoxTexts extends StatelessWidget {
       maxWidth: maxWidth,
       iconMargin: _iconMargin,
       graphicWidth: _graphicWidth,
+      hasIcon: icon != null,
     );
     // --------------------
     return Container(
