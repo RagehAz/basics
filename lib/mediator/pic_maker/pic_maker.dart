@@ -11,10 +11,8 @@ import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
-import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
 import 'package:basics/mediator/models/media_models.dart';
-import 'package:basics/mediator/super_cropper/super_cropper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,7 +56,6 @@ class PicMaker {
   static Future<MediaModel?> pickAndCropSinglePic({
     required BuildContext context,
     required bool cropAfterPick,
-    required double aspectRatio,
     required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
@@ -67,7 +64,6 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     AssetEntity? selectedAsset,
-    String confirmText = 'Crop',
     Function(String? error)? onError,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
   }) async {
@@ -75,11 +71,7 @@ class PicMaker {
 
     if (kIsWeb == true || DeviceChecker.deviceIsWindows() == true){
       _output = await _pickWindowsOrWebImage(
-        context: context,
-        aspectRatio: aspectRatio,
         cropAfterPick: cropAfterPick,
-        appIsLTR: appIsLTR,
-        confirmText: confirmText,
         resizeToWidth: resizeToWidth,
         compressWithQuality: compressWithQuality,
         onError: onError,
@@ -101,11 +93,8 @@ class PicMaker {
         maxAssets: 1,
         selectedAssets: _assets,
         cropAfterPick: cropAfterPick,
-        aspectRatio: aspectRatio,
         resizeToWidth: resizeToWidth,
         compressWithQuality: compressWithQuality,
-        confirmText: confirmText,
-        appIsLTR: appIsLTR,
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
         onError: onError,
@@ -113,8 +102,8 @@ class PicMaker {
           return uploadPathMaker(title);
           },
         ownersIDs: ownersIDs,
-        onCrop: onCrop == null ? null : (List<MediaModel> medias) async {
-          final MediaModel? _received = await onCrop(medias.firstOrNull);
+        onCrop: (List<MediaModel> medias) async {
+          final MediaModel? _received = await onCrop?.call(medias.firstOrNull);
           return _received == null ? [] : [_received];
         },
       );
@@ -130,16 +119,12 @@ class PicMaker {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> _pickWindowsOrWebImage({
-    required BuildContext context,
-    required double aspectRatio,
     required bool cropAfterPick,
     required Function(String? error)? onError,
     required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     double? resizeToWidth,
     int? compressWithQuality,
-    String confirmText = 'Crop',
-    bool appIsLTR = true,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
     ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
@@ -174,11 +159,7 @@ class PicMaker {
     /// CROP
     if (cropAfterPick == true && _output != null){
       _output = await cropPic(
-        context: context,
         mediaModel: _output!,
-        aspectRatio: aspectRatio,
-        appIsLTR: appIsLTR,
-        confirmText: confirmText,
         onCrop: onCrop,
       );
     }
@@ -211,20 +192,16 @@ class PicMaker {
   /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> pickAndCropMultiplePics({
     required BuildContext context,
-    required double aspectRatio,
     required bool cropAfterPick,
-    required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
-    double? resizeToWidth,
+    required Future<List<MediaModel>> Function(List<MediaModel> medias) onCrop, double? resizeToWidth,
     int? compressWithQuality,
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
-    String confirmText = 'Crop',
     Function(String? error)? onError,
-    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
     ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
 
@@ -243,11 +220,7 @@ class PicMaker {
     /// CROP
     if (cropAfterPick == true && Lister.checkCanLoop(_mediaModels) == true){
       _mediaModels = await cropPics(
-        context: context,
         mediaModels: _mediaModels,
-        aspectRatio: aspectRatio,
-        appIsLTR: appIsLTR,
-        confirmText: confirmText,
         onCrop: onCrop,
       );
     }
@@ -341,18 +314,15 @@ class PicMaker {
   static Future<MediaModel?> shootAndCropCameraPic({
     required BuildContext context,
     required bool cropAfterPick,
-    required double aspectRatio,
-    required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     required Locale? locale,
+    required Future<List<MediaModel>> Function(List<MediaModel> medias) onCrop,
     double? resizeToWidth,
     int? compressWithQuality,
-    String confirmText = 'Crop',
     Function(String? error)? onError,
-    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
     ImageOutputType outputType = ImageOutputType.jpg,
   }) async {
 
@@ -377,11 +347,8 @@ class PicMaker {
       /// CROP
       if (cropAfterPick == true){
         _models = await cropPics(
-          context: context,
+
           mediaModels: _models,
-          aspectRatio: aspectRatio,
-          confirmText: confirmText,
-          appIsLTR: appIsLTR,
           onCrop: onCrop,
         );
       }
@@ -491,23 +458,17 @@ class PicMaker {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<MediaModel?> cropPic({
-    required BuildContext context,
     required MediaModel? mediaModel,
-    required double aspectRatio,
-    required String confirmText,
-    required bool appIsLTR,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
   }) async {
     MediaModel? _output = mediaModel;
 
     final List<MediaModel> _mediaModels = await cropPics(
-      context: context,
+
       mediaModels: mediaModel == null ? [] : <MediaModel>[mediaModel],
-      aspectRatio: aspectRatio,
-      appIsLTR: appIsLTR,
-      confirmText: confirmText,
-      onCrop: onCrop == null ? null : (List<MediaModel> medias) async {
-        final MediaModel? _received = await onCrop(medias.firstOrNull);
+
+      onCrop: (List<MediaModel> medias) async {
+        final MediaModel? _received = await onCrop?.call(medias.firstOrNull);
         return _received == null ? [] : [_received];
       },
     );
@@ -521,39 +482,13 @@ class PicMaker {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<MediaModel>> cropPics({
-    required BuildContext context,
     required List<MediaModel>? mediaModels,
-    required double aspectRatio,
-    required String confirmText,
-    required bool appIsLTR,
-    Future<List<MediaModel>> Function(List<MediaModel> medias)? onCrop,
+    required Future<List<MediaModel>> Function(List<MediaModel> medias) onCrop,
   }) async {
     List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
     if (Lister.checkCanLoop(mediaModels) == true){
-
-      if (onCrop == null){
-
-        _output = await resizePics(
-          mediaModels: mediaModels!,
-          resizeToWidth: maxPicWidthBeforeCrop,
-        );
-
-        _output = await Nav.goToNewScreen(
-          appIsLTR: appIsLTR,
-          context: context,
-          screen: CroppingScreen(
-            mediaModels: _output,
-            aspectRatio: aspectRatio,
-            appIsLTR: appIsLTR,
-            confirmText: confirmText,
-          ),
-        );
-
-      }
-      else {
-        _output = await onCrop(_output);
-      }
+      _output = await onCrop(_output);
 
     }
 
