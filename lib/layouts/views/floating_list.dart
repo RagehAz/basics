@@ -78,24 +78,24 @@ class FloatingList extends StatelessWidget {
     else {
 
       /// CAUTION : IF YOU CHANGE THIS,, IT IMPACTS ShelfSlidesPart() WIDGET, TAKE CARE
-      return ScrollConfiguration(
-        behavior: const AppScrollBehavior(),
-        child: SingleChildScrollView(
-          physics: physics,
-          scrollDirection: scrollDirection,
-          controller: scrollController,
-          // reverse: false,
-          child: Container(
-            height: height ?? Scale.screenHeight(context),
-            constraints: BoxConstraints(
-              minWidth: width ?? Scale.screenWidth(context),
-            ),
-            decoration: BoxDecoration(
-              color: boxColor,
-              borderRadius: Borderers.superCorners(corners: boxCorners),
-            ),
-            alignment: boxAlignment,
-            padding: padding,
+      return Container(
+        height: height ?? Scale.screenHeight(context),
+        width: width,
+        // constraints: BoxConstraints(
+        //   minWidth: width ?? Scale.screenWidth(context),
+        // ),
+        decoration: BoxDecoration(
+          color: boxColor,
+          borderRadius: Borderers.superCorners(corners: boxCorners),
+        ),
+        alignment: boxAlignment,
+        padding: padding,
+        child: ScrollConfiguration(
+          behavior: const AppScrollBehavior(),
+          child: SingleChildScrollView(
+            physics: physics,
+            scrollDirection: Axis.horizontal,
+            controller: scrollController,
             child: Row(
               mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
               crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
