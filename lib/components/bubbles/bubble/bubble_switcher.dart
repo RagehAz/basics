@@ -131,6 +131,9 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
                 );
 
               },
+              trackOutlineWidth: WidgetStateProperty.resolveWith<double?>((Set<WidgetState> states) {
+                return 0.75; // Use the default width.
+              }),
             );
 
           }

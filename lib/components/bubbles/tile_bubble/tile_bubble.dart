@@ -4,6 +4,7 @@ import 'package:basics/components/bubbles/bubble/bubble.dart';
 import 'package:basics/components/bubbles/bubble/bubble_header.dart';
 import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
 import 'package:basics/helpers/colors/colorizer.dart';
+import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
@@ -35,6 +36,7 @@ class TileBubble extends StatelessWidget {
     this.font,
     this.bulletPointsMaxLines = 10,
     this.hasBottomPadding = true,
+    this.hasChildTopPadding = false,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -59,6 +61,7 @@ class TileBubble extends StatelessWidget {
   final int bulletPointsMaxLines;
   final bool hasBottomPadding;
   final Color? borderColor;
+  final bool hasChildTopPadding;
   /// --------------------------------------------------------------------------
   static const double iconBoxWidth = 30; /// delete me 5alas (im in BubbleHeader class)
   // -----------------------------------------------------------------------------
@@ -163,6 +166,7 @@ class TileBubble extends StatelessWidget {
         ),
 
         /// BULLET POINTS
+        if (Lister.checkCanLoop(bulletPoints) == true)
         Padding(
           padding: Scale.superInsets(
             context: context,
@@ -216,6 +220,9 @@ class TileBubble extends StatelessWidget {
             ),
           ),
 
+        if (hasChildTopPadding == true)
+        const SizedBox(width: 10, height: 10),
+
         /// CHILD
         if (child != null)
           SizedBox(
@@ -234,7 +241,10 @@ class TileBubble extends StatelessWidget {
 
                 /// CHILD
                 Container(
-                  width: childWidth(context: context, bubbleWidthOverride: _bubbleWidth),
+                  width: childWidth(
+                      context: context,
+                      bubbleWidthOverride: _bubbleWidth
+                  ),
                   // decoration: BoxDecoration(
                   //     color: Colorz.white10,
                   //     borderRadius: Borderers.superBorderAll(context, Bubble.clearCornersValue)
