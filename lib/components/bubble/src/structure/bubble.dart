@@ -1,16 +1,7 @@
-// ignore_for_file: unused_element
-import 'package:basics/components/bubbles/bubble/bubble_header.dart';
-import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
-import 'package:basics/components/drawing/spacing.dart';
-import 'package:basics/components/layers/tap_layer/tap_layer.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/space/aligner.dart';
-import 'package:basics/helpers/space/borderers.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 class Bubble extends StatelessWidget {
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   const Bubble({
     this.bubbleHeaderVM,
     this.borderColor,
@@ -28,8 +19,8 @@ class Bubble extends StatelessWidget {
     this.splashColor = const Color.fromARGB(200, 255, 255, 255),
     this.hasBottomPadding = true,
     super.key
-  }); 
-  /// --------------------------------------------------------------------------
+  });
+  // --------------------------------------------------------------------------
   final List<Widget>? columnChildren;
   final Widget? child;
   final BubbleHeaderVM? bubbleHeaderVM;
@@ -51,8 +42,8 @@ class Bubble extends StatelessWidget {
     double? bubbleWidthOverride,
   }) {
     final double _bubbleWidth = bubbleWidth(
-        context: context,
-        bubbleWidthOverride: bubbleWidthOverride,
+      context: context,
+      bubbleWidthOverride: bubbleWidthOverride,
     );
     const double _bubblePaddings = 10 * 2.0;
     return _bubbleWidth - _bubblePaddings;
@@ -99,7 +90,7 @@ class Bubble extends StatelessWidget {
   }
   // --------------------
   static const double cornersValue = 18;
-  static const double _pageMargin = 10;
+  static const double _pageMargin = 5;
   // --------------------
   static const double clearCornersValue = cornersValue - _pageMargin;
   // --------------------
@@ -125,8 +116,8 @@ class Bubble extends StatelessWidget {
     final EdgeInsets _bubbleMargins = margin == null ? EdgeInsets.zero : Scale.superMargins(margin: margin);
     // --------------------
     final double _bubbleWidth = bubbleWidth(
-        context: context,
-        bubbleWidthOverride: width,
+      context: context,
+      bubbleWidthOverride: width,
     );
     // --------------------
     final BorderRadius _corners = corners == null ?
@@ -207,74 +198,5 @@ class Bubble extends StatelessWidget {
     */
     // --------------------
   }
-// -----------------------------------------------------------------------------
-}
-
-class _BubbleContents extends StatelessWidget {
-  /// --------------------------------------------------------------------------
-  const _BubbleContents({
-    required this.columnChildren,
-    required this.childrenCentered,
-    required this.width,
-    required this.headerViewModel,
-    required this.hasBottomPadding,
-    required this.child,
-    super.key
-  }); 
-  /// --------------------------------------------------------------------------
-  final List<Widget>? columnChildren;
-  final bool childrenCentered;
-  final double? width;
-  final BubbleHeaderVM? headerViewModel;
-  final bool hasBottomPadding;
-  final Widget? child;
-  /// --------------------------------------------------------------------------
-  @override
-  Widget build(BuildContext context) {
-
-    return Padding(
-      key: const ValueKey<String>('_BubbleContents'),
-      padding: EdgeInsets.only(
-        // top: Bubble._pageMargin,
-        right: Bubble._pageMargin,
-        left: Bubble._pageMargin,
-        bottom: hasBottomPadding == true ? Bubble._pageMargin : 0,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: childrenCentered == true ?
-        MainAxisAlignment.center
-            :
-        MainAxisAlignment.start,
-        crossAxisAlignment: childrenCentered == true ?
-        CrossAxisAlignment.center
-            :
-        CrossAxisAlignment.start,
-        children: <Widget>[
-
-          if (headerViewModel != null)
-            const Spacing(),
-
-          if (headerViewModel != null)
-          BubbleHeader(
-            viewModel: headerViewModel?.copyWith(
-                headerWidth: headerViewModel?.headerWidth ?? (width == null ? null : width!-20)
-            ),
-          ),
-
-          if (child != null || Lister.checkCanLoop(columnChildren) == true)
-            const Spacing(size: 5),
-
-          if (Lister.checkCanLoop(columnChildren) == true)
-          ...columnChildren!,
-
-          if (child != null)
-            child!,
-
-        ],
-      ),
-    );
-
-  }
-  /// --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

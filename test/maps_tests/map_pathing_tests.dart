@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_single_quotes, prefer_const_declarations
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/map_pathing.dart';
 import 'package:basics/helpers/strings/stringer.dart';
@@ -917,6 +918,173 @@ void main() {
       expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: 'r/e/tt/'), -1);
       expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: ''), -1);
       expect(MapPathing.getNodeOrderIndexByPath(map: _map, path: null), -1);
+    });
+
+  });
+
+  group('addMiddleNode Tests', () {
+
+    Map<String, dynamic> map = <String, dynamic>{
+      "type": <String, dynamic>{
+        "group": <String, dynamic>{
+          "sub_chairs": <String, dynamic>{
+            "chair_arm": true
+          }
+        }
+      }
+    };
+
+    test('Add a new middle node path', () {
+      final newPath = "type/group/sub_tables/";
+      map = MapPathing.addMiddleNode(path: newPath, map: map);
+      // blog('map["type"]["group"]["sub_tables"] (${map["type"]["group"]["sub_tables"]}) : type(${map["type"]["group"]["sub_tables"].runtimeType})');
+      expect(map["type"]["group"]["sub_tables"] is Map<String, dynamic>, true);
+    });
+
+    test('Overwrite existing middle node path', () {
+      final newPath = "type/group/sub_chairs/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"]["sub_chairs"]is Map<String, dynamic>, true);
+      expect(map["type"]["group"]["sub_chairs"]["chair_arm"] == true, true);
+    });
+
+    test('Add multiple middle node paths', () {
+      final paths = [
+        "type/group/sub_tables/",
+        "type/group/sub_sofas/"
+      ];
+      for (final path in paths) {
+        MapPathing.addMiddleNode(path: path, map: map);
+      }
+
+      expect(map["type"]["group"]["sub_tables"] is Map<String, dynamic>, true);
+      expect(map["type"]["group"]["sub_sofas"] is Map<String, dynamic>, true);
+    });
+
+    test('Check non-existing node is created', () {
+      final newPath = "type/group/non_existing_node/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+
+      expect(map["type"]["group"]["non_existing_node"] is Map<String, dynamic>, true);
+    });
+
+    // --
+
+    test('Add nested nodes', () {
+      final newPath = "type/group/new_category/item1/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"]["new_category"]["item1"] is Map<String, dynamic>, true);
+    });
+
+    test('Add same node multiple times', () {
+      final newPath = "type/group/sub_chairs/sub_chair1/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      MapPathing.addMiddleNode(path: newPath, map: map); // Add again
+      expect(map["type"]["group"]["sub_chairs"]["sub_chair1"] is Map<String, dynamic>, true);
+    });
+
+    test('Add a deep path', () {
+      final newPath = "type/group/deep/path/level1/level2/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"]["deep"]["path"]["level1"]["level2"] is Map<String, dynamic>, true);
+    });
+
+    test('Check for key existence after adding', () {
+      final newPath = "type/group/existing_key/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"].containsKey("existing_key"), true);
+    });
+
+    test('Ensure no overwriting of existing values', () {
+      final newPath = "type/group/sub_chairs/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"]["sub_chairs"]["chair_arm"], true);
+    });
+
+    test('Add multiple deep paths in succession', () {
+      final paths = [
+        "type/group/path1/",
+        "type/group/path2/",
+        "type/group/path1/child1/",
+        "type/group/path1/child2/"
+      ];
+      for (final path in paths) {
+        MapPathing.addMiddleNode(path: path, map: map);
+      }
+
+      expect(map["type"]["group"]["path1"] is Map<String, dynamic>, true);
+      expect(map["type"]["group"]["path2"] is Map<String, dynamic>, true);
+      expect(map["type"]["group"]["path1"]["child1"] is Map<String, dynamic>, true);
+      expect(map["type"]["group"]["path1"]["child2"] is Map<String, dynamic>, true);
+    });
+
+    test('Check that empty nodes are initialized correctly', () {
+      final newPath = "type/group/empty_node/";
+      MapPathing.addMiddleNode(path: newPath, map: map);
+      expect(map["type"]["group"]["empty_node"], isA<Map<String, dynamic>>());
+    });
+
+  });
+
+  group('addLastNode Tests', () {
+
+    final Map<String, dynamic> map = {
+      "type": <String, dynamic>{
+        "group": <String, dynamic>{
+          "sub_chairs": <String, dynamic>{
+            "chair_arm": true
+          }
+        }
+      }
+    };
+
+    test('Add a new last node', () {
+      MapPathing.addLastNode(path: "type/group/sub_tables/hasLegs", value: true, map: map);
+      expect(map["type"]["group"]["sub_tables"]["hasLegs"], true);
+    });
+
+    test('Overwrite existing last node', () {
+      MapPathing.addLastNode(path: "type/group/sub_chairs/chair_arm", value: false, map: map);
+      expect(map["type"]["group"]["sub_chairs"]["chair_arm"], false);
+    });
+
+    test('Add multiple last nodes', () {
+      MapPathing.addLastNode(path: "type/group/sub_sofas/hasCushions", value: true, map: map);
+      MapPathing.addLastNode(path: "type/group/sub_sofas/hasLegs", value: false, map: map);
+
+      expect(map["type"]["group"]["sub_sofas"]["hasCushions"], true);
+      expect(map["type"]["group"]["sub_sofas"]["hasLegs"], false);
+    });
+
+    test('Add last node to a deep path', () {
+      MapPathing.addLastNode(path: "type/group/deep/path/value", value: true, map: map);
+      expect(map["type"]["group"]["deep"]["path"]["value"], true);
+    });
+
+    test('Add last node to a new category', () {
+      MapPathing.addLastNode(path: "type/new_category/new_item", value: true, map: map);
+      expect(map["type"]["new_category"]["new_item"], true);
+    });
+
+    test('Ensure empty nodes are initialized correctly', () {
+      MapPathing.addLastNode(path: "type/group/new_empty_node", value: true, map: map);
+      expect(map["type"]["group"]["new_empty_node"], true);
+    });
+
+    test('Add a nested last node path', () {
+      MapPathing.addLastNode(path: "type/group/level1/level2/level3", value: false, map: map);
+      expect(map["type"]["group"]["level1"]["level2"]["level3"], false);
+    });
+
+    test('Adding a last node to an already existing path', () {
+      MapPathing.addLastNode(path: "type/group/sub_chairs/chair_arm", value: true, map: map);
+      expect(map["type"]["group"]["sub_chairs"]["chair_arm"], true);
+    });
+
+    test('Check that adding a last node does not affect other nodes', () {
+      MapPathing.addLastNode(path: "type/group/new_sub_category", value: true, map: map);
+      expect(map["type"]["group"]["new_sub_category"], true);
+      expect(map["type"]["group"]["sub_chairs"]["chair_arm"], true); // Existing node should remain unchanged
     });
 
   });

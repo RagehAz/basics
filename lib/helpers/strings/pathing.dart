@@ -33,7 +33,6 @@ class Pathing {
       return Lister.checkCanLoop(_pathNodes) == true ? _pathNodes?.first : null;
     }
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? getLastPathNode(String? path) {
@@ -52,7 +51,6 @@ class Pathing {
     }
     return _node;
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<String> getPathsLastNodes(List<String>? paths) {
@@ -101,7 +99,6 @@ class Pathing {
       }
     }
   }
-
   // --------------------
   /// AI TESTED
   static String? getSonNode({
@@ -159,28 +156,6 @@ class Pathing {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String> findPathsHavingLastNode({
-    required List<String>? paths,
-    required String? lastNode,
-  }){
-    final List<String> _foundPaths = <String>[];
-
-    if (Lister.checkCanLoop(paths) == true && TextCheck.isEmpty(lastNode) == false) {
-      for (final String path in paths!) {
-
-        final String? _lastNode = getLastPathNode(path);
-
-        if (lastNode == _lastNode) {
-          _foundPaths.add(path);
-        }
-
-      }
-    }
-
-    return _foundPaths;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static List<String> findPathsContainingSubStrings({
     required List<String>? paths,
     required List<String>? subStrings,
@@ -206,6 +181,84 @@ class Pathing {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> findPathsHavingLastNodeEqual({
+    required List<String>? paths,
+    required String? lastNode,
+  }){
+    final List<String> _foundPaths = <String>[];
+
+    if (Lister.checkCanLoop(paths) == true && TextCheck.isEmpty(lastNode) == false) {
+      for (final String path in paths!) {
+
+        final String? _lastNode = getLastPathNode(path);
+
+        if (lastNode == _lastNode) {
+          _foundPaths.add(path);
+        }
+
+      }
+    }
+
+    return _foundPaths;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> findPathsHavingLastNodeContain({
+    required List<String>? paths,
+    required String? subString,
+  }){
+    final List<String> _foundPaths = <String>[];
+
+    if (Lister.checkCanLoop(paths) == true && TextCheck.isEmpty(subString) == false) {
+      for (final String path in paths!) {
+
+        final String? _lastNode = getLastPathNode(path);
+
+        final bool _contains = TextCheck.stringContainsSubString(
+          string: _lastNode,
+          subString: subString,
+        );
+
+        if (_contains == true) {
+          _foundPaths.add(path);
+        }
+
+      }
+    }
+
+    return _foundPaths;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> findPathsHavingLastNodesContainAny({
+    required List<String>? paths,
+    required List<String>? subStrings,
+  }) {
+    List<String> _output = <String>[];
+
+    if (Lister.checkCanLoop(paths) == true &&
+        Lister.checkCanLoop(subStrings) == true) {
+      for (final String subString in subStrings!) {
+
+        final List<String> _foundPaths = findPathsHavingLastNodeContain(
+          paths: paths,
+          subString: subString,
+        );
+
+        if (Lister.checkCanLoop(_foundPaths) == true) {
+          _output = Stringer.addStringsToStringsIfDoNotContainThem(
+            listToTake: _output,
+            listToAdd: _foundPaths,
+          );
+        }
+
+      }
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// PATHS MODIFIERS
@@ -226,7 +279,6 @@ class Pathing {
 
     return _output;
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static List<String> splitPathNodes(String? path) {
@@ -275,7 +327,6 @@ class Pathing {
 
     return _path;
   }
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? removeLastPathNode({required String? path}) {
@@ -355,6 +406,65 @@ class Pathing {
     }
 
     return _paths;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> generatePathAncestry({
+    required String? path,
+  }){
+    List<String> _output = [];
+
+    /// grand/parent/son/bobo
+    /// grand/parent/son/
+    /// grand/parent/
+    /// grand
+
+    if (path != null){
+
+      _output = [path];
+
+      final List<String> _nodes = splitPathNodes(path);
+
+      if (_nodes.length > 1){
+        String? _path = path;
+        for (int i = 0; i < _nodes.length; i++){
+          _path = removeLastPathNode(path: _path);
+          if (TextCheck.isEmpty(_path) == false){
+            _output = Stringer.addStringToListIfDoesNotContainIt(
+                strings: _output,
+                stringToAdd: _path,
+            );
+          }
+        }
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> generatePathsAncestries({
+    required List<String> paths,
+  }){
+    List<String> _output = [];
+
+    if (Lister.checkCanLoop(paths) == true){
+      for (final String path in paths){
+
+        final List<String> _ancestry = Pathing.generatePathAncestry(
+          path: path,
+        );
+
+        _output = Stringer.addStringsToStringsIfDoNotContainThem(
+          listToTake: _output,
+          listToAdd: _ancestry,
+        );
+
+      }
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

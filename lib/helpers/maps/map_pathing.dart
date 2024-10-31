@@ -313,13 +313,6 @@ class MapPathing {
   }
   // -----------------------------------------------------------------------------
 
-  /// EXISTENCE CHECKS
-
-  // --------------------
-  ///
-  // static bool checkStringsContain
-  // -----------------------------------------------------------------------------
-
   /// SINGLE PATH CREATORS
 
   // -----------------------
@@ -575,6 +568,107 @@ class MapPathing {
     );
 
     return object[_key];
+  }
+  // -----------------------------------------------------------------------------
+
+  /// FOCUSED MAP
+
+  // -----------------------
+  /// generateMapFromSomePaths IS BETTER : : NO NEED FOR THIS
+  static Map<String, dynamic> generateFocusedMapFromSomePaths({
+    required List<String> somePaths,
+    required Map<String, dynamic> sourceMap,
+  }) {
+    Map<String, dynamic> output = {};
+
+    if (Lister.checkCanLoop(somePaths) == true) {
+
+      final List<String> paths = Stringer.cleanDuplicateStrings(strings: somePaths);
+
+      for (final String path in paths) {
+
+        final bool hasSons = checkPathNodeHasSons(
+          path: path,
+          map: sourceMap,
+        );
+
+        if (hasSons == true) {
+          output = addMiddleNode(
+            path: path,
+            map: output,
+          );
+        }
+
+        else {
+          output = addLastNode(
+            path: path,
+            value: true,
+            map: output,
+          );
+        }
+
+      }
+
+    }
+
+    return output;
+  }
+  // --------------------
+  /// AI TESTED : generateMapFromSomePaths IS BETTER : : NO NEED FOR THIS
+  static Map<String, dynamic> addMiddleNode({
+    required String path,
+    required Map<String, dynamic> map,
+  }){
+    final Map<String, dynamic> _output = map;
+
+    final List<String> nodes = Pathing.splitPathNodes(path);
+
+    Map<String, dynamic> _object = _output;
+
+    for (final String node in nodes) {
+
+      if (_object.containsKey(node) == false) {
+        _object[node] = <String, dynamic>{};
+      }
+      _object = _object[node];
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// AI TESTED : generateMapFromSomePaths IS BETTER : NO NEED FOR THIS
+  static Map<String, dynamic> addLastNode({
+    required String path,
+    required bool value,
+    required Map<String, dynamic> map,
+  }){
+    final Map<String, dynamic> _output = map;
+
+    final List<String> nodes = Pathing.splitPathNodes(path);
+    Map<String, dynamic> _object = _output;
+    for (int i = 0; i < nodes.length; i++) {
+
+      final String node = nodes[i];
+
+      /// ITS THE LAST NODE
+      if (i == nodes.length - 1) {
+        // If it's the last node, set the boolean value
+        _object[node] = value;
+      }
+
+      /// NOT THE LAST NODE
+      else {
+
+        if (_object.containsKey(node) == false) {
+          _object[node] = <String, dynamic>{};
+        }
+        _object = _object[node];
+      }
+
+    }
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

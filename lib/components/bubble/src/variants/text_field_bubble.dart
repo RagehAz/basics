@@ -1,14 +1,4 @@
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/components/bubbles/bubble/bubble.dart';
-import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
-import 'package:basics/components/bubbles/tile_bubble/tile_bubble.dart';
-import 'package:basics/components/sensors/validation_sensor.dart';
-import 'package:basics/components/super_box/super_box.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:basics/components/texting/super_text_field/super_text_field.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/space/aligner.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 class TextFieldBubble extends StatelessWidget {
   /// --------------------------------------------------------------------------

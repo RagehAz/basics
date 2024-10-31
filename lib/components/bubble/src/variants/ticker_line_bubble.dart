@@ -1,6 +1,4 @@
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/helpers/space/borderers.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 class TickerLineBubble extends StatelessWidget {
   /// --------------------------------------------------------------------------

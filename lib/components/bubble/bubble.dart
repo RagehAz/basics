@@ -1,0 +1,30 @@
+library bubble;
+
+import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/components/drawing/expander.dart';
+import 'package:basics/components/super_box/super_box.dart';
+import 'package:basics/components/texting/super_text/super_text.dart';
+import 'package:flutter/material.dart';
+import 'package:basics/components/drawing/spacing.dart';
+import 'package:basics/components/layers/tap_layer/tap_layer.dart';
+import 'package:basics/helpers/maps/lister.dart';
+import 'package:basics/helpers/space/aligner.dart';
+import 'package:basics/helpers/space/borderers.dart';
+import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/components/sensors/validation_sensor.dart';
+import 'package:basics/components/texting/super_text_field/super_text_field.dart';
+import 'package:basics/bldrs_theme/classes/fonts.dart';
+import 'package:basics/helpers/colors/colorizer.dart';
+import 'package:basics/helpers/strings/text_check.dart';
+import 'package:basics/helpers/strings/text_mod.dart';
+
+part 'src/models/bubble_header_vm.dart';
+part 'src/structure/bubble.dart';
+part 'src/structure/bubble_contents.dart';
+part 'src/structure/bubble_header.dart';
+part 'src/structure/bubble_switcher.dart';
+part 'src/variants/text_field_bubble.dart';
+part 'src/variants/ticker_line_bubble.dart';
+part 'src/variants/tile_bubble.dart';

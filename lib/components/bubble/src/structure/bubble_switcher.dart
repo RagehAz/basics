@@ -1,7 +1,4 @@
-
-
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 class BubbleSwitcher extends StatefulWidget {
   /// --------------------------------------------------------------------------

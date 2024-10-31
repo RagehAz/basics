@@ -2,8 +2,8 @@ library z_grid;
 // -----------------------------------------------------------------------------
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/components/bubbles/bubble/bubble.dart';
 import 'package:basics/components/animators/widget_waiter.dart';
+import 'package:basics/components/bubble/bubble.dart';
 import 'package:basics/components/sensors/finger_sensor.dart';
 import 'package:basics/helpers/animators/app_scroll_behavior.dart';
 import 'package:basics/helpers/animators/sliders.dart';

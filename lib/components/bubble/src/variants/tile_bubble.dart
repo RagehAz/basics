@@ -1,16 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/components/bubbles/bubble/bubble.dart';
-import 'package:basics/components/bubbles/bubble/bubble_header.dart';
-import 'package:basics/components/bubbles/model/bubble_header_vm.dart';
-import 'package:basics/helpers/colors/colorizer.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/space/scale.dart';
-import 'package:basics/helpers/strings/text_check.dart';
-import 'package:basics/helpers/strings/text_mod.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:basics/components/texting/super_text_field/super_text_field.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 class TileBubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
@@ -121,7 +109,7 @@ class TileBubble extends StatelessWidget {
       bubbleWidthOverride: bubbleWidthOverride,
     );
 
-    return _bubbleWidth - iconBoxWidth - (2 * 10);
+    return _bubbleWidth - iconBoxWidth - (2 * Bubble._pageMargin); /// should be padding
   }
   // -----------------------------------------------------------------------------
   @override

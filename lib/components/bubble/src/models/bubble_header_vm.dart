@@ -1,5 +1,4 @@
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:flutter/material.dart';
+part of bubble;
 
 @immutable
 class BubbleHeaderVM {

@@ -318,7 +318,7 @@ class Director {
           specialCharacter: '.',
       );
 
-      final List<String> _matches = Pathing.findPathsHavingLastNode(
+      final List<String> _matches = Pathing.findPathsHavingLastNodeEqual(
         paths: _allPaths,
         lastNode: _nameWithoutExtension,
       );
