@@ -8,7 +8,7 @@ class Bubble extends StatelessWidget {
     this.columnChildren,
     this.child,
     this.childrenCentered = false,
-    this.bubbleColor = Colorz.white10,
+    this.bubbleColor = BubbleScale.color,
     this.width,
     this.onBubbleTap,
     this.margin,
@@ -16,7 +16,7 @@ class Bubble extends StatelessWidget {
     this.areTopCentered = true,
     this.onBubbleDoubleTap,
     this.appIsLTR = true,
-    this.splashColor = Colorz.white20,
+    this.splashColor = BubbleScale.splashColor,
     this.hasBottomPadding = true,
     super.key
   });
@@ -36,41 +36,53 @@ class Bubble extends StatelessWidget {
   final Color splashColor;
   final bool hasBottomPadding;
   final Color? borderColor;
+  // -----------------------------------------------------------------------------
+  EdgeInsets _getBubbleMargins(){
+    return margin == null ? EdgeInsets.zero : Scale.superMargins(margin: margin);
+  }
   // --------------------
-
-  static const double _pageMargin = 5;
+  double _getBubbleWidth(BuildContext context){
+    return BubbleScale.bubbleWidth(
+      context: context,
+      bubbleWidthOverride: width,
+    );
+  }
   // --------------------
+  BorderRadius _getCorners(){
+    return corners == null ? BubbleScale.corners : Borderers.superCorners(corners: corners);
+  }
+  // --------------------
+  Alignment _getAlignment(){
 
+    if (childrenCentered == true){
+      return areTopCentered == true ? Alignment.topCenter : Alignment.center;
+    }
 
+    else {
+      return areTopCentered == true ? Aligner.top(appIsLTR: appIsLTR) : Aligner.center(appIsLTR: appIsLTR);
+    }
+
+  }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final EdgeInsets _bubbleMargins = margin == null ? EdgeInsets.zero : Scale.superMargins(margin: margin);
-    // --------------------
-    final double _bubbleWidth = BubbleScale.bubbleWidth(
-      context: context,
-      bubbleWidthOverride: width,
-    );
-    // --------------------
-    final BorderRadius _corners = corners == null ? BubbleScale.corners : Borderers.superCorners(corners: corners);
-    // --------------------
-    final Alignment _alignment = childrenCentered == true ?
-    (areTopCentered == true ? Alignment.topCenter : Alignment.center)
-        :
-    (areTopCentered == true ? Aligner.top(appIsLTR: appIsLTR) : Aligner.center(appIsLTR: appIsLTR));
+    final EdgeInsets _bubbleMargins = _getBubbleMargins();
+    final double _bubbleWidth = _getBubbleWidth(context);
+    final BorderRadius _corners = _getCorners();
+    final Alignment _alignment = _getAlignment();
     // --------------------
     return Center(
       child: TapLayer(
         width: _bubbleWidth,
         height: null,
         boxColor: bubbleColor,
-        margin: _bubbleMargins.copyWith(bottom: _pageMargin),
+        margin: _bubbleMargins.copyWith(bottom: BubbleScale.marginValue),
         corners: _corners,
         borderColor: borderColor,
         onTap: onBubbleTap == null ? null : () => onBubbleTap!(),
         onDoubleTap: onBubbleDoubleTap == null ? null : () => onBubbleDoubleTap!(),
-        splashColor: onBubbleTap == null ? const Color.fromARGB(0, 255, 255, 255) : splashColor,
+        splashColor: onBubbleTap == null ? null : splashColor,
         alignment: _alignment,
         child: _BubbleContents(
           width: _bubbleWidth,
@@ -82,50 +94,6 @@ class Bubble extends StatelessWidget {
         ),
       ),
     );
-    // --------------------
-    /// DEPRECATED OLD BUBBLE
-    /*
-     // --------------------
-    final Widget _bubbleContents = _BubbleContents(
-      width: _bubbleWidth,
-      childrenCentered: childrenCentered,
-      columnChildren: columnChildren,
-      headerViewModel: bubbleHeaderVM,
-      hasBottomPadding: hasBottomPadding,
-      child: child,
-    );
-    // --------------------
-    return Center(
-      child: Container(
-        key: key,
-        width: _bubbleWidth,
-        margin: _bubbleMargins.copyWith(bottom: _pageMargin),
-        // padding: EdgeInsets.all(_pageMargin),
-        decoration: BoxDecoration(
-          color: bubbleColor,
-          borderRadius: _corners,
-        ),
-        alignment: _alignment,
-        child: onBubbleTap == null && onBubbleDoubleTap == null?
-
-        _bubbleContents
-
-            :
-
-        Material(
-          color: const Color.fromARGB(0, 255, 255, 255),
-          child: InkWell(
-            onTap: onBubbleTap == null ? null : () => onBubbleTap!(),
-            onDoubleTap: onBubbleDoubleTap == null ? null : () => onBubbleDoubleTap!(),
-            splashColor: onBubbleTap == null ? const Color.fromARGB(0, 255, 255, 255) : splashColor,
-            borderRadius: _corners,
-            child: _bubbleContents,
-          ),
-        ),
-
-      ),
-    );
-    */
     // --------------------
   }
   // -----------------------------------------------------------------------------

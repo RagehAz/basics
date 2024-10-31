@@ -138,8 +138,7 @@ class TextFieldBubble extends StatelessWidget {
 
   final bool enableSuggestions;
   final bool autoCorrect;
-
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
   // -----------------------------------------------------------------------------
 
@@ -283,7 +282,7 @@ class TextFieldBubble extends StatelessWidget {
       builder: (bool _isValid, String? error, Widget? child) {
 
         return Bubble(
-            bubbleColor: TileBubble.validatorBubbleColor(
+            bubbleColor: BubbleScale.validationColor(
               canErrorize: autoValidate == true || canErrorize == true,
               defaultColor: bubbleColor,
               validator: () => error,

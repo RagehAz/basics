@@ -36,24 +36,19 @@ class BubbleSwitcher extends StatefulWidget {
 
 class _BubbleSwitcherState extends State<BubbleSwitcher> {
   // -----------------------------------------------------------------------------
-  final ValueNotifier<bool> _isOn = ValueNotifier<bool>(false);
+  Wire<bool>? _isOn;
   // -----------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
-
-    setNotifier(
-      notifier: _isOn,
-      mounted: mounted,
-      value: widget.switchIsOn,
-    );
-
+    _isOn = Wire<bool>(widget.switchIsOn);
   }
   // --------------------
   @override
   void dispose() {
 
-    _isOn.dispose();
+    _isOn?.dispose();
+    _isOn = null;
 
     super.dispose();
   }
@@ -61,15 +56,10 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
   @override
   void didUpdateWidget(covariant BubbleSwitcher oldWidget) {
 
-    // if (oldWidget.switchIsOn != widget.switchIsOn){
-
-      setNotifier(
-          notifier: _isOn,
-          mounted: mounted,
-          value: widget.switchIsOn,
-      );
-
-    // }
+    _isOn?.set(
+      mounted: mounted,
+      value: widget.switchIsOn,
+    );
 
     super.didUpdateWidget(oldWidget);
   }
@@ -80,10 +70,9 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
     return SizedBox(
       width: widget.width ?? BubbleSwitcher.switcherWidth,
       height: widget.height ?? BubbleSwitcher.switcherHeight,
-      child: ValueListenableBuilder(
-          valueListenable: _isOn,
-          // child: ,
-          builder: (_, bool isOn, Widget? child){
+      child: SingleWire(
+          wire: _isOn,
+          builder: (bool isOn){
 
             return Switch(
               /// COLORS
@@ -121,8 +110,7 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
                   widget.onSwitch?.call(val);
                 }
 
-                setNotifier(
-                  notifier: _isOn,
+                _isOn?.set(
                   mounted: mounted,
                   value: val,
                 );

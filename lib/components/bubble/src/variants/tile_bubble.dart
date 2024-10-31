@@ -6,16 +6,16 @@ class TileBubble extends StatelessWidget {
     this.bubbleHeaderVM,
     this.borderColor,
     this.bubbleWidth,
-    this.textColor = const Color.fromARGB(255, 255, 255, 255),
+    this.textColor = BubbleScale.textColor,
     this.onTileTap,
     this.secondLine,
-    this.secondLineColor = const Color.fromARGB(200, 255, 255, 255),
+    this.secondLineColor = BubbleScale.secondLineColor,
     this.secondLineTextHeight = 15,
     this.iconIsBubble = true,
     this.insideDialog = false,
     this.child,
     this.bulletPoints,
-    this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
+    this.bubbleColor = BubbleScale.color,
     this.validator,
     this.autoValidate = true,
     this.textDirection,
@@ -50,90 +50,20 @@ class TileBubble extends StatelessWidget {
   final bool hasBottomPadding;
   final Color? borderColor;
   final bool hasChildTopPadding;
-  /// --------------------------------------------------------------------------
-  static const double iconBoxWidth = 30; /// delete me 5alas (im in BubbleHeader class)
-  // -----------------------------------------------------------------------------
-
-  /// COLOR CYPHERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Color? validatorBubbleColor({
-    required String? Function()? validator,
-    Color? defaultColor = const Color.fromARGB(10, 255, 255, 255),
-    bool canErrorize = true,
-  }){
-
-    bool _errorIsOn = false;
-    Color? _errorColor;
-    if (validator != null){
-      // ------
-      /// MESSAGE
-      final String? _validationMessage = validator();
-      // ------
-      /// ERROR IS ON
-      _errorIsOn = _validationMessage != null;
-      // ------
-      /// BUBBLE COLOR OVERRIDE
-      final bool _colorAssigned = TextCheck.stringContainsSubString(string: _validationMessage, subString: 'Δ');
-      if (_colorAssigned == true){
-        final String? _colorCode = TextMod.removeTextAfterFirstSpecialCharacter(
-            text: _validationMessage,
-            specialCharacter: 'Δ',
-        );
-        _errorColor = Colorizer.decipherColor(_colorCode);
-      }
-      // ------
-    }
-
-    if (_errorIsOn == true && canErrorize == true){
-      return _errorColor ?? const Color.fromARGB(150, 94, 6, 6);
-    }
-    else {
-      return defaultColor;
-    }
-
-  }
-  // -----------------------------------------------------------------------------
-
-  /// COLOR CYPHERS
-
-  // --------------------
-  static double childWidth({
-    required BuildContext context,
-    double? bubbleWidthOverride,
-  }) {
-
-    final double _bubbleWidth = BubbleScale.bubbleWidth(
-      context: context,
-      bubbleWidthOverride: bubbleWidthOverride,
-    );
-
-    return _bubbleWidth - iconBoxWidth - (2 * Bubble._pageMargin); /// should be padding
-  }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
-    final double _bubbleWidth = BubbleScale.bubbleWidth(
-      context: context,
-      bubbleWidthOverride: bubbleWidth,
-    );
-    final double _clearWidth = BubbleScale.clearWidth(
-      context: context,
-      bubbleWidthOverride: _bubbleWidth,
-    );
-    final double _childWidth = childWidth(
-      context: context,
-      bubbleWidthOverride: _bubbleWidth,
-    );
-
+    // --------------------
+    final double _bubbleWidth = BubbleScale.bubbleWidth(context: context, bubbleWidthOverride: bubbleWidth);
+    final double _clearWidth = BubbleScale.clearWidth(context: context, bubbleWidthOverride: _bubbleWidth);
+    final double _childWidth = BubbleScale.childWidth(context: context, bubbleWidthOverride: _bubbleWidth);
+    // --------------------
     return Bubble(
       bubbleHeaderVM: const BubbleHeaderVM(),
       borderColor: borderColor,
       width: _bubbleWidth,
       onBubbleTap: onTileTap,
-      bubbleColor: validatorBubbleColor(
+      bubbleColor: BubbleScale.validationColor(
         // canErrorize: true,
         defaultColor: bubbleColor,
         validator: validator,
@@ -159,7 +89,7 @@ class TileBubble extends StatelessWidget {
           padding: Scale.superInsets(
             context: context,
             appIsLTR: appIsLTR,
-            enLeft: iconBoxWidth,
+            enLeft: BubbleScale.headerButtonSize,
           ),
           child: BulletPoints(
             bulletPoints: bulletPoints,
@@ -182,7 +112,7 @@ class TileBubble extends StatelessWidget {
 
                 /// UNDER LEADING ICON AREA
                 const SizedBox(
-                  width: iconBoxWidth,
+                  width: BubbleScale.headerButtonSize,
                 ),
 
                 /// SECOND LINE
@@ -215,28 +145,21 @@ class TileBubble extends StatelessWidget {
         if (child != null)
           SizedBox(
             width: _bubbleWidth,
-            // height: 200,
-            // padding: const EdgeInsets.symmetric(horizontal: 5),
-            // color: Colorz.Yellow255,
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
 
                 /// UNDER LEADING ICON AREA
                 const SizedBox(
-                  width: iconBoxWidth,
+                  width: BubbleScale.headerButtonSize,
                 ),
 
                 /// CHILD
                 Container(
-                  width: childWidth(
+                  width: BubbleScale.childWidth(
                       context: context,
                       bubbleWidthOverride: _bubbleWidth
                   ),
-                  // decoration: BoxDecoration(
-                  //     color: Colorz.white10,
-                  //     borderRadius: Borderers.superBorderAll(context, Bubble.clearCornersValue)
-                  // ),
                   alignment: Alignment.center,
                   child: child,
                 ),

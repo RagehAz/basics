@@ -1,13 +1,23 @@
 part of bubble;
 
 class BubbleHeader extends StatelessWidget {
-  /// --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   const BubbleHeader({
     required this.viewModel,
     super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------
   final BubbleHeaderVM? viewModel;
+  // -----------------------------------------------------------------------------
+  bool checkShowEmptyBox(){
+    return  viewModel!.headlineText == null
+            &&
+            viewModel!.leadingIcon == null
+            &&
+            viewModel!.switchValue == false
+            &&
+            viewModel!.hasMoreButton == false;
+  }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -15,50 +25,38 @@ class BubbleHeader extends StatelessWidget {
     if (viewModel == null) {
       return const SizedBox();
     }
+
     else {
-      // --------------------
-      final double _bubbleWidth = BubbleScale.clearWidth(
-        context: context,
-        bubbleWidthOverride: viewModel!.headerWidth,
-      );
       // --------------------
       /// LEADING ICON
       final bool _hasIcon = viewModel!.leadingIcon != null;
-      final double _leadingIconWidth = _hasIcon == true ? BubbleHeaderVM.leadingIconBoxSize : 0;
       // --------------------
       /// SWITCHER
-      final double _switcherWidth = viewModel!.hasSwitch == true ? BubbleHeaderVM
-          .switcherButtonWidth : 0;
-      // --------------------
-      /// MORE BUTTON
-      final double _moreButtonWidth = viewModel!.hasMoreButton == true ? BubbleHeaderVM
-          .moreButtonSize + 10 : 0;
+      final double _switcherWidth = viewModel!.hasSwitch == true ? BubbleScale.switcherButtonWidth : 0;
       // --------------------
       /// HEADLINE
-      final double _headlineWidth = _bubbleWidth - _leadingIconWidth - _switcherWidth - _moreButtonWidth;
+      final double _headlineWidth = BubbleScale.headlineWidth(
+          context: context,
+          hasLeadingIcon: _hasIcon,
+          hasSwitch: viewModel!.hasSwitch,
+          hasMoreButton: viewModel!.hasMoreButton,
+      );
       // --------------------
-      if (
-      viewModel!.headlineText == null
-          &&
-          viewModel!.leadingIcon == null
-          &&
-          viewModel!.switchValue == false
-          &&
-          viewModel!.hasMoreButton == false
-      ){
+      if (checkShowEmptyBox() == true){
         return const SizedBox();
       }
       // --------------------
       else {
+
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
 
-            /// --- LEADING ICON
+            /// LEADING BUTTON
             if (_hasIcon == true)
               SuperBox(
-                width: BubbleHeaderVM.leadingIconBoxSize,
-                height: BubbleHeaderVM.leadingIconBoxSize,
+                width: BubbleScale.headerButtonSize,
+                height: BubbleScale.headerButtonSize,
                 icon: viewModel!.leadingIcon,
                 // iconColor: Colorz.Green255,
                 iconSizeFactor: viewModel!.leadingIconSizeFactor,
@@ -71,7 +69,7 @@ class BubbleHeader extends StatelessWidget {
                 loading: viewModel!.loading,
               ),
 
-            /// --- HEADLINE
+            /// HEADLINE
             SuperText(
               boxWidth: _headlineWidth,
               text: viewModel!.headlineText,
@@ -81,7 +79,7 @@ class BubbleHeader extends StatelessWidget {
               centered: viewModel!.centered,
               redDot: viewModel!.redDot,
               margins: const EdgeInsets.only(
-                top: BubbleHeaderVM.verseBottomMargin,
+                top: BubbleScale.verseBottomMargin,
                 left: 10,
                 right: 10,
               ),
@@ -91,12 +89,14 @@ class BubbleHeader extends StatelessWidget {
               appIsLTR: viewModel!.appIsLTR,
             ),
 
+            /// EXPANDER
             const Expander(),
 
+            /// SWITCH
             if (viewModel!.hasSwitch == true)
               BubbleSwitcher(
                 width: _switcherWidth,
-                height: BubbleHeaderVM.leadingIconBoxSize,
+                height: BubbleScale.headerButtonSize,
                 switchIsOn: viewModel!.switchValue,
                 onSwitch: viewModel!.onSwitchTap,
                 switchActiveColor: viewModel!.switchActiveColor,
@@ -110,10 +110,11 @@ class BubbleHeader extends StatelessWidget {
             //   width: 5,
             // ),
 
+            /// MORE BUTTON
             if (viewModel!.hasMoreButton == true)
               SuperBox(
-                height: BubbleHeaderVM.moreButtonSize,
-                width: BubbleHeaderVM.moreButtonSize,
+                height: BubbleScale.headerButtonSize,
+                width: BubbleScale.headerButtonSize,
                 icon: viewModel!.moreButtonIcon,
                 iconSizeFactor: viewModel!.moreButtonIconSizeFactor,
                 onTap: viewModel!.onMoreButtonTap,

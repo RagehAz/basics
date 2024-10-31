@@ -13,7 +13,7 @@ class BubbleHeaderVM {
     this.hasSwitch = false,
     this.hasMoreButton = false,
     this.headlineText,
-    this.headlineColor = const Color.fromARGB(255, 255, 255, 255),
+    this.headlineColor = BubbleScale.textColor,
     this.headlineMaxLines = 2,
     this.switchValue = false,
     this.onSwitchTap,
@@ -27,7 +27,7 @@ class BubbleHeaderVM {
     this.moreButtonIconSizeFactor = 0.6,
     this.textDirection = TextDirection.ltr,
     this.appIsLTR = true,
-    this.switchActiveColor = const Color.fromARGB(255, 255, 255, 255),
+    this.switchActiveColor = BubbleScale.textColor,
     this.switchTrackColor = const Color.fromARGB(125, 20, 20, 35),
     this.switchFocusColor = const Color.fromARGB(255, 20, 20, 80),
     this.switchDisabledColor = const Color.fromARGB(150, 200, 200, 200),
@@ -68,15 +68,6 @@ class BubbleHeaderVM {
   final double? letterSpacing;
   final double? wordSpacing;
   final bool loading;
-  // -----------------------------------------------------------------------------
-
-  /// CONSTANTS
-
-  // --------------------
-  static const double leadingIconBoxSize = 30;
-  static const double switcherButtonWidth = 50;
-  static const double moreButtonSize = leadingIconBoxSize;
-  static const double verseBottomMargin = 5;
   // --------------------------------------------------------------------------
 
   /// CLONING
@@ -151,19 +142,10 @@ class BubbleHeaderVM {
   }
   // -----------------------------------------------------------------------------
 
-  /// GETTERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double getBubbleHeaderHeight(){
-    return leadingIconBoxSize + verseBottomMargin; // verse bottom margin
-  }
-  // -----------------------------------------------------------------------------
-
   /// EQUALITY
 
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static bool bubbleHeaderViewModelsAreIdentical({
     required BubbleHeaderVM? model1,
     required BubbleHeaderVM? model2,
