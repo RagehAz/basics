@@ -1,5 +1,5 @@
 part of bubble;
-
+/// => TAMAM
 class TileBubble extends StatelessWidget {
   /// --------------------------------------------------------------------------
   const TileBubble({
@@ -11,8 +11,6 @@ class TileBubble extends StatelessWidget {
     this.secondLine,
     this.secondLineColor = BubbleScale.secondLineColor,
     this.secondLineTextHeight = 15,
-    this.iconIsBubble = true,
-    this.insideDialog = false,
     this.child,
     this.bulletPoints,
     this.bubbleColor = BubbleScale.color,
@@ -23,8 +21,8 @@ class TileBubble extends StatelessWidget {
     this.focusNode,
     this.font,
     this.bulletPointsMaxLines = 10,
-    this.hasBottomPadding = true,
     this.hasChildTopPadding = false,
+    this.margin,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -35,8 +33,6 @@ class TileBubble extends StatelessWidget {
   final String? secondLine;
   final Color? secondLineColor;
   final double? secondLineTextHeight;
-  final bool iconIsBubble;
-  final bool insideDialog;
   final Widget? child;
   final List<String>? bulletPoints;
   final Color? bubbleColor;
@@ -47,9 +43,9 @@ class TileBubble extends StatelessWidget {
   final String? font;
   final FocusNode? focusNode;
   final int bulletPointsMaxLines;
-  final bool hasBottomPadding;
   final Color? borderColor;
   final bool hasChildTopPadding;
+  final dynamic margin;
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -59,6 +55,7 @@ class TileBubble extends StatelessWidget {
     final double _childWidth = BubbleScale.childWidth(context: context, bubbleWidthOverride: _bubbleWidth);
     // --------------------
     return Bubble(
+      key: key,
       bubbleHeaderVM: const BubbleHeaderVM(),
       borderColor: borderColor,
       width: _bubbleWidth,
@@ -68,14 +65,15 @@ class TileBubble extends StatelessWidget {
         defaultColor: bubbleColor,
         validator: validator,
       ),
-      hasBottomPadding: hasBottomPadding,
+      margin: margin,
       columnChildren: <Widget>[
 
         /// BUBBLE HEADER
         if (bubbleHeaderVM != null)
-        BubbleHeader(
+        _BubbleHeader(
+          bubbleWidthOverride: _bubbleWidth,
           viewModel: bubbleHeaderVM!.copyWith(
-            headerWidth: _clearWidth,
+            // headerWidth: _clearWidth,
             font: font,
             textDirection: textDirection,
             appIsLTR: appIsLTR,
@@ -139,7 +137,7 @@ class TileBubble extends StatelessWidget {
           ),
 
         if (hasChildTopPadding == true)
-        const SizedBox(width: 10, height: 10),
+          const Spacing(size: BubbleScale.paddingValue),
 
         /// CHILD
         if (child != null)
@@ -168,6 +166,7 @@ class TileBubble extends StatelessWidget {
             ),
           ),
 
+        /// VALIDATOR
         if (validator != null)
           SuperValidator(
             width: _clearWidth,

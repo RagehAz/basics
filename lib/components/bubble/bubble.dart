@@ -1,11 +1,12 @@
 library bubble;
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/bldrs_theme/classes/ratioz.dart';
-import 'package:basics/components/drawing/expander.dart';
 import 'package:basics/components/super_box/super_box.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
+import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 import 'package:basics/components/drawing/spacing.dart';
@@ -16,7 +17,6 @@ import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/components/sensors/validation_sensor.dart';
 import 'package:basics/components/texting/super_text_field/super_text_field.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
 import 'package:basics/helpers/colors/colorizer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';

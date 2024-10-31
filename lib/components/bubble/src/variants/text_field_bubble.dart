@@ -1,7 +1,7 @@
 part of bubble;
 
 class TextFieldBubble extends StatelessWidget {
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   const TextFieldBubble({
     required this.bubbleHeaderVM,
     required this.bubbleWidth,
@@ -64,15 +64,14 @@ class TextFieldBubble extends StatelessWidget {
     this.fieldCorners = 12,
     this.fieldWordSpacing,
     this.isDisabled = false,
-    this.hasBottomPadding = true,
-
     this.enableSuggestions = false,
     this.autoCorrect = false,
 
+    this.margin,
+
     super.key
   }); 
-  /// --------------------------------------------------------------------------
-
+  // --------------------
   final BubbleHeaderVM bubbleHeaderVM;
   final double? bubbleWidth;
   final String? hintText;
@@ -134,10 +133,9 @@ class TextFieldBubble extends StatelessWidget {
   final dynamic fieldCorners;
   final double? fieldWordSpacing;
   final bool isDisabled;
-  final bool hasBottomPadding;
-
   final bool enableSuggestions;
   final bool autoCorrect;
+  final dynamic margin;
   // --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
   // -----------------------------------------------------------------------------
@@ -272,7 +270,7 @@ class TextFieldBubble extends StatelessWidget {
       minLines: minLines,
       textHeight: fieldTextHeight,
       textPadding: fieldTextPadding,
-      withBottomMargin: hasBottomPadding,
+      withBottomMargin: false,
       withCounter: counterIsOn,
     );
     // --------------------
@@ -288,11 +286,11 @@ class TextFieldBubble extends StatelessWidget {
               validator: () => error,
             ),
             bubbleHeaderVM: bubbleHeaderVM.copyWith(
-              headerWidth: _bubbleWidth - 20,
+              headerWidth: _bubbleWidth - BubbleScale.bothMarginsValue,
             ),
             width: _bubbleWidth,
             onBubbleTap: isDisabled == false ? null : onBubbleTap,
-            hasBottomPadding: hasBottomPadding,
+            margin: margin,
             child: child,
         );
 
@@ -343,7 +341,7 @@ class TextFieldBubble extends StatelessWidget {
 
                     /// SPACER
                     if (leadingIcon != null)
-                      const SizedBox(width: 5,),
+                      const Spacing(size: BubbleScale.paddingValue),
 
                     /// TEXT FIELD
                     SuperTextField(
@@ -401,7 +399,7 @@ class TextFieldBubble extends StatelessWidget {
 
                     /// SPACER
                     if (isObscured != null)
-                      const SizedBox(width: 5,),
+                      const Spacing(size: BubbleScale.paddingValue),
 
                     /// OBSCURE BUTTON
                     if (isObscured != null)
@@ -411,15 +409,9 @@ class TextFieldBubble extends StatelessWidget {
                           return SuperBox(
                             height: obscureBtSize,
                             width: obscureBtSize,
-                            color: obscured ?
-                            const Color.fromARGB(10, 255, 255, 255)
-                                :
-                            obscuredActiveColor,
+                            color: obscured ? Colorz.white10 : obscuredActiveColor,
                             icon: obscuredIcon,
-                            iconColor: obscured ?
-                            const Color.fromARGB(20, 255, 255, 255)
-                                :
-                            const Color.fromARGB(230, 0, 0, 0),
+                            iconColor: obscured ? Colorz.white20 : Colorz.black230,
                             iconSizeFactor: 0.7,
                             bubble: false,
                             // corners: SuperVerse.superVerseLabelCornerValue(context, 3),
@@ -435,9 +427,11 @@ class TextFieldBubble extends StatelessWidget {
                           );
                           },
                       ),
+
                     /// PASTE BUTTON SPACER
                     if (pasteFunction != null)
-                      const SizedBox(width: 5,),
+                      const Spacing(size: BubbleScale.paddingValue),
+
                     /// PASTE BUTTON
                     if (pasteFunction != null)
                       SuperBox(
@@ -465,7 +459,7 @@ class TextFieldBubble extends StatelessWidget {
                 /// LOADING INDICATOR
                 if (isLoading == true)
                   Loading(
-                    size: 35,
+                    size: BubbleScale.headerButtonSize,
                     loading: isLoading,
                         color: loadingColor,
                       ),
@@ -476,7 +470,7 @@ class TextFieldBubble extends StatelessWidget {
 
           /// CHILDREN SPACING
           if (Lister.checkCanLoop(columnChildren) == true)
-            const SizedBox(width: 5, height: 5),
+            const Spacing(size: BubbleScale.paddingValue),
 
           /// CHILDREN
           if (Lister.checkCanLoop(columnChildren) == true)
@@ -488,11 +482,6 @@ class TextFieldBubble extends StatelessWidget {
                 ],
               ),
             ),
-
-          // SizedBox(
-          //   width: Bubble.paddingValue(),
-          //   height: Bubble.paddingValue(),
-          // ),
 
         ],
       ),

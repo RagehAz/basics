@@ -1,22 +1,22 @@
 part of bubble;
-
+/// => TAMAM
 class _BubbleContents extends StatelessWidget {
   // --------------------------------------------------------------------------
   const _BubbleContents({
     required this.columnChildren,
+    required this.bubbleWidthOverride,
     required this.childrenCentered,
     required this.width,
     required this.headerViewModel,
-    required this.hasBottomPadding,
     required this.child,
     // super.key
   });
   // --------------------
   final List<Widget>? columnChildren;
+  final double bubbleWidthOverride;
   final bool childrenCentered;
   final double? width;
   final BubbleHeaderVM? headerViewModel;
-  final bool hasBottomPadding;
   final Widget? child;
   // --------------------------------------------------------------------------
   MainAxisAlignment getMainAxisAlignment(){
@@ -30,38 +30,38 @@ class _BubbleContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    blog('eh');
+
     return Padding(
-      key: const ValueKey<String>('_BubbleContents'),
-      padding: EdgeInsets.only(
-        // top: Bubble._pageMargin,
-        right: BubbleScale.paddingValue,
-        left: BubbleScale.paddingValue,
-        bottom: hasBottomPadding == true ? BubbleScale.paddingValue : 0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: BubbleScale.paddingValue,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: getMainAxisAlignment(),
         crossAxisAlignment: getCrossAxisAlignment(),
         children: <Widget>[
 
-          if (headerViewModel != null)
-            const Spacing(size: BubbleScale.paddingValue),
+          const Spacing(size: BubbleScale.paddingValue),
 
+          /// HEADER
           if (headerViewModel != null)
-            BubbleHeader(
+            _BubbleHeader(
+              bubbleWidthOverride: bubbleWidthOverride,
               viewModel: headerViewModel?.copyWith(
                   headerWidth: headerViewModel?.headerWidth ?? (width == null ? null : width!-BubbleScale.bothMarginsValue)
               ),
             ),
 
-          if (child != null || Lister.checkCanLoop(columnChildren) == true)
-            const Spacing(size: BubbleScale.paddingValue),
-
+          /// CHILDREN
           if (Lister.checkCanLoop(columnChildren) == true)
             ...columnChildren!,
 
+          /// CHILD
           if (child != null)
             child!,
+
+          const Spacing(size: BubbleScale.paddingValue),
 
         ],
       ),

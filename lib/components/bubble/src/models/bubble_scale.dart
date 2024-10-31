@@ -1,5 +1,5 @@
 part of bubble;
-
+/// => TAMAM
 class BubbleScale {
   // -----------------------------------------------------------------------------
 
@@ -27,6 +27,9 @@ class BubbleScale {
   static const double headerButtonSize = 30; /// delete me 5alas (im in BubbleHeader class)
   static const double switcherButtonWidth = 50;
   static const double verseBottomMargin = 5;
+  // --------------------
+  static const EdgeInsets bottomFive = EdgeInsets.only(bottom: 5);
+  static const EdgeInsets bottomTen = EdgeInsets.only(bottom: 10);
   // -----------------------------------------------------------------------------
 
   /// WIDTHS
@@ -89,7 +92,7 @@ class BubbleScale {
     double? bubbleWidthOverride,
   }){
 
-    final double _bubbleWidth = BubbleScale.clearWidth(
+    final double _bubbleWidth = BubbleScale.bubbleWidth(
       context: context,
       bubbleWidthOverride: bubbleWidthOverride,
     );
@@ -100,7 +103,12 @@ class BubbleScale {
 
     final double _moreButtonWidth = hasMoreButton == true ? headerButtonSize + paddingValue : 0;
 
-    final double _headlineWidth = _bubbleWidth - _leadingIconWidth - _switcherWidth - _moreButtonWidth;
+    final double _headlineWidth = _bubbleWidth
+                                  - paddingValue
+                                  - _leadingIconWidth
+                                  - _switcherWidth
+                                  - _moreButtonWidth
+                                  - paddingValue;
 
     return _headlineWidth;
   }

@@ -1,5 +1,5 @@
 part of bubble;
-
+/// => TAMAM
 class BubbleSwitcher extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const BubbleSwitcher({

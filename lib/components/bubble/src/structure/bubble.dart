@@ -1,5 +1,5 @@
 part of bubble;
-
+/// => TAMAM
 class Bubble extends StatelessWidget {
   // --------------------------------------------------------------------------
   const Bubble({
@@ -17,7 +17,6 @@ class Bubble extends StatelessWidget {
     this.onBubbleDoubleTap,
     this.appIsLTR = true,
     this.splashColor = BubbleScale.splashColor,
-    this.hasBottomPadding = true,
     super.key
   });
   // --------------------------------------------------------------------------
@@ -34,13 +33,8 @@ class Bubble extends StatelessWidget {
   final Function? onBubbleDoubleTap;
   final bool appIsLTR;
   final Color splashColor;
-  final bool hasBottomPadding;
   final Color? borderColor;
   // -----------------------------------------------------------------------------
-  EdgeInsets _getBubbleMargins(){
-    return margin == null ? EdgeInsets.zero : Scale.superMargins(margin: margin);
-  }
-  // --------------------
   double _getBubbleWidth(BuildContext context){
     return BubbleScale.bubbleWidth(
       context: context,
@@ -67,7 +61,6 @@ class Bubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final EdgeInsets _bubbleMargins = _getBubbleMargins();
     final double _bubbleWidth = _getBubbleWidth(context);
     final BorderRadius _corners = _getCorners();
     final Alignment _alignment = _getAlignment();
@@ -77,7 +70,7 @@ class Bubble extends StatelessWidget {
         width: _bubbleWidth,
         height: null,
         boxColor: bubbleColor,
-        margin: _bubbleMargins.copyWith(bottom: BubbleScale.marginValue),
+        margin: Scale.superMargins(margin: margin),
         corners: _corners,
         borderColor: borderColor,
         onTap: onBubbleTap == null ? null : () => onBubbleTap!(),
@@ -86,10 +79,10 @@ class Bubble extends StatelessWidget {
         alignment: _alignment,
         child: _BubbleContents(
           width: _bubbleWidth,
+          bubbleWidthOverride: _bubbleWidth,
           childrenCentered: childrenCentered,
           columnChildren: columnChildren,
           headerViewModel: bubbleHeaderVM,
-          hasBottomPadding: hasBottomPadding,
           child: child,
         ),
       ),
