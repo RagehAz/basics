@@ -8,7 +8,7 @@ class Bubble extends StatelessWidget {
     this.columnChildren,
     this.child,
     this.childrenCentered = false,
-    this.bubbleColor = const Color.fromARGB(10, 255, 255, 255),
+    this.bubbleColor = Colorz.white10,
     this.width,
     this.onBubbleTap,
     this.margin,
@@ -16,7 +16,7 @@ class Bubble extends StatelessWidget {
     this.areTopCentered = true,
     this.onBubbleDoubleTap,
     this.appIsLTR = true,
-    this.splashColor = const Color.fromARGB(200, 255, 255, 255),
+    this.splashColor = Colorz.white20,
     this.hasBottomPadding = true,
     super.key
   });
@@ -36,94 +36,24 @@ class Bubble extends StatelessWidget {
   final Color splashColor;
   final bool hasBottomPadding;
   final Color? borderColor;
-  // -----------------------------------------------------------------------------
-  static double clearWidth({
-    required BuildContext context,
-    double? bubbleWidthOverride,
-  }) {
-    final double _bubbleWidth = bubbleWidth(
-      context: context,
-      bubbleWidthOverride: bubbleWidthOverride,
-    );
-    const double _bubblePaddings = 10 * 2.0;
-    return _bubbleWidth - _bubblePaddings;
-  }
   // --------------------
-  static double bubbleWidth({
-    required BuildContext context,
-    double? bubbleWidthOverride
-  }) {
 
-    if (bubbleWidthOverride == null){
-
-      return Scale.responsive(
-        context: context,
-        landscape: Scale.screenShortestSide(context) - 20,
-        portrait: Scale.screenWidth(context) - 20,
-      );
-
-    }
-
-    else {
-      return bubbleWidthOverride;
-    }
-
-  }
-  // --------------------
-  /*
-  static double _getTitleHeight(BuildContext context){
-    const int _titleVerseSize = 2;
-    return SuperVerse.superVerseRealHeight(
-      context: context,
-      size: _titleVerseSize,
-      sizeFactor: 1,
-      hasLabelBox: false,
-    );
-  }
-   */
-  // --------------------
-  static double getHeightWithoutChildren({
-    required double headlineHeight,
-  }){
-    return (_pageMargin * 3) + headlineHeight;
-    // return (_pageMargin * 3) + _getTitleHeight(context);
-  }
-  // --------------------
-  static const double cornersValue = 18;
   static const double _pageMargin = 5;
   // --------------------
-  static const double clearCornersValue = cornersValue - _pageMargin;
-  // --------------------
-  static BorderRadius borders() {
-    return Borderers.superCorners(
-      corners: cornersValue,
-    );
-  }
-  // --------------------
-  static BorderRadius clearBorders() {
-    return Borderers.superCorners(
-      corners: clearCornersValue,
-    );
-  }
-  // --------------------
-  static double paddingValue(){
-    return _pageMargin;
-  }
+
+
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
     final EdgeInsets _bubbleMargins = margin == null ? EdgeInsets.zero : Scale.superMargins(margin: margin);
     // --------------------
-    final double _bubbleWidth = bubbleWidth(
+    final double _bubbleWidth = BubbleScale.bubbleWidth(
       context: context,
       bubbleWidthOverride: width,
     );
     // --------------------
-    final BorderRadius _corners = corners == null ?
-    borders()
-        :
-    Borderers.superCorners(corners: corners);
+    final BorderRadius _corners = corners == null ? BubbleScale.corners : Borderers.superCorners(corners: corners);
     // --------------------
     final Alignment _alignment = childrenCentered == true ?
     (areTopCentered == true ? Alignment.topCenter : Alignment.center)

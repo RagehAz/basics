@@ -446,7 +446,7 @@ class ZGridScale {
   }){
 
     if (Scale.isLandScape(context) == true && hasResponsiveSideMargin == true){
-      return (Scale.screenWidth(context) - Bubble.bubbleWidth(context: context)) / 2;
+      return (Scale.screenWidth(context) - BubbleScale.bubbleWidth(context: context)) / 2;
     }
 
     else {

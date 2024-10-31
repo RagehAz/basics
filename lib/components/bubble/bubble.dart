@@ -2,6 +2,7 @@ library bubble;
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
+import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/components/drawing/expander.dart';
 import 'package:basics/components/super_box/super_box.dart';
 import 'package:basics/components/texting/super_text/super_text.dart';
@@ -28,3 +29,4 @@ part 'src/structure/bubble_switcher.dart';
 part 'src/variants/text_field_bubble.dart';
 part 'src/variants/ticker_line_bubble.dart';
 part 'src/variants/tile_bubble.dart';
+part 'src/models/bubble_scale.dart';

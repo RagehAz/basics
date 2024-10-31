@@ -17,7 +17,7 @@ class BubbleHeader extends StatelessWidget {
     }
     else {
       // --------------------
-      final double _bubbleWidth = Bubble.clearWidth(
+      final double _bubbleWidth = BubbleScale.clearWidth(
         context: context,
         bubbleWidthOverride: viewModel!.headerWidth,
       );

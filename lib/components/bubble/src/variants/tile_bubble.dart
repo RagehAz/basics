@@ -104,7 +104,7 @@ class TileBubble extends StatelessWidget {
     double? bubbleWidthOverride,
   }) {
 
-    final double _bubbleWidth = Bubble.bubbleWidth(
+    final double _bubbleWidth = BubbleScale.bubbleWidth(
       context: context,
       bubbleWidthOverride: bubbleWidthOverride,
     );
@@ -115,11 +115,11 @@ class TileBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double _bubbleWidth = Bubble.bubbleWidth(
+    final double _bubbleWidth = BubbleScale.bubbleWidth(
       context: context,
       bubbleWidthOverride: bubbleWidth,
     );
-    final double _clearWidth = Bubble.clearWidth(
+    final double _clearWidth = BubbleScale.clearWidth(
       context: context,
       bubbleWidthOverride: _bubbleWidth,
     );

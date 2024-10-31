@@ -23,7 +23,7 @@ abstract class Ratioz {
 
   // -----------------------------------------------------------------------------
   /// BLDRS APPBARS
-  static const double appBarCorner = 18; // ORIGINALLY MediaQuery.of(context).size.height * 0.0215;
+  static const double appBarCorner = 18;
   static const double appBarButtonCorner = 13;
   static const double boxCorner8 = 8;
   static const double boxCorner12 = 12;

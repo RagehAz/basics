@@ -217,7 +217,7 @@ class TextFieldBubble extends StatelessWidget {
     final double _obscureBtSize = showUnObscure == false ? 0 : fieldHeight;
     final double _obscureBtSpacing = showUnObscure == false ? 0 : 5;
     final double _pasteButtonWidthAndSpacing = hasPasteButton == true ? pasteButtonWidth + 5 : 0;
-    final double _bubbleClearWidth = Bubble.clearWidth(context: context, bubbleWidthOverride: bubbleWidth);
+    final double _bubbleClearWidth = BubbleScale.clearWidth(context: context, bubbleWidthOverride: bubbleWidth);
     final double _fieldWidth = _bubbleClearWidth - _leadingIconSize
         - _leadingAndFieldSpacing - _obscureBtSize - _obscureBtSpacing - _pasteButtonWidthAndSpacing;
 
@@ -253,7 +253,7 @@ class TextFieldBubble extends StatelessWidget {
     final double leadingIconSize = leadingIcon == null ? 0 : stripHeight;
     final double obscureBtSize = isObscured == null ? 0 : stripHeight;
     // --------------------
-    final double _bubbleWidth = Bubble.bubbleWidth(
+    final double _bubbleWidth = BubbleScale.bubbleWidth(
         context: context,
         bubbleWidthOverride: bubbleWidth,
     );
