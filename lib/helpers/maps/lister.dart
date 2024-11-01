@@ -7,6 +7,30 @@ class Lister {
 
   // -----------------------------------------------------------------------------
 
+  /// VALUE NOTIFIER SETTER
+
+  // --------------------
+  static Future<void> loop<T>({
+    required Function(int index, T? model) onLoop,
+    required List<T?>? models,
+    Function? onListIsEmpty,
+  }) async {
+
+    if (checkCanLoop(models) == true){
+
+      for (int i = 0; i < models!.length; i++){
+        await onLoop(i, models[i]);
+      }
+
+    }
+
+    else {
+      await onListIsEmpty?.call();
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
   /// LENGTH
 
   // --------------------

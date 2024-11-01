@@ -95,10 +95,8 @@ class FireFinder {
   /// OVERRIDES
 
   // --------------------
-  /*
    @override
-   String toString() => 'MapModel(key: $key, value: ${value.toString()})';
-   */
+   String toString() => 'FireFinder(field: $field, comparison: $comparison, value: $value)';
   // --------------------
   @override
   bool operator == (Object other){
