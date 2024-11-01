@@ -7,7 +7,7 @@ class Lister {
 
   // -----------------------------------------------------------------------------
 
-  /// VALUE NOTIFIER SETTER
+  /// LOOPING
 
   // --------------------
   static Future<void> loop<T>({
