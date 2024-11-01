@@ -30,8 +30,6 @@ class _BubbleContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    blog('eh');
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: BubbleScale.paddingValue,
