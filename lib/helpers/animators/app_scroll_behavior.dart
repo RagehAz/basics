@@ -38,6 +38,7 @@ class SingleChildScrollViewX extends StatelessWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.restorationId,
+    this.skip = false,
     Key? key,
   }) : super(key: key);
 
@@ -52,24 +53,34 @@ class SingleChildScrollViewX extends StatelessWidget {
   final DragStartBehavior dragStartBehavior;
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final String? restorationId;
+  final bool skip;
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: const AppScrollBehavior(),
-      child: SingleChildScrollView(
-        scrollDirection: scrollDirection,
-        controller: controller,
-        physics: physics,
-        reverse: reverse,
-        padding: padding,
-        primary: primary,
-        clipBehavior: clipBehavior,
-        dragStartBehavior: dragStartBehavior,
-        keyboardDismissBehavior: keyboardDismissBehavior,
-        restorationId: restorationId,
-        child: child,
-      ),
-    );
+
+    if (skip == true){
+      return child;
+    }
+
+    else {
+      return ScrollConfiguration(
+        behavior: const AppScrollBehavior(),
+        child: SingleChildScrollView(
+          scrollDirection: scrollDirection,
+          controller: controller,
+          physics: physics,
+          reverse: reverse,
+          padding: padding,
+          primary: primary,
+          clipBehavior: clipBehavior,
+          dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          child: child,
+        ),
+      );
+    }
+
   }
+
 }
