@@ -81,18 +81,18 @@ class Popper extends StatelessWidget {
     return PopScope(
       key: const ValueKey<String>('Popper'),
       canPop: false,
-      // onPopInvoked: (bool value) => _onPopInvoked(
-      //   context: context,
-      //   canGoBack: canGoBack,
-      //   onBack: onBack,
-      //   didPop: value,
-      // ),
-      onPopInvokedWithResult: (bool value, dynamic result) => _onPopInvoked(
+      onPopInvoked: (bool value) => _onPopInvoked(
         context: context,
         canGoBack: canGoBack,
         onBack: onBack,
         didPop: value,
       ),
+      // onPopInvokedWithResult: (bool value, dynamic result) => _onPopInvoked(
+      //   context: context,
+      //   canGoBack: canGoBack,
+      //   onBack: onBack,
+      //   didPop: value,
+      // ),
       child: child,
     );
 
