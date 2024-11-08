@@ -20,6 +20,10 @@ class Scale {
   /// TESTED : WORKS PERFECT
   static double screenHeight(BuildContext context) {
 
+    print('screenHeight : top(${MediaQuery.paddingOf(context).top}) bottom(${MediaQuery.paddingOf(context).bottom})');
+
+
+
     return    MediaQuery.sizeOf(context).height
             - MediaQuery.paddingOf(context).top
             - MediaQuery.paddingOf(context).bottom;
