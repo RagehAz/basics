@@ -1,4 +1,5 @@
 import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 
 class Searching {
@@ -29,39 +30,43 @@ class Searching {
   /// AI TESTED
   static void triggerIsSearchingNotifier({
     required String? text,
-    required ValueNotifier<bool> isSearching,
+    required Wire<bool>? isSearching,
     required bool mounted,
     int minCharLimit = 3,
     Function? onSwitchOff,
     Function? onResume,
   }){
 
-    /// WHEN GOING MORE THAN MIN LENGTH
-    if (text != null && text.length >= minCharLimit){
+    if (isSearching != null){
 
-      /// ONLY SWITCH ON SEARCHING IF ITS NOT ALREADY ON
-      if (isSearching.value != true){
-        setNotifier(notifier: isSearching, mounted: mounted, value: true);
+      /// WHEN GOING MORE THAN MIN LENGTH
+      if (text != null && text.length >= minCharLimit){
+
+        /// ONLY SWITCH ON SEARCHING IF ITS NOT ALREADY ON
+        if (isSearching.value != true){
+          setNotifier(notifier: isSearching, mounted: mounted, value: true);
+        }
+
+        /// SHOULD FIRE WITH EACH TEXT CHANGE WHILE SEARCHING
+        if (onResume != null){
+          onResume();
+        }
+
       }
 
-      /// SHOULD FIRE WITH EACH TEXT CHANGE WHILE SEARCHING
-      if (onResume != null){
-        onResume();
-      }
+      /// WHEN GOING LESS THAN MIN LENGTH
+      else {
 
-    }
+        /// ONLY SWITCH OFF SEARCHING IF ITS NOT ALREADY OFF
+        if (isSearching.value != false){
 
-    /// WHEN GOING LESS THAN MIN LENGTH
-    else {
+          setNotifier(notifier: isSearching, mounted: mounted, value: false);
 
-      /// ONLY SWITCH OFF SEARCHING IF ITS NOT ALREADY OFF
-      if (isSearching.value != false){
+          /// SHOULD FIRE ONCE ON SWITCHING ON EVENT
+          if (onSwitchOff != null){
+            onSwitchOff();
+          }
 
-        setNotifier(notifier: isSearching, mounted: mounted, value: false);
-
-        /// SHOULD FIRE ONCE ON SWITCHING ON EVENT
-        if (onSwitchOff != null){
-          onSwitchOff();
         }
 
       }
