@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics.
-version: 5.4.0
+version: 5.5.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/basics.git
 # --------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ dependencies:
   image_compression_flutter: ^1.0.4
   android_path_provider: ^0.3.0
   flutter_udid: ^3.0.0
-  sentry_flutter: ^8.9.0
+  sentry_flutter: ^8.10.1
   ffmpeg_kit_flutter: ^6.0.3
   video_editor: ^3.0.0
   cross_file_image: ^1.1.0
