@@ -13,49 +13,64 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-# --------------------------------------------------------------------------------
+  # -----------------
+  # COMPLEX DEPENDANTS
   clipboard: ^0.1.3
   collection: ^1.18.0
-  image: ^4.2.0
+  mime: ^1.0.6
   path: ^1.9.0
-  path_provider: ^2.1.4
+  intl: ^0.19.0
+  # ----------------
+  # Inconsistent JVM-target compatibility detected for tasks 'compileDebugJavaWithJavac' (1.8) and 'compileDebugKotlin' (17)
+  # suppressed by : [kotlin.jvm.target.validation.mode = IGNORE]
+  image_compression_flutter: ^1.0.4
+  ffmpeg_kit_flutter: ^6.0.3
+  # ----------------
+  # uses or overrides a deprecated API : SUPPRESSED BY [options.compilerArgs << "-Xlint:none"] in android gradle
+  video_editor: ^3.0.0
+  # ----------------
+  # JAVA PROBLEMATIC
+  path_provider: ^2.1.5
+  connectivity_plus: ^6.1.0
+  just_audio: ^0.9.42
+  video_player: ^2.9.2
+  wechat_camera_picker: ^4.3.4
+  wechat_assets_picker: ^9.4.0
+  image_picker: ^1.1.2
+  flutter_cache_manager: ^3.4.1
+  # ----------------
+  # MAKE NOISE (Deprecated in Java) : SUPPRESSED BY [kotlin.incremental=false] in gradle.properties
+  package_info_plus: ^8.1.1
+  sentry_flutter: ^8.10.1
+  image_editor: ^1.5.1
+  flutter_udid: ^3.0.0
+  # related to pdfx
+  device_info_plus: ^10.1.2
+  # ----------------
+  # COOL
+  image: ^4.3.0
   dismissible_page: ^1.0.2
-  connectivity_plus: ^6.0.5
   permission_handler: ^11.3.1
   another_flushbar: ^1.12.30
-  image_editor: ^1.5.1
   matrix2d: ^1.0.4
   flutter_spinkit: ^5.2.1
   page_transition: ^2.1.0
-  sembast: 3.7.3
-  sembast_web: ^2.4.0+2
-  package_info_plus: ^8.0.2
+  sembast: ^3.7.5+2
+  sembast_web: ^2.4.0+4
   stop_watch_timer: ^3.2.1
-  just_audio: ^0.9.40
-  video_player: ^2.9.1
-#  youtube_player_flutter: ^9.0.4
-  wechat_camera_picker: ^4.3.2
-  wechat_assets_picker: ^9.2.2
-  image_picker: ^1.1.2
-  image_compression_flutter: ^1.0.4
-  android_path_provider: ^0.3.0
-  flutter_udid: ^3.0.0
-  sentry_flutter: ^8.10.1
-  ffmpeg_kit_flutter: ^6.0.3
-  video_editor: ^3.0.0
   cross_file_image: ^1.1.0
   cross_file: ^0.3.4+2
-  email_validator: ^2.1.17
-  intl: ^0.19.0
-  mime: ^1.0.6
-  flutter_svg: ^2.0.10+1
-  websafe_svg: ^3.0.1+2
-  flutter_cache_manager: ^3.4.1
-  device_info_plus: ^10.1.2
-  cloud_firestore: ^5.4.2
+  flutter_svg: ^2.0.14
+  websafe_svg: ^3.0.1+6
+  cloud_firestore: ^5.5.0
   pinch_zoom_release_unzoom: ^1.0.3
   http: ^1.2.2
-  objectbox: ^4.0.2
+  # related to firebase_ui_auth
+  email_validator: ^2.1.17
+  # -----------------
+#  youtube_player_flutter: ^9.0.4
+#  android_path_provider: ^0.3.0
+  objectbox: ^4.0.3
   objectbox_flutter_libs: any
 # --------------------------------------------------------------------------------
 dev_dependencies:

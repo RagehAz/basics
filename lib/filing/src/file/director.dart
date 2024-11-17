@@ -70,16 +70,18 @@ class Director {
   static Future<String?> dirDownloadDirPath() async {
     String? _output;
 
-    if (canHaveDirectory()){
-      /// NOT IMPLEMENTED
-    }
-    if (DeviceChecker.deviceIsAndroid() == true){
-      _output = await AndroidPathProvider.downloadsPath;
-    }
-    else {
+    if (canHaveDirectory() == true){
       final Directory? downloadsDirectory = await getDownloadsDirectory();
       _output = downloadsDirectory?.path;
     }
+    /// DEPRECATED
+    // if (DeviceChecker.deviceIsAndroid() == true){
+    //   _output = await AndroidPathProvider.downloadsPath;
+    // }
+    // else {
+    //   final Directory? downloadsDirectory = await getDownloadsDirectory();
+    //   _output = downloadsDirectory?.path;
+    // }
 
     return _output;
   }
