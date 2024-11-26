@@ -89,6 +89,8 @@ class PicMediaCropController {
           theCroppedPic.set(value: _output, mounted: mounted);
           isCropping.set(value: false, mounted: mounted);
 
+          _output = _output?.overrideUploadPath(uploadPath: originalPic.value?.getUploadPath());
+
         }
 
       }
