@@ -2,23 +2,74 @@ import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 
-class KeyboardSensor extends StatefulWidget {
+class KeyboardSensor extends StatelessWidget {
   // -----------------------------------------------------------------------------
   const KeyboardSensor({
-    required this.child,
     required this.builder,
-  super.key
+    this.child,
+    this.isOn = false,
+    super.key
   });
   // --------------------
   final Widget? child;
-  final Widget Function({required bool isVisible, required Widget? child}) builder;
-  // --------------------
+  final Widget Function(bool isVisible, Widget? child) builder;
+  final bool isOn;
+  // --------------------------------------------------------------------------
   @override
-  State<KeyboardSensor> createState() => _KeyboardSensorState();
-  // -----------------------------------------------------------------------------
+  Widget build(BuildContext context) {
+    // --------------------
+    if (isOn == true){
+      return _KeyboardSensorOn(
+        builder: builder,
+        child: child,
+      );
+    }
+    // --------------------
+    else {
+      return _KeyboardSensorOff(
+        child: child,
+      );
+    }
+    // --------------------
+  }
+  // --------------------------------------------------------------------------
 }
 
-class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObserver {
+class _KeyboardSensorOff extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const _KeyboardSensorOff({
+    required this.child,
+    // super.key
+  });
+  // --------------------
+  final Widget? child;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    return child ?? const SizedBox();
+    // --------------------
+  }
+  // --------------------------------------------------------------------------
+}
+
+class _KeyboardSensorOn extends StatefulWidget {
+  // -----------------------------------------------------------------------------
+  const _KeyboardSensorOn({
+    required this.child,
+    required this.builder,
+    // super.key
+  });
+  // --------------------
+  final Widget? child;
+  final Widget Function(bool isVisible, Widget? child) builder;
+  // --------------------
+  @override
+  State<_KeyboardSensorOn> createState() => _KeyboardSensorOnState();
+// -----------------------------------------------------------------------------
+}
+
+class _KeyboardSensorOnState extends State<_KeyboardSensorOn> with WidgetsBindingObserver {
   // -----------------------------------------------------------------------------
   ValueNotifier<bool>? _isVisible;
   // --------------------
@@ -54,16 +105,16 @@ class _KeyboardSensorState extends State<KeyboardSensor> with WidgetsBindingObse
   Widget build(BuildContext context) {
 
     return LiveWire(
-        wire: _isVisible,
-        nullChild: widget.child ?? const SizedBox(),
-        child: widget.child ?? const SizedBox(),
-        builder: (bool isVisible, Widget? child){
+      wire: _isVisible,
+      nullChild: widget.child ?? const SizedBox(),
+      child: widget.child ?? const SizedBox(),
+      builder: (bool isVisible, Widget? child){
 
-          return widget.builder(isVisible: isVisible, child: child);
+        return widget.builder(isVisible, child);
 
-        },
+      },
     );
 
   }
-  // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 }

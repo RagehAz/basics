@@ -390,7 +390,7 @@ class CenterDialog extends StatelessWidget {
           },
           child: KeyboardSensor(
               child: bubble,
-              builder: ({required Widget? child, required bool isVisible}){
+              builder: (bool isVisible, Widget? child){
 
                 final double _keyboardHeight = isVisible == true ? Scale.screenInsets(context).bottom : 0;
 
