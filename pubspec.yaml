@@ -42,7 +42,7 @@ dependencies:
   # MAKE NOISE (Deprecated in Java) : SUPPRESSED BY [kotlin.incremental=false] in gradle.properties
   package_info_plus: ^8.1.1
   sentry_flutter: ^8.10.1
-  image_editor: ^1.5.1
+  image_editor: 1.5.1
   flutter_udid: ^3.0.0
   # related to pdfx
   device_info_plus: ^10.1.2
