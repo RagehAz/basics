@@ -96,8 +96,7 @@ class AuthModel {
 
     return _output;
   }
-
-    // -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
   /// SIGN IN METHOD
 
@@ -243,15 +242,96 @@ class AuthModel {
       auth1.email == auth2.email &&
       auth1.phone == auth2.phone &&
       auth1.imageURL == auth2.imageURL &&
-      auth1.signInMethod == auth2.signInMethod &&
-      Mapper.checkMapsAreIdentical(map1: auth1.data, map2: auth2.data)
+      /// NO NEED TO COMPARE THE META DATA,, ITS THERE JUST FOR INFO
+      // Mapper.checkMapsAreIdentical(map1: auth1.data, map2: auth2.data)
+      auth1.signInMethod == auth2.signInMethod
       ){
         _identical = true;
       }
 
     }
 
+    if (_identical == false){
+      blogAuthModelDifferences(
+        auth1: auth1,
+        auth2: auth2,
+      );
+    }
+    
     return _identical;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void blogAuthModelDifferences({
+    required AuthModel? auth1,
+    required AuthModel? auth2,
+  }) {
+    blog('blogAuthModelDifferences : ---------------> START');
+
+    if (auth1 == null && auth2 == null) {
+      blog('blogAuthModelDifferences : both are null');
+    }
+
+    else if (auth1 == null) {
+      blog('blogAuthModelDifferences : auth1 is null');
+    }
+
+    else if (auth2 == null) {
+      blog('blogAuthModelDifferences : auth2 is null');
+    }
+
+    else {
+      if (auth1.id != auth2.id) {
+        blog('blogAuthModelDifferences : id is different');
+        blog('auth1.id : ${auth1.id}');
+        blog('auth2.id : ${auth2.id}');
+      }
+
+      if (auth1.name != auth2.name) {
+        blog('blogAuthModelDifferences : name is different');
+        blog('auth1.name : ${auth1.name}');
+        blog('auth2.name : ${auth2.name}');
+      }
+
+      if (auth1.email != auth2.email) {
+        blog('blogAuthModelDifferences : email is different');
+        blog('auth1.email : ${auth1.email}');
+        blog('auth2.email : ${auth2.email}');
+      }
+
+      if (auth1.phone != auth2.phone) {
+        blog('blogAuthModelDifferences : phone is different');
+        blog('auth1.phone : ${auth1.phone}');
+        blog('auth2.phone : ${auth2.phone}');
+      }
+
+      if (auth1.imageURL != auth2.imageURL) {
+        blog('blogAuthModelDifferences : imageURL is different');
+        blog('auth1.imageURL : ${auth1.imageURL}');
+        blog('auth2.imageURL : ${auth2.imageURL}');
+      }
+
+      if (auth1.signInMethod != auth2.signInMethod) {
+        blog('blogAuthModelDifferences : signInMethod is different');
+        blog('auth1.signInMethod : ${auth1.signInMethod}');
+        blog('auth2.signInMethod : ${auth2.signInMethod}');
+      }
+   
+      final bool _mapsAreIdentical = Mapper.checkMapsAreIdentical(
+        map1: auth1.data,
+        map2: auth2.data,
+      );
+      
+      if (_mapsAreIdentical == false) {
+        blog('blogAuthModelDifferences : data is different');
+        Mapper.blogMapsDifferences(
+          map1: auth1.data,
+          map2: auth2.data,
+          invoker: 'datas',
+        );
+      }
+    }
+    
   }
   // -----------------------------------------------------------------------------
 

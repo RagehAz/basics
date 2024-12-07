@@ -123,7 +123,7 @@ class LDBOps {
    */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteAllMapsAtOnce({
+  static Future<bool> deleteAllMapsAtOnce({
     required String? docName,
   }) => SembastDelete.deleteAllAtOnce(
       docName: docName
