@@ -77,8 +77,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^2.1.2
-  build_runner: 2.0.0
-  objectbox_generator: any
+  build_runner: 2.4.13
+  objectbox_generator: 4.0.3
 # --------------------------------------------------------------------------------
 objectbox:
   # Writes objectbox-model.json and objectbox.g.dart to lib/custom (and test/custom).
