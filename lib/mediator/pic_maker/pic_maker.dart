@@ -8,7 +8,6 @@ import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
-import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
@@ -17,7 +16,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_compression_flutter/image_compression_flutter.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -126,7 +125,7 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
-    ImageOutputType outputType = ImageOutputType.jpg,
+    CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     MediaModel? _output;
 
@@ -202,7 +201,7 @@ class PicMaker {
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     Function(String? error)? onError,
-    ImageOutputType outputType = ImageOutputType.jpg,
+    CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
     /// PICK
@@ -323,7 +322,7 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     Function(String? error)? onError,
-    ImageOutputType outputType = ImageOutputType.jpg,
+    CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
     MediaModel? _output;
@@ -563,7 +562,7 @@ class PicMaker {
   static Future<MediaModel?> compressPic({
     required MediaModel? mediaModel,
     required int quality,
-    ImageOutputType outputType = ImageOutputType.jpg,
+    CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     MediaModel? _output = mediaModel;
 
@@ -594,30 +593,42 @@ class PicMaker {
             invoker: 'compressPic',
             functions: () async {
 
-                final ImageFile input = ImageFile(
-                  filePath: _filePath ?? Numeric.createRandomIndex().toString(),
-                  rawBytes: _bytes,
-                  // width: _dims.width?.toInt(),
-                  // height: _dims.height?.toInt(),
-                  // contentType: ,
-                );
+              _bytes = await FlutterImageCompress.compressWithList(
+                _bytes,
+                minWidth: _dims.width!.toInt(),
+                minHeight: _dims.height!.toInt(),
+                quality: quality,
+                format: outputType,
+                // rotate: 0,
+                // autoCorrectionAngle: false,
+                // inSampleSize: ,
+                // keepExif: true,
+              );
 
-                final Configuration config = Configuration(
-                  outputType: outputType,
-                  /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.png
-                  useJpgPngNativeCompressor: outputType == ImageOutputType.jpg || outputType == ImageOutputType.png,
-                  /// set quality between 0-100
-                  quality: quality,
-                );
-
-                final ImageFileConfiguration param = ImageFileConfiguration(
-                  input: input,
-                  config: config,
-                );
-
-                final ImageFile outputFile = await compressor.compress(param);
-
-                _bytes = outputFile.rawBytes;
+                // final ImageFile input = ImageFile(
+                //   filePath: _filePath ?? Numeric.createRandomIndex().toString(),
+                //   rawBytes: _bytes,
+                //   // width: _dims.width?.toInt(),
+                //   // height: _dims.height?.toInt(),
+                //   // contentType: ,
+                // );
+                //
+                // final Configuration config = Configuration(
+                //   outputType: outputType,
+                //   /// can only be true for Android and iOS while using ImageOutputType.jpg or ImageOutputType.png
+                //   useJpgPngNativeCompressor: outputType == ImageOutputType.jpg || outputType == ImageOutputType.png,
+                //   /// set quality between 0-100
+                //   quality: quality,
+                // );
+                //
+                // final ImageFileConfiguration param = ImageFileConfiguration(
+                //   input: input,
+                //   config: config,
+                // );
+                //
+                // final ImageFile outputFile = await compressor.compress(param);
+                //
+                // _bytes = outputFile.rawBytes;
 
             },
             onError: (String error) async {
@@ -654,7 +665,7 @@ class PicMaker {
   static Future<List<MediaModel>> compressPics({
     required List<MediaModel>? mediaModels,
     required int quality,
-    ImageOutputType outputType = ImageOutputType.jpg,
+    CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
