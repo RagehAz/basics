@@ -634,17 +634,17 @@ class MediaMetaModel {
 
     final String _output =
     '''
-        StorageMetaModel(
-          ownersIDs : $ownersIDs,
-          width : $width,
-          height : $height,
-          sizeMB : $sizeMB,
-          name : $name,
-          uploadPath: $uploadPath,
-          fileType: ${FileMiming.getMimeByType(fileExt)},
-          data : $data,
-        )
-        ''';
+StorageMetaModel(
+  ownersIDs : $ownersIDs,
+  width : $width,
+  height : $height,
+  sizeMB : $sizeMB,
+  name : $name,
+  uploadPath: $uploadPath,
+  fileType: ${FileMiming.getMimeByType(fileExt)},
+  data : $data,
+)
+''';
 
     return _output;
   }

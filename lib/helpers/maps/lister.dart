@@ -10,9 +10,10 @@ class Lister {
   /// LOOPING
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<void> loop<T>({
-    required Function(int index, T? model) onLoop,
     required List<T?>? models,
+    required Function(int index, T? model) onLoop,
     Function? onListIsEmpty,
   }) async {
 
@@ -26,6 +27,27 @@ class Lister {
 
     else {
       await onListIsEmpty?.call();
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void loopSync<T>({
+    required List<T?>? models,
+    required Function(int index, T? model) onLoop,
+    Function? onListIsEmpty,
+  }) {
+
+    if (checkCanLoop(models) == true){
+
+      for (int i = 0; i < models!.length; i++){
+        onLoop(i, models[i]);
+      }
+
+    }
+
+    else {
+      onListIsEmpty?.call();
     }
 
   }

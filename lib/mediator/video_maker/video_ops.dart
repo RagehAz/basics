@@ -20,7 +20,7 @@ import 'package:ffmpeg_kit_flutter/session_state.dart';
 import 'package:ffmpeg_kit_flutter/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:video_editor/video_editor.dart';
-
+/// => TAMAM
 class VideoOps {
   // --------------------------------------------------------------------------
 
@@ -933,5 +933,4 @@ class VideoOps {
 
   }
   // --------------------------------------------------------------------------
-  void x(){}
 }

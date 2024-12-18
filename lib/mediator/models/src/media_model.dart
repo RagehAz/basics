@@ -713,12 +713,12 @@ class MediaModel {
 
     final String _text =
     '''
-    id: $id,
-    bytes: ${bytes?.length} bytes,
-    meta: $meta
-    ''';
+id: $id,
+bytes: ${bytes?.length} bytes,
+meta: $meta
+''';
 
-    blog('blooging Media Model : $invoker');
+    blog('blogging Media Model : $invoker');
     blog(_text);
 
   }

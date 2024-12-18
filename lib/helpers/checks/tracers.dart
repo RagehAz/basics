@@ -37,7 +37,7 @@ void blogLoading({
 
 // --------------------
 /// TESTED : WORKS PERFECT
-void setNotifier({
+bool setNotifier({
   required ValueNotifier<dynamic>? notifier,
   required bool mounted,
   required dynamic value,
@@ -46,6 +46,7 @@ void setNotifier({
   bool shouldHaveListeners = false,
   String? invoker,
 }){
+  bool _done = false;
 
   if (mounted == true){
     // blog('setNotifier : setting to ${value.toString()}');
@@ -75,6 +76,7 @@ void setNotifier({
             if(onFinish != null){
               onFinish();
             }
+            _done = true;
           }
 
         }
@@ -85,6 +87,7 @@ void setNotifier({
 
   }
 
+  return _done;
 }
 // -----------------------------------------------------------------------------
 void asyncInSync(Function? asynchronous) {

@@ -10,11 +10,11 @@ extension ExtraWire<T> on Wire<T> {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void set({
+  bool set({
     required T value,
     bool mounted = true,
   }){
-    setNotifier(notifier: this, mounted: mounted, value: value);
+    return setNotifier(notifier: this, mounted: mounted, value: value);
   }
   // -----------------------------------------------------------------------------
 
