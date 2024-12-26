@@ -51,6 +51,31 @@ class Lister {
     }
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> loopCombine<T>({
+    required List<T?>? models,
+    required Function(int index, T? model) onLoop,
+    Function? onListIsEmpty,
+  }) async {
+
+    if (checkCanLoop(models) == true){
+
+      await Future.wait(<Future>[
+
+        ...List.generate(models!.length, (int i){
+          return onLoop(i, models[i]);
+        }),
+
+      ]);
+
+    }
+
+    else {
+      await onListIsEmpty?.call();
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// LENGTH
