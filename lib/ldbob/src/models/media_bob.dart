@@ -566,7 +566,7 @@ class MediaBobOps {
         );
       }
 
-      blog('deleteByID : id($id) : bobID(${_bob?.bobID}) : _success($_success)');
+      // blog('deleteByID : id($id) : bobID(${_bob?.bobID}) : _success($_success)');
 
     }
 
