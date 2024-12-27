@@ -16,42 +16,87 @@ class PermitProtocol {
   static Future<bool> fetchGalleryPermit({
     required Function(Permission) onPermissionPermanentlyDenied,
   }) async {
+    bool _output = false;
 
-    // // final bool _permissionGranted =
-    // await Permit.requestPermission(
-    //   context: context,
-    //   permission: Permission.photos,
-    // );
-    //
-    // // final bool _storageGranted =
-    // await Permit.requestPermission(
-    //   context: context,
-    //   permission: Permission.storage,
-    // );
+    if (DeviceChecker.deviceIsIOS() == true){
+      _output = await _galleryPermitIOS(
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      );
+    }
+
+    else if (DeviceChecker.deviceIsAndroid() == true) {
+      _output = await _galleryPermitAndroid(
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      );
+    }
+
+    return _output;
+  }
+  // --------------------
+  static Future<bool> _galleryPermitAndroid({
+    required Function(Permission) onPermissionPermanentlyDenied,
+  }) async {
 
     final PermissionState? per = await Permit.requestPhotoManagerPermission();
     bool _canPick = per?.hasAccess ?? false;
 
-    if (_canPick == false){
+    // blog('[A] name(${per?.name} index(${per?.index})) hasAccess(${per?.hasAccess}) isAuth(${per?.isAuth})');
+
+    if (_canPick == false) {
 
       final bool _canOpenStorage = await Permit.requestPermission(
-        permission: Permission.storage,
-        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied
+          permission: Permission.storage,
+          onPermissionPermanentlyDenied: onPermissionPermanentlyDenied
       );
 
-      if (DeviceChecker.deviceIsIOS() == true){
+      // blog('[B] canOpenStorage($_canOpenStorage)');
+      //
+      // final bool _canOpenPhotos = await Permit.requestPermission(
+      //   permission: Permission.photos,
+      //   onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      // );
+      //
+      // blog('[C] canOpenPhotos($_canOpenPhotos)');
+      //
+      // final bool _canOpenMediaLibrary = await Permit.requestPermission(
+      //   permission: Permission.mediaLibrary,
+      //   onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      // );
+      //
+      // blog('[D] canOpenMediaLibrary($_canOpenMediaLibrary)');
 
-        final bool _cnaOpenPhotos = await Permit.requestPermission(
-          permission: Permission.photos,
-          onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
-        );
+      _canPick = _canOpenStorage == true;
 
-        _canPick = _cnaOpenPhotos == true && _canOpenStorage == true;
+      if (_canPick == false) {
+        onPermissionPermanentlyDenied(Permission.storage);
       }
 
-      else {
-        _canPick = _canOpenStorage;
-      }
+    }
+
+    return _canPick;
+  }
+  // --------------------
+  /// WORKS PERFECT FOR IOS
+  static Future<bool> _galleryPermitIOS({
+    required Function(Permission) onPermissionPermanentlyDenied,
+  }) async {
+
+    final PermissionState? per = await Permit.requestPhotoManagerPermission();
+    bool _canPick = per?.hasAccess ?? false;
+
+    if (_canPick == false) {
+
+      final bool _canOpenStorage = await Permit.requestPermission(
+          permission: Permission.storage,
+          onPermissionPermanentlyDenied: onPermissionPermanentlyDenied
+      );
+
+      final bool _cnaOpenPhotos = await Permit.requestPermission(
+        permission: Permission.photos,
+        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      );
+
+      _canPick = _cnaOpenPhotos == true && _canOpenStorage == true;
 
     }
 

@@ -463,7 +463,12 @@ class MediaModelCreator {
 
     if (entity != null){
 
-      final File? _file = await entity.originFile;
+      File? _file = await entity.originFile;
+
+      _file = await _fixFileIfHeic(
+        file: _file,
+        entity: entity,
+      );
 
       _output = await fromFile(
         file: _file,
@@ -473,6 +478,65 @@ class MediaModelCreator {
         caption: caption,
         includeFileExtension: includeFileExtension,
         skipMetaData: skipMetaData,
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> _fixFileIfHeic({
+    required File? file,
+    required AssetEntity entity,
+  }) async {
+    File? _output = file;
+
+    /// IF_PIC_IS_HEIC_TRANSFORM_INTO_JPEG
+    final FileExtType? _type = FileMiming.getTypeByMime(entity.mimeType);
+
+    /// HEIC OR HEIF
+    if (_type == FileExtType.heic || _type == FileExtType.heif){
+
+      await tryAndCatch(
+        invoker: '_fixFileIfHeic',
+        functions: () async {
+
+          Uint8List? _bytes = await Byter.fromFile(file);
+
+          if (_bytes != null){
+
+            _bytes = await FlutterImageCompress.compressWithList(
+              _bytes,
+              minWidth: entity.width,
+              minHeight: entity.height,
+              quality: 100,
+              // format: CompressFormat.jpeg,
+              // rotate: 0,
+              // autoCorrectionAngle: false,
+              // inSampleSize: ,
+              // keepExif: true,
+            );
+
+          }
+
+          _output = await Filer.createFromBytes(bytes: _bytes, fileName: TextMod.idifyString(entity.title));
+
+        },
+        onError: (String error) async {
+          blog(error);
+          // _output = await FlutterImageCompress.compressWithList(
+          //   bytes,
+          //   minWidth: compressToWidth.toInt(),
+          //   minHeight: _compressToHeight.toInt(),
+          //   quality: quality,
+          //   // autoCorrectionAngle: ,
+          //   // format: ,
+          //   // inSampleSize: ,
+          //   // keepExif: ,
+          //   // rotate: ,
+          // );
+        },
       );
 
     }
@@ -493,29 +557,36 @@ class MediaModelCreator {
 
     if (Lister.checkCanLoop(entities) == true){
 
-      for (int i = 0; i < entities!.length; i++){
+      await Lister.loop(
+          models: entities,
+          onLoop: (int i, AssetEntity? entity) async {
 
-        final AssetEntity _entity = entities[i];
+            if (entity != null){
 
-        final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
-          entity: _entity,
-          mediaOrigin: mediaOrigin,
-          uploadPath: uploadPathGenerator.call(i, _entity.title),
-          ownersIDs: ownersIDs,
-          includeFileExtension: includeFileExtension,
-          skipMetaData: skipMetaData,
-          // caption: null,
-        );
+              final AssetEntity _entity = entity;
 
-        _model?.setOriginalURL(
-            originalURL: await Entities.getAssetEntityURL(_entity),
-        );
+              final MediaModel? _model = await MediaModelCreator.fromAssetEntity(
+                entity: _entity,
+                mediaOrigin: mediaOrigin,
+                uploadPath: uploadPathGenerator.call(i, _entity.title),
+                ownersIDs: ownersIDs,
+                includeFileExtension: includeFileExtension,
+                skipMetaData: skipMetaData,
+                // caption: null,
+              );
 
-        if (_model != null){
-          _output.add(_model);
-        }
+              _model?.setOriginalURL(
+                originalURL: await Entities.getAssetEntityURL(_entity),
+              );
 
-      }
+              if (_model != null){
+                _output.add(_model);
+              }
+
+            }
+
+          },
+      );
 
     }
 
