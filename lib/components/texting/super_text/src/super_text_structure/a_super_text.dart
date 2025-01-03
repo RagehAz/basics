@@ -16,6 +16,7 @@ class SuperText extends StatelessWidget {
     /// SPACING
     this.wordSpacing,
     this.letterSpacing,
+    this.lineSpacingFactor,
     /// COLORS
     this.textColor = const Color.fromARGB(255, 255, 255, 255),
     this.boxColor,
@@ -61,6 +62,7 @@ class SuperText extends StatelessWidget {
   /// SPACING
   final double? wordSpacing;
   final double? letterSpacing;
+  final double lineSpacingFactor;
   /// COLORS
   final Color? textColor;
   final Color? boxColor;
@@ -159,6 +161,7 @@ class SuperText extends StatelessWidget {
               /// SPACING
               letterSpacing: letterSpacing,
               wordSpacing: wordSpacing,
+              lineSpacingFactor: lineSpacingFactor,
               /// STYLE
               italic: italic,
               // textBaseline: TextBaseline.alphabetic,

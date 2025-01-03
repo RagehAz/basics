@@ -20,6 +20,7 @@ TextStyle createTextStyle({
   /// SPACING
   double? letterSpacing,
   double? wordSpacing,
+  double lineSpacingFactor,
   /// STYLE
   bool italic = false,
   TextBaseline? textBaseline = TextBaseline.alphabetic,
@@ -37,7 +38,7 @@ TextStyle createTextStyle({
   // ui.TextLeadingDistribution leadingDistribution,
 }) {
 
-  const double _height = 1.44;
+  final double _height = 1.44 * 1;
   final double _textHeight = textHeight ?? 20;
   final double _fontSize = _textHeight / _height;
 
