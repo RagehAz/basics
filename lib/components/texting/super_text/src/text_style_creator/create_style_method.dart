@@ -20,7 +20,7 @@ TextStyle createTextStyle({
   /// SPACING
   double? letterSpacing,
   double? wordSpacing,
-  double lineSpacingFactor,
+  double lineSpacingFactor = 1,
   /// STYLE
   bool italic = false,
   TextBaseline? textBaseline = TextBaseline.alphabetic,
@@ -38,9 +38,9 @@ TextStyle createTextStyle({
   // ui.TextLeadingDistribution leadingDistribution,
 }) {
 
-  final double _height = 1.44 * 1;
+  final double _height = 1.44 * lineSpacingFactor;
   final double _textHeight = textHeight ?? 20;
-  final double _fontSize = _textHeight / _height;
+  final double _fontSize = _textHeight / 1.44;
 
   return TextStyle(
     /// DUNNO
