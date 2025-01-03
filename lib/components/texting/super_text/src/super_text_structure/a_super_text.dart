@@ -16,7 +16,7 @@ class SuperText extends StatelessWidget {
     /// SPACING
     this.wordSpacing,
     this.letterSpacing,
-    this.lineSpacingFactor,
+    this.lineSpacingFactor = 1,
     /// COLORS
     this.textColor = const Color.fromARGB(255, 255, 255, 255),
     this.boxColor,
