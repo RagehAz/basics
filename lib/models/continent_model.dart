@@ -14,15 +14,12 @@ class Continent {
     required this.name,
     required this.regions,
   });
-
   /// --------------------------------------------------------------------------
   final String name;
   final List<Region> regions;
-
   // -----------------------------------------------------------------------------
   static const continentsMapID = 'continents';
   static const String continentsFilePath = 'packages/bldrs_theme/lib/assets/planet/continents.json';
-
   // -----------------------------------------------------------------------------
 
   /// CYPHERS
