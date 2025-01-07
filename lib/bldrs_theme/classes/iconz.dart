@@ -317,6 +317,9 @@ class Iconz {
   static const String levelTwo = '$iconDirectory/gi_level_two.svg';
   static const String levelThree = '$iconDirectory/gi_level_three.svg';
   static const String flyerOrder = '$iconDirectory/gi_flyer_order.svg';
+
+  static const String level = '$iconDirectory/gi_level.svg';
+  static const String match = '$iconDirectory/gi_match.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -592,6 +595,8 @@ class Iconz {
       levelTwo: true,
       levelThree: true,
       flyerOrder: true,
+      level: true,
+      match: true,
 
       theSevenBack: true,
       theSevenDesigners: true,
