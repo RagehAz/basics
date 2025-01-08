@@ -32,7 +32,7 @@ class LDBBrowserScreen extends StatelessWidget {
 
       return BasicLayout(
         body: MaxBounceNavigator(
-          child: FloatingList(
+          child: VerticalFloatingList(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             columnChildren: <Widget>[

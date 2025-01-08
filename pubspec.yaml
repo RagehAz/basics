@@ -115,4 +115,7 @@ flutter:
       fonts:
         - asset: lib/bldrs_theme/assets/fonts/body.ttf
 
+    - family: bebas
+      fonts:
+        - asset: lib/bldrs_theme/assets/fonts/bebas.ttf
 # --------------------------------------------------------------------------------

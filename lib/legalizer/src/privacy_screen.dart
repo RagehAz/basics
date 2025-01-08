@@ -112,7 +112,7 @@ class PrivacyScreen extends StatelessWidget {
     return BasicLayout(
       backgroundColor: backgroundColor,
       body: MaxBounceNavigator(
-        child: FloatingList(
+        child: VerticalFloatingList(
           crossAxisAlignment: CrossAxisAlignment.start,
           columnChildren: <Widget>[
 
