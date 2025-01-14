@@ -84,6 +84,13 @@ class _MrAndersonState extends State<MrAnderson> {
     //     _initialize();
     //   });
     // }
+
+    // if (oldWidget.initialMatrix != widget.initialMatrix) {
+    //   setState(() {
+    //     _initialize();
+    //   });
+    // }
+
   }
   // -----------------------------------------------------------------------------
 

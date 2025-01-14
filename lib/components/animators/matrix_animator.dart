@@ -161,6 +161,9 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
       _controller = AnimationController(
         duration: widget.duration ?? const Duration(seconds: 3),
         reverseDuration: widget.duration ?? const Duration(seconds: 3),
+        // value: 0.95,
+        // lowerBound: 0.0,
+        // upperBound: 1.0,
         vsync: this,
       );
 
