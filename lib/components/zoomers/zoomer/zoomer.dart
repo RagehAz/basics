@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/space/trinity.dart';
+import 'package:basics/helpers/matrices/neo_move.dart';
+import 'package:basics/helpers/matrices/neo_scale.dart';
 import 'package:flutter/material.dart';
 
 class Zoomer extends StatelessWidget {
@@ -128,7 +129,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
 
     if (widget.offset != null){
 
-      _initialMatrix = Trinity.move(
+      _initialMatrix = NeoMove.move(
         matrix: Matrix4.identity(),
         x: widget.offset!.dx,
         y: widget.offset!.dy,
@@ -190,10 +191,10 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
 
     Matrix4 _matrix = _transformationController.value;
 
-    _matrix = Trinity.scale(
+    _matrix = NeoMove.move(
       matrix: _matrix,
-      x: Trinity.getXScale(_matrix)! * 1.1,
-      y: Trinity.getYScale(_matrix)! * 1.1,
+      x: NeoScale.getXScale(_matrix)! * 1.1,
+      y: NeoScale.getYScale(_matrix)! * 1.1,
     );
 
     await _animateToMatrix(_matrix);

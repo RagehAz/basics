@@ -1,14 +1,9 @@
 import 'dart:typed_data';
-import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:flutter/material.dart';
 /// => TAMAM
-class Trinity {
-  // -----------------------------------------------------------------------------
-
-  const Trinity();
-
+abstract class Trinity {
   // -----------------------------------------------------------------------------
 
   /// CYPHERS
@@ -56,79 +51,6 @@ class Trinity {
   }
   // -----------------------------------------------------------------------------
 
-  /// BLOGGING
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static void blogMatrix({
-    required Matrix4? matrix,
-    int roundDigits = 7,
-    String invoker = '',
-  }){
-    if (matrix == null){
-      blog('BLOGGING MATRIX\nmatrix is null');
-    }
-    else {
-
-      final int _roundDigits = matrix == Matrix4.identity() ? 0 : roundDigits;
-      final List<double> _m = matrix.storage;
-
-      blog('BLOGGING MATRIX : $invoker');
-
-      final String _x00 = Numeric.formatDoubleWithinDigits(value: _m[0],digits: _roundDigits)!;
-      final String _x01 = Numeric.formatDoubleWithinDigits(value: _m[1],digits: _roundDigits)!;
-      final String _x02 = Numeric.formatDoubleWithinDigits(value: _m[2],digits: _roundDigits)!;
-      final String _x03 = Numeric.formatDoubleWithinDigits(value: _m[3],digits: _roundDigits)!;
-      final String _x04 = Numeric.formatDoubleWithinDigits(value: _m[4],digits: _roundDigits)!;
-      final String _x05 = Numeric.formatDoubleWithinDigits(value: _m[5],digits: _roundDigits)!;
-      final String _x06 = Numeric.formatDoubleWithinDigits(value: _m[6],digits: _roundDigits)!;
-      final String _x07 = Numeric.formatDoubleWithinDigits(value: _m[7],digits: _roundDigits)!;
-      final String _x08 = Numeric.formatDoubleWithinDigits(value: _m[8],digits: _roundDigits)!;
-      final String _x09 = Numeric.formatDoubleWithinDigits(value: _m[9],digits: _roundDigits)!;
-      final String _x10 = Numeric.formatDoubleWithinDigits(value: _m[10],digits: _roundDigits)!;
-      final String _x11 = Numeric.formatDoubleWithinDigits(value: _m[11],digits: _roundDigits)!;
-      final String _x12 = Numeric.formatDoubleWithinDigits(value: _m[12],digits: _roundDigits)!;
-      final String _x13 = Numeric.formatDoubleWithinDigits(value: _m[13],digits: _roundDigits)!;
-      final String _x14 = Numeric.formatDoubleWithinDigits(value: _m[14],digits: _roundDigits)!;
-      final String _x15 = Numeric.formatDoubleWithinDigits(value: _m[15],digits: _roundDigits)!;
-
-      const String _s = ' ';
-      const String _i = '.';
-
-      blog('00$_i[$_x00]${_s}01$_i[$_x01]${_s}02$_i[$_x02]${_s}03$_i[$_x03]');
-      blog('04$_i[$_x04]${_s}05$_i[$_x05]${_s}06$_i[$_x06]${_s}07$_i[$_x07]');
-      blog('08$_i[$_x08]${_s}09$_i[$_x09]${_s}10$_i[$_x10]${_s}11$_i[$_x11]');
-      blog('12$_i[$_x12]${_s}13$_i[$_x13]${_s}14$_i[$_x14]${_s}15$_i[$_x15]');
-
-    }
-  }
-  // -----------------------------------------------------------------------------
-
-  /// GETTERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? getXScale(Matrix4? matrix){
-    if (matrix == null){
-      return null;
-    }
-    else {
-      final List<double> _m = matrix.storage;
-      return _m[0];
-    }
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? getYScale(Matrix4? matrix){
-    if (matrix == null){
-      return null;
-    }
-    else {
-      final List<double> _m = matrix.storage;
-      return _m[5];
-    }
-  }
-  // -----------------------------------------------------------------------------
   /// GENERATORS
 
   // --------------------
@@ -228,70 +150,6 @@ class Trinity {
       flyerBoxWidth: flyerBoxWidth,
       flyerBoxHeight: flyerBoxHeight,
     )!;
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Matrix4 move({
-    required Matrix4 matrix,
-    required double x,
-    required double y,
-  }){
-    final List<double> _m = matrix.storage;
-
-    final Float64List _list = Float64List.fromList(<double>[
-      _m[0],      _m[1],      _m[2],    _m[3],
-      _m[4],      _m[5],      _m[6],    _m[7],
-      _m[8],      _m[9],      _m[10],   _m[11],
-      _m[12]+x,   _m[13]+y,   _m[14],   _m[15]
-    ]);
-
-    return Matrix4.fromFloat64List(_list);
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Matrix4 scale({
-    required Matrix4 matrix,
-    required double x,
-    required double y,
-  }){
-    final List<double> _m = matrix.storage;
-
-    final Float64List _list = Float64List.fromList(<double>[
-      _m[0]*x,  _m[1],      _m[2],    _m[3],
-      _m[4],    _m[5]*y,    _m[6],    _m[7],
-      _m[8],    _m[9],      _m[10],   _m[11],
-      _m[12],   _m[13],     _m[14],   _m[15]
-    ]);
-
-    return Matrix4.fromFloat64List(_list);
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Matrix4? roundTranslation({
-    required Matrix4? matrix,
-    required int fractions,
-  }){
-
-    if (matrix == null){
-      return null;
-    }
-
-    else {
-      final List<double> _m = matrix.storage;
-
-      final double _x = Numeric.roundFractions(_m[12], fractions)!;
-      final double _y = Numeric.roundFractions(_m[13], fractions)!;
-
-      final Float64List _list = Float64List.fromList(<double>[
-        _m[0],  _m[1],  _m[2],  _m[3],
-        _m[4],  _m[5],  _m[6],  _m[7],
-        _m[8],  _m[9],  _m[10],  _m[11],
-        _x,     _y,     _m[14],  _m[15],
-      ]);
-
-      return Matrix4.fromFloat64List(_list);
-    }
 
   }
   // -----------------------------------------------------------------------------

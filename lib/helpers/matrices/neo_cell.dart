@@ -1,49 +1,13 @@
-
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 
-abstract class Oracle {
-  // -----------------------------------------------------------------------------
-  /*
-
-  EXPLANATION
-
-  Row 1: | m00  m01  m02  m03 | ->   | _cells[0]   _cells[1]   _cells[2]   _cells[3]  |
-  Row 2: | m10  m11  m12  m13 | ->   | _cells[4]   _cells[5]   _cells[6]   _cells[7]  |
-  Row 3: | m20  m21  m22  m23 | ->   | _cells[8]   _cells[9]   _cells[10]  _cells[11] |
-  Row 4: | m30  m31  m32  m33 | ->   | _cells[12]  _cells[13]  _cells[14]  _cells[15] |
-
-  _cells[0]   = m00
-  _cells[1]   = m10
-  _cells[2]   = m20
-  _cells[3]   = m30
-  _cells[4]   = m01
-  _cells[5]   = m11
-  _cells[6]   = m21
-  _cells[7]   = m31
-  _cells[8]   = m02
-  _cells[9]   = m12
-  _cells[10]  = m22
-  _cells[11]  = m32
-  _cells[12]  = m03
-  _cells[13]  = m13
-  _cells[14]  = m23
-  _cells[15]  = m33
-
-  | [00]scaleX      [01]shearXY     [02]shearXZ     [03]perspX  |   // Row 0
-  | [04]shearYX     [05]scaleY      [06]shearYZ     [07]perspY  |   // Row 1
-  | [08]shearZX     [09]shearZY     [10]scaleZ      [11]perspZ  |   // Row 2
-  | [12]translateX  [13]translateY  [14]translateZ  [15]perspW  |   // Row 3
-
-
-   */
+abstract class NeoCell {
   // --------------------------------------------------------------------------
 
-  /// GETTERS
+  /// CELL GETTERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static String getCellName(int cellIndex) {
     switch (cellIndex) {
       case 0: return 'scaleX';         // Row 0, Column 0
@@ -66,7 +30,7 @@ abstract class Oracle {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static double? getCellValue({
     required Matrix4? matrix,
     required int cellIndex,
@@ -81,7 +45,7 @@ abstract class Oracle {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<double> getCells({
     required Matrix4? matrix,
   }){
@@ -106,7 +70,7 @@ abstract class Oracle {
   }
   // --------------------------------------------------------------------------
 
-  /// SETTERS
+  /// CELL SETTERS
 
   // --------------------
   ///
@@ -127,6 +91,5 @@ abstract class Oracle {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
-  void x(){}
+  // --------------------------------------------------------------------------
 }

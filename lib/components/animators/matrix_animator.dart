@@ -1,5 +1,5 @@
 // ignore_for_file: unused_element
-import 'package:basics/helpers/space/trinity.dart';
+import 'package:basics/helpers/matrices/trinity.dart';
 import 'package:flutter/material.dart';
 
 class MatrixAnimator extends StatelessWidget {
