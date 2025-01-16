@@ -27,43 +27,43 @@ class MrAnderson extends StatefulWidget {
   @override
   _MrAndersonState createState() => _MrAndersonState();
   /// --------------------------------------------------------------------------
-  static Matrix4 compose(
-      Matrix4? matrix,
-      Matrix4? translationMatrix,
-      Matrix4? scaleMatrix,
-      Matrix4? rotationMatrix,
-      ) {
-    Matrix4 _output = matrix ?? Matrix4.identity();
-
-    if (translationMatrix != null){
-      _output = translationMatrix * _output;
-    }
-
-    if (scaleMatrix != null){
-      _output = scaleMatrix * _output;
-    }
-
-    if (rotationMatrix != null){
-      _output = rotationMatrix * _output;
-    }
-
-    return _output;
-  }
-  /// --------------------------------------------------------------------------
-  static MatrixDecomposedValues decomposeToValues(Matrix4 matrix) {
-    final List<double> array = matrix.applyToVector3Array([0, 0, 0, 1, 0, 0]);
-    final Offset translation = Offset(array[0], array[1]);
-    final Offset delta = Offset(array[3] - array[0], array[4] - array[1]);
-    final double scale = delta.distance;
-    final double rotation = delta.direction;
-    return MatrixDecomposedValues(translation, scale, rotation);
-  }
+  // static Matrix4 compose(
+  //     Matrix4? matrix,
+  //     Matrix4? translationMatrix,
+  //     Matrix4? scaleMatrix,
+  //     Matrix4? rotationMatrix,
+  //     ) {
+  //   Matrix4 _output = matrix ?? Matrix4.identity();
+  //
+  //   if (translationMatrix != null){
+  //     _output = translationMatrix * _output;
+  //   }
+  //
+  //   if (scaleMatrix != null){
+  //     _output = scaleMatrix * _output;
+  //   }
+  //
+  //   if (rotationMatrix != null){
+  //     _output = rotationMatrix * _output;
+  //   }
+  //
+  //   return _output;
+  // }
+  // /// --------------------------------------------------------------------------
+  // static MatrixDecomposedValues decomposeToValues(Matrix4 matrix) {
+  //   final List<double> array = matrix.applyToVector3Array([0, 0, 0, 1, 0, 0]);
+  //   final Offset translation = Offset(array[0], array[1]);
+  //   final Offset delta = Offset(array[3] - array[0], array[4] - array[1]);
+  //   final double scale = delta.distance;
+  //   final double rotation = delta.direction;
+  //   return MatrixDecomposedValues(translation, scale, rotation);
+  // }
   /// --------------------------------------------------------------------------
 }
 
 class _MrAndersonState extends State<MrAnderson> {
   // -----------------------------------------------------------------------------
-  Matrix4 translationDeltaMatrix = Matrix4.identity();
+  // Matrix4 translationDeltaMatrix = Matrix4.identity();
   Matrix4 scaleDeltaMatrix = Matrix4.identity();
   Matrix4 rotationDeltaMatrix = Matrix4.identity();
   Matrix4 matrix = Matrix4.identity();

@@ -133,6 +133,38 @@ class Dimensions {
     final double _aspectRatio = getAspectRatio();
     return getWidthByAspectRatio(aspectRatio: _aspectRatio, height: height);
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Dimensions? resizeToWidth({
+    required double? width,
+  }){
+
+    if (width == null){
+      return null;
+    }
+
+    else {
+      final double _height = getHeightForWidth(width: width)!;
+      return Dimensions(width: width, height: _height);
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Dimensions? resizeToHeight({
+    required double? height,
+  }){
+
+    if (height == null){
+      return null;
+    }
+
+    else {
+      final double _width = getWidthForHeight(height: height)!;
+      return Dimensions(width: _width, height: height);
+    }
+
+  }
   // -----------------------------------------------------------------------------
 
   /// BLOGGING

@@ -1,7 +1,8 @@
 import 'dart:math';
+import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:flutter/material.dart';
-
+/// => TAMAM
 abstract class NeoRotate {
   // --------------------------------------------------------------------------
 
@@ -10,16 +11,21 @@ abstract class NeoRotate {
   // --------------------
     /// TESTED : WORKS PERFECT
   static double? getRotationInDegrees(Matrix4? matrix) {
+    double? _output;
 
-    if (matrix == null){
-      return null;
-    }
-    else {
-      final double radians = getRotationInRadians(matrix)!;
-      final double _deg = Numeric.radianToDegree(radians)!;
-      return Numeric.limit360DegreeTo360(_deg)!;
+    if (matrix != null){
+
+      try {
+        final double radians = getRotationInRadians(matrix)!;
+        final double _deg = Numeric.radianToDegree(radians)!;
+        _output = Numeric.limit360DegreeTo360(_deg)!;
+      } on Exception catch (e) {
+        blog('getRotationInDegrees: _output($_output).ERROR: $e');
+      }
+
     }
 
+    return _output;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

@@ -1,9 +1,27 @@
 import 'dart:typed_data';
-
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:flutter/material.dart';
-
+/// => TAMAM
 abstract class NeoMove {
+  // --------------------------------------------------------------------------
+
+  /// CELL GETTERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Offset? getOffset(Matrix4? matrix){
+
+    if (matrix == null){
+      return null;
+    }
+
+
+    else {
+      final List<double> _m = matrix.storage;
+      return Offset(_m[12], _m[13]);
+    }
+
+  }
   // --------------------------------------------------------------------------
 
   /// MOVE

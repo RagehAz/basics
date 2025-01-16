@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-
+/// =>  TAMAM
 abstract class NeoCell {
   // --------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ abstract class NeoCell {
   /// CELL SETTERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Matrix4? setCellValue({
     required Matrix4? matrix,
     required int cellIndex,
@@ -82,7 +82,7 @@ abstract class NeoCell {
     Matrix4? _output;
 
     if (matrix != null){
-      final List<double> _cells = matrix.storage;
+      final List<double> _cells = [...matrix.storage];
       _cells.removeAt(cellIndex);
       _cells.insert(cellIndex, value);
       final Float64List _list = Float64List.fromList(_cells);
