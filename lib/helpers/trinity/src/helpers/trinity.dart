@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/nums/numeric.dart';
-import 'package:flutter/material.dart';
+part of trinity;
 /// => TAMAM
 abstract class Trinity {
   // -----------------------------------------------------------------------------

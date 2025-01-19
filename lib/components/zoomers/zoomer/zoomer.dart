@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/matrices/neo_move.dart';
-import 'package:basics/helpers/matrices/neo_scale.dart';
+import 'package:basics/helpers/trinity/trinity.dart';
 import 'package:flutter/material.dart';
 
 class Zoomer extends StatelessWidget {

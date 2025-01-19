@@ -1,9 +1,8 @@
-import 'dart:math';
-import 'package:flutter/widgets.dart';
+part of trinity;
 
-class MrAnderson extends StatefulWidget {
+class OldAnderson extends StatefulWidget {
   /// --------------------------------------------------------------------------
-  const MrAnderson({
+  const OldAnderson({
     required this.onMatrixUpdate,
     required this.child,
     this.initialMatrix,
@@ -25,7 +24,7 @@ class MrAnderson extends StatefulWidget {
   final Alignment? focalPointAlignment;
   /// --------------------------------------------------------------------------
   @override
-  _MrAndersonState createState() => _MrAndersonState();
+  _OldAndersonState createState() => _OldAndersonState();
   /// --------------------------------------------------------------------------
   // static Matrix4 compose(
   //     Matrix4? matrix,
@@ -61,7 +60,7 @@ class MrAnderson extends StatefulWidget {
   /// --------------------------------------------------------------------------
 }
 
-class _MrAndersonState extends State<MrAnderson> {
+class _OldAndersonState extends State<OldAnderson> {
   // -----------------------------------------------------------------------------
   // Matrix4 translationDeltaMatrix = Matrix4.identity();
   Matrix4 scaleDeltaMatrix = Matrix4.identity();
@@ -77,7 +76,7 @@ class _MrAndersonState extends State<MrAnderson> {
   }
   // -----------------------------------------------------------------------------
   @override
-  void didUpdateWidget(MrAnderson oldWidget) {
+  void didUpdateWidget(OldAnderson oldWidget) {
     super.didUpdateWidget(oldWidget);
     // if (oldWidget.key != widget.key) {
     //   setState(() {
@@ -245,6 +244,73 @@ class _MrAndersonState extends State<MrAnderson> {
     //  ..[15] = 1       # diagonal "one"
     return Matrix4(c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1);
   }
+  // --------------------
+  /// Updated onScaleUpdate
+  Offset oldMove = Offset.zero;
+  Offset newMove = Offset.zero;
+  // --------------------
+  double oldScale = 1;
+  double oldRotation = 0;
+  void onNewScaleUpdate(ScaleUpdateDetails details) {
+
+    /// MOVE
+    if (widget.shouldTranslate) {
+
+      newMove = details.focalPoint - oldMove;
+      oldMove = details.focalPoint;
+      // _translationDelta = _translate(translationDelta);
+      // matrix = _translationDelta * matrix;
+      // Matrix4 _translationDelta = Matrix4.identity();
+      // final Offset translationDelta = translationUpdater.update(details.focalPoint);
+      // _translationDelta = _translate(translationDelta);
+      // matrix = _translationDelta * matrix;
+      // final Offset _offset = details.focalPoint - oldMove;
+      // oldMove = details.focalPoint ;
+      matrix = NeoMove.translate(
+        matrix: matrix,
+        translation: newMove,
+      );
+    }
+
+    /// FOCAL POINT
+    Offset? focalPoint;
+    if (widget.focalPointAlignment != null && context.size != null) {
+      focalPoint = widget.focalPointAlignment!.alongSize(context.size!);
+    }
+    else {
+      final RenderObject? renderObject = context.findRenderObject();
+      if (renderObject != null) {
+        final RenderBox renderBox = renderObject as RenderBox;
+        focalPoint = renderBox.globalToLocal(details.focalPoint);
+      }
+    }
+
+    /// SCALE
+    if (widget.shouldScale && details.scale != 1.0 && focalPoint != null) {
+      final double _newScale = details.scale / oldScale;
+      oldScale = details.scale;
+      matrix = NeoScale.newScale(
+        matrix: matrix,
+        x: _newScale,
+        y: _newScale,
+        focalPoint: focalPoint,
+      );
+    }
+
+    /// ROTATION
+    if (widget.shouldRotate && details.rotation != 0.0 && focalPoint != null) {
+      final double rotationDelta = details.rotation - oldRotation;
+      oldRotation = details.rotation; // Update oldRotation
+      matrix = NeoRotate.rotate(
+        matrix: matrix,
+        radians: rotationDelta,
+        focalPoint: focalPoint,
+      )!;
+    }
+
+    // Trigger the callback with updated matrix data
+    widget.onMatrixUpdate(matrix, Matrix4.identity(), Matrix4.identity(), Matrix4.identity());
+  }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -262,7 +328,7 @@ class _MrAndersonState extends State<MrAnderson> {
     else {
       return GestureDetector(
         onScaleStart: onScaleStart,
-        onScaleUpdate: onScaleUpdate,
+        onScaleUpdate: onNewScaleUpdate, // onScaleUpdate,
         child: widget.clipChild ? ClipRect(child: widget.child) : widget.child,
       );
     }
@@ -271,13 +337,7 @@ class _MrAndersonState extends State<MrAnderson> {
   // -----------------------------------------------------------------------------
 }
 
-typedef MatrixGestureDetectorCallback = void Function(
-    Matrix4 matrix,
-    Matrix4 translationDeltaMatrix,
-    Matrix4 scaleDeltaMatrix,
-    Matrix4 rotationDeltaMatrix);
 
-typedef _OnUpdate<T> = T Function(T? oldValue, T newValue);
 
 class _ValueUpdater<T> {
 
@@ -307,3 +367,11 @@ class MatrixDecomposedValues {
   }
 
 }
+
+typedef MatrixGestureDetectorCallback = void Function(
+    Matrix4 matrix,
+    Matrix4 translationDeltaMatrix,
+    Matrix4 scaleDeltaMatrix,
+    Matrix4 rotationDeltaMatrix);
+
+typedef _OnUpdate<T> = T Function(T? oldValue, T newValue);

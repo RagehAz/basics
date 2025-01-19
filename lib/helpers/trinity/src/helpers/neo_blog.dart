@@ -1,7 +1,4 @@
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/matrices/neo_rotate.dart';
-import 'package:basics/helpers/nums/numeric.dart';
-import 'package:flutter/material.dart';
+part of trinity;
 
 abstract class NeoBlog {
   // -----------------------------------------------------------------------------

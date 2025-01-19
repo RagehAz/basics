@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+part of trinity;
 /// =>  TAMAM
 abstract class NeoCell {
   // --------------------------------------------------------------------------
@@ -62,6 +61,14 @@ abstract class NeoCell {
       //   _cells[4],  _cells[5],  _cells[6],  _cells[7],
       //   _cells[8],  _cells[9],  _cells[10],  _cells[11],
       //   _cells[12], _cells[13], _cells[14],  _cells[15],
+      // ];
+
+      /// FOR REFERENCE CELL NAMES
+      // final List<String> _cellNames = <String>[
+      //   'scaleX',      'shearXY',    'shearXZ',    'perspX',
+      //   'shearYX',     'scaleY',     'shearYZ',    'perspY',
+      //   'shearZX',     'shearZY',    'scaleZ',     'perspZ',
+      //   'translateX',  'translateY', 'translateZ', 'perspW',
       // ];
 
     }
