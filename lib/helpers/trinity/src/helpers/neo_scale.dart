@@ -27,6 +27,22 @@ abstract class NeoScale {
       return _m[5];
     }
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? getScaleFactor({
+    required Matrix4? matrix,
+    required double width,
+  }){
+    if (matrix == null){
+      return null;
+    }
+    else {
+      final double radians = NeoRotate.getRotationInRadians(matrix)!;
+      final double _horizontalComponent = width * NeoScale.getXScale(matrix)!;
+      final double _scaledWidth = _horizontalComponent / cos(radians);
+      return _scaledWidth / width;
+    }
+  }
   // --------------------------------------------------------------------------
 
   /// SCALE

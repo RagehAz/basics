@@ -70,6 +70,8 @@ class TrinityController {
   void dispose(){
     mounted = false;
     matrix.dispose();
+    initialMatrix.dispose();
+    focalPoint.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -138,6 +140,16 @@ class TrinityController {
     if (mounted == true && value != focalPointAlignment){
       focalPointAlignment = value;
     }
+  }
+  // --------------------------------------------------------------------------
+
+  /// FOCAL POINT
+
+  // --------------------
+  final Wire<Offset> focalPoint = Wire<Offset>(Offset.zero);
+  // --------------------
+  void setFocalPoint(Offset point){
+    focalPoint.set(value: point, mounted: mounted);
   }
   // -----------------------------------------------------------------------------
 
@@ -266,6 +278,7 @@ class TrinityController {
     );
 
     final Offset _point = _cureFocalPoint(context, details.focalPoint);
+    setFocalPoint(_point);
 
     /// SCALING
     _newMatrix = _updateTheScale(
@@ -285,9 +298,6 @@ class TrinityController {
 
     /// SET MATRIX
     setMatrix(_newMatrix);
-
-    // /// CALL BACK
-    // widget.onMatrixUpdate(matrix, Matrix4.identity(), Matrix4.identity(), Matrix4.identity());
 
   }
   // --------------------------------------------------------------------------

@@ -58,7 +58,9 @@ abstract class NeoRotate {
     if (matrix != null){
 
       try {
-        final double radians = getRotationInRadians(matrix)!;
+        final double m11 = matrix.entry(0, 0);
+        final double m12 = matrix.entry(0, 1);
+        final double radians = atan2(m12, m11);
         final double _deg = Numeric.radianToDegree(radians)!;
         _output = Numeric.limit360DegreeTo360(_deg)!;
       } on Exception catch (e) {
@@ -77,10 +79,8 @@ abstract class NeoRotate {
       return null;
     }
     else {
-      final double m11 = matrix.entry(0, 0);
-      final double m12 = matrix.entry(0, 1);
-      final double radians = atan2(m12, m11);
-      return radians;
+      final double _deg = getRotationInDegrees(matrix)!;
+      return Numeric.degreeToRadian(_deg);
     }
 
   }

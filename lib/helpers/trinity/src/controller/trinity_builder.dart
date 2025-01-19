@@ -9,15 +9,20 @@ class TrinityBuilder extends StatelessWidget {
   });
   // --------------------
   final TrinityController controller;
-  final Widget Function(Matrix4 matrix) builder;
+  final Widget Function(Matrix4 matrix, Offset focalPoint) builder;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    return SingleWire(
-      wire: controller.matrix,
-      builder: (Matrix4 matrix){
-        return builder(matrix);
+    return MultiWires(
+      wires: [
+        controller.matrix,
+        controller.focalPoint,
+      ],
+      builder: (_){
+        final Matrix4 matrix = controller.matrix.value;
+        final Offset focalPoint = controller.focalPoint.value;
+        return builder(matrix, focalPoint);
       },
     );
     // --------------------
