@@ -99,10 +99,10 @@ class Colorizer {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Color createRandomColor(){
-    final int _red = Numeric.createRandomIndex(listLength: 256);
-    final int _green = Numeric.createRandomIndex(listLength: 256);
-    final int _blue = Numeric.createRandomIndex(listLength: 256);
-    final int _alpha = Numeric.createRandomIndex(listLength: 256);
+    final int _red = Indexer.createRandomIndex(listLength: 256);
+    final int _green = Indexer.createRandomIndex(listLength: 256);
+    final int _blue = Indexer.createRandomIndex(listLength: 256);
+    final int _alpha = Indexer.createRandomIndex(listLength: 256);
     final Color _color = Color.fromARGB(_alpha, _red, _green, _blue);
     return _color;
   }

@@ -101,11 +101,11 @@ class Atlas {
       final double _lngA = pointA.longitude;
       final double _lngB = pointB.longitude;
 
-      final double? _dRadLat = Numeric.degreeToRadian(_latB - _latA);
-      final double? _dRadLng = Numeric.degreeToRadian(_lngB - _lngA);
+      final double? _dRadLat = Trigonometer.degreeToRadian(_latB - _latA);
+      final double? _dRadLng = Trigonometer.degreeToRadian(_lngB - _lngA);
 
-      final double? _radLatA = Numeric.degreeToRadian(_latA);
-      final double? _radLatB = Numeric.degreeToRadian(_latB);
+      final double? _radLatA = Trigonometer.degreeToRadian(_latA);
+      final double? _radLatB = Trigonometer.degreeToRadian(_latB);
 
       if (_dRadLat != null && _dRadLng != null && _radLatA != null && _radLatB != null) {
         final num _a =

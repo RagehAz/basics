@@ -68,7 +68,7 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
     blog('SembastTestScreen._createRandomMap');
 
     final Map<String, dynamic> _map = {
-      'id' : 'x${Numeric.createRandomIndex(listLength: 10)}',
+      'id' : 'x${Indexer.createRandomIndex(listLength: 10)}',
       'color' : Colorizer.cipherColor(Colorizer.createRandomColor()),
     };
 
@@ -119,7 +119,7 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   // --------------------
   Future<void> _updateMap(Map<String, dynamic> map) async {
 
-    final String _newID = Numeric.createUniqueID().toString();
+    final String _newID = Idifier.createUniqueID().toString();
     // final String _newID = await Dialogs.keyboardDialog(
     //   context: context,
     //   keyboardModel: KeyboardModel.standardModel().copyWith(

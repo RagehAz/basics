@@ -241,6 +241,15 @@ class Borderers {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Border? borderThick(Color? color, double thickness){
+    return color == null || color == Colorz.nothing ? null : Border.all(
+      width: thickness,
+      color: color,
+      strokeAlign: BorderSide.strokeAlignOutside,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Border? borderOnly({
     Color? color,
     bool enLeft = false,

@@ -351,14 +351,14 @@ void main() {
   // --------------------
   group('createRandomIndex', () {
     test('returns a random index within the default list length of 1001', () {
-      final int result = Numeric.createRandomIndex();
+      final int result = Indexer.createRandomIndex();
 
       expect(result, lessThan(1001));
     });
 
     test('returns a random index within the specified list length', () {
       const int listLength = 10;
-      final int result = Numeric.createRandomIndex(listLength: listLength);
+      final int result = Indexer.createRandomIndex(listLength: listLength);
 
       expect(result, lessThan(listLength));
     });
@@ -368,7 +368,7 @@ void main() {
 
       for (int i = 0; i<500; i++){
 
-        final int result = Numeric.createRandomIndex(listLength: listLength);
+        final int result = Indexer.createRandomIndex(listLength: listLength);
         expect(result, lessThan(listLength));
 
       }
@@ -384,7 +384,7 @@ void main() {
   group('createUniqueIndex', () {
     test('returns a unique index within the max index of 999999', () {
       final List<int> existingIndexes = [];
-      final int result = Numeric.createUniqueIndex(existingIndexes: existingIndexes);
+      final int result = Indexer.createUniqueIndex(existingIndexes: existingIndexes);
 
       expect(result, lessThan(1000000));
       expect(existingIndexes.contains(result), isFalse);
@@ -394,7 +394,7 @@ void main() {
       final List<int> existingIndexes = [];
       const int maxIndex = 10;
       final int result =
-      Numeric.createUniqueIndex(existingIndexes: existingIndexes, maxIndex: maxIndex);
+      Indexer.createUniqueIndex(existingIndexes: existingIndexes, maxIndex: maxIndex);
 
       expect(result, lessThan(maxIndex + 1));
       expect(existingIndexes.contains(result), isFalse);
@@ -404,7 +404,7 @@ void main() {
       final List<int> existingIndexes = [0, 1, 2, 3, 4];
       const int maxIndex = 5;
 
-      final int result = Numeric.createUniqueIndex(
+      final int result = Indexer.createUniqueIndex(
         existingIndexes: existingIndexes,
         maxIndex: maxIndex,
       );
@@ -420,7 +420,7 @@ void main() {
   // --------------------
   group('createUniqueID', () {
     test('returns a unique ID with the default max digits count of 16', () {
-      final int result = Numeric.createUniqueID();
+      final int result = Idifier.createUniqueID();
 
       expect(result, greaterThan(0));
       expect(result
@@ -430,7 +430,7 @@ void main() {
 
     test('returns a unique ID with the specified max digits count', () {
       const int maxDigitsCount = 10;
-      final int result = Numeric.createUniqueID(maxDigitsCount: maxDigitsCount);
+      final int result = Idifier.createUniqueID(maxDigitsCount: maxDigitsCount);
 
       expect(result, greaterThan(0));
       expect(result
@@ -527,17 +527,17 @@ void main() {
   // --------------------
   group('createRandomIndexes', () {
     test('returns list with given numberOfIndexes', () {
-      final list = Numeric.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
+      final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
       expect(list.length, 5);
     });
 
     test('returns list filled with unique indexes', () {
-      final list = Numeric.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
+      final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
       expect(Set<int>.from(list).length, 5);
     });
 
     // test('returns list filled with indexes in range [0, maxIndex)', () {
-    //   final list = Numeric.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
+    //   final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
     //   for (int i = 0; i < 5; i++) {
     //     expect(list[i], inExclusiveRange(0, 10));
     //   }
@@ -551,17 +551,17 @@ void main() {
   // --------------------
   group('cipherBool', () {
     test('returns 1 for true', () {
-      final result = Numeric.cipherBool(bool: true);
+      final result = Booler.cipherBool(bool: true);
       expect(result, 1);
     });
 
     test('returns 0 for false', () {
-      final result = Numeric.cipherBool(bool: false);
+      final result = Booler.cipherBool(bool: false);
       expect(result, 0);
     });
 
     test('returns 0 for any other value', () {
-      final result = Numeric.cipherBool(bool: null);
+      final result = Booler.cipherBool(bool: null);
       expect(result, 0);
     });
   });
@@ -572,17 +572,17 @@ void main() {
   // --------------------
   group('decipherBool', () {
     test('returns true for 1', () {
-      final result = Numeric.decipherBool(1);
+      final result = Booler.decipherBool(1);
       expect(result, true);
     });
 
     test('returns false for 0', () {
-      final result = Numeric.decipherBool(0);
+      final result = Booler.decipherBool(0);
       expect(result, false);
     });
 
     test('returns false for any other value', () {
-      final result = Numeric.decipherBool(2);
+      final result = Booler.decipherBool(2);
       expect(result, false);
     });
   });
@@ -939,32 +939,32 @@ void main() {
   // --------------------
   group('Numeric.degreeToRadian', () {
     test('should return null when degree is null', () {
-      final result = Numeric.degreeToRadian(null);
+      final result = Trigonometer.degreeToRadian(null);
       expect(result, isNull);
     });
 
     test('should return 0.0 when degree is 0.0', () {
-      final result = Numeric.degreeToRadian(0);
+      final result = Trigonometer.degreeToRadian(0);
       expect(result, 0.0);
     });
 
     test('should return pi/2 when degree is 90.0', () {
-      final result = Numeric.degreeToRadian(90);
+      final result = Trigonometer.degreeToRadian(90);
       expect(result, math.pi / 2);
     });
 
     test('should return pi when degree is 180.0', () {
-      final result = Numeric.degreeToRadian(180);
+      final result = Trigonometer.degreeToRadian(180);
       expect(result, math.pi);
     });
 
     test('should return -pi/2 when degree is -90.0', () {
-      final result = Numeric.degreeToRadian(-90);
+      final result = Trigonometer.degreeToRadian(-90);
       expect(result, -math.pi / 2);
     });
 
     test('should return -pi when degree is -180.0', () {
-      final result = Numeric.degreeToRadian(-180);
+      final result = Trigonometer.degreeToRadian(-180);
       expect(result, -math.pi);
     });
 
@@ -1061,49 +1061,49 @@ void main() {
   group('Numeric.reverseIndex', () {
 
     test('Returns null when listLength is null', () {
-      final result = Numeric.reverseIndex(listLength: null, index: 5);
+      final result = Indexer.reverseIndex(listLength: null, index: 5);
       expect(result, isNull);
     });
 
     test('Returns null when index is null', () {
-      final result = Numeric.reverseIndex(listLength: 10, index: null);
+      final result = Indexer.reverseIndex(listLength: 10, index: null);
       expect(result, isNull);
     });
 
     test('Returns null when both listLength and index are null', () {
-      final result = Numeric.reverseIndex(listLength: null, index: null);
+      final result = Indexer.reverseIndex(listLength: null, index: null);
       expect(result, isNull);
     });
 
     test('Returns null when index is out of bounds', () {
-      final result = Numeric.reverseIndex(listLength: 5, index: 10);
+      final result = Indexer.reverseIndex(listLength: 5, index: 10);
       expect(result, isNull);
     });
 
     test('Returns correct reversed index for valid input', () {
-      final result = Numeric.reverseIndex(listLength: 10, index: 3);
+      final result = Indexer.reverseIndex(listLength: 10, index: 3);
       expect(result, 6);
     });
 
     test('Returns correct reversed index for edge case input', () {
-      final result = Numeric.reverseIndex(listLength: 1, index: 0);
+      final result = Indexer.reverseIndex(listLength: 1, index: 0);
       expect(result, 0);
     });
 
     test('xxxxx', () {
-      final a = Numeric.reverseIndex(listLength: 7, index: 0);
+      final a = Indexer.reverseIndex(listLength: 7, index: 0);
       expect(a, 6);
-      final b = Numeric.reverseIndex(listLength: 7, index: 1);
+      final b = Indexer.reverseIndex(listLength: 7, index: 1);
       expect(b, 5);
-      final c = Numeric.reverseIndex(listLength: 7, index: 2);
+      final c = Indexer.reverseIndex(listLength: 7, index: 2);
       expect(c, 4);
-      final d = Numeric.reverseIndex(listLength: 7, index: 3);
+      final d = Indexer.reverseIndex(listLength: 7, index: 3);
       expect(d, 3);
-      final e = Numeric.reverseIndex(listLength: 7, index: 4);
+      final e = Indexer.reverseIndex(listLength: 7, index: 4);
       expect(e, 2);
-      final f = Numeric.reverseIndex(listLength: 7, index: 5);
+      final f = Indexer.reverseIndex(listLength: 7, index: 5);
       expect(f, 1);
-      final g = Numeric.reverseIndex(listLength: 7, index: 6);
+      final g = Indexer.reverseIndex(listLength: 7, index: 6);
       expect(g, 0);
     });
 
@@ -1113,34 +1113,34 @@ void main() {
   /// pythagorasHypotenuse
 
   // --------------------
-  group('Numeric.pythagorasHypotenuse', () {
+  group('Trigonometer.pythagorasHypotenuse', () {
     test('Returns null when side is null', () {
-      final result = Numeric.pythagorasHypotenuse(side: null, side2: 4);
+      final result = Trigonometer.pythagorasHypotenuse(side: null, side2: 4);
       expect(result, isNull);
     });
 
     test('Returns correct hypotenuse for valid input', () {
-      final result = Numeric.pythagorasHypotenuse(side: 3, side2: 4);
+      final result = Trigonometer.pythagorasHypotenuse(side: 3, side2: 4);
       expect(result, closeTo(5, 0.001));
     });
 
     test('Returns correct hypotenuse for side2 equal to side', () {
-      final result = Numeric.pythagorasHypotenuse(side: 5, side2: 5);
+      final result = Trigonometer.pythagorasHypotenuse(side: 5, side2: 5);
       expect(result, closeTo(7.071, 0.001));
     });
 
     test('Returns correct hypotenuse for side2 not provided', () {
-      final result = Numeric.pythagorasHypotenuse(side: 6);
+      final result = Trigonometer.pythagorasHypotenuse(side: 6);
       expect(result, closeTo(8.485, 0.001));
     });
 
     test('Returns null when side and side2 are both null', () {
-      final result = Numeric.pythagorasHypotenuse(side: null, side2: null);
+      final result = Trigonometer.pythagorasHypotenuse(side: null, side2: null);
       expect(result, isNull);
     });
 
     test('Returns null when side is null and side2 is provided', () {
-      final result = Numeric.pythagorasHypotenuse(side: null, side2: 3);
+      final result = Trigonometer.pythagorasHypotenuse(side: null, side2: 3);
       expect(result, isNull);
     });
   });
@@ -1306,66 +1306,66 @@ void main() {
   /// ROMAN
 
   // --------------------
-  group('Numeric.move360Degree', () {
+  group('Trigonometer.move360Degree', () {
     test('Adding positive angle within range', () {
-      expect(Numeric.move360Degree(source360Degree: 45, moveBy360Degree: 30), 75);
+      expect(Trigonometer.move360Degree(source360Degree: 45, moveBy360Degree: 30), 75);
     });
     test('Subtracting positive angle within range', () {
-      expect(Numeric.move360Degree(source360Degree: 180, moveBy360Degree: -45), 135);
+      expect(Trigonometer.move360Degree(source360Degree: 180, moveBy360Degree: -45), 135);
     });
     test('Adding angle that wraps around (>= 360)', () {
-      expect(Numeric.move360Degree(source360Degree: 320, moveBy360Degree: 60), 20);
+      expect(Trigonometer.move360Degree(source360Degree: 320, moveBy360Degree: 60), 20);
     });
     test('Subtracting angle that wraps around (< 0)', () {
-      expect(Numeric.move360Degree(source360Degree: 20, moveBy360Degree: -30), 350);
+      expect(Trigonometer.move360Degree(source360Degree: 20, moveBy360Degree: -30), 350);
     });
     test('Adding negative angle within range', () {
-      expect(Numeric.move360Degree(source360Degree: 300, moveBy360Degree: -40), 260);
+      expect(Trigonometer.move360Degree(source360Degree: 300, moveBy360Degree: -40), 260);
     });
     test('Subtracting negative angle within range', () {
-      expect(Numeric.move360Degree(source360Degree: 90, moveBy360Degree: -75), 15);
+      expect(Trigonometer.move360Degree(source360Degree: 90, moveBy360Degree: -75), 15);
     });
     test('Null inputs should return null', () {
-      expect(Numeric.move360Degree(source360Degree: null, moveBy360Degree: 90), null);
-      expect(Numeric.move360Degree(source360Degree: 180, moveBy360Degree: null), null);
-      expect(Numeric.move360Degree(source360Degree: null, moveBy360Degree: null), null);
+      expect(Trigonometer.move360Degree(source360Degree: null, moveBy360Degree: 90), null);
+      expect(Trigonometer.move360Degree(source360Degree: 180, moveBy360Degree: null), null);
+      expect(Trigonometer.move360Degree(source360Degree: null, moveBy360Degree: null), null);
     });
   });
   // -----------------------------------------------------------------------------
   group('Numeric getNextIndex tests', () {
 
     test('Test case 1: Next index when not at the last', () {
-      final int? result = Numeric.getNextIndex(listLength: 5, currentIndex: 2, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: 5, currentIndex: 2, loop: false);
       expect(result, 3);
     });
 
     test('Test case 2: Next index when at the last with loop enabled', () {
-      final int? result = Numeric.getNextIndex(listLength: 4, currentIndex: 3, loop: true);
+      final int? result = Indexer.getNextIndex(listLength: 4, currentIndex: 3, loop: true);
       expect(result, 0);
     });
 
     test('Test case 3: Next index when at the last with loop disabled', () {
-      final int? result = Numeric.getNextIndex(listLength: 4, currentIndex: 3, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: 4, currentIndex: 3, loop: false);
       expect(result, 3);
     });
 
     test('Test case 4: Next index with null list length', () {
-      final int? result = Numeric.getNextIndex(listLength: null, currentIndex: 2, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: null, currentIndex: 2, loop: false);
       expect(result, null);
     });
 
     test('Test case 5: Next index with null current index', () {
-      final int? result = Numeric.getNextIndex(listLength: 5, currentIndex: null, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: 5, currentIndex: null, loop: false);
       expect(result, null);
     });
 
     test('Test case 6: Next index with null list length and current index', () {
-      final int? result = Numeric.getNextIndex(listLength: null, currentIndex: null, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: null, currentIndex: null, loop: false);
       expect(result, null);
     });
 
     test('Test case 7: Next index with loop disabled at last element', () {
-      final int? result = Numeric.getNextIndex(listLength: 3, currentIndex: 2, loop: false);
+      final int? result = Indexer.getNextIndex(listLength: 3, currentIndex: 2, loop: false);
       expect(result, 2);
     });
   });

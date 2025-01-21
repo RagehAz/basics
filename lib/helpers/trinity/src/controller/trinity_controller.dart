@@ -180,7 +180,6 @@ class TrinityController {
   double _newScale = 1;
   // --------------------
   Matrix4 _updateTheScale({
-    required BuildContext context,
     required Matrix4 input,
     required double newScale,
     required Offset point,
@@ -202,7 +201,6 @@ class TrinityController {
   double _newRotation = 0;
   // --------------------
   Matrix4 _updateTheRotation({
-    required BuildContext context,
     required double newRotation,
     required Offset point,
     required Matrix4 input,
@@ -282,7 +280,6 @@ class TrinityController {
 
     /// SCALING
     _newMatrix = _updateTheScale(
-      context: context,
       newScale: details.scale,
       point: _point,
       input: _newMatrix,
@@ -290,7 +287,6 @@ class TrinityController {
 
     /// ROTATION
     _newMatrix = _updateTheRotation(
-      context: context,
       newRotation: details.rotation,
       point: _point,
       input: _newMatrix,

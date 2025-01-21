@@ -23,3 +23,4 @@ part 'src/controller/trinity_controller.dart';
 part 'src/controller/trinity_builder.dart';
 part 'src/controller/trinity_sensor.dart';
 part 'src/helpers/neo_point.dart';
+part 'src/helpers/neo_edit.dart';

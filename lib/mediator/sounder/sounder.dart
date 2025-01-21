@@ -207,7 +207,7 @@ class Sounder  {
       BldrsThemeSounds.click_c,
     ];
 
-    final int _index = Numeric.createRandomIndex(
+    final int _index = Indexer.createRandomIndex(
         listLength: _sounds.length,
     );
 

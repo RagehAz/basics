@@ -73,7 +73,7 @@ class BobOps {
     if (model != null){
 
       _output = BobModel(
-        bobID: model['bobID'] ?? Numeric.createRandomIndex(listLength: 5),
+        bobID: model['bobID'] ?? Indexer.createRandomIndex(listLength: 5),
         value: model['value'],
         id: model['id'],
       );

@@ -61,8 +61,8 @@ abstract class NeoRotate {
         final double m11 = matrix.entry(0, 0);
         final double m12 = matrix.entry(0, 1);
         final double radians = atan2(m12, m11);
-        final double _deg = Numeric.radianToDegree(radians)!;
-        _output = Numeric.limit360DegreeTo360(_deg)!;
+        final double _deg = Trigonometer.radianToDegree(radians)!;
+        _output = Trigonometer.limit360DegreeTo360(_deg)!;
       } on Exception catch (e) {
         blog('getRotationInDegrees: _output($_output).ERROR: $e');
       }
@@ -80,7 +80,7 @@ abstract class NeoRotate {
     }
     else {
       final double _deg = getRotationInDegrees(matrix)!;
-      return Numeric.degreeToRadian(_deg);
+      return Trigonometer.degreeToRadian(_deg);
     }
 
   }
@@ -110,5 +110,88 @@ abstract class NeoRotate {
     return Matrix4(c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1);
   }
   // --------------------------------------------------------------------------
-  void x(){}
+
+  /// ROTATE FROM CENTER
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 setRotationFromCenterByDegrees({
+    required Matrix4 matrix,
+    required double viewWidth,
+    required double viewHeight,
+    required double degrees,
+  }){
+
+    final double _oldDegrees = NeoRotate.getRotationInDegrees(matrix)!;
+
+    final double _deltaDegrees = (degrees - _oldDegrees) * -1;
+
+    return NeoRotate.rotateFromCenterByDegrees(
+      matrix: matrix,
+      viewHeight: viewHeight,
+      viewWidth: viewWidth,
+      degrees: _deltaDegrees,
+    );
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 rotateFromCenterByDegrees({
+    required Matrix4 matrix,
+    required double viewWidth,
+    required double viewHeight,
+    required double degrees,
+  }){
+
+    final double _oldDegrees = NeoRotate.getRotationInDegrees(matrix)!;
+    final double _newDegrees = Trigonometer.limit360DegreeTo360(degrees)!;
+
+
+    double _delta = Trigonometer.limit360DegreeTo360(_newDegrees - _oldDegrees)!;
+    _delta = Trigonometer.degreeToRadian(_delta)!;
+
+    final Offset _oldCenter = NeoPoint.center(
+      matrix: matrix,
+      width: viewWidth,
+      height: viewHeight,
+    );
+
+    final Matrix4 _newMatrix = _setMatrixRotation(
+      rotation: _delta,
+      matrix: matrix,
+    );
+
+    /// should go to old center
+    final Offset _newCenter = NeoPoint.center(
+      matrix: _newMatrix,
+      width: viewWidth,
+      height: viewHeight,
+    );
+
+    return NeoMove.translate(
+      matrix: _newMatrix,
+      translation: _oldCenter - _newCenter,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 _setMatrixRotation({
+    required Matrix4 matrix,
+    required double rotation,
+  }) {
+    final translation = matrix.getTranslation();
+    final double scaleX = matrix.getColumn(0).xyz.length;
+    final double scaleY = matrix.getColumn(1).xyz.length;
+    final double scaleZ = matrix.getColumn(2).xyz.length;
+
+    final Matrix4 rotationMatrix = Matrix4.rotationZ(rotation);
+    final Matrix4 _matrix = matrix;
+    _matrix.setIdentity();
+    _matrix.multiply(rotationMatrix);
+    _matrix.scale(scaleX, scaleY, scaleZ);
+    _matrix.setTranslation(translation);
+
+    return _matrix;
+  }
+  // --------------------------------------------------------------------------
 }

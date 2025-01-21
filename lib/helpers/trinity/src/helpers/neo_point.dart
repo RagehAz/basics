@@ -72,7 +72,7 @@ abstract class NeoPoint {
     final double _scaledWidth = width * _scaleFactor;
     final double _scaledHeight = height * _scaleFactor;
     // --------------------
-    final double _diagonalLength = Numeric.pythagorasHypotenuse(
+    final double _diagonalLength = Trigonometer.pythagorasHypotenuse(
       side: _scaledWidth,
       side2: _scaledHeight,
     )!;
@@ -109,7 +109,7 @@ abstract class NeoPoint {
     final double _scaledWidth = width * _scaleFactor;
     final double _scaledHeight = height * _scaleFactor;
     // --------------------
-    final double _diagonalLength = Numeric.pythagorasHypotenuse(
+    final double _diagonalLength = Trigonometer.pythagorasHypotenuse(
       side: _scaledWidth,
       side2: _scaledHeight,
     )!;

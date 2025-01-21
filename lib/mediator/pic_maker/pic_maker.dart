@@ -606,7 +606,7 @@ class PicMaker {
               );
 
                 // final ImageFile input = ImageFile(
-                //   filePath: _filePath ?? Numeric.createRandomIndex().toString(),
+                //   filePath: _filePath ?? Indexer.createRandomIndex().toString(),
                 //   rawBytes: _bytes,
                 //   // width: _dims.width?.toInt(),
                 //   // height: _dims.height?.toInt(),

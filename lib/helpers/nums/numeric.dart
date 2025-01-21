@@ -4,11 +4,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 
 /// => AI TESTED
-class Numeric {
-  // -----------------------------------------------------------------------------
-
-  const Numeric();
-
+abstract class Numeric {
   // -----------------------------------------------------------------------------
 
   /// FORMATTERS
@@ -407,110 +403,6 @@ class Numeric {
   }
   // -----------------------------------------------------------------------------
 
-  /// CREATORS
-
-  // --------------------
-  /// AI TESTED
-  static int createRandomIndex({
-    int listLength = 1001, /// FOR 1000 ITEMS => ONLY VALUES FROM ( 0 -> 999 ) MAY RESULT
-  }) {
-    return math.Random().nextInt(listLength);
-  }
-  // --------------------
-  /// AI TESTED
-  static int createUniqueIndex({
-    required List<int>? existingIndexes,
-    int maxIndex = 999999,
-  }) {
-    /// from 0 up to 999'999 included if max index is not defined
-    int _randomNumber = math.Random().nextInt(maxIndex + 1);
-
-    // blog('random number is : $_randomNumber');
-
-    if (existingIndexes != null && existingIndexes.contains(_randomNumber) == true) {
-      _randomNumber = createUniqueIndex(
-        existingIndexes: existingIndexes,
-        maxIndex: maxIndex,
-      );
-    }
-
-    return _randomNumber;
-  }
-  // --------------------
-  /// AI TESTED
-  static int createUniqueID({
-    int maxDigitsCount = 16, // 8'640'000'000'000'000'000
-  }) {
-    assert(maxDigitsCount > 0 && maxDigitsCount <= 16, 'Take care : 0 < maxDigitsCount <= 16',);
-
-    /// some smart ass stunt online said : DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    final String _string = DateTime.now().microsecondsSinceEpoch.toString();
-
-    final String? _trimmed = TextMod.removeNumberOfCharactersFromBeginningOfAString(
-      string: _string,
-      numberOfCharacters: _string.length - maxDigitsCount,
-    );
-
-
-    return transformStringToInt(_trimmed)!;
-  }
-  // --------------------
-  /*
-  /// TESTED : WORKS PERFECT
-  static ValueKey<int> createUniqueKeyFrom({
-    required List<ValueKey<int>> existingKeys,
-    int maxIndex = 9999,
-  }) {
-
-    final List<int> _existingValues = getValuesFromKeys(
-        keys: existingKeys
-    );
-
-    final int _newValue = createUniqueIndex(
-      existingIndexes: _existingValues,
-      maxIndex: maxIndex,
-    );
-
-    return ValueKey<int>(_newValue);
-  }
-   */
-  // --------------------
-  /*
-  /// TESTED : WORKS PERFECT
-  static List<dynamic> createListWithDummyValue({
-    required int length,
-    required int value,
-  }) {
-    final List<dynamic> _dummies = <dynamic>[];
-
-    for (int i = 0; i < length; i++) {
-      _dummies.add(value);
-    }
-
-    return _dummies;
-  }
-   */
-  // --------------------
-  /// AI TESTED
-  static List<int> createRandomIndexes({
-    required int numberOfIndexes,
-    required int maxIndex,
-  }) {
-    final List<int> _indexes = <int>[];
-
-    for (int i = 0; i < numberOfIndexes; i++) {
-
-      final int _newIndex = createUniqueIndex(
-          existingIndexes: _indexes,
-          maxIndex: maxIndex
-      );
-
-      _indexes.add(_newIndex);
-    }
-    return _indexes;
-  }
-  // -----------------------------------------------------------------------------
-
   /// GETTERS
 
   // --------------------
@@ -573,32 +465,6 @@ class Numeric {
     }
 
     return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// BOOL CYPHERS
-
-  // --------------------
-  /// AI TESTED
-  static int cipherBool({
-    required bool? bool,
-  }) {
-    /// true => 1; false => 0 else => null => return false instead of null
-    switch (bool) {
-      case true: return 1;
-      case false: return 0;
-      default: return 0;
-    }
-  }
-  // --------------------
-  /// AI TESTED
-  static bool decipherBool(int? int) {
-    /// 1 => true; 0 => false else => null (returning false instead of null)
-    switch (int) {
-      case 1: return true;
-      case 0: return false;
-      default: return false;
-    }
   }
   // -----------------------------------------------------------------------------
 
@@ -821,116 +687,6 @@ class Numeric {
   }
   // -----------------------------------------------------------------------------
 
-  /// ANGLES
-
-  // --------------------
-  /// AI TESTED
-  static double?  degreeToRadian(double? degree){
-    /// remember that dart starts from angle 0 on the right,, rotates clockWise when
-    /// incrementing the angle degree,, while rotates counter clockwise when decrementing
-    /// the angle degree.
-    /// simply, Negative value goes counter ClockWise
-    if (degree == null){
-      return null;
-    }
-    else {
-      return degree * ( math.pi / 180 );
-    }
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? radianToDegree(double? radians) {
-    if (radians == null) {
-      return null;
-    }
-    else {
-      return radians * (180 / math.pi);
-    }
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? radianTo360Degree(double? radians) {
-
-    double? _degree360;
-    final double? _plusMinusDegree = radianToDegree(radians);
-
-    if (_plusMinusDegree == null){
-      // _degree360 = null;
-    }
-    else if (_plusMinusDegree < 0){
-      _degree360 = 360 + _plusMinusDegree;
-    }
-    else {
-      _degree360 = _plusMinusDegree;
-    }
-
-    return limit360DegreeTo360(_degree360);
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? limit360DegreeTo360(double? degree){
-    double? _output;
-
-    if (degree != null){
-
-      /// so degree might be 1500ᴼ
-      /// which is (360ᴼ * 4) + 100ᴼ
-      /// = (360ᴼ * numberOfMultiples) + (degree - (360ᴼ * numberOfMultiples))
-      /// = _multipleLoops + (degree - _multipleLoops)
-      final int numberOfMultiples = (degree / 360).floor();
-      final int _multipleLoops = 360 * numberOfMultiples;
-      _output = degree - _multipleLoops;
-
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double? degreeTo360Degree(double? degree) {
-
-    if (degree == null){
-      return null;
-    }
-    else if (degree < 0){
-      return 360 + degree;
-    }
-    else {
-      return degree;
-    }
-
-}
-  // --------------------
-  /// AI TESTED
-  static double? move360Degree({
-    required double? source360Degree,
-    required double? moveBy360Degree,
-  }) {
-
-    if (source360Degree == null || moveBy360Degree == null) {
-      return null;
-    }
-
-    else {
-
-      final double _after = source360Degree + moveBy360Degree;
-
-      if (_after < 0) {
-        return 360 - (-_after % 360); // Correct the result for negative values
-      }
-
-      else if (_after >= 360) {
-        return _after % 360; // Correct the result for values >= 360
-      }
-
-      else {
-        return _after;
-      }
-
-    }
-  }
-  // -----------------------------------------------------------------------------
-
   /// BINARY SEARCH
 
   // --------------------
@@ -1008,104 +764,6 @@ class Numeric {
     }
 
     return _val;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// INDEX MANIPULATION
-
-  // --------------------
-  /// AI TESTED
-  static int? reverseIndex({
-    required int? listLength,
-    required int? index,
-  }) {
-
-    if (listLength != null && index != null) {
-
-      if (index + 1 <= listLength) {
-        List<int> _indexes = <int>[];
-
-        for (int i = 0; i < listLength; i++) {
-          _indexes.add(i);
-        }
-        _indexes = _indexes.reversed.toList();
-
-        final int _reversedIndex = _indexes.indexOf(index);
-
-        return _reversedIndex;
-      }
-
-      else {
-        return null;
-      }
-
-    }
-
-    else {
-      return null;
-    }
-
-  }
-  // --------------------
-  /// AI TESTED
-  static int? getNextIndex({
-    required int? listLength,
-    required int? currentIndex,
-    required bool loop,
-  }){
-    int? _output;
-
-    if (listLength == null || currentIndex == null){
-      _output = null;
-    }
-    else {
-
-      final bool _isAtLast = currentIndex + 1 == listLength;
-
-      /// AT LAST
-      if (_isAtLast == true){
-
-        if (loop == true){
-          _output = 0;
-        }
-        else {
-          _output = currentIndex;
-        }
-
-      }
-
-      /// IN THE MIDDLE
-      else {
-        _output = currentIndex + 1;
-      }
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// PYTHAGORAS
-
-  // --------------------
-  /// AI TESTED
-  static double? pythagorasHypotenuse({
-    required double? side,
-    double? side2,
-  }) {
-
-    if (side == null){
-      return null;
-    }
-
-    else {
-      /// side^2 * side^2 = hypotenuse^2
-      final double _side2 = side2 ?? side;
-      final double _sideSquared = Numeric.calculateDoublePower(num: side, power: 2);
-      final double _side2Squared = Numeric.calculateDoublePower(num: _side2, power: 2);
-      return math.sqrt(_sideSquared + _side2Squared);
-    }
-
   }
   // -----------------------------------------------------------------------------
 
@@ -1252,4 +910,366 @@ class Numeric {
     return _output;
   }
   // -----------------------------------------------------------------------------
+}
+
+/// => AI TESTED
+abstract class Trigonometer {
+  // -----------------------------------------------------------------------------
+
+  /// DEGREE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? radianToDegree(double? radians) {
+    if (radians == null) {
+      return null;
+    }
+    else {
+      return radians * (180 / math.pi);
+    }
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? radianTo360Degree(double? radians) {
+
+    double? _degree360;
+    final double? _plusMinusDegree = radianToDegree(radians);
+
+    if (_plusMinusDegree == null){
+      // _degree360 = null;
+    }
+    else if (_plusMinusDegree < 0){
+      _degree360 = 360 + _plusMinusDegree;
+    }
+    else {
+      _degree360 = _plusMinusDegree;
+    }
+
+    return limit360DegreeTo360(_degree360);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? limit360DegreeTo360(double? degree){
+    double? _output;
+
+    if (degree != null){
+
+      /// so degree might be 1500ᴼ
+      /// which is (360ᴼ * 4) + 100ᴼ
+      /// = (360ᴼ * numberOfMultiples) + (degree - (360ᴼ * numberOfMultiples))
+      /// = _multipleLoops + (degree - _multipleLoops)
+      final int numberOfMultiples = (degree / 360).floor();
+      final int _multipleLoops = 360 * numberOfMultiples;
+      _output = degree - _multipleLoops;
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double? degreeTo360Degree(double? degree) {
+
+    if (degree == null){
+      return null;
+    }
+    else if (degree < 0){
+      return 360 + degree;
+    }
+    else {
+      return degree;
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// RADIANS
+
+  // --------------------
+  /// AI TESTED
+  static double? degreeToRadian(double? degree){
+    /// remember that dart starts from angle 0 on the right,, rotates clockWise when
+    /// incrementing the angle degree,, while rotates counter clockwise when decrementing
+    /// the angle degree.
+    /// simply, Negative value goes counter ClockWise
+    if (degree == null){
+      return null;
+    }
+    else {
+      return degree * ( math.pi / 180 );
+    }
+  }
+  // -----------------------------------------------------------------------------
+
+  /// PYTHAGORAS
+
+  // --------------------
+  /// AI TESTED
+  static double? pythagorasHypotenuse({
+    required double? side,
+    double? side2,
+  }) {
+
+    if (side == null){
+      return null;
+    }
+
+    else {
+      /// side^2 * side^2 = hypotenuse^2
+      final double _side2 = side2 ?? side;
+      final double _sideSquared = Numeric.calculateDoublePower(num: side, power: 2);
+      final double _side2Squared = Numeric.calculateDoublePower(num: _side2, power: 2);
+      return math.sqrt(_sideSquared + _side2Squared);
+    }
+
+  }
+  // -----------------------------------------------------------------------------
+
+  /// MODIFIERS
+
+  // --------------------
+  /// AI TESTED
+  static double? move360Degree({
+    required double? source360Degree,
+    required double? moveBy360Degree,
+  }) {
+
+    if (source360Degree == null || moveBy360Degree == null) {
+      return null;
+    }
+
+    else {
+
+      final double _after = source360Degree + moveBy360Degree;
+
+      if (_after < 0) {
+        return 360 - (-_after % 360); // Correct the result for negative values
+      }
+
+      else if (_after >= 360) {
+        return _after % 360; // Correct the result for values >= 360
+      }
+
+      else {
+        return _after;
+      }
+
+    }
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static double snapToNearestAngle({
+    required double degree,
+    double threshold = 5.0
+  }) {
+    double _output = limit360DegreeTo360(degree)!;
+
+    const snapAngles = [0, 90, 180, 270, 360];
+
+    for (final snapAngle in snapAngles) {
+
+      final bool _isNear = (degree - snapAngle).abs() <= threshold;
+
+      if (_isNear == true) {
+        _output = snapAngle.toDouble();
+        break;
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+}
+
+/// => AI TESTED
+abstract class Booler {
+  // -----------------------------------------------------------------------------
+
+  /// CIPHERS
+
+  // --------------------
+  /// AI TESTED
+  static int cipherBool({
+    required bool? bool,
+  }) {
+    /// true => 1; false => 0 else => null => return false instead of null
+    switch (bool) {
+      case true: return 1;
+      case false: return 0;
+      default: return 0;
+    }
+  }
+  // --------------------
+  /// AI TESTED
+  static bool decipherBool(int? int) {
+    /// 1 => true; 0 => false else => null (returning false instead of null)
+    switch (int) {
+      case 1: return true;
+      case 0: return false;
+      default: return false;
+    }
+  }
+  // -----------------------------------------------------------------------------
+  void x(){}
+}
+
+/// => AI TESTED
+abstract class Idifier {
+  // -----------------------------------------------------------------------------
+
+  /// CREATE ID
+
+  // --------------------
+  /// AI TESTED
+  static int createUniqueID({
+    int maxDigitsCount = 16, // 8'640'000'000'000'000'000
+  }) {
+    assert(maxDigitsCount > 0 && maxDigitsCount <= 16, 'Take care : 0 < maxDigitsCount <= 16',);
+
+    /// some smart ass stunt online said : DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final String _string = DateTime.now().microsecondsSinceEpoch.toString();
+
+    final String? _trimmed = TextMod.removeNumberOfCharactersFromBeginningOfAString(
+      string: _string,
+      numberOfCharacters: _string.length - maxDigitsCount,
+    );
+
+    return Numeric.transformStringToInt(_trimmed)!;
+  }
+  // --------------------------------------------------------------------------
+}
+
+/// => AI TESTED
+abstract class Indexer {
+  // -----------------------------------------------------------------------------
+
+  /// CREATE RANDOM
+
+  // --------------------
+  /// AI TESTED
+  static int createRandomIndex({
+    int listLength = 1001, /// FOR 1000 ITEMS => ONLY VALUES FROM ( 0 -> 999 ) MAY RESULT
+  }) {
+    return math.Random().nextInt(listLength);
+  }
+  // --------------------
+  /// AI TESTED
+  static List<int> createRandomIndexes({
+    required int numberOfIndexes,
+    required int maxIndex,
+  }) {
+    final List<int> _indexes = <int>[];
+
+    for (int i = 0; i < numberOfIndexes; i++) {
+
+      final int _newIndex = createUniqueIndex(
+          existingIndexes: _indexes,
+          maxIndex: maxIndex
+      );
+
+      _indexes.add(_newIndex);
+    }
+    return _indexes;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// CREATE UNIQUE
+
+  // --------------------
+  /// AI TESTED
+  static int createUniqueIndex({
+    required List<int>? existingIndexes,
+    int maxIndex = 999999,
+  }) {
+    /// from 0 up to 999'999 included if max index is not defined
+    int _randomNumber = math.Random().nextInt(maxIndex + 1);
+
+    // blog('random number is : $_randomNumber');
+
+    if (existingIndexes != null && existingIndexes.contains(_randomNumber) == true) {
+      _randomNumber = createUniqueIndex(
+        existingIndexes: existingIndexes,
+        maxIndex: maxIndex,
+      );
+    }
+
+    return _randomNumber;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// INDEX MANIPULATION
+
+  // --------------------
+  /// AI TESTED
+  static int? reverseIndex({
+    required int? listLength,
+    required int? index,
+  }) {
+
+    if (listLength != null && index != null) {
+
+      if (index + 1 <= listLength) {
+        List<int> _indexes = <int>[];
+
+        for (int i = 0; i < listLength; i++) {
+          _indexes.add(i);
+        }
+        _indexes = _indexes.reversed.toList();
+
+        final int _reversedIndex = _indexes.indexOf(index);
+
+        return _reversedIndex;
+      }
+
+      else {
+        return null;
+      }
+
+    }
+
+    else {
+      return null;
+    }
+
+  }
+  // --------------------
+  /// AI TESTED
+  static int? getNextIndex({
+    required int? listLength,
+    required int? currentIndex,
+    required bool loop,
+  }){
+    int? _output;
+
+    if (listLength == null || currentIndex == null){
+      _output = null;
+    }
+    else {
+
+      final bool _isAtLast = currentIndex + 1 == listLength;
+
+      /// AT LAST
+      if (_isAtLast == true){
+
+        if (loop == true){
+          _output = 0;
+        }
+        else {
+          _output = currentIndex;
+        }
+
+      }
+
+      /// IN THE MIDDLE
+      else {
+        _output = currentIndex + 1;
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+  void x(){}
 }

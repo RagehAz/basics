@@ -19,8 +19,8 @@ class RandomStar extends StatelessWidget {
   Widget build(BuildContext context) {
     // --------------------
     return Positioned(
-      left: (Numeric.createRandomIndex(listLength: 100) / 100) * Scale.screenWidth(context),
-      bottom: (Numeric.createRandomIndex(listLength: 100) / 100) * Scale.screenHeight(context),
+      left: (Indexer.createRandomIndex(listLength: 100) / 100) * Scale.screenWidth(context),
+      bottom: (Indexer.createRandomIndex(listLength: 100) / 100) * Scale.screenHeight(context),
       child: SuperImage(
         width: size,
         height: size,

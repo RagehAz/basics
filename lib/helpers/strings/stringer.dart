@@ -913,7 +913,7 @@ class Stringer {
          void _loop(){
            for (int i = 0; i < _maxLength; i++){
 
-             final int _randomIndex = Numeric.createRandomIndex(
+             final int _randomIndex = Indexer.createRandomIndex(
                listLength: _maxLength,
              );
 
