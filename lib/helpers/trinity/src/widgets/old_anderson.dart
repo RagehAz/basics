@@ -266,9 +266,9 @@ class _OldAndersonState extends State<OldAnderson> {
       // matrix = _translationDelta * matrix;
       // final Offset _offset = details.focalPoint - oldMove;
       // oldMove = details.focalPoint ;
-      matrix = NeoMove.translate(
+      matrix = NeoMove.applyTranslation(
         matrix: matrix,
-        translation: newMove,
+        translationDelta: newMove,
       );
     }
 
@@ -289,10 +289,10 @@ class _OldAndersonState extends State<OldAnderson> {
     if (widget.shouldScale && details.scale != 1.0 && focalPoint != null) {
       final double _newScale = details.scale / oldScale;
       oldScale = details.scale;
-      matrix = NeoScale.newScale(
+      matrix = NeoScale.applyScale(
         matrix: matrix,
-        x: _newScale,
-        y: _newScale,
+        xComponentFactor: _newScale,
+        yComponentFactor: _newScale,
         focalPoint: focalPoint,
       );
     }
@@ -301,9 +301,9 @@ class _OldAndersonState extends State<OldAnderson> {
     if (widget.shouldRotate && details.rotation != 0.0 && focalPoint != null) {
       final double rotationDelta = details.rotation - oldRotation;
       oldRotation = details.rotation; // Update oldRotation
-      matrix = NeoRotate.rotate(
+      matrix = NeoRotate.applyRotation(
         matrix: matrix,
-        radians: rotationDelta,
+        radiansDelta: rotationDelta,
         focalPoint: focalPoint,
       )!;
     }

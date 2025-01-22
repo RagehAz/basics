@@ -3,7 +3,7 @@ part of trinity;
 abstract class NeoCell {
   // --------------------------------------------------------------------------
 
-  /// CELL GETTERS
+  /// GETTERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -77,7 +77,7 @@ abstract class NeoCell {
   }
   // --------------------------------------------------------------------------
 
-  /// CELL SETTERS
+  /// SETTERS
 
   // --------------------
   /// TESTED : WORKS PERFECT

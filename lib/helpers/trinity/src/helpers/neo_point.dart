@@ -67,7 +67,7 @@ abstract class NeoPoint {
     // --------------------
     final double _scaleFactor = NeoScale.getScaleFactor(
         matrix: matrix,
-        width: width
+        viewWidth: width
     )!;
     final double _scaledWidth = width * _scaleFactor;
     final double _scaledHeight = height * _scaleFactor;
@@ -104,7 +104,7 @@ abstract class NeoPoint {
     // --------------------
     final double _scaleFactor = NeoScale.getScaleFactor(
         matrix: matrix,
-        width: width
+        viewWidth: width
     )!;
     final double _scaledWidth = width * _scaleFactor;
     final double _scaledHeight = height * _scaleFactor;

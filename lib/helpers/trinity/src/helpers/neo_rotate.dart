@@ -3,21 +3,21 @@ part of trinity;
 abstract class NeoRotate {
   // --------------------------------------------------------------------------
 
-  /// ROTATE
+  /// ON GESTURE CHANGED
 
   // --------------------
-  ///
-  static Matrix4? rotate({
+  /// TESTED : WORKS PERFECT
+  static Matrix4? applyRotation({
     required Matrix4? matrix,
-    required double? radians,
+    required double? radiansDelta,
     required Offset focalPoint,
   }){
     Matrix4? _output;
 
-    if (matrix != null && radians != null){
+    if (matrix != null && radiansDelta != null){
 
-      final double _cos = cos(radians);
-      final double _sin = sin(radians);
+      final double _cos = cos(radiansDelta);
+      final double _sin = sin(radiansDelta);
 
       final double _dx = focalPoint.dx;
       final double _dy = focalPoint.dy;
@@ -45,6 +45,27 @@ abstract class NeoRotate {
     }
 
     return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 createDelta({
+    required Offset focalPoint,
+    required double angle,
+  }){
+    final double c = cos(angle);
+    final double s = sin(angle);
+    final double dx = (1 - c) * focalPoint.dx + s * focalPoint.dy;
+    final double dy = (1 - c) * focalPoint.dy - s * focalPoint.dx;
+
+    //  ..[0]  = c       # x scale
+    //  ..[1]  = s       # y skew
+    //  ..[4]  = -s      # x skew
+    //  ..[5]  = c       # y scale
+    //  ..[10] = 1       # diagonal "one"
+    //  ..[12] = dx      # x translation
+    //  ..[13] = dy      # y translation
+    //  ..[15] = 1       # diagonal "one"
+    return Matrix4(c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1);
   }
   // --------------------------------------------------------------------------
 
@@ -86,32 +107,7 @@ abstract class NeoRotate {
   }
   // --------------------------------------------------------------------------
 
-  /// DELTA
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Matrix4 createDelta({
-    required Offset focalPoint,
-    required double angle,
-  }){
-    final double c = cos(angle);
-    final double s = sin(angle);
-    final double dx = (1 - c) * focalPoint.dx + s * focalPoint.dy;
-    final double dy = (1 - c) * focalPoint.dy - s * focalPoint.dx;
-
-    //  ..[0]  = c       # x scale
-    //  ..[1]  = s       # y skew
-    //  ..[4]  = -s      # x skew
-    //  ..[5]  = c       # y scale
-    //  ..[10] = 1       # diagonal "one"
-    //  ..[12] = dx      # x translation
-    //  ..[13] = dy      # y translation
-    //  ..[15] = 1       # diagonal "one"
-    return Matrix4(c, s, 0, 0, -s, c, 0, 0, 0, 0, 1, 0, dx, dy, 0, 1);
-  }
-  // --------------------------------------------------------------------------
-
-  /// ROTATE FROM CENTER
+  /// SETTERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -134,6 +130,49 @@ abstract class NeoRotate {
     );
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 setRotationFromCenterByRadians({
+    required Matrix4 matrix,
+    required double viewWidth,
+    required double viewHeight,
+    required double radians,
+  }){
+
+    final double degrees = Trigonometer.radianToDegree(radians)!;
+
+    return setRotationFromCenterByDegrees(
+      matrix: matrix,
+      viewHeight: viewHeight,
+      viewWidth: viewWidth,
+      degrees: degrees,
+    );
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 _setMatrixRotation({
+    required Matrix4 matrix,
+    required double rotation,
+  }) {
+    final translation = matrix.getTranslation();
+    final double scaleX = matrix.getColumn(0).xyz.length;
+    final double scaleY = matrix.getColumn(1).xyz.length;
+    final double scaleZ = matrix.getColumn(2).xyz.length;
+
+    final Matrix4 rotationMatrix = Matrix4.rotationZ(rotation);
+    final Matrix4 _matrix = matrix;
+    _matrix.setIdentity();
+    _matrix.multiply(rotationMatrix);
+    _matrix.scale(scaleX, scaleY, scaleZ);
+    _matrix.setTranslation(translation);
+
+    return _matrix;
+  }
+  // --------------------------------------------------------------------------
+
+  /// MODIFIERS
+
   // --------------------
   /// TESTED : WORKS PERFECT
   static Matrix4 rotateFromCenterByDegrees({
@@ -168,30 +207,10 @@ abstract class NeoRotate {
       height: viewHeight,
     );
 
-    return NeoMove.translate(
+    return NeoMove.applyTranslation(
       matrix: _newMatrix,
-      translation: _oldCenter - _newCenter,
+      translationDelta: _oldCenter - _newCenter,
     );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Matrix4 _setMatrixRotation({
-    required Matrix4 matrix,
-    required double rotation,
-  }) {
-    final translation = matrix.getTranslation();
-    final double scaleX = matrix.getColumn(0).xyz.length;
-    final double scaleY = matrix.getColumn(1).xyz.length;
-    final double scaleZ = matrix.getColumn(2).xyz.length;
-
-    final Matrix4 rotationMatrix = Matrix4.rotationZ(rotation);
-    final Matrix4 _matrix = matrix;
-    _matrix.setIdentity();
-    _matrix.multiply(rotationMatrix);
-    _matrix.scale(scaleX, scaleY, scaleZ);
-    _matrix.setTranslation(translation);
-
-    return _matrix;
   }
   // --------------------------------------------------------------------------
 }

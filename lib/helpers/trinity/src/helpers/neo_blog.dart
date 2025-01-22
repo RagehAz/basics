@@ -1,5 +1,5 @@
 part of trinity;
-
+/// => TAMAM
 abstract class NeoBlog {
   // -----------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ abstract class NeoBlog {
   /// MATRIX
 
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static void blogRotation({
     required Matrix4? slideMatrix,
     required bool isMatrixFrom,
