@@ -81,7 +81,6 @@ abstract class NeoScale {
   static double? getScaleFactor({
     required Matrix4? matrix,
     required double viewWidth,
-    bool canBlog = false,
   }){
     if (matrix == null){
       return null;
@@ -143,6 +142,29 @@ abstract class NeoScale {
     return NeoMove.applyTranslation(
       matrix: _output,
       translationDelta: _oldCenter - _newCenter,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 increaseScale({
+    required Matrix4 matrix,
+    required double increment,
+    required double viewWidth,
+    required double viewHeight,
+  }){
+
+    final double _oldScaleFactor = getScaleFactor(
+      matrix: matrix,
+      viewWidth: viewWidth,
+    )!;
+
+    final double _newScaleFactor = _oldScaleFactor + increment;
+
+    return setScaleFactor(
+      matrix: matrix,
+      scaleFactor: _newScaleFactor,
+      viewWidth: viewWidth,
+      viewHeight: viewHeight,
     );
   }
   // --------------------------------------------------------------------------
