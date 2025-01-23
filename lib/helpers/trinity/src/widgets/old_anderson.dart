@@ -1,4 +1,6 @@
 part of trinity;
+/// DEPRECATED
+/*
 
 class OldAnderson extends StatefulWidget {
   /// --------------------------------------------------------------------------
@@ -337,8 +339,6 @@ class _OldAndersonState extends State<OldAnderson> {
   // -----------------------------------------------------------------------------
 }
 
-
-
 class _ValueUpdater<T> {
 
   _ValueUpdater({required this.onUpdate});
@@ -375,3 +375,5 @@ typedef MatrixGestureDetectorCallback = void Function(
     Matrix4 rotationDeltaMatrix);
 
 typedef _OnUpdate<T> = T Function(T? oldValue, T newValue);
+
+ */

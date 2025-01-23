@@ -1,5 +1,6 @@
 part of trinity;
-
+/// DEPRECATED
+/*
 class GoodAnderson extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const GoodAnderson({
@@ -274,3 +275,4 @@ class _GoodAndersonState extends State<GoodAnderson> {
   }
 // -----------------------------------------------------------------------------
 }
+ */
