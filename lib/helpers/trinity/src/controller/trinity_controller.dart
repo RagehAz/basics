@@ -267,6 +267,7 @@ class TrinityController {
   void onScaleUpdate({
     required ScaleUpdateDetails details,
     required BuildContext context,
+    required Function(Matrix4 matrix, Offset focalPoint)? onMatrixUpdate,
   }) {
 
     /// TRANSLATION
@@ -295,6 +296,9 @@ class TrinityController {
     /// SET MATRIX
     setMatrix(_newMatrix);
 
+    /// CALL BACK
+    onMatrixUpdate?.call(_newMatrix, _point);
+    
   }
   // --------------------------------------------------------------------------
   void x(){}

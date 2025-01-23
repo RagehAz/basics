@@ -420,7 +420,6 @@ class CenterDialog extends StatelessWidget {
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-
     // --------------------
     return Popper(
       key: const ValueKey<String>('Center_dialog'),
