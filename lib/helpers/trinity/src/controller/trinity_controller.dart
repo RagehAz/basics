@@ -62,11 +62,11 @@ class TrinityController {
         canRotate.set(value: shouldRotate, mounted: mounted);
       }
 
-      _oldTranslation = NeoMove.getOffset(matrix)!;
+      _oldTranslation = NeoMove.getOffset(matrix) ?? Offset.zero;
       _newTranslation = _oldTranslation;
-      _oldScale = NeoScale.getXScale(matrix)!;
+      _oldScale = NeoScale.getXScale(matrix) ?? 1;
       _newScale = _oldScale;
-      _oldRotation = NeoRotate.getRotationInRadians(matrix)!;
+      _oldRotation = NeoRotate.getRotationInRadians(matrix) ?? 0;
       _newRotation = _oldRotation;
 
       // _oldTranslation = Offset.zero;
@@ -141,7 +141,6 @@ class TrinityController {
   final Wire<bool> canRotate = Wire<bool>(false);
   // --------------------
   void setCanRotate(bool value){
-    blog('setting rotation to ($value)');
     canRotate.set(value: value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
@@ -224,8 +223,6 @@ class TrinityController {
     required bool canRotate,
   }){
     Matrix4 _output = input;
-
-    blog('can rotate ($canRotate)');
 
     if (canRotate && newRotation != 0.0) {
 
@@ -310,8 +307,6 @@ class TrinityController {
       input: _newMatrix,
       canScale: canScale,
     );
-
-    blog('a7aaaa : canRotate : $canRotate');
 
     /// ROTATION
     _newMatrix = _updateTheRotation(
