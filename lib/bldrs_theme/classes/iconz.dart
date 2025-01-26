@@ -278,7 +278,7 @@ class Iconz {
   static const String feed = '$iconDirectory/gi_feed.svg';
   static const String amazon = '$iconDirectory/gi_amazon.svg';
   static const String gtamazon = '$iconDirectory/gi_gtamazon.svg';
-  static const String gtalibaba = '$iconDirectory/gi_gtalibaba.svg';
+  static const String gtBaba = '$iconDirectory/gi_gtalibaba.svg';
   static const String gtInsta = '$iconDirectory/gi_gtinsta.svg';
   static const String alibaba = '$iconDirectory/gi_alibaba.svg';
   static const String house = '$iconDirectory/gi_house.svg';
@@ -322,6 +322,7 @@ class Iconz {
   static const String matchRight = '$iconDirectory/gi_match_right.svg';
   static const String matchLeft = '$iconDirectory/gi_match_left.svg';
   static const String reverse = '$iconDirectory/gi_reverse.svg';
+  static const String colorFill = '$iconDirectory/gi_color_fill.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -532,7 +533,7 @@ class Iconz {
       gtamazon: true,
       gtInsta: true,
       alibaba: true,
-      gtalibaba: true,
+      gtBaba: true,
       house: true,
       arrowYellowUp: true,
       arrowYellowRight: true,
@@ -601,6 +602,7 @@ class Iconz {
       matchRight: true,
       matchLeft: true,
       reverse: true,
+      colorFill: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

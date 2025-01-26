@@ -20,6 +20,7 @@ import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/space/scale.dart';
+import 'package:basics/helpers/strings/idifier.dart';
 import 'package:basics/helpers/strings/text_clip_board.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/layouts/handlers/max_bounce_navigator.dart';

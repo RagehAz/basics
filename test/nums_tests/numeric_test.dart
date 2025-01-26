@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_redundant_argument_values
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/space/trigonometer.dart';
+import 'package:basics/helpers/strings/idifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math' as math;
 

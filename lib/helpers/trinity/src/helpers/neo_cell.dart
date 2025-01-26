@@ -77,6 +77,45 @@ abstract class NeoCell {
   }
   // --------------------------------------------------------------------------
 
+  /// SANITIZERS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4? sanitize({
+    required Matrix4? matrix,
+    double epsilon = 1e-20, // = 1e-10
+  }){
+    Matrix4? _output;
+
+    if (matrix != null){
+      final List<double> _cells = matrix.storage;
+      final List<double> _sanitized = [];
+
+      Lister.loopSync(
+          models: _cells,
+          onLoop: (int index, double? value){
+
+            double _value = 0;
+            if (value != null){
+              if (Numeric.modulus(value)! > Numeric.modulus(epsilon)!){
+                _value = value;
+              }
+              else {
+                blog('NeoCell.sanitize():cell[$index].($value)');
+              }
+            }
+
+            _sanitized.add(_value);
+          });
+
+      final Float64List _list = Float64List.fromList(_sanitized);
+      _output = Matrix4.fromFloat64List(_list);
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
   /// SETTERS
 
   // --------------------

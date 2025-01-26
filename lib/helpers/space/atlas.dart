@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

@@ -19,7 +19,7 @@ class PicMediaCropper extends StatelessWidget {
   final double canvasHeight;
   final MediaModel? media;
   final bool loading;
-  final double aspectRatio;
+  final double? aspectRatio;
   final double? initialSize;
   final Rect? initialRect;
   // --------------------------------------------------------------------------

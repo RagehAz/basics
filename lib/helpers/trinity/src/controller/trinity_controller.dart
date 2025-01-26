@@ -21,9 +21,9 @@ class TrinityController {
     this.matrix = Wire<Matrix4>(_initialMatrix);
     initialMatrix = Wire<Matrix4>(_initialMatrix);
     this.focalPointAlignment = focalPointAlignment;
-    canMove = shouldTranslate;
-    canScale = shouldScale;
-    canRotate = shouldRotate;
+    canMove.set(value: shouldTranslate);
+    canScale.set(value: shouldScale);
+    canRotate.set(value: shouldRotate);
 
     _oldTranslation = Offset.zero;
     _newTranslation = Offset.zero;
@@ -37,9 +37,9 @@ class TrinityController {
   // --------------------
   void reInit({
     Matrix4? matrix,
-    bool shouldTranslate = true,
-    bool shouldScale = true,
-    bool shouldRotate = true,
+    bool? shouldTranslate,
+    bool? shouldScale,
+    bool? shouldRotate,
     Alignment? focalPointAlignment,
   }){
     if (mounted == true){
@@ -47,17 +47,34 @@ class TrinityController {
       final Matrix4 _initialMatrix = matrix ?? Matrix4.identity();
       this.matrix.set(value: _initialMatrix, mounted: mounted);
       initialMatrix.set(value: _initialMatrix, mounted: mounted);
-      this.focalPointAlignment = focalPointAlignment;
-      canMove = shouldTranslate;
-      canScale = shouldScale;
-      canRotate = shouldRotate;
 
-      _oldTranslation = Offset.zero;
-      _newTranslation = Offset.zero;
-      _oldScale = 1;
-      _newScale = 1;
-      _oldRotation = 0;
-      _newRotation = 0;
+      if (focalPointAlignment != null){
+        this.focalPointAlignment = focalPointAlignment;
+      }
+
+      if (shouldTranslate != null){
+        canMove.set(value: shouldTranslate, mounted: mounted);
+      }
+      if (shouldScale != null){
+        canScale.set(value: shouldScale, mounted: mounted);
+      }
+      if (shouldRotate != null){
+        canRotate.set(value: shouldRotate, mounted: mounted);
+      }
+
+      _oldTranslation = NeoMove.getOffset(matrix)!;
+      _newTranslation = _oldTranslation;
+      _oldScale = NeoScale.getXScale(matrix)!;
+      _newScale = _oldScale;
+      _oldRotation = NeoRotate.getRotationInRadians(matrix)!;
+      _newRotation = _oldRotation;
+
+      // _oldTranslation = Offset.zero;
+      // _newTranslation = Offset.zero;
+      // _oldScale = 1;
+      // _newScale = 1;
+      // _oldRotation = 0;
+      // _newRotation = 0;
 
     }
   }
@@ -72,6 +89,9 @@ class TrinityController {
     matrix.dispose();
     initialMatrix.dispose();
     focalPoint.dispose();
+    canMove.dispose();
+    canScale.dispose();
+    canRotate.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -98,36 +118,31 @@ class TrinityController {
   /// CAN MOVE
 
   // --------------------
-  bool canMove = true;
+  final Wire<bool> canMove = Wire<bool>(true);
   // --------------------
   void setCanMove(bool value){
-    if (mounted == true && value != canMove){
-      canMove = value;
-    }
+    canMove.set(value: value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
 
   /// CAN SCALE
 
   // --------------------
-  bool canScale = true;
+  final Wire<bool> canScale = Wire<bool>(true);
   // --------------------
   void setCanScale(bool value){
-    if (mounted == true && value != canScale){
-      canScale = value;
-    }
+    canScale.set(value: value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
 
   /// CAN ROTATE
 
   // --------------------
-  bool canRotate = true;
+  final Wire<bool> canRotate = Wire<bool>(false);
   // --------------------
   void setCanRotate(bool value){
-    if (mounted == true && value != canRotate){
-      canRotate = value;
-    }
+    blog('setting rotation to ($value)');
+    canRotate.set(value: value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
 
@@ -162,6 +177,7 @@ class TrinityController {
   Matrix4 _updateTheTranslation({
     required Offset newFocalPoint,
     required Matrix4 input,
+    required bool canMove,
   }){
     Matrix4 _output = input;
     if (canMove) {
@@ -183,6 +199,7 @@ class TrinityController {
     required Matrix4 input,
     required double newScale,
     required Offset point,
+    required bool canScale,
   }){
     Matrix4 _output = input;
     if (canScale && newScale != 1.0) {
@@ -204,8 +221,11 @@ class TrinityController {
     required double newRotation,
     required Offset point,
     required Matrix4 input,
+    required bool canRotate,
   }){
     Matrix4 _output = input;
+
+    blog('can rotate ($canRotate)');
 
     if (canRotate && newRotation != 0.0) {
 
@@ -268,12 +288,16 @@ class TrinityController {
     required ScaleUpdateDetails details,
     required BuildContext context,
     required Function(Matrix4 matrix, Offset focalPoint)? onMatrixUpdate,
+    required bool canRotate,
+    required bool canMove,
+    required bool canScale,
   }) {
 
     /// TRANSLATION
     Matrix4 _newMatrix = _updateTheTranslation(
       input: matrix.value,
       newFocalPoint: details.focalPoint,
+      canMove: canMove,
     );
 
     final Offset _point = _cureFocalPoint(context, details.focalPoint);
@@ -284,13 +308,17 @@ class TrinityController {
       newScale: details.scale,
       point: _point,
       input: _newMatrix,
+      canScale: canScale,
     );
+
+    blog('a7aaaa : canRotate : $canRotate');
 
     /// ROTATION
     _newMatrix = _updateTheRotation(
       newRotation: details.rotation,
       point: _point,
       input: _newMatrix,
+      canRotate: canRotate,
     );
 
     /// SET MATRIX

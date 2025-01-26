@@ -67,8 +67,10 @@ abstract class Trinity {
       final double _yTranslation = _m[13]; // this is in pixels
 
       /// translation value in Ratios to flyer sizes
-      final double _x = _xTranslation / flyerBoxWidth;
-      final double _y = _yTranslation / flyerBoxHeight;
+      // final double _x = _xTranslation / flyerBoxWidth;
+      final double _x = Numeric.divide(dividend: _xTranslation, divisor: flyerBoxWidth);
+      // final double _y = _yTranslation / flyerBoxHeight;
+      final double _y = Numeric.divide(dividend: _yTranslation, divisor: flyerBoxHeight);
 
       final Float64List _list = Float64List.fromList(<double>[
         _m[0],  _m[1],  _m[2],  _m[3],

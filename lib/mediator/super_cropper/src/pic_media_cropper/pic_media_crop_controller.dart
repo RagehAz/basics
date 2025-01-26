@@ -21,7 +21,7 @@ class PicMediaCropController {
     required Rect theCropRect,
     required double theViewWidth,
     required double theViewHeight,
-    required double aspectRatio, /// MAKE CROPPER USE A PREDEFINED ASPECT RATIO IN BASICS
+    required double? aspectRatio, /// MAKE CROPPER USE A PREDEFINED ASPECT RATIO IN BASICS
   }){
     setNotifier(notifier: originalPic, mounted: mounted, value: theOriginalPic);
     setNotifier(notifier: currentRect, mounted: mounted, value: theCropRect);

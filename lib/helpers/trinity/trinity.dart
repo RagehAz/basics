@@ -5,7 +5,10 @@ import 'dart:typed_data';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/space/cartesian.dart';
+import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/wire/wire.dart';
+import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -18,28 +18,37 @@ class TrinitySensor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    if (
-        controller.canRotate == false
-        &&
-        controller.canScale == false
-        &&
-        controller.canMove == false
-    ){
-      return child;
-    }
-    // --------------------
-    else {
-      return GestureDetector(
-        onScaleStart: (details) => controller.onScaleStart(details),
-        onScaleUpdate: (details) => controller.onScaleUpdate(
-          context: context,
-          details: details,
-          onMatrixUpdate: onMatrixUpdate,
-        ),
-        child: clipChild == true ? ClipRect(child: child) : child,
-      );
-    }
-    // --------------------
+
+    return MultiWires(
+        wires: <Wire<bool>>[
+          controller.canScale,
+          controller.canMove,
+          controller.canRotate,
+        ],
+        builder: (_) {
+
+          final bool _canScale  = controller.canScale.value;
+          final bool _canMove   = controller.canMove.value;
+          final bool _canRotate = controller.canRotate.value;
+
+          // --------------------
+          return GestureDetector(
+            onScaleStart: (details) => controller.onScaleStart(details),
+            onScaleUpdate: (details) => controller.onScaleUpdate(
+              context: context,
+              details: details,
+              onMatrixUpdate: onMatrixUpdate,
+              canScale: _canScale,
+              canMove: _canMove,
+              canRotate: _canRotate,
+            ),
+            child: clipChild == true ? ClipRect(child: child) : child,
+          );
+          // --------------------
+
+        },
+    );
+
   }
   // --------------------------------------------------------------------------
 }

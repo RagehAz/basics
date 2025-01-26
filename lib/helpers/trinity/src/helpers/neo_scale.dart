@@ -81,17 +81,32 @@ abstract class NeoScale {
   static double? getScaleFactor({
     required Matrix4? matrix,
     required double viewWidth,
+    // required double viewHeight,
   }){
+
     if (matrix == null){
       return null;
     }
+
     else {
-      final double radians = NeoRotate.getRotationInRadians(matrix)!;
-      final double _scaleX = NeoScale.getXScale(matrix)!;
-      final double _horizontalComponent = viewWidth * _scaleX;
-      final double _scaledWidth = _horizontalComponent / cos(radians);
-      return _scaledWidth / viewWidth;
+
+      Matrix4 _matrix = matrix;
+
+      final double _degree = NeoRotate.getRotationInDegrees(_matrix)!;
+      /// FIXES THE 90 DEGREE BUG
+      if (_degree == 90){
+        _matrix = _matrix..multiply(Matrix4.rotationZ(Trigonometer.degreeToRadian(0.001)!));
+      }
+
+      final double radians = NeoRotate.getRotationInRadians(_matrix)!;
+      final double _scaleX = NeoScale.getXScale(_matrix)!;
+      final double _adjacent = viewWidth * _scaleX;
+      final double _cosAngle = cos(radians);
+      double _scaledWidth = Numeric.divide(dividend: _adjacent, divisor: _cosAngle);
+      _scaledWidth = Numeric.roundFractions(_scaledWidth, 4)!;
+      return Numeric.divide(dividend: _scaledWidth, divisor: viewWidth);
     }
+
   }
   // --------------------------------------------------------------------------
 
@@ -166,6 +181,120 @@ abstract class NeoScale {
       viewWidth: viewWidth,
       viewHeight: viewHeight,
     );
+  }
+  // --------------------------------------------------------------------------
+
+  /// ROTATED FITTING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 rotatedFitToHeight({
+    required Matrix4 matrix,
+    required Dimensions picDims,
+    required Dimensions viewDims,
+  }){
+
+    final List<Offset> _graphicPoints = NeoPoint.getAllGraphicPoints(
+      matrix: matrix,
+      picDims: picDims,
+      viewDims: viewDims,
+    );
+
+    final Offset _topMost = Cartesian.getTopMostPoint(
+      points: _graphicPoints,
+    )!;
+    final Offset _bottomMost = Cartesian.getBottomMostPoint(
+      points: _graphicPoints,
+    )!;
+
+    final double _graphicOpposite = _bottomMost.dy - _topMost.dy;
+    final double _viewOpposite = viewDims.height ?? 0;
+
+    final double _graphicScaleFactor = getScaleFactor(
+      matrix: matrix,
+      viewWidth: viewDims.width ?? 0,
+    )!;
+    // _graphicOpposite / _viewOpposite = _graphicScaleFactor / _viewScaleFactor[_graphicNewScaleFactor]
+    // final double _graphicNewScaleFactor = _graphicScaleFactor / (_graphicOpposite / _viewOpposite);
+    final double _graphicNewScaleFactor = Numeric.divide(
+        dividend: _graphicScaleFactor,
+        divisor: Numeric.divide(dividend: _graphicOpposite, divisor: _viewOpposite),
+    );
+
+    final Matrix4 _matrix = setScaleFactor(
+      matrix: matrix,
+      scaleFactor: _graphicNewScaleFactor,
+      viewWidth: viewDims.width ?? 0,
+      viewHeight: viewDims.height ?? 0,
+    );
+
+    final Offset _topMostPoint = NeoPoint.getGraphicTopMostPoint(
+      matrix: _matrix,
+      picDims: picDims,
+      viewDims: viewDims,
+    );
+
+    return NeoMove.move(
+      matrix: _matrix,
+      y: - _topMostPoint.dy,
+      x: 0,
+    );
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Matrix4 rotatedFitToWidth({
+    required Matrix4 matrix,
+    required Dimensions picDims,
+    required Dimensions viewDims,
+  }){
+
+    final List<Offset> _graphicPoints = NeoPoint.getAllGraphicPoints(
+      matrix: matrix,
+      picDims: picDims,
+      viewDims: viewDims,
+    );
+
+    final Offset _leftMost = Cartesian.getLeftMostPoint(
+      points: _graphicPoints,
+    )!;
+    final Offset _rightMost = Cartesian.getRightMostPoint(
+      points: _graphicPoints,
+    )!;
+
+    final double _graphicAdjacent = _rightMost.dx - _leftMost.dx;
+    final double _viewAdjacent = viewDims.width ?? 0;
+
+    final double _graphicScaleFactor = getScaleFactor(
+      matrix: matrix,
+      viewWidth: viewDims.width ?? 0,
+    )!;
+    // _graphicAdjacent / _viewAdjacent = _graphicScaleFactor / _viewScaleFactor[_graphicNewScaleFactor]
+    // final double _graphicNewScaleFactor = _graphicScaleFactor / (_graphicAdjacent / _viewAdjacent);
+    final double _graphicNewScaleFactor = Numeric.divide(
+        dividend: _graphicScaleFactor,
+        divisor: Numeric.divide(dividend: _graphicAdjacent, divisor: _viewAdjacent),
+    );
+
+    final Matrix4 _matrix = setScaleFactor(
+      matrix: matrix,
+      scaleFactor: _graphicNewScaleFactor,
+      viewWidth: viewDims.width ?? 0,
+      viewHeight: viewDims.height ?? 0,
+    );
+
+    final Offset _leftMostPoint = NeoPoint.getGraphicLeftMostPoint(
+      matrix: _matrix,
+      picDims: picDims,
+      viewDims: viewDims,
+    );
+
+    return NeoMove.move(
+      matrix: _matrix,
+      y: 0,
+      x: - _leftMostPoint.dx,
+    );
+
   }
   // --------------------------------------------------------------------------
 }
