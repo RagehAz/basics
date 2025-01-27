@@ -4,7 +4,7 @@ import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/bldrs_theme/classes/shadowers.dart';
 import 'package:basics/components/sensors/keyboard_sensor.dart';
 import 'package:basics/components/sensors/popper.dart';
-import 'package:basics/helpers/nums/numeric.dart';
+import 'package:basics/helpers/nums/booler.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/strings/text_check.dart';

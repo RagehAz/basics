@@ -22,6 +22,7 @@ import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:basics/helpers/nums/booler.dart';
 
 part 'src/dimension_model.dart';
 part 'src/media_meta_model.dart';

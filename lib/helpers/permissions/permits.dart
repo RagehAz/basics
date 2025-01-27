@@ -2,12 +2,12 @@ import 'package:basics/components/dialogs/center_dialog.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/nums/numeric.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 export 'package:permission_handler/permission_handler.dart';
+import 'package:basics/helpers/nums/booler.dart';
 
 /// => TAMAM
 class Permit {

@@ -5,6 +5,7 @@ import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/strings/idifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:math' as math;
+import 'package:basics/helpers/nums/booler.dart';
 
 void main() {
   // -----------------------------------------------------------------------------

@@ -2,9 +2,9 @@
 import 'dart:async';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/nums/numeric.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:basics/helpers/nums/booler.dart';
 
 typedef ConnectivityBuilder = Widget Function(
 bool connected,
