@@ -6,14 +6,14 @@ class TrinitySensor extends StatelessWidget {
     required this.controller,
     required this.child,
     this.clipChild = true,
-    this.onMatrixUpdate,
+    this.onViewMatrixUpdate,
     super.key
   });
   // --------------------
   final TrinityController controller;
   final Widget child;
   final bool clipChild;
-  final Function(Matrix4 matrix, Offset focalPoint)? onMatrixUpdate;
+  final Function(Matrix4 viewMatrix)? onViewMatrixUpdate;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class TrinitySensor extends StatelessWidget {
             onScaleUpdate: (details) => controller.onScaleUpdate(
               context: context,
               details: details,
-              onMatrixUpdate: onMatrixUpdate,
+              onViewMatrixUpdate: onViewMatrixUpdate,
               canScale: _canScale,
               canMove: _canMove,
               canRotate: _canRotate,

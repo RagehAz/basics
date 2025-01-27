@@ -221,7 +221,7 @@ class MediaModel {
     assert(mediaModel != null, 'mediaModel is null');
     assert(mediaModel?.id != null, "mediaModel's id is null");
     assert(mediaModel?.meta != null, "mediaModel's meta is null");
-    assert(Mapper.boolIsTrue(mediaModel?.bytes?.isNotEmpty) == true, "mediaModel's bytes are empty");
+    assert(Booler.boolIsTrue(mediaModel?.bytes?.isNotEmpty) == true, "mediaModel's bytes are empty");
 
     final String? _id = mediaModel?.id;
     final String? _uploadPath = mediaModel?.meta?.uploadPath;

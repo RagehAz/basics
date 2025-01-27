@@ -501,7 +501,7 @@ class SuperVideoController {
       return true;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
       return false;
     }
 
@@ -509,7 +509,7 @@ class SuperVideoController {
       return true;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
       return true;
     }
 
@@ -526,7 +526,7 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
       return false;
     }
 
@@ -534,10 +534,10 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
       return false;
     }
-    else if (Mapper.boolIsTrue(_videoValue.value?.isPlaying) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.isPlaying) == true){
       return false;
     }
     else {
@@ -553,7 +553,7 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
       return false;
     }
 
@@ -573,7 +573,7 @@ class SuperVideoController {
       return true;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
       return true;
     }
 
@@ -581,10 +581,10 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Mapper.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
       return false;
     }
-    else if (Mapper.boolIsTrue(_videoValue.value?.isPlaying) == true){
+    else if (Booler.boolIsTrue(_videoValue.value?.isPlaying) == true){
       return false;
     }
     else {
@@ -600,7 +600,7 @@ class SuperVideoController {
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkIsInitialed(){
-    return Mapper.boolIsTrue(_videoValue.value?.isInitialized);
+    return Booler.boolIsTrue(_videoValue.value?.isInitialized);
   }
   // --------------------
   /// TESTED : WORKS PERFECT

@@ -2,7 +2,7 @@
 import 'dart:async';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/nums/numeric.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -51,18 +51,18 @@ Future<void> connectivityListener({
  */
 
 class ConnectivitySensor extends StatelessWidget {
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   const ConnectivitySensor({
     required this.onConnectivityChanged,
     this.builder,
     this.child,
     super.key
   }); 
-  /// --------------------------------------------------------------------------
+  // --------------------
   final Widget? child;
   final ConnectivityBuilder? builder;
   final Function(bool isConnected)? onConnectivityChanged;
-  /// --------------------------------------------------------------------------
+  // --------------------
   @override
   Widget build(BuildContext context) {
 
@@ -80,25 +80,25 @@ class ConnectivitySensor extends StatelessWidget {
     }
 
   }
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class _TheSensor extends StatefulWidget {
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   const _TheSensor({
     required this.onConnectivityChanged,
     this.builder,
     this.child,
     super.key
   }); 
-  /// --------------------------------------------------------------------------
+  // --------------------
   final Widget? child;
   final ConnectivityBuilder? builder;
   final Function(bool isConnected)? onConnectivityChanged;
-  /// --------------------------------------------------------------------------
+  // --------------------
   @override
   _TheSensorState createState() => _TheSensorState();
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class _TheSensorState extends State<_TheSensor> {
@@ -191,7 +191,7 @@ class _TheSensorState extends State<_TheSensor> {
           valueListenable: _isConnected!,
           child: widget.child,
           builder: (_, bool? connected, Widget? child){
-            return widget.builder!(Mapper.boolIsTrue(connected), child);
+            return widget.builder!(Booler.boolIsTrue(connected), child);
           }
           );
 

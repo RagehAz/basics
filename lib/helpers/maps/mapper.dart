@@ -1302,21 +1302,6 @@ class Mapper {
        */
   // -----------------------------------------------------------------------------
 
-  /// BOOL
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static bool boolIsTrue(dynamic value){
-    bool _output = false;
-
-    if (value != null && value is bool){
-      _output = value;
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
   /// CLONING
 
   // --------------------

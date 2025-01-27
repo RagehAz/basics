@@ -10,16 +10,23 @@ class TrinityController {
   // --------------------
   ///
   void init({
-    Matrix4? matrix,
+    required double viewWidth,
+    required double viewHeight,
+    Matrix4? viewMatrix,
+    Matrix4? normalMatrix,
     bool shouldTranslate = true,
     bool shouldScale = true,
     bool shouldRotate = true,
     Alignment? focalPointAlignment,
   }){
 
-    final Matrix4 _initialMatrix = matrix ?? Matrix4.identity();
-    this.matrix = Wire<Matrix4>(_initialMatrix);
-    initialMatrix = Wire<Matrix4>(_initialMatrix);
+    _initMatrix(
+      viewMatrix: viewMatrix,
+      normalMatrix: normalMatrix,
+      viewWidth: viewWidth,
+      viewHeight: viewHeight,
+    );
+
     this.focalPointAlignment = focalPointAlignment;
     canMove.set(value: shouldTranslate);
     canScale.set(value: shouldScale);
@@ -35,8 +42,33 @@ class TrinityController {
     mounted = true;
   }
   // --------------------
+  void _initMatrix({
+    required Matrix4? viewMatrix,
+    required Matrix4? normalMatrix,
+    required double viewWidth,
+    required double viewHeight,
+  }){
+
+    Matrix4? _initialViewMatrix = viewMatrix;
+
+    _initialViewMatrix ??= NeoRender.toView(
+      normalMatrix: normalMatrix,
+      viewWidth: viewWidth,
+      viewHeight: viewHeight,
+    );
+
+    _initialViewMatrix ??= Matrix4.identity();
+
+    this.viewMatrix.set(value: _initialViewMatrix, mounted: mounted);
+    initialViewMatrix.set(value: _initialViewMatrix, mounted: mounted);
+
+  }
+  // --------------------
   void reInit({
-    Matrix4? matrix,
+    required double viewWidth,
+    required double viewHeight,
+    Matrix4? viewMatrix,
+    Matrix4? normalMatrix,
     bool? shouldTranslate,
     bool? shouldScale,
     bool? shouldRotate,
@@ -44,9 +76,12 @@ class TrinityController {
   }){
     if (mounted == true){
 
-      final Matrix4 _initialMatrix = matrix ?? Matrix4.identity();
-      this.matrix.set(value: _initialMatrix, mounted: mounted);
-      initialMatrix.set(value: _initialMatrix, mounted: mounted);
+      _initMatrix(
+        viewMatrix: viewMatrix,
+        normalMatrix: normalMatrix,
+        viewWidth: viewWidth,
+        viewHeight: viewHeight,
+      );
 
       if (focalPointAlignment != null){
         this.focalPointAlignment = focalPointAlignment;
@@ -62,11 +97,11 @@ class TrinityController {
         canRotate.set(value: shouldRotate, mounted: mounted);
       }
 
-      _oldTranslation = NeoMove.getOffset(matrix) ?? Offset.zero;
+      _oldTranslation = NeoMove.getOffset(this.viewMatrix.value) ?? Offset.zero;
       _newTranslation = _oldTranslation;
-      _oldScale = NeoScale.getXScale(matrix) ?? 1;
+      _oldScale = NeoScale.getXScale(this.viewMatrix.value) ?? 1;
       _newScale = _oldScale;
-      _oldRotation = NeoRotate.getRotationInRadians(matrix) ?? 0;
+      _oldRotation = NeoRotate.getRotationInRadians(this.viewMatrix.value) ?? 0;
       _newRotation = _oldRotation;
 
       // _oldTranslation = Offset.zero;
@@ -86,8 +121,8 @@ class TrinityController {
   ///
   void dispose(){
     mounted = false;
-    matrix.dispose();
-    initialMatrix.dispose();
+    viewMatrix.dispose();
+    initialViewMatrix.dispose();
     focalPoint.dispose();
     canMove.dispose();
     canScale.dispose();
@@ -98,20 +133,24 @@ class TrinityController {
   /// MATRIX
 
   // --------------------
-  late Wire<Matrix4> matrix;
+  final Wire<Matrix4> viewMatrix = Wire<Matrix4>(Matrix4.identity());
   // --------------------
-  void setMatrix(Matrix4 newMatrix){
-    matrix.set(value: newMatrix, mounted: mounted);
+  void setMatrix(Matrix4? newMatrix){
+    if (newMatrix != null){
+      viewMatrix.set(value: newMatrix, mounted: mounted);
+    }
   }
   // --------------------------------------------------------------------------
 
   /// INITIAL MATRIX
 
   // --------------------
-  late Wire<Matrix4> initialMatrix;
+  final Wire<Matrix4> initialViewMatrix = Wire<Matrix4>(Matrix4.identity());
   // --------------------
-  void setInitialMatrix(Matrix4 newMatrix){
-    initialMatrix.set(value: newMatrix, mounted: mounted);
+  void setInitialMatrix(Matrix4? newMatrix){
+    if (newMatrix != null){
+      initialViewMatrix.set(value: newMatrix, mounted: mounted);
+    }
   }
   // --------------------------------------------------------------------------
 
@@ -284,15 +323,15 @@ class TrinityController {
   void onScaleUpdate({
     required ScaleUpdateDetails details,
     required BuildContext context,
-    required Function(Matrix4 matrix, Offset focalPoint)? onMatrixUpdate,
+    required Function(Matrix4 matrix)? onViewMatrixUpdate,
     required bool canRotate,
     required bool canMove,
     required bool canScale,
   }) {
 
     /// TRANSLATION
-    Matrix4 _newMatrix = _updateTheTranslation(
-      input: matrix.value,
+    Matrix4 _newViewMatrix = _updateTheTranslation(
+      input: viewMatrix.value,
       newFocalPoint: details.focalPoint,
       canMove: canMove,
     );
@@ -301,28 +340,46 @@ class TrinityController {
     setFocalPoint(_point);
 
     /// SCALING
-    _newMatrix = _updateTheScale(
+    _newViewMatrix = _updateTheScale(
       newScale: details.scale,
       point: _point,
-      input: _newMatrix,
+      input: _newViewMatrix,
       canScale: canScale,
     );
 
     /// ROTATION
-    _newMatrix = _updateTheRotation(
+    _newViewMatrix = _updateTheRotation(
       newRotation: details.rotation,
       point: _point,
-      input: _newMatrix,
+      input: _newViewMatrix,
       canRotate: canRotate,
     );
 
     /// SET MATRIX
-    setMatrix(_newMatrix);
+    setMatrix(_newViewMatrix);
 
     /// CALL BACK
-    onMatrixUpdate?.call(_newMatrix, _point);
+    onViewMatrixUpdate?.call(_newViewMatrix);
     
   }
   // --------------------------------------------------------------------------
-  void x(){}
+
+  /// GETTERS
+
+  // --------------------
+  Matrix4 getDeadNormalMatrix({
+    required double viewWidth,
+    required double viewHeight,
+  }){
+    return NeoRender.toNormal(
+      viewMatrix: viewMatrix.value,
+      viewWidth: viewWidth,
+      viewHeight: viewHeight,
+    )!;
+  }
+  // --------------------
+  Matrix4? getDeadViewMatrix(){
+    return viewMatrix.value;
+  }
+  // --------------------------------------------------------------------------
 }

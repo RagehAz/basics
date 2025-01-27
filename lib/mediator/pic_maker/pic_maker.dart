@@ -7,7 +7,7 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
+import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/mediator/configs/asset_picker_configs.dart';
@@ -711,7 +711,7 @@ class PicMaker {
       else if (pic is MediaModel){
         final MediaModel mediaModel = pic;
         final Uint8List? _uInts = mediaModel.bytes;
-        _isEmpty = Mapper.boolIsTrue(_uInts?.isEmpty);
+        _isEmpty = Booler.boolIsTrue(_uInts?.isEmpty);
       }
 
       /// SUPER FILE

@@ -1,11 +1,11 @@
 // ignore_for_file: unused_element
 part of trinity;
 
-class MatrixAnimator extends StatelessWidget {
-  /// --------------------------------------------------------------------------
-  const MatrixAnimator({
+class NeoPlayer extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const NeoPlayer({
     required this.child,
-    required this.matrix,
+    required this.matrixTo,
     required this.matrixFrom,
     this.duration = const Duration(seconds: 3),
     // this.origin,
@@ -16,9 +16,9 @@ class MatrixAnimator extends StatelessWidget {
     this.repeat = true,
     super.key
   });
-  /// --------------------------------------------------------------------------
+  // --------------------
   final Widget child;
-  final Matrix4? matrix;
+  final Matrix4? matrixTo;
   final Matrix4? matrixFrom;
   final Duration duration;
   // final Offset origin;
@@ -27,14 +27,14 @@ class MatrixAnimator extends StatelessWidget {
   final Function? onAnimationEnds;
   final bool replayOnRebuild;
   final bool repeat;
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    if (canAnimate == true && matrix != null){
+    if (canAnimate == true && matrixTo != null){
       return _AnimatedChild(
         duration: duration,
-        matrix: matrix,
+        matrixTo: matrixTo,
         matrixFrom: matrixFrom,
         curve: curve,
         onAnimationEnds: onAnimationEnds,
@@ -43,9 +43,9 @@ class MatrixAnimator extends StatelessWidget {
         child: child,
       );
     }
-    else if (canAnimate == false && matrix != null){
+    else if (canAnimate == false && matrixTo != null){
       return Transform(
-        transform: matrix!,
+        transform: matrixTo!,
         child: child,
       );
     }
@@ -54,14 +54,14 @@ class MatrixAnimator extends StatelessWidget {
     }
     // --------------------
   }
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }
 
 class _AnimatedChild extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const _AnimatedChild({
     required this.child,
-    required this.matrix,
+    required this.matrixTo,
     required this.matrixFrom,
     required this.duration,
     required this.curve,
@@ -73,7 +73,7 @@ class _AnimatedChild extends StatefulWidget {
   });
   /// --------------------------------------------------------------------------
   final Widget child;
-  final Matrix4? matrix;
+  final Matrix4? matrixTo;
   final Matrix4? matrixFrom;
   final Duration? duration;
   final Curve? curve;
@@ -81,7 +81,7 @@ class _AnimatedChild extends StatefulWidget {
   final bool replayOnRebuild;
   final bool repeat;
   // final Offset origin;
-  /// --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
   @override
   __AnimatedChildState createState() => __AnimatedChildState();
   // --------------------------------------------------------------------------
@@ -116,9 +116,11 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     }
 
     if (
-    widget.curve != oldWidget.curve ||
-    Trinity.checkMatrixesAreIdentical(matrix1: widget.matrix, matrixReloaded: oldWidget.matrix) == false ||
-    Trinity.checkMatrixesAreIdentical(matrix1: widget.matrixFrom, matrixReloaded: oldWidget.matrixFrom) == false
+    widget.curve != oldWidget.curve
+        ||
+    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.matrixTo, matrixReloaded: oldWidget.matrixTo) == false
+        ||
+    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.matrixFrom, matrixReloaded: oldWidget.matrixFrom) == false
     ){
       if (mounted == true){
         _setCurvedAnimation();
@@ -183,7 +185,7 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     if (mounted == true){
       _matrixAnimation = Matrix4Tween(
         begin: widget.matrixFrom ?? Matrix4.identity(),
-        end: widget.matrix,
+        end: widget.matrixTo,
       ).animate(_curvedAnimation);
     }
   }
@@ -214,7 +216,7 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
 
-    if (widget.matrix == null){
+    if (widget.matrixTo == null){
       return widget.child;
     }
 
