@@ -317,6 +317,13 @@ class Iconz {
   static const String levelTwo = '$iconDirectory/gi_level_two.svg';
   static const String levelThree = '$iconDirectory/gi_level_three.svg';
   static const String flyerOrder = '$iconDirectory/gi_flyer_order.svg';
+
+  static const String fitCover = '$iconDirectory/gi_fit_cover.svg';
+  static const String fitMedium = '$iconDirectory/gi_fit_medium.svg';
+  static const String fitWidth = '$iconDirectory/gi_fit_width.svg';
+  static const String fitHeight = '$iconDirectory/gi_fit_height.svg';
+  static const String fitWider = '$iconDirectory/gi_fit_wider.svg';
+  static const String fitHigher = '$iconDirectory/gi_fit_higher.svg';
   // --------------------
   static const String level = '$iconDirectory/gi_level.svg';
   static const String matchRight = '$iconDirectory/gi_match_right.svg';
@@ -603,6 +610,13 @@ class Iconz {
       matchLeft: true,
       reverse: true,
       colorFill: true,
+
+      fitCover: true,
+      fitMedium: true,
+      fitWidth: true,
+      fitHeight: true,
+      fitWider: true,
+      fitHigher: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

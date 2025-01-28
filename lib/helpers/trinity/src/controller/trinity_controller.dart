@@ -3,6 +3,8 @@ part of trinity;
 class TrinityController {
   // --------------------------------------------------------------------------
   bool mounted = false;
+  double viewWidth = 0;
+  double viewHeight = 0;
   // --------------------------------------------------------------------------
 
   /// INITIALIZATION
@@ -20,11 +22,12 @@ class TrinityController {
     Alignment? focalPointAlignment,
   }){
 
+    this.viewWidth = viewWidth;
+    this.viewHeight = viewHeight;
+    
     _initMatrix(
       viewMatrix: viewMatrix,
       normalMatrix: normalMatrix,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
     );
 
     this.focalPointAlignment = focalPointAlignment;
@@ -45,8 +48,6 @@ class TrinityController {
   void _initMatrix({
     required Matrix4? viewMatrix,
     required Matrix4? normalMatrix,
-    required double viewWidth,
-    required double viewHeight,
   }){
 
     Matrix4? _initialViewMatrix = viewMatrix;
@@ -65,8 +66,8 @@ class TrinityController {
   }
   // --------------------
   void reInit({
-    required double viewWidth,
-    required double viewHeight,
+    double? viewWidth,
+    double? viewHeight,
     Matrix4? viewMatrix,
     Matrix4? normalMatrix,
     bool? shouldTranslate,
@@ -76,11 +77,12 @@ class TrinityController {
   }){
     if (mounted == true){
 
+      this.viewWidth = viewWidth ?? this.viewWidth;
+      this.viewHeight = viewHeight ?? this.viewHeight;
+
       _initMatrix(
         viewMatrix: viewMatrix,
         normalMatrix: normalMatrix,
-        viewWidth: viewWidth,
-        viewHeight: viewHeight,
       );
 
       if (focalPointAlignment != null){
@@ -135,7 +137,7 @@ class TrinityController {
   // --------------------
   final Wire<Matrix4> viewMatrix = Wire<Matrix4>(Matrix4.identity());
   // --------------------
-  void setMatrix(Matrix4? newMatrix){
+  void setViewMatrix(Matrix4? newMatrix){
     if (newMatrix != null){
       viewMatrix.set(value: newMatrix, mounted: mounted);
     }
@@ -147,7 +149,7 @@ class TrinityController {
   // --------------------
   final Wire<Matrix4> initialViewMatrix = Wire<Matrix4>(Matrix4.identity());
   // --------------------
-  void setInitialMatrix(Matrix4? newMatrix){
+  void setInitialViewMatrix(Matrix4? newMatrix){
     if (newMatrix != null){
       initialViewMatrix.set(value: newMatrix, mounted: mounted);
     }
@@ -356,7 +358,7 @@ class TrinityController {
     );
 
     /// SET MATRIX
-    setMatrix(_newViewMatrix);
+    setViewMatrix(_newViewMatrix);
 
     /// CALL BACK
     onViewMatrixUpdate?.call(_newViewMatrix);
@@ -367,10 +369,7 @@ class TrinityController {
   /// GETTERS
 
   // --------------------
-  Matrix4 getDeadNormalMatrix({
-    required double viewWidth,
-    required double viewHeight,
-  }){
+  Matrix4 getDeadNormalMatrix(){
     return NeoRender.toNormal(
       viewMatrix: viewMatrix.value,
       viewWidth: viewWidth,

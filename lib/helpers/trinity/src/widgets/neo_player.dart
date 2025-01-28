@@ -5,8 +5,12 @@ class NeoPlayer extends StatelessWidget {
   // --------------------------------------------------------------------------
   const NeoPlayer({
     required this.child,
-    required this.matrixTo,
-    required this.matrixFrom,
+    this.viewMatrixTo,
+    this.viewMatrixFrom,
+    this.normalMatrixTo,
+    this.normalMatrixFrom,
+    this.viewWidth,
+    this.viewHeight,
     this.duration = const Duration(seconds: 3),
     // this.origin,
     this.canAnimate = true,
@@ -18,8 +22,12 @@ class NeoPlayer extends StatelessWidget {
   });
   // --------------------
   final Widget child;
-  final Matrix4? matrixTo;
-  final Matrix4? matrixFrom;
+  final Matrix4? viewMatrixTo;
+  final Matrix4? viewMatrixFrom;
+  final Matrix4? normalMatrixTo;
+  final Matrix4? normalMatrixFrom;
+  final double? viewWidth;
+  final double? viewHeight;
   final Duration duration;
   // final Offset origin;
   final bool canAnimate;
@@ -28,14 +36,46 @@ class NeoPlayer extends StatelessWidget {
   final bool replayOnRebuild;
   final bool repeat;
   // --------------------------------------------------------------------------
+  Matrix4? getViewMatrixTo(){
+
+    if (viewMatrixTo != null){
+      return viewMatrixTo;
+    }
+    else if (normalMatrixTo != null){
+      return NeoRender.toView(normalMatrix: normalMatrixTo, viewWidth: viewWidth, viewHeight: viewHeight);
+    }
+    else {
+      return null;
+    }
+
+  }
+  // --------------------
+  Matrix4? getViewMatrixFrom(){
+
+    if (viewMatrixFrom != null){
+      return viewMatrixFrom;
+    }
+    else if (normalMatrixFrom != null){
+      return NeoRender.toView(normalMatrix: normalMatrixFrom, viewWidth: viewWidth, viewHeight: viewHeight);
+    }
+    else {
+      return null;
+    }
+
+  }
+  // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+
+    final Matrix4? _viewMatrixTo = getViewMatrixTo();
+    final Matrix4? _viewMatrixFrom = getViewMatrixFrom();
+
     // --------------------
-    if (canAnimate == true && matrixTo != null){
+    if (canAnimate == true && _viewMatrixTo != null){
       return _AnimatedChild(
         duration: duration,
-        matrixTo: matrixTo,
-        matrixFrom: matrixFrom,
+        viewMatrixTo: _viewMatrixTo,
+        viewMatrixFrom: getViewMatrixFrom(),
         curve: curve,
         onAnimationEnds: onAnimationEnds,
         replayOnRebuild: replayOnRebuild,
@@ -43,12 +83,15 @@ class NeoPlayer extends StatelessWidget {
         child: child,
       );
     }
-    else if (canAnimate == false && matrixTo != null){
+    // --------------------
+    else if (canAnimate == false && (_viewMatrixTo != null || _viewMatrixFrom != null)){
       return Transform(
-        transform: matrixTo!,
+        transform: _viewMatrixTo ?? _viewMatrixFrom ?? Matrix4.identity(),
         child: child,
+        // child: Container(),
       );
     }
+    // --------------------
     else {
       return child;
     }
@@ -61,8 +104,8 @@ class _AnimatedChild extends StatefulWidget {
   /// --------------------------------------------------------------------------
   const _AnimatedChild({
     required this.child,
-    required this.matrixTo,
-    required this.matrixFrom,
+    required this.viewMatrixTo,
+    required this.viewMatrixFrom,
     required this.duration,
     required this.curve,
     required this.onAnimationEnds,
@@ -73,8 +116,8 @@ class _AnimatedChild extends StatefulWidget {
   });
   /// --------------------------------------------------------------------------
   final Widget child;
-  final Matrix4? matrixTo;
-  final Matrix4? matrixFrom;
+  final Matrix4? viewMatrixTo;
+  final Matrix4? viewMatrixFrom;
   final Duration? duration;
   final Curve? curve;
   final Function? onAnimationEnds;
@@ -118,9 +161,9 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
     if (
     widget.curve != oldWidget.curve
         ||
-    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.matrixTo, matrixReloaded: oldWidget.matrixTo) == false
+    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.viewMatrixTo, matrixReloaded: oldWidget.viewMatrixTo) == false
         ||
-    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.matrixFrom, matrixReloaded: oldWidget.matrixFrom) == false
+    NeoCypher.checkMatrixesAreIdentical(matrix1: widget.viewMatrixFrom, matrixReloaded: oldWidget.viewMatrixFrom) == false
     ){
       if (mounted == true){
         _setCurvedAnimation();
@@ -184,8 +227,8 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   void _setMatrixAnimation(){
     if (mounted == true){
       _matrixAnimation = Matrix4Tween(
-        begin: widget.matrixFrom ?? Matrix4.identity(),
-        end: widget.matrixTo,
+        begin: widget.viewMatrixFrom ?? Matrix4.identity(),
+        end: widget.viewMatrixTo,
       ).animate(_curvedAnimation);
     }
   }
@@ -216,7 +259,7 @@ class __AnimatedChildState extends State<_AnimatedChild> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
 
-    if (widget.matrixTo == null){
+    if (widget.viewMatrixTo == null){
       return widget.child;
     }
 

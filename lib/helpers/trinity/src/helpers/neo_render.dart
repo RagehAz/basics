@@ -111,12 +111,7 @@ abstract class NeoRender {
 
     final Matrix4 _matrix = Matrix4.fromFloat64List(_list);
 
-    return toNormal(
-      viewMatrix: _matrix,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
-    )!;
-
+    return _matrix;
   }
   // -----------------------------------------------------------------------------
 }
