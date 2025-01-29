@@ -25,3 +25,4 @@ part 'src/helpers/neo_point.dart';
 part 'src/helpers/neo_cypher.dart';
 part 'src/helpers/neo_render.dart';
 part 'src/helpers/neo_curve.dart';
+part 'src/helpers/neo_fit.dart';
