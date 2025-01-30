@@ -1,21 +1,20 @@
 part of trinity;
-///
-abstract class NeoFit {
+/// => TAMAM
+class NeoFitGraphic {
   // --------------------------------------------------------------------------
 
   /// LEVELLING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Matrix4 level({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
   }){
+    // --------------------
     return NeoRotate.setRotationFromCenterByDegrees(
       matrix: matrix,
-      viewHeight: viewHeight,
-      viewWidth: viewWidth,
+      canvasDims: canvasDims,
       degrees: 0,
     );
   }
@@ -24,34 +23,36 @@ abstract class NeoFit {
   /// LEVEL FIT
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Matrix4 levelFitWidth({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
     required Dimensions picDims,
   }){
-
-    final Dimensions? _graphicDims = picDims.resizeToHeight(height: viewHeight);
-    final double _graphicWidth = _graphicDims?.width ?? 0;
-
+    // --------------------
+    final double _canvasWidth = canvasDims.width ?? 0;
+    // --------------------
     Matrix4 _newMatrix = level(
       matrix: matrix,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasDims: canvasDims,
     );
-
-    // graphicWidth * newScale = viewWidth
-    final double _widthFittingScaleFactor = viewWidth / _graphicWidth;
+    // --------------------
+    final Dimensions? _graphicDims = NeoPointGraphic.getContainedGraphicDims(
+      picDims: picDims,
+      canvasDims: canvasDims,
+    );
+    final double _graphicWidth = _graphicDims?.width ?? 0;
+    // --------------------
+    /// boxWidth * newScale = canvasWidth
+    final double _widthFittingScaleFactor = _canvasWidth / _graphicWidth;
 
     _newMatrix = NeoScale.setScaleFactor(
       matrix: _newMatrix,
       scaleFactor: _widthFittingScaleFactor,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasDims: canvasDims,
     );
 
-    final double _leftOffset = (viewWidth - _graphicWidth) * 0.5 * _widthFittingScaleFactor;
+    final double _leftOffset = (_canvasWidth - _graphicWidth) * 0.5 * _widthFittingScaleFactor;
 
     return NeoMove.setTranslation(
       matrix: _newMatrix,
@@ -59,38 +60,40 @@ abstract class NeoFit {
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Matrix4 levelFitHeight({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
     required Dimensions picDims,
   }){
-
-    final Dimensions? _graphicDims = picDims.resizeToHeight(height: viewHeight);
-    final double _graphicHeight = _graphicDims?.height ?? 0;
-
+    // --------------------
+    final double _canvasHeight = canvasDims.height ?? 0;
+    // --------------------
     Matrix4 _newMatrix = level(
       matrix: matrix,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasDims: canvasDims,
     );
-
-    // graphicHeight * newScale = viewHeight
-    final double _widthFittingScaleFactor = viewHeight / _graphicHeight;
+    // --------------------
+    final Dimensions? _graphicDims = NeoPointGraphic.getContainedGraphicDims(
+      picDims: picDims,
+      canvasDims: canvasDims,
+    );
+    final double _graphicHeight = _graphicDims?.height ?? 0;
+    // --------------------
+    /// graphicHeight * newScale = viewHeight
+    final double _widthFittingScaleFactor = _canvasHeight / _graphicHeight;
 
     _newMatrix = NeoScale.setScaleFactor(
       matrix: _newMatrix,
       scaleFactor: _widthFittingScaleFactor,
-      viewHeight: viewHeight,
-      viewWidth: viewWidth,
+      canvasDims: canvasDims,
     );
 
-    final double _topOffset = (viewHeight - _graphicHeight) * 0.5 * _widthFittingScaleFactor;
+    final double _topOffset = (_canvasHeight - _graphicHeight) * 0.5 * _widthFittingScaleFactor;
 
     return NeoMove.setTranslation(
       matrix: _newMatrix,
-      translation: Offset(_newMatrix[12], _topOffset),
+      translation: Offset(_newMatrix[12], -_topOffset),
     );
   }
   // --------------------------------------------------------------------------
@@ -101,14 +104,14 @@ abstract class NeoFit {
   /// TESTED : WORKS PERFECT
   static Matrix4 rotatedFitWidth({
     required Matrix4 matrix,
-    required Dimensions picDims,
-    required Dimensions viewDims,
+    required Dimensions boxDims,
+    required Dimensions canvasDims,
   }){
 
-    final List<Offset> _graphicPoints = NeoPoint.getAllGraphicPoints(
+    final List<Offset> _graphicPoints = NeoPointGraphic.getAllPoints(
       matrix: matrix,
-      picDims: picDims,
-      viewDims: viewDims,
+      picDims: boxDims,
+      viewDims: canvasDims,
     );
 
     final Offset _leftMost = Cartesian.getLeftMostPoint(
@@ -119,13 +122,13 @@ abstract class NeoFit {
     )!;
 
     final double _graphicAdjacent = _rightMost.dx - _leftMost.dx;
-    final double _viewAdjacent = viewDims.width ?? 0;
+    final double _viewAdjacent = canvasDims.width ?? 0;
 
     final double _graphicScaleFactor = NeoScale.getScaleFactor(
       matrix: matrix,
-      viewWidth: viewDims.width ?? 0,
+      canvasWidth: canvasDims.width ?? 0,
     )!;
-    // _graphicAdjacent / _viewAdjacent = _graphicScaleFactor / _viewScaleFactor[_graphicNewScaleFactor]
+    /// _graphicAdjacent / _viewAdjacent = _graphicScaleFactor / _viewScaleFactor[_graphicNewScaleFactor]
     // final double _graphicNewScaleFactor = _graphicScaleFactor / (_graphicAdjacent / _viewAdjacent);
     final double _graphicNewScaleFactor = Numeric.divide(
       dividend: _graphicScaleFactor,
@@ -135,14 +138,13 @@ abstract class NeoFit {
     final Matrix4 _matrix = NeoScale.setScaleFactor(
       matrix: matrix,
       scaleFactor: _graphicNewScaleFactor,
-      viewWidth: viewDims.width ?? 0,
-      viewHeight: viewDims.height ?? 0,
+      canvasDims: canvasDims,
     );
 
-    final Offset _leftMostPoint = NeoPoint.getGraphicLeftMostPoint(
+    final Offset _leftMostPoint = NeoPointGraphic.getLeftMostPoint(
       matrix: _matrix,
-      picDims: picDims,
-      viewDims: viewDims,
+      picDims: boxDims,
+      viewDims: canvasDims,
     );
 
     return NeoMove.move(
@@ -157,13 +159,13 @@ abstract class NeoFit {
   static Matrix4 rotatedFitHeight({
     required Matrix4 matrix,
     required Dimensions picDims,
-    required Dimensions viewDims,
+    required Dimensions canvasDims,
   }){
 
-    final List<Offset> _graphicPoints = NeoPoint.getAllGraphicPoints(
+    final List<Offset> _graphicPoints = NeoPointGraphic.getAllPoints(
       matrix: matrix,
       picDims: picDims,
-      viewDims: viewDims,
+      viewDims: canvasDims,
     );
 
     final Offset _topMost = Cartesian.getTopMostPoint(
@@ -174,11 +176,11 @@ abstract class NeoFit {
     )!;
 
     final double _graphicOpposite = _bottomMost.dy - _topMost.dy;
-    final double _viewOpposite = viewDims.height ?? 0;
+    final double _viewOpposite = canvasDims.height ?? 0;
 
     final double _graphicScaleFactor = NeoScale.getScaleFactor(
       matrix: matrix,
-      viewWidth: viewDims.width ?? 0,
+      canvasWidth: canvasDims.width ?? 0,
     )!;
     // _graphicOpposite / _viewOpposite = _graphicScaleFactor / _viewScaleFactor[_graphicNewScaleFactor]
     // final double _graphicNewScaleFactor = _graphicScaleFactor / (_graphicOpposite / _viewOpposite);
@@ -190,14 +192,13 @@ abstract class NeoFit {
     final Matrix4 _matrix = NeoScale.setScaleFactor(
       matrix: matrix,
       scaleFactor: _graphicNewScaleFactor,
-      viewWidth: viewDims.width ?? 0,
-      viewHeight: viewDims.height ?? 0,
+      canvasDims: canvasDims,
     );
 
-    final Offset _topMostPoint = NeoPoint.getGraphicTopMostPoint(
+    final Offset _topMostPoint = NeoPointGraphic.getTopMostPoint(
       matrix: _matrix,
       picDims: picDims,
-      viewDims: viewDims,
+      viewDims: canvasDims,
     );
 
     return NeoMove.move(
@@ -207,5 +208,5 @@ abstract class NeoFit {
     );
 
   }
-  // --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 }

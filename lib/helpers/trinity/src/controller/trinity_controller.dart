@@ -54,8 +54,8 @@ class TrinityController {
 
     _initialViewMatrix ??= NeoRender.toView(
       normalMatrix: normalMatrix,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasWidth: viewWidth,
+      canvasHeight: viewHeight,
     );
 
     _initialViewMatrix ??= Matrix4.identity();
@@ -372,8 +372,8 @@ class TrinityController {
   Matrix4 getDeadNormalMatrix(){
     return NeoRender.toNormal(
       viewMatrix: viewMatrix.value,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasWidth: viewWidth,
+      canvasHeight: viewHeight,
     )!;
   }
   // --------------------

@@ -42,7 +42,7 @@ class NeoPlayer extends StatelessWidget {
       return viewMatrixTo;
     }
     else if (normalMatrixTo != null){
-      return NeoRender.toView(normalMatrix: normalMatrixTo, viewWidth: viewWidth, viewHeight: viewHeight);
+      return NeoRender.toView(normalMatrix: normalMatrixTo, canvasWidth: viewWidth, canvasHeight: viewHeight);
     }
     else {
       return null;
@@ -56,7 +56,7 @@ class NeoPlayer extends StatelessWidget {
       return viewMatrixFrom;
     }
     else if (normalMatrixFrom != null){
-      return NeoRender.toView(normalMatrix: normalMatrixFrom, viewWidth: viewWidth, viewHeight: viewHeight);
+      return NeoRender.toView(normalMatrix: normalMatrixFrom, canvasWidth: viewWidth, canvasHeight: viewHeight);
     }
     else {
       return null;

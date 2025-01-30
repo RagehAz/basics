@@ -113,8 +113,7 @@ abstract class NeoRotate {
   /// TESTED : WORKS PERFECT
   static Matrix4 setRotationFromCenterByDegrees({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
     required double degrees,
   }){
 
@@ -125,8 +124,7 @@ abstract class NeoRotate {
 
     return NeoRotate.rotateFromCenterByDegrees(
       matrix: matrix,
-      viewHeight: viewHeight,
-      viewWidth: viewWidth,
+      canvasDims: canvasDims,
       degrees: _deltaDegrees,
     );
 
@@ -135,8 +133,7 @@ abstract class NeoRotate {
   /// TESTED : WORKS PERFECT
   static Matrix4 setRotationFromCenterByRadians({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
     required double radians,
   }){
 
@@ -144,8 +141,7 @@ abstract class NeoRotate {
 
     return setRotationFromCenterByDegrees(
       matrix: matrix,
-      viewHeight: viewHeight,
-      viewWidth: viewWidth,
+      canvasDims: canvasDims,
       degrees: degrees,
     );
 
@@ -155,8 +151,6 @@ abstract class NeoRotate {
   static Matrix4 _setMatrixRotation({
     required Matrix4 matrix,
     required double rotation,
-    required double viewWidth,
-    required double viewHeight,
   }) {
 
     final translation = matrix.getTranslation();
@@ -184,8 +178,7 @@ abstract class NeoRotate {
   /// TESTED : WORKS PERFECT
   static Matrix4 rotateFromCenterByDegrees({
     required Matrix4 matrix,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
     required double degrees,
   }){
 
@@ -194,24 +187,20 @@ abstract class NeoRotate {
     double _delta = _newDegrees - _oldDegrees;
     _delta = Trigonometer.degreeToRadian(_delta)!;
 
-    final Offset _oldCenter = NeoPoint.center(
+    final Offset _oldCenter = NeoPointCanvas.center(
       matrix: matrix,
-      width: viewWidth,
-      height: viewHeight,
+      canvasDims: canvasDims,
     );
 
     final Matrix4 _newMatrix = _setMatrixRotation(
       rotation: _delta,
       matrix: matrix,
-      viewHeight: viewHeight,
-      viewWidth: viewWidth,
     );
 
     /// should go to old center
-    final Offset _newCenter = NeoPoint.center(
+    final Offset _newCenter = NeoPointCanvas.center(
       matrix: _newMatrix,
-      width: viewWidth,
-      height: viewHeight,
+      canvasDims: canvasDims,
     );
 
     return NeoMove.applyTranslation(

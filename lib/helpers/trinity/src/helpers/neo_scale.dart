@@ -80,8 +80,7 @@ abstract class NeoScale {
   /// TESTED : WORKS PERFECT
   static double? getScaleFactor({
     required Matrix4? matrix,
-    required double viewWidth,
-    // required double viewHeight,
+    required double canvasWidth,
   }){
 
     if (matrix == null){
@@ -100,11 +99,11 @@ abstract class NeoScale {
 
       final double radians = NeoRotate.getRotationInRadians(_matrix)!;
       final double _scaleX = NeoScale.getXScale(_matrix)!;
-      final double _adjacent = viewWidth * _scaleX;
+      final double _adjacent = canvasWidth * _scaleX;
       final double _cosAngle = cos(radians);
       double _scaledWidth = Numeric.divide(dividend: _adjacent, divisor: _cosAngle);
       _scaledWidth = Numeric.roundFractions(_scaledWidth, 4)!;
-      return Numeric.divide(dividend: _scaledWidth, divisor: viewWidth);
+      return Numeric.divide(dividend: _scaledWidth, divisor: canvasWidth);
     }
 
   }
@@ -117,15 +116,13 @@ abstract class NeoScale {
   static Matrix4 setScaleFactor({
     required Matrix4 matrix,
     required double scaleFactor,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
   }){
     Matrix4 _output = Matrix4.identity();
 
-    final Offset _oldCenter = NeoPoint.center(
+    final Offset _oldCenter = NeoPointCanvas.center(
       matrix: matrix,
-      width: viewWidth,
-      height: viewHeight,
+      canvasDims: canvasDims,
     );
 
     _output = NeoCell.setCellValue(
@@ -142,16 +139,14 @@ abstract class NeoScale {
     final double radians = NeoRotate.getRotationInRadians(matrix)!;
     _output = NeoRotate.setRotationFromCenterByRadians(
       matrix: _output,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasDims: canvasDims,
       radians: radians,
     );
 
     /// should go to old center
-    final Offset _newCenter = NeoPoint.center(
+    final Offset _newCenter = NeoPointCanvas.center(
       matrix: _output,
-      width: viewWidth,
-      height: viewHeight,
+      canvasDims: canvasDims,
     );
 
     return NeoMove.applyTranslation(
@@ -164,13 +159,12 @@ abstract class NeoScale {
   static Matrix4 increaseScale({
     required Matrix4 matrix,
     required double increment,
-    required double viewWidth,
-    required double viewHeight,
+    required Dimensions canvasDims,
   }){
 
     final double _oldScaleFactor = getScaleFactor(
       matrix: matrix,
-      viewWidth: viewWidth,
+      canvasWidth: canvasDims.width ?? 0,
     )!;
 
     final double _newScaleFactor = _oldScaleFactor + increment;
@@ -178,10 +172,9 @@ abstract class NeoScale {
     return setScaleFactor(
       matrix: matrix,
       scaleFactor: _newScaleFactor,
-      viewWidth: viewWidth,
-      viewHeight: viewHeight,
+      canvasDims: canvasDims,
     );
-  }
 
+  }
   // --------------------------------------------------------------------------
 }

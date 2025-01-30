@@ -9,13 +9,13 @@ abstract class NeoRender {
   /// TESTED : WORKS PERFECT
   static Matrix4? toView({
     required Matrix4? normalMatrix,
-    required double? viewWidth,
-    required double? viewHeight,
+    required double? canvasWidth,
+    required double? canvasHeight,
   }) {
 
     /// adjusts Matrix Translation To Be In pixels
 
-    if (normalMatrix != null && viewWidth != null && viewHeight != null){
+    if (normalMatrix != null && canvasWidth != null && canvasHeight != null){
       /// matrix is received with translation values are ratios to flyer sizes
       final List<double> _m = normalMatrix.storage;
 
@@ -24,8 +24,8 @@ abstract class NeoRender {
       final double _yTranslation = _m[13]; // this is in ratios
 
       /// translation value in Ratios to flyer sizes
-      final double _x = _xTranslation * viewWidth;
-      final double _y = _yTranslation * viewHeight;
+      final double _x = _xTranslation * canvasWidth;
+      final double _y = _yTranslation * canvasHeight;
 
       final Float64List _list = Float64List.fromList(<double>[
         _m[0],  _m[1],  _m[2],  _m[3],
@@ -50,13 +50,13 @@ abstract class NeoRender {
   /// TESTED : WORKS PERFECT
   static Matrix4? toNormal({
     required Matrix4? viewMatrix,
-    required double? viewWidth,
-    required double? viewHeight,
+    required double? canvasWidth,
+    required double? canvasHeight,
   }){
 
     /// adjusts Matrix Translation To Be In Ratio to flyer box sizes
 
-    if (viewMatrix != null && viewWidth != null && viewHeight != null){
+    if (viewMatrix != null && canvasWidth != null && canvasHeight != null){
       /// matrix is received with translation values in pixels
       final List<double> _m = viewMatrix.storage;
 
@@ -66,9 +66,9 @@ abstract class NeoRender {
 
       /// translation value in Ratios to flyer sizes
       // final double _x = _xTranslation / flyerBoxWidth;
-      final double _x = Numeric.divide(dividend: _xTranslation, divisor: viewWidth);
+      final double _x = Numeric.divide(dividend: _xTranslation, divisor: canvasWidth);
       // final double _y = _yTranslation / flyerBoxHeight;
-      final double _y = Numeric.divide(dividend: _yTranslation, divisor: viewHeight);
+      final double _y = Numeric.divide(dividend: _yTranslation, divisor: canvasHeight);
 
       final Float64List _list = Float64List.fromList(<double>[
         _m[0],  _m[1],  _m[2],  _m[3],
@@ -92,14 +92,14 @@ abstract class NeoRender {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Matrix4 zoomedViewMatrix({
-    required double viewWidth,
-    required double viewHeight,
+    required double canvasWidth,
+    required double canvasHeight,
     double scale = 1.2
   }){
 
-    double _xTranslation = ((viewWidth * scale) - viewWidth) / 2;
+    double _xTranslation = ((canvasWidth * scale) - canvasWidth) / 2;
     _xTranslation = Numeric.roundFractions(_xTranslation, 2)!;
-    double _yTranslation = ((viewHeight * scale) - viewHeight) / 2;
+    double _yTranslation = ((canvasHeight * scale) - canvasHeight) / 2;
     _yTranslation = Numeric.roundFractions(_yTranslation, 2)!;
 
     final Float64List _list = Float64List.fromList(<double>[
