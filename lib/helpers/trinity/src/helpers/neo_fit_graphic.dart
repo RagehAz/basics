@@ -65,6 +65,8 @@ class NeoFitGraphic {
     required Matrix4 matrix,
     required Dimensions canvasDims,
     required Dimensions picDims,
+    double topPadding = 0,
+    double bottomPadding = 0,
   }){
     // --------------------
     final double _canvasHeight = canvasDims.height ?? 0;
@@ -81,7 +83,8 @@ class NeoFitGraphic {
     final double _graphicHeight = _graphicDims?.height ?? 0;
     // --------------------
     /// graphicHeight * newScale = viewHeight
-    final double _widthFittingScaleFactor = _canvasHeight / _graphicHeight;
+    final double _pushedHeight = _canvasHeight - topPadding - bottomPadding;
+    final double _widthFittingScaleFactor = _pushedHeight / _graphicHeight;
 
     _newMatrix = NeoScale.setScaleFactor(
       matrix: _newMatrix,
@@ -89,7 +92,8 @@ class NeoFitGraphic {
       canvasDims: canvasDims,
     );
 
-    final double _topOffset = (_canvasHeight - _graphicHeight) * 0.5 * _widthFittingScaleFactor;
+    double _topOffset = (_canvasHeight - _graphicHeight) * 0.5 * _widthFittingScaleFactor;
+    _topOffset = _topOffset - topPadding;
 
     return NeoMove.setTranslation(
       matrix: _newMatrix,

@@ -324,6 +324,10 @@ class Iconz {
   static const String fitHeight = '$iconDirectory/gi_fit_height.svg';
   static const String fitWider = '$iconDirectory/gi_fit_wider.svg';
   static const String fitHigher = '$iconDirectory/gi_fit_higher.svg';
+  static const String fitContain = '$iconDirectory/gi_fit_contain.svg';
+  // --------------------
+  static const String moveHorizontal = '$iconDirectory/gi_move_horizontal.svg';
+  static const String moveVertical = '$iconDirectory/gi_move_vertical.svg';
   // --------------------
   static const String level = '$iconDirectory/gi_level.svg';
   static const String matchRight = '$iconDirectory/gi_match_right.svg';
@@ -617,6 +621,9 @@ class Iconz {
       fitHeight: true,
       fitWider: true,
       fitHigher: true,
+      fitContain: true,
+      moveHorizontal: true,
+      moveVertical: true,
 
       theSevenBack: true,
       theSevenDesigners: true,

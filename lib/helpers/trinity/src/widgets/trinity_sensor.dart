@@ -22,13 +22,15 @@ class TrinitySensor extends StatelessWidget {
     return MultiWires(
         wires: <Wire<bool>>[
           controller.canScale,
-          controller.canMove,
+          controller.canMoveHorizontal,
+          controller.canMoveVertical,
           controller.canRotate,
         ],
         builder: (_) {
 
           final bool _canScale  = controller.canScale.value;
-          final bool _canMove   = controller.canMove.value;
+          final bool _canMoveHorizontal   = controller.canMoveHorizontal.value;
+          final bool _canMoveVertical   = controller.canMoveVertical.value;
           final bool _canRotate = controller.canRotate.value;
 
           // --------------------
@@ -39,7 +41,8 @@ class TrinitySensor extends StatelessWidget {
               details: details,
               onViewMatrixUpdate: onViewMatrixUpdate,
               canScale: _canScale,
-              canMove: _canMove,
+              canMoveHorizontal: _canMoveHorizontal,
+              canMoveVertical: _canMoveVertical,
               canRotate: _canRotate,
             ),
             child: clipChild == true ? ClipRect(child: child) : child,

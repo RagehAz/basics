@@ -3,8 +3,25 @@ part of trinity;
 class TrinityController {
   // --------------------------------------------------------------------------
   bool mounted = false;
-  double viewWidth = 0;
-  double viewHeight = 0;
+  // --------------------------------------------------------------------------
+
+  /// CANVAS DIMS
+
+  // --------------------
+  double canvasWidth = 0;
+  double canvasHeight = 0;
+  final ScrollController scrollController = ScrollController();
+  // --------------------------------------------------------------------------
+
+  /// STANDARD MATRICES
+
+  // --------------------
+  /// DO_WIDER_CHECKER
+  /*
+  Matrix4? _coverFitMatrix;
+  Matrix4? _mediumFitMatrix;
+  final Matrix4? _containedFitMatrix = Matrix4.identity();
+   */
   // --------------------------------------------------------------------------
 
   /// INITIALIZATION
@@ -12,18 +29,19 @@ class TrinityController {
   // --------------------
   ///
   void init({
-    required double viewWidth,
-    required double viewHeight,
+    required double canvasWidth,
+    required double canvasHeight,
     Matrix4? viewMatrix,
     Matrix4? normalMatrix,
-    bool shouldTranslate = true,
+    bool canMoveHorizontal = true,
+    bool canMoveVertical = true,
     bool shouldScale = true,
     bool shouldRotate = true,
     Alignment? focalPointAlignment,
   }){
 
-    this.viewWidth = viewWidth;
-    this.viewHeight = viewHeight;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
     
     _initMatrix(
       viewMatrix: viewMatrix,
@@ -31,7 +49,8 @@ class TrinityController {
     );
 
     this.focalPointAlignment = focalPointAlignment;
-    canMove.set(value: shouldTranslate);
+    this.canMoveHorizontal.set(value: canMoveHorizontal);
+    this.canMoveVertical.set(value: canMoveVertical);
     canScale.set(value: shouldScale);
     canRotate.set(value: shouldRotate);
 
@@ -54,8 +73,8 @@ class TrinityController {
 
     _initialViewMatrix ??= NeoRender.toView(
       normalMatrix: normalMatrix,
-      canvasWidth: viewWidth,
-      canvasHeight: viewHeight,
+      canvasWidth: canvasWidth,
+      canvasHeight: canvasHeight,
     );
 
     _initialViewMatrix ??= Matrix4.identity();
@@ -66,19 +85,20 @@ class TrinityController {
   }
   // --------------------
   void reInit({
-    double? viewWidth,
-    double? viewHeight,
+    double? canvasWidth,
+    double? canvasHeight,
     Matrix4? viewMatrix,
     Matrix4? normalMatrix,
-    bool? shouldTranslate,
+    bool? canMoveHorizontal,
+    bool? canMoveVertical,
     bool? shouldScale,
     bool? shouldRotate,
     Alignment? focalPointAlignment,
   }){
     if (mounted == true){
 
-      this.viewWidth = viewWidth ?? this.viewWidth;
-      this.viewHeight = viewHeight ?? this.viewHeight;
+      this.canvasWidth = canvasWidth ?? this.canvasWidth;
+      this.canvasHeight = canvasHeight ?? this.canvasHeight;
 
       _initMatrix(
         viewMatrix: viewMatrix,
@@ -89,8 +109,11 @@ class TrinityController {
         this.focalPointAlignment = focalPointAlignment;
       }
 
-      if (shouldTranslate != null){
-        canMove.set(value: shouldTranslate, mounted: mounted);
+      if (canMoveHorizontal != null){
+        this.canMoveHorizontal.set(value: canMoveHorizontal, mounted: mounted);
+      }
+      if (canMoveVertical != null){
+        this.canMoveVertical.set(value: canMoveVertical, mounted: mounted);
       }
       if (shouldScale != null){
         canScale.set(value: shouldScale, mounted: mounted);
@@ -126,9 +149,11 @@ class TrinityController {
     viewMatrix.dispose();
     initialViewMatrix.dispose();
     focalPoint.dispose();
-    canMove.dispose();
+    canMoveHorizontal.dispose();
+    canMoveVertical.dispose();
     canScale.dispose();
     canRotate.dispose();
+    scrollController.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -159,10 +184,15 @@ class TrinityController {
   /// CAN MOVE
 
   // --------------------
-  final Wire<bool> canMove = Wire<bool>(true);
+  final Wire<bool> canMoveHorizontal = Wire<bool>(true);
+  final Wire<bool> canMoveVertical = Wire<bool>(true);
   // --------------------
-  void setCanMove(bool value){
-    canMove.set(value: value, mounted: mounted);
+  void setCanMoveHorizontal(bool value){
+    canMoveHorizontal.set(value: value, mounted: mounted);
+  }
+  // --------------------
+  void setCanMoveVertical(bool value){
+    canMoveVertical.set(value: value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
 
@@ -214,17 +244,35 @@ class TrinityController {
   Offset _oldTranslation = Offset.zero;
   Offset _newTranslation = Offset.zero;
   // --------------------
+  /// TESTED : WORKS PERFECT
   Matrix4 _updateTheTranslation({
     required Offset newFocalPoint,
     required Matrix4 input,
-    required bool canMove,
+    required bool canMoveHorizontal,
+    required bool canMoveVertical,
   }){
     Matrix4 _output = input;
-    if (canMove) {
-      _newTranslation = newFocalPoint - _oldTranslation;
-      _oldTranslation = newFocalPoint;
-      _output = NeoMove.createDelta(translation: _newTranslation) * _output;
+
+    _newTranslation = newFocalPoint - _oldTranslation;
+    _oldTranslation = newFocalPoint;
+
+    if (canMoveHorizontal == true && canMoveVertical == true) {
+      _output = NeoMove.createDelta(
+        translation: _newTranslation,
+      ) * _output;
     }
+
+    else {
+      final double _radian = NeoRotate.getRotationInRadians(_output)!;
+      _output = _output * NeoMove.createDelta(
+          translation: Offset(
+            canMoveHorizontal ? _newTranslation.dx : -_newTranslation.dy * tan(_radian),
+            canMoveVertical ? _newTranslation.dy : _newTranslation.dx * tan(_radian),
+          )
+      );
+
+    }
+
     return _output;
   }
   // --------------------------------------------------------------------------
@@ -327,7 +375,8 @@ class TrinityController {
     required BuildContext context,
     required Function(Matrix4 matrix)? onViewMatrixUpdate,
     required bool canRotate,
-    required bool canMove,
+    required bool canMoveHorizontal,
+    required bool canMoveVertical,
     required bool canScale,
   }) {
 
@@ -335,7 +384,8 @@ class TrinityController {
     Matrix4 _newViewMatrix = _updateTheTranslation(
       input: viewMatrix.value,
       newFocalPoint: details.focalPoint,
-      canMove: canMove,
+      canMoveHorizontal: canMoveHorizontal,
+      canMoveVertical: canMoveVertical,
     );
 
     final Offset _point = _cureFocalPoint(context, details.focalPoint);
@@ -372,13 +422,87 @@ class TrinityController {
   Matrix4 getDeadNormalMatrix(){
     return NeoRender.toNormal(
       viewMatrix: viewMatrix.value,
-      canvasWidth: viewWidth,
-      canvasHeight: viewHeight,
+      canvasWidth: canvasWidth,
+      canvasHeight: canvasHeight,
     )!;
   }
   // --------------------
   Matrix4? getDeadViewMatrix(){
     return viewMatrix.value;
   }
+  // --------------------------------------------------------------------------
+
+  /// CHECKERS
+
+  // --------------------
+  /// DO_WIDER_CHECKER
+  /*
+  bool checkIsCoverFit ({
+    required Matrix4? matrix,
+    required Dimensions picDims,
+    required Dimensions canvasDims,
+  }){
+    bool _isCover = false;
+
+    // if (matrix != null){
+    //
+    //   final double _radians = NeoRotate.getRotationInDegrees(matrix)!;
+    //
+    //   if (_radians == 0){
+    //
+    //     final double _canvasWidth =  canvasDims.width ?? 0;
+    //     final double _canvasHeight = canvasDims.height ?? 0;
+    //
+    //     final Dimensions? _identityGraphicDims = NeoPointGraphic.getContainedGraphicDims(
+    //       picDims: picDims,
+    //       canvasDims: canvasDims,
+    //     );
+    //
+    //     final double _scaleFactor = NeoScale.getScaleFactor(
+    //       matrix: matrix,
+    //       canvasWidth: _canvasWidth,
+    //     ) ?? 1;
+    //     final double _viewGraphicWidth = (_identityGraphicDims?.width ?? 0) * _scaleFactor;
+    //     final double _viewGraphicHeight = (_identityGraphicDims?.height ?? 0) * _scaleFactor;
+    //
+    //     final bool _widthIsGood = _viewGraphicWidth >= _canvasWidth;
+    //     final bool _heightIsGood = _viewGraphicHeight >= _canvasHeight;
+    //
+    //     blog('[$_scaleFactor] is cover : $_isCover [$_viewGraphicWidth] >= [$_canvasWidth] : [$_viewGraphicHeight] >= [$_canvasHeight]');
+    //
+    //     _isCover = _widthIsGood && _heightIsGood;
+    //   }
+    //
+    // }
+
+    return _isCover;
+  }
+  // --------------------
+  bool checkIsMediumFit(){
+    return false;
+  }
+  // --------------------
+  bool checkIsContainedFit(){
+    return false;
+  }
+  // --------------------
+  bool checkIsLeveledFitWidth(){
+    return false;
+  }
+  // --------------------
+  bool checkIsLeveledFitHeight(){
+    return false;
+  }
+  // --------------------
+  bool checkIsWiderFit(){
+    return false;
+  }
+  // --------------------
+  bool checkIsHigherFit(){
+    return false;
+  }
+   */
+  // --------------------
+  void xx(){}
   // --------------------------------------------------------------------------
 }

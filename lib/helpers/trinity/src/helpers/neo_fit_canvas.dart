@@ -1,5 +1,5 @@
 part of trinity;
-///
+/// => TAMAM
 abstract class NeoFitCanvas {
   // --------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ abstract class NeoFitCanvas {
   /// LEVEL FIT
 
   // --------------------
-  /// TESTED : WORKS PERFECT-
+  /// TESTED : WORKS PERFECT
   static Matrix4 levelFitWidth({
     required Matrix4 matrix,
     required Dimensions canvasDims,
@@ -52,7 +52,7 @@ abstract class NeoFitCanvas {
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Matrix4 levelFitHeight({
     required Matrix4 matrix,
     required Dimensions canvasDims,
