@@ -184,10 +184,12 @@ class SuperBox extends StatelessWidget {
 
         /// HIGHLIGHT
         if (bubble == true)
-          BoxHighlights(
-              width: width,
-              height: height,
-              corners: _borderRadius
+          IgnorePointer(
+            child: BoxHighlights(
+                width: width,
+                height: height,
+                corners: _borderRadius
+            ),
           ),
 
       ],

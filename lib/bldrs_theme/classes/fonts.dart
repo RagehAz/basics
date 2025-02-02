@@ -1,5 +1,3 @@
-
-
 /// NOTES TO USE THESE FONTS IN ANOTHER PROJECT
 /*
  YOU SHOULD ADD THE BELOW SECTION IN pubspec.yaml in the project that uses these fonts
