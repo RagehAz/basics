@@ -92,12 +92,16 @@ class _KeyboardSensorOnState extends State<_KeyboardSensorOn> with WidgetsBindin
   void didChangeMetrics() {
     super.didChangeMetrics();
 
-    final bool _visible = Scale.screenInsets(context).bottom > 0;
+    if (mounted == true){
 
-    _isVisible?.set(
-      value: _visible,
-      mounted: mounted,
-    );
+      final bool _visible = Scale.screenInsets(context).bottom > 0;
+
+      _isVisible?.set(
+        value: _visible,
+        mounted: mounted,
+      );
+
+    }
 
   }
   // --------------------

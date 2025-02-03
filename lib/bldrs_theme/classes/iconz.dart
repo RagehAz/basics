@@ -317,6 +317,7 @@ class Iconz {
   static const String levelTwo = '$iconDirectory/gi_level_two.svg';
   static const String levelThree = '$iconDirectory/gi_level_three.svg';
   static const String flyerOrder = '$iconDirectory/gi_flyer_order.svg';
+  static const String slidesShelf = '$iconDirectory/gi_slides_shelf.svg';
 
   static const String fitCover = '$iconDirectory/gi_fit_cover.svg';
   static const String fitMedium = '$iconDirectory/gi_fit_medium.svg';
@@ -614,6 +615,7 @@ class Iconz {
       matchLeft: true,
       reverse: true,
       colorFill: true,
+      slidesShelf: true,
 
       fitCover: true,
       fitMedium: true,
