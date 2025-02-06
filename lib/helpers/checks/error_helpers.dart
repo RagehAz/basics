@@ -26,6 +26,7 @@ Future<void> tryAndCatch({
   required Future<void> Function() functions,
   required String invoker,
   ValueChanged<String>? onError,
+  Function? onTimeout,
   int? timeout,
 }) async {
 
@@ -41,9 +42,13 @@ Future<void> tryAndCatch({
       await functions().timeout(
           Duration(seconds: timeout),
           onTimeout: () async {
+
             if (onError != null){
               onError('Timeout ( $invoker ) after ( $timeout) seconds');
             }
+
+            onTimeout?.call();
+
           });
     }
 
