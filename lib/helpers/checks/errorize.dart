@@ -7,11 +7,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// => TAMAM
-class Errorize {
-  // -----------------------------------------------------------------------------
-
-  const Errorize();
-
+abstract class Errorize {
   // -----------------------------------------------------------------------------
 
   /// THROW
