@@ -337,6 +337,8 @@ class _SuperTextFieldState extends State<SuperTextField> {
 
             autoCorrect: widget.autoCorrect,
             enableSuggestions: widget.enableSuggestions,
+
+
           ),
         ),
 

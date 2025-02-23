@@ -14,7 +14,9 @@ class TextBuilder extends StatelessWidget {
     this.centered = true,
     this.highlightColor = const Color.fromARGB(100, 255, 0, 0),
     this.textDirection = TextDirection.ltr,
-        super.key
+    this.labelCorner,
+    this.textPaddings,
+    super.key
   }); 
   /// --------------------------------------------------------------------------
   final String? text;
@@ -26,6 +28,8 @@ class TextBuilder extends StatelessWidget {
   final bool centered;
   final Color? highlightColor;
   final TextDirection textDirection;
+  final double? labelCorner;
+  final EdgeInsets? textPaddings;
   // -----------------------------------------------------------------------------
   static double getTextLabelCorner({
     required double? textHeight,
@@ -108,7 +112,7 @@ class TextBuilder extends StatelessWidget {
       final double _sidePaddingValues = _textHeight * 0.15;
       final double _sidePaddings = labelColor == null ? 0 : _sidePaddingValues;
       // --------------------
-      final double _labelCornerValues = getTextLabelCorner(
+      final double _labelCornerValues = labelCorner ?? getTextLabelCorner(
         textHeight: textHeight,
       );
       final double _labelCorner = labelColor == null ? 0 : _labelCornerValues;
@@ -118,7 +122,7 @@ class TextBuilder extends StatelessWidget {
       return Flexible(
         key: const ValueKey<String>('TextBuilder'),
         child: Container(
-          padding: EdgeInsets.only(
+          padding: textPaddings ?? EdgeInsets.only(
             right: _sidePaddings,
             left: _sidePaddings,
           ),
