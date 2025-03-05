@@ -20,6 +20,7 @@ class Pincher extends StatelessWidget {
         return PinchZoomReleaseUnzoomWidget(
             maxScale: 5,
             minScale: 0.5,
+
             // fingersRequiredToPinch: ,
             // boundaryMargin: ,
             // clipBehavior: ,

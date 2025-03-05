@@ -11,6 +11,12 @@ class TrinityController {
   double canvasWidth = 0;
   double canvasHeight = 0;
   final ScrollController scrollController = ScrollController();
+  final GlobalKey globalKey = GlobalKey();
+  double safeAreaTopPadding = 0;
+  // --------------------
+  void setSafeAreaTopPadding(double value){
+    safeAreaTopPadding = value;
+  }
   // --------------------------------------------------------------------------
 
   /// STANDARD MATRICES
@@ -36,8 +42,9 @@ class TrinityController {
     bool canMoveHorizontal = true,
     bool canMoveVertical = true,
     bool shouldScale = true,
-    bool shouldRotate = true,
+    bool shouldRotate = false,
     Alignment? focalPointAlignment,
+    bool canOverlay = false,
   }){
 
     this.canvasWidth = canvasWidth;
@@ -53,6 +60,8 @@ class TrinityController {
     this.canMoveVertical.set(value: canMoveVertical);
     canScale.set(value: shouldScale);
     canRotate.set(value: shouldRotate);
+
+    this.canOverlay.set(value: canOverlay);
 
     _oldTranslation = Offset.zero;
     _newTranslation = Offset.zero;
@@ -94,6 +103,7 @@ class TrinityController {
     bool? shouldScale,
     bool? shouldRotate,
     Alignment? focalPointAlignment,
+    bool? canOverlay,
   }){
     if (mounted == true){
 
@@ -120,6 +130,10 @@ class TrinityController {
       }
       if (shouldRotate != null){
         canRotate.set(value: shouldRotate, mounted: mounted);
+      }
+
+      if (canOverlay != null){
+        this.canOverlay.set(value: canOverlay, mounted: mounted);
       }
 
       _oldTranslation = NeoMove.getOffset(this.viewMatrix.value) ?? Offset.zero;
@@ -154,6 +168,7 @@ class TrinityController {
     canScale.dispose();
     canRotate.dispose();
     scrollController.dispose();
+    canOverlay.dispose();
   }
   // --------------------------------------------------------------------------
 
@@ -412,7 +427,122 @@ class TrinityController {
 
     /// CALL BACK
     onViewMatrixUpdate?.call(_newViewMatrix);
-    
+
+    // --------------------
+    /// NEW STUFF
+    // _doOverlay(
+    //   details: details,
+    //   context: context,
+    //   matrix: _newViewMatrix,
+    // );
+    // --------------------
+  }
+  // --------------------
+  ///
+  void onScaleEnd(ScaleEndDetails details) {
+
+    // _doRemoveOverlay();
+
+  }
+  // --------------------------------------------------------------------------
+
+  /// OVERLAY
+
+  // --------------------
+  final Wire<bool> canOverlay = Wire<bool>(false);
+  OverlayEntry? entry;
+  List<OverlayEntry> overlayEntries = [];
+  double maxZoom = 2.5;
+  double maxOverlayOpacity = 0.5;
+  Color overlayColor = Colorz.black255;
+  // --------------------
+  void _doOverlay({
+    required BuildContext context,
+    required ScaleUpdateDetails details,
+    required Matrix4 matrix,
+  }){
+
+    blog('overlaying');
+
+    if (mounted == true && canOverlay.value == true && details.pointerCount >= 2){
+
+      final double scale = NeoScale.getScaleFactor(
+          matrix: matrix,
+          canvasWidth: canvasWidth
+      ) ?? 1;
+
+      final OverlayState overlay = Overlay.of(
+        context,
+        rootOverlay: true,
+      );
+
+      final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+
+      final Offset offset = renderBox.localToGlobal(
+        Offset.zero,
+        ancestor: overlay.context.findRenderObject(),
+      );
+
+      entry = OverlayEntry(
+          builder: (context) {
+
+            final double _unClampedOpacity = (scale - 1) / (maxZoom - 1);
+            // final double opacity = _unClampedOpacity.clamp(0, maxOverlayOpacity);
+
+            return Material(
+              color: Colors.green.withOpacity(0),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+
+                  // Positioned.fill(
+                  //   child: Opacity(
+                  //     opacity: opacity,
+                  //     child: Container(color: overlayColor),
+                  //   ),
+                  // ),
+
+                  Positioned(
+                    left: offset.dx,
+                    top: offset.dy,
+                    child: Container(
+                      width: renderBox.size.width,
+                      height: renderBox.size.height,
+                      color: Colorz.bloodTest,
+                      // child: buildWidget(widget.child),
+                    ),
+                  ),
+
+                ],
+              ),
+            );
+          });
+
+      overlay.insert(entry!);
+
+      // We need to control all the overlays added to avoid problems in scrolling,
+      overlayEntries.add(entry!);
+
+    }
+
+  }
+  // --------------------
+  void _doRemoveOverlay(){
+
+    if (mounted == true && canOverlay.value == true && overlayEntries.isNotEmpty == true){
+
+      for (final OverlayEntry entry in overlayEntries) {
+        entry.remove();
+      }
+      overlayEntries.clear();
+      entry = null;
+
+    }
+
+  }
+  // --------------------
+  void triggerCanOverlay(){
+    canOverlay.set(value: !canOverlay.value, mounted: mounted);
   }
   // --------------------------------------------------------------------------
 

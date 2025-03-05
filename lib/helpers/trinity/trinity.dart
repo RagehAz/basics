@@ -2,15 +2,16 @@ library trinity;
 
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/space/cartesian.dart';
+import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/wire/wire.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 part 'src/helpers/neo_blog.dart';
 part 'src/helpers/neo_cell.dart';
@@ -28,3 +29,4 @@ part 'src/helpers/neo_curve.dart';
 part 'src/helpers/neo_fit_canvas.dart';
 part 'src/helpers/neo_point_graphic.dart';
 part 'src/helpers/neo_fit_graphic.dart';
+part 'src/widgets/trinity_overlayer.dart';
