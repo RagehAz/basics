@@ -134,6 +134,37 @@ class MapPathing {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> getSonsPaths({
+    required Map<String, dynamic>? keywordsMap,
+    required String path,
+  }){
+    List<String> _output = [];
+
+    if (keywordsMap != null){
+
+      final dynamic _nodeValue = getNodeValue(
+        map: keywordsMap,
+        path: path,
+      );
+
+      if (_nodeValue is Map){
+        final Map<String, dynamic>? _map = Mapper.convertDynamicMap(_nodeValue);
+        final List<String> _sonsKeys = _map?.keys.toList() ?? [];
+        _output = List.generate(_sonsKeys.length, (index) => '$path${_sonsKeys[index]}/',);
+      }
+
+      /// IGNORE NOW
+      // else if (_nodeValue is List){
+      //   final List<dynamic> _list = _nodeValue;
+      //   _output = List.generate(_list.length, (index) => 'i:$index',);
+      // }
+
+    }
+
+    return _output;
+  }
   // -----------------------------------------------------------------------------
 
   /// CHECKERS
@@ -202,6 +233,34 @@ class MapPathing {
 
   /// LAST KEY CHECKERS
 
+  // --------------------
+  /// AI WRITTEN : WORKS GOOD
+  static bool checkMyGreatGranpaIsLastKeyAmongGranpas({
+    required Map<String, dynamic>? map,
+    required String? path,
+  }) {
+    bool _output = false;
+
+    if (map != null && TextCheck.isEmpty(path) == false) {
+      final List<String> nodes = Pathing.splitPathNodes(path);
+
+      if (nodes.length > 3) {
+        final String? _parentPath = Pathing.removeLastPathNode(path: path);
+        final String? _granpaPath = Pathing.removeLastPathNode(path: _parentPath);
+        final String? _greatGranpaPath = Pathing.removeLastPathNode(path: _granpaPath);
+        final String? _greatGranpaNode = Pathing.getLastPathNode(_greatGranpaPath);
+
+        if (TextCheck.isEmpty(_greatGranpaPath) == false && TextCheck.isEmpty(_greatGranpaNode) == false) {
+          _output = checkNodeIsLastKeyAmongBrothers(
+            map: map,
+            path: _greatGranpaPath,
+          );
+        }
+      }
+    }
+
+    return _output;
+  }
   // --------------------
   /// AI TESTED
   static bool checkMyGranpaIsLastKeyAmongGrandUncles({
