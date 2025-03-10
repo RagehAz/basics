@@ -274,20 +274,23 @@ class Nav {
     bool addPostFrameCallback = false,
   }) async {
 
-    // await CacheOps.wipeCaches();
-
+    /// OLD
     if (context != null){
 
-      if (addPostFrameCallback == true){
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          Navigator.pop(context, passedData);
-        });
-      }
+      if (Navigator.canPop(context) == true){
 
-      else {
-        await Future.delayed(Duration.zero, (){
-          Navigator.pop(context, passedData);
-        });
+        if (addPostFrameCallback == true){
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            Navigator.pop(context, passedData);
+          });
+        }
+
+        else {
+          await Future.delayed(Duration.zero, (){
+            Navigator.pop(context, passedData);
+          });
+        }
+
       }
 
     }

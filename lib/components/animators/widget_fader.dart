@@ -83,7 +83,7 @@ class _AnimatedFade extends StatefulWidget {
     required this.ignorePointer,
     required this.builder,
     required this.restartOnRebuild,
-    super.key
+    // super.key
   });
   /// --------------------------------------------------------------------------
   final Widget? child;
@@ -248,7 +248,7 @@ class _StillFade extends StatelessWidget {
     required this.max,
     required this.min,
     required this.ignorePointer,
-    super.key
+    // super.key
   });
   /// --------------------------------------------------------------------------
   final Widget? child;

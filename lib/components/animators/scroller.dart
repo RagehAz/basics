@@ -94,7 +94,7 @@ class _StatefulScrollBar extends StatefulWidget {
   // --------------------------------------------------------------------------
   const _StatefulScrollBar({
     required this.child,
-    super.key
+    // super.key
   });
   // --------------------
   final Widget child;

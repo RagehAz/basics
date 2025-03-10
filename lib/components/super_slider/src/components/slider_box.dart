@@ -9,7 +9,7 @@ class _SliderBox extends StatelessWidget {
     required this.sliderThemData,
     required this.child,
     this.values,
-    super.key
+    // super.key
   });
   // -----------------------------------------------------------------------------
   final double width;

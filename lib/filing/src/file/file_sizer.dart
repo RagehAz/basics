@@ -99,7 +99,7 @@ class FileSizer {
         case FileSizeUnit.megaByte:  _size = bytes/ (1024 * 1024); break;
         case FileSizeUnit.gigaByte:  _size = bytes/ (1024 * 1024 * 1024); break;
         case FileSizeUnit.teraByte:  _size = bytes/ (1024 * 1024 * 1024 * 1024); break;
-        default:                     _size = bytes.toDouble(); break;
+        // default:                     _size = bytes.toDouble(); break;
       }
     }
 

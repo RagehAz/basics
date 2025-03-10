@@ -71,7 +71,7 @@ class _FilteredImage extends StatefulWidget {
     required this.scale,
     required this.pic,
     this.corners,
-    super.key
+    // super.key
   }); 
   /// --------------------------------------------------------------------------
   final ImageFilterModel? filterModel;

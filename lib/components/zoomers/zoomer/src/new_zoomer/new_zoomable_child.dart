@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_element_parameter
 
 part of zoomer;
 
@@ -326,7 +326,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
           final double opacity = _unClampedOpacity.clamp(0, widget.maxOverlayOpacity);
 
           return Material(
-            color: Colors.green.withOpacity(0),
+            color: Colors.green.withAlpha(0),
             child: Stack(
               children: <Widget>[
 

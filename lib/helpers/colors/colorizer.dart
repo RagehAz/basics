@@ -80,10 +80,10 @@ class Colorizer {
     else {
 
       final Color _color = color;
-      final int _alpha = _color.alpha;
-      final int _r = _color.red;
-      final int _g = _color.green;
-      final int _b = _color.blue;
+      final int _alpha = _color.a.toInt();
+      final int _r = _color.r.toInt();
+      final int _g = _color.g.toInt();
+      final int _b = _color.b.toInt();
 
       /// PLAN : CREATE FUNCTION THAT VALIDATES THIS REGEX PATTERN ON DECIPHER COLOR METHOD
       final String _string = '$_alpha*$_r*$_g*$_b';
@@ -131,10 +131,12 @@ class Colorizer {
 
     const Color _black = Color.fromARGB(255, 0, 0, 0);
 
-    if (color != null &&
-        color.red == _black.red &&
-        color.green == _black.green &&
-        color.blue == _black.blue) {
+    if (
+        color != null &&
+        color.r == _black.r &&
+        color.g == _black.g &&
+        color.b == _black.b
+    ) {
       _isBlack = true;
     }
 
@@ -151,10 +153,10 @@ class Colorizer {
     else if (color1 != null && color2 != null){
 
       if (
-          color1.alpha == color2.alpha &&
-          color1.red == color2.red &&
-          color1.green == color2.green &&
-          color1.blue == color2.blue
+          color1.a == color2.a &&
+          color1.r == color2.r &&
+          color1.g == color2.g &&
+          color1.b == color2.b
       ) {
         _areIdentical = true;
       }
@@ -278,9 +280,9 @@ class Colorizer {
     }
     else {
 
-      final int red = (color.value >> 16) & 0xFF;
-      final int green = (color.value >> 8) & 0xFF;
-      final int blue = color.value & 0xFF;
+      final int red = (color.toARGB32() >> 16) & 0xFF;
+      final int green = (color.toARGB32() >> 8) & 0xFF;
+      final int blue = color.toARGB32() & 0xFF;
 
       return '#${red.toRadixString(16).padLeft(2, '0')}'
               '${green.toRadixString(16).padLeft(2, '0')}'
@@ -308,7 +310,7 @@ class Colorizer {
   // --------------------
   ///
   static void blogColor(Color? color){
-    blog('Color.r(${color?.red}).g(${color?.green}).b(${color?.blue}).o(${color?.opacity})');
+    blog('Color.r(${color?.r}).g(${color?.g}).b(${color?.b}).o(${color?.a})');
   }
   // -----------------------------------------------------------------------------
 }

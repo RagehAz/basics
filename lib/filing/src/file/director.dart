@@ -122,7 +122,7 @@ class Director {
       case DirectoryType.download:
         _output = !checkDirectoryIsActive(DirectoryType.download) ? null : await getDownloadsDirectory();
 
-      default: _output = null;
+      // default: _output = null;
 
     }
 

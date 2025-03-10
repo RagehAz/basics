@@ -112,7 +112,7 @@ class _AnimatedChild extends StatefulWidget {
     required this.replayOnRebuild,
     required this.repeat,
     // required this.origin,
-    super.key
+    // super.key
   });
   /// --------------------------------------------------------------------------
   final Widget child;

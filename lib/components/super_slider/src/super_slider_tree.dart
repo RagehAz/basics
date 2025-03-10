@@ -62,7 +62,7 @@ class SuperSlider extends StatelessWidget {
       // disabledActiveTrackColor: Colorz.white10, // not effective
 
       /// TRACK : INACTIVE
-      inactiveTrackColor: inactiveTrackColor ?? trackColor.withOpacity(0.1),
+      inactiveTrackColor: inactiveTrackColor ?? trackColor.withAlpha(25),
       // disabledInactiveTrackColor: Colorz.white10, // not effective
 
       /// TICK : ACTIVE
@@ -79,7 +79,7 @@ class SuperSlider extends StatelessWidget {
       overlayShape: const RoundSliderOverlayShape(overlayRadius: 0),
 
       /// VALUE INDICATOR
-      valueIndicatorColor: draggerColor.withOpacity(0.2),
+      valueIndicatorColor: draggerColor.withAlpha(50),
       valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
       showValueIndicator: showIndicator == true ? ShowValueIndicator.always : ShowValueIndicator.never,
       valueIndicatorTextStyle: textStyle,

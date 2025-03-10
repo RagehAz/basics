@@ -89,7 +89,7 @@ class _TheSensor extends StatefulWidget {
     required this.onConnectivityChanged,
     this.builder,
     this.child,
-    super.key
+    // super.key
   }); 
   // --------------------
   final Widget? child;

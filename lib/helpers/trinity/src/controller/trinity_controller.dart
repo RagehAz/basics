@@ -456,6 +456,7 @@ class TrinityController {
   double maxOverlayOpacity = 0.5;
   Color overlayColor = Colorz.black255;
   // --------------------
+  /*
   void _doOverlay({
     required BuildContext context,
     required ScaleUpdateDetails details,
@@ -540,6 +541,7 @@ class TrinityController {
     }
 
   }
+   */
   // --------------------
   void triggerCanOverlay(){
     canOverlay.set(value: !canOverlay.value, mounted: mounted);

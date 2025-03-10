@@ -256,21 +256,21 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
                 InfiniteLoadingBox(
                   width: _screenWidth,
                   height: 40,
-                  color: Colorz.bloodTest.withOpacity(0.5),
+                  color: Colorz.bloodTest.withAlpha(125),
                   backgroundColor: Colorz.nothing,
                 ),
 
                 InfiniteLoadingBox(
                   width: _screenWidth,
                   height: 40,
-                  color: Colorz.bloodTest.withOpacity(0.3),
+                  color: Colorz.bloodTest.withAlpha(75),
                   backgroundColor: Colorz.nothing,
                 ),
 
                 InfiniteLoadingBox(
                   width: _screenWidth,
                   height: 40,
-                  color: Colorz.bloodTest.withOpacity(0.1),
+                  color: Colorz.bloodTest.withAlpha(25),
                   backgroundColor: Colorz.nothing,
                 ),
 
