@@ -484,7 +484,7 @@ class VideoOps {
 
     final File? _file = await Filer.createFromBytes(
       bytes: bytes,
-      fileName: Idifier.createUniqueID().toString(),
+      fileName: Idifier.createUniqueIDString(),
     );
 
     if (_file != null){

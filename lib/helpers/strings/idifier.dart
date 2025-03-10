@@ -9,7 +9,7 @@ abstract class Idifier {
 
   // --------------------
   /// AI TESTED
-  static int createUniqueID({
+  static int createUniqueIDInteger({
     int maxDigitsCount = 16, // 8'640'000'000'000'000'000
   }) {
     assert(maxDigitsCount > 0 && maxDigitsCount <= 16, 'Take care : 0 < maxDigitsCount <= 16',);
@@ -23,6 +23,13 @@ abstract class Idifier {
     );
 
     return Numeric.transformStringToInt(_trimmed)!;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String createUniqueIDString({
+    int maxDigitsCount = 16, // 8'640'000'000'000'000'000
+  }){
+    return createUniqueIDInteger(maxDigitsCount: maxDigitsCount).toString();
   }
   // --------------------------------------------------------------------------
 }

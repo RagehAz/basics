@@ -423,7 +423,7 @@ void main() {
   // --------------------
   group('createUniqueID', () {
     test('returns a unique ID with the default max digits count of 16', () {
-      final int result = Idifier.createUniqueID();
+      final int result = Idifier.createUniqueIDInteger();
 
       expect(result, greaterThan(0));
       expect(result
@@ -433,7 +433,7 @@ void main() {
 
     test('returns a unique ID with the specified max digits count', () {
       const int maxDigitsCount = 10;
-      final int result = Idifier.createUniqueID(maxDigitsCount: maxDigitsCount);
+      final int result = Idifier.createUniqueIDInteger(maxDigitsCount: maxDigitsCount);
 
       expect(result, greaterThan(0));
       expect(result

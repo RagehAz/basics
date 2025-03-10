@@ -119,7 +119,7 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
   // --------------------
   Future<void> _updateMap(Map<String, dynamic> map) async {
 
-    final String _newID = Idifier.createUniqueID().toString();
+    final String _newID = Idifier.createUniqueIDString();
     // final String _newID = await Dialogs.keyboardDialog(
     //   context: context,
     //   keyboardModel: KeyboardModel.standardModel().copyWith(

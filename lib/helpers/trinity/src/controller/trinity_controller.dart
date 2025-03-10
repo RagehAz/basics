@@ -486,7 +486,7 @@ class TrinityController {
       entry = OverlayEntry(
           builder: (context) {
 
-            final double _unClampedOpacity = (scale - 1) / (maxZoom - 1);
+            // final double _unClampedOpacity = (scale - 1) / (maxZoom - 1);
             // final double opacity = _unClampedOpacity.clamp(0, maxOverlayOpacity);
 
             return Material(
