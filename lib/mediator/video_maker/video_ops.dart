@@ -1,32 +1,30 @@
+// ignore_for_file: unused_element
 import 'dart:io';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
+// import 'package:basics/helpers/maps/lister.dart';
+// import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/nums/numeric.dart';
-import 'package:basics/helpers/strings/idifier.dart';
+// import 'package:basics/helpers/strings/idifier.dart';
 import 'package:basics/mediator/models/media_models.dart';
+import 'package:flutter/material.dart';
+import 'package:video_editor/video_editor.dart';
+/// NEED_MIGRATION
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
-import 'package:ffmpeg_kit_flutter/media_information.dart';
-import 'package:ffmpeg_kit_flutter/media_information_session.dart';
+// import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+// import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
+// import 'package:ffmpeg_kit_flutter/media_information.dart';
+// import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:ffmpeg_kit_flutter/session_state.dart';
 import 'package:ffmpeg_kit_flutter/statistics.dart';
-import 'package:flutter/material.dart';
-import 'package:video_editor/video_editor.dart';
 /// => TAMAM
-class VideoOps {
-  // --------------------------------------------------------------------------
-
-  const VideoOps();
-
+abstract class VideoOps {
   // --------------------------------------------------------------------------
 
   /// INITIALIZATION
@@ -71,7 +69,7 @@ class VideoOps {
   /// DISPOSE
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<void> disposeFFmpegKit() async {
     final List<FFmpegSession> executions = await FFmpegKit.listSessions();
     if (executions.isNotEmpty) {
@@ -83,11 +81,11 @@ class VideoOps {
   /// EXECUTION
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<File?> executeFFmpeg({
     required FFmpegVideoEditorExecute execute,
     void Function(String error)? onError,
-    void Function(Statistics)? onProgress,
+    void Function(Statistics statistics)? onProgress,
   }) async {
     File? _output;
     bool _done = false;
@@ -121,10 +119,10 @@ class VideoOps {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<void> _executionCompletionCallBack({
     required FFmpegVideoEditorExecute execute,
-    required FFmpegSession session,
+    required dynamic session,
     required Function(File file) onCompleted,
     required void Function(String error, StackTrace trace)? onError,
   }) async {
@@ -149,10 +147,10 @@ class VideoOps {
   /// EXPORTING
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<File?> exportVideo({
     required VideoEditorController? videoEditorController,
-    void Function(Statistics progress, VideoFFmpegVideoEditorConfig config)? onProgress,
+    void Function(dynamic progress, VideoFFmpegVideoEditorConfig config)? onProgress,
     VideoExportFormat format = VideoExportFormat.mp4,
     String? fileName,
     String? outputDirectory,
@@ -233,10 +231,10 @@ class VideoOps {
   static const String bitRate1080p = '5M';
   static const String bitRate4K = '15M';
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<File?> exportMirroredVideo({
     required VideoEditorController? videoEditorController,
-    void Function(Statistics progress, VideoFFmpegVideoEditorConfig config)? onProgress,
+    void Function(dynamic progress, VideoFFmpegVideoEditorConfig config)? onProgress,
     VideoExportFormat format = VideoExportFormat.mp4,
     String? fileName,
     String? outputDirectory,
@@ -273,10 +271,10 @@ class VideoOps {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<File?> exportCover({
     required VideoEditorController? videoEditorController,
-    void Function(Statistics progress, CoverFFmpegVideoEditorConfig config)? onProgress,
+    void Function(dynamic progress, CoverFFmpegVideoEditorConfig config)? onProgress,
     String? fileName,
     String? outputDirectory,
     double scale = 1,
@@ -436,47 +434,49 @@ class VideoOps {
     return '$_size MB';
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// DEPRECATED
+  /*
+  /// NEED_MIGRATION
   static Future<Dimensions?> getVideoFileDimensions({
     required File? file,
   }) async {
     Dimensions? _output;
 
-    if (file != null){
-
-      /// '<file path or url>'
-      final MediaInformationSession session = await FFprobeKit.getMediaInformation(file.path);
-      final MediaInformation? information = session.getMediaInformation();
-
-      if (information == null) {
-        // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
-        // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
-        // final returnCode = await session.getReturnCode();
-        // final failStackTrace = await session.getFailStackTrace();
-        // final duration = await session.getDuration();
-        // final output = await session.getOutput();
-      }
-      else {
-        final Map<dynamic, dynamic>? _maw = information.getAllProperties();
-        final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
-        final List<Object?> _objects = _map['streams'];
-        final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
-
-        if( Lister.checkCanLoop(_maps) == true){
-          final Map<String, dynamic>? _data = _maps.first;
-          final int? height = _data?['height'];
-          final int? _width = _data?['width'];
-          _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
-        }
-
-      }
-
-    }
+    // if (file != null){
+    //
+    //   /// '<file path or url>'
+    //   final MediaInformationSession session = await FFprobeKit.getMediaInformation(file.path);
+    //   final MediaInformation? information = session.getMediaInformation();
+    //
+    //   if (information == null) {
+    //     // CHECK THE FOLLOWING ATTRIBUTES ON ERROR
+    //     // final state = FFmpegKitConfig.sessionStateToString(await session.getState());
+    //     // final returnCode = await session.getReturnCode();
+    //     // final failStackTrace = await session.getFailStackTrace();
+    //     // final duration = await session.getDuration();
+    //     // final output = await session.getOutput();
+    //   }
+    //   else {
+    //     final Map<dynamic, dynamic>? _maw = information.getAllProperties();
+    //     final Map<String, dynamic> _map = Mapper.convertDynamicMap(_maw);
+    //     final List<Object?> _objects = _map['streams'];
+    //     final List<Map<String, dynamic>> _maps = Mapper.getMapsFromDynamics(dynamics: _objects);
+    //
+    //     if( Lister.checkCanLoop(_maps) == true){
+    //       final Map<String, dynamic>? _data = _maps.first;
+    //       final int? height = _data?['height'];
+    //       final int? _width = _data?['width'];
+    //       _output = Dimensions(width: _width?.toDouble(), height: height?.toDouble());
+    //     }
+    //
+    //   }
+    //
+    // }
 
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<Dimensions?> getVideoBytesDimensions({
     required Uint8List? bytes,
   }) async {
@@ -497,6 +497,7 @@ class VideoOps {
 
     return _output;
   }
+   */
   // --------------------------------------------------------------------------
 
   /// STYLING
@@ -795,78 +796,81 @@ class VideoOps {
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// DEPRECATED
+  /*
+  /// NEED_MIGRATION
   static Future<void> blogMediaInformationSession({
-    required MediaInformationSession? session,
+    required dynamic session,
     String invoker = 'blogMediaInformationSession',
   }) async {
 
-    if (session == null){
-      blog('session is null');
-    }
-    else {
-
-      final MediaInformation? _mediaInformation = session.getMediaInformation();
-      final Map<dynamic, dynamic>? formatProperties = _mediaInformation?.getFormatProperties();
-      final Map<dynamic, dynamic>? allProperties =  _mediaInformation?.getAllProperties();
-      final Map<dynamic, dynamic>? _tags = _mediaInformation?.getTags();
-      final LogRedirectionStrategy? _strategy = session.getLogRedirectionStrategy();
-      final ReturnCode? _returnCode = await session.getReturnCode();
-      final SessionState? _sessionState = await session.getState();
-      /// IGNORE THOSE FOR NOW
-      // final List<Chapter>? _chapters = _mediaInformation?.getChapters();
-      // final List<StreamInformation>? _streamInfo = _mediaInformation?.getStreams();
-      // final List<Log> _allLogs = await session.getAllLogs();
-      // final List<Log> _logs = await session.getLogs();
-
-      final Map<String, dynamic> _map = {
-
-        'mediaInformation.getLongFormat()': _mediaInformation?.getLongFormat(),
-        'mediaInformation.getFormat()': _mediaInformation?.getFormat(),
-        'mediaInformation.getFilename()': _mediaInformation?.getFilename(),
-        'mediaInformation.getBitrate()': _mediaInformation?.getBitrate(),
-        'mediaInformation.getSize()': _mediaInformation?.getSize(),
-        'mediaInformation.getDuration()': _mediaInformation?.getDuration(),
-        'mediaInformation.getStartTime()': _mediaInformation?.getStartTime(),
-
-        'getAllLogsAsString()': await session.getAllLogsAsString(),
-        'getLogsAsString()': await session.getLogsAsString(),
-        'getArguments()': session.getArguments(),
-        'getCommand()': session.getCommand(),
-
-        'getCreateTime()': session.getCreateTime(),
-        'getEndTime()': session.getEndTime(),
-        'getStartTime()': session.getStartTime(),
-        'getDuration()': await session.getDuration(),
-        'getFailStackTrace()': await session.getFailStackTrace(),
-
-        'strategy.index': _strategy?.index,
-        'getOutput()': await session.getOutput(),
-
-        'returnCode.isValueSuccess()': _returnCode?.isValueSuccess(),
-        'returnCode.isValueError()': _returnCode?.isValueError(),
-        'returnCode.isValueCancel()': _returnCode?.isValueCancel(),
-        'returnCode.getValue()': _returnCode?.getValue(),
-
-        'getSessionId()': session.getSessionId(),
-        'sessionState.toString()': _sessionState.toString(),
-
-        'isFFmpeg()': session.isFFmpeg(),
-        'isFFprobe()': session.isFFprobe(),
-        'isMediaInformation()': session.isMediaInformation(),
-        // 'thereAreAsynchronousMessagesInTransmit': await session.thereAreAsynchronousMessagesInTransmit(),
-
-      };
-
-      Mapper.blogMap(_map, invoker: invoker);
-
-      Mapper.blogMap(Mapper.convertDynamicMap(formatProperties), invoker: 'mediaInformation.getFormatProperties()');
-      Mapper.blogMap(Mapper.convertDynamicMap(allProperties), invoker: 'mediaInformation.getAllProperties()');
-      Mapper.blogMap(Mapper.convertDynamicMap(_tags), invoker: 'mediaInformation.getTags()');
-
-    }
+    // if (session == null){
+    //   blog('session is null');
+    // }
+    // else {
+    //
+    //   final MediaInformation? _mediaInformation = session.getMediaInformation();
+    //   final Map<dynamic, dynamic>? formatProperties = _mediaInformation?.getFormatProperties();
+    //   final Map<dynamic, dynamic>? allProperties =  _mediaInformation?.getAllProperties();
+    //   final Map<dynamic, dynamic>? _tags = _mediaInformation?.getTags();
+    //   final LogRedirectionStrategy? _strategy = session.getLogRedirectionStrategy();
+    //   final ReturnCode? _returnCode = await session.getReturnCode();
+    //   final SessionState? _sessionState = await session.getState();
+    //   /// IGNORE THOSE FOR NOW
+    //   // final List<Chapter>? _chapters = _mediaInformation?.getChapters();
+    //   // final List<StreamInformation>? _streamInfo = _mediaInformation?.getStreams();
+    //   // final List<Log> _allLogs = await session.getAllLogs();
+    //   // final List<Log> _logs = await session.getLogs();
+    //
+    //   final Map<String, dynamic> _map = {
+    //
+    //     'mediaInformation.getLongFormat()': _mediaInformation?.getLongFormat(),
+    //     'mediaInformation.getFormat()': _mediaInformation?.getFormat(),
+    //     'mediaInformation.getFilename()': _mediaInformation?.getFilename(),
+    //     'mediaInformation.getBitrate()': _mediaInformation?.getBitrate(),
+    //     'mediaInformation.getSize()': _mediaInformation?.getSize(),
+    //     'mediaInformation.getDuration()': _mediaInformation?.getDuration(),
+    //     'mediaInformation.getStartTime()': _mediaInformation?.getStartTime(),
+    //
+    //     'getAllLogsAsString()': await session.getAllLogsAsString(),
+    //     'getLogsAsString()': await session.getLogsAsString(),
+    //     'getArguments()': session.getArguments(),
+    //     'getCommand()': session.getCommand(),
+    //
+    //     'getCreateTime()': session.getCreateTime(),
+    //     'getEndTime()': session.getEndTime(),
+    //     'getStartTime()': session.getStartTime(),
+    //     'getDuration()': await session.getDuration(),
+    //     'getFailStackTrace()': await session.getFailStackTrace(),
+    //
+    //     'strategy.index': _strategy?.index,
+    //     'getOutput()': await session.getOutput(),
+    //
+    //     'returnCode.isValueSuccess()': _returnCode?.isValueSuccess(),
+    //     'returnCode.isValueError()': _returnCode?.isValueError(),
+    //     'returnCode.isValueCancel()': _returnCode?.isValueCancel(),
+    //     'returnCode.getValue()': _returnCode?.getValue(),
+    //
+    //     'getSessionId()': session.getSessionId(),
+    //     'sessionState.toString()': _sessionState.toString(),
+    //
+    //     'isFFmpeg()': session.isFFmpeg(),
+    //     'isFFprobe()': session.isFFprobe(),
+    //     'isMediaInformation()': session.isMediaInformation(),
+    //     // 'thereAreAsynchronousMessagesInTransmit': await session.thereAreAsynchronousMessagesInTransmit(),
+    //
+    //   };
+    //
+    //   Mapper.blogMap(_map, invoker: invoker);
+    //
+    //   Mapper.blogMap(Mapper.convertDynamicMap(formatProperties), invoker: 'mediaInformation.getFormatProperties()');
+    //   Mapper.blogMap(Mapper.convertDynamicMap(allProperties), invoker: 'mediaInformation.getAllProperties()');
+    //   Mapper.blogMap(Mapper.convertDynamicMap(_tags), invoker: 'mediaInformation.getTags()');
+    //
+    // }
 
   }
+   */
   // --------------------------------------------------------------------------
 
   /// CHECKERS

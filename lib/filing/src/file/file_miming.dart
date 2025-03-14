@@ -1,11 +1,7 @@
 // ignore_for_file: constant_identifier_names
 part of filing;
 
-class FileMiming {
-  // -----------------------------------------------------------------------------
-
-  const FileMiming();
-
+abstract class FileMiming {
   // -----------------------------------------------------------------------------
 
   /// CONSTANTS

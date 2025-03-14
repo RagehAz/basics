@@ -4,10 +4,6 @@ part of media_models;
 abstract class DimensionsGetter {
   // -----------------------------------------------------------------------------
 
-  const DimensionsGetter();
-
-  // -----------------------------------------------------------------------------
-
   /// SUPER
 
   // --------------------
@@ -208,7 +204,7 @@ abstract class DimensionsGetter {
         bytes: bytes,
       );
 
-      // blog('_getImageDimensions  _isDecodable($_isDecodable)');
+      blog('_getImageDimensions  _isDecodable($_isDecodable)');
 
       if (_isDecodable == true){
 
@@ -236,7 +232,7 @@ abstract class DimensionsGetter {
   /// VIDEO
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION : TEST ME
   static Future<Dimensions?> _getVideoDimensions({
     required XFile? xFile,
   }) async {
@@ -244,6 +240,17 @@ abstract class DimensionsGetter {
 
     if (xFile != null){
 
+      final Uint8List? bytes = await VideoThumbnail.thumbnailData(
+        imageFormat: ImageFormat.JPEG,
+        video: xFile.path,
+        // maxHeight: 100,
+      );
+
+      _output = await _getImageDimensions(
+        bytes: bytes,
+      );
+
+      /*
       final Map<String, dynamic>? _map = await XFiler.readXFileInfo(
         xFile: xFile,
       );
@@ -262,6 +269,7 @@ abstract class DimensionsGetter {
           }
         }
       }
+       */
 
     }
 

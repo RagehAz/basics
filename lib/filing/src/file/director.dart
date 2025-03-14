@@ -7,11 +7,7 @@ enum DirectoryType {
   download,
 }
 /// => TAMAM
-class Director {
-  // -----------------------------------------------------------------------------
-
-  const Director();
-
+abstract class Director {
   // -----------------------------------------------------------------------------
   static bool canHaveDirectory(){
     return kIsWeb == false && DeviceChecker.deviceIsWindows() == false;

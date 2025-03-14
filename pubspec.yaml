@@ -15,13 +15,29 @@ dependencies:
     sdk: flutter
   # -----------------
   # DISCONTINUED
-  ffmpeg_kit_flutter: 6.0.3
+#  ffmpeg_kit_flutter: 6.0.3
+#  flutter_ffmpeg: ^0.4.2
+  video_thumbnail: 0.5.3
+  flutter_native_video_trimmer: 1.1.6
+#  flutter_video_info: 1.3.1
+  # ------------------------------------
+  ffmpeg_kit_flutter:
+    # ----------------
+    # IOS
+    # path: /Users/rageh/projects/bldrs/fire
+    # ----------------
+    # ANDROID
+    path: D:/projects/other/ffmpeg-kit/flutter/flutter
+    # ----------------
+    # GIT
+    #    git:
+    #      url: https://github.com/RagehAz/that_kit.git
   # -----------------
   # COMPLEX DEPENDANTS
   clipboard: 0.1.3
-  collection: 1.19.1
+  collection: 1.18.0
   mime: 2.0.0
-  path: 1.9.1
+  path: 1.9.0
   intl: 0.19.0
   # ----------------
   flutter_image_compress: 2.4.0
@@ -45,7 +61,7 @@ dependencies:
   image_editor: 1.6.0
   flutter_udid: 4.0.0
   # related to pdfx
-  device_info_plus: 11.3.3
+  device_info_plus: 10.1.2
   # ----------------
   # COOL
   image: 4.5.3
@@ -55,8 +71,8 @@ dependencies:
   matrix2d: 1.0.4
   flutter_spinkit: 5.2.1
   page_transition: 2.2.1
-  sembast: 3.8.4+1
-  sembast_web: 2.4.1
+  sembast: 3.7.5+2
+  sembast_web: 2.4.0+4
   stop_watch_timer: 3.2.1
   cross_file_image: 1.1.0
   cross_file: 0.3.4+2
@@ -66,7 +82,7 @@ dependencies:
   pinch_zoom_release_unzoom: 2.0.0
   http: 1.3.0
   # related to firebase_ui_auth
-  email_validator: 3.0.0
+  email_validator: 2.1.17
   # -----------------
 #  youtube_player_flutter: ^9.0.4
 #  android_path_provider: ^0.3.0

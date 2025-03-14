@@ -180,6 +180,22 @@ class MediaModelCreator {
       bytes: bytes,
       ops: (XFile xFile) async {
 
+        /// DEPRECATED
+        // await tryAndCatch(
+        //   invoker: 'FormatDetector._byInfo',
+        //   functions: () async {
+        //
+        //     final FlutterVideoInfo videoInfo = FlutterVideoInfo();
+        //     final VideoData? info = await videoInfo.getVideoInfo(xFile.path);
+        //
+        //     if (info != null){
+        //       _dims = Dimensions(width: info.width?.toDouble(), height: info.height?.toDouble());
+        //       _fileExtensionType = FileMiming.getTypeByMime(info.mimetype);
+        //     }
+        //
+        //   },
+        // );
+
         await Future.wait(<Future>[
 
           /// DIMS

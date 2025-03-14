@@ -20,11 +20,9 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:cross_file/cross_file.dart';
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter/media_information.dart';
-import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+// import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -35,6 +33,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mime/mime.dart';
 import 'package:basics/ldb/ldb.dart';
+/// NEED_MIGRATION
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/media_information.dart';
+import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';

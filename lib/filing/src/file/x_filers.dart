@@ -1,10 +1,6 @@
 part of filing;
 /// => TAMAM
-class XFiler {
-  // -----------------------------------------------------------------------------
-
-  const XFiler();
-
+abstract class XFiler {
   // -----------------------------------------------------------------------------
 
   /// CREATE TEMP
@@ -654,7 +650,7 @@ class XFiler {
   /// FILE INFO
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<Map<String, dynamic>?> readXFileInfo({
     required XFile? xFile,
   }) async {

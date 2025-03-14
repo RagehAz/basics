@@ -1,10 +1,6 @@
 part of filing;
 /// => TAMAM
-class FilePathing {
-  // -----------------------------------------------------------------------------
-
-  const FilePathing();
-
+abstract class FilePathing {
   // -----------------------------------------------------------------------------
 
   /// CREATE PATH

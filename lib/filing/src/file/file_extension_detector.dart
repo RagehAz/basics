@@ -1,10 +1,7 @@
+// ignore_for_file: unused_element, prefer_final_locals
 part of filing;
 /// => TAMAM
-class FormatDetector {
-  // --------------------------------------------------------------------------
-
-  const FormatDetector();
-
+abstract class FormatDetector {
   // --------------------------------------------------------------------------
 
   /// FIXERS
@@ -182,7 +179,7 @@ class FormatDetector {
   /// BY INFO
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// NEED_MIGRATION
   static Future<FileExtType?> _byInfo({
     required XFile? xFile,
     required String? fileName,
@@ -196,6 +193,15 @@ class FormatDetector {
         await tryAndCatch(
           invoker: 'FormatDetector._byInfo',
           functions: () async {
+
+            blog('FormatDetector._byInfo : xFile : $xFile : fileName : $fileName : CAN NOT BRING THIS SHIT');
+
+            // final FlutterVideoInfo videoInfo = FlutterVideoInfo();
+            // final VideoData? info = await videoInfo.getVideoInfo(xFile.path);
+            //
+            // if (info != null){
+            //   _output = FileMiming.getTypeByMime(info.mimetype);
+            // }
 
             final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
 
@@ -240,10 +246,10 @@ class FormatDetector {
    return _output;
   }
   // --------------------
-  /// BETTER THAN NOTHING
+  /// NEED_MIGRATION
   static Future<FileExtType> _fixWebpSituation({
     required FileExtType type,
-    required MediaInformation info,
+    required dynamic info,
   }) async {
     FileExtType output = type;
 

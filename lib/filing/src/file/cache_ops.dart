@@ -1,11 +1,7 @@
 part of filing;
 
 /// => TAMAM
-class ImageCacheOps {
-  // -----------------------------------------------------------------------------
-
-  const ImageCacheOps();
-
+abstract class ImageCacheOps {
   // -----------------------------------------------------------------------------
 
   /// CLEAR IMAGE CACHE

@@ -8,11 +8,7 @@ enum FileSizeUnit {
   teraByte,
 }
 
-class FileSizer {
-  // -----------------------------------------------------------------------------
-
-  const FileSizer();
-
+abstract class FileSizer {
   // -----------------------------------------------------------------------------
 
   /// FROM SUPER FILE
