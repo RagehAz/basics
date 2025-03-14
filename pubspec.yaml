@@ -24,14 +24,16 @@ dependencies:
   ffmpeg_kit_flutter:
     # ----------------
     # IOS
-    # path: /Users/rageh/projects/bldrs/fire
+    # path: /Users/rageh/projects/bldrs/fireffmpeg-kit
     # ----------------
     # ANDROID
-    path: D:/projects/other/ffmpeg-kit/flutter/flutter
+    # path: D:/projects/other/ffmpeg-kit/flutter/flutter
     # ----------------
     # GIT
-    #    git:
-    #      url: https://github.com/RagehAz/that_kit.git
+    git:
+      url: https://github.com/RagehAz/that_kit.git
+      path: flutter/flutter
+      ref: main
   # -----------------
   # COMPLEX DEPENDANTS
   clipboard: 0.1.3
