@@ -2,10 +2,12 @@ import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/strings/linker.dart';
 import 'package:basics/helpers/strings/phoner.dart';
+import 'package:basics/helpers/strings/text_casing.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+
   group('modifyAllCharactersWith', () {
     test('Replaces all occurrences of characterToReplace with replacement in input', () {
       final result = TextMod.replaceAllCharacters(
@@ -1169,4 +1171,57 @@ void main() {
       expect(result, equals(expectedOutput));
     });
   });
+
+  group('TextCasing.capitalizeFirstLetterOfAllWords', () {
+
+    test('should capitalize each word in a normal sentence', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: 'hello world'),
+        'Hello World',
+      );
+    });
+
+    test('should handle multiple spaces between words correctly', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: '  hello   world  '),
+        'Hello World',
+      );
+    });
+
+    test('should return null for null input', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: null),
+        null,
+      );
+    });
+
+    test('should return null for empty input', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: ''),
+        null,
+      );
+    });
+
+    test('should preserve casing for words except the first letter when lowerCaseTheRest is true', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: 'hELlo WoRLD', lowerCaseTheRest: true),
+        'Hello World',
+      );
+    });
+
+    test('should preserve original casing except for the first letter when lowerCaseTheRest is false', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: 'hELlo WoRLD', lowerCaseTheRest: false),
+        'HELlo WoRLD',
+      );
+    });
+
+    test('should correctly handle single word input', () {
+      expect(
+        TextCasing.capitalizeFirstLetterOfAllWords(input: 'flutter'),
+        'Flutter',
+      );
+    });
+  });
+
 }
