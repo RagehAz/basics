@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 // -----------------------------------------------------------------------------
 export 'package:page_transition/page_transition.dart';
 /// => TAMAM
-class Nav {
-  // -----------------------------------------------------------------------------
-
-  const Nav();
-
+abstract class Nav {
   // -----------------------------------------------------------------------------
   static const Duration duration150ms = Duration(milliseconds: 500);
   static const Curve transitionCurve = Curves.fastOutSlowIn;
