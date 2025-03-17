@@ -3,11 +3,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/services.dart';
 
 /// => TAMAM
-class TextClipBoard {
-  // -----------------------------------------------------------------------------
-
-  const TextClipBoard();
-
+abstract class TextClipBoard {
   // -----------------------------------------------------------------------------
 
   /// COPY

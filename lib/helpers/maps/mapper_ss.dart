@@ -1,10 +1,6 @@
 import 'package:basics/helpers/maps/lister.dart';
 /// => TAMAM
-class MapperSS {
-  // -----------------------------------------------------------------------------
-
-  const MapperSS();
-
+abstract class MapperSS {
   // -----------------------------------------------------------------------------
 
   /// CREATORS

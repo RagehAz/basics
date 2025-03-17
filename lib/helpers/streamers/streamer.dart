@@ -2,11 +2,7 @@ import 'dart:async';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:flutter/material.dart';
 /// => TAMAM
-class Streamer {
-  // -----------------------------------------------------------------------------
-
-  const Streamer();
-
+abstract class Streamer {
   // -----------------------------------------------------------------------------
 
   /// CHECKERS

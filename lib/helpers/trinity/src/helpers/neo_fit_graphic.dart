@@ -1,6 +1,6 @@
 part of trinity;
 /// => TAMAM
-class NeoFitGraphic {
+abstract class NeoFitGraphic {
   // --------------------------------------------------------------------------
 
   /// LEVELLING

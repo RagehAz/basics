@@ -2,11 +2,7 @@ import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/permissions/permits.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
-class PermitProtocol {
-  // -----------------------------------------------------------------------------
-
-  const PermitProtocol();
-
+abstract class PermitProtocol {
   // -----------------------------------------------------------------------------
 
   /// PHOTO GALLERY

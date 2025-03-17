@@ -6,11 +6,7 @@ import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 
 /// AI TESTED
-class Stringer {
-  // -----------------------------------------------------------------------------
-
-  const Stringer();
-
+abstract class Stringer {
   // -----------------------------------------------------------------------------
 
   /// CLONING

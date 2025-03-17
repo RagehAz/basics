@@ -8,13 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 export 'package:permission_handler/permission_handler.dart';
 import 'package:basics/helpers/nums/booler.dart';
-
 /// => TAMAM
-class Permit {
-  // -----------------------------------------------------------------------------
-
-  const Permit();
-
+abstract class Permit {
   // -----------------------------------------------------------------------------
 
   /// ALL PERMITS

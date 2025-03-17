@@ -5,11 +5,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:basics/models/flag_model.dart';
 /// => TAMAM
-class Phoner {
-  // -----------------------------------------------------------------------------
-
-  const Phoner();
-
+abstract class Phoner {
   // -----------------------------------------------------------------------------
 
   /// GLOBALIZATION

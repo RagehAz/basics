@@ -6,11 +6,7 @@ import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:http/http.dart' as http;
 /// => TAMAM
-class Rest {
-  // -----------------------------------------------------------------------------
-
-  const Rest();
-
+abstract class Rest {
   // -----------------------------------------------------------------------------
 
   /// CREATE

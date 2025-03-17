@@ -7,11 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image/image.dart' as img;
 import 'dart:ui' as ui;
 
-class Pixelizer {
-  // --------------------------------------------------------------------------
-
-  const Pixelizer();
-
+abstract class Pixelizer {
   // --------------------------------------------------------------------------
 
   /// SNAPSHOTTING

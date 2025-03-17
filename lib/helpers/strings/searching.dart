@@ -2,11 +2,7 @@ import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/wire/wire.dart';
 import 'package:flutter/material.dart';
 
-class Searching {
-  // --------------------------------------------------------------------------
-
-  const Searching();
-
+abstract class Searching {
   // --------------------------------------------------------------------------
 
   /// SEARCH TRIGGERS

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Aligner {
-  // -----------------------------------------------------------------------------
-
-  const Aligner();
-
+abstract class Aligner {
   // -----------------------------------------------------------------------------
 
   /// ALIGNMENT

@@ -7,11 +7,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:collection/collection.dart';
 
 /// => AI TESTED
-class Mapper {
-  // -----------------------------------------------------------------------------
-
-  const Mapper();
-
+abstract class Mapper {
   // -----------------------------------------------------------------------------
 
   /// STRINGS GETTERS FROM LISTS

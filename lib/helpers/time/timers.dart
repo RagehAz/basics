@@ -78,11 +78,7 @@ enum TimeAccuracy{
   microSecond,
 }
 
-class Timers {
-  // -----------------------------------------------------------------------------
-
-  const Timers();
-
+abstract class Timers {
   // -----------------------------------------------------------------------------
   /// "2019-07-19 8:40:23"
   static intl.DateFormat utcDateFormat = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");

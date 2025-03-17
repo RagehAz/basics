@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/strings/linker.dart';

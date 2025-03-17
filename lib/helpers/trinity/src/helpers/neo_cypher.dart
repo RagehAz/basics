@@ -1,6 +1,6 @@
 part of trinity;
 /// => TAMAM
-class NeoCypher {
+abstract class NeoCypher {
   // -----------------------------------------------------------------------------
 
   /// MATRIX CYPHERS

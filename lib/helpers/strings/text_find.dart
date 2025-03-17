@@ -3,11 +3,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 /// => TAMAM
-class TextFind {
-  // -----------------------------------------------------------------------------
-
-  const TextFind();
-
+abstract class TextFind {
   // -----------------------------------------------------------------------------
 
   /// REG EX

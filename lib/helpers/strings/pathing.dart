@@ -5,11 +5,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 
 /// => TAMAM
-class Pathing {
-  // -----------------------------------------------------------------------------
-
-  const Pathing();
-
+abstract class Pathing {
   // -----------------------------------------------------------------------------
 
   /// GETTERS

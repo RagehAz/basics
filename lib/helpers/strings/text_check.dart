@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 
 /// => AI TESTED
-class TextCheck {
-  // -----------------------------------------------------------------------------
-
-  const TextCheck();
-
+abstract class TextCheck {
   // -----------------------------------------------------------------------------
 
   /// REG EXP

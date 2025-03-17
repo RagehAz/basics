@@ -11,11 +11,7 @@ import 'package:image/image.dart' as img;
 import 'dart:convert';
 import 'package:cross_file/cross_file.dart';
 
-class ObjectCheck {
-  // -----------------------------------------------------------------------------
-
-  const ObjectCheck();
-
+abstract class ObjectCheck {
   // -----------------------------------------------------------------------------
 
   /// URL

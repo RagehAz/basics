@@ -5,11 +5,7 @@ import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_clip_board.dart';
 import 'package:flutter/material.dart';
 
-class TextMod {
-  // -----------------------------------------------------------------------------
-
-  const TextMod();
-
+abstract class TextMod {
   // -----------------------------------------------------------------------------
 
   /// MODIFIERS

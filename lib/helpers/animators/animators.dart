@@ -1,11 +1,7 @@
 import 'package:basics/helpers/animators/sliders.dart';
 import 'package:flutter/material.dart';
 /// => TAMAM
-class Animators {
-  // -----------------------------------------------------------------------------
-
-  const Animators();
-
+abstract class Animators {
   // -----------------------------------------------------------------------------
 
   /// SWIPE DIRECTION

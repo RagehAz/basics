@@ -3,11 +3,7 @@ import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter/material.dart';
 
 /// AI TESTED
-class TextDir {
-  // -----------------------------------------------------------------------------
-
-  const TextDir();
-
+abstract class TextDir {
   // -----------------------------------------------------------------------------
 
   /// GETTERS

@@ -4,11 +4,7 @@ import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 /// => TAMAM
-class Linker {
-  // -----------------------------------------------------------------------------
-
-  const Linker();
-
+abstract class Linker {
   // -----------------------------------------------------------------------------
 
   /// COMMON DOMAINS

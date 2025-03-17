@@ -5,11 +5,7 @@ import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Atlas {
-  // -----------------------------------------------------------------------------
-
-  const Atlas();
-
+abstract class Atlas {
   // -----------------------------------------------------------------------------
 
   /// CYPHERS

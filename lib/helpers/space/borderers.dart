@@ -1,11 +1,7 @@
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
 
-class Borderers {
-  // -----------------------------------------------------------------------------
-
-  const Borderers();
-
+abstract class Borderers {
   // -----------------------------------------------------------------------------
   /// TASK : use clipBehaviour : Clip.antiAliasWithSaveLayer instead of ClipRRect
   // -----------------------------------------------------------------------------

@@ -1,10 +1,6 @@
 import 'package:collection/collection.dart';
 /// => TAMAM
-class MapperSI {
-  // -----------------------------------------------------------------------------
-
-  const MapperSI();
-
+abstract class MapperSI {
   // -----------------------------------------------------------------------------
 
   /// CONVERTER
