@@ -23,10 +23,10 @@ class CopyrightsLine extends StatelessWidget {
   }){
 
     if (isArabic) {
-      return '© 2024 $companyName. جميع الحقوق محفوظة.';
+      return '© 2025 $companyName. جميع الحقوق محفوظة.';
     }
     else {
-      return 'Copyright © 2024 $companyName. All rights reserved.';
+      return 'Copyright © 2025 $companyName. All rights reserved.';
     }
 
   }

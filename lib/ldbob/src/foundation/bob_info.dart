@@ -1,10 +1,6 @@
 part of bob;
 ///
-class BobInfo {
-  // -----------------------------------------------------------------------------
-
-  const BobInfo();
-
+abstract class BobInfo {
   // --------------------
   ///
   // static Future<int?> getStoreItemsCount(String? docName) async {

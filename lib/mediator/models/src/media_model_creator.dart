@@ -1,10 +1,6 @@
 part of media_models;
 /// => TAMAM
-class MediaModelCreator {
-  // -----------------------------------------------------------------------------
-
-  const MediaModelCreator();
-
+abstract class MediaModelCreator {
   // -----------------------------------------------------------------------------
 
   /// FILE NAME ADJUSTMENT

@@ -1,10 +1,6 @@
 part of super_text_field;
 
-class SuperTextFieldController {
-  // -----------------------------------------------------------------------------
-
-  const SuperTextFieldController();
-
+abstract class SuperTextFieldController {
   // --------------------------------------------------------------------------
 
   /// ALIGNMENT

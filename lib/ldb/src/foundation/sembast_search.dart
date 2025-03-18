@@ -1,12 +1,7 @@
 // ignore_for_file: avoid_redundant_argument_values
-
 part of ldb;
 /// => TAMAM
-class SembastSearch {
-  // -----------------------------------------------------------------------------
-
-  const SembastSearch();
-
+abstract class SembastSearch {
   // -----------------------------------------------------------------------------
 
   /// SEARCH

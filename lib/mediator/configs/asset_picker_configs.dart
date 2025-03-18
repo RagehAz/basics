@@ -11,11 +11,7 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 import '../configs/picker_text_delegates.dart';
 
-class WeChatPickerConfigs {
-  // -----------------------------------------------------------------------------
-
-  const WeChatPickerConfigs();
-
+abstract class WeChatPickerConfigs {
   // -----------------------------------------------------------------------------
   static ThemeData _themeData({
     TextStyle? textStyle,

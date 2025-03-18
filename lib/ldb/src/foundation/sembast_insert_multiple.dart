@@ -2,11 +2,7 @@
 
 part of ldb;
 /// => TAMAM
-class SembastInsertMultiple {
-  // -----------------------------------------------------------------------------
-
-  const SembastInsertMultiple();
-
+abstract class SembastInsertMultiple {
   // -----------------------------------------------------------------------------
 
   /// INSERT MULTIPLE

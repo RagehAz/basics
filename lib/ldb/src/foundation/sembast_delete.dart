@@ -2,11 +2,7 @@
 
 part of ldb;
 /// => TAMAM
-class SembastDelete {
-  // -----------------------------------------------------------------------------
-
-  const SembastDelete();
-
+abstract class SembastDelete {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteMap({

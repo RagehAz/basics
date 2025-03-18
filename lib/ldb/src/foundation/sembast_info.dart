@@ -1,10 +1,6 @@
 part of ldb;
 /// => TAMAM
-class SembastInfo {
-  // -----------------------------------------------------------------------------
-
-  const SembastInfo();
-
+abstract class SembastInfo {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<int?> getStoreItemsCount(String? docName) async {
