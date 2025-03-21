@@ -47,27 +47,6 @@ abstract class TextMod {
 
     return _output;
   }
-  // --------------------
-  /// AI TESTED
-  static String? idifyString(String? text){
-    String? _output;
-
-    if (TextCheck.isEmpty(text) == false){
-
-      _output = text;
-
-      _output = fixCountryName(
-        input: _output,
-        addTheseChars: {
-          'and'               : {'char': '&'    ,'replacement': '_'},
-          'space'             : {'char': ' '    ,'replacement': '_'},
-        },
-      );
-
-    }
-
-    return _output;
-  }
   // -----------------------------------------------------------------------------
 
   /// CASING

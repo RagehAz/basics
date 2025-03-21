@@ -164,7 +164,7 @@ class SuperFile {
     if (url != null){
 
       final Uint8List? _bytes = await Byter.fromURL(url);
-      final String? _fileName = fileName ?? TextMod.idifyString(url);
+      final String? _fileName = fileName ?? Idifier.idifyString(url);
 
       if (_bytes != null && _fileName != null){
 

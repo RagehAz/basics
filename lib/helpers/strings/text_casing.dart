@@ -1,5 +1,4 @@
 import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 
@@ -81,8 +80,6 @@ abstract class TextCasing {
     if (TextCheck.isEmpty(input) == false){
 
       final List<String> _words = input!.split(' ');
-
-      Stringer.blogStrings(strings: _words, invoker: 'capitalizeFirstLetterOfAllWords');
 
       if (Lister.checkCanLoop(_words) == true){
 

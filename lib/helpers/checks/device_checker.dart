@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
+import 'package:basics/helpers/strings/idifier.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -103,7 +104,7 @@ class DeviceChecker {
                               + webInfo.browserName.name
                               + webInfo.hardwareConcurrency.toString();
 
-      final String? _cleaned = TextMod.idifyString(_combined);
+      final String? _cleaned = Idifier.idifyString(_combined);
       return TextMod.replaceAllCharacters(
         characterToReplace: ';',
         replacement: '',
@@ -153,7 +154,7 @@ class DeviceChecker {
                               + webInfo.browserName.name
                               + webInfo.hardwareConcurrency.toString();
 
-      return TextMod.idifyString(_combined);
+      return Idifier.idifyString(_combined);
     }
 
     /// IS IOS

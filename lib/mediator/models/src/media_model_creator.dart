@@ -532,7 +532,7 @@ abstract class MediaModelCreator {
 
           }
 
-          _output = await Filer.createFromBytes(bytes: _bytes, fileName: TextMod.idifyString(entity.title));
+          _output = await Filer.createFromBytes(bytes: _bytes, fileName: Idifier.idifyString(entity.title));
 
         },
         onError: (String error) async {

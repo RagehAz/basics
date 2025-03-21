@@ -265,7 +265,7 @@ abstract class Filer {
 
         if (_bytes != null){
 
-          final String _fileName = fileName ?? TextMod.idifyString(url)!;
+          final String _fileName = fileName ?? Idifier.idifyString(url)!;
 
           // blog('---> 1 : createFromURL : $_fileName');
           _file = await createFromBytes(

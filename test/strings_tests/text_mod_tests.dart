@@ -2,6 +2,7 @@
 
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/filing/filing.dart';
+import 'package:basics/helpers/strings/idifier.dart';
 import 'package:basics/helpers/strings/linker.dart';
 import 'package:basics/helpers/strings/phoner.dart';
 import 'package:basics/helpers/strings/text_casing.dart';
@@ -124,37 +125,37 @@ void main() {
 
   group('idifyString', () {
     test('Returns idified string with spaces replaced by underscores and lowercase', () {
-      final result = TextMod.idifyString('Hello World');
+      final result = Idifier.idifyString('Hello World');
       expect(result, equals('hello_world'));
     });
 
     test('Returns null when input text is null', () {
-      final result = TextMod.idifyString(null);
+      final result = Idifier.idifyString(null);
       expect(result, equals(null));
     });
 
     test('Returns empty string when input text is empty', () {
-      final result = TextMod.idifyString('');
+      final result = Idifier.idifyString('');
       expect(result, null);
     });
 
     test('Returns idified string with spaces and semicolons replaced', () {
-      final result = TextMod.idifyString('Hello;World');
+      final result = Idifier.idifyString('Hello;World');
       expect(result, equals('hello_world'));
     });
 
     test('Returns idified string with fixed country name', () {
-      final result = TextMod.idifyString('united states');
+      final result = Idifier.idifyString('united states');
       expect(result, equals('united_states'));
     });
 
     test('Returns idified string with all modifications applied', () {
-      final result = TextMod.idifyString('   Hello; World ');
+      final result = Idifier.idifyString('   Hello; World ');
       expect(result, equals('hello_world'));
     });
 
     test('Returns idified string with special characters', () {
-      final result = TextMod.idifyString('Hello!@ #World');
+      final result = Idifier.idifyString('Hello!@ #World');
       expect(result, equals('hello_world'));
     });
   });
