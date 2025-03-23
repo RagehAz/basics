@@ -1,3 +1,4 @@
+import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/services.dart';
@@ -16,11 +17,12 @@ abstract class TextClipBoard {
 
     if (TextCheck.isEmpty(copy) == false){
 
-        await Clipboard.setData(
-        ClipboardData(
-          text: copy!,
-        )
-    );
+      await tryAndCatch(
+        invoker: 'TextClipBoard.copy',
+        functions: () async {
+          await Clipboard.setData(ClipboardData(text: copy!));
+        },
+      );
 
     }
 
@@ -32,8 +34,17 @@ abstract class TextClipBoard {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<String?> paste() async {
-    final String? _text = await FlutterClipboard.paste();
-    return _text?.trim();
+    String? _output;
+
+    await tryAndCatch(
+      invoker: 'TextClipBoard.paste',
+      functions: () async {
+        final String? _text = await FlutterClipboard.paste();
+        _output = _text?.trim();
+      },
+    );
+
+    return _output;
   }
   // -----------------------------------------------------------------------------
 
@@ -42,7 +53,14 @@ abstract class TextClipBoard {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> clear() async {
-    await Clipboard.setData(const ClipboardData(text: '',));
+
+    await tryAndCatch(
+      invoker: 'TextClipBoard.clear',
+      functions: () async {
+        await Clipboard.setData(const ClipboardData(text: '',));
+      },
+    );
+
   }
   // ----------------------------------------------------------------------------- 
 }
