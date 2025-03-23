@@ -60,7 +60,7 @@
   # --------------------------------------------------------------------------------
  */
 
-class BldrsThemeFonts {
+abstract class BldrsThemeFonts {
   // -----------------------------------------------------------------------------
   static const String fontHead = 'head';
   static const String fontBody = 'body';

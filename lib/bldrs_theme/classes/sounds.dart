@@ -2,11 +2,7 @@
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:flutter/foundation.dart';
 
-class BldrsThemeSounds {
-  // -----------------------------------------------------------------------------
-
-  const BldrsThemeSounds();
-
+abstract class BldrsThemeSounds {
   // -----------------------------------------------------------------------------
 
   /// SOUND FX

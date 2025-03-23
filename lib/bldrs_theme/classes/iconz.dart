@@ -2,11 +2,7 @@ import 'package:basics/helpers/strings/pathing.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:flutter/services.dart';
 
-class Iconz {
-  // -----------------------------------------------------------------------------
-
-  const Iconz();
-
+abstract class Iconz {
   // -----------------------------------------------------------------------------
 
   /// FILE NAME
@@ -336,6 +332,7 @@ class Iconz {
   static const String matchLeft = '$iconDirectory/gi_match_left.svg';
   static const String reverse = '$iconDirectory/gi_reverse.svg';
   static const String colorFill = '$iconDirectory/gi_color_fill.svg';
+  static const String qrCode = '$iconDirectory/gi_qr_code.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -616,6 +613,7 @@ class Iconz {
       matchLeft: true,
       reverse: true,
       colorFill: true,
+      qrCode: true,
       slidesShelf: true,
       instagramRepo: true,
 
