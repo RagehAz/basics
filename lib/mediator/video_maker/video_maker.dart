@@ -9,11 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
-class VideoMaker {
-  // -----------------------------------------------------------------------------
-
-  const VideoMaker();
-
+abstract class VideoMaker {
   // -----------------------------------------------------------------------------
 
   /// PICK

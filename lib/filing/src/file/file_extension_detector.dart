@@ -194,14 +194,7 @@ abstract class FormatDetector {
           invoker: 'FormatDetector._byInfo',
           functions: () async {
 
-            blog('FormatDetector._byInfo : xFile : $xFile : fileName : $fileName : CAN NOT BRING THIS SHIT');
-
-            // final FlutterVideoInfo videoInfo = FlutterVideoInfo();
-            // final VideoData? info = await videoInfo.getVideoInfo(xFile.path);
-            //
-            // if (info != null){
-            //   _output = FileMiming.getTypeByMime(info.mimetype);
-            // }
+            // blog('FormatDetector._byInfo : xFile : $xFile : fileName : $fileName');
 
             final MediaInformationSession session = await FFprobeKit.getMediaInformation(xFile.path);
 

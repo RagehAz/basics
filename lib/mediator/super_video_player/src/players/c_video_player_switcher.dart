@@ -43,6 +43,7 @@ class _SuperVideoControllerPlayer extends StatelessWidget {
       // }
       //
       // else {
+
         return _FilePlayer(
           superVideoController: superVideoController!,
           width: width,

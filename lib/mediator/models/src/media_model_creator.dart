@@ -86,6 +86,7 @@ abstract class MediaModelCreator {
     required Uint8List? bytes,
     required String uploadPath,
     required bool skipMetaData,
+    String? filePath,
     MediaOrigin? mediaOrigin,
     List<String>? ownersIDs,
     String? caption,
@@ -119,6 +120,7 @@ abstract class MediaModelCreator {
           final Map<String?, dynamic> _map = await _getDimsAndFileType(
             id: _id,
             bytes: bytes,
+            filePath: filePath,
           );
           final Dimensions? _dims = _map['dims'];
           final FileExtType? _fileExtensionType = _map['fileExtensionType'];
@@ -165,62 +167,69 @@ abstract class MediaModelCreator {
   static Future<Map<String, dynamic>> _getDimsAndFileType({
     required String id,
     required Uint8List bytes,
+    String? filePath,
   }) async {
 
     Dimensions? _dims;
     FileExtType? _fileExtensionType;
 
-    await XFiler.getOrCreateTempXFile(
-      invoker: '_getDimsAndFileType',
-      fileName: id,
-      bytes: bytes,
-      ops: (XFile xFile) async {
+    Future<void> _getData(XFile xFile) async  {
+      /// DEPRECATED
+      // await tryAndCatch(
+      //   invoker: 'FormatDetector._byInfo',
+      //   functions: () async {
+      //
+      //     final FlutterVideoInfo videoInfo = FlutterVideoInfo();
+      //     final VideoData? info = await videoInfo.getVideoInfo(xFile.path);
+      //
+      //     if (info != null){
+      //       _dims = Dimensions(width: info.width?.toDouble(), height: info.height?.toDouble());
+      //       _fileExtensionType = FileMiming.getTypeByMime(info.mimetype);
+      //     }
+      //
+      //   },
+      // );
+      await Future.wait(<Future>[
 
-        /// DEPRECATED
-        // await tryAndCatch(
-        //   invoker: 'FormatDetector._byInfo',
-        //   functions: () async {
-        //
-        //     final FlutterVideoInfo videoInfo = FlutterVideoInfo();
-        //     final VideoData? info = await videoInfo.getVideoInfo(xFile.path);
-        //
-        //     if (info != null){
-        //       _dims = Dimensions(width: info.width?.toDouble(), height: info.height?.toDouble());
-        //       _fileExtensionType = FileMiming.getTypeByMime(info.mimetype);
-        //     }
-        //
-        //   },
-        // );
+        /// DIMS
+        awaiter(
+          wait: true,
+          function: () async {
+            // blog('_getDimsAndFileType : xfile($xFile)');
+            _dims =  await DimensionsGetter.fromXFile(
+              xFile: xFile,
+              invoker: 'createTheMediaModelFromBytes',
+            );
+          },
+        ),
 
-        await Future.wait(<Future>[
+        /// FILE TYPE
+        awaiter(
+          wait: true,
+          function: () async {
+            _fileExtensionType = await FormatDetector.detectXFile(
+              xFile: xFile,
+              invoker: 'createTheMediaModelFromBytes',
+              bytesIfThere: bytes,
+            );
+          },
+        ),
 
-          /// DIMS
-          awaiter(
-            wait: true,
-            function: () async {
-              _dims =  await DimensionsGetter.fromXFile(
-                xFile: xFile,
-                invoker: 'createTheMediaModelFromBytes',
-              );
-            },
-          ),
+      ]);
+    }
 
-          /// FILE TYPE
-          awaiter(
-            wait: true,
-            function: () async {
-              _fileExtensionType = await FormatDetector.detectXFile(
-                xFile: xFile,
-                invoker: 'createTheMediaModelFromBytes',
-                bytesIfThere: bytes,
-              );
-            },
-          ),
+    if (filePath == null){
+      await XFiler.getOrCreateTempXFile(
+        invoker: '_getDimsAndFileType',
+        fileName: id,
+        bytes: bytes,
+        ops: (XFile xFile) =>_getData(xFile),
+      );
+    }
 
-        ]);
-
-      },
-    );
+    else {
+      await _getData(XFile(filePath));
+    }
 
     return {
       'dims': _dims,
@@ -248,6 +257,7 @@ abstract class MediaModelCreator {
     final Uint8List? _bytes = await Byter.fromFile(file);
 
     _output = await fromBytes(
+      filePath: file?.path,
       bytes: _bytes,
       uploadPath: uploadPath,
       caption: caption,
@@ -256,73 +266,6 @@ abstract class MediaModelCreator {
       includeFileExtension: includeFileExtension,
       skipMetaData: skipMetaData,
     );
-
-
-    // if (file != null && _bytes != null && TextCheck.isEmpty(uploadPath) == false){
-    //
-    //   final String? _originalFileName = file.fileNameWithoutExtension;
-    //
-    //   final String? _uploadPath = FilePathing.replaceFileNameInPath(
-    //     oldPath: uploadPath,
-    //     fileName: _originalFileName,
-    //   );
-    //
-    //   final String? _id = MediaModel.createID(
-    //     uploadPath: _uploadPath,
-    //   );
-    //
-    //   if (_id != null){
-    //
-    //     final Dimensions? _dims =  await DimensionsGetter.fromFile(
-    //       file: file,
-    //     );
-    //     final double? _aspectRatio = Numeric.roundFractions(_dims?.getAspectRatio(), 2);
-    //     final double? _mega = FileSizer.getFileSizeWithUnit(
-    //       file: file,
-    //       unit: FileSizeUnit.megaByte,
-    //     );
-    //     final double? _kilo = FileSizer.getFileSizeWithUnit(
-    //       file: file,
-    //       unit: FileSizeUnit.kiloByte,
-    //     );
-    //     final String? _deviceID = await DeviceChecker.getDeviceID();
-    //     final String? _deviceName = await DeviceChecker.getDeviceName();
-    //     final String _devicePlatform = kIsWeb == true ? 'web' : Platform.operatingSystem;
-    //     // final String? _extension = FileTyper.getExtension(object: bytes);
-    //
-    //     final FileExtType? _fileExtensionType = await FormatDetector.detectFile(
-    //       file: file,
-    //     );
-    //
-    //     _output = MediaModel(
-    //       id: _id,
-    //       bytes: _bytes,
-    //       meta: MediaMetaModel(
-    //         sizeMB: _mega,
-    //         width: _dims?.width,
-    //         height: _dims?.height,
-    //         fileExt: _fileExtensionType,
-    //         name: _originalFileName,
-    //         ownersIDs: ownersIDs ?? [],
-    //         uploadPath: _uploadPath,
-    //         data: MapperSS.cleanNullPairs(
-    //           map: {
-    //             'aspectRatio': _aspectRatio.toString(),
-    //             'sizeB': _bytes.length.toString(),
-    //             'sizeKB': _kilo.toString(),
-    //             'source': MediaModel.cipherMediaOrigin(mediaOrigin),
-    //             'deviceID': _deviceID,
-    //             'deviceName': _deviceName,
-    //             'platform': _devicePlatform,
-    //             'file_path': file.path,
-    //             'caption': caption,
-    //           },
-    //         ),
-    //       ),
-    //     );
-    //   }
-    //
-    // }
 
     return _output?.setFilePath(filePath: file?.path);
   }
@@ -354,6 +297,7 @@ abstract class MediaModelCreator {
 
       _output = await fromBytes(
         bytes: await file.readBytes(),
+        filePath: file.path,
         ownersIDs: ownersIDs,
         uploadPath: uploadPath,
         mediaOrigin: mediaOrigin,
@@ -401,17 +345,6 @@ abstract class MediaModelCreator {
       );
 
       return _mediaModel?.setOriginalURL(originalURL: url);
-
-      // return _mediaModel?.copyWith(
-      //   meta: _mediaModel.meta?.copyWith(
-      //       data: MapperSS.insertPairInMapWithStringValue(
-      //         map: _mediaModel.meta?.data,
-      //         key: 'original_url',
-      //         value: url!,
-      //         overrideExisting: true,
-      //       )
-      //   ),
-      // );
 
     }
 
@@ -509,6 +442,8 @@ abstract class MediaModelCreator {
 
     /// HEIC OR HEIF
     if (_type == FileExtType.heic || _type == FileExtType.heif){
+
+      // blog('_fixFileIfHeic : the file is heic or heif');
 
       await tryAndCatch(
         invoker: '_fixFileIfHeic',
@@ -711,6 +646,7 @@ abstract class MediaModelCreator {
 
         _output = await fromBytes(
           bytes: await _xFile.readAsBytes(),
+          filePath: file.path,
           ownersIDs: ownersIDs,
           uploadPath: uploadPath,
           mediaOrigin: mediaOrigin,

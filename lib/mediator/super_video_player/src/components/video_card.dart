@@ -36,7 +36,8 @@ class _VideoCard extends StatelessWidget {
               margin: EdgeInsets.zero,
               /// to clip the child corners to be circular forcefully
               shape: RoundedRectangleBorder(borderRadius: _corners),
-              // color: Colorz.black255,
+              /// THIS FIXES THE WHITE INITIAL FLASH IN IOS
+              color: Colorz.nothing,
               child: VideoPlayer(controller),
           ),
         ),

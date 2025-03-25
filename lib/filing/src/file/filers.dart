@@ -239,6 +239,10 @@ abstract class Filer {
         includeFileExtension: includeFileExtension,
       );
 
+      if (_output == null && mediaModel?.getFilePath() != null){
+        _output = File(mediaModel!.getFilePath()!);
+      }
+
     }
 
     return _output;

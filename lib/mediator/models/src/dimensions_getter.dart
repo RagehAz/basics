@@ -212,7 +212,7 @@ abstract class DimensionsGetter {
         final int? width = _image?.width;
         final int? height = _image?.height;
 
-        // blog('==> _width : $width : _height : $height');
+        blog('_getImageDimensions ==> _width : $width : _height : $height');
 
         if (width != null && height != null){
           _output = Dimensions(
@@ -238,6 +238,8 @@ abstract class DimensionsGetter {
   }) async {
     Dimensions? _output;
 
+    blog('_getVideoDimensions : xfile(${xFile?.path})');
+
     if (xFile != null){
 
       final Uint8List? bytes = await VideoThumbnail.thumbnailData(
@@ -245,6 +247,8 @@ abstract class DimensionsGetter {
         video: xFile.path,
         // maxHeight: 100,
       );
+
+      blog('_getVideoDimensions : got bytes : (${bytes?.length})');
 
       _output = await _getImageDimensions(
         bytes: bytes,

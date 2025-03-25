@@ -78,7 +78,11 @@ abstract class PermitProtocol {
   }) async {
 
     final PermissionState? per = await Permit.requestPhotoManagerPermission();
+
     bool _canPick = per?.hasAccess ?? false;
+
+    // print('[A] name(${per?.name} index(${per?.index})) hasAccess(${per?.hasAccess}) isAuth(${per?.isAuth})');
+    // print('canPick: $_canPick');
 
     if (_canPick == false) {
 
