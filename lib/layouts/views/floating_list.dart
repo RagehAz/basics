@@ -1,3 +1,4 @@
+import 'package:basics/bldrs_theme/classes/ratioz.dart';
 import 'package:basics/helpers/animators/app_scroll_behavior.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:basics/helpers/space/scale.dart';
@@ -216,4 +217,115 @@ class HorizontalFloatingList extends StatelessWidget {
     // --------------------
   }
   // --------------------------------------------------------------------------
+}
+
+class SuperListView extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const SuperListView({
+    required this.width,
+    required this.height,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.controller,
+    this.physics,
+    this.bottomPadding = Ratioz.horizon,
+    this.topPadding = Ratioz.stratosphere,
+    super.key
+  });
+  // --------------------
+  final double width;
+  final double height;
+  final ScrollController? controller;
+  final ScrollPhysics? physics;
+  final int itemCount;
+  final double bottomPadding;
+  final double topPadding;
+  final Widget Function(int index) itemBuilder;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ScrollConfiguration(
+        behavior: const AppScrollBehavior(),
+        child: ListView.builder(
+          controller: controller,
+          itemCount: itemCount + 1,
+          physics: physics ?? const BouncingScrollPhysics(),
+          padding: EdgeInsets.only(
+            bottom: bottomPadding,
+          ),
+          itemBuilder: (_, index){
+
+            if (index == 0){
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                width: width,
+                height: topPadding,
+              );
+            }
+
+            else {
+              return itemBuilder(index - 1);
+            }
+
+          },
+        ),
+      ),
+    );
+    // --------------------
+  }
+// --------------------------------------------------------------------------
+}
+
+class SuperHorizontalListView extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const SuperHorizontalListView({
+    required this.width,
+    required this.height,
+    required this.itemCount,
+    required this.itemBuilder,
+    this.controller,
+    this.physics,
+    this.horizontalPadding = Ratioz.appBarMargin,
+    super.key
+  });
+  // --------------------
+  final double width;
+  final double height;
+  final ScrollController? controller;
+  final ScrollPhysics? physics;
+  final int itemCount;
+  final double horizontalPadding;
+  final Widget Function(int index) itemBuilder;
+  // --------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ScrollConfiguration(
+        behavior: const AppScrollBehavior(),
+        child: ListView.builder(
+          controller: controller,
+          itemCount: itemCount,
+          physics: physics ?? const BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+          ),
+          itemBuilder: (_, index){
+
+            return itemBuilder(index);
+
+          },
+        ),
+      ),
+    );
+    // --------------------
+  }
+// --------------------------------------------------------------------------
 }

@@ -39,6 +39,7 @@ class LDBViewerScreen extends StatefulWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             children: <Widget>[
+
               /// MORE OPTIONS
               SuperBox(
                 height: 37,
@@ -219,14 +220,136 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   Widget build(BuildContext context) {
 
     final double _screenWidth = Scale.screenWidth(context);
+    final double _screenHeight = Scale.screenHeight(context);
 
     return BasicLayout(
-      safeAreaIsOn: true,
-      body: MaxBounceNavigator(
-        child: Column(
-          children: <Widget>[
+      body: Stack(
+        alignment: Alignment.topCenter,
+        children: <Widget>[
 
-            Row(
+          /// LOADING
+          if (_loading == true)
+            SizedBox(
+              width: _screenWidth,
+              height: _screenHeight,
+              // color: Colorz.bloodTest,
+              child: Column(
+                children: <Widget>[
+
+                  SizedBox(
+                    width: _screenWidth,
+                    height: 40,
+                  ),
+
+                  InfiniteLoadingBox(
+                    width: _screenWidth,
+                    height: 37,
+                    backgroundColor: Colorz.white255.withAlpha(100),
+                    milliseconds: 500,
+                  ),
+
+                  const Spacing(size: 3),
+
+                  InfiniteLoadingBox(
+                    width: _screenWidth,
+                    height: 37,
+                    backgroundColor: Colorz.white255.withAlpha(75),
+                    milliseconds: 500,
+                  ),
+
+                  const Spacing(size: 3),
+
+                  InfiniteLoadingBox(
+                    width: _screenWidth,
+                    height: 37,
+                    backgroundColor: Colorz.white255.withAlpha(50),
+                    milliseconds: 500,
+                  ),
+
+                  const Spacing(size: 3),
+
+                ],
+              ),
+            ),
+
+          /// LIST
+          if (_loading == false && _isInit == false)
+          Scroller(
+            child: SuperListView(
+              width: _screenWidth,
+              height: _screenHeight,
+              itemCount: _maps.length,
+              topPadding: 40,
+              itemBuilder: (int index){
+
+                final Map<String, dynamic> _map = _maps[index];
+                final List<String> _keys = _map.keys.toList();
+                final List<dynamic> _values = _map.values.toList();
+                // final String _primaryValue = _map[_primaryKey];
+
+                return SizedBox(
+                  width: _screenWidth,
+                  height: 42,
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+
+                      /// MORE OPTIONS
+                      SuperBox(
+                        height: 37,
+                        width: 37,
+                        icon: Iconz.more,
+                        iconSizeFactor: 0.4,
+                        onTap: () => _onRowTap(_map),
+                        // margins: EdgeInsets.all(5),
+                      ),
+
+                      /// ROW NUMBER
+                      SuperBox(
+                        height: 40,
+                        width: 40,
+                        // maxWidth: 40,
+                        text: '${index + 1}',
+                        textScaleFactor: 0.4,
+                        margins: const EdgeInsets.all(5),
+                        bubble: false,
+                        color: Colorz.white10,
+                      ),
+
+                      /// ROW VALUES
+                      ...List<Widget>.generate(_values.length, (int i) {
+                        final String _key = _keys[i];
+                        final String _value = _values[i].toString();
+                        return ValueBox(
+                          dataKey: _key,
+                          value: _value,
+                          color: Colorz.green125,
+                        );
+                      }),
+
+                    ],
+                  ),
+                );
+
+              },
+            ),
+          ),
+
+          if (_loading == false && _isInit == false && _maps.isEmpty == true)
+          const Center(
+            child: SuperText(
+              text: 'Doc is Empty',
+              font: 'bebas',
+            ),
+          ),
+
+          /// APP BAR
+          Container(
+            width: _screenWidth,
+            height: 45,
+            color: Colorz.black255,
+            child: Row(
               children: <Widget>[
 
                 SuperBox(
@@ -242,107 +365,16 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
                   height: 40,
                   textScaleFactor: 0.7,
                   color: Colorz.white20,
-                  text: 'Tap to wipe this doc [ ${widget.ldbDocName} ]',
+                  text: 'Wipe doc(${widget.ldbDocName}).length(${_maps.length})',
                   onTap: _onBldrsTap,
                 ),
 
               ],
             ),
+          ),
 
-            if (_loading == true)
-            Column(
-              children: <Widget>[
-
-                InfiniteLoadingBox(
-                  width: _screenWidth,
-                  height: 40,
-                  color: Colorz.bloodTest.withAlpha(125),
-                  backgroundColor: Colorz.nothing,
-                ),
-
-                InfiniteLoadingBox(
-                  width: _screenWidth,
-                  height: 40,
-                  color: Colorz.bloodTest.withAlpha(75),
-                  backgroundColor: Colorz.nothing,
-                ),
-
-                InfiniteLoadingBox(
-                  width: _screenWidth,
-                  height: 40,
-                  color: Colorz.bloodTest.withAlpha(25),
-                  backgroundColor: Colorz.nothing,
-                ),
-
-              ],
-            ),
-
-            if (_loading == false && _isInit == false)
-            SizedBox(
-              width: _screenWidth,
-              height: Scale.screenHeight(context) - 40,
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: _maps.length,
-                itemBuilder: (_, int index){
-
-                  final Map<String, dynamic> _map = _maps[index];
-                  final List<String> _keys = _map.keys.toList();
-                  final List<dynamic> _values = _map.values.toList();
-                  // final String _primaryValue = _map[_primaryKey];
-
-                  return SizedBox(
-                    width: _screenWidth,
-                    height: 42,
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-
-                        /// MORE OPTIONS
-                        SuperBox(
-                          height: 37,
-                          width: 37,
-                          icon: Iconz.more,
-                          iconSizeFactor: 0.4,
-                          onTap: () => _onRowTap(_map),
-                          // margins: EdgeInsets.all(5),
-                        ),
-
-                        /// ROW NUMBER
-                        SuperBox(
-                          height: 40,
-                          width: 40,
-                          // maxWidth: 40,
-                          text: '${index + 1}',
-                          textScaleFactor: 0.4,
-                          margins: const EdgeInsets.all(5),
-                          bubble: false,
-                          color: Colorz.white10,
-                        ),
-
-                        /// ROW VALUES
-                        ...List<Widget>.generate(_values.length, (int i) {
-                          final String _key = _keys[i];
-                          final String _value = _values[i].toString();
-                          return ValueBox(
-                            dataKey: _key,
-                            value: _value,
-                            color: Colorz.green125,
-                          );
-                        }),
-
-                      ],
-                    ),
-                  );
-                  },
-              ),
-            ),
-
-          ],
-        ),
+        ],
       ),
-
     );
 
   }
