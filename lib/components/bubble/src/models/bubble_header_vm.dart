@@ -8,6 +8,7 @@ class BubbleHeaderVM {
     this.leadingIcon,
     this.leadingIconSizeFactor = 1,
     this.leadingIconBoxColor,
+    this.leadingIconColor,
     this.leadingIconIsBubble = false,
     this.onLeadingIconTap,
     this.hasSwitch = false,
@@ -41,6 +42,7 @@ class BubbleHeaderVM {
   final dynamic leadingIcon;
   final double? leadingIconSizeFactor;
   final Color? leadingIconBoxColor;
+  final Color? leadingIconColor;
   final bool leadingIconIsBubble;
   final Function? onLeadingIconTap;
   final bool hasSwitch;
@@ -78,6 +80,7 @@ class BubbleHeaderVM {
     dynamic leadingIcon,
     double? leadingIconSizeFactor,
     Color? leadingIconBoxColor,
+    Color? leadingIconColor,
     bool? leadingIconIsBubble,
     bool? hasSwitch,
     bool? hasMoreButton,
@@ -111,6 +114,7 @@ class BubbleHeaderVM {
       leadingIcon: leadingIcon ?? this.leadingIcon,
       leadingIconSizeFactor: leadingIconSizeFactor ?? this.leadingIconSizeFactor,
       leadingIconBoxColor: leadingIconBoxColor ?? this.leadingIconBoxColor,
+      leadingIconColor: leadingIconColor ?? this.leadingIconColor,
       leadingIconIsBubble: leadingIconIsBubble ?? this.leadingIconIsBubble,
       hasSwitch: hasSwitch ?? this.hasSwitch,
       hasMoreButton: hasMoreButton ?? this.hasMoreButton,
@@ -163,6 +167,7 @@ class BubbleHeaderVM {
           model1.leadingIcon == model2.leadingIcon &&
           model1.leadingIconSizeFactor == model2.leadingIconSizeFactor &&
           model1.leadingIconBoxColor == model2.leadingIconBoxColor &&
+          model1.leadingIconColor == model2.leadingIconColor &&
           model1.leadingIconIsBubble == model2.leadingIconIsBubble &&
           model1.hasSwitch == model2.hasSwitch &&
           model1.hasMoreButton == model2.hasMoreButton &&
@@ -233,6 +238,7 @@ class BubbleHeaderVM {
       leadingIcon.hashCode^
       leadingIconSizeFactor.hashCode^
       leadingIconBoxColor.hashCode^
+      leadingIconColor.hashCode^
       leadingIconIsBubble.hashCode^
       onLeadingIconTap.hashCode^
       hasSwitch.hashCode^

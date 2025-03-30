@@ -49,7 +49,7 @@ class SuperBoxIcon extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           borderRadius: corners,
-          // color: Colorz.BloodTest
+          // color: Colorz.red255
         ),
         child: Stack(
           alignment: Alignment.center,

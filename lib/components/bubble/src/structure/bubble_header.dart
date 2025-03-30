@@ -62,7 +62,7 @@ class _BubbleHeader extends StatelessWidget {
                       width: BubbleScale.headerButtonSize,
                       height: BubbleScale.headerButtonSize,
                       icon: _viewModel.leadingIcon,
-                      // iconColor: Colorz.Green255,
+                      iconColor: _viewModel.leadingIconColor,
                       iconSizeFactor: _viewModel.leadingIconSizeFactor,
                       color: _viewModel.leadingIconBoxColor,
                       // margins: EdgeInsets.zero,

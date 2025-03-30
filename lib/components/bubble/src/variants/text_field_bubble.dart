@@ -314,6 +314,8 @@ class TextFieldBubble extends StatelessWidget {
               ),
             ),
 
+          const Spacing(size: 3),
+
           /// TEXT FIELD ROW
           Disabler(
             isDisabled: isDisabled,

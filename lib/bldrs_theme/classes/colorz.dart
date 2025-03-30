@@ -5,17 +5,20 @@ abstract class Colorz {
   static const Color bloodTest = Color.fromARGB(100, 255, 0, 0);
   static const Color nothing = Color.fromARGB(0, 255, 255, 255);
   // --------------------
-  static const Color black0 = Color.fromARGB(0, 0, 0, 0);
-  static const Color black10 = Color.fromARGB(10, 0, 0, 0);
-  static const Color black20 = Color.fromARGB(20, 0, 0, 0 );
-  static const Color black30 = Color.fromARGB(30, 0, 0, 0 );
-  static const Color black50 = Color.fromARGB(50, 0, 0, 0);
-  static const Color black80 = Color.fromARGB(80, 0, 0, 0);
-  static const Color black125 = Color.fromARGB(125, 0, 0, 0);
-  static const Color black150 = Color.fromARGB(150, 0, 0, 0);
-  static const Color black200 = Color.fromARGB(200, 0, 0, 0);
-  static const Color black230 = Color.fromARGB(230, 0, 0, 0);
-  static const Color black255 = Color.fromARGB(255, 0, 0, 0);
+  static const int _blackR = 0;
+  static const int _blackG = 0;
+  static const int _blackB = 0;
+  static const Color black0 = Color.fromARGB(0, _blackR, _blackG, _blackB);
+  static const Color black10 = Color.fromARGB(10, _blackR, _blackG, _blackB);
+  static const Color black20 = Color.fromARGB(20, _blackR, _blackG, _blackB);
+  static const Color black30 = Color.fromARGB(30, _blackR, _blackG, _blackB);
+  static const Color black50 = Color.fromARGB(50, _blackR, _blackG, _blackB);
+  static const Color black80 = Color.fromARGB(80, _blackR, _blackG, _blackB);
+  static const Color black125 = Color.fromARGB(125, _blackR, _blackG, _blackB);
+  static const Color black150 = Color.fromARGB(150, _blackR, _blackG, _blackB);
+  static const Color black200 = Color.fromARGB(200, _blackR, _blackG, _blackB);
+  static const Color black230 = Color.fromARGB(230, _blackR, _blackG, _blackB);
+  static const Color black255 = Color.fromARGB(255, _blackR, _blackG, _blackB);
   // --------------------
   static const Color blackSemi20 = Color.fromARGB(20, 18, 18, 18);
   static const Color blackSemi125 = Color.fromARGB(125, 18, 18, 18);
@@ -68,15 +71,18 @@ abstract class Colorz {
   // --------------------
   static const Color darkGreen255 = Color.fromARGB(255, 10, 80, 20);
   // --------------------
-  static const Color white10 = Color.fromARGB(10, 255, 255, 255);
-  static const Color white20 = Color.fromARGB(20, 255, 255, 255);
-  static const Color white30 = Color.fromARGB(30, 255, 255, 255);
-  static const Color white50 = Color.fromARGB(50, 255, 255, 255);
-  static const Color white80 = Color.fromARGB(80, 255, 255, 255);
-  static const Color white125 = Color.fromARGB(125, 255, 255, 255);
-  static const Color white200 = Color.fromARGB(200, 255, 255, 255);
-  static const Color white230 = Color.fromARGB(230, 255, 255, 255);
-  static const Color white255 = Color.fromARGB(255, 255, 255, 255);
+  static const int _whiteR = 247;
+  static const int _whiteG = 244;
+  static const int _whiteB = 235;
+  static const Color white10 = Color.fromARGB(10, _whiteR, _whiteG, _whiteB);
+  static const Color white20 = Color.fromARGB(20, _whiteR, _whiteG, _whiteB);
+  static const Color white30 = Color.fromARGB(30, _whiteR, _whiteG, _whiteB);
+  static const Color white50 = Color.fromARGB(50, _whiteR, _whiteG, _whiteB);
+  static const Color white80 = Color.fromARGB(80, _whiteR, _whiteG, _whiteB);
+  static const Color white125 = Color.fromARGB(125, _whiteR, _whiteG, _whiteB);
+  static const Color white200 = Color.fromARGB(200, _whiteR, _whiteG, _whiteB);
+  static const Color white230 = Color.fromARGB(230, _whiteR, _whiteG, _whiteB);
+  static const Color white255 = Color.fromARGB(255, _whiteR, _whiteG, _whiteB);
   // --------------------
   static const Color grey50 = Color.fromARGB(50, 121, 121, 121);
   static const Color grey80 = Color.fromARGB(80, 121, 121, 121);
