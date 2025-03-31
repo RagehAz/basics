@@ -73,6 +73,8 @@ class TextFormFieldSwitcher extends StatelessWidget {
     required this.autoCorrect,
     required this.enableSuggestions,
 
+    required this.hintVerseColor,
+
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -140,7 +142,10 @@ class TextFormFieldSwitcher extends StatelessWidget {
   final bool autoCorrect;
   final bool enableSuggestions;
 
-    /// TESTED : WORKS PERFECT
+  final Color? hintVerseColor;
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Color? validatorTextColor({
     required String? message,
     required Color? errorColor,
@@ -165,7 +170,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
 
     return _color;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------
   ///
   Widget counterBuilder(
       BuildContext context, {
@@ -236,6 +241,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
       textHeight: _textHeight,
       hintText: hintText, // ?? '...' TASK : TAKE CARE OF DEFAULT DOTS
       hintTextDirection: hintTextDirection,
+      hintVerseColor: hintVerseColor,
       textItalic: textItalic,
       corners: corners,
       fieldColor: fieldColor,

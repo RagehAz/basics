@@ -79,10 +79,11 @@ abstract class SuperTextFieldController {
     required double textHeight,
     required bool textItalic,
     required String? font,
+    required Color? hintVerseColor,
   }) {
 
     return createTextStyle(
-      color: const Color.fromARGB(80, 255, 255, 255),
+      color: hintVerseColor ?? const Color.fromARGB(80, 255, 255, 255),
       italic: textItalic,
       textHeight: textHeight * 0.8,
       fontFamily: font,
@@ -139,6 +140,7 @@ abstract class SuperTextFieldController {
     required Color errorBorderColor,
     required String? font,
     required TextDirection? hintTextDirection,
+    required Color? hintVerseColor,
   }){
 
     final double _textHeight = textHeight ?? 20;
@@ -149,6 +151,7 @@ abstract class SuperTextFieldController {
       hintStyle: createHintStyle(
         textHeight: _textHeight,
         textItalic: textItalic,
+        hintVerseColor: hintVerseColor,
         font: font,
       ),
       hintTextDirection: hintTextDirection,

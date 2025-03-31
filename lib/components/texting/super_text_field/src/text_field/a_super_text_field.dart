@@ -73,6 +73,8 @@ class SuperTextField extends StatefulWidget {
     this.autoCorrect = false,
     this.enableSuggestions = false,
 
+    this.hintVerseColor,
+
   super.key
   });  // --------------------------------------------------------------------------
   /// main
@@ -145,6 +147,8 @@ class SuperTextField extends StatefulWidget {
 
   final bool autoCorrect;
   final bool enableSuggestions;
+
+  final Color? hintVerseColor;
 
   /// --------------------------------------------------------------------------
   @override
@@ -338,7 +342,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
             autoCorrect: widget.autoCorrect,
             enableSuggestions: widget.enableSuggestions,
 
-
+            hintVerseColor: widget.hintVerseColor,
           ),
         ),
 

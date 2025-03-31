@@ -74,6 +74,7 @@ class TileBubble extends StatelessWidget {
           bubbleWidthOverride: _bubbleWidth,
           viewModel: bubbleHeaderVM!.copyWith(
             // headerWidth: _clearWidth,
+            headlineColor: textColor,
             font: font,
             textDirection: textDirection,
             appIsLTR: appIsLTR,
