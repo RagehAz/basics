@@ -130,7 +130,9 @@ class _BubbleHeader extends StatelessWidget {
                       onTap: _viewModel.onMoreButtonTap,
                       textFont: _viewModel.font,
                       bubble: false,
-                      borderColor: Colorz.white50,
+                      borderColor: _viewModel.switchTrackColor,
+                      color: _viewModel.leadingIconBoxColor,
+                      iconColor: _viewModel.leadingIconColor,
                       // margins: const EdgeInsets.symmetric(horizontal: 5),
                     ),
 

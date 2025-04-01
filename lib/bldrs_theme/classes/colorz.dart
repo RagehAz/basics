@@ -36,6 +36,8 @@ abstract class Colorz {
   static const Color blue125 = Color.fromARGB(125, 133, 203, 218);
   static const Color blue255 = Color.fromARGB(255, 133, 203, 218);
   // --------------------
+  static const Color darkBlue255 = Color.fromARGB(255, 19, 67, 124);
+  // --------------------
   static const Color darkBlue = Color.fromARGB(255, 20, 20, 80);
   // --------------------
   static const Color skyDarkBlue = Color.fromARGB(255,19, 36, 75); // #13244b

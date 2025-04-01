@@ -21,7 +21,7 @@ class BulletPoints extends StatelessWidget {
   final double textHeight;
   final double? boxWidth;
   final bool centered;
-  final Color textColor;
+  final Color? textColor;
   final bool showBottomLine;
   final bool appIsLTR;
   final TextDirection textDirection;

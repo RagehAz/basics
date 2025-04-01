@@ -23,6 +23,7 @@ class TileBubble extends StatelessWidget {
     this.bulletPointsMaxLines = 10,
     this.hasChildTopPadding = false,
     this.margin,
+    this.bulletsColor,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -46,6 +47,7 @@ class TileBubble extends StatelessWidget {
   final Color? borderColor;
   final bool hasChildTopPadding;
   final dynamic margin;
+  final Color? bulletsColor;
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -89,8 +91,10 @@ class TileBubble extends StatelessWidget {
             context: context,
             appIsLTR: appIsLTR,
             enLeft: BubbleScale.headerButtonSize,
+            top: 4,
           ),
           child: BulletPoints(
+            textColor: bulletsColor,
             bulletPoints: bulletPoints,
             textHeight: 18,
             boxWidth: _childWidth,
