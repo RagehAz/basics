@@ -68,7 +68,7 @@ class TextFieldBubble extends StatelessWidget {
     this.autoCorrect = false,
 
     this.margin,
-
+    this.bulletColor,
     super.key
   }); 
   // --------------------
@@ -136,6 +136,7 @@ class TextFieldBubble extends StatelessWidget {
   final bool enableSuggestions;
   final bool autoCorrect;
   final dynamic margin;
+  final Color? bulletColor;
   // --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
   // -----------------------------------------------------------------------------
@@ -311,6 +312,7 @@ class TextFieldBubble extends StatelessWidget {
                 bulletPoints: bulletPoints,
                 font: bulletPointsFont,
                 showBottomLine: false,
+                textColor: bulletColor,
               ),
             ),
 
