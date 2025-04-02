@@ -69,6 +69,11 @@ class TextFieldBubble extends StatelessWidget {
 
     this.margin,
     this.bulletColor,
+
+    this.obscuredInactiveColor,
+    this.obscuredActiveIconColor,
+    this.obscuredInactiveIconColor,
+
     super.key
   }); 
   // --------------------
@@ -137,6 +142,9 @@ class TextFieldBubble extends StatelessWidget {
   final bool autoCorrect;
   final dynamic margin;
   final Color? bulletColor;
+  final Color? obscuredInactiveColor;
+  final Color? obscuredActiveIconColor;
+  final Color? obscuredInactiveIconColor;
   // --------------------------------------------------------------------------
   static const double pasteButtonWidth = 50;
   // -----------------------------------------------------------------------------
@@ -413,9 +421,9 @@ class TextFieldBubble extends StatelessWidget {
                           return SuperBox(
                             height: obscureBtSize,
                             width: obscureBtSize,
-                            color: obscured ? Colorz.white10 : obscuredActiveColor,
+                            color: obscured ? (obscuredInactiveColor ?? Colorz.white10) : obscuredActiveColor,
                             icon: obscuredIcon,
-                            iconColor: obscured ? Colorz.white20 : Colorz.black230,
+                            iconColor: obscured ? (obscuredInactiveIconColor ?? Colorz.white20) : (obscuredActiveIconColor ?? Colorz.black230),
                             iconSizeFactor: 0.7,
                             bubble: false,
                             // corners: SuperVerse.superVerseLabelCornerValue(context, 3),

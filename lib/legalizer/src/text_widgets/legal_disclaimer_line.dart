@@ -57,6 +57,7 @@ class LegalDisclaimerLine extends StatelessWidget {
                 font: BldrsThemeFonts.fontBody,
                 margins: const EdgeInsets.symmetric(horizontal: 5),
                 onTap: onTermsTap,
+                textColor: textColor,
               ),
 
               SuperText(
