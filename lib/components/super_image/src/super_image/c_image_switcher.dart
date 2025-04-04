@@ -152,6 +152,7 @@ class ImageSwitcher extends StatelessWidget {
       final BoxFit _boxFit = boxFit ?? BoxFit.cover;
 
       if (pic is IconData){
+
         return Container(
           width: width,
           height: height * (scale ?? 1) * 1.3,
