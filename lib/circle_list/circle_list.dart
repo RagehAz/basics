@@ -205,15 +205,19 @@ class _CircleListState extends State<CircleList>
           curve: widget.animationSetting?.curve ?? Curves.easeOutBack));
       _controller!.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          setState(() {
-            isAnimationStop = true;
-          });
+          if (mounted == true){
+            setState(() {
+              isAnimationStop = true;
+            });
+          }
         }
       });
       _controller!.addListener(() {
-        setState(() {
-          isAnimationStop = false;
-        });
+        if (mounted == true){
+          setState(() {
+            isAnimationStop = false;
+          });
+        }
       });
       _controller!.forward();
     }
@@ -258,18 +262,22 @@ class _CircleListState extends State<CircleList>
 
                 widget.onDragUpdate?.call(updateCoord);
 
-                setState(() {
-                  dragModel.getAngleDiff(updateCoord, dragAngleRange);
-                });
+                if (mounted == true){
+                  setState(() {
+                    dragModel.getAngleDiff(updateCoord, dragAngleRange);
+                  });
+                }
 
               },
               onRadialDragStart: (PolarCoord startCoord) {
 
                 widget.onDragStart?.call(startCoord);
 
-                setState(() {
-                  dragModel.start = startCoord;
-                });
+                if (mounted == true){
+                  setState(() {
+                    dragModel.start = startCoord;
+                  });
+                }
 
               },
               onRadialDragEnd: () {
@@ -302,15 +310,19 @@ class _CircleListState extends State<CircleList>
                 stopRotate: rotateMode == RotateMode.stopRotate,
                 onRadialDragUpdate: (PolarCoord updateCoord) {
                   widget.onDragUpdate?.call(updateCoord);
-                  setState(() {
-                    dragModel.getAngleDiff(updateCoord, dragAngleRange);
-                  });
+                  if (mounted == true){
+                    setState(() {
+                      dragModel.getAngleDiff(updateCoord, dragAngleRange);
+                    });
+                  }
                 },
                 onRadialDragStart: (PolarCoord startCoord) {
                   widget.onDragStart?.call(startCoord);
-                  setState(() {
-                    dragModel.start = startCoord;
-                  });
+                  if (mounted == true){
+                    setState(() {
+                      dragModel.start = startCoord;
+                    });
+                  }
                 },
                 onRadialDragEnd: () {
                   widget.onDragEnd?.call();

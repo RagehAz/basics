@@ -110,11 +110,13 @@ class _TheValidationSensorState extends State<_TheValidationSensor> {
 
       final String? _error = widget.validator.call(widget.controller.text);
 
-      setState(() {
-        _lastText = widget.controller.text;
-        _theError = _error;
-        _isValid = _error == null;
-      });
+      if (mounted == true){
+        setState(() {
+          _lastText = widget.controller.text;
+          _theError = _error;
+          _isValid = _error == null;
+        });
+      }
 
     }
 

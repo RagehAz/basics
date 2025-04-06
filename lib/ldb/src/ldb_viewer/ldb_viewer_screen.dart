@@ -136,18 +136,22 @@ class _LDBViewerScreenState extends State<LDBViewerScreen> {
   List<Map<String, dynamic>> _maps = [];
   Future<void> _readSembast() async {
 
-    setState(() {
-      _loading = true;
-    });
+    if (mounted == true){
+      setState(() {
+        _loading = true;
+      });
+    }
 
     final List<Map<String, dynamic>> _sembastMaps = await LDBOps.readAllMaps(
       docName: widget.ldbDocName,
     );
 
-    setState(() {
-      _maps = _sembastMaps;
-      _loading = false;
-    });
+    if (mounted == true){
+      setState(() {
+        _maps = _sembastMaps;
+        _loading = false;
+      });
+    }
 
   }
   // --------------------

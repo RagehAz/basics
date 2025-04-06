@@ -148,15 +148,19 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
         oldWidget.max       != widget.max       ||
         oldWidget.min       != widget.min
     ){
-      setState(() {
-        _animate();
-      });
+      if (mounted == true){
+        setState(() {
+          _animate();
+        });
+      }
     }
 
     if (widget.restartOnRebuild == true){
-      setState(() {
-        _animate();
-      });
+      if (mounted == true){
+        setState(() {
+          _animate();
+        });
+      }
     }
 
     super.didUpdateWidget(oldWidget);

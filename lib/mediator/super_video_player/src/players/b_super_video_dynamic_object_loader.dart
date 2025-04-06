@@ -98,7 +98,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
         oldWidget.cover != widget.cover ||
         oldWidget.errorIcon != widget.errorIcon
     ){
-      if (mounted){
+      if (mounted == true){
         setState(() {});
       }
     }
@@ -129,7 +129,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
       isMuted: widget.isMuted,
     );
 
-    if (mounted){
+    if (mounted == true){
       setState(() {});
     }
 

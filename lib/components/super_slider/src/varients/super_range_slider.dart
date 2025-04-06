@@ -70,9 +70,11 @@ class _SuperRangeSliderState extends State<SuperRangeSlider> {
         Lister.checkListsAreIdentical(list1: oldWidget.range, list2: widget.range) == false ||
         oldWidget.roundFractions != widget.roundFractions
     ) {
-      setState(() {
-        _live = widget.initialValue ?? widget.range?.first ?? 0;
-      });
+      if (mounted == true){
+        setState(() {
+          _live = widget.initialValue ?? widget.range?.first ?? 0;
+        });
+      }
     }
   }
   // --------------------
@@ -103,9 +105,11 @@ class _SuperRangeSliderState extends State<SuperRangeSlider> {
   // --------------------
   void _onChange(double value) {
 
-    setState(() {
-      _live = _fixDouble(value);
-    });
+    if (mounted == true){
+      setState(() {
+        _live = _fixDouble(value);
+      });
+    }
 
     widget.onChanged?.call(_live);
 
@@ -113,9 +117,11 @@ class _SuperRangeSliderState extends State<SuperRangeSlider> {
   // --------------------
   void _onChangeEnd(double value){
 
-    setState(() {
-      _live = _fixDouble(value);
-    });
+    if (mounted == true){
+      setState(() {
+        _live = _fixDouble(value);
+      });
+    }
 
     widget.onChangeEnd?.call(_live);
 

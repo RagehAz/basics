@@ -188,7 +188,7 @@ class _FilteredImageState extends State<_FilteredImage> {
             filterModel: widget.filterModel,
           );
 
-          if (mounted){
+          if (mounted == true){
             setState(() {
               _uiImage = uiImage;
               _loading = false;
@@ -239,9 +239,11 @@ class _FilteredImageState extends State<_FilteredImage> {
     ImageFilterModel.checkFiltersAreIdentical(filter1: widget.filterModel, filter2: oldWidget.filterModel) == false
     ) {
 
-      setState(() {
-        _loading = true;
-      });
+      if (mounted == true){
+        setState(() {
+          _loading = true;
+        });
+      }
 
       unawaited(getUiImageFromDynamic(widget.pic).then((ui.Image? uiImage){
         if (mounted == true){

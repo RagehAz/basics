@@ -109,9 +109,11 @@ class _SembastTestScreenState extends State<SembastTestScreen> {
 
     Mapper.blogMaps(_readMaps);
 
-    setState(() {
-      _maps = _readMaps;
-    });
+    if (mounted == true){
+      setState(() {
+        _maps = _readMaps;
+      });
+    }
 
     setNotifier(notifier: _loading, mounted: mounted, value: false);
 

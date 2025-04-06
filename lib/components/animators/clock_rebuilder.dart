@@ -34,7 +34,9 @@ class _ClockRebuilderState extends State<ClockRebuilder> {
   void didUpdateWidget(ClockRebuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (checkTimesAreIdentical(time1: oldWidget.startTime, time2: widget.startTime) == false) {
-      setState(() {});
+      if (mounted == true){
+        setState(() {});
+      }
     }
   }
   // --------------------

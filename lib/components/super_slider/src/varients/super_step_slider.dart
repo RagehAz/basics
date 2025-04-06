@@ -50,10 +50,12 @@ class _SuperStepSliderState extends State<SuperStepSlider> {
     Lister.checkListsAreIdentical(list1: widget.labels, list2: oldWidget.labels) == false ||
     Lister.checkListsAreIdentical(list1: widget.divisions, list2: oldWidget.divisions) == false
     ) {
-      setState(() {
-        values = widget.divisions;
-        _live = _getLiveValueByIndex(widget.initialIndex ?? 0);
-      });
+      if (mounted == true){
+        setState(() {
+          values = widget.divisions;
+          _live = _getLiveValueByIndex(widget.initialIndex ?? 0);
+        });
+      }
     }
   }
   // --------------------
@@ -133,9 +135,11 @@ class _SuperStepSliderState extends State<SuperStepSlider> {
 
     _getValueToSnapTo(value);
 
-    setState(() {
-      _live = value;
-    });
+    if (mounted == true){
+      setState(() {
+        _live = value;
+      });
+    }
 
     widget.onChanged?.call(_getIntToSnapTo(value));
 
@@ -143,9 +147,11 @@ class _SuperStepSliderState extends State<SuperStepSlider> {
   // --------------------
   void _onChangeEnd(double value){
 
-    setState(() {
-      _live = _concludeSnapToValue(value);
-    });
+    if (mounted == true){
+      setState(() {
+        _live = _concludeSnapToValue(value);
+      });
+    }
 
     widget.onChangeEnd?.call(_getIntToSnapTo(value));
 

@@ -44,9 +44,11 @@ class _CroppingLayerState extends State<CroppingLayer> {
   final  bool _isFitVertically = false;
   // --------------------
   set rect(Rect newRect) {
-    setState(() {
-      _rect = newRect;
-    });
+    if (mounted == true){
+      setState(() {
+        _rect = newRect;
+      });
+    }
     widget.onMoved?.call(_rect);
   }
   // --------------------
@@ -91,9 +93,11 @@ class _CroppingLayerState extends State<CroppingLayer> {
         || Imager.checkImagesAreIdentical(oldWidget.image, widget.image) == false
     ) {
 
-      setState(() {
-        _initializeRect();
-      });
+      if (mounted == true){
+        setState(() {
+          _initializeRect();
+        });
+      }
 
     }
   }
