@@ -315,6 +315,7 @@ abstract class Iconz {
   static const String flyerOrder = '$iconDirectory/gi_flyer_order.svg';
   static const String slidesShelf = '$iconDirectory/gi_slides_shelf.svg';
   static const String instagramRepo = '$iconDirectory/gi_instagram_repo.svg';
+  static const String vacancy = '$iconDirectory/gi_vacancy.svg';
 
   static const String fitCover = '$iconDirectory/gi_fit_cover.svg';
   static const String fitMedium = '$iconDirectory/gi_fit_medium.svg';
@@ -616,6 +617,7 @@ abstract class Iconz {
       qrCode: true,
       slidesShelf: true,
       instagramRepo: true,
+      vacancy: true,
 
       fitCover: true,
       fitMedium: true,
