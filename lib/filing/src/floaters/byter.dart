@@ -460,6 +460,7 @@ abstract class Byter {
     required Uint8List? bytes,
     required String? fileName,
     required double? resizeToWidth,
+    required bool isPNG,
     Dimensions? fileDims,
   }) async {
     Uint8List? _output = bytes;
@@ -505,7 +506,12 @@ abstract class Byter {
                   height: _resizeToHeight.toInt(),
                 );
 
-                _bytes = img.encodeJpg(resizedImage);
+                if (isPNG == true){
+                  _bytes = img.encodePng(resizedImage);
+                }
+                else {
+                  _bytes = img.encodeJpg(resizedImage);
+                }
 
               }
 

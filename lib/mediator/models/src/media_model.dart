@@ -448,6 +448,14 @@ class MediaModel {
   bool isAudio(){
     return meta?.checkFileIsAudio() ?? false;
   }
+  // --------------------------------------------------------------------------
+
+  /// TYPE CHECKERS
+
+  // --------------------
+  bool isPNG(){
+    return meta?.fileExt == FileExtType.png;
+  }
   // -----------------------------------------------------------------------------
   
   /// MODIFIERS
@@ -713,12 +721,32 @@ class MediaModel {
 
     final String _text =
     '''
+blogging Media Model : ($invoker)    
 id: $id,
 bytes: ${bytes?.length} bytes,
-meta: $meta
+meta: {
+  'ownersIDs': ${meta?.ownersIDs},
+  'width': ${meta?.width},
+  'height': ${meta?.height},
+  'sizeMB': ${meta?.sizeMB},
+  'name': ${meta?.name},
+  'uploadPath': ${meta?.uploadPath},
+  'fileType': ${meta?.fileExt},
+  'data': {
+    'aspectRatio': ${meta?.data?['aspectRatio']},
+    'sizeB': ${meta?.data?['sizeB']},
+    'sizeKB': ${meta?.data?['sizeKB']},
+    'source': ${meta?.data?['source']},
+    'deviceID': ${meta?.data?['deviceID']},
+    'deviceName': ${meta?.data?['deviceName']},
+    'platform': ${meta?.data?['platform']},
+    'original_url': ${meta?.data?['original_url']},
+    'file_path': ${meta?.data?['file_path']},
+    }
+},
 ''';
 
-    blog('blogging Media Model : $invoker');
+    // blog('meta($meta)');
     blog(_text);
 
   }

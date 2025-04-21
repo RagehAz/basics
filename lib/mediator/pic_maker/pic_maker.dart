@@ -38,11 +38,7 @@ import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 // -----------------------------------------------------------------------------
 
 /// => TAMAM
-class PicMaker {
-  // -----------------------------------------------------------------------------
-
-  const PicMaker();
-
+abstract class PicMaker {
   // -----------------------------------------------------------------------------
   /// NO IMAGE WILL EVER BE WIDER THAN THIS TO BE PROCESSED IN THE APP
   static const double maxPicWidthBeforeCrop = 1500;
@@ -125,7 +121,7 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     Future<MediaModel?> Function(MediaModel? media)? onCrop,
-    CompressFormat outputType = CompressFormat.jpeg,
+    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     MediaModel? _output;
 
@@ -177,7 +173,7 @@ class PicMaker {
       _output = await compressPic(
         mediaModel: _output!,
         quality: compressWithQuality,
-        outputType: outputType,
+        // outputType: outputType,
       );
     }
 
@@ -201,7 +197,7 @@ class PicMaker {
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     Function(String? error)? onError,
-    CompressFormat outputType = CompressFormat.jpeg,
+    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
     /// PICK
@@ -238,7 +234,7 @@ class PicMaker {
       _mediaModels = await compressPics(
           mediaModels: _mediaModels,
           quality: compressWithQuality,
-          outputType: outputType,
+          // outputType: outputType,
       );
     }
 
@@ -322,7 +318,7 @@ class PicMaker {
     double? resizeToWidth,
     int? compressWithQuality,
     Function(String? error)? onError,
-    CompressFormat outputType = CompressFormat.jpeg,
+    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
     MediaModel? _output;
@@ -365,7 +361,7 @@ class PicMaker {
       _models = await compressPics(
         mediaModels: _models,
         quality: compressWithQuality,
-        outputType: outputType,
+        // outputType: outputType,
       );
     }
 
@@ -513,7 +509,7 @@ class PicMaker {
         bytes: mediaModel.bytes,
         fileName: _output?.meta?.name,
         resizeToWidth: resizeToWidth,
-
+        isPNG: mediaModel.isPNG(),
       );
 
       _output = await _output?.replaceBytes(
@@ -562,7 +558,7 @@ class PicMaker {
   static Future<MediaModel?> compressPic({
     required MediaModel? mediaModel,
     required int quality,
-    CompressFormat outputType = CompressFormat.jpeg,
+    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     MediaModel? _output = mediaModel;
 
@@ -598,7 +594,7 @@ class PicMaker {
                 minWidth: _dims.width!.toInt(),
                 minHeight: _dims.height!.toInt(),
                 quality: quality,
-                format: outputType,
+                format: mediaModel.isPNG() ? CompressFormat.png : CompressFormat.jpeg,
                 // rotate: 0,
                 // autoCorrectionAngle: false,
                 // inSampleSize: ,
@@ -665,7 +661,7 @@ class PicMaker {
   static Future<List<MediaModel>> compressPics({
     required List<MediaModel>? mediaModels,
     required int quality,
-    CompressFormat outputType = CompressFormat.jpeg,
+    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     List<MediaModel> _output = <MediaModel>[...?mediaModels];
 
@@ -678,7 +674,7 @@ class PicMaker {
         final MediaModel? _resized = await compressPic(
           mediaModel: mediaModel,
           quality: quality,
-          outputType: outputType,
+          // outputType: outputType,
         );
 
         if (_resized != null){
