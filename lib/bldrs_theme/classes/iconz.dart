@@ -106,6 +106,7 @@ abstract class Iconz {
   static const String comSnapchat = '$iconDirectory/com_snapchat.svg';
   static const String comWebsite = '$iconDirectory/com_website.svg';
   static const String websiteDownloader = '$iconDirectory/com_website_downloader.svg';
+  static const String imageDownloader = '$iconDirectory/com_image_downloader.svg';
   static const String comWhatsapp = '$iconDirectory/com_whatsapp.svg';
   static const String comGooglePlay = '$iconDirectory/com_google_play.svg';
   static const String comYoutube = '$iconDirectory/com_youtube.svg';
@@ -407,6 +408,7 @@ abstract class Iconz {
       comTwitter: true,
       comWebsite: true,
       websiteDownloader: true,
+      imageDownloader: true,
       comWhatsapp: true,
       comGooglePlay: true,
       comYoutube: true,
