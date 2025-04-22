@@ -105,6 +105,7 @@ abstract class Iconz {
   static const String comTwitter = '$iconDirectory/com_twitter.svg';
   static const String comSnapchat = '$iconDirectory/com_snapchat.svg';
   static const String comWebsite = '$iconDirectory/com_website.svg';
+  static const String websiteDownloader = '$iconDirectory/com_website_downloader.svg';
   static const String comWhatsapp = '$iconDirectory/com_whatsapp.svg';
   static const String comGooglePlay = '$iconDirectory/com_google_play.svg';
   static const String comYoutube = '$iconDirectory/com_youtube.svg';
@@ -319,6 +320,7 @@ abstract class Iconz {
 
   static const String fitCover = '$iconDirectory/gi_fit_cover.svg';
   static const String fitMedium = '$iconDirectory/gi_fit_medium.svg';
+  static const String fitLower = '$iconDirectory/gi_fit_lower.svg';
   static const String fitWidth = '$iconDirectory/gi_fit_width.svg';
   static const String fitHeight = '$iconDirectory/gi_fit_height.svg';
   static const String fitWider = '$iconDirectory/gi_fit_wider.svg';
@@ -404,6 +406,7 @@ abstract class Iconz {
       comPhone: true,
       comTwitter: true,
       comWebsite: true,
+      websiteDownloader: true,
       comWhatsapp: true,
       comGooglePlay: true,
       comYoutube: true,
@@ -621,6 +624,7 @@ abstract class Iconz {
 
       fitCover: true,
       fitMedium: true,
+      fitLower: true,
       fitWidth: true,
       fitHeight: true,
       fitWider: true,

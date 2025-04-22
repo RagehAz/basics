@@ -217,7 +217,6 @@ class TextFieldBubble extends StatelessWidget {
       withCounter: false,
     );
 
-
     final double _leadingIconSize = leadingIcon == null ? 0 : fieldHeight;
     final double _leadingAndFieldSpacing = leadingIcon == null ? 0 : 5;
     final double _obscureBtSize = showUnObscure == false ? 0 : fieldHeight;

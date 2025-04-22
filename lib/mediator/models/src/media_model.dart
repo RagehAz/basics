@@ -471,7 +471,7 @@ class MediaModel {
     }
     else {
 
-      final MediaModel? _output = await MediaModelCreator.fromBytes(
+      MediaModel? _output = await MediaModelCreator.fromBytes(
         bytes: bytes,
         mediaOrigin: getMediaOrigin(),
         uploadPath: meta!.uploadPath!,
@@ -480,6 +480,9 @@ class MediaModel {
         // caption: ,
         // includeFileExtension: ,
       );
+
+      _output = _output?.setOriginalURL(originalURL: getOriginalURl());
+      _output = _output?.setFilePath(filePath: getFilePath());
 
       return _output ?? this;
     }
@@ -746,7 +749,7 @@ meta: {
 },
 ''';
 
-    // blog('meta($meta)');
+    blog('meta($meta)');
     blog(_text);
 
   }
