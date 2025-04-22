@@ -345,7 +345,6 @@ abstract class MediaModelCreator {
       );
 
       return _mediaModel?.setOriginalURL(originalURL: url);
-
     }
 
   }

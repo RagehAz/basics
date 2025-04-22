@@ -610,7 +610,7 @@ class MediaMetaModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static MediaMetaModel emptyModel({
-    required FileExtType fileType,
+    FileExtType? fileType,
   }){
     return MediaMetaModel(
       ownersIDs: const [],

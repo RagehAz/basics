@@ -593,9 +593,11 @@ class MediaModel {
     }
     else {
 
-      final MediaMetaModel? _meta = meta?.copyWith(
+      MediaMetaModel? _meta = meta ?? MediaMetaModel.emptyModel();
+
+      _meta = _meta.copyWith(
         data: MapperSS.insertPairInMapWithStringValue(
-            map: meta?.data,
+            map: meta?.data ?? {},
             key: 'original_url',
             value: originalURL,
             overrideExisting: true,

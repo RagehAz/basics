@@ -238,17 +238,26 @@ abstract class DimensionsGetter {
   }) async {
     Dimensions? _output;
 
-    blog('_getVideoDimensions : xfile(${xFile?.path})');
+    // blog('_getVideoDimensions : xfile(${xFile?.path})');
 
     if (xFile != null){
 
-      final Uint8List? bytes = await VideoThumbnail.thumbnailData(
-        imageFormat: ImageFormat.JPEG,
-        video: xFile.path,
-        // maxHeight: 100,
-      );
+      Uint8List? bytes;
 
-      blog('_getVideoDimensions : got bytes : (${bytes?.length})');
+      await tryAndCatch(
+          invoker: '_getVideoDimensions',
+          functions: () async {
+
+            bytes = await VideoThumbnail.thumbnailData(
+              imageFormat: ImageFormat.JPEG,
+              video: xFile.path,
+              // maxHeight: 100,
+            );
+
+            // blog('_getVideoDimensions : got bytes : (${bytes?.length})');
+
+          },
+      );
 
       _output = await _getImageDimensions(
         bytes: bytes,
