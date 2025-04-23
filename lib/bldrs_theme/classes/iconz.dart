@@ -337,6 +337,8 @@ abstract class Iconz {
   static const String reverse = '$iconDirectory/gi_reverse.svg';
   static const String colorFill = '$iconDirectory/gi_color_fill.svg';
   static const String qrCode = '$iconDirectory/gi_qr_code.svg';
+  static const String deleteFlyer = '$iconDirectory/gi_delete_flyer.svg';
+  static const String deleteText = '$iconDirectory/gi_delete_text.svg';
   // --------------------
   /// PYRAMIDS
   static const String pyramidsYellow = '$iconDirectory/pyramids_yellow.svg';
@@ -620,6 +622,8 @@ abstract class Iconz {
       reverse: true,
       colorFill: true,
       qrCode: true,
+      deleteFlyer: true,
+      deleteText: true,
       slidesShelf: true,
       instagramRepo: true,
       vacancy: true,
