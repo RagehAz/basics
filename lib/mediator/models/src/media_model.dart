@@ -309,6 +309,16 @@ class MediaModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  List<String> getOwnersIDs(){
+    return meta?.ownersIDs ?? [];
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  String? getCaption(){
+    return meta?.getCaption();
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   String? getExtension(){
     final FileExtType? _type = meta?.fileExt;
     return FileExtensioning.getExtensionByType(_type);
