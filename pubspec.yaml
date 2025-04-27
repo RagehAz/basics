@@ -24,7 +24,7 @@ dependencies:
   ffmpeg_kit_flutter:
     # ----------------
     # IOS
-    # path: /Users/rageh/projects/bldrs/fireffmpeg-kit
+#     path: /Users/rageh/projects/bldrs/that_kit/flutter/flutter
     # ----------------
     # ANDROID
     # path: D:/projects/other/ffmpeg-kit/flutter/flutter
