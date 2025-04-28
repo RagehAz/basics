@@ -173,9 +173,10 @@ abstract class DimensionsGetter {
   static Future<Dimensions?> fromXFile({
     required XFile? xFile,
     required String invoker,
+    Uint8List? bytesIfThere,
   }) async {
 
-    final Uint8List? _bytes = await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
+    final Uint8List? _bytes = bytesIfThere ?? await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
 
     Dimensions? _output = await _getImageDimensions(
       bytes: _bytes,

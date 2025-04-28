@@ -1,6 +1,6 @@
 name: basics
 description: You can't build a flutter app without the basics.
-version: 6.9.0
+version: 7.0.0
 publish_to: "none"
 homepage: https://github.com/RagehAz/basics.git
 # --------------------------------------------------------------------------------
@@ -27,13 +27,13 @@ dependencies:
 #     path: /Users/rageh/projects/bldrs/that_kit/flutter/flutter
     # ----------------
     # ANDROID
-    # path: D:/projects/other/ffmpeg-kit/flutter/flutter
+     path: D:/projects/other/that_kit/flutter/flutter
     # ----------------
     # GIT
-    git:
-      url: https://github.com/RagehAz/that_kit.git
-      path: flutter/flutter
-      ref: main
+#    git:
+#      url: https://github.com/RagehAz/that_kit.git
+#      path: flutter/flutter
+#      ref: main
   # -----------------
 #  ffmpeg_kit_min_gpl: ^6.0.3+1
   # -----------------
