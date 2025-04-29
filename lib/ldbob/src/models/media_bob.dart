@@ -37,7 +37,6 @@ class MediaBobModel {
   final String? uploadPath;
   final String? data;
   // -----------------------------------------------------------------------------
-
 }
 
 abstract class MediaBobOps {

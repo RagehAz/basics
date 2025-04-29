@@ -31,3 +31,4 @@ part 'src/models/av_bob.dart';
 part 'src/models/bz_bob.dart';
 part 'src/models/fish_bob.dart';
 part 'src/models/user_bob.dart';
+part 'src/instructions.dart';

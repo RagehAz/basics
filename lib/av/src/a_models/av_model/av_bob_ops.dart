@@ -7,8 +7,16 @@ abstract class AvBobOps {
 
   // --------------------
   ///
-  static Future<void> insert() async {
+  static Future<bool> insert({
+    required AvModel? avModel,
+  }) async {
+    bool _success = false;
 
+    if (avModel != null){
+      /// IMPLEMENT_ME
+    }
+
+    return _success;
   }
   // -----------------------------------------------------------------------------
 
@@ -16,8 +24,9 @@ abstract class AvBobOps {
 
   // --------------------
   ///
-  static Future<void> read() async {
+  static Future<AvModel?> read() async {
 
+    return null;
   }
   // -----------------------------------------------------------------------------
 
@@ -25,8 +34,10 @@ abstract class AvBobOps {
 
   // --------------------
   ///
-  static Future<void> delete() async {
+  static Future<bool> delete() async {
+    bool _deleted = false;
 
+    return _deleted;
   }
   // -----------------------------------------------------------------------------
   void x(){}
