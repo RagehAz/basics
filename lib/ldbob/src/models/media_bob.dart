@@ -37,14 +37,9 @@ class MediaBobModel {
   final String? uploadPath;
   final String? data;
   // -----------------------------------------------------------------------------
-
 }
 
-class MediaBobOps {
-  // -----------------------------------------------------------------------------
-
-  const MediaBobOps();
-
+abstract class MediaBobOps {
   // -----------------------------------------------------------------------------
 
   /// CONVERTER

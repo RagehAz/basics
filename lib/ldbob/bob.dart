@@ -19,8 +19,16 @@ import 'src/generated/objectbox.g.dart';
 import 'package:objectbox/objectbox.dart';
 
 part 'src/ops/bob_ops.dart';
+
 part 'src/foundation/bob_init.dart';
-part 'src/models/bob_model.dart';
 part 'src/foundation/bob_info.dart';
+
+part 'src/models/bob_model.dart';
 part 'src/models/media_bob.dart';
-part 'src/models/store_model.dart';
+part 'src/models/z_store_model.dart';
+part 'src/models/author_bob.dart';
+part 'src/models/av_bob.dart';
+part 'src/models/bz_bob.dart';
+part 'src/models/fish_bob.dart';
+part 'src/models/user_bob.dart';
+part 'src/instructions.dart';
