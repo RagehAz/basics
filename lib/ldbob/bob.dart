@@ -4,31 +4,29 @@ library bob;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:basics/av/av.dart';
+import 'package:basics/exports/cross_file.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
-import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/helpers/strings/stringer.dart';
-import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'src/generated/objectbox.g.dart';
 import 'package:objectbox/objectbox.dart';
 
-part 'src/ops/bob_ops.dart';
+import 'src/generated/objectbox.g.dart';
 
 part 'src/foundation/bob_init.dart';
 part 'src/foundation/bob_info.dart';
 
-part 'src/models/bob_model.dart';
-part 'src/models/media_bob.dart';
-part 'src/models/z_store_model.dart';
-part 'src/models/author_bob.dart';
+part 'src/foundation/store_model.dart';
 part 'src/models/av_bob.dart';
 part 'src/models/bz_bob.dart';
 part 'src/models/fish_bob.dart';
 part 'src/models/user_bob.dart';
-part 'src/instructions.dart';
+part 'src/z_guide/instructions.dart';
+part 'src/models/flyer_bob.dart';
+part 'src/z_guide/ops_template.dart';

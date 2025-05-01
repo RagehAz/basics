@@ -222,9 +222,10 @@ abstract class Filer {
     return _output;
   }
   // ---------------------
-  /// TESTED : WORKS PERFECT
-  static Future<File?> createFromMediaModel({
-    required MediaModel? mediaModel,
+  /// DEPRECATED
+  /*
+  static Future<File?> createFromAvModel({
+    required AvModel? avModel,
     DirectoryType directoryType = DirectoryType.app,
     bool includeFileExtension = false,
   }) async {
@@ -247,6 +248,7 @@ abstract class Filer {
 
     return _output;
   }
+   */
   // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<File?> createFromURL({
@@ -338,33 +340,6 @@ abstract class Filer {
       final File? _fileAgain = await createFromBytes(
         bytes: _fileAgainAsInt,
         fileName: fileName,
-        directoryType: directoryType,
-      );
-
-      return _fileAgain;
-    }
-
-  }
-  // ---------------------
-  /// TESTED : WORKS PERFECT
-  static Future<File?> createFromSuperFile({
-    required SuperFile? file,
-    String? fileName,
-    DirectoryType directoryType = DirectoryType.app,
-  }) async {
-
-    if (kIsWeb == true || file == null){
-      return null;
-    }
-
-    else {
-
-      final Uint8List? _fileAgainAsInt = await Byter.fromSuperFile(file);
-      // await null;
-
-      final File? _fileAgain = await createFromBytes(
-        bytes: _fileAgainAsInt,
-        fileName: fileName ?? file.getFileName(withExtension: true),
         directoryType: directoryType,
       );
 

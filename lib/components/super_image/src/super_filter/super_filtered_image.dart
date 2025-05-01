@@ -219,12 +219,11 @@ class _FilteredImageState extends State<_FilteredImage> {
     else if (widget.pic is ui.Image && oldWidget.pic is ui.Image){
       _bytesAreIdentical = Imager.checkUiImagesAreIdentical(widget.pic, oldWidget.pic);
     }
-    else if (widget.pic is SuperFile && oldWidget.pic is SuperFile){
-      _bytesAreIdentical = SuperFile.checkFilesAreIdentical(file1: widget.pic, file2: oldWidget.pic);
+
+    else if (widget.pic is AvModel && oldWidget.pic is AvModel){
+      _bytesAreIdentical = AvModel.checkModelsAreIdentical(model1: widget.pic, model2: oldWidget.pic);
     }
-    else if (widget.pic is MediaModel && oldWidget.pic is MediaModel){
-      _bytesAreIdentical = MediaModel.checkMediaModelsAreSimilar(model1: widget.pic, model2: oldWidget.pic);
-    }
+
     else {
       _bytesAreIdentical = false;
     }

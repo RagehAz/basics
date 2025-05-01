@@ -193,7 +193,8 @@ abstract class XFiler {
     return _output;
   }
   // ---------------------
-  /// TESTED : WORKS PERFECT
+  /// DEPRECATED
+  /*
   static Future<XFile?> createFromMediaModel({
     required MediaModel? mediaModel,
     DirectoryType directoryType = DirectoryType.app,
@@ -212,6 +213,7 @@ abstract class XFiler {
 
     return _output;
   }
+   */
   // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<XFile?> createFromLocalAsset({

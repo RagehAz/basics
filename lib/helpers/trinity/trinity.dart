@@ -2,6 +2,7 @@ library trinity;
 
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:basics/av/av.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
@@ -10,7 +11,6 @@ import 'package:basics/helpers/space/cartesian.dart';
 import 'package:basics/helpers/space/scale.dart';
 import 'package:basics/helpers/space/trigonometer.dart';
 import 'package:basics/helpers/wire/wire.dart';
-import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 
 part 'src/helpers/neo_blog.dart';

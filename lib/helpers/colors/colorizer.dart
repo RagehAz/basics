@@ -557,18 +557,6 @@ abstract class Colorizer {
 
     return _output;
   }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Color?> getAverageColorFromSuperFile(SuperFile? file) async {
-    Color? _output;
-
-    if (file != null){
-      final Uint8List? _bytes = await Byter.fromSuperFile(file);
-      _output = await getAverageColor(_bytes);
-    }
-
-    return _output;
-  }
   // ------------------------------------------------------------------------------
 
   /// BLUR

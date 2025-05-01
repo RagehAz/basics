@@ -116,6 +116,7 @@ abstract class FormatDetector {
   static Future<FileExtType> detectFile({
     required File? file,
     required String invoker,
+    Uint8List? bytesIfThere,
   }) async {
     FileExtType? _output;
 
@@ -125,6 +126,7 @@ abstract class FormatDetector {
 
       _output = await detectXFile(
         xFile: _xFile,
+        bytesIfThere: bytesIfThere,
         invoker: 'detectFile.$invoker',
       );
 
@@ -164,15 +166,15 @@ abstract class FormatDetector {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<FileExtType> detectMediaModel({
-    required MediaModel? mediaModel,
+  static Future<FileExtType> detectAvModel({
+    required AvModel? avModel,
+    Uint8List? bytesIfThere,
   }) async {
-
-    return detectBytes(
-      bytes: mediaModel?.bytes,
-      fileName: mediaModel?.getName(),
+    return detectXFile(
+      xFile: avModel?.xFile,
+      bytesIfThere: bytesIfThere,
+      invoker: 'detectAvModel',
     );
-
   }
   // --------------------------------------------------------------------------
 

@@ -9,105 +9,130 @@ abstract class AvFromBytes {
   ///
   static Future<AvModel?> create({
     required Uint8List? bytes,
-    required String? id,
+    required String uploadPath,
     required bool skipMeta,
+    required String bobDocName,
     List<String>? ownersIDs,
-    String? uploadPath,
     String? caption,
     String? originalURL,
-    MediaOrigin? origin,
-    String? name,
+    AvOrigin? origin,
+    bool includeFileExtension = false,
+    int? durationMs,
   }) async {
     AvModel? _output;
 
-    if (id != null && bytes != null){
+    if (TextCheck.isEmpty(uploadPath) == false && bytes != null){
 
-      final XFile? _xFile = await XFiler.createFromBytes(
+      final Map<String, String?> _adjustedPaths = await AvPathing.adjustPathAndName(
+        includeFileExtension: includeFileExtension,
         bytes: bytes,
-        fileName: id,
-        directoryType: AvMaker.avDirectory,
-        // mimeType: _mime,
-        // includeFileExtension: false,
+        uploadPath: uploadPath,
       );
 
-      if (_xFile != null){
+      final String? _fileName = _adjustedPaths['fileName'];
+      final String? _uploadPath = _adjustedPaths['uploadPath'];
+      final String? _id = _adjustedPaths['id'];
 
-        final int _sideB = bytes.length;
-        AvModel _avModel = AvModel(
-          id: id,
-          xFile: _xFile,
-          ownersIDs: ownersIDs,
-          uploadPath: uploadPath,
-          caption: caption,
-          name: name,
-          origin: origin,
-          originalURL: originalURL,
-          sizeB: _sideB,
+      if (_id != null){
+
+        final XFile? _xFile = await XFiler.createFromBytes(
+          bytes: bytes,
+          fileName: _fileName,
+          directoryType: AvBobOps.avDirectory,
+          // mimeType: _mime,
+          // includeFileExtension: false,
         );
 
-        if (skipMeta == false){
+        if (_xFile != null){
 
+          final int _sideB = bytes.length;
           final double? _mega = FileSizer.calculateSize(_sideB, FileSizeUnit.megaByte);
-          FileExtType? _fileType;
-          Dimensions? _dims;
 
-          await Future.wait(<Future>[
-
-            /// FILE TYPE
-            awaiter(
-              wait: true,
-              function: () async {
-                _fileType = await FormatDetector.detectXFile(
-                  xFile: _xFile,
-                  bytesIfThere: bytes,
-                  invoker: 'AvMaker.fromBytes',
-                );
-              },
-            ),
-
-            /// DIMS
-            awaiter(
-              wait: true,
-              function: () async {
-                _dims = await DimensionsGetter.fromXFile(
-                  xFile: _xFile,
-                  bytesIfThere: bytes,
-                  invoker: 'AvMaker.fromBytes',
-                );
-              },
-            ),
-
-          ]);
-
-          _avModel = _avModel.copyWith(
-            // id: ,
-            // xFile: ,
-            width: _dims?.width,
-            height: _dims?.height,
-            name: name,
-            sizeMB: _mega,
-            sizeB: _sideB,
-            fileExt: _fileType,
-            origin: origin,
+          AvModel _avModel = AvModel(
+            id: _id,
+            xFile: _xFile,
             ownersIDs: ownersIDs,
-            uploadPath: uploadPath,
+            uploadPath: _uploadPath,
             caption: caption,
+            name: _fileName,
+            origin: origin,
             originalURL: originalURL,
-            // data: ,
+            sizeB: _sideB,
+            sizeMB: _mega,
+            durationMs: durationMs,
           );
 
-        }
+          if (skipMeta == false){
 
-        final bool _success = await AvBobOps.insert(
-          avModel: _avModel,
-        );
+            FileExtType? _fileType;
+            Dimensions? _dims;
 
-        if (_success == true){
-          _output = _avModel;
-        }
+            await Future.wait(<Future>[
 
-        else {
-          await XFiler.deleteFile(_xFile);
+              /// FILE TYPE
+              awaiter(
+                wait: true,
+                function: () async {
+                  _fileType = await FormatDetector.detectXFile(
+                    xFile: _xFile,
+                    bytesIfThere: bytes,
+                    invoker: 'AvMaker.fromBytes',
+                  );
+                },
+              ),
+
+              /// DIMS
+              awaiter(
+                wait: true,
+                function: () async {
+                  _dims = await DimensionsGetter.fromXFile(
+                    xFile: _xFile,
+                    bytesIfThere: bytes,
+                    invoker: 'AvMaker.fromBytes',
+                  );
+                },
+              ),
+
+            ]);
+
+            _avModel = _avModel.copyWith(
+              // id: ,
+              // xFile: ,
+              width: _dims?.width,
+              height: _dims?.height,
+              // name: _fileName,
+              // sizeMB: _mega,
+              // sizeB: _sideB,
+              fileExt: _fileType,
+              // origin: origin,
+              // ownersIDs: ownersIDs,
+              // uploadPath: _uploadPath,
+              // caption: caption,
+              // originalURL: originalURL,
+              // data: ,
+
+              // durationMs: ,
+
+              // deviceID: await DeviceChecker.getDeviceID(),
+              // deviceName: await DeviceChecker.getDeviceName(),
+              // platform': kIsWeb == true ? 'web' : Platform.operatingSystem,
+            );
+
+          }
+
+          final bool _success = await AvBobOps.insert(
+            model: _avModel,
+            docName: bobDocName,
+          );
+
+          if (_success == true){
+            _output = _avModel;
+          }
+
+          else {
+            await XFiler.deleteFile(_xFile);
+          }
+
         }
 
       }

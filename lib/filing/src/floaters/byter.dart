@@ -7,18 +7,19 @@ abstract class Byter {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Uint8List? fromMediaModel(MediaModel? media){
-    return media?.bytes;
+  static Future<Uint8List?> fromAvModel(AvModel? model) async {
+    return fromXFile(model?.xFile, 'fromAvModel');
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<Uint8List> fromMediaModels(List<MediaModel> medias){
+  static Future<List<Uint8List>> fromAvModels(List<AvModel> models) async {
     final List<Uint8List> _output = [];
 
-    if (Lister.checkCanLoop(medias) == true){
-      for (final MediaModel pic in medias){
-        if (pic.bytes != null){
-          _output.add(pic.bytes!);
+    if (Lister.checkCanLoop(models) == true){
+      for (final AvModel model in models){
+        final Uint8List? _bytes = await fromXFile(model.xFile, 'fromAvModels');
+        if (_bytes != null){
+          _output.add(_bytes);
         }
       }
     }
@@ -110,24 +111,6 @@ abstract class Byter {
     }
 
     return _screenShots;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> fromSuperFile(SuperFile? file) async {
-    Uint8List? _uInt;
-
-    if (file != null){
-      await tryAndCatch(
-        invoker:  'Byter.fromSuperFile',
-        functions: () async {
-
-          _uInt = await file.readBytes();
-
-        },
-      );
-    }
-
-    return _uInt;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

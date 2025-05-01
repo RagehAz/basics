@@ -41,18 +41,6 @@ abstract class Imager{
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<ui.Image?> getUiImageFromSuperFile(SuperFile? file) async {
-    ui.Image? _output;
-
-    if (file != null) {
-      final Uint8List? _bytes = await Byter.fromSuperFile(file);
-      _output = await getUiImageFromBytes(_bytes);
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static Future<ui.Image?> getUiImageFromInts(List<int>? ints) async {
     ui.Image? _output;
 
@@ -261,19 +249,15 @@ abstract class Imager{
           _identical = Filer.checkFilesAreIdentical(file1: image1, file2: image2);
         }
 
-        // /// XFILE
-        // else if (image1 is XFile){
-        //   _identical = await XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
-        // }
-
-        /// SUPER FILE
-        else if (image1 is SuperFile){
-          _identical = SuperFile.checkFilesAreIdentical(file1: image1, file2: image2);
+        /// XFILE
+        else if (image1 is XFile){
+          Errorize.throwText(text: 'checking xFiles equality in sync is not implemented', invoker: 'checkImagesAreIdentical');
+          // _identical = XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
         }
 
         /// MEDIA FILE
-        else if (image1 is MediaModel){
-          _identical = MediaModel.checkMediaModelsAreSimilar(model1: image1, model2: image2);
+        else if (image1 is AvModel){
+          _identical = AvModel.checkModelsAreIdentical(model1: image1, model2: image2);
         }
 
         /// UI IMAGE

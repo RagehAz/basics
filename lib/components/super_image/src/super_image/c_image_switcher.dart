@@ -1,23 +1,5 @@
 // ignore_for_file: unused_import, unused_element
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/components/super_image/src/super_image/x_super_file_viewer.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/object_check.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:basics/mediator/models/media_models.dart';
-import 'package:basics/mediator/super_video_player/super_video_player.dart';
-import 'package:flutter/material.dart';
-import 'package:websafe_svg/websafe_svg.dart';
-import 'dart:ui' as ui;
-import 'package:image/image.dart' as img;
-import 'package:cross_file/cross_file.dart';
-import 'package:cross_file_image/cross_file_image.dart';
+part of super_image;
 
 class ImageSwitcher extends StatelessWidget {
   /// --------------------------------------------------------------------------
@@ -211,24 +193,16 @@ class ImageSwitcher extends StatelessWidget {
       }
 
       /// MEDIA MODEL
-      else if (pic is MediaModel){
+      else if (pic is AvModel){
 
-        final MediaModel _mediaModel = pic;
-
-        if (_mediaModel.bytes == null){
-          return Container(
-            width: width,
-            height: height,
-            color: backgroundColor,
-          );
-        }
+        final AvModel _avModel = pic;
 
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
-        else if (_mediaModel.isVideo() == true){
+         if (_avModel.isVideo() == true){
           return SuperVideoPlayer(
             width: width!,
             height: height,
-            media: _mediaModel,
+            avModel: _avModel,
             isMuted: true,
             loop: true,
             // autoPlay: true,
@@ -236,27 +210,19 @@ class ImageSwitcher extends StatelessWidget {
         }
 
         else {
-          return Image.memory(
-            _mediaModel.bytes!,
-            // key: const ValueKey<String>('SuperImage_file'),
-            fit: _boxFit,
-            width: width,
-            height: height,
-            color: iconColor,
-            errorBuilder: _errorBuilder,
-            gaplessPlayback: _gaplessPlayback,
-          );
-        }
 
-        // return CachelessImage(
-        //   key: const ValueKey<String>('SuperImage_MediaModel'),
-        //   bytes: _mediaModel.bytes,
-        //   width: width,
-        //   height: height,
-        //   color: backgroundColor,
-        //   boxFit: _boxFit,
-        //   // blendMode: BlendMode.color,
-        // );
+           return Image.file(
+             File(_avModel.xFile.path),
+             key: const ValueKey<String>('SuperImage_xfile'),
+             fit: _boxFit,
+             width: width,
+             height: height,
+             errorBuilder: _errorBuilder,
+             gaplessPlayback: _gaplessPlayback,
+             color: iconColor,
+           );
+
+        }
 
       }
 
@@ -272,6 +238,7 @@ class ImageSwitcher extends StatelessWidget {
           errorBuilder: _errorBuilder,
           gaplessPlayback: _gaplessPlayback,
         );
+
       }
 
       /// BASE64 -> CONTRADICTS BUILDING TEXTS
@@ -365,17 +332,6 @@ class ImageSwitcher extends StatelessWidget {
               ),
             ),
           ),
-        );
-      }
-
-      /// SUPER FILE
-      else if (pic is SuperFile == true){
-        return SuperFileViewer(
-          key: const ValueKey<String>('SuperImage_superFile'),
-          file: pic,
-          width: width,
-          height: height,
-          fit: _boxFit,
         );
       }
 

@@ -11,35 +11,6 @@ enum FileSizeUnit {
 abstract class FileSizer {
   // -----------------------------------------------------------------------------
 
-  /// FROM SUPER FILE
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<double?> getSuperFileSizeInMb(SuperFile? file) async {
-    final Uint8List? _bytes = await file?.readBytes();
-    return calculateSize(_bytes?.length, FileSizeUnit.megaByte);
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<double?> getSuperileSizeWithUnit({
-    required SuperFile? file,
-    required FileSizeUnit unit,
-    int fractionDigits = 1,
-  }) async {
-
-    if (kIsWeb == true || file == null){
-      return 0;
-    }
-
-    else {
-      final int _bytes = await file.length();
-      final double? _output = calculateSize(_bytes, unit);
-      return Numeric.roundFractions(_output, fractionDigits);
-    }
-
-  }
-  // -----------------------------------------------------------------------------
-
   /// FROM FILE
 
   // --------------------
