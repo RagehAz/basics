@@ -131,7 +131,6 @@ abstract class XFiler {
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
     bool includeFileExtension = false,
-    String? mimeType,
   }) async {
     XFile? _output;
 
@@ -176,7 +175,7 @@ abstract class XFiler {
               name: _fileName,
               // lastModified: ,
               // length: ,
-              mimeType: mimeType,
+              // mimeType: ,
               // overrides: ,
             );
 

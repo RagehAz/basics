@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import, unused_element
+// ignore_for_file: unused_import
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
@@ -66,16 +66,65 @@ class ImageSwitcher extends StatelessWidget {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  Widget _getLoadingBuilder(_, Widget? child, ImageChunkEvent? imageChunkEvent){
-    return _LoadingBuilder(
-      width: width,
-      height: height,
-      backgroundColor: backgroundColor,
-      imageChunkEvent: imageChunkEvent,
-      child: child,
-    );
+  Widget _loadingBuilder(BuildContext _, Widget? child, ImageChunkEvent? imageChunkEvent){
+
+    // blog('SUPER IMAGE LOADING BUILDER : imageChunkEvent.cumulativeBytesLoaded : ${imageChunkEvent?.cumulativeBytesLoaded} / ${imageChunkEvent?.expectedTotalBytes}');
+
+    /// AFTER LOADED
+    if (
+        imageChunkEvent == null
+        ||
+        imageChunkEvent.expectedTotalBytes == null
+        ||
+        width == null
+    ){
+      return child ?? const SizedBox();
+    }
+    /// WHILE LOADING
+    else {
+
+      final int _bytes = imageChunkEvent.expectedTotalBytes ?? 0;
+
+      if (_bytes > 0) {
+
+        final double _percentage = imageChunkEvent.cumulativeBytesLoaded / _bytes;
+
+        return Container(
+          width: width,
+          height: height,
+          color: Colorz.white50,
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: width,
+            height: height * _percentage,
+            color: backgroundColor ?? Colorz.white20,
+          ),
+        );
+
+      }
+      else {
+        return child ?? _emptyBox();
+      }
+
+    }
+
   }
   // --------------------
+  ///DEPRECATED
+  /*
+  Widget _futureBytesBuilder (BuildContext ctx, AsyncSnapshot<Uint8List> snapshot){
+
+    return FutureImage(
+      snapshot: snapshot,
+      width: width,
+      height: height,
+      boxFit: boxFit,
+      errorBuilder: _errorBuilder,
+    );
+
+  }
+   */
+  // -----------------------------------------------------------------------------
   Widget _emptyBox(){
     return SizedBox(
       width: width,
@@ -124,19 +173,6 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      /// X FILE
-      else if (ObjectCheck.objectIsXFile(pic) == true){
-        return Image(
-          image: XFileImage(pic),
-          key: const ValueKey<String>('SuperImage_xfile'),
-          fit: _boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-        );
-      }
-
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
 
@@ -163,50 +199,14 @@ class ImageSwitcher extends StatelessWidget {
 
       }
 
-      /// URL
-      else if (ObjectCheck.isAbsoluteURL(pic) == true){
-
-        return Image.network(
-          pic.trim(),
-          key: const ValueKey<String>('SuperImage_url'),
-          fit: _boxFit,
+      /// SUPER FILE
+      else if (pic is SuperFile == true){
+        return SuperFileViewer(
+          key: const ValueKey<String>('SuperImage_superFile'),
+          file: pic,
           width: width,
           height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-          loadingBuilder: _getLoadingBuilder,
-        );
-
-      }
-
-      /// JPG OR PNG
-      else if (ObjectCheck.objectIsJPGorPNG(pic) == true){
-
-        return Image.asset(
-          pic,
-          key: const ValueKey<String>('SuperImage_png_or_jpg'),
           fit: _boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          scale: 1,
-          gaplessPlayback: _gaplessPlayback,
-          package: package,
-        );
-
-      }
-
-      /// SVG
-      else if (ObjectCheck.objectIsSVG(pic) == true){
-
-        return WebsafeSvg.asset(
-          pic,
-          fit: _boxFit,
-          colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
-          width: width,
-          height: height,
-          package: package,
-
         );
       }
 
@@ -271,6 +271,66 @@ class ImageSwitcher extends StatelessWidget {
           height: height,
           errorBuilder: _errorBuilder,
           gaplessPlayback: _gaplessPlayback,
+        );
+      }
+
+      /// X FILE
+      else if (ObjectCheck.objectIsXFile(pic) == true){
+        return Image(
+          image: XFileImage(pic),
+          key: const ValueKey<String>('SuperImage_xfile'),
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+      }
+
+      /// URL
+      else if (ObjectCheck.isAbsoluteURL(pic) == true){
+
+        return Image.network(
+          pic.trim(),
+          key: const ValueKey<String>('SuperImage_url'),
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+          loadingBuilder: _loadingBuilder,
+        );
+
+      }
+
+      /// JPG OR PNG
+      else if (ObjectCheck.objectIsJPGorPNG(pic) == true){
+
+        return Image.asset(
+          pic,
+          key: const ValueKey<String>('SuperImage_png_or_jpg'),
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          scale: 1,
+          gaplessPlayback: _gaplessPlayback,
+          package: package,
+        );
+
+      }
+
+      /// SVG
+      else if (ObjectCheck.objectIsSVG(pic) == true){
+
+        return WebsafeSvg.asset(
+          pic,
+          fit: _boxFit,
+          colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
+          width: width,
+          height: height,
+          package: package,
+
         );
       }
 
@@ -368,17 +428,6 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      /// SUPER FILE
-      else if (pic is SuperFile == true){
-        return SuperFileViewer(
-          key: const ValueKey<String>('SuperImage_superFile'),
-          file: pic,
-          width: width,
-          height: height,
-          fit: _boxFit,
-        );
-      }
-
       /// NEITHER ANY OF ABOVE
       else {
 
@@ -395,74 +444,6 @@ class ImageSwitcher extends StatelessWidget {
       return _emptyBox();
     }
 
-  }
-  // -----------------------------------------------------------------------------
-}
-
-class _LoadingBuilder extends StatelessWidget {
-  // --------------------------------------------------------------------------
-  const _LoadingBuilder({
-    required this.child,
-    required this.imageChunkEvent,
-    required this.width,
-    required this.height,
-    required this.backgroundColor,
-    super.key
-  });
-  // --------------------
-  final Widget? child;
-  final ImageChunkEvent? imageChunkEvent;
-  final double? width;
-  final double height;
-  final Color? backgroundColor;
-  // -----------------------------------------------------------------------------
-  @override
-  Widget build(BuildContext context) {
-    // --------------------
-    /// AFTER LOADED
-    if (
-        imageChunkEvent == null
-        ||
-        imageChunkEvent?.expectedTotalBytes == null
-        ||
-        width == null
-    ){
-      return child ?? const SizedBox();
-    }
-
-    /// WHILE LOADING
-    else {
-
-      final int _bytes = imageChunkEvent?.expectedTotalBytes ?? 0;
-
-      if (_bytes > 0) {
-
-        final double _percentage = (imageChunkEvent?.cumulativeBytesLoaded ?? 0) / _bytes;
-
-        return Container(
-          width: width,
-          height: height,
-          color: Colorz.white50,
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            width: width,
-            height: height * _percentage,
-            color: backgroundColor ?? Colorz.white20,
-          ),
-        );
-
-      }
-
-      else {
-        return child ?? SizedBox(
-          width: width,
-          height: height,
-          // color: Colorz.errorColor,
-        );
-      }
-
-    }
-    // --------------------
   }
   // -----------------------------------------------------------------------------
 }

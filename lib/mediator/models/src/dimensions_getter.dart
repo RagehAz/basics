@@ -173,10 +173,9 @@ abstract class DimensionsGetter {
   static Future<Dimensions?> fromXFile({
     required XFile? xFile,
     required String invoker,
-    Uint8List? bytesIfThere,
   }) async {
 
-    final Uint8List? _bytes = bytesIfThere ?? await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
+    final Uint8List? _bytes = await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
 
     Dimensions? _output = await _getImageDimensions(
       bytes: _bytes,
@@ -199,23 +198,29 @@ abstract class DimensionsGetter {
   }) async {
     Dimensions? _output;
 
-    final bool _isDecodable = Decoding.checkImageIsDecodable(
-      bytes: bytes,
-    );
+    if (bytes != null){
 
-    if (_isDecodable == true){
+      final bool _isDecodable = Decoding.checkImageIsDecodable(
+        bytes: bytes,
+      );
 
-      final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
-      final int? width = _image?.width;
-      final int? height = _image?.height;
+      blog('_getImageDimensions  _isDecodable($_isDecodable)');
 
-      blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
+      if (_isDecodable == true){
 
-      if (width != null && height != null){
-        _output = Dimensions(
-          width: width.toDouble(),
-          height: height.toDouble(),
-        );
+        final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
+        final int? width = _image?.width;
+        final int? height = _image?.height;
+
+        blog('_getImageDimensions ==> _width : $width : _height : $height');
+
+        if (width != null && height != null){
+          _output = Dimensions(
+            width: width.toDouble(),
+            height: height.toDouble(),
+          );
+        }
+
       }
 
     }
