@@ -1,0 +1,604 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2895200941894464572",
+      "lastPropertyId": "16:2570565095868647632",
+      "name": "AvBob",
+      "properties": [
+        {
+          "id": "1:7572678840564177018",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6934450850225859230",
+          "name": "id",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "1:9124215228095152453"
+        },
+        {
+          "id": "3:9052560798735482620",
+          "name": "width",
+          "type": 7,
+          "flags": 8192
+        },
+        {
+          "id": "4:685382249136316024",
+          "name": "height",
+          "type": 7,
+          "flags": 8192
+        },
+        {
+          "id": "5:5770168238722963542",
+          "name": "sizeMB",
+          "type": 7,
+          "flags": 8192
+        },
+        {
+          "id": "6:3803471827961228965",
+          "name": "sizeB",
+          "type": 5,
+          "flags": 8192
+        },
+        {
+          "id": "7:578745756019019156",
+          "name": "originalURL",
+          "type": 9,
+          "flags": 2048,
+          "indexId": "2:209612874068472482"
+        },
+        {
+          "id": "8:8226141320495963973",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "9:924982374462336556",
+          "name": "xFilePath",
+          "type": 9
+        },
+        {
+          "id": "10:4772155181331027072",
+          "name": "ownersIDs",
+          "type": 30
+        },
+        {
+          "id": "11:8289977193929411766",
+          "name": "mime",
+          "type": 9
+        },
+        {
+          "id": "12:2329986107990779953",
+          "name": "uploadPath",
+          "type": 9
+        },
+        {
+          "id": "13:4523673535491065952",
+          "name": "origin",
+          "type": 9
+        },
+        {
+          "id": "14:6869959035290722585",
+          "name": "caption",
+          "type": 9
+        },
+        {
+          "id": "15:6298062249273024356",
+          "name": "data",
+          "type": 9
+        },
+        {
+          "id": "16:2570565095868647632",
+          "name": "durationMs",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:773609261803659421",
+      "lastPropertyId": "22:6102663410750016746",
+      "name": "BzBob",
+      "properties": [
+        {
+          "id": "1:9112017067787930774",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5180513175619642607",
+          "name": "id",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "3:9177937197981609444"
+        },
+        {
+          "id": "3:1314813685014787016",
+          "name": "bzTypes",
+          "type": 30
+        },
+        {
+          "id": "4:6555052366911731394",
+          "name": "bzForm",
+          "type": 9
+        },
+        {
+          "id": "5:3968545468980761839",
+          "name": "createdAt",
+          "type": 6
+        },
+        {
+          "id": "6:2104080249449865286",
+          "name": "power",
+          "type": 9
+        },
+        {
+          "id": "7:1841166462722130224",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "8:7447188699084703305",
+          "name": "trigram",
+          "type": 30
+        },
+        {
+          "id": "9:7753013912721170029",
+          "name": "logoPath",
+          "type": 9
+        },
+        {
+          "id": "10:5050494743665990117",
+          "name": "scopes",
+          "type": 9
+        },
+        {
+          "id": "11:8384632666241395993",
+          "name": "zone",
+          "type": 9
+        },
+        {
+          "id": "12:7418543512791579180",
+          "name": "about",
+          "type": 9
+        },
+        {
+          "id": "13:6497729536046172373",
+          "name": "position",
+          "type": 9
+        },
+        {
+          "id": "14:1452220908718281869",
+          "name": "contacts",
+          "type": 9
+        },
+        {
+          "id": "15:4280345566608583346",
+          "name": "authors",
+          "type": 9
+        },
+        {
+          "id": "16:4658766790192623855",
+          "name": "pendings",
+          "type": 9
+        },
+        {
+          "id": "17:8450984439676885805",
+          "name": "showsTeam",
+          "type": 1
+        },
+        {
+          "id": "18:1055207355097466569",
+          "name": "isVerified",
+          "type": 1
+        },
+        {
+          "id": "19:6523825877131614117",
+          "name": "bzState",
+          "type": 9
+        },
+        {
+          "id": "20:3277062207263977714",
+          "name": "publication",
+          "type": 9
+        },
+        {
+          "id": "21:7629283162195865894",
+          "name": "lastStateChanged",
+          "type": 6
+        },
+        {
+          "id": "22:6102663410750016746",
+          "name": "assetsIDs",
+          "type": 30
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:2527457947279062677",
+      "lastPropertyId": "14:8471311221335484416",
+      "name": "FishBob",
+      "properties": [
+        {
+          "id": "1:2806572167344555149",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2005789891722535398",
+          "name": "id",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "4:2212175629185820782"
+        },
+        {
+          "id": "3:1880073386845754451",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:5601722074614247217",
+          "name": "bio",
+          "type": 9
+        },
+        {
+          "id": "5:3121878091510426868",
+          "name": "contacts",
+          "type": 9
+        },
+        {
+          "id": "6:8053653567631028101",
+          "name": "bzTypes",
+          "type": 9
+        },
+        {
+          "id": "7:7700975010671092472",
+          "name": "bzForm",
+          "type": 9
+        },
+        {
+          "id": "8:2359934643268150842",
+          "name": "countryID",
+          "type": 9
+        },
+        {
+          "id": "9:6594378657180179423",
+          "name": "imageURL",
+          "type": 9
+        },
+        {
+          "id": "10:1312190646945848794",
+          "name": "emailIsFailing",
+          "type": 1
+        },
+        {
+          "id": "11:1662388007057848787",
+          "name": "assets",
+          "type": 9
+        },
+        {
+          "id": "12:4263489447012826106",
+          "name": "instagramFollowers",
+          "type": 6
+        },
+        {
+          "id": "13:5909029499646300716",
+          "name": "managers",
+          "type": 9
+        },
+        {
+          "id": "14:8471311221335484416",
+          "name": "lastEmailSent",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7167755543158701479",
+      "lastPropertyId": "26:5145782013342871415",
+      "name": "FlyerBob",
+      "properties": [
+        {
+          "id": "1:5169140748521215914",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6460107524664264856",
+          "name": "id",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "5:246239040433648516"
+        },
+        {
+          "id": "3:4244919104403468724",
+          "name": "headline",
+          "type": 9
+        },
+        {
+          "id": "4:4012119834447984678",
+          "name": "trigram",
+          "type": 30
+        },
+        {
+          "id": "5:4772596973547266920",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "6:5228612638678373723",
+          "name": "flyerType",
+          "type": 9
+        },
+        {
+          "id": "7:7182775079450660129",
+          "name": "publishState",
+          "type": 9
+        },
+        {
+          "id": "8:2369119558142662427",
+          "name": "phids",
+          "type": 30
+        },
+        {
+          "id": "9:735500877994458462",
+          "name": "showsAuthor",
+          "type": 1
+        },
+        {
+          "id": "10:2788484416688904645",
+          "name": "zone",
+          "type": 9
+        },
+        {
+          "id": "11:1832587249356159873",
+          "name": "authorID",
+          "type": 9
+        },
+        {
+          "id": "12:2478643402557208393",
+          "name": "bzID",
+          "type": 9
+        },
+        {
+          "id": "13:583603922177484272",
+          "name": "position",
+          "type": 9
+        },
+        {
+          "id": "14:7384922799355017985",
+          "name": "slides",
+          "type": 9
+        },
+        {
+          "id": "15:4822865515783950294",
+          "name": "times",
+          "type": 9
+        },
+        {
+          "id": "16:1174125318460365553",
+          "name": "hasPriceTag",
+          "type": 1
+        },
+        {
+          "id": "17:6841445049373684601",
+          "name": "isAmazonFlyer",
+          "type": 1
+        },
+        {
+          "id": "18:6466152462785440438",
+          "name": "hasPDF",
+          "type": 1
+        },
+        {
+          "id": "19:4636520833104721476",
+          "name": "score",
+          "type": 6
+        },
+        {
+          "id": "20:2175383991982370554",
+          "name": "pdfPath",
+          "type": 9
+        },
+        {
+          "id": "21:8859102772736096330",
+          "name": "shareLink",
+          "type": 9
+        },
+        {
+          "id": "22:4071017096812899901",
+          "name": "price",
+          "type": 9
+        },
+        {
+          "id": "23:7560393256912727749",
+          "name": "bzIsActive",
+          "type": 1
+        },
+        {
+          "id": "24:3636027294230745025",
+          "name": "affiliateLink",
+          "type": 9
+        },
+        {
+          "id": "25:4945093066520257787",
+          "name": "gtaLink",
+          "type": 9
+        },
+        {
+          "id": "26:5145782013342871415",
+          "name": "bzModel",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:3402808773652491382",
+      "lastPropertyId": "27:868141082855526967",
+      "name": "UserBob",
+      "properties": [
+        {
+          "id": "1:6140164983173358337",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6958741159771500108",
+          "name": "id",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "6:7011672961778009872"
+        },
+        {
+          "id": "3:6458792046724648005",
+          "name": "signInMethod",
+          "type": 9
+        },
+        {
+          "id": "4:4929104163485751208",
+          "name": "isSignedUp",
+          "type": 1
+        },
+        {
+          "id": "5:7756047472335893713",
+          "name": "createdAt",
+          "type": 6
+        },
+        {
+          "id": "6:1879314564370080123",
+          "name": "need",
+          "type": 9
+        },
+        {
+          "id": "7:2815795377176199054",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "8:5928606796374400141",
+          "name": "trigram",
+          "type": 30
+        },
+        {
+          "id": "9:5262309051850082697",
+          "name": "picPath",
+          "type": 9
+        },
+        {
+          "id": "10:1154428771849238693",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "11:7881498520822862905",
+          "name": "company",
+          "type": 9
+        },
+        {
+          "id": "12:3982965289457682968",
+          "name": "gender",
+          "type": 9
+        },
+        {
+          "id": "13:4329264808662992662",
+          "name": "zone",
+          "type": 9
+        },
+        {
+          "id": "14:3709668703807010607",
+          "name": "language",
+          "type": 9
+        },
+        {
+          "id": "15:8368034532616751632",
+          "name": "location",
+          "type": 9
+        },
+        {
+          "id": "16:8827669188475138552",
+          "name": "contacts",
+          "type": 9
+        },
+        {
+          "id": "17:5199322104097242714",
+          "name": "contactsArePublic",
+          "type": 1
+        },
+        {
+          "id": "18:6048189184397850891",
+          "name": "myBzzIDs",
+          "type": 30
+        },
+        {
+          "id": "19:2936206657394575069",
+          "name": "isAuthor",
+          "type": 1
+        },
+        {
+          "id": "20:6570856379674790134",
+          "name": "emailIsVerified",
+          "type": 1
+        },
+        {
+          "id": "21:1851439498760099521",
+          "name": "isAdmin",
+          "type": 1
+        },
+        {
+          "id": "22:715157845077127531",
+          "name": "device",
+          "type": 9
+        },
+        {
+          "id": "23:8296727240701830246",
+          "name": "fcmTopics",
+          "type": 30
+        },
+        {
+          "id": "24:4710092671189524186",
+          "name": "savedFlyers",
+          "type": 9
+        },
+        {
+          "id": "25:7407707816119058102",
+          "name": "followedBzz",
+          "type": 9
+        },
+        {
+          "id": "26:2778415487019637445",
+          "name": "appState",
+          "type": 9
+        },
+        {
+          "id": "27:868141082855526967",
+          "name": "lastSeen",
+          "type": 6
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "5:3402808773652491382",
+  "lastIndexId": "6:7011672961778009872",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
