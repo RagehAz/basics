@@ -40,11 +40,7 @@ class MediaBobModel {
 
 }
 
-class MediaBobOps {
-  // -----------------------------------------------------------------------------
-
-  const MediaBobOps();
-
+abstract class MediaBobOps {
   // -----------------------------------------------------------------------------
 
   /// CONVERTER

@@ -3,7 +3,7 @@
 // with `dart run build_runner build`.
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
-// ignore_for_file: camel_case_types, depend_on_referenced_packages, avoid_js_rounded_ints
+// ignore_for_file: camel_case_types, depend_on_referenced_packages
 // coverage:ignore-file
 
 import 'dart:typed_data';
@@ -20,93 +20,578 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 9210586487968812159),
-      name: 'BobModel',
-      lastPropertyId: const obx_int.IdUid(3, 2396968711652621034),
+      id: const obx_int.IdUid(1, 8062467900919483576),
+      name: 'BzBob',
+      lastPropertyId: const obx_int.IdUid(22, 4043751018632630817),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 9102651555732753356),
+            id: const obx_int.IdUid(1, 7716122818982210975),
             name: 'bobID',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3827922988381026961),
+            id: const obx_int.IdUid(2, 1686542574207444837),
             name: 'id',
             type: 9,
             flags: 34848,
-            indexId: const obx_int.IdUid(1, 8071660503376600742)),
+            indexId: const obx_int.IdUid(1, 5535064618751927173)),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 2396968711652621034),
-            name: 'value',
+            id: const obx_int.IdUid(3, 3975796968680516448),
+            name: 'bzTypes',
             type: 9,
-            flags: 2048,
-            indexId: const obx_int.IdUid(2, 1114470720014744710))
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 1195820800955246620),
-      name: 'MediaBobModel',
-      lastPropertyId: const obx_int.IdUid(11, 8730685736654660504),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
+            flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 2361510480238287480),
-            name: 'bobID',
+            id: const obx_int.IdUid(4, 3495957155363839363),
+            name: 'bzForm',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 5422897151623380005),
+            name: 'createdAt',
             type: 6,
-            flags: 1),
+            flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 8241749055123332785),
-            name: 'id',
+            id: const obx_int.IdUid(6, 2590324856546315267),
+            name: 'power',
             type: 9,
-            flags: 34848,
-            indexId: const obx_int.IdUid(3, 1476099916988770708)),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 4177870990506408543),
-            name: 'bytes',
-            type: 23,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4558821143565786823),
-            name: 'ownersIDs',
-            type: 30,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 6954375480105500610),
-            name: 'width',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 1474383028530090504),
-            name: 'height',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 600366288698377296),
+            id: const obx_int.IdUid(7, 1185776783452142820),
             name: 'name',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 1968442547714709082),
+            id: const obx_int.IdUid(8, 1541994017037494657),
+            name: 'trigram',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 1649588138983676508),
+            name: 'logoPath',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 2908443235529580466),
+            name: 'scopes',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 2627928299813069766),
+            name: 'zone',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 1963395017475173704),
+            name: 'about',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 1713933922529870271),
+            name: 'position',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 2351419142283118207),
+            name: 'contacts',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 8356998950167289831),
+            name: 'authors',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 806799634233670434),
+            name: 'pendings',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 5085723111747107592),
+            name: 'showsTeam',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 3213640077643227314),
+            name: 'isVerified',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 792585859622426033),
+            name: 'bzState',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 3362735575441720894),
+            name: 'publication',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 8073939382705232699),
+            name: 'lastStateChanged',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(22, 4043751018632630817),
+            name: 'assetsIDs',
+            type: 30,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(2, 87890848152607514),
+      name: 'FishBob',
+      lastPropertyId: const obx_int.IdUid(14, 9118831366655744657),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 7710577726029860355),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2056620453198347750),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(2, 8739682770740251010)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 760168931851794960),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 6085451292028198910),
+            name: 'bio',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6851671947106961458),
+            name: 'contacts',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 5711351167679589241),
+            name: 'bzTypes',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 4208087241977752130),
+            name: 'bzForm',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 3044234492891399575),
+            name: 'countryID',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 1548458225757681916),
+            name: 'imageURL',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 5405651156272745116),
+            name: 'emailIsFailing',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 2290726430239224859),
+            name: 'assets',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 1719096759877794005),
+            name: 'instagramFollowers',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 7598296044626890203),
+            name: 'managers',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 9118831366655744657),
+            name: 'lastEmailSent',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(3, 6789421678047801337),
+      name: 'FlyerBob',
+      lastPropertyId: const obx_int.IdUid(26, 8598034840667228975),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 5719309531871355385),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 5939542555250541074),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(3, 5934021212795288731)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4789560467351757114),
+            name: 'headline',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 418409253802109406),
+            name: 'trigram',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 4739924805940943944),
+            name: 'description',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 5854240851474262114),
+            name: 'flyerType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 3073131388346446828),
+            name: 'publishState',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 6705362134165326113),
+            name: 'phids',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 1273846443311343598),
+            name: 'showsAuthor',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 5206467997897677017),
+            name: 'zone',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 569198741612380732),
+            name: 'authorID',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 6359732934230708153),
+            name: 'bzID',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 2958023316708251941),
+            name: 'position',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 2432712025452809468),
+            name: 'slides',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 3155983904355006146),
+            name: 'times',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 7520600584663226173),
+            name: 'hasPriceTag',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 2646346411315954431),
+            name: 'isAmazonFlyer',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 3117867188112548534),
+            name: 'hasPDF',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 3035149481102472516),
+            name: 'score',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 6874658361884837031),
+            name: 'pdfPath',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 6572701077120840453),
+            name: 'shareLink',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(22, 9147814991417581966),
+            name: 'price',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(23, 7433137152750990085),
+            name: 'bzIsActive',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(24, 6837062497106689053),
+            name: 'affiliateLink',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(25, 1217956672248961023),
+            name: 'gtaLink',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(4, 6860783053035631315),
+      name: 'MediaBobModel',
+      lastPropertyId: const obx_int.IdUid(11, 69902210812098179),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6599627471108175939),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4726096511300842333),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(4, 2106339159952077958)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6936225046335135326),
+            name: 'bytes',
+            type: 23,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 5847338923646791298),
+            name: 'ownersIDs',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6348153890182061390),
+            name: 'width',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 7473385575850668628),
+            name: 'height',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 523947024315704976),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 5467631683895231853),
             name: 'sizeMB',
             type: 8,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 2614491178650348929),
+            id: const obx_int.IdUid(9, 6254409729444727605),
             name: 'fileMime',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 1832269601723728046),
+            id: const obx_int.IdUid(10, 7236294238231572389),
             name: 'uploadPath',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 8730685736654660504),
+            id: const obx_int.IdUid(11, 69902210812098179),
             name: 'data',
             type: 9,
             flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(5, 572915980294336576),
+      name: 'UserBob',
+      lastPropertyId: const obx_int.IdUid(28, 3213796560325134120),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 4041184646680041601),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4377322089481995118),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(5, 3278876044531347854)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 5508673261420299544),
+            name: 'signInMethod',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 6190946312309563074),
+            name: 'isSignedUp',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 7030604223152032188),
+            name: 'createdAt',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 8341089188173448782),
+            name: 'need',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 8789450514905543835),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 7541520200551889513),
+            name: 'trigram',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 8111150915602302390),
+            name: 'picPath',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 7900448368361778585),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 8946591834851299653),
+            name: 'company',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 5720861298125843925),
+            name: 'gender',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 3993250506839497799),
+            name: 'zone',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 7532586940726104702),
+            name: 'language',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 5161335882994729172),
+            name: 'location',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 8760266804601301111),
+            name: 'contacts',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 5192551781012379804),
+            name: 'contactsArePublic',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 6831168203008274265),
+            name: 'myBzzIDs',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 5136978326440610348),
+            name: 'isAuthor',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 6949183699182352259),
+            name: 'emailIsVerified',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 2235164582661018836),
+            name: 'isAdmin',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(22, 2986379941091583885),
+            name: 'device',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(23, 2534439404276935046),
+            name: 'fcmTopics',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(24, 2664638858409216516),
+            name: 'savedFlyers',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(25, 1125970856807727452),
+            name: 'followedBzz',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(26, 626425340690688473),
+            name: 'appState',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(27, 816602092141631447),
+            name: 'lastSeen',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(28, 3213796560325134120),
+            name: 'tendersIDs',
+            type: 30,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(6, 7233108914812601369),
+      name: 'BobModel',
+      lastPropertyId: const obx_int.IdUid(3, 6970049226659600145),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8133931479369797082),
+            name: 'bobID',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2550261393483271144),
+            name: 'id',
+            type: 9,
+            flags: 34848,
+            indexId: const obx_int.IdUid(6, 6436661666124475635)),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6970049226659600145),
+            name: 'value',
+            type: 9,
+            flags: 2048,
+            indexId: const obx_int.IdUid(7, 1099906291306473276))
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
@@ -147,34 +632,223 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 1195820800955246620),
-      lastIndexId: const obx_int.IdUid(3, 1476099916988770708),
+      lastEntityId: const obx_int.IdUid(6, 7233108914812601369),
+      lastIndexId: const obx_int.IdUid(7, 1099906291306473276),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [8598034840667228975],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
       version: 1);
 
   final bindings = <Type, obx_int.EntityDefinition>{
-    BobModel: obx_int.EntityDefinition<BobModel>(
+    BzBob: obx_int.EntityDefinition<BzBob>(
         model: _entities[0],
-        toOneRelations: (BobModel object) => [],
-        toManyRelations: (BobModel object) => {},
-        getId: (BobModel object) => object.bobID,
-        setId: (BobModel object, int id) {
+        toOneRelations: (BzBob object) => [],
+        toManyRelations: (BzBob object) => {},
+        getId: (BzBob object) => object.bobID,
+        setId: (BzBob object, int id) {
           object.bobID = id;
         },
-        objectToFB: (BobModel object, fb.Builder fbb) {
-          final idOffset = fbb.writeString(object.id);
-          final valueOffset = fbb.writeString(object.value);
-          fbb.startTable(4);
+        objectToFB: (BzBob object, fb.Builder fbb) {
+          final idOffset =
+              object.id == null ? null : fbb.writeString(object.id!);
+          final bzTypesOffset =
+              object.bzTypes == null ? null : fbb.writeString(object.bzTypes!);
+          final bzFormOffset =
+              object.bzForm == null ? null : fbb.writeString(object.bzForm!);
+          final powerOffset =
+              object.power == null ? null : fbb.writeString(object.power!);
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final trigramOffset = object.trigram == null
+              ? null
+              : fbb.writeList(
+                  object.trigram!.map(fbb.writeString).toList(growable: false));
+          final logoPathOffset = object.logoPath == null
+              ? null
+              : fbb.writeString(object.logoPath!);
+          final scopesOffset =
+              object.scopes == null ? null : fbb.writeString(object.scopes!);
+          final zoneOffset =
+              object.zone == null ? null : fbb.writeString(object.zone!);
+          final aboutOffset =
+              object.about == null ? null : fbb.writeString(object.about!);
+          final positionOffset = object.position == null
+              ? null
+              : fbb.writeString(object.position!);
+          final contactsOffset = object.contacts == null
+              ? null
+              : fbb.writeString(object.contacts!);
+          final authorsOffset =
+              object.authors == null ? null : fbb.writeString(object.authors!);
+          final pendingsOffset = object.pendings == null
+              ? null
+              : fbb.writeString(object.pendings!);
+          final bzStateOffset =
+              object.bzState == null ? null : fbb.writeString(object.bzState!);
+          final publicationOffset = object.publication == null
+              ? null
+              : fbb.writeString(object.publication!);
+          final assetsIDsOffset = object.assetsIDs == null
+              ? null
+              : fbb.writeList(object.assetsIDs!
+                  .map(fbb.writeString)
+                  .toList(growable: false));
+          fbb.startTable(23);
           fbb.addInt64(0, object.bobID);
           fbb.addOffset(1, idOffset);
-          fbb.addOffset(2, valueOffset);
+          fbb.addOffset(2, bzTypesOffset);
+          fbb.addOffset(3, bzFormOffset);
+          fbb.addInt64(4, object.createdAt);
+          fbb.addOffset(5, powerOffset);
+          fbb.addOffset(6, nameOffset);
+          fbb.addOffset(7, trigramOffset);
+          fbb.addOffset(8, logoPathOffset);
+          fbb.addOffset(9, scopesOffset);
+          fbb.addOffset(10, zoneOffset);
+          fbb.addOffset(11, aboutOffset);
+          fbb.addOffset(12, positionOffset);
+          fbb.addOffset(13, contactsOffset);
+          fbb.addOffset(14, authorsOffset);
+          fbb.addOffset(15, pendingsOffset);
+          fbb.addBool(16, object.showsTeam);
+          fbb.addBool(17, object.isVerified);
+          fbb.addOffset(18, bzStateOffset);
+          fbb.addOffset(19, publicationOffset);
+          fbb.addInt64(20, object.lastStateChanged);
+          fbb.addOffset(21, assetsIDsOffset);
+          fbb.finish(fbb.endTable());
+          return object.bobID;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final bobIDParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final idParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final bzTypesParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
+          final bzFormParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final createdAtParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
+          final powerParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final trigramParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final logoPathParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 20);
+          final scopesParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 22);
+          final zoneParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 24);
+          final aboutParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 26);
+          final positionParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 28);
+          final contactsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 30);
+          final authorsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 32);
+          final pendingsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 34);
+          final showsTeamParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 36);
+          final isVerifiedParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 38);
+          final bzStateParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 40);
+          final publicationParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 42);
+          final lastStateChangedParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 44);
+          final assetsIDsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 46);
+          final object = BzBob(
+              bobID: bobIDParam,
+              id: idParam,
+              bzTypes: bzTypesParam,
+              bzForm: bzFormParam,
+              createdAt: createdAtParam,
+              power: powerParam,
+              name: nameParam,
+              trigram: trigramParam,
+              logoPath: logoPathParam,
+              scopes: scopesParam,
+              zone: zoneParam,
+              about: aboutParam,
+              position: positionParam,
+              contacts: contactsParam,
+              authors: authorsParam,
+              pendings: pendingsParam,
+              showsTeam: showsTeamParam,
+              isVerified: isVerifiedParam,
+              bzState: bzStateParam,
+              publication: publicationParam,
+              lastStateChanged: lastStateChangedParam,
+              assetsIDs: assetsIDsParam);
+
+          return object;
+        }),
+    FishBob: obx_int.EntityDefinition<FishBob>(
+        model: _entities[1],
+        toOneRelations: (FishBob object) => [],
+        toManyRelations: (FishBob object) => {},
+        getId: (FishBob object) => object.bobID,
+        setId: (FishBob object, int id) {
+          object.bobID = id;
+        },
+        objectToFB: (FishBob object, fb.Builder fbb) {
+          final idOffset = fbb.writeString(object.id);
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final bioOffset =
+              object.bio == null ? null : fbb.writeString(object.bio!);
+          final contactsOffset = object.contacts == null
+              ? null
+              : fbb.writeString(object.contacts!);
+          final bzTypesOffset =
+              object.bzTypes == null ? null : fbb.writeString(object.bzTypes!);
+          final bzFormOffset =
+              object.bzForm == null ? null : fbb.writeString(object.bzForm!);
+          final countryIDOffset = object.countryID == null
+              ? null
+              : fbb.writeString(object.countryID!);
+          final imageURLOffset = object.imageURL == null
+              ? null
+              : fbb.writeString(object.imageURL!);
+          final assetsOffset =
+              object.assets == null ? null : fbb.writeString(object.assets!);
+          final managersOffset = object.managers == null
+              ? null
+              : fbb.writeString(object.managers!);
+          fbb.startTable(15);
+          fbb.addInt64(0, object.bobID);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, nameOffset);
+          fbb.addOffset(3, bioOffset);
+          fbb.addOffset(4, contactsOffset);
+          fbb.addOffset(5, bzTypesOffset);
+          fbb.addOffset(6, bzFormOffset);
+          fbb.addOffset(7, countryIDOffset);
+          fbb.addOffset(8, imageURLOffset);
+          fbb.addBool(9, object.emailIsFailing);
+          fbb.addOffset(10, assetsOffset);
+          fbb.addInt64(11, object.instagramFollowers);
+          fbb.addOffset(12, managersOffset);
+          fbb.addInt64(13, object.lastEmailSent);
           fbb.finish(fbb.endTable());
           return object.bobID;
         },
@@ -185,15 +859,224 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final idParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
-          final valueParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final object =
-              BobModel(bobID: bobIDParam, id: idParam, value: valueParam);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
+          final bioParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final contactsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 12);
+          final bzTypesParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final bzFormParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final countryIDParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final assetsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 24);
+          final instagramFollowersParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 26);
+          final managersParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 28);
+          final lastEmailSentParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 30);
+          final imageURLParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 20);
+          final emailIsFailingParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 22, false);
+          final object = FishBob(
+              bobID: bobIDParam,
+              id: idParam,
+              name: nameParam,
+              bio: bioParam,
+              contacts: contactsParam,
+              bzTypes: bzTypesParam,
+              bzForm: bzFormParam,
+              countryID: countryIDParam,
+              assets: assetsParam,
+              instagramFollowers: instagramFollowersParam,
+              managers: managersParam,
+              lastEmailSent: lastEmailSentParam,
+              imageURL: imageURLParam,
+              emailIsFailing: emailIsFailingParam);
+
+          return object;
+        }),
+    FlyerBob: obx_int.EntityDefinition<FlyerBob>(
+        model: _entities[2],
+        toOneRelations: (FlyerBob object) => [],
+        toManyRelations: (FlyerBob object) => {},
+        getId: (FlyerBob object) => object.bobID,
+        setId: (FlyerBob object, int id) {
+          object.bobID = id;
+        },
+        objectToFB: (FlyerBob object, fb.Builder fbb) {
+          final idOffset = fbb.writeString(object.id);
+          final headlineOffset = object.headline == null
+              ? null
+              : fbb.writeString(object.headline!);
+          final trigramOffset = object.trigram == null
+              ? null
+              : fbb.writeList(
+                  object.trigram!.map(fbb.writeString).toList(growable: false));
+          final descriptionOffset = object.description == null
+              ? null
+              : fbb.writeString(object.description!);
+          final flyerTypeOffset = object.flyerType == null
+              ? null
+              : fbb.writeString(object.flyerType!);
+          final publishStateOffset = object.publishState == null
+              ? null
+              : fbb.writeString(object.publishState!);
+          final phidsOffset = object.phids == null
+              ? null
+              : fbb.writeList(
+                  object.phids!.map(fbb.writeString).toList(growable: false));
+          final zoneOffset =
+              object.zone == null ? null : fbb.writeString(object.zone!);
+          final authorIDOffset = object.authorID == null
+              ? null
+              : fbb.writeString(object.authorID!);
+          final bzIDOffset =
+              object.bzID == null ? null : fbb.writeString(object.bzID!);
+          final positionOffset = object.position == null
+              ? null
+              : fbb.writeString(object.position!);
+          final slidesOffset =
+              object.slides == null ? null : fbb.writeString(object.slides!);
+          final timesOffset =
+              object.times == null ? null : fbb.writeString(object.times!);
+          final pdfPathOffset =
+              object.pdfPath == null ? null : fbb.writeString(object.pdfPath!);
+          final shareLinkOffset = object.shareLink == null
+              ? null
+              : fbb.writeString(object.shareLink!);
+          final priceOffset =
+              object.price == null ? null : fbb.writeString(object.price!);
+          final affiliateLinkOffset = object.affiliateLink == null
+              ? null
+              : fbb.writeString(object.affiliateLink!);
+          final gtaLinkOffset =
+              object.gtaLink == null ? null : fbb.writeString(object.gtaLink!);
+          fbb.startTable(27);
+          fbb.addInt64(0, object.bobID);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, headlineOffset);
+          fbb.addOffset(3, trigramOffset);
+          fbb.addOffset(4, descriptionOffset);
+          fbb.addOffset(5, flyerTypeOffset);
+          fbb.addOffset(6, publishStateOffset);
+          fbb.addOffset(7, phidsOffset);
+          fbb.addBool(8, object.showsAuthor);
+          fbb.addOffset(9, zoneOffset);
+          fbb.addOffset(10, authorIDOffset);
+          fbb.addOffset(11, bzIDOffset);
+          fbb.addOffset(12, positionOffset);
+          fbb.addOffset(13, slidesOffset);
+          fbb.addOffset(14, timesOffset);
+          fbb.addBool(15, object.hasPriceTag);
+          fbb.addBool(16, object.isAmazonFlyer);
+          fbb.addBool(17, object.hasPDF);
+          fbb.addInt64(18, object.score);
+          fbb.addOffset(19, pdfPathOffset);
+          fbb.addOffset(20, shareLinkOffset);
+          fbb.addOffset(21, priceOffset);
+          fbb.addBool(22, object.bzIsActive);
+          fbb.addOffset(23, affiliateLinkOffset);
+          fbb.addOffset(24, gtaLinkOffset);
+          fbb.finish(fbb.endTable());
+          return object.bobID;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final bobIDParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final idParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final headlineParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 8);
+          final trigramParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 10);
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 12);
+          final flyerTypeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final publishStateParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 16);
+          final phidsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final zoneParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 22);
+          final authorIDParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 24);
+          final bzIDParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 26);
+          final positionParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 28);
+          final slidesParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 30);
+          final timesParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 32);
+          final hasPriceTagParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 34);
+          final isAmazonFlyerParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 36);
+          final hasPDFParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 38);
+          final showsAuthorParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 20);
+          final scoreParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 40);
+          final pdfPathParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 42);
+          final shareLinkParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 44);
+          final priceParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 46);
+          final bzIsActiveParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 48);
+          final affiliateLinkParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 50);
+          final gtaLinkParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 52);
+          final object = FlyerBob(
+              bobID: bobIDParam,
+              id: idParam,
+              headline: headlineParam,
+              trigram: trigramParam,
+              description: descriptionParam,
+              flyerType: flyerTypeParam,
+              publishState: publishStateParam,
+              phids: phidsParam,
+              zone: zoneParam,
+              authorID: authorIDParam,
+              bzID: bzIDParam,
+              position: positionParam,
+              slides: slidesParam,
+              times: timesParam,
+              hasPriceTag: hasPriceTagParam,
+              isAmazonFlyer: isAmazonFlyerParam,
+              hasPDF: hasPDFParam,
+              showsAuthor: showsAuthorParam,
+              score: scoreParam,
+              pdfPath: pdfPathParam,
+              shareLink: shareLinkParam,
+              price: priceParam,
+              bzIsActive: bzIsActiveParam,
+              affiliateLink: affiliateLinkParam,
+              gtaLink: gtaLinkParam);
 
           return object;
         }),
     MediaBobModel: obx_int.EntityDefinition<MediaBobModel>(
-        model: _entities[1],
+        model: _entities[3],
         toOneRelations: (MediaBobModel object) => [],
         toManyRelations: (MediaBobModel object) => {},
         getId: (MediaBobModel object) => object.bobID,
@@ -272,70 +1155,670 @@ obx_int.ModelDefinition getObjectBoxModel() {
               data: dataParam);
 
           return object;
+        }),
+    UserBob: obx_int.EntityDefinition<UserBob>(
+        model: _entities[4],
+        toOneRelations: (UserBob object) => [],
+        toManyRelations: (UserBob object) => {},
+        getId: (UserBob object) => object.bobID,
+        setId: (UserBob object, int id) {
+          object.bobID = id;
+        },
+        objectToFB: (UserBob object, fb.Builder fbb) {
+          final idOffset =
+              object.id == null ? null : fbb.writeString(object.id!);
+          final signInMethodOffset = object.signInMethod == null
+              ? null
+              : fbb.writeString(object.signInMethod!);
+          final needOffset =
+              object.need == null ? null : fbb.writeString(object.need!);
+          final nameOffset =
+              object.name == null ? null : fbb.writeString(object.name!);
+          final trigramOffset = object.trigram == null
+              ? null
+              : fbb.writeList(
+                  object.trigram!.map(fbb.writeString).toList(growable: false));
+          final picPathOffset =
+              object.picPath == null ? null : fbb.writeString(object.picPath!);
+          final titleOffset =
+              object.title == null ? null : fbb.writeString(object.title!);
+          final companyOffset =
+              object.company == null ? null : fbb.writeString(object.company!);
+          final genderOffset =
+              object.gender == null ? null : fbb.writeString(object.gender!);
+          final zoneOffset =
+              object.zone == null ? null : fbb.writeString(object.zone!);
+          final languageOffset = object.language == null
+              ? null
+              : fbb.writeString(object.language!);
+          final locationOffset = object.location == null
+              ? null
+              : fbb.writeString(object.location!);
+          final contactsOffset = object.contacts == null
+              ? null
+              : fbb.writeString(object.contacts!);
+          final myBzzIDsOffset = object.myBzzIDs == null
+              ? null
+              : fbb.writeList(object.myBzzIDs!
+                  .map(fbb.writeString)
+                  .toList(growable: false));
+          final deviceOffset =
+              object.device == null ? null : fbb.writeString(object.device!);
+          final fcmTopicsOffset = object.fcmTopics == null
+              ? null
+              : fbb.writeList(object.fcmTopics!
+                  .map(fbb.writeString)
+                  .toList(growable: false));
+          final savedFlyersOffset = object.savedFlyers == null
+              ? null
+              : fbb.writeString(object.savedFlyers!);
+          final followedBzzOffset = object.followedBzz == null
+              ? null
+              : fbb.writeString(object.followedBzz!);
+          final appStateOffset = object.appState == null
+              ? null
+              : fbb.writeString(object.appState!);
+          final tendersIDsOffset = object.tendersIDs == null
+              ? null
+              : fbb.writeList(object.tendersIDs!
+                  .map(fbb.writeString)
+                  .toList(growable: false));
+          fbb.startTable(29);
+          fbb.addInt64(0, object.bobID);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, signInMethodOffset);
+          fbb.addBool(3, object.isSignedUp);
+          fbb.addInt64(4, object.createdAt);
+          fbb.addOffset(5, needOffset);
+          fbb.addOffset(6, nameOffset);
+          fbb.addOffset(7, trigramOffset);
+          fbb.addOffset(8, picPathOffset);
+          fbb.addOffset(9, titleOffset);
+          fbb.addOffset(10, companyOffset);
+          fbb.addOffset(11, genderOffset);
+          fbb.addOffset(12, zoneOffset);
+          fbb.addOffset(13, languageOffset);
+          fbb.addOffset(14, locationOffset);
+          fbb.addOffset(15, contactsOffset);
+          fbb.addBool(16, object.contactsArePublic);
+          fbb.addOffset(17, myBzzIDsOffset);
+          fbb.addBool(18, object.isAuthor);
+          fbb.addBool(19, object.emailIsVerified);
+          fbb.addBool(20, object.isAdmin);
+          fbb.addOffset(21, deviceOffset);
+          fbb.addOffset(22, fcmTopicsOffset);
+          fbb.addOffset(23, savedFlyersOffset);
+          fbb.addOffset(24, followedBzzOffset);
+          fbb.addOffset(25, appStateOffset);
+          fbb.addInt64(26, object.lastSeen);
+          fbb.addOffset(27, tendersIDsOffset);
+          fbb.finish(fbb.endTable());
+          return object.bobID;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final bobIDParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final idParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 6);
+          final signInMethodParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 8);
+          final isSignedUpParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 10);
+          final createdAtParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 12);
+          final needParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 16);
+          final trigramParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 18);
+          final picPathParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 20);
+          final titleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 22);
+          final companyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 24);
+          final genderParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 26);
+          final zoneParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 28);
+          final languageParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 30);
+          final locationParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 32);
+          final contactsParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 34);
+          final contactsArePublicParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 36);
+          final myBzzIDsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 38);
+          final isAuthorParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 40);
+          final emailIsVerifiedParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 42);
+          final isAdminParam =
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 44);
+          final deviceParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 46);
+          final fcmTopicsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 48);
+          final savedFlyersParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 50);
+          final followedBzzParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 52);
+          final lastSeenParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 56);
+          final appStateParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 54);
+          final tendersIDsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 58);
+          final object = UserBob(
+              bobID: bobIDParam,
+              id: idParam,
+              signInMethod: signInMethodParam,
+              isSignedUp: isSignedUpParam,
+              createdAt: createdAtParam,
+              need: needParam,
+              name: nameParam,
+              trigram: trigramParam,
+              picPath: picPathParam,
+              title: titleParam,
+              company: companyParam,
+              gender: genderParam,
+              zone: zoneParam,
+              language: languageParam,
+              location: locationParam,
+              contacts: contactsParam,
+              contactsArePublic: contactsArePublicParam,
+              myBzzIDs: myBzzIDsParam,
+              isAuthor: isAuthorParam,
+              emailIsVerified: emailIsVerifiedParam,
+              isAdmin: isAdminParam,
+              device: deviceParam,
+              fcmTopics: fcmTopicsParam,
+              savedFlyers: savedFlyersParam,
+              followedBzz: followedBzzParam,
+              lastSeen: lastSeenParam,
+              appState: appStateParam,
+              tendersIDs: tendersIDsParam);
+
+          return object;
+        }),
+    BobModel: obx_int.EntityDefinition<BobModel>(
+        model: _entities[5],
+        toOneRelations: (BobModel object) => [],
+        toManyRelations: (BobModel object) => {},
+        getId: (BobModel object) => object.bobID,
+        setId: (BobModel object, int id) {
+          object.bobID = id;
+        },
+        objectToFB: (BobModel object, fb.Builder fbb) {
+          final idOffset = fbb.writeString(object.id);
+          final valueOffset = fbb.writeString(object.value);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.bobID);
+          fbb.addOffset(1, idOffset);
+          fbb.addOffset(2, valueOffset);
+          fbb.finish(fbb.endTable());
+          return object.bobID;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final bobIDParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final idParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final valueParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final object =
+              BobModel(bobID: bobIDParam, id: idParam, value: valueParam);
+
+          return object;
         })
   };
 
   return obx_int.ModelDefinition(model, bindings);
 }
 
-/// [BobModel] entity fields to define ObjectBox queries.
-class BobModel_ {
-  /// See [BobModel.bobID].
+/// [BzBob] entity fields to define ObjectBox queries.
+class BzBob_ {
+  /// See [BzBob.bobID].
   static final bobID =
-      obx.QueryIntegerProperty<BobModel>(_entities[0].properties[0]);
+      obx.QueryIntegerProperty<BzBob>(_entities[0].properties[0]);
 
-  /// See [BobModel.id].
+  /// See [BzBob.id].
+  static final id = obx.QueryStringProperty<BzBob>(_entities[0].properties[1]);
+
+  /// See [BzBob.bzTypes].
+  static final bzTypes =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[2]);
+
+  /// See [BzBob.bzForm].
+  static final bzForm =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[3]);
+
+  /// See [BzBob.createdAt].
+  static final createdAt =
+      obx.QueryIntegerProperty<BzBob>(_entities[0].properties[4]);
+
+  /// See [BzBob.power].
+  static final power =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[5]);
+
+  /// See [BzBob.name].
+  static final name =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[6]);
+
+  /// See [BzBob.trigram].
+  static final trigram =
+      obx.QueryStringVectorProperty<BzBob>(_entities[0].properties[7]);
+
+  /// See [BzBob.logoPath].
+  static final logoPath =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[8]);
+
+  /// See [BzBob.scopes].
+  static final scopes =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[9]);
+
+  /// See [BzBob.zone].
+  static final zone =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[10]);
+
+  /// See [BzBob.about].
+  static final about =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[11]);
+
+  /// See [BzBob.position].
+  static final position =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[12]);
+
+  /// See [BzBob.contacts].
+  static final contacts =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[13]);
+
+  /// See [BzBob.authors].
+  static final authors =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[14]);
+
+  /// See [BzBob.pendings].
+  static final pendings =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[15]);
+
+  /// See [BzBob.showsTeam].
+  static final showsTeam =
+      obx.QueryBooleanProperty<BzBob>(_entities[0].properties[16]);
+
+  /// See [BzBob.isVerified].
+  static final isVerified =
+      obx.QueryBooleanProperty<BzBob>(_entities[0].properties[17]);
+
+  /// See [BzBob.bzState].
+  static final bzState =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[18]);
+
+  /// See [BzBob.publication].
+  static final publication =
+      obx.QueryStringProperty<BzBob>(_entities[0].properties[19]);
+
+  /// See [BzBob.lastStateChanged].
+  static final lastStateChanged =
+      obx.QueryIntegerProperty<BzBob>(_entities[0].properties[20]);
+
+  /// See [BzBob.assetsIDs].
+  static final assetsIDs =
+      obx.QueryStringVectorProperty<BzBob>(_entities[0].properties[21]);
+}
+
+/// [FishBob] entity fields to define ObjectBox queries.
+class FishBob_ {
+  /// See [FishBob.bobID].
+  static final bobID =
+      obx.QueryIntegerProperty<FishBob>(_entities[1].properties[0]);
+
+  /// See [FishBob.id].
   static final id =
-      obx.QueryStringProperty<BobModel>(_entities[0].properties[1]);
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[1]);
 
-  /// See [BobModel.value].
-  static final value =
-      obx.QueryStringProperty<BobModel>(_entities[0].properties[2]);
+  /// See [FishBob.name].
+  static final name =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[2]);
+
+  /// See [FishBob.bio].
+  static final bio =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[3]);
+
+  /// See [FishBob.contacts].
+  static final contacts =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[4]);
+
+  /// See [FishBob.bzTypes].
+  static final bzTypes =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[5]);
+
+  /// See [FishBob.bzForm].
+  static final bzForm =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[6]);
+
+  /// See [FishBob.countryID].
+  static final countryID =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[7]);
+
+  /// See [FishBob.imageURL].
+  static final imageURL =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[8]);
+
+  /// See [FishBob.emailIsFailing].
+  static final emailIsFailing =
+      obx.QueryBooleanProperty<FishBob>(_entities[1].properties[9]);
+
+  /// See [FishBob.assets].
+  static final assets =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[10]);
+
+  /// See [FishBob.instagramFollowers].
+  static final instagramFollowers =
+      obx.QueryIntegerProperty<FishBob>(_entities[1].properties[11]);
+
+  /// See [FishBob.managers].
+  static final managers =
+      obx.QueryStringProperty<FishBob>(_entities[1].properties[12]);
+
+  /// See [FishBob.lastEmailSent].
+  static final lastEmailSent =
+      obx.QueryIntegerProperty<FishBob>(_entities[1].properties[13]);
+}
+
+/// [FlyerBob] entity fields to define ObjectBox queries.
+class FlyerBob_ {
+  /// See [FlyerBob.bobID].
+  static final bobID =
+      obx.QueryIntegerProperty<FlyerBob>(_entities[2].properties[0]);
+
+  /// See [FlyerBob.id].
+  static final id =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[1]);
+
+  /// See [FlyerBob.headline].
+  static final headline =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[2]);
+
+  /// See [FlyerBob.trigram].
+  static final trigram =
+      obx.QueryStringVectorProperty<FlyerBob>(_entities[2].properties[3]);
+
+  /// See [FlyerBob.description].
+  static final description =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[4]);
+
+  /// See [FlyerBob.flyerType].
+  static final flyerType =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[5]);
+
+  /// See [FlyerBob.publishState].
+  static final publishState =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[6]);
+
+  /// See [FlyerBob.phids].
+  static final phids =
+      obx.QueryStringVectorProperty<FlyerBob>(_entities[2].properties[7]);
+
+  /// See [FlyerBob.showsAuthor].
+  static final showsAuthor =
+      obx.QueryBooleanProperty<FlyerBob>(_entities[2].properties[8]);
+
+  /// See [FlyerBob.zone].
+  static final zone =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[9]);
+
+  /// See [FlyerBob.authorID].
+  static final authorID =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[10]);
+
+  /// See [FlyerBob.bzID].
+  static final bzID =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[11]);
+
+  /// See [FlyerBob.position].
+  static final position =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[12]);
+
+  /// See [FlyerBob.slides].
+  static final slides =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[13]);
+
+  /// See [FlyerBob.times].
+  static final times =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[14]);
+
+  /// See [FlyerBob.hasPriceTag].
+  static final hasPriceTag =
+      obx.QueryBooleanProperty<FlyerBob>(_entities[2].properties[15]);
+
+  /// See [FlyerBob.isAmazonFlyer].
+  static final isAmazonFlyer =
+      obx.QueryBooleanProperty<FlyerBob>(_entities[2].properties[16]);
+
+  /// See [FlyerBob.hasPDF].
+  static final hasPDF =
+      obx.QueryBooleanProperty<FlyerBob>(_entities[2].properties[17]);
+
+  /// See [FlyerBob.score].
+  static final score =
+      obx.QueryIntegerProperty<FlyerBob>(_entities[2].properties[18]);
+
+  /// See [FlyerBob.pdfPath].
+  static final pdfPath =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[19]);
+
+  /// See [FlyerBob.shareLink].
+  static final shareLink =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[20]);
+
+  /// See [FlyerBob.price].
+  static final price =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[21]);
+
+  /// See [FlyerBob.bzIsActive].
+  static final bzIsActive =
+      obx.QueryBooleanProperty<FlyerBob>(_entities[2].properties[22]);
+
+  /// See [FlyerBob.affiliateLink].
+  static final affiliateLink =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[23]);
+
+  /// See [FlyerBob.gtaLink].
+  static final gtaLink =
+      obx.QueryStringProperty<FlyerBob>(_entities[2].properties[24]);
 }
 
 /// [MediaBobModel] entity fields to define ObjectBox queries.
 class MediaBobModel_ {
   /// See [MediaBobModel.bobID].
   static final bobID =
-      obx.QueryIntegerProperty<MediaBobModel>(_entities[1].properties[0]);
+      obx.QueryIntegerProperty<MediaBobModel>(_entities[3].properties[0]);
 
   /// See [MediaBobModel.id].
   static final id =
-      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[1]);
+      obx.QueryStringProperty<MediaBobModel>(_entities[3].properties[1]);
 
   /// See [MediaBobModel.bytes].
   static final bytes =
-      obx.QueryByteVectorProperty<MediaBobModel>(_entities[1].properties[2]);
+      obx.QueryByteVectorProperty<MediaBobModel>(_entities[3].properties[2]);
 
   /// See [MediaBobModel.ownersIDs].
   static final ownersIDs =
-      obx.QueryStringVectorProperty<MediaBobModel>(_entities[1].properties[3]);
+      obx.QueryStringVectorProperty<MediaBobModel>(_entities[3].properties[3]);
 
   /// See [MediaBobModel.width].
   static final width =
-      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[4]);
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[3].properties[4]);
 
   /// See [MediaBobModel.height].
   static final height =
-      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[5]);
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[3].properties[5]);
 
   /// See [MediaBobModel.name].
   static final name =
-      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[6]);
+      obx.QueryStringProperty<MediaBobModel>(_entities[3].properties[6]);
 
   /// See [MediaBobModel.sizeMB].
   static final sizeMB =
-      obx.QueryDoubleProperty<MediaBobModel>(_entities[1].properties[7]);
+      obx.QueryDoubleProperty<MediaBobModel>(_entities[3].properties[7]);
 
   /// See [MediaBobModel.fileMime].
   static final fileMime =
-      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[8]);
+      obx.QueryStringProperty<MediaBobModel>(_entities[3].properties[8]);
 
   /// See [MediaBobModel.uploadPath].
   static final uploadPath =
-      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[9]);
+      obx.QueryStringProperty<MediaBobModel>(_entities[3].properties[9]);
 
   /// See [MediaBobModel.data].
   static final data =
-      obx.QueryStringProperty<MediaBobModel>(_entities[1].properties[10]);
+      obx.QueryStringProperty<MediaBobModel>(_entities[3].properties[10]);
+}
+
+/// [UserBob] entity fields to define ObjectBox queries.
+class UserBob_ {
+  /// See [UserBob.bobID].
+  static final bobID =
+      obx.QueryIntegerProperty<UserBob>(_entities[4].properties[0]);
+
+  /// See [UserBob.id].
+  static final id =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[1]);
+
+  /// See [UserBob.signInMethod].
+  static final signInMethod =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[2]);
+
+  /// See [UserBob.isSignedUp].
+  static final isSignedUp =
+      obx.QueryBooleanProperty<UserBob>(_entities[4].properties[3]);
+
+  /// See [UserBob.createdAt].
+  static final createdAt =
+      obx.QueryIntegerProperty<UserBob>(_entities[4].properties[4]);
+
+  /// See [UserBob.need].
+  static final need =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[5]);
+
+  /// See [UserBob.name].
+  static final name =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[6]);
+
+  /// See [UserBob.trigram].
+  static final trigram =
+      obx.QueryStringVectorProperty<UserBob>(_entities[4].properties[7]);
+
+  /// See [UserBob.picPath].
+  static final picPath =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[8]);
+
+  /// See [UserBob.title].
+  static final title =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[9]);
+
+  /// See [UserBob.company].
+  static final company =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[10]);
+
+  /// See [UserBob.gender].
+  static final gender =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[11]);
+
+  /// See [UserBob.zone].
+  static final zone =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[12]);
+
+  /// See [UserBob.language].
+  static final language =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[13]);
+
+  /// See [UserBob.location].
+  static final location =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[14]);
+
+  /// See [UserBob.contacts].
+  static final contacts =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[15]);
+
+  /// See [UserBob.contactsArePublic].
+  static final contactsArePublic =
+      obx.QueryBooleanProperty<UserBob>(_entities[4].properties[16]);
+
+  /// See [UserBob.myBzzIDs].
+  static final myBzzIDs =
+      obx.QueryStringVectorProperty<UserBob>(_entities[4].properties[17]);
+
+  /// See [UserBob.isAuthor].
+  static final isAuthor =
+      obx.QueryBooleanProperty<UserBob>(_entities[4].properties[18]);
+
+  /// See [UserBob.emailIsVerified].
+  static final emailIsVerified =
+      obx.QueryBooleanProperty<UserBob>(_entities[4].properties[19]);
+
+  /// See [UserBob.isAdmin].
+  static final isAdmin =
+      obx.QueryBooleanProperty<UserBob>(_entities[4].properties[20]);
+
+  /// See [UserBob.device].
+  static final device =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[21]);
+
+  /// See [UserBob.fcmTopics].
+  static final fcmTopics =
+      obx.QueryStringVectorProperty<UserBob>(_entities[4].properties[22]);
+
+  /// See [UserBob.savedFlyers].
+  static final savedFlyers =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[23]);
+
+  /// See [UserBob.followedBzz].
+  static final followedBzz =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[24]);
+
+  /// See [UserBob.appState].
+  static final appState =
+      obx.QueryStringProperty<UserBob>(_entities[4].properties[25]);
+
+  /// See [UserBob.lastSeen].
+  static final lastSeen =
+      obx.QueryIntegerProperty<UserBob>(_entities[4].properties[26]);
+
+  /// See [UserBob.tendersIDs].
+  static final tendersIDs =
+      obx.QueryStringVectorProperty<UserBob>(_entities[4].properties[27]);
+}
+
+/// [BobModel] entity fields to define ObjectBox queries.
+class BobModel_ {
+  /// See [BobModel.bobID].
+  static final bobID =
+      obx.QueryIntegerProperty<BobModel>(_entities[5].properties[0]);
+
+  /// See [BobModel.id].
+  static final id =
+      obx.QueryStringProperty<BobModel>(_entities[5].properties[1]);
+
+  /// See [BobModel.value].
+  static final value =
+      obx.QueryStringProperty<BobModel>(_entities[5].properties[2]);
 }

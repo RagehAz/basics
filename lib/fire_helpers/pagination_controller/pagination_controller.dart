@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// => TAMAM
 class PaginationController {
   /// -----------------------------------------------------------------------------
-  const PaginationController({
+  PaginationController({
     required this.paginatorMaps,
     required this.replaceMap,
     required this.addMap,
@@ -27,7 +27,7 @@ class PaginationController {
   final ValueNotifier<Map<String, dynamic>?> addMap;
   final ValueNotifier<Map<String, dynamic>?> deleteMap;
   final ValueNotifier<dynamic> startAfter;
-  final bool addExtraMapsAtEnd;
+  bool addExtraMapsAtEnd;
   final String idFieldName;
   final ValueChanged<List<Map<String, dynamic>>>? onDataChanged;
   final ScrollController scrollController;
@@ -274,13 +274,24 @@ class PaginationController {
   void addMapToPaginator({
     required Map<String, dynamic> map,
     required bool mounted,
+    bool? addExtraMapsAtEnd,
   }){
+
+    final bool _was = this.addExtraMapsAtEnd;
+
+    if (addExtraMapsAtEnd != null){
+      this.addExtraMapsAtEnd = addExtraMapsAtEnd;
+    }
 
     setNotifier(
         notifier: addMap,
         mounted: mounted,
         value: map,
     );
+
+    if (addExtraMapsAtEnd != null){
+      this.addExtraMapsAtEnd = _was;
+    }
 
   }
   // --------------------------------
