@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 // import 'package:android_path_provider/android_path_provider.dart';
+import 'package:basics/exports/ffmpeg_kit_flutter.dart';
 import 'package:basics/helpers/checks/device_checker.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/object_check.dart';
@@ -34,10 +35,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mime/mime.dart';
 import 'package:basics/ldb/ldb.dart';
-/// NEED_MIGRATION
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter/media_information.dart';
-import 'package:ffmpeg_kit_flutter/media_information_session.dart';
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';

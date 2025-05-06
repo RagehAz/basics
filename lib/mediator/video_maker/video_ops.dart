@@ -3,6 +3,7 @@ import 'dart:io';
 // import 'dart:typed_data';
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
+import 'package:basics/exports/ffmpeg_kit_flutter.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 // import 'package:basics/helpers/maps/lister.dart';
@@ -12,17 +13,7 @@ import 'package:basics/helpers/nums/numeric.dart';
 import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:video_editor/video_editor.dart';
-/// NEED_MIGRATION
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
-// import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-// import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
-// import 'package:ffmpeg_kit_flutter/media_information.dart';
-// import 'package:ffmpeg_kit_flutter/media_information_session.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
-import 'package:ffmpeg_kit_flutter/session_state.dart';
-import 'package:ffmpeg_kit_flutter/statistics.dart';
+
 /// => TAMAM
 abstract class VideoOps {
   // --------------------------------------------------------------------------

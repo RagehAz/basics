@@ -1,2 +1,10 @@
 /// NEED_MIGRATION
 export 'package:ffmpeg_kit_flutter/statistics.dart';
+export 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+export 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
+export 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+export 'package:ffmpeg_kit_flutter/return_code.dart';
+export 'package:ffmpeg_kit_flutter/session_state.dart';
+export 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+export 'package:ffmpeg_kit_flutter/media_information.dart';
+export 'package:ffmpeg_kit_flutter/media_information_session.dart';

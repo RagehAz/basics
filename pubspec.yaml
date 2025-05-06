@@ -15,11 +15,11 @@ dependencies:
     sdk: flutter
   # -----------------
   # DISCONTINUED
-#  ffmpeg_kit_flutter: 6.0.3
 #  flutter_ffmpeg: ^0.4.2
   video_thumbnail: 0.5.3
   flutter_native_video_trimmer: 1.1.6
 #  flutter_video_info: 1.3.1
+#  ffmpeg_kit_min_gpl_unify: ^6.0.3-LTS
   # ------------------------------------
   ffmpeg_kit_flutter:
     # ----------------
