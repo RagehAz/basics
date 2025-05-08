@@ -27,6 +27,7 @@ class BzBob {
     required this.publication,
     required this.lastStateChanged,
     required this.assetsIDs,
+    required this.tendersIDs,
   });
   // --------------------
   @Id()
@@ -55,6 +56,7 @@ class BzBob {
   final String? publication;
   final int? lastStateChanged;
   final List<String>? assetsIDs;
+  final List<String>? tendersIDs;
   // --------------------------------------------------------------------------
 }
 

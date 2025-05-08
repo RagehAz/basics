@@ -3,7 +3,7 @@
 // with `dart run build_runner build`.
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
-// ignore_for_file: camel_case_types, depend_on_referenced_packages, avoid_js_rounded_ints
+// ignore_for_file: camel_case_types, depend_on_referenced_packages
 // coverage:ignore-file
 
 import 'dart:typed_data';
@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 8062467900919483576),
       name: 'BzBob',
-      lastPropertyId: const obx_int.IdUid(22, 4043751018632630817),
+      lastPropertyId: const obx_int.IdUid(23, 2491567676357482152),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -134,6 +134,11 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(22, 4043751018632630817),
             name: 'assetsIDs',
+            type: 30,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(23, 2491567676357482152),
+            name: 'tendersIDs',
             type: 30,
             flags: 0)
       ],
@@ -698,7 +703,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
               : fbb.writeList(object.assetsIDs!
                   .map(fbb.writeString)
                   .toList(growable: false));
-          fbb.startTable(23);
+          final tendersIDsOffset = object.tendersIDs == null
+              ? null
+              : fbb.writeList(object.tendersIDs!
+                  .map(fbb.writeString)
+                  .toList(growable: false));
+          fbb.startTable(24);
           fbb.addInt64(0, object.bobID);
           fbb.addOffset(1, idOffset);
           fbb.addOffset(2, bzTypesOffset);
@@ -721,6 +731,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(19, publicationOffset);
           fbb.addInt64(20, object.lastStateChanged);
           fbb.addOffset(21, assetsIDsOffset);
+          fbb.addOffset(22, tendersIDsOffset);
           fbb.finish(fbb.endTable());
           return object.bobID;
         },
@@ -776,6 +787,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   fb.StringReader(asciiOptimization: true),
                   lazy: false)
               .vTableGetNullable(buffer, rootOffset, 46);
+          final tendersIDsParam = const fb.ListReader<String>(
+                  fb.StringReader(asciiOptimization: true),
+                  lazy: false)
+              .vTableGetNullable(buffer, rootOffset, 48);
           final object = BzBob(
               bobID: bobIDParam,
               id: idParam,
@@ -798,7 +813,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               bzState: bzStateParam,
               publication: publicationParam,
               lastStateChanged: lastStateChangedParam,
-              assetsIDs: assetsIDsParam);
+              assetsIDs: assetsIDsParam,
+              tendersIDs: tendersIDsParam);
 
           return object;
         }),
@@ -1482,6 +1498,10 @@ class BzBob_ {
   /// See [BzBob.assetsIDs].
   static final assetsIDs =
       obx.QueryStringVectorProperty<BzBob>(_entities[0].properties[21]);
+
+  /// See [BzBob.tendersIDs].
+  static final tendersIDs =
+      obx.QueryStringVectorProperty<BzBob>(_entities[0].properties[22]);
 }
 
 /// [FishBob] entity fields to define ObjectBox queries.

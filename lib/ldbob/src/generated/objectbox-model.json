@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8062467900919483576",
-      "lastPropertyId": "22:4043751018632630817",
+      "lastPropertyId": "23:2491567676357482152",
       "name": "BzBob",
       "properties": [
         {
@@ -119,6 +119,11 @@
         {
           "id": "22:4043751018632630817",
           "name": "assetsIDs",
+          "type": 30
+        },
+        {
+          "id": "23:2491567676357482152",
+          "name": "tendersIDs",
           "type": 30
         }
       ],
