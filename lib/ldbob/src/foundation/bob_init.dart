@@ -143,6 +143,9 @@ class BobInit {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> closeTheStore(String docName) => BobInit.instance.closeStore(docName: docName);
+  static Future<void> closeTheStore(String docName) async {
+    await BobInit.instance.closeStore(docName: docName);
+    blog('closed BOB ($docName)');
+  }
   // -----------------------------------------------------------------------------
 }

@@ -6,6 +6,7 @@ class KeyboardSensor extends StatelessWidget {
   // -----------------------------------------------------------------------------
   const KeyboardSensor({
     required this.builder,
+    this.onChanged,
     this.child,
     this.isOn = false,
     super.key
@@ -13,6 +14,7 @@ class KeyboardSensor extends StatelessWidget {
   // --------------------
   final Widget? child;
   final Widget Function(bool isVisible, Widget? child) builder;
+  final void Function(bool isVisible)? onChanged;
   final bool isOn;
   // --------------------------------------------------------------------------
   @override
@@ -21,6 +23,7 @@ class KeyboardSensor extends StatelessWidget {
     if (isOn == true){
       return _KeyboardSensorOn(
         builder: builder,
+        onChanged: onChanged,
         child: child,
       );
     }
@@ -58,10 +61,12 @@ class _KeyboardSensorOn extends StatefulWidget {
   const _KeyboardSensorOn({
     required this.child,
     required this.builder,
+    required this.onChanged,
     // super.key
   });
   // --------------------
   final Widget? child;
+  final void Function(bool visible)? onChanged;
   final Widget Function(bool isVisible, Widget? child) builder;
   // --------------------
   @override
@@ -96,10 +101,14 @@ class _KeyboardSensorOnState extends State<_KeyboardSensorOn> with WidgetsBindin
 
       final bool _visible = Scale.screenInsets(context).bottom > 0;
 
-      _isVisible?.set(
-        value: _visible,
-        mounted: mounted,
-      );
+      if (_visible != _isVisible?.value){
+        _isVisible?.set(
+          value: _visible,
+          mounted: mounted,
+        );
+
+        widget.onChanged?.call(_visible);
+      }
 
     }
 

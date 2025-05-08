@@ -230,17 +230,19 @@ class SuperListView extends StatelessWidget {
     this.physics,
     this.bottomPadding = Ratioz.horizon,
     this.topPadding = Ratioz.stratosphere,
+    this.shrinkWrap = false,
     super.key
   });
   // --------------------
   final double width;
-  final double height;
+  final double? height;
   final ScrollController? controller;
   final ScrollPhysics? physics;
   final int itemCount;
   final double bottomPadding;
   final double topPadding;
   final Widget Function(int index) itemBuilder;
+  final bool shrinkWrap;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -257,6 +259,7 @@ class SuperListView extends StatelessWidget {
           padding: EdgeInsets.only(
             bottom: bottomPadding,
           ),
+          shrinkWrap: shrinkWrap,
           itemBuilder: (_, index){
 
             if (index == 0){

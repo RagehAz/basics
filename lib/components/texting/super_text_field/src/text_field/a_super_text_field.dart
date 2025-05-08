@@ -75,6 +75,8 @@ class SuperTextField extends StatefulWidget {
 
     this.hintVerseColor,
 
+    this.enabled = true,
+
   super.key
   });  // --------------------------------------------------------------------------
   /// main
@@ -149,6 +151,8 @@ class SuperTextField extends StatefulWidget {
   final bool enableSuggestions;
 
   final Color? hintVerseColor;
+
+  final bool enabled;
 
   /// --------------------------------------------------------------------------
   @override
@@ -322,6 +326,7 @@ class _SuperTextFieldState extends State<SuperTextField> {
             cursorColor: widget.cursorColor,
             /// functions
             onTap: widget.onTap,
+            enabled: widget.enabled,
             onChanged: _onTextChanged,
             onSubmitted: widget.onSubmitted,
             onSavedForForm: widget.onSavedForForm,

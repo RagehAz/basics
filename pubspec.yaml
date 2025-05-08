@@ -27,13 +27,13 @@ dependencies:
 #     path: /Users/rageh/projects/bldrs/that_kit/flutter/flutter
     # ----------------
     # ANDROID
-     path: D:/projects/other/that_kit/flutter/flutter
+#     path: D:/projects/other/that_kit/flutter/flutter
     # ----------------
     # GIT
-#    git:
-#      url: https://github.com/RagehAz/that_kit.git
-#      path: flutter/flutter
-#      ref: main
+    git:
+      url: https://github.com/RagehAz/that_kit.git
+      path: flutter/flutter
+      ref: main
   # -----------------
 #  ffmpeg_kit_min_gpl: ^6.0.3+1
   # -----------------

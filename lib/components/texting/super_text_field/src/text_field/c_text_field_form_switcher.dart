@@ -75,6 +75,8 @@ class TextFormFieldSwitcher extends StatelessWidget {
 
     required this.hintVerseColor,
 
+    required this.enabled,
+
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -87,6 +89,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
   final FocusNode? focusNode;
   final bool counterIsOn;
   final bool autoValidate;
+  final bool enabled;
 
   /// box
   final dynamic corners;
@@ -328,7 +331,7 @@ class TextFormFieldSwitcher extends StatelessWidget {
         autocorrect: autoCorrect,
         enableSuggestions: enableSuggestions,
         /// other stuff
-        enabled: onTap == null, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
+        enabled: enabled, /// THIS DISABLES THE ABILITY TO OPEN THE KEYBOARD
         // initialValue: ,
         // restorationId: ,
         // autofillHints: ,
