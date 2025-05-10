@@ -1,23 +1,5 @@
-// ignore_for_file: unused_import
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:basics/bldrs_theme/classes/colorz.dart';
-import 'package:basics/bldrs_theme/classes/fonts.dart';
-import 'package:basics/bldrs_theme/classes/iconz.dart';
-import 'package:basics/components/super_image/src/super_image/x_super_file_viewer.dart';
-import 'package:basics/components/super_image/super_image.dart';
-import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/object_check.dart';
-import 'package:basics/helpers/checks/tracers.dart';
-import 'package:basics/components/texting/super_text/super_text.dart';
-import 'package:basics/mediator/models/media_models.dart';
-import 'package:basics/mediator/super_video_player/super_video_player.dart';
-import 'package:flutter/material.dart';
-import 'package:websafe_svg/websafe_svg.dart';
-import 'dart:ui' as ui;
-import 'package:image/image.dart' as img;
-import 'package:cross_file/cross_file.dart';
-import 'package:cross_file_image/cross_file_image.dart';
+// ignore_for_file: unused_import, unused_element
+part of super_image;
 
 class ImageSwitcher extends StatelessWidget {
   /// --------------------------------------------------------------------------
@@ -66,65 +48,16 @@ class ImageSwitcher extends StatelessWidget {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  Widget _loadingBuilder(BuildContext _, Widget? child, ImageChunkEvent? imageChunkEvent){
-
-    // blog('SUPER IMAGE LOADING BUILDER : imageChunkEvent.cumulativeBytesLoaded : ${imageChunkEvent?.cumulativeBytesLoaded} / ${imageChunkEvent?.expectedTotalBytes}');
-
-    /// AFTER LOADED
-    if (
-        imageChunkEvent == null
-        ||
-        imageChunkEvent.expectedTotalBytes == null
-        ||
-        width == null
-    ){
-      return child ?? const SizedBox();
-    }
-    /// WHILE LOADING
-    else {
-
-      final int _bytes = imageChunkEvent.expectedTotalBytes ?? 0;
-
-      if (_bytes > 0) {
-
-        final double _percentage = imageChunkEvent.cumulativeBytesLoaded / _bytes;
-
-        return Container(
-          width: width,
-          height: height,
-          color: Colorz.white50,
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            width: width,
-            height: height * _percentage,
-            color: backgroundColor ?? Colorz.white20,
-          ),
-        );
-
-      }
-      else {
-        return child ?? _emptyBox();
-      }
-
-    }
-
-  }
-  // --------------------
-  ///DEPRECATED
-  /*
-  Widget _futureBytesBuilder (BuildContext ctx, AsyncSnapshot<Uint8List> snapshot){
-
-    return FutureImage(
-      snapshot: snapshot,
+  Widget _getLoadingBuilder(_, Widget? child, ImageChunkEvent? imageChunkEvent){
+    return _LoadingBuilder(
       width: width,
       height: height,
-      boxFit: boxFit,
-      errorBuilder: _errorBuilder,
+      backgroundColor: backgroundColor,
+      imageChunkEvent: imageChunkEvent,
+      child: child,
     );
-
   }
-   */
-  // -----------------------------------------------------------------------------
+  // --------------------
   Widget _emptyBox(){
     return SizedBox(
       width: width,
@@ -173,6 +106,19 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
+      /// X FILE
+      else if (ObjectCheck.objectIsXFile(pic) == true){
+        return Image(
+          image: XFileImage(pic),
+          key: const ValueKey<String>('SuperImage_xfile'),
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+      }
+
       /// UINT8LIST
       else if (ObjectCheck.objectIsUint8List(pic) == true){
 
@@ -199,94 +145,6 @@ class ImageSwitcher extends StatelessWidget {
 
       }
 
-      /// SUPER FILE
-      else if (pic is SuperFile == true){
-        return SuperFileViewer(
-          key: const ValueKey<String>('SuperImage_superFile'),
-          file: pic,
-          width: width,
-          height: height,
-          fit: _boxFit,
-        );
-      }
-
-      /// MEDIA MODEL
-      else if (pic is MediaModel){
-
-        final MediaModel _mediaModel = pic;
-
-        if (_mediaModel.bytes == null){
-          return Container(
-            width: width,
-            height: height,
-            color: backgroundColor,
-          );
-        }
-
-        /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
-        else if (_mediaModel.isVideo() == true){
-          return SuperVideoPlayer(
-            width: width!,
-            height: height,
-            media: _mediaModel,
-            isMuted: true,
-            loop: true,
-            // autoPlay: true,
-          );
-        }
-
-        else {
-          return Image.memory(
-            _mediaModel.bytes!,
-            // key: const ValueKey<String>('SuperImage_file'),
-            fit: _boxFit,
-            width: width,
-            height: height,
-            color: iconColor,
-            errorBuilder: _errorBuilder,
-            gaplessPlayback: _gaplessPlayback,
-          );
-        }
-
-        // return CachelessImage(
-        //   key: const ValueKey<String>('SuperImage_MediaModel'),
-        //   bytes: _mediaModel.bytes,
-        //   width: width,
-        //   height: height,
-        //   color: backgroundColor,
-        //   boxFit: _boxFit,
-        //   // blendMode: BlendMode.color,
-        // );
-
-      }
-
-      /// FILE
-      else if (ObjectCheck.objectIsFile(pic) == true){
-
-        return Image.file(
-          pic,
-          key: const ValueKey<String>('SuperImage_file'),
-          fit: _boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-        );
-      }
-
-      /// X FILE
-      else if (ObjectCheck.objectIsXFile(pic) == true){
-        return Image(
-          image: XFileImage(pic),
-          key: const ValueKey<String>('SuperImage_xfile'),
-          fit: _boxFit,
-          width: width,
-          height: height,
-          errorBuilder: _errorBuilder,
-          gaplessPlayback: _gaplessPlayback,
-        );
-      }
-
       /// URL
       else if (ObjectCheck.isAbsoluteURL(pic) == true){
 
@@ -298,7 +156,7 @@ class ImageSwitcher extends StatelessWidget {
           height: height,
           errorBuilder: _errorBuilder,
           gaplessPlayback: _gaplessPlayback,
-          loadingBuilder: _loadingBuilder,
+          loadingBuilder: _getLoadingBuilder,
         );
 
       }
@@ -332,6 +190,55 @@ class ImageSwitcher extends StatelessWidget {
           package: package,
 
         );
+      }
+
+      /// MEDIA MODEL
+      else if (pic is AvModel){
+
+        final AvModel _avModel = pic;
+
+        /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
+         if (_avModel.isVideo() == true){
+          return SuperVideoPlayer(
+            width: width!,
+            height: height,
+            avModel: _avModel,
+            isMuted: true,
+            loop: true,
+            // autoPlay: true,
+          );
+        }
+
+        else {
+
+           return Image.file(
+             File(_avModel.xFile.path),
+             key: const ValueKey<String>('SuperImage_xfile'),
+             fit: _boxFit,
+             width: width,
+             height: height,
+             errorBuilder: _errorBuilder,
+             gaplessPlayback: _gaplessPlayback,
+             color: iconColor,
+           );
+
+        }
+
+      }
+
+      /// FILE
+      else if (ObjectCheck.objectIsFile(pic) == true){
+
+        return Image.file(
+          pic,
+          key: const ValueKey<String>('SuperImage_file'),
+          fit: _boxFit,
+          width: width,
+          height: height,
+          errorBuilder: _errorBuilder,
+          gaplessPlayback: _gaplessPlayback,
+        );
+
       }
 
       /// BASE64 -> CONTRADICTS BUILDING TEXTS
@@ -444,6 +351,74 @@ class ImageSwitcher extends StatelessWidget {
       return _emptyBox();
     }
 
+  }
+  // -----------------------------------------------------------------------------
+}
+
+class _LoadingBuilder extends StatelessWidget {
+  // --------------------------------------------------------------------------
+  const _LoadingBuilder({
+    required this.child,
+    required this.imageChunkEvent,
+    required this.width,
+    required this.height,
+    required this.backgroundColor,
+    super.key
+  });
+  // --------------------
+  final Widget? child;
+  final ImageChunkEvent? imageChunkEvent;
+  final double? width;
+  final double height;
+  final Color? backgroundColor;
+  // -----------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+    // --------------------
+    /// AFTER LOADED
+    if (
+        imageChunkEvent == null
+        ||
+        imageChunkEvent?.expectedTotalBytes == null
+        ||
+        width == null
+    ){
+      return child ?? const SizedBox();
+    }
+
+    /// WHILE LOADING
+    else {
+
+      final int _bytes = imageChunkEvent?.expectedTotalBytes ?? 0;
+
+      if (_bytes > 0) {
+
+        final double _percentage = (imageChunkEvent?.cumulativeBytesLoaded ?? 0) / _bytes;
+
+        return Container(
+          width: width,
+          height: height,
+          color: Colorz.white50,
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: width,
+            height: height * _percentage,
+            color: backgroundColor ?? Colorz.white20,
+          ),
+        );
+
+      }
+
+      else {
+        return child ?? SizedBox(
+          width: width,
+          height: height,
+          // color: Colorz.errorColor,
+        );
+      }
+
+    }
+    // --------------------
   }
   // -----------------------------------------------------------------------------
 }

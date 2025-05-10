@@ -131,6 +131,7 @@ abstract class XFiler {
     required String? fileName,
     DirectoryType directoryType = DirectoryType.app,
     bool includeFileExtension = false,
+    String? mimeType,
   }) async {
     XFile? _output;
 
@@ -175,7 +176,7 @@ abstract class XFiler {
               name: _fileName,
               // lastModified: ,
               // length: ,
-              // mimeType: ,
+              mimeType: mimeType,
               // overrides: ,
             );
 
@@ -192,7 +193,8 @@ abstract class XFiler {
     return _output;
   }
   // ---------------------
-  /// TESTED : WORKS PERFECT
+  /// DEPRECATED
+  /*
   static Future<XFile?> createFromMediaModel({
     required MediaModel? mediaModel,
     DirectoryType directoryType = DirectoryType.app,
@@ -211,6 +213,7 @@ abstract class XFiler {
 
     return _output;
   }
+   */
   // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<XFile?> createFromLocalAsset({

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:basics/av/av.dart';
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/components/animators/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
@@ -12,13 +13,18 @@ import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/borderers.dart';
-import 'package:basics/mediator/models/media_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_editor/image_editor.dart' as image_editor;
 import 'package:matrix2d/matrix2d.dart';
 import 'package:websafe_svg/websafe_svg.dart';
-import 'src/super_image/c_image_switcher.dart';
+import 'dart:io';
+import 'package:basics/av/src/e_av_playing/super_video_player/super_video_player.dart';
+import 'package:basics/bldrs_theme/classes/fonts.dart';
+import 'package:basics/helpers/checks/object_check.dart';
+import 'package:basics/components/texting/super_text/super_text.dart';
+import 'package:image/image.dart' as img;
+import 'package:cross_file_image/cross_file_image.dart';
 // --------------------------------------------------------------------------
 part 'src/super_filter/color_filter_generator.dart';
 part 'src/super_filter/color_layers.dart';
@@ -37,4 +43,6 @@ part 'src/super_image/x_future_bytes_image.dart';
 part 'src/super_image/x_infinity_loading_box.dart';
 /// LOCAL ASSET CHECKER
 part 'src/super_image/x_local_asset_checker.dart';
+
+part 'src/super_image/c_image_switcher.dart';
 // --------------------------------------------------------------------------
