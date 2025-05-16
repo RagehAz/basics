@@ -1,0 +1,339 @@
+part of av;
+
+class AvModelEditor {
+  // -----------------------------------------------------------------------------
+
+  /// OVERRIDE BYTES
+
+  // --------------------
+  ///
+  static Future<AvModel?> overrideBytes({
+    required Uint8List? bytes,
+    required Dimensions? newDims,
+  }) async {
+    /// IMPLEMENT_OVERRIDE_BYTES_IN_AV_EDITOR
+    return null;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// PATH UPDATING
+
+  // --------------------
+  ///
+  static Future<AvModel?> renameFile({
+    required AvModel? avModel,
+    required String? newName,
+  }) async {
+    AvModel? _output;
+
+    if (newName != null && avModel != null){
+
+      final String? _newPath = FilePathing.replaceFileNameInPath(
+        oldPath: avModel.uploadPath,
+        fileName: newName,
+      );
+
+      if (_newPath != null){
+
+        _output = await overrideUploadPath(
+          avModel: avModel,
+          newUploadPath: _newPath,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  ///
+  static Future<AvModel?> overrideUploadPath({
+    required AvModel? avModel,
+    required String? newUploadPath,
+  }) async {
+    AvModel? _output;
+
+    if (avModel != null){
+
+      if (newUploadPath != null){
+
+        _output = await AvOps.createFromBytes(
+          bytes: await avModel.getBytes(),
+          data: CreateSingleAVConstructor(
+            uploadPath: newUploadPath,
+            bobDocName: avModel.bobDocName,
+            skipMeta: false,
+            fileExt: avModel.fileExt,
+            caption: avModel.caption,
+            durationMs: avModel.durationMs,
+            originalURL: avModel.originalURL,
+            height: avModel.height,
+            width: avModel.width,
+            origin: avModel.origin,
+            ownersIDs: avModel.ownersIDs,
+            originalXFilePath: avModel.originalXFilePath,
+          ),
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// COMPLETE META
+
+  // --------------------
+  /// IMPLEMENT_COMPLETE_META
+  static Future<AvModel?> completeAv({
+    required AvModel? avModel,
+    required Uint8List? bytesIfExisted,
+  }) async {
+    AvModel? _output = avModel;
+
+    if (avModel != null){
+
+      /// CONSTANTS
+      // String id;
+      // String uploadPath;
+      // String bobDocName;
+
+      /// GIVENS
+      // List<String>? ownersIDs;
+      // Map<String, String>? data;
+      // AvOrigin? origin;
+      // String? originalURL;
+      // String? caption;
+      // int? durationMs;
+
+      /// TO BE CONCLUDED
+      // String? xFilePath;
+      // double? width;
+      // double? height;
+      // String? nameWithoutExtension;
+      // String? nameWithExtension;
+      // double? sizeMB;
+      // int? sizeB;
+      // FileExtType? fileExt;
+
+      if (
+          avModel.xFilePath == null ||
+          avModel.width == null ||
+          avModel.height == null ||
+          avModel.nameWithoutExtension == null ||
+          avModel.nameWithExtension == null ||
+          avModel.sizeMB == null ||
+          avModel.sizeB == null ||
+          avModel.fileExt == null
+      ){
+
+        /// NAME WITHOUT EXTENSION
+        final String? nameWithoutExtension = avModel.nameWithoutExtension ?? AvPathing.createFileNameWithoutExtension(
+          uploadPath: avModel.uploadPath,
+        );
+
+        /// FILE AND EXTENSION
+        String? xFilePath = avModel.xFilePath;
+        XFile? _xFile;
+        Uint8List? _bytes = bytesIfExisted;
+        FileExtType? fileExt = avModel.fileExt;
+
+        /// XFILE AND X FILE PATH
+        if (xFilePath == null){
+          if (_bytes != null){
+            _xFile = await XFiler.createFromBytes(
+              bytes: _bytes,
+              fileName: nameWithoutExtension,
+              // includeFileExtension: false,
+              directoryType: AvBobOps.avDirectory,
+              mimeType: FileMiming.getMimeByType(fileExt),
+            );
+            xFilePath = _xFile?.path;
+          }
+        }
+        else {
+          _xFile = XFile(xFilePath, bytes: _bytes);
+        }
+
+        /// EXTENSION
+        if (fileExt == null){
+
+          _bytes ??= await Byter.fromXFile(_xFile, 'completeAv');
+
+          fileExt = await FormatDetector.detectXFile(
+            xFile: _xFile,
+            bytesIfThere: _bytes,
+            invoker: 'AvMaker.fromBytes',
+          );
+
+        }
+
+        double? width = avModel.width;
+        double? height = avModel.height;
+        String? nameWithExtension = avModel.nameWithExtension;
+        double? sizeMB = avModel.sizeMB;
+        int? sizeB = avModel.sizeB;
+
+        if (width == null || height == null || sizeB == null){
+          _bytes ??= await Byter.fromXFile(_xFile, 'completeAv');
+        }
+
+        await Future.wait(<Future>[
+
+          /// DIMS : MAY NEED BYTES
+          if (width == null || height == null)
+            awaiter(
+              wait: true,
+              function: () async {
+
+                final Dimensions? _dims = await DimensionsGetter.fromXFile(
+                  xFile: _xFile,
+                  bytesIfThere: _bytes,
+                  invoker: 'AvMaker.fromBytes',
+                );
+
+                width = _dims?.width ?? width;
+                height = _dims?.height ?? height;
+
+              },
+            ),
+
+          /// nameWithExtension : MUST HAVE EXT
+          if (nameWithExtension == null)
+            awaiter(
+              wait: true,
+              function: () async {
+
+                nameWithExtension = AvPathing.createFileNameWithExtension(
+                  uploadPath: avModel.uploadPath,
+                  type: fileExt,
+                );
+
+              },
+            ),
+
+          /// sizeB - sizeMB : MUST HAVE BYTES
+          if (sizeB == null || sizeMB == null)
+            awaiter(
+              wait: true,
+              function: () async {
+                sizeB = _bytes?.length;
+                sizeMB ??=  FileSizer.calculateSize(sizeB, FileSizeUnit.megaByte);
+              },
+            ),
+
+        ]);
+
+
+
+        _output = _output?.copyWith(
+          // id: ,
+
+          xFilePath: xFilePath,
+          nameWithoutExtension: nameWithoutExtension,
+          nameWithExtension: nameWithExtension,
+          width: width,
+          height: height,
+          sizeMB: sizeMB,
+          sizeB: sizeB,
+          fileExt: fileExt,
+
+          // origin: origin,
+          // ownersIDs: ownersIDs,
+          // uploadPath: _uploadPath,
+          // caption: caption,
+          // originalURL: originalURL,
+          // data: ,
+          // durationMs: ,
+          // deviceID: await DeviceChecker.getDeviceID(),
+          // deviceName: await DeviceChecker.getDeviceName(),
+          // platform': kIsWeb == true ? 'web' : Platform.operatingSystem,
+        );
+
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TASK : TEST_ME
+  static Future<AvModel?> fixHeicAndHeif({
+    required Uint8List? bytes,
+    required AvModel? avModel,
+  }) async {
+    AvModel? _output = avModel;
+
+    if (avModel != null){
+
+      final FileExtType? _type = avModel.fileExt;
+
+      /// HEIC OR HEIF
+      if (_type == FileExtType.heic || _type == FileExtType.heif){
+
+        final Dimensions? _dims = avModel.getDimensions();
+
+        if (_dims != null && _dims.width != null && _dims.height != null){
+
+          final Uint8List? _bytes = await avModel.getBytes();
+
+          if (_bytes != null){
+
+            await tryAndCatch(
+              invoker: '_fixFileIfHeic',
+              functions: () async {
+
+                final Uint8List _newBytes = await FlutterImageCompress.compressWithList(
+                  _bytes,
+                  minWidth: _dims.width!.toInt(),
+                  minHeight: _dims.height!.toInt(),
+                  quality: 100,
+                  // format: CompressFormat.jpeg,
+                  // rotate: 0,
+                  // autoCorrectionAngle: false,
+                  // inSampleSize: ,
+                  // keepExif: true,
+                );
+
+                final XFile? _file = await XFiler.replaceBytes(
+                  file: avModel.getXFile(),
+                  bytes: _newBytes,
+                );
+
+                if (_file != null){
+
+                  _output = _output?.nullifyField(
+                    sizeMB: true,
+                    sizeB: true,
+                  ).copyWith(
+                    fileExt: FileExtType.jpeg,
+                  );
+
+                  _output = await completeAv(
+                    avModel: _output,
+                    bytesIfExisted: _newBytes,
+                  );
+
+                }
+
+              },
+              onError: (String error) async {
+                blog(error);
+              },
+            );
+
+          }
+
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+}

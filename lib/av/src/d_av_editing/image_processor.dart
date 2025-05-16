@@ -23,26 +23,32 @@ class ImageProcessor {
     required AvModel? avModel,
     required double? resizeToWidth,
     required int? quality,
-    required Future<AvModel> Function(AvModel tempModel)? onCrop,
+    required Future<AvModel?> Function(AvModel tempModel)? onCrop,
   }) async {
-    return ImageProcessor()._process(
-      avModel: avModel,
-      resizeToWidth: resizeToWidth,
-      quality: quality,
-      onCrop: onCrop,
-    );
+    if (avModel == null){
+      return null;
+    }
+    else {
+      return ImageProcessor()._process(
+        avModel: avModel,
+        resizeToWidth: resizeToWidth,
+        quality: quality,
+        onCrop: onCrop,
+      );
+    }
   }
   // --------------------
   ///
   static Future<List<AvModel>> processAvModels({
-    required List<AvModel> avModels,
+    required List<AvModel>? avModels,
     required int? quality,
     required double? resizeToWidth,
     required Future<List<AvModel>> Function(List<AvModel> avModels)? onCrop,
   }) async {
-    List<AvModel> _output = await onCrop?.call(avModels) ?? [...avModels];
 
-    if (Lister.checkCanLoop(_output) == true){
+    if (Lister.checkCanLoop(avModels) == true){
+
+      final List<AvModel> _output = await onCrop?.call(avModels!) ?? [...avModels!];
 
       final List<AvModel> _finalList = [];
 
@@ -61,11 +67,15 @@ class ImageProcessor {
 
       }
 
-      _output = _finalList;
+      return _finalList;
 
     }
 
-    return _output;
+
+    else {
+      return [];
+    }
+
   }
   // --------------------------------------------------------------------------
 
@@ -76,7 +86,7 @@ class ImageProcessor {
     required AvModel? avModel,
     required double? resizeToWidth,
     required int? quality,
-    required Future<AvModel> Function(AvModel tempModel)? onCrop,
+    required Future<AvModel?> Function(AvModel tempModel)? onCrop,
   }) async {
 
     /// ASSIGN AV MODEL
@@ -144,7 +154,7 @@ class ImageProcessor {
   // --------------------
   ///
   Future<void> _crop({
-    required Future<AvModel> Function(AvModel tempModel)? onCrop,
+    required Future<AvModel?> Function(AvModel tempModel)? onCrop,
   }) async {
 
     if (avModel != null && onCrop != null){

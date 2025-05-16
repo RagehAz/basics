@@ -1,17 +1,13 @@
 part of av;
 
-class AvModelEditor {
+abstract class _PickPDFFromDevice {
   // -----------------------------------------------------------------------------
 
   /// TITLE
 
   // --------------------
   ///
-  static Future<AvModel?> overrideBytes({
-    required Uint8List? bytes,
-    required Dimensions? newDims,
-  }) async {
-    /// IMPLEMENT_OVERRIDE_BYTES_IN_AV_EDITOR
+  static Future<AvModel?> pickPDF() async {
     return null;
   }
   // -----------------------------------------------------------------------------

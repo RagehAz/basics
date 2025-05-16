@@ -735,7 +735,7 @@ class SuperVideoController {
         );
       }
 
-      /// MEDIA MODEL
+      /// AV MODEL
       else if (object is AvModel){
 
         final File? _file = AvPathing.getFileWithExtension(
@@ -824,7 +824,7 @@ class SuperVideoController {
 
     final double _areaHeight = areaHeight;
 
-    final double _videoRatio = _dims.getAspectRatio()!;  // w / h
+    final double _videoRatio = _dims.getAspectRatio();  // w / h
     final double _areaWidth = areaWidth;
 
     if (_dims.checkIsSquared() == true){
@@ -851,7 +851,7 @@ class SuperVideoController {
   }){
 
     final Dimensions _dims = Dimensions(width: videoWidth, height: videoHeight);
-    final double _videoRatio = _dims.getAspectRatio()!;  // w / h
+    final double _videoRatio = _dims.getAspectRatio();  // w / h
 
     // blog('===> _cropped : $_dims : $_videoRatio');
     // final Dimensions _real = Dimensions.fromSize(controller.videoDimension);

@@ -82,23 +82,25 @@ class PicMediaCropController {
 
         if (mounted == true){
 
-          _output = await AvFromBytes.create(
+          _output = await AvOps.createFromBytes(
             bytes: _cropped,
-            uploadPath: '${originalPic.value!.getUploadPath()}_cropped',
-            skipMeta: false,
-            bobDocName: 'crops',
-            originalURL: _output?.originalURL,
-            ownersIDs: _output?.ownersIDs,
-            origin: _output?.origin,
-            durationMs: _output?.durationMs,
-            // caption: ,
-            // includeFileExtension: ,
+            data: CreateSingleAVConstructor(
+              uploadPath: '${originalPic.value!.getUploadPath()}_cropped',
+              skipMeta: false,
+              bobDocName: 'crops',
+              originalURL: _output?.originalURL,
+              ownersIDs: _output?.ownersIDs,
+              origin: _output?.origin,
+              durationMs: _output?.durationMs,
+              // caption: ,
+              // includeFileExtension: ,
+            ),
           );
 
           theCroppedPic.set(value: _output, mounted: mounted);
           isCropping.set(value: false, mounted: mounted);
 
-          _output = _output?.overrideUploadPath(uploadPath: originalPic.value?.getUploadPath());
+          _output = await _output?.overrideUploadPath(uploadPath: originalPic.value?.getUploadPath());
 
         }
 

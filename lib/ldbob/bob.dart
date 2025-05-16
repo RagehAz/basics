@@ -3,9 +3,7 @@ library bob;
 
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:basics/av/av.dart';
-import 'package:basics/exports/cross_file.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';

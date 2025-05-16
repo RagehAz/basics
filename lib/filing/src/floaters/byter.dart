@@ -8,7 +8,7 @@ abstract class Byter {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> fromAvModel(AvModel? model) async {
-    return fromXFile(model?.xFile, 'fromAvModel');
+    return model?.getBytes();
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -17,7 +17,7 @@ abstract class Byter {
 
     if (Lister.checkCanLoop(models) == true){
       for (final AvModel model in models){
-        final Uint8List? _bytes = await fromXFile(model.xFile, 'fromAvModels');
+        final Uint8List? _bytes = await fromXFile(model.getXFile(), 'fromAvModels');
         if (_bytes != null){
           _output.add(_bytes);
         }

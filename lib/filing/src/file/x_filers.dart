@@ -524,10 +524,11 @@ abstract class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteFileByName({
+  static Future<bool> deleteFileByName({
     required String? name,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
+    bool _deleted = false;
 
     if (name != null){
 
@@ -537,11 +538,12 @@ abstract class XFiler {
       );
 
       if (_path != null){
-        await deleteFile(XFile(_path));
+        _deleted = await deleteFile(XFile(_path));
       }
 
     }
 
+    return _deleted;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

@@ -18,7 +18,7 @@ abstract class NeoPointGraphic {
       final double _canvasWidth = canvasDims.width ?? 0;
       final double _canvasHeight = canvasDims.height ?? 0;
 
-      final bool _isWider = (picDims.getAspectRatio() ?? 1) >  (canvasDims.getAspectRatio() ?? 1);
+      final bool _isWider = picDims.getAspectRatio() >  canvasDims.getAspectRatio();
 
       /// WIDER MEANS MORE SQUARE THEN MORE LANDSCAPE => THE IMAGE IS FIT WIDTH ALREADY
       if (_isWider == true){

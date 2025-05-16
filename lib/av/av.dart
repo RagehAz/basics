@@ -2,6 +2,7 @@ library av;
 
 import 'dart:isolate';
 
+import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
@@ -49,10 +50,10 @@ import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:ffmpeg_kit_flutter/session_state.dart';
 import 'package:ffmpeg_kit_flutter/statistics.dart';
 
-part 'src/b_av_ops/creation/av_from_asset_entity.dart';
-part 'src/b_av_ops/creation/av_from_bytes.dart';
-part 'src/b_av_ops/creation/av_from_url.dart';
-part 'src/b_av_ops/creation/av_from_local_asset.dart';
+part 'src/b_av_ops/a_create/av_from_asset_entity.dart';
+part 'src/b_av_ops/a_create/av_from_bytes.dart';
+part 'src/b_av_ops/a_create/av_from_url.dart';
+part 'src/b_av_ops/a_create/av_from_local_asset.dart';
 
 part 'src/a_models/av_model/av_pathing.dart';
 
@@ -64,17 +65,29 @@ part 'src/a_models/av_model/av_origin.dart';
 part 'src/a_models/dim_model/dimension_model.dart';
 part 'src/a_models/dim_model/dimensions_getter.dart';
 
-part 'src/c_av_picking/pick_audio_from_mic.dart';
-part 'src/c_av_picking/pick_image_from_camera.dart';
-part 'src/c_av_picking/pick_image_from_gallery.dart';
-part 'src/c_av_picking/pick_video_from_camera.dart';
-part 'src/c_av_picking/pick_video_from_gallery.dart';
+part 'src/c_av_picking/pick_image/pick_image_from_camera.dart';
+part 'src/c_av_picking/pick_image/pick_image_from_gallery.dart';
+part 'src/c_av_picking/pick_video/pick_video_from_camera.dart';
+part 'src/c_av_picking/pick_video/pick_video_from_gallery.dart';
 part 'src/d_av_editing/video_processor.dart';
 
 part 'src/d_av_editing/image_processor.dart';
 
-part 'src/b_av_ops/editing/av_model_editor.dart';
-part 'src/b_av_ops/creation/av_from_x_file.dart';
+part 'src/b_av_ops/c_update/av_model_editor.dart';
+part 'src/b_av_ops/a_create/av_from_x_file.dart';
+
+part 'src/b_av_ops/av_ops.dart';
+part 'src/a_models/av_model/av_cipher.dart';
+part 'src/b_av_ops/a_create/av_create_constructor.dart';
+part 'src/b_av_ops/b_read/read_av.dart';
+
+part 'src/b_av_ops/d_delete/av_delete.dart';
+part 'src/b_av_ops/a_create/av_from_file.dart';
+part 'src/c_av_picking/av_picking.dart';
+
+part 'src/c_av_picking/pick_sound/pick_audio_from_mic.dart';
+part 'src/c_av_picking/pick_pdf/pick_pdf_from_device.dart';
+part 'src/f_directory_operator/directory_operator.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING

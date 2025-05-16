@@ -5,37 +5,48 @@ class AvModel {
   // --------------------------------------------------------------------------
   const AvModel({
     required this.id,
-    required this.xFile,
+    required this.uploadPath,
+    required this.bobDocName,
+    this.xFilePath,
     this.ownersIDs,
     this.width,
     this.height,
-    this.name,
+    this.nameWithoutExtension,
+    this.nameWithExtension,
     this.sizeMB,
     this.sizeB,
     this.fileExt,
     this.data,
-    this.uploadPath,
     this.origin,
     this.originalURL,
     this.caption,
     this.durationMs,
+    this.originalXFilePath,
   });
   // --------------------
   final String id;
-  final XFile xFile;
+  /// EXAMPLE
+  /// storage/collectionName/subCollectionName/fileName
+  /// upload path last node should be file name without extension
+  /// so it can be generated without knowing file type
+  final String uploadPath;
+  final String? xFilePath;
   final List<String>? ownersIDs;
   final double? width;
   final double? height;
-  final String? name;
+  final String? nameWithoutExtension;
+  final String? nameWithExtension;
   final double? sizeMB;
   final int? sizeB;
   final FileExtType? fileExt;
   final Map<String, String>? data;
-  final String? uploadPath; /// storage/collectionName/subCollectionName/fileName.ext
-  final AvOrigin? origin; /// might be called ['source'] in external db
+  /// might be called ['source'] in external db
+  final AvOrigin? origin;
   final String? originalURL;
   final String? caption;
   final int? durationMs;
+  final String bobDocName;
+  final String? originalXFilePath;
   /// NOT SURE ABOUT THOSE
   // final String? deviceID;
   // final String? deviceName;
@@ -48,20 +59,29 @@ class AvModel {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<AvModel?> dummyPic({
-    String? localAsset,
+    required String localAsset,
+    String? bobDocName,
+    String fileName = 'theFile',
   }) async {
 
-    // final MediaModel? _mediaModel = await MediaModelCreator.fromLocalAsset(
-    //   localAsset: localAsset ?? Iconz.bldrsAppIcon,
-    //   ownersIDs: const ['OwnerID'],
-    //   uploadPath: 'storage/bldrs/bldrs_app_icon.png',
-    //   skipMetaData: false,
-    //   // renameFile: null,
-    // );
-    //
-    // return _mediaModel!;
+    return AvOps.createFromLocalAsset(
+        localAsset: localAsset,
+        data: CreateSingleAVConstructor(
+          uploadPath: 'the/upload/$fileName',
+          skipMeta: false,
+          bobDocName: bobDocName ?? 'theBobDoc',
+          originalXFilePath: null,
+          ownersIDs: ['x'],
+          origin: AvOrigin.downloaded,
+          width: null,
+          height: null,
+          originalURL: 'http://bldrs.com/$fileName',
+          durationMs: 22,
+          caption: 'what is this',
+          // fileExt: ,
+        ),
+    );
 
-    return null;
   }
   // --------------------------------------------------------------------------
 
@@ -71,29 +91,33 @@ class AvModel {
   ///
   AvModel copyWith({
     String? id,
-    XFile? xFile,
+    String? uploadPath,
+    String? xFilePath,
     List<String>? ownersIDs,
     double? width,
     double? height,
-    String? name,
+    String? nameWithoutExtension,
+    String? nameWithExtension,
     double? sizeMB,
     int? sizeB,
     FileExtType? fileExt,
     Map<String, String>? data,
-    String? uploadPath,
     AvOrigin? origin,
     String? originalURL,
     String? caption,
     int? durationMs,
+    String? bobDocName,
+    String? originalXFilePath,
   }){
 
     return AvModel(
       id: id ?? this.id,
-      xFile: xFile ?? this.xFile,
+      xFilePath: xFilePath ?? this.xFilePath,
       ownersIDs: ownersIDs ?? this.ownersIDs,
       width: width ?? this.width,
       height: height ?? this.height,
-      name: name ?? this.name,
+      nameWithoutExtension: nameWithoutExtension ?? this.nameWithoutExtension,
+      nameWithExtension: nameWithExtension ?? this.nameWithExtension,
       sizeMB: sizeMB ?? this.sizeMB,
       sizeB: sizeB ?? this.sizeB,
       fileExt: fileExt ?? this.fileExt,
@@ -103,6 +127,8 @@ class AvModel {
       originalURL: originalURL ?? this.originalURL,
       caption: caption ?? this.caption,
       durationMs: durationMs ?? this.durationMs,
+      bobDocName: bobDocName ?? this.bobDocName,
+      originalXFilePath: originalXFilePath ?? this.originalXFilePath,
     );
 
   }
@@ -110,141 +136,44 @@ class AvModel {
   ///
   AvModel nullifyField({
     // bool id = false,
-    // bool xFile = false,
+    bool xFilePath = false,
     bool ownersIDs = false,
     bool width = false,
     bool height = false,
-    bool name = false,
+    bool nameWithoutExtension = false,
+    bool nameWithExtension = false,
     bool sizeMB = false,
     bool sizeB = false,
     bool fileExt = false,
     bool data = false,
-    bool uploadPath = false,
+    // bool uploadPath = false,
     bool origin = false,
     bool originalURL = false,
     bool caption = false,
     bool durationMs = false,
+    // bool bobDocName = false,
+    bool originalXFilePath = false,
   }){
     return AvModel(
       id: id,
-      xFile: xFile,
+      xFilePath: xFilePath == true ? null : this.xFilePath,
       ownersIDs: ownersIDs == true ? null : this.ownersIDs,
       width: width == true ? null : this.width,
       height: height == true ? null : this.height,
-      name: name == true ? null : this.name,
+      nameWithoutExtension: nameWithoutExtension == true ? null : this.nameWithoutExtension,
+      nameWithExtension: nameWithExtension == true ? null : this.nameWithExtension,
       sizeMB: sizeMB == true ? null : this.sizeMB,
       sizeB: sizeB == true ? null : this.sizeB,
       fileExt: fileExt == true ? null : this.fileExt,
       data: data == true ? null : this.data,
-      uploadPath: uploadPath == true ? null : this.uploadPath,
+      uploadPath: uploadPath,
       origin: origin == true ? null : this.origin,
       originalURL: originalURL == true ? null : this.originalURL,
       caption: caption == true ? null : this.caption,
       durationMs: durationMs == true ? null : this.durationMs,
+      bobDocName: bobDocName,
+      originalXFilePath: originalXFilePath == true ? null : this.originalXFilePath,
     );
-  }
-  // --------------------------------------------------------------------------
-
-  /// CYPHERS
-
-  // --------------------
-  /// WRITE_ME
-  Map<String, dynamic> toMap(){
-    return {
-      'id': id,
-      'xFile': xFile.path,
-      'ownersIDs': ownersIDs,
-      'width': width,
-      'height': height,
-      'name': name,
-      'sizeMB': sizeMB,
-      'sizeB': sizeB,
-      'fileExt': FileMiming.getMimeByType(fileExt),
-      'data': data,
-      'uploadPath': uploadPath,
-      'origin': AvModel.cipherMediaOrigin(origin),
-      'originalURL': originalURL,
-      'caption': caption,
-      'durationMs': durationMs,
-    };
-  }
-  // --------------------
-  /// WRITE_ME
-  static AvModel? fromMap({
-    required Map<String, dynamic>? map,
-  }){
-
-    final String? _filePath = map?['xFile'];
-
-    /// SHOULD_CHECK_IF_FILE_EXISTS_IN_DIRECTORY
-
-    if (map == null || _filePath == null){
-      return null;
-    }
-
-    else {
-
-      return AvModel(
-        id: map['id'],
-        xFile: XFile(_filePath),
-        ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
-        width: map['width'],
-        height: map['height'],
-        name: map['name'],
-        sizeMB: map['sizeMB'],
-        sizeB: map['sizeB'],
-        fileExt: FileMiming.getTypeByMime(map['fileExt']),
-        data: MapperSS.createStringStringMap(hashMap: map['data'], stringifyNonStrings: true),
-        uploadPath: map['uploadPath'],
-        origin: AvModel.decipherMediaOrigin(map['origin']),
-        originalURL: map['originalURL'],
-        caption: map['caption'],
-        durationMs: map['durationMs'],
-      );
-    }
-
-  }
-  // --------------------------------------------------------------------------
-
-  /// MEDIA SOURCE CYPHERS
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static String? cipherMediaOrigin(AvOrigin? type){
-    switch (type){
-      case AvOrigin.cameraImage:  return 'camera';
-      case AvOrigin.galleryImage: return 'gallery';
-      case AvOrigin.cameraVideo:  return 'cameraVideo';
-      case AvOrigin.galleryVideo: return 'galleryVideo';
-      case AvOrigin.generated:    return 'generated';
-      case AvOrigin.downloaded:   return 'downloaded';
-
-      case AvOrigin.facebook:    return 'facebook';
-      case AvOrigin.instagram:   return 'instagram';
-      case AvOrigin.amazon:      return 'amazon';
-      case AvOrigin.website:     return 'website';
-
-      default: return null;
-    }
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static AvOrigin? decipherMediaOrigin(String? type){
-    switch (type){
-      case 'camera':        return    AvOrigin.cameraImage;
-      case 'gallery':       return    AvOrigin.galleryImage;
-      case 'cameraVideo':   return    AvOrigin.cameraVideo;
-      case 'galleryVideo':  return    AvOrigin.galleryVideo;
-      case 'generated':     return    AvOrigin.generated;
-      case 'downloaded':    return    AvOrigin.downloaded;
-
-      case 'facebook':      return    AvOrigin.facebook;
-      case 'instagram':     return    AvOrigin.instagram;
-      case 'amazon':        return    AvOrigin.amazon;
-      case 'website':       return    AvOrigin.website;
-
-      default: return null;
-    }
   }
   // --------------------------------------------------------------------------
 
@@ -255,11 +184,9 @@ class AvModel {
   static Future<void> assertIsUploadable(AvModel? avModel) async {
 
     assert(avModel != null, 'avModel is null');
-    assert(avModel?.id != null, "avModel's id is null");
-
     assert(avModel?.width != null, "avModel's width is null");
     assert(avModel?.height != null, "avModel's height is null");
-    assert(avModel?.name != null, "avModel's name is null");
+    assert(avModel?.nameWithoutExtension != null, "avModel's name is null");
     assert(avModel?.sizeMB != null, "avModel's sizeMB is null");
     assert(avModel?.sizeB != null, "avModel's sizeB is null");
     assert(avModel?.fileExt != null, "avModel's fileExt is null");
@@ -271,11 +198,9 @@ class AvModel {
     // String? caption; can be null
     // int? durationMs; can be null
 
-    final String? _id = avModel?.id;
     final String? _uploadPath = avModel?.uploadPath;
-    final String? _idShouldBe = AvPathing.createID(uploadPath: _uploadPath);
-    final bool _pathsAreGood = _id == _idShouldBe;
-    assert(_pathsAreGood, 'Paths are not good : id : $_id : _uploadPath : $_uploadPath');
+    final bool _pathsAreGood = TextCheck.isEmpty(_uploadPath) == false;
+    assert(_pathsAreGood, 'Paths are not good : _uploadPath : $_uploadPath');
 
   }
   // --------------------------------------------------------------------------
@@ -283,36 +208,32 @@ class AvModel {
   /// GETTERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   Future<Uint8List?> getBytes() async {
-    return Byter.fromXFile(xFile, 'getBytes');
+    if (xFilePath == null){
+      return null;
+    }
+    else {
+      final XFile _xFile = XFile(xFilePath!,);
+      return Byter.fromXFile(_xFile, 'getBytes');
+    }
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   String? getName({
     bool withExtension = true,
   }){
 
-    String? _name = name;
-
-    if (withExtension == false){
-
-      _name = TextMod.removeTextAfterLastSpecialCharacter(
-        text: _name,
-        specialCharacter: '.',
-      );
-
-      _name ??= FileNaming.getNameFromPath(
-          path: uploadPath,
-          withExtension: withExtension
-      );
-
+    if (withExtension == true){
+      return nameWithExtension;
+    }
+    else {
+      return nameWithoutExtension;
     }
 
-    return _name;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   Dimensions? getDimensions(){
 
     return Dimensions(
@@ -322,7 +243,7 @@ class AvModel {
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   double? getSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) {
@@ -336,52 +257,74 @@ class AvModel {
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   int getBytesLength(){
     return sizeB ?? 0;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   AvOrigin? getMediaOrigin(){
     return origin;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   String? getOriginalURl(){
     return originalURL;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  String? getFilePath(){
-    return xFile.path;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   List<String> getOwnersIDs(){
     return ownersIDs ?? [];
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   String? getCaption(){
     return caption;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   String? getExtension(){
     final FileExtType? _type = fileExt;
     return FileExtensioning.getExtensionByType(_type);
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   String? getUploadPath(){
     return uploadPath;
+  }
+  // --------------------
+  ///
+  File? getFile(){
+    if (xFilePath == null){
+      return null;
+    }
+    else {
+      return File(xFilePath!);
+    }
+  }
+  // --------------------
+  ///
+  XFile? getXFile(){
+    if (xFilePath == null){
+      return null;
+    }
+    else {
+      return XFile(xFilePath!);
+    }
+  }
+  // --------------------
+  /// REPLACE_BYTES_ISSUE_EVERYWHERE_MAN
+  Future<AvModel> replaceBytes({
+    required Uint8List? bytes,
+  }) async {
+    return this;
   }
   // --------------------------------------------------------------------------
 
   /// MEDIAS GETTERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static List<String> getMediasUploadPaths({
     required List<AvModel> avModels,
   }){
@@ -403,7 +346,7 @@ class AvModel {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static List<String> getMediasParentUploadPaths({
     required List<AvModel> avModels,
   }){
@@ -492,17 +435,17 @@ class AvModel {
   /// CHECKERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   bool isVideo(){
     return FileTyper.checkTypeIsVideo(fileExt);
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   bool isImage(){
     return FileTyper.checkTypeIsImage(fileExt);
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   bool isAudio(){
     return FileTyper.checkTypeIsAudio(fileExt);
   }
@@ -511,6 +454,7 @@ class AvModel {
   /// TYPE CHECKERS
 
   // --------------------
+  ///
   bool isPNG(){
     return fileExt == FileExtType.png;
   }
@@ -564,64 +508,27 @@ class AvModel {
   }
    */
   // --------------------
-  /// TESTED : WORKS PERFECT
-  AvModel overrideUploadPath({
+  ///
+  Future<AvModel?> overrideUploadPath({
     required String? uploadPath
-  }){
+  }) async {
 
-    if (uploadPath != this.uploadPath){
-
-      final String? _fileName = FileNaming.getNameFromPath(
-        path: uploadPath,
-        withExtension: false,
-      );
-
-      return copyWith(
-        id: AvPathing.createID(uploadPath: uploadPath),
-        uploadPath: uploadPath,
-        name: _fileName,
-      );
-    }
-
-    else {
-      return this;
-    }
+    return AvModelEditor.overrideUploadPath(
+        avModel: this,
+        newUploadPath: uploadPath,
+    );
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<AvModel> renameFile({
+  ///
+  Future<AvModel?> renameFile({
     required String? newName,
-    bool includeFileExtension = false,
   }) async {
 
-    if (TextCheck.isEmpty(newName) == true){
-      return this;
-    }
-    else {
-
-      final Uint8List? bytes = await Byter.fromXFile(xFile, 'renameFile');
-
-      final String? _newName = await FormatDetector.fixFileNameByBytes(
-        fileName: newName,
-        bytes: bytes,
-        includeFileExtension: includeFileExtension,
-      );
-
-      final String? _newPath = FilePathing.replaceFileNameInPath(
-        oldPath: uploadPath,
-        fileName: _newName,
-      );
-
-      // blog('--> renameFile | _newName : $_newName | _newPath : $_newPath | id : ${createID(uploadPath: _newPath)} |');
-
-      return copyWith(
-        id: AvPathing.createID(uploadPath: _newPath),
-        uploadPath: _newPath,
-        name: _newName,
-      );
-
-    }
+    return AvModelEditor.renameFile(
+      avModel: this,
+      newName: newName,
+    );
 
   }
   // --------------------
@@ -658,12 +565,21 @@ class AvModel {
   }
    */
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   AvModel setOriginalURL({
     required String? originalURL,
   }){
     return copyWith(
       originalURL: originalURL,
+    );
+  }
+  // --------------------
+  /// THIS_IS_SO_WRONG_FIX_X_FILE_OVERRIDING
+  AvModel setXFilePath({
+    required String? xFilePath,
+  }){
+    return copyWith(
+      xFilePath: xFilePath,
     );
   }
   // --------------------
@@ -696,7 +612,7 @@ class AvModel {
   }
    */
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   AvModel setMediaOrigin({
     required AvOrigin? origin,
   }){
@@ -705,7 +621,7 @@ class AvModel {
     );
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   AvModel setOwnersIDs({
     required List<String>? ownersIDs,
   }){
@@ -714,7 +630,7 @@ class AvModel {
     );
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   AvModel setCaption({
     required String? caption,
   }){
@@ -727,7 +643,7 @@ class AvModel {
   /// CHECKERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static bool checkPicIsEmpty(dynamic pic){
     bool _isEmpty = true;
 
@@ -775,45 +691,53 @@ class AvModel {
   /// EQUALITY
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// TASK : TEST_ME
   static bool checkModelsAreIdentical({
     required AvModel? model1,
     required AvModel? model2,
   }) {
-    bool _output = false;
 
-    if (model1 == null && model2 == null){
-      _output = true;
-    }
+    return Mapper.checkMapsAreIdentical(
+        map1: AvCipher.toMap(model1),
+        map2: AvCipher.toMap(model2),
+    );
 
-    else if (model1 != null && model2 != null){
+    /// DELETE_ME_AFTER_TESTING_AV_EQUALITY
+    // bool _output = false;
+    //
+    // if (model1 == null && model2 == null){
+    //   _output = true;
+    // }
+    //
+    // else if (model1 != null && model2 != null){
+    //
+    //   if (
+    //       model1.id == model2.id &&
+    //       model1.xFilePath == model2.xFilePath &&
+    //       Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == true &&
+    //       model1.width == model2.width &&
+    //       model1.height == model2.height &&
+    //       model1.name == model2.name &&
+    //       model1.sizeMB == model2.sizeMB &&
+    //       model1.sizeB == model2.sizeB &&
+    //       model1.fileExt == model2.fileExt &&
+    //       Mapper.checkMapsAreIdentical(map1: model1.data, map2: model2.data) == true &&
+    //       model1.uploadPath == model2.uploadPath &&
+    //       model1.origin == model2.origin &&
+    //       model1.originalURL == model2.originalURL &&
+    //       model1.caption == model2.caption &&
+    //       model1.durationMs == model2.durationMs
+    //   ){
+    //     _output = true;
+    //   }
+    //
+    // }
+    //
+    // return _output;
 
-      if (
-      model1.id == model2.id &&
-          model1.xFile.path == model2.xFile.path &&
-          Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == true &&
-          model1.width == model2.width &&
-          model1.height == model2.height &&
-          model1.name == model2.name &&
-          model1.sizeMB == model2.sizeMB &&
-          model1.sizeB == model2.sizeB &&
-          model1.fileExt == model2.fileExt &&
-          Mapper.checkMapsAreIdentical(map1: model1.data, map2: model2.data) == true &&
-          model1.uploadPath == model2.uploadPath &&
-          model1.origin == model2.origin &&
-          model1.originalURL == model2.originalURL &&
-          model1.caption == model2.caption &&
-          model1.durationMs == model2.durationMs
-      ){
-        _output = true;
-      }
-
-    }
-
-    return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static bool checkMediaModelsListsAreIdentical({
     required List<AvModel>? models1,
     required List<AvModel>? models2,
@@ -866,7 +790,7 @@ class AvModel {
   /// BLOGGING
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   void blogModel({
     String invoker = '',
   }){
@@ -881,7 +805,7 @@ $this
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static void blogPics({
     required List<AvModel>? models,
     String invoker = '',
@@ -907,7 +831,7 @@ $this
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static void blogDifferences({
     required AvModel? model1,
     required AvModel? model2,
@@ -928,7 +852,7 @@ $this
       if (model1.id != model2.id){
         blog('model1.id != model2.id');
       }
-      if (model1.xFile.path != model2.xFile.path){
+      if (model1.xFilePath != model2.xFilePath){
         blog('model1.xFile != model2.xFile');
       }
       if (Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == false){
@@ -940,8 +864,11 @@ $this
       if (model1.height != model2.height){
         blog('model1.height != model2.height');
       }
-      if (model1.name != model2.name){
-        blog('model1.name != model2.name');
+      if (model1.nameWithExtension != model2.nameWithExtension){
+        blog('model1.nameWithExtension != model2.nameWithExtension');
+      }
+      if (model1.nameWithoutExtension != model2.nameWithoutExtension){
+        blog('model1.nameWithoutExtension != model2.nameWithoutExtension');
       }
       if (model1.sizeMB != model2.sizeMB){
         blog('model1.sizeMB != model2.sizeMB');
@@ -970,6 +897,9 @@ $this
       if (model1.durationMs != model2.durationMs){
         blog('model1.durationMs != model2.durationMs');
       }
+      if (model1.originalXFilePath != model2.originalXFilePath){
+        blog('model1.originalXFilePath != model2.originalXFilePath');
+      }
 
       // final bool _bytesAreIdentical = Byter.checkBytesAreIdentical(
       //   bytes1: await AvModelExt(model1).getBytes(),
@@ -984,7 +914,7 @@ $this
     blog('| $invoker | blogDifferences | : END --------o');
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  ///
   static void blogPictureInfo(PictureInfo info){
     blog('blogPictureInfo : START');
 
@@ -1019,20 +949,22 @@ $this
 '''
 AvModel(
   id: $id,
-  xFile: ${xFile.path},
+  uploadPath: $uploadPath,
+  xFilePath: $xFilePath,
   ownersIDs: $ownersIDs,
   width: $width,
   height: $height,
-  name: $name,
+  nameWithExtension: $nameWithExtension,
+  nameWithoutExtension: $nameWithoutExtension,
   sizeMB: $sizeMB,
   sizeB: $sizeB,
   fileExt: $fileExt,
   data: $data,
-  uploadPath: $uploadPath,
   origin: $origin,
   originalURL: $originalURL,
   caption: $caption,
   durationMs: $durationMs,
+  originalXFilePath: $originalXFilePath,
 );
 ''';
 
@@ -1061,11 +993,12 @@ AvModel(
   @override
   int get hashCode =>
       id.hashCode^
-      xFile.hashCode^
+      xFilePath.hashCode^
       ownersIDs.hashCode^
       width.hashCode^
       height.hashCode^
-      name.hashCode^
+      nameWithExtension.hashCode^
+      nameWithoutExtension.hashCode^
       sizeMB.hashCode^
       sizeB.hashCode^
       fileExt.hashCode^
@@ -1074,74 +1007,13 @@ AvModel(
       origin.hashCode^
       originalURL.hashCode^
       caption.hashCode^
+      originalXFilePath.hashCode^
       durationMs.hashCode;
   // --------------------------------------------------------------------------
 }
 
 /// OLD META STUFF
-//   // -----------------------------------------------------------------------------
-//
-//   /// TO SETTABLE MAP
-//
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static Map<String, String>? generateSettableMap({
-//     // required Uint8List? bytes,
-//     required MediaMetaModel? meta,
-//     Map<String, String>? extraData,
-//   }){
-//
-//     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-//     final Map<String, String?>? _metaDataMap = <String, String?>{
-//       'name': meta?.name,
-//       'sizeMB': meta?.sizeMB?.toString(),
-//       'width': meta?.width?.toString(),
-//       'height': meta?.height?.toString(),
-//       'uploadPath': meta?.uploadPath,
-//       'fileType': FileMiming.getMimeByType(meta?.fileExt),
-//     };
-//
-//     /// ADD OWNERS IDS
-//     if (Lister.checkCanLoop(meta?.ownersIDs) == true){
-//       for (final String ownerID in meta!.ownersIDs) {
-//         _metaDataMap?[ownerID] = 'cool';
-//       }
-//     }
-//
-//     Map<String, String>? _output = MapperSS.cleanNullPairs(
-//       map: _metaDataMap,
-//     );
-//
-//     /// ADD META DATA MAP
-//     if (meta?.data != null) {
-//       _output = MapperSS.combineStringStringMap(
-//         baseMap: _output,
-//         replaceDuplicateKeys: true,
-//         insert: meta!.data,
-//       );
-//     }
-//
-//     /// ADD EXTRA DATA MAP
-//     if (extraData != null) {
-//       _output = MapperSS.combineStringStringMap(
-//         baseMap: _output,
-//         replaceDuplicateKeys: true,
-//         insert: extraData,
-//       );
-//     }
-//
-//     return _output;
-//
-//     // return f_s.SettableMetadata(
-//     //   customMetadata: _output,
-//     //   // cacheControl: ,
-//     //   // contentDisposition: ,
-//     //   // contentEncoding: ,
-//     //   // contentLanguage: ,
-//     //   contentType: FileMiming.getMimeByType(meta?.fileExt),
-//     // );
-//
-//   }
+
 //   // -----------------------------------------------------------------------------
 //
 //   /// CYPHERS

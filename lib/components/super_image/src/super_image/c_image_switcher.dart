@@ -202,17 +202,17 @@ class ImageSwitcher extends StatelessWidget {
           return SuperVideoPlayer(
             width: width!,
             height: height,
-            avModel: _avModel,
+            media: _avModel,
             isMuted: true,
             loop: true,
             // autoPlay: true,
           );
         }
 
-        else {
+        else if (_avModel.xFilePath != null){
 
            return Image.file(
-             File(_avModel.xFile.path),
+             File(_avModel.xFilePath!),
              key: const ValueKey<String>('SuperImage_xfile'),
              fit: _boxFit,
              width: width,
@@ -222,6 +222,10 @@ class ImageSwitcher extends StatelessWidget {
              color: iconColor,
            );
 
+        }
+
+        else {
+          return Container();
         }
 
       }

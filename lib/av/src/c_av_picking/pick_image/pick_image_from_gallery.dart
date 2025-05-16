@@ -1,6 +1,6 @@
 part of av;
 
-abstract class PickImageFromGallery {
+abstract class _PickImageFromGallery {
   // -----------------------------------------------------------------------------
 
   /// SINGLE
@@ -16,12 +16,11 @@ abstract class PickImageFromGallery {
     required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     required String bobDocName,
-    required bool includeFileExtension,
     double? resizeToWidth,
     int? compressWithQuality,
     AssetEntity? selectedAsset,
     Function(String? error)? onError,
-    Future<AvModel> Function(AvModel avModel)? onCrop,
+    Future<AvModel?> Function(AvModel avModel)? onCrop,
   }) async {
     AvModel? _output;
 
@@ -35,7 +34,6 @@ abstract class PickImageFromGallery {
         ownersIDs: ownersIDs,
         uploadPathMaker: uploadPathMaker,
         bobDocName: bobDocName,
-        includeFileExtension: includeFileExtension,
       );
     }
 
@@ -81,7 +79,6 @@ abstract class PickImageFromGallery {
     required String bobDocName,
     double? resizeToWidth,
     int? compressWithQuality,
-    bool includeFileExtension = false,
   }) async {
     AvModel? _output;
 
@@ -98,15 +95,16 @@ abstract class PickImageFromGallery {
 
         if (_file != null){
 
-          _output = await AvFromXFile.createSingle(
+          _output = await _AvFromXFile.createSingle(
             xFile: _file,
-            origin: AvOrigin.galleryImage,
-            uploadPath: uploadPathMaker(_file.fileName),
-            ownersIDs: ownersIDs,
-            skipMeta: false,
-            bobDocName: bobDocName,
-            // caption: null,
-            includeFileExtension: includeFileExtension,
+            data: CreateSingleAVConstructor(
+              origin: AvOrigin.galleryImage,
+              uploadPath: uploadPathMaker(_file.fileName),
+              ownersIDs: ownersIDs,
+              skipMeta: false,
+              bobDocName: bobDocName,
+              // caption: null,
+            ),
           );
 
         }
@@ -270,14 +268,16 @@ abstract class PickImageFromGallery {
             ),
           );
 
-          _output = await AvFromAssetEntity.createMany(
+          _output = await _AvFromAssetEntity.createMany(
             entities: pickedAssets,
-            uploadPathGenerator: uploadPathGenerator,
-            origin: AvOrigin.galleryImage,
-            ownersIDs: ownersIDs,
-            skipMeta: false,
-            bobDocName: bobDocName,
-            // includeFileExtension: ,
+            data: CreateMultiAVConstructor(
+              uploadPathGenerator: uploadPathGenerator,
+              origin: AvOrigin.galleryImage,
+              ownersIDs: ownersIDs,
+              skipMeta: false,
+              bobDocName: bobDocName,
+              // includeFileExtension: ,
+            ),
           );
 
         },

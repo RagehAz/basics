@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_redundant_argument_values, unused_element
-
 part of bob;
-
+/// GREAT
 @Entity()
 class AvBob {
   // -----------------------------------------------------------------------------
@@ -12,7 +11,8 @@ class AvBob {
     required this.ownersIDs,
     required this.width,
     required this.height,
-    required this.name,
+    required this.nameWithExtension,
+    required this.nameWithoutExtension,
     required this.sizeMB,
     required this.sizeB,
     required this.mime,
@@ -22,6 +22,8 @@ class AvBob {
     required this.originalURL,
     required this.caption,
     required this.durationMs,
+    required this.bobDocName,
+    required this.originalXFilePath,
   });
   // --------------------
   @Id()
@@ -29,31 +31,34 @@ class AvBob {
 
   @Unique(onConflict: ConflictStrategy.replace)
   final String id;
+  final String uploadPath;
 
-  @Property(type: PropertyType.float, signed: false)
+  // @Property(type: PropertyType.float, signed: false)
   final double? width;
 
-  @Property(type: PropertyType.float, signed: false)
+  // @Property(type: PropertyType.float, signed: false)
   final double? height;
 
-  @Property(type: PropertyType.float, signed: false)
+  // @Property(type: PropertyType.float, signed: false)
   final double? sizeMB;
 
-  @Property(type: PropertyType.int, signed: false)
+  // @Property(type: PropertyType.int, signed: false)
   final int? sizeB;
 
-  @Index(type: IndexType.hash)
+  // @Index(type: IndexType.hash)
   final String? originalURL;
 
-  final String? name;
+  final String? nameWithExtension;
+  final String? nameWithoutExtension;
   final String? xFilePath;
   final List<String>? ownersIDs;
   final String? mime;
-  final String? uploadPath;
   final String? origin;
   final String? caption;
   final String? data;
   final int? durationMs;
+  final String bobDocName;
+  final String? originalXFilePath;
   // --------------------------------------------------------------------------
 }
 
@@ -550,6 +555,7 @@ abstract class _AvFoundation {
   // --------------------------------------------------------------------------
 }
 
+/// GREAT
 abstract class _AvCipher {
   // --------------------------------------------------------------------------
 
@@ -567,20 +573,23 @@ abstract class _AvCipher {
       _output = AvBob(
         bobID: 0,
         id: model.id,
-        xFilePath: model.xFile.path,
+        xFilePath: model.xFilePath,
         ownersIDs: model.ownersIDs,
         width: model.width,
         height: model.height,
-        name: model.name,
+        nameWithExtension: model.nameWithExtension,
+        nameWithoutExtension: model.nameWithoutExtension,
         sizeMB: model.sizeMB,
         sizeB: model.sizeB,
         mime: FileMiming.getMimeByType(model.fileExt),
         data: jsonEncode(model.data),
         uploadPath: model.uploadPath,
-        origin: AvModel.cipherMediaOrigin(model.origin),
+        origin: AvCipher.cipherMediaOrigin(model.origin),
         originalURL: model.originalURL,
         caption: model.caption,
         durationMs: model.durationMs,
+        bobDocName: model.bobDocName,
+        originalXFilePath: model.originalXFilePath,
       );
 
     }
@@ -594,24 +603,27 @@ abstract class _AvCipher {
   }){
     AvModel? _output;
 
-    if (bob != null && bob.xFilePath != null){
+    if (bob != null){
 
       _output = AvModel(
         id: bob.id,
-        xFile: XFile(bob.xFilePath!),
+        xFilePath: bob.xFilePath,
         ownersIDs: bob.ownersIDs,
         width: bob.width,
         height: bob.height,
-        name: bob.name,
+        nameWithoutExtension: bob.nameWithoutExtension,
+        nameWithExtension: bob.nameWithExtension,
         sizeMB: bob.sizeMB,
         sizeB: bob.sizeB,
         fileExt: FileMiming.getTypeByMime(bob.mime),
         data: MapperSS.createStringStringMap(hashMap: jsonDecode(bob.data ?? ''), stringifyNonStrings: true),
         uploadPath: bob.uploadPath,
-        origin: AvModel.decipherMediaOrigin(bob.origin),
+        origin: AvCipher.decipherMediaOrigin(bob.origin),
         originalURL: bob.originalURL,
         caption: bob.caption,
         durationMs: bob.durationMs,
+        bobDocName: bob.bobDocName,
+        originalXFilePath: bob.originalXFilePath,
       );
 
     }
@@ -671,6 +683,7 @@ abstract class _AvCipher {
 // --------------------------------------------------------------------------
 }
 
+/// GREAT
 abstract class AvBobOps {
   // --------------------------------------------------------------------------
   static DirectoryType avDirectory = DirectoryType.app;
@@ -806,12 +819,13 @@ abstract class AvBobOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<int?> count({
+  static Future<int> count({
     required String docName,
   }) async {
-    return _AvFoundation.countItemsInBob(
+    final int? _count = await _AvFoundation.countItemsInBob(
       docName: docName,
     );
+    return _count ?? 0;
   }
   // --------------------------------------------------------------------------
 

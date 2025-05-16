@@ -396,4 +396,46 @@ abstract class Director {
 
   }
   // -----------------------------------------------------------------------------
+
+  /// EXPLODE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<void> explode() async {
+
+    if (kIsWeb == false){
+
+      await Future.wait(<Future>[
+
+        /// IMAGE CACHES
+        ImageCacheOps.wipeCaches(),
+
+        /// BREAKS LDB
+        /// DIRECTORIES
+        ...List.generate(allDirectoryTypes().length, (index){
+
+          return deleteAllDirectoryFiles(
+            directoryType: allDirectoryTypes()[index],
+          );
+
+        }),
+
+      ]);
+
+      await Lister.loop(
+          models: allDirectoryTypes(),
+          onLoop: (int index, DirectoryType? _dirType) async {
+            final Directory? _dir = await getDirectory(type: _dirType!);
+            blog('_dir($_dir)');
+            await _dir?.delete(
+                recursive: true,
+            );
+          });
+
+
+
+    }
+
+  }
+  // -----------------------------------------------------------------------------
 }

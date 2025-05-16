@@ -1,6 +1,6 @@
 part of av;
 
-abstract class PickImageFromCamera {
+abstract class _PickImageFromCamera {
   // -----------------------------------------------------------------------------
 
   /// TAKE IMAGE FROM CAMERA
@@ -15,7 +15,7 @@ abstract class PickImageFromCamera {
     required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     required Locale? locale,
-    required Future<AvModel> Function(AvModel avModel) onCrop,
+    required Future<AvModel?> Function(AvModel avModel) onCrop,
     required String bobDocName,
     double? resizeToWidth,
     int? compressWithQuality,
@@ -103,13 +103,15 @@ abstract class PickImageFromCamera {
 
         else {
 
-          final AvModel? _model = await AvFromAssetEntity.createSingle(
+          final AvModel? _model = await _AvFromAssetEntity.createSingle(
             entity: entity,
-            origin: AvOrigin.cameraImage,
-            uploadPath: uploadPathMaker(entity!.title),
-            ownersIDs: ownersIDs,
-            skipMeta: false,
-            bobDocName: bobDocName,
+            data: CreateSingleAVConstructor(
+              origin: AvOrigin.cameraImage,
+              uploadPath: uploadPathMaker(entity!.title),
+              ownersIDs: ownersIDs,
+              skipMeta: false,
+              bobDocName: bobDocName,
+            ),
           );
 
           return _model;

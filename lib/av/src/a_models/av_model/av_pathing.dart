@@ -7,17 +7,31 @@ abstract class AvPathing {
 
   // --------------------
   /// AT ALL TIMES, IN ANY INSTANCE, THESE RULES SHOULD APPLY
-  /// * ID is an Idified uploadPath
-  /// * file name should have no extension
-  /// * upload path should have file name as last node
+  ///
+  /// ID
+  /// ID is an Idified uploadPath
+  /// ID IS NECESSARY FOR LOCAL LDBS
+  ///
+  /// UPLOAD PATH
+  /// upload path should have file name without extension as last node
+  /// extension is removed to be able to generate the path without predicting file type
+  ///
+  /// XFilePath
+  /// directory/ldbDoc/fileNameWithOUTExtension
+  /// file extension TO BE NEGLECTED to be able to check if file exists
+  ///
   /// * ID is non nullable
   /// - EXAMPLE :-
-  /// uploadPath  = 'folder/subFolder/file_name_without_extension';
-  /// fileName    = 'file_name_without_extension';
-  /// id          = 'folder_subFolder_file_name_without_extension';
+  /// uploadPath   = 'folder/subFolder/file_name_without_extension';
+  /// fileName     = 'file_name_without_extension';
+  /// id           = 'folder_subFolder_file_name_without_extension';
+  /// avsDirectory = 'avs';
+  /// xFilePath    = 'avsDirectory/uploadPath';
+  ///
+  /// we only use the uploadPath outside the package as the AV main identifier
   // --------------------------------------------------------------------------
 
-  /// INITIALIZATION
+  /// ID
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -71,80 +85,84 @@ abstract class AvPathing {
   }
   // --------------------------------------------------------------------------
 
-  /// FILE NAME ADJUSTMENT
+  /// FILE NAME WITHOUT EXTENSION
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Map<String, String?>> adjustPathAndName({
-    required String uploadPath,
-    required bool includeFileExtension,
-    required Uint8List? bytes,
-  }) async {
-    String? _uploadPathOutput;
-    String? _fileNameOutput;
-    String? _fileExtension = FileExtensioning.getExtensionFromPath(uploadPath);
+  static String? createFileNameWithoutExtension({
+    required String? uploadPath,
+  }){
+    String? _output;
 
-    // blog('1. _adjustPathAndName : start');
-
-    /// WITH FILE EXTENSION : WILL NEED DETECTION
-    if (includeFileExtension == true){
-
-      // blog('2. _adjustPathAndName : includeFileExtension : $includeFileExtension');
-
-      final String? _fileNameWithoutExtension = FileNaming.getNameFromPath(
-        path: uploadPath,
-        withExtension: true,
-      );
-
-      // blog('3. _adjustPathAndName : _fileNameWithoutExtension : $_fileNameWithoutExtension');
-
-      _fileNameOutput = await FormatDetector.fixFileNameByBytes(
-        fileName: _fileNameWithoutExtension,
-        bytes: bytes,
-        includeFileExtension: true,
-      );
-
-      // blog('4. _adjustPathAndName : _fileNameOutput : $_fileNameOutput');
-
-      /// REPLACE IT IN PATH ANYWAYS : NAME MIGHT ORIGINALLY WAS WITH EXTENSION IN THE PATH
-      _uploadPathOutput = FilePathing.replaceFileNameInPath(
-        oldPath: uploadPath,
-        fileName: _fileNameOutput,
-      );
-
-      // blog('5. _adjustPathAndName : _uploadPathOutput : $_uploadPathOutput');
-
-      _fileExtension = FileExtensioning.getExtensionFromPath(_uploadPathOutput);
-
-      // blog('6. _adjustPathAndName : _fileExtension : $_fileExtension');
-
-    }
-
-    /// WITHOUT FILE EXTENSION : NO DETECTION NEEDED
-    else {
-
-      /// GET NAME WITHOUT EXTENSION
-      _fileNameOutput = FileNaming.getNameFromPath(
+    if (uploadPath != null){
+      _output = FileNaming.getNameFromPath(
         path: uploadPath,
         withExtension: false,
       );
+    }
 
-      /// REPLACE IT IN PATH ANYWAYS : NAME MIGHT ORIGINALLY WAS WITH EXTENSION IN THE PATH
-      _uploadPathOutput = FilePathing.replaceFileNameInPath(
-        oldPath: uploadPath,
-        fileName: _fileNameOutput,
-      );
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
+  /// FILE NAME WITH EXTENSION
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? createFileNameWithExtension({
+    required String? uploadPath,
+    required FileExtType? type,
+  }){
+    String? _output;
+
+    if (uploadPath != null){
+
+      final String? _name = FileNaming.getNameFromPath(path: uploadPath, withExtension: true);
+
+      final bool _hasExtension = FileExtensioning.checkNameHasExtension(_name);
+
+      if (_hasExtension == true){
+        _output = _name;
+      }
+      else {
+
+        final String? _ext = FileExtensioning.getExtensionByType(type);
+        if (_ext != null){
+          _output = '$_name.$_ext';
+        }
+
+      }
 
     }
 
-    return {
-      'id': createID(uploadPath: _uploadPathOutput),
-      'uploadPath': _uploadPathOutput,
-      'fileName': _fileNameOutput,
-      'fileExtension': _fileExtension,
-    };
+    return _output;
   }
+  // --------------------------------------------------------------------------
+
+  /// FILE PATH
+
   // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<String?> createXFilePath({
+    required String? uploadPath,
+  }) async {
+
+    final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
+      uploadPath: uploadPath,
+    );
+
+    return FilePathing.createPathByName(
+      fileName: _fileNameWithoutExtension,
+      directoryType: AvBobOps.avDirectory,
+    );
+
+  }
+  // --------------------------------------------------------------------------
+
+  /// FILE NAME ADJUSTMENT
+
+  // --------------------
+  /// RETURN_THE_FILE_WITH_EXTENSION_ISSUE
   static File? getFileWithExtension({
     required AvModel avModel,
   }){
@@ -166,5 +184,4 @@ abstract class AvPathing {
     return null;
   }
   // --------------------------------------------------------------------------
-  void x(){}
 }

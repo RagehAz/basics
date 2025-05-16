@@ -171,7 +171,7 @@ abstract class FormatDetector {
     Uint8List? bytesIfThere,
   }) async {
     return detectXFile(
-      xFile: avModel?.xFile,
+      xFile: avModel?.getXFile(),
       bytesIfThere: bytesIfThere,
       invoker: 'detectAvModel',
     );

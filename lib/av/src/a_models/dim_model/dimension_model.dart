@@ -65,7 +65,7 @@ class Dimensions {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  double? getAspectRatio(){
+  double getAspectRatio(){
 
       double _output = 1;
 
