@@ -179,10 +179,6 @@ abstract class Director {
               // recursive: false,
             );
 
-            if (kIsWeb){
-              await Filer.createEmptyFile(fileName: 'empty_file');
-            }
-
             _output = await _getOnlyFilesPaths(
               fileSystemEntities: _fileSystemEntities,
             );
@@ -243,6 +239,44 @@ abstract class Director {
         type: DirectoryType.app,
       );
       _output = '${_directory?.path}/flutter_assets';
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  ///
+  static Future<List<String>> readSubDirectoryFilesPaths({
+    required String? path,
+  }) async {
+    List<String> _output = [];
+
+    if (kIsWeb == false){
+
+      if (path != null){
+
+        List<FileSystemEntity> _fileSystemEntities = [];
+
+        await tryAndCatch(
+            invoker: 'readSubDirectoryFilesPaths',
+            functions: () async {
+
+              _fileSystemEntities = Directory(path).listSync(
+                // followLinks: ,
+                // recursive: false,
+              );
+
+              _output = await _getOnlyFilesPaths(
+                fileSystemEntities: _fileSystemEntities,
+              );
+
+            },
+            onError: (String? error){
+              blog('readSubDirectoryFilesPaths : ERROR : $error : PATH : $path');
+            }
+        );
+
+      }
 
     }
 
@@ -363,6 +397,8 @@ abstract class Director {
 
       for (int i = 0; i <_all.length; i++){
         final File _file = _all[i];
+        // blog('blogging file index [$i]');
+        // Filer.blogFile(file: _file);
         await Filer.deleteFile(_file);
       }
 

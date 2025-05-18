@@ -554,49 +554,58 @@ abstract class Filer {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteFile(File? file) async {
+  static Future<bool> deleteFile(File? file) async {
+    bool _deleted = false;
 
     if (file != null){
 
-      final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
-        filePath: file.path,
+      await tryAndCatch(
+        invoker: 'deleteFile',
+        functions: () async {
+          await Directory(file.path).delete(recursive: true);
+          _deleted = true;
+        },
+        onError: (String? error){
+          if (TextCheck.stringContainsSubString(string: error, subString: 'PathNotFoundException')){
+            blog('deleteFile: NO FILE TO DELETE IN (/data/user/0/net.bldrs.dashboard/app_flutter/6yaz)');
+          }
+          else {
+            blog('deleteFile: $error');
+          }
+        },
       );
 
-      // blog('got directory : ${dir?.name}');
-
-      if (dir != null){
-
-        final bool _exists = await checkFileExistsByName(
-          name: file.fileName,
-          directoryType: dir,
-        );
-
-        // blog('_exists : $_exists');
-        // Filer.blogFile(file: file, invoker: 'Filer.deleteFile');
-
-        if (_exists == true){
-
-          await tryAndCatch(
-            invoker: 'Filer.deleteFile',
-            functions: () async {
-
-              await file.delete(
-                // recursive:
-              );
-              await ImageCacheOps.wipeCaches();
-
-            },
-            onError: (String? error){
-              // do not blog
-            }
-          );
-
-        }
-
-      }
+      // final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
+      //   filePath: file.path,
+      // );
+      // if (dir != null){
+      //   final bool _exists = await checkFileExistsByName(
+      //     name: file.fileName,
+      //     directoryType: dir,
+      //   );
+      //   if (_exists == true){
+      //
+      //     await tryAndCatch(
+      //       invoker: 'Filer.deleteFile',
+      //       functions: () async {
+      //
+      //         await file.delete(
+      //           // recursive:
+      //         );
+      //         await ImageCacheOps.wipeCaches();
+      //
+      //       },
+      //       onError: (String? error){
+      //         // do not blog
+      //       }
+      //     );
+      //
+      //   }
+      // }
 
     }
 
+    return _deleted;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -801,9 +810,16 @@ abstract class Filer {
         name: name,
       );
 
+      FileSystemEntityType? _type;
+
       if (_path != null){
-        _exists = await File(_path).exists();
+        final File _file = File(_path);
+        _exists = await _file.exists();
+        final FileStat _stat = await _file.stat();
+        _type = _stat.type;
       }
+
+      blog('checkFileExistsByName.type($_type).name($name).exists($_exists).path($_path)');
 
     }
 

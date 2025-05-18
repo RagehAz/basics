@@ -350,6 +350,27 @@ abstract class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Future<List<XFile>> readAllSubDirectoryFiles({
+    required String? path,
+  }) async {
+
+    if (path == null){
+      return [];
+    }
+    else {
+      final List<String> _filesPaths = await Director.readSubDirectoryFilesPaths(
+        path: path,
+      );
+
+      return readFiles(
+        filesPaths: _filesPaths,
+      );
+    }
+
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static List<XFile> readFiles({
     required List<String> filesPaths,
   }){
@@ -492,34 +513,50 @@ abstract class XFiler {
 
     if (file != null){
 
-      final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
-        filePath: file.path,
+      await tryAndCatch(
+        invoker: 'deleteFile',
+        functions: () async {
+          await Directory(file.path).delete(recursive: true);
+          _success = true;
+        },
+        onError: (String? error){
+          if (TextCheck.stringContainsSubString(string: error, subString: 'PathNotFoundException')){
+            blog('deleteFile: NO FILE TO DELETE IN (/data/user/0/net.bldrs.dashboard/app_flutter/6yaz)');
+          }
+          else {
+            blog('deleteFile: $error');
+          }
+        },
       );
 
-      if (dir != null){
-
-        final bool _exists = await checkFileExistsByName(
-          name: file.fileName,
-          directoryType: dir,
-        );
-
-        if (_exists == true){
-
-          await tryAndCatch(
-            invoker: 'XFiler.deleteFile',
-            functions: () async {
-
-              await Directory(file.path).delete(recursive: true);
-              await ImageCacheOps.wipeCaches();
-              await DirectoryOperator.removePath(xFilePath: file.path);
-              _success = true;
-
-            },
-          );
-
-        }
-
-      }
+      // final DirectoryType? dir = await Director.concludeDirectoryFromFilePath(
+      //   filePath: file.path,
+      // );
+      //
+      // if (dir != null){
+      //
+      //   final bool _exists = await checkFileExistsByName(
+      //     name: file.fileName,
+      //     directoryType: dir,
+      //   );
+      //
+      //   if (_exists == true){
+      //
+      //     await tryAndCatch(
+      //       invoker: 'XFiler.deleteFile',
+      //       functions: () async {
+      //
+      //         await Directory(file.path).delete(recursive: true);
+      //         await ImageCacheOps.wipeCaches();
+      //         await DirectoryOperator.removePath(xFilePath: file.path);
+      //         _success = true;
+      //
+      //       },
+      //     );
+      //
+      //   }
+      //
+      // }
 
     }
 
