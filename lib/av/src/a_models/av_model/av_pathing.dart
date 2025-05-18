@@ -162,26 +162,44 @@ abstract class AvPathing {
   /// FILE NAME ADJUSTMENT
 
   // --------------------
-  /// RETURN_THE_FILE_WITH_EXTENSION_ISSUE
-  static File? getFileWithExtension({
+  /// TESTED : WORKS PERFECT
+  static Future<File?> cloneFileToHaveExtension({
     required AvModel avModel,
-  }){
+  }) async {
+    File? _output;
 
     /// IN SUPER_VIDEO_CONTROLLER FILE MUST HAVE EXTENSION IN FILE NAME INSIDE THE FILE PATH
 
-    // final XFile _xFile = avModel.xFile;
-    //
-    // final File _file = AvPathing.getFileWithExtension(
-    //   avModel: avModel,
-    // );
-    //
-    // final File? _file = await Filer.createFrom(
-    //   mediaModel: object,
-    //   includeFileExtension: true, /// breaks on ios if file has no extension
-    // );
+    final String? _originalPath = avModel.xFilePath;
 
-    /// RETURN_THE_FILE_WITH_EXTENSION_ISSUE
-    return null;
+    if (_originalPath != null){
+
+      final String? _fileName = FileNaming.getNameFromPath(path: _originalPath, withExtension: true);
+      final bool _hasExtension = FileExtensioning.checkNameHasExtension(_fileName);
+
+      if (_hasExtension == true){
+        _output = File(_originalPath);
+      }
+      else {
+
+        final Uint8List? _bytes = await avModel.getBytes();
+
+        final AvModel? _complete = await AvOps.completeAv(
+            avModel: avModel,
+            bytesIfExisted: _bytes,
+        );
+
+        _output = await Filer.createFromBytes(
+          bytes: _bytes,
+          fileName: _complete?.nameWithExtension,
+          includeFileExtension: true,
+        );
+
+      }
+
+    }
+
+    return _output;
   }
   // --------------------------------------------------------------------------
 }

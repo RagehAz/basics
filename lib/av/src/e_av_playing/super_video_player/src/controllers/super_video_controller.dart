@@ -273,6 +273,7 @@ class SuperVideoController {
     _volume.dispose();
     /// TURNED_OFF_YOUTUBE_PLAYER
     // _youtubeController?.dispose();
+    Filer.deleteFile(_deleteMeOnDispose);
   }
   // --------------------------------------------------------------------------
 
@@ -306,6 +307,7 @@ class SuperVideoController {
   // --------------------
   File? _videoFile;
   File? get videoFile => _videoFile;
+  File? _deleteMeOnDispose;
   // --------------------
   String? _videoURL;
   String? get videoURL => _videoURL;
@@ -738,11 +740,12 @@ class SuperVideoController {
       /// AV MODEL
       else if (object is AvModel){
 
-        final File? _file = AvPathing.getFileWithExtension(
+        final File? _file = await AvPathing.cloneFileToHaveExtension(
           avModel: object,
         );
 
         if (_file != null){
+          _deleteMeOnDispose = _file;
           loadFile(
             file: _file,
             loop: loop,
