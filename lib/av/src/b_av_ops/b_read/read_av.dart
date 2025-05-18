@@ -20,11 +20,15 @@ class _AvRead {
         uploadPath: uploadPath,
       );
 
-      final XFile? _xFile = await XFiler.readByName(
-        name: _fileNameWithoutExtension,
+      final String? _xFilePath = await AvPathing.createXFilePath(
+        uploadPath: uploadPath,
       );
 
-      if (_xFile != null){
+      final bool _exists = await DirectoryOperator.checkExists(
+        xFilePath: _xFilePath,
+      );
+
+      if (_exists == true){
 
         final String _id = AvPathing.createID(uploadPath: uploadPath)!;
 
@@ -33,7 +37,7 @@ class _AvRead {
           _output = AvModel(
             id: _id,
             uploadPath: uploadPath,
-            xFilePath: _xFile.path,
+            xFilePath: _xFilePath,
             bobDocName: docName,
             nameWithoutExtension: _fileNameWithoutExtension,
 
@@ -49,7 +53,7 @@ class _AvRead {
           );
 
           _output = _output?.copyWith(
-            xFilePath: _xFile.path,
+            xFilePath: _xFilePath,
           );
 
         }

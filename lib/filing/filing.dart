@@ -59,3 +59,4 @@ part 'src/floaters/imager.dart';
 part 'src/floaters/decoding.dart';
 
 part 'src/json/local_json.dart';
+part 'src/file/directory_operator.dart';

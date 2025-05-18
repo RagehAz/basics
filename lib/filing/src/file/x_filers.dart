@@ -182,6 +182,8 @@ abstract class XFiler {
 
             await _output!.saveTo(_filePath);
 
+            await DirectoryOperator.addPath(xFilePath: _filePath);
+
           }
 
         },
@@ -509,6 +511,7 @@ abstract class XFiler {
 
               await Directory(file.path).delete(recursive: true);
               await ImageCacheOps.wipeCaches();
+              await DirectoryOperator.removePath(xFilePath: file.path);
               _success = true;
 
             },
@@ -547,7 +550,7 @@ abstract class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteFiledByNames({
+  static Future<void> deleteFileByNames({
     required List<String> names,
     DirectoryType directoryType = DirectoryType.app,
   }) async {

@@ -1,8 +1,6 @@
 library av;
 
 import 'dart:isolate';
-
-import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper.dart';
@@ -87,7 +85,6 @@ part 'src/c_av_picking/av_picking.dart';
 
 part 'src/c_av_picking/pick_sound/pick_audio_from_mic.dart';
 part 'src/c_av_picking/pick_pdf/pick_pdf_from_device.dart';
-part 'src/f_directory_operator/directory_operator.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_redundant_argument_values
+
 part of av;
 
 @immutable
@@ -701,39 +703,6 @@ class AvModel {
         map1: AvCipher.toMap(model1),
         map2: AvCipher.toMap(model2),
     );
-
-    /// DELETE_ME_AFTER_TESTING_AV_EQUALITY
-    // bool _output = false;
-    //
-    // if (model1 == null && model2 == null){
-    //   _output = true;
-    // }
-    //
-    // else if (model1 != null && model2 != null){
-    //
-    //   if (
-    //       model1.id == model2.id &&
-    //       model1.xFilePath == model2.xFilePath &&
-    //       Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == true &&
-    //       model1.width == model2.width &&
-    //       model1.height == model2.height &&
-    //       model1.name == model2.name &&
-    //       model1.sizeMB == model2.sizeMB &&
-    //       model1.sizeB == model2.sizeB &&
-    //       model1.fileExt == model2.fileExt &&
-    //       Mapper.checkMapsAreIdentical(map1: model1.data, map2: model2.data) == true &&
-    //       model1.uploadPath == model2.uploadPath &&
-    //       model1.origin == model2.origin &&
-    //       model1.originalURL == model2.originalURL &&
-    //       model1.caption == model2.caption &&
-    //       model1.durationMs == model2.durationMs
-    //   ){
-    //     _output = true;
-    //   }
-    //
-    // }
-    //
-    // return _output;
 
   }
   // --------------------

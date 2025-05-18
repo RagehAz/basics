@@ -1,5 +1,5 @@
 part of av;
-
+/// => GREAT
 abstract class _AvFromBytes {
   // -----------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ abstract class _AvFromBytes {
   /// MANY
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> createMany({
     required List<Uint8List> bytesList,
     required CreateMultiAVConstructor data,

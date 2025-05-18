@@ -1,6 +1,5 @@
 part of av;
-
-/// => TAMAM
+///
 abstract class AvOps {
   // -----------------------------------------------------------------------------
 
@@ -111,7 +110,7 @@ abstract class AvOps {
   /// READ
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<AvModel?> readSingle({
     required String docName,
     required String? uploadPath,
@@ -131,7 +130,7 @@ abstract class AvOps {
   /// READ MULTIPLE
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<List<AvModel>> readMany({
     required String docName,
     required List<String> uploadPaths,
@@ -152,7 +151,7 @@ abstract class AvOps {
   /// DELETE SINGLE
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<bool> deleteSingle({
     required String docName,
     required String? uploadPath
@@ -164,7 +163,7 @@ abstract class AvOps {
   /// DELETE MULTIPLE
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<bool> deleteMany({
     required String docName,
     required List<String> uploadPaths,
@@ -181,7 +180,7 @@ abstract class AvOps {
   /// DELETE ALL
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<bool> deleteAll({
     required String docName,
   }) async {
@@ -194,7 +193,7 @@ abstract class AvOps {
   /// CHECKER
 
   // --------------------
-  /// TASK : TEST_ME
+  ///
   static Future<bool> checkExists({
     required String docName,
     required String uploadPath,

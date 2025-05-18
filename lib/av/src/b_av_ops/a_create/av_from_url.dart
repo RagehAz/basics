@@ -1,12 +1,12 @@
 part of av;
-
+/// => GREAT
 class _AvFromUrl {
   // --------------------------------------------------------------------------
 
   /// ONE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> createSingle({
     required String? url,
     required CreateSingleAVConstructor data,
@@ -23,7 +23,6 @@ class _AvFromUrl {
         bytes: _bytes,
         data: data.copyWith(
           originalURL: url,
-
         ),
       );
 
@@ -35,7 +34,7 @@ class _AvFromUrl {
   /// ONE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> createMany({
     required List<String>? urls,
     required CreateMultiAVConstructor data,

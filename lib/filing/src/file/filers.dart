@@ -71,6 +71,8 @@ abstract class Filer {
         directoryType: directoryType,
       );
 
+      blog('=> _filePath($_filePath)');
+
       if (_filePath != null) {
 
         /// ONLY FOR WINDOWS,MAKE SURE PATH EXISTS
@@ -149,6 +151,9 @@ abstract class Filer {
 
             /// CREATE
             await _output!.writeAsBytes(bytes);
+
+            await DirectoryOperator.addPath(xFilePath: _filePath);
+
           }
 
           },
@@ -378,6 +383,7 @@ abstract class Filer {
         functions: () async {
 
           _output = await file.copy(_filePath!);
+          await DirectoryOperator.addPath(xFilePath: _filePath);
 
           },
       );
