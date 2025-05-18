@@ -563,11 +563,12 @@ abstract class Filer {
         invoker: 'deleteFile',
         functions: () async {
           await Directory(file.path).delete(recursive: true);
+          await DirectoryOperator.removePath(xFilePath: file.path);
           _deleted = true;
         },
         onError: (String? error){
           if (TextCheck.stringContainsSubString(string: error, subString: 'PathNotFoundException')){
-            blog('deleteFile: NO FILE TO DELETE IN (/data/user/0/net.bldrs.dashboard/app_flutter/6yaz)');
+            blog('deleteFile: NO FILE TO DELETE IN (${file.path})');
           }
           else {
             blog('deleteFile: $error');

@@ -1,12 +1,12 @@
 part of av;
-
+/// => GREAT
 class _AvDelete {
   // --------------------------------------------------------------------------
 
   /// TITLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteSingle({
     required String? uploadPath,
     required String? docName,
@@ -41,7 +41,7 @@ class _AvDelete {
   /// MULTIPLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteMany({
     required List<String> uploadPaths,
     required String docName,
@@ -74,21 +74,35 @@ class _AvDelete {
   /// ALL
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteAll({
     required String docName,
   }) async {
 
-    /// FILES
-    /// HOW_CAN_WE_DELETE_ALL_FILES_HERE
+    final List<AvModel> _avs = await AvBobOps.readAll(docName: docName);
 
-    /// BOB
-    await AvBobOps.deleteAll(
-      docName: docName,
+    int _count = 0;
+
+    await Lister.loop(
+        models: _avs,
+        onLoop: (int index, AvModel? avModel) async {
+
+          await Future.wait(<Future>[
+
+            if (avModel?.xFilePath != null)
+            XFiler.deleteFile(XFile(avModel!.xFilePath!)),
+
+            AvBobOps.delete(modelID: avModel?.id, docName: docName),
+
+          ]);
+
+          _count++;
+
+        },
     );
 
-    return false;
+
+    return _avs.length == _count;
   }
   // --------------------------------------------------------------------------
-  void x(){}
 }

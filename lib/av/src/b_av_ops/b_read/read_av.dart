@@ -1,12 +1,12 @@
 part of av;
-
+/// => GREAT
 class _AvRead {
   // --------------------------------------------------------------------------
 
   /// SINGLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> readSingle({
     required String? uploadPath,
     required bool skipMeta,
@@ -28,9 +28,9 @@ class _AvRead {
         xFilePath: _xFilePath,
       );
 
-      if (_exists == true){
+      final String _id = AvPathing.createID(uploadPath: uploadPath)!;
 
-        final String _id = AvPathing.createID(uploadPath: uploadPath)!;
+      if (_exists == true){
 
         /// NO META
         if (skipMeta == true){
@@ -60,6 +60,10 @@ class _AvRead {
 
       }
 
+      else {
+        await AvBobOps.delete(modelID: _id, docName: docName);
+      }
+
     }
 
     return _output;
@@ -69,7 +73,7 @@ class _AvRead {
   /// MULTIPLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> readMany({
     required List<String> uploadPaths,
     required String docName,
@@ -103,7 +107,7 @@ class _AvRead {
   /// CHECK
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkExists({
     required String uploadPath,
   }) async {
@@ -118,5 +122,4 @@ class _AvRead {
 
   }
   // --------------------------------------------------------------------------
-  void x(){}
 }

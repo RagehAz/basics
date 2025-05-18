@@ -1,5 +1,5 @@
 part of av;
-///
+/// => GREAT
 abstract class AvOps {
   // -----------------------------------------------------------------------------
 
@@ -110,7 +110,7 @@ abstract class AvOps {
   /// READ
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> readSingle({
     required String docName,
     required String? uploadPath,
@@ -130,7 +130,7 @@ abstract class AvOps {
   /// READ MULTIPLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> readMany({
     required String docName,
     required List<String> uploadPaths,
@@ -151,7 +151,7 @@ abstract class AvOps {
   /// DELETE SINGLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteSingle({
     required String docName,
     required String? uploadPath
@@ -163,7 +163,7 @@ abstract class AvOps {
   /// DELETE MULTIPLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteMany({
     required String docName,
     required List<String> uploadPaths,
@@ -180,7 +180,7 @@ abstract class AvOps {
   /// DELETE ALL
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> deleteAll({
     required String docName,
   }) async {
@@ -193,7 +193,7 @@ abstract class AvOps {
   /// CHECKER
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<bool> checkExists({
     required String docName,
     required String uploadPath,

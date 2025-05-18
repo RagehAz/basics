@@ -30,21 +30,8 @@ class ImageSwitcher extends StatelessWidget {
   // --------------------
   /// TESTED : WORKS PERFECT
   Widget _errorBuilder (_, Object error, StackTrace? stackTrace) {
-    // blog('SUPER IMAGE ERROR : ${pic.runtimeType} : error : $error');
-    return Container(
-      width: width,
-      height: height,
-      color: Colorz.white10,
-      // child: const SuperVerse(
-      //   verse: Verse(
-      //     text: 'phid_error',
-      //     translate: true,
-      //     casing: Casing.lowerCase,
-      //   ),
-      //   size: 0,
-      //   maxLines: 2,
-      // ),
-    );
+    blog('SUPER_IMAGE_ERROR:type(${pic.runtimeType}).error($error)');
+    return _emptyBox();
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -192,10 +179,13 @@ class ImageSwitcher extends StatelessWidget {
         );
       }
 
-      /// MEDIA MODEL
+      /// AV MODEL
       else if (pic is AvModel){
 
         final AvModel _avModel = pic;
+
+        blog('_avModel.xFilePath(${_avModel.xFilePath})');
+        blog('_avModel.hashCode(${_avModel.hashCode})');
 
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
          if (_avModel.isVideo() == true){
@@ -213,19 +203,20 @@ class ImageSwitcher extends StatelessWidget {
 
            return Image.file(
              File(_avModel.xFilePath!),
-             key: const ValueKey<String>('SuperImage_xfile'),
+             key: ValueKey<String>('SuperImage_file_(${_avModel.hashCode})'),
              fit: _boxFit,
              width: width,
              height: height,
              errorBuilder: _errorBuilder,
              gaplessPlayback: _gaplessPlayback,
              color: iconColor,
+
            );
 
         }
 
         else {
-          return Container();
+          return _emptyBox();
         }
 
       }

@@ -176,7 +176,7 @@ abstract class Director {
 
             _fileSystemEntities = Directory(_path).listSync(
               // followLinks: ,
-              // recursive: false,
+              recursive: true,
             );
 
             _output = await _getOnlyFilesPaths(
@@ -245,7 +245,7 @@ abstract class Director {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<String>> readSubDirectoryFilesPaths({
     required String? path,
   }) async {

@@ -19,7 +19,8 @@ abstract class _AvFromBytes {
       final String _uploadPath = data.uploadPath;
       final String _id = AvPathing.createID(uploadPath: data.uploadPath)!;
       final String _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
-          uploadPath: _uploadPath)!;
+          uploadPath: _uploadPath,
+      )!;
 
       /// FILE TYPE : IF WE WILL FORCE FILES TO HAVE EXTENSION
       // final FileExtType? _type = data.fileExt ?? detectExtension(...)
@@ -76,6 +77,7 @@ abstract class _AvFromBytes {
           model: _avModel,
           docName: data.bobDocName,
         );
+        blog('AvBobOps.insert._success($_success)._fileNameWithoutExtension($_fileNameWithoutExtension)._uploadPath($_uploadPath)');
 
         if (_success == true){
           _output = _avModel;
