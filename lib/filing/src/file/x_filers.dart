@@ -175,7 +175,7 @@ abstract class XFiler {
               path: _filePath,
               name: _fileName,
               // lastModified: ,
-              // length: ,
+              length: bytes.length,
               mimeType: mimeType,
               // overrides: ,
             );

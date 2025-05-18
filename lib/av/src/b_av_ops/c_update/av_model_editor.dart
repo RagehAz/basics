@@ -1,25 +1,48 @@
 part of av;
 
-class AvModelEditor {
+class _AvEdit {
   // -----------------------------------------------------------------------------
 
   /// OVERRIDE BYTES
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> overrideBytes({
     required Uint8List? bytes,
     required Dimensions? newDims,
+    required AvModel? avModel,
   }) async {
-    /// IMPLEMENT_OVERRIDE_BYTES_IN_AV_EDITOR
-    return null;
+
+    if (avModel == null){
+      return null;
+    }
+    else {
+      return _AvFromBytes.createSingle(
+          bytes: bytes,
+          data: CreateSingleAVConstructor(
+            skipMeta: false,
+            uploadPath: avModel.uploadPath,
+            bobDocName: avModel.bobDocName,
+            originalURL: avModel.originalURL,
+            originalXFilePath: avModel.originalXFilePath,
+            origin: avModel.origin,
+            caption: avModel.caption,
+            ownersIDs: avModel.ownersIDs,
+
+            width: newDims?.width,
+            height: newDims?.height,
+            // fileExt: may change,
+          ),
+      );
+    }
+
   }
   // -----------------------------------------------------------------------------
 
   /// PATH UPDATING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> renameFile({
     required AvModel? avModel,
     required String? newName,
@@ -47,7 +70,7 @@ class AvModelEditor {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> overrideUploadPath({
     required AvModel? avModel,
     required String? newUploadPath,
@@ -76,7 +99,88 @@ class AvModelEditor {
           ),
         );
 
+        if (_output != null){
+          await _AvDelete.deleteSingle(uploadPath: avModel.uploadPath, docName: avModel.bobDocName);
+        }
+
       }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// LIGHT EDIT
+
+  // --------------------
+  ///
+  static Future<AvModel?> metaEdit({
+    required AvModel? avModel,
+    String? caption,
+    AvOrigin? origin,
+    String? originalXFilePath,
+    String? originalURL,
+    Map<String, String>? data,
+    int? durationMs,
+    List<String>? ownersIDs,
+  }) async {
+    AvModel? _output = avModel;
+
+    if (avModel != null){
+
+      if (
+          caption != null ||
+          origin != null ||
+          originalXFilePath != null ||
+          originalURL != null ||
+          data != null ||
+          durationMs != null ||
+          ownersIDs != null
+      ){
+
+        final AvModel? _new = avModel.copyWith(
+          /// PATHS ARE FIXED
+          // xFilePath: ,
+          // id: ,
+          // bobDocName: ,
+          // uploadPath: ,
+          // nameWithExtension: ,
+          // nameWithoutExtension: ,
+
+          /// BYTES ARE FIXED
+          // fileExt: ,
+          // height: ,
+          // width: ,
+          // sizeB: ,
+          // sizeMB: ,
+
+          lastEdit: DateTime.now(),
+          caption: caption,
+          origin: origin,
+          originalXFilePath: originalXFilePath,
+          originalURL: originalURL,
+          data: data,
+          durationMs: durationMs,
+          ownersIDs: ownersIDs,
+        );
+
+        if (_new != null){
+
+          final bool _success = await AvBobOps.insert(
+            model: _new,
+            docName: _new.bobDocName,
+          );
+
+          if (_success == true){
+            _output = _new;
+          }
+
+        }
+
+      }
+
+
 
     }
 
@@ -87,7 +191,7 @@ class AvModelEditor {
   /// COMPLETE META
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> completeAv({
     required AvModel? avModel,
     required Uint8List? bytesIfExisted,
@@ -240,7 +344,7 @@ class AvModelEditor {
           sizeMB: sizeMB,
           sizeB: sizeB,
           fileExt: fileExt,
-
+          lastEdit: DateTime.now(),
           // origin: origin,
           // ownersIDs: ownersIDs,
           // uploadPath: _uploadPath,
@@ -260,8 +364,8 @@ class AvModelEditor {
     return _output;
   }
   // --------------------
-  /// TASK : TEST_ME
-  static Future<AvModel?> fixHeicAndHeif({
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> _fixHeicAndHeif({
     required Uint8List? bytes,
     required AvModel? avModel,
   }) async {

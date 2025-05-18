@@ -231,8 +231,9 @@ class ImageProcessor {
 
         if (_newBytes != null){
           bytes = _newBytes;
-          avModel = await AvModelEditor.overrideBytes(
+          avModel = await _AvEdit.overrideBytes(
             bytes: bytes,
+            avModel: avModel,
             newDims: Dimensions(width: resizeToWidth, height: _resizeToHeight),
           );
         }

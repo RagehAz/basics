@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8128890935085198706",
-      "lastPropertyId": "19:4681360931323172796",
+      "lastPropertyId": "20:8351078535993001420",
       "name": "AvBob",
       "properties": [
         {
@@ -105,6 +105,11 @@
           "id": "19:4681360931323172796",
           "name": "originalXFilePath",
           "type": 9
+        },
+        {
+          "id": "20:8351078535993001420",
+          "name": "lastEdit",
+          "type": 6
         }
       ],
       "relations": []

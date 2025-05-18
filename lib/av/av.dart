@@ -1,5 +1,6 @@
 library av;
 
+import 'dart:async';
 import 'dart:isolate';
 import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/maps/lister.dart';
@@ -12,6 +13,7 @@ import 'package:basics/helpers/strings/pathing.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
+import 'package:basics/helpers/time/timers.dart';
 import 'package:basics/ldbob/bob.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -85,6 +87,7 @@ part 'src/c_av_picking/av_picking.dart';
 
 part 'src/c_av_picking/pick_sound/pick_audio_from_mic.dart';
 part 'src/c_av_picking/pick_pdf/pick_pdf_from_device.dart';
+part 'src/e_av_playing/av_pic_reader.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING

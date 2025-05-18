@@ -148,6 +148,56 @@ abstract class AvOps {
   }
   // -----------------------------------------------------------------------------
 
+  /// UPDATE : OVERRIDE BYTES
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> overrideBytes({
+    required Uint8List? bytes,
+    required Dimensions? newDims,
+    required AvModel? avModel,
+  }) async {
+    return _AvEdit.overrideBytes(
+      bytes: bytes,
+      newDims: newDims,
+      avModel: avModel,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> renameFile({
+    required AvModel? avModel,
+    required String? newName,
+  }) async {
+    return _AvEdit.renameFile(
+      newName: newName,
+      avModel: avModel,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> overrideUploadPath({
+    required AvModel? avModel,
+    required String? newUploadPath,
+  }) async {
+    return _AvEdit.overrideUploadPath(
+      newUploadPath: newUploadPath,
+      avModel: avModel,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> completeAv({
+    required AvModel? avModel,
+    required Uint8List? bytesIfExisted,
+  }) async {
+    return _AvEdit.completeAv(
+      bytesIfExisted: bytesIfExisted,
+      avModel: avModel,
+    );
+  }
+  // -----------------------------------------------------------------------------
+
   /// DELETE SINGLE
 
   // --------------------

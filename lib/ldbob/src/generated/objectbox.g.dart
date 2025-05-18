@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 8128890935085198706),
       name: 'AvBob',
-      lastPropertyId: const obx_int.IdUid(19, 4681360931323172796),
+      lastPropertyId: const obx_int.IdUid(20, 8351078535993001420),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -120,6 +120,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(19, 4681360931323172796),
             name: 'originalXFilePath',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 8351078535993001420),
+            name: 'lastEdit',
+            type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -704,7 +709,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final originalXFilePathOffset = object.originalXFilePath == null
               ? null
               : fbb.writeString(object.originalXFilePath!);
-          fbb.startTable(20);
+          fbb.startTable(21);
           fbb.addInt64(0, object.bobID);
           fbb.addOffset(1, idOffset);
           fbb.addOffset(2, uploadPathOffset);
@@ -724,6 +729,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(16, object.durationMs);
           fbb.addOffset(17, bobDocNameOffset);
           fbb.addOffset(18, originalXFilePathOffset);
+          fbb.addInt64(19, object.lastEdit);
           fbb.finish(fbb.endTable());
           return object.bobID;
         },
@@ -774,6 +780,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final originalXFilePathParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 40);
+          final lastEditParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 42);
           final object = AvBob(
               bobID: bobIDParam,
               id: idParam,
@@ -793,7 +801,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               caption: captionParam,
               durationMs: durationMsParam,
               bobDocName: bobDocNameParam,
-              originalXFilePath: originalXFilePathParam);
+              originalXFilePath: originalXFilePathParam,
+              lastEdit: lastEditParam);
 
           return object;
         }),
@@ -1520,6 +1529,10 @@ class AvBob_ {
   /// See [AvBob.originalXFilePath].
   static final originalXFilePath =
       obx.QueryStringProperty<AvBob>(_entities[0].properties[18]);
+
+  /// See [AvBob.lastEdit].
+  static final lastEdit =
+      obx.QueryIntegerProperty<AvBob>(_entities[0].properties[19]);
 }
 
 /// [BzBob] entity fields to define ObjectBox queries.

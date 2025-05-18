@@ -33,6 +33,7 @@ abstract class AvCipher {
         'durationMs': avModel.durationMs,
         'bobDocName': avModel.bobDocName,
         'originalXFilePath': avModel.originalXFilePath,
+        'lastEdit': Timers.cipherTime(time: avModel.lastEdit, toJSON: true),
       };
     }
 
@@ -66,6 +67,7 @@ abstract class AvCipher {
         durationMs: map['durationMs'],
         bobDocName: map['bobDocName'],
         originalXFilePath: map['originalXFilePath'],
+        lastEdit: Timers.decipherTime(time: map['lastEdit'], fromJSON: true),
       );
     }
 

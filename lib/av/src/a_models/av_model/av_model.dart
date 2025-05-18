@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_redundant_argument_values
-
 part of av;
 
 @immutable
@@ -24,6 +23,7 @@ class AvModel {
     this.caption,
     this.durationMs,
     this.originalXFilePath,
+    this.lastEdit,
   });
   // --------------------
   final String id;
@@ -54,6 +54,7 @@ class AvModel {
   // final String? deviceName;
   // final String? platform;
   /// NOT SURE ABOUT THOSE
+  final DateTime? lastEdit;
   // --------------------------------------------------------------------------
 
   /// DUMMY PIC
@@ -90,7 +91,7 @@ class AvModel {
   /// CLONING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   AvModel copyWith({
     String? id,
     String? uploadPath,
@@ -110,6 +111,7 @@ class AvModel {
     int? durationMs,
     String? bobDocName,
     String? originalXFilePath,
+    DateTime? lastEdit,
   }){
 
     return AvModel(
@@ -131,11 +133,12 @@ class AvModel {
       durationMs: durationMs ?? this.durationMs,
       bobDocName: bobDocName ?? this.bobDocName,
       originalXFilePath: originalXFilePath ?? this.originalXFilePath,
+      lastEdit: lastEdit ?? this.lastEdit,
     );
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   AvModel nullifyField({
     // bool id = false,
     bool xFilePath = false,
@@ -155,6 +158,7 @@ class AvModel {
     bool durationMs = false,
     // bool bobDocName = false,
     bool originalXFilePath = false,
+    bool lastEdit = false,
   }){
     return AvModel(
       id: id,
@@ -175,6 +179,7 @@ class AvModel {
       durationMs: durationMs == true ? null : this.durationMs,
       bobDocName: bobDocName,
       originalXFilePath: originalXFilePath == true ? null : this.originalXFilePath,
+      lastEdit: lastEdit == true ? null : this.lastEdit,
     );
   }
   // --------------------------------------------------------------------------
@@ -210,18 +215,18 @@ class AvModel {
   /// GETTERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<Uint8List?> getBytes() async {
     if (xFilePath == null){
       return null;
     }
     else {
-      final XFile _xFile = XFile(xFilePath!,);
+      final XFile _xFile = XFile(xFilePath!);
       return Byter.fromXFile(_xFile, 'getBytes');
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   String? getName({
     bool withExtension = true,
   }){
@@ -235,17 +240,22 @@ class AvModel {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Dimensions? getDimensions(){
 
-    return Dimensions(
-      width: width,
-      height: height,
-    );
+    if (width == null && height == null){
+      return null;
+    }
+    else {
+      return Dimensions(
+        width: width,
+        height: height,
+      );
+    }
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   double? getSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) {
@@ -259,43 +269,43 @@ class AvModel {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   int getBytesLength(){
     return sizeB ?? 0;
   }
   // --------------------
-  ///
-  AvOrigin? getMediaOrigin(){
+  /// TESTED : WORKS PERFECT
+  AvOrigin? getAvOrigin(){
     return origin;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   String? getOriginalURl(){
     return originalURL;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   List<String> getOwnersIDs(){
     return ownersIDs ?? [];
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   String? getCaption(){
     return caption;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   String? getExtension(){
     final FileExtType? _type = fileExt;
     return FileExtensioning.getExtensionByType(_type);
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   String? getUploadPath(){
     return uploadPath;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   File? getFile(){
     if (xFilePath == null){
       return null;
@@ -305,7 +315,7 @@ class AvModel {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   XFile? getXFile(){
     if (xFilePath == null){
       return null;
@@ -314,19 +324,12 @@ class AvModel {
       return XFile(xFilePath!);
     }
   }
-  // --------------------
-  /// REPLACE_BYTES_ISSUE_EVERYWHERE_MAN
-  Future<AvModel> replaceBytes({
-    required Uint8List? bytes,
-  }) async {
-    return this;
-  }
   // --------------------------------------------------------------------------
 
   /// MEDIAS GETTERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<String> getMediasUploadPaths({
     required List<AvModel> avModels,
   }){
@@ -348,7 +351,7 @@ class AvModel {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static List<String> getMediasParentUploadPaths({
     required List<AvModel> avModels,
   }){
@@ -388,7 +391,7 @@ class AvModel {
 
       for (final AvModel avModel in allModels){
 
-        final AvModel? _uploaded = findMediaByUploadPath(
+        final AvModel? _uploaded = findAvModelByUploadPath(
           avModels: uploadedModels,
           uploadPath: avModel.uploadPath,
         );
@@ -410,7 +413,7 @@ class AvModel {
 
   // --------------------
   /// AI TESTED
-  static AvModel? findMediaByUploadPath({
+  static AvModel? findAvModelByUploadPath({
     required List<AvModel> avModels,
     required String? uploadPath,
   }){
@@ -437,17 +440,17 @@ class AvModel {
   /// CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   bool isVideo(){
     return FileTyper.checkTypeIsVideo(fileExt);
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   bool isImage(){
     return FileTyper.checkTypeIsImage(fileExt);
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   bool isAudio(){
     return FileTyper.checkTypeIsAudio(fileExt);
   }
@@ -456,7 +459,7 @@ class AvModel {
   /// TYPE CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   bool isPNG(){
     return fileExt == FileExtType.png;
   }
@@ -465,73 +468,38 @@ class AvModel {
   /// MODIFIERS
 
   // --------------------
-  /// DEPRECATED
-  /*
-  Future<AvModel> replaceBytes({
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> replaceBytes({
     required Uint8List? bytes,
+    required Dimensions? newDims,
   }) async {
-    AvModel _output = avModel;
-
-    if (bytes != null || avModel.uploadPath != null){
-
-      final XFile? _xFile = await XFiler.replaceBytes(file: avModel.xFile, bytes: bytes);
-
-      if (_xFile != null){
-
-        AvModel? _output = copyWith(
-          xFile: _xFile,
-          sizeB: ,
-          fileExt: ,
-          height: ,
-          width: ,
-          durationMs: ,
-          sizeMB: ,
-
-        );
-
-        // AvModel? _output = await MediaModelCreator.fromBytes(
-        //   bytes: bytes,
-        //   mediaOrigin: getMediaOrigin(),
-        //   uploadPath: meta!.uploadPath!,
-        //   ownersIDs: meta?.ownersIDs,
-        //   skipMetaData: false,
-        //   // caption: ,
-        //   // includeFileExtension: ,
-        // );
-
-        _output = _output?.setOriginalURL(originalURL: getOriginalURl());
-        _output = _output?.setFilePath(filePath: getFilePath());
-
-      }
-
-    }
-
-    return _output;
+    return _AvEdit.overrideBytes(
+      bytes: bytes,
+      newDims: newDims,
+      avModel: this,
+    );
   }
-   */
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<AvModel?> overrideUploadPath({
     required String? uploadPath
   }) async {
 
-    return AvModelEditor.overrideUploadPath(
+    return _AvEdit.overrideUploadPath(
         avModel: this,
         newUploadPath: uploadPath,
     );
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<AvModel?> renameFile({
     required String? newName,
   }) async {
-
-    return AvModelEditor.renameFile(
+    return _AvEdit.renameFile(
       avModel: this,
       newName: newName,
     );
-
   }
   // --------------------
   /// DEPRECATED
@@ -567,76 +535,42 @@ class AvModel {
   }
    */
   // --------------------
-  ///
-  AvModel setOriginalURL({
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> setOriginalURL({
     required String? originalURL,
-  }){
-    return copyWith(
+  }) async {
+    return _AvEdit.metaEdit(
+      avModel: this,
       originalURL: originalURL,
     );
   }
   // --------------------
-  /// THIS_IS_SO_WRONG_FIX_X_FILE_OVERRIDING
-  AvModel setXFilePath({
-    required String? xFilePath,
-  }){
-    return copyWith(
-      xFilePath: xFilePath,
-    );
-  }
-  // --------------------
-  /// DEPRECATED
-  /*
-  AvModel setFilePath({
-    required String? filePath,
-  }){
-
-    if (filePath == null){
-      return this;
-    }
-    else {
-
-      final MediaMetaModel? _meta = meta?.copyWith(
-        data: MapperSS.insertPairInMapWithStringValue(
-          map: meta?.data,
-          key: 'file_path',
-          value: filePath,
-          overrideExisting: true,
-        ),
-      );
-
-      return copyWith(
-        meta: _meta,
-      );
-
-    }
-
-  }
-   */
-  // --------------------
-  ///
-  AvModel setMediaOrigin({
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> setMediaOrigin({
     required AvOrigin? origin,
-  }){
-    return copyWith(
+  }) async {
+    return _AvEdit.metaEdit(
+      avModel: this,
       origin: origin,
     );
   }
   // --------------------
-  ///
-  AvModel setOwnersIDs({
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> setOwnersIDs({
     required List<String>? ownersIDs,
-  }){
-    return copyWith(
+  }) async {
+    return _AvEdit.metaEdit(
+      avModel: this,
       ownersIDs: ownersIDs,
     );
   }
   // --------------------
-  ///
-  AvModel setCaption({
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> setCaption({
     required String? caption,
-  }){
-    return copyWith(
+  }) async {
+    return _AvEdit.metaEdit(
+      avModel: this,
       caption: caption,
     );
   }
@@ -645,7 +579,7 @@ class AvModel {
   /// CHECKERS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkPicIsEmpty(dynamic pic){
     bool _isEmpty = true;
 
@@ -693,16 +627,22 @@ class AvModel {
   /// EQUALITY
 
   // --------------------
-  /// TASK : TEST_ME
+  /// TESTED : WORKS PERFECT
   static bool checkModelsAreIdentical({
     required AvModel? model1,
     required AvModel? model2,
   }) {
 
-    return Mapper.checkMapsAreIdentical(
-        map1: AvCipher.toMap(model1),
-        map2: AvCipher.toMap(model2),
+    final bool _identical = Mapper.checkMapsAreIdentical(
+      map1: AvCipher.toMap(model1),
+      map2: AvCipher.toMap(model2),
     );
+
+    if (_identical == false){
+      blogDifferences(invoker: 'check', model1: model1, model2: model2);
+    }
+
+    return _identical;
 
   }
   // --------------------
@@ -759,7 +699,7 @@ class AvModel {
   /// BLOGGING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   void blogModel({
     String invoker = '',
   }){
@@ -774,7 +714,7 @@ $this
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static void blogPics({
     required List<AvModel>? models,
     String invoker = '',
@@ -800,7 +740,7 @@ $this
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static void blogDifferences({
     required AvModel? model1,
     required AvModel? model2,
@@ -869,6 +809,9 @@ $this
       if (model1.originalXFilePath != model2.originalXFilePath){
         blog('model1.originalXFilePath != model2.originalXFilePath');
       }
+      if (Timers.checkTimesAreIdentical(accuracy: TimeAccuracy.microSecond, time1: model1.lastEdit, time2: model2.lastEdit) == false){
+        blog('model1.lastEdit(${model1.lastEdit}) != model2.lastEdit(${model2.lastEdit})');
+      }
 
       // final bool _bytesAreIdentical = Byter.checkBytesAreIdentical(
       //   bytes1: await AvModelExt(model1).getBytes(),
@@ -883,7 +826,7 @@ $this
     blog('| $invoker | blogDifferences | : END --------o');
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static void blogPictureInfo(PictureInfo info){
     blog('blogPictureInfo : START');
 
@@ -934,6 +877,7 @@ AvModel(
   caption: $caption,
   durationMs: $durationMs,
   originalXFilePath: $originalXFilePath,
+  lastEdit: $lastEdit,
 );
 ''';
 
@@ -977,6 +921,7 @@ AvModel(
       originalURL.hashCode^
       caption.hashCode^
       originalXFilePath.hashCode^
+      lastEdit.hashCode^
       durationMs.hashCode;
   // --------------------------------------------------------------------------
 }

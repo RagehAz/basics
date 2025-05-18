@@ -56,17 +56,18 @@ abstract class _AvFromBytes {
           width: data.width,
           height: data.height,
           originalXFilePath: data.originalXFilePath,
+          lastEdit: DateTime.now(),
           // data: ,
         );
 
         if (data.skipMeta == false){
 
-          _avModel = await AvModelEditor.completeAv(
+          _avModel = await _AvEdit.completeAv(
             avModel: _avModel,
             bytesIfExisted: bytes,
           );
 
-          _avModel = await AvModelEditor.fixHeicAndHeif(
+          _avModel = await _AvEdit._fixHeicAndHeif(
             bytes: bytes,
             avModel: _avModel,
           );

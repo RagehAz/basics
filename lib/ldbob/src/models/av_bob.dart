@@ -24,6 +24,7 @@ class AvBob {
     required this.durationMs,
     required this.bobDocName,
     required this.originalXFilePath,
+    required this.lastEdit,
   });
   // --------------------
   @Id()
@@ -59,6 +60,8 @@ class AvBob {
   final int? durationMs;
   final String bobDocName;
   final String? originalXFilePath;
+
+  final int? lastEdit;
   // --------------------------------------------------------------------------
 }
 
@@ -590,6 +593,7 @@ abstract class _AvCipher {
         durationMs: model.durationMs,
         bobDocName: model.bobDocName,
         originalXFilePath: model.originalXFilePath,
+        lastEdit: Timers.cipherDateTimeToInt(time: model.lastEdit),
       );
 
     }
@@ -624,6 +628,7 @@ abstract class _AvCipher {
         durationMs: bob.durationMs,
         bobDocName: bob.bobDocName,
         originalXFilePath: bob.originalXFilePath,
+        lastEdit: Timers.decipherIntToDateTime(integer: bob.lastEdit),
       );
 
     }

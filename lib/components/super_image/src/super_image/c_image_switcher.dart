@@ -185,7 +185,6 @@ class ImageSwitcher extends StatelessWidget {
         final AvModel _avModel = pic;
 
         blog('_avModel.xFilePath(${_avModel.xFilePath})');
-        blog('_avModel.hashCode(${_avModel.hashCode})');
 
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
          if (_avModel.isVideo() == true){
@@ -201,17 +200,28 @@ class ImageSwitcher extends StatelessWidget {
 
         else if (_avModel.xFilePath != null){
 
-           return Image.file(
-             File(_avModel.xFilePath!),
-             key: ValueKey<String>('SuperImage_file_(${_avModel.hashCode})'),
-             fit: _boxFit,
-             width: width,
-             height: height,
-             errorBuilder: _errorBuilder,
-             gaplessPlayback: _gaplessPlayback,
-             color: iconColor,
+          return AvPicReader(
+            key: const ValueKey<String>('SuperImage_AvModel_bytes'),
+            avModel: _avModel,
+            builder: (bool loading, Uint8List? bytes){
 
-           );
+              if (Lister.checkCanLoop(bytes) == true){
+                return Image.memory(
+                  bytes ?? Uint8List.fromList([]),
+                  fit: _boxFit,
+                  width: width,
+                  height: height,
+                  color: iconColor,
+                  errorBuilder: _errorBuilder,
+                  gaplessPlayback: _gaplessPlayback,
+                );
+              }
+              else {
+                return _emptyBox();
+              }
+
+            },
+          );
 
         }
 
