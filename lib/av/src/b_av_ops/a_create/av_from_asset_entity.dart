@@ -1,12 +1,12 @@
 part of av;
-
+/// => GREAT
 class _AvFromAssetEntity {
   // -----------------------------------------------------------------------------
 
   /// SINGLE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> createSingle({
     required AssetEntity? entity,
     required CreateSingleAVConstructor data,
@@ -39,7 +39,7 @@ class _AvFromAssetEntity {
     return _output;
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static int? _getDurationMsFromAssetEntity(AssetEntity entity){
     int? _output;
 
@@ -57,7 +57,7 @@ class _AvFromAssetEntity {
   /// MANY
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> createMany({
     required List<AssetEntity>? entities,
     required CreateMultiAVConstructor data,

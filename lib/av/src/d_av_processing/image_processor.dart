@@ -1,5 +1,5 @@
 part of av;
-
+/// => GREAT
 class ImageProcessor {
   // -----------------------------------------------------------------------------
   /// NO IMAGE WILL EVER BE WIDER THAN THIS TO BE PROCESSED IN THE APP
@@ -18,7 +18,7 @@ class ImageProcessor {
   /// PROCESS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> processImage({
     required AvModel? avModel,
     required double? resizeToWidth,
@@ -38,50 +38,52 @@ class ImageProcessor {
     }
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> processAvModels({
     required List<AvModel>? avModels,
     required int? quality,
     required double? resizeToWidth,
     required Future<List<AvModel>> Function(List<AvModel> avModels)? onCrop,
   }) async {
+    List<AvModel> _output = avModels ?? [];
 
-    if (Lister.checkCanLoop(avModels) == true){
+    if (Lister.checkCanLoop(_output) == true){
 
-      final List<AvModel> _output = await onCrop?.call(avModels!) ?? [...avModels!];
+      final List<AvModel>? _cropped = await onCrop?.call(_output);
+      _output = _cropped ?? _output;
 
       final List<AvModel> _finalList = [];
 
-      for (final AvModel avModel in _output){
+      await Lister.loop(
+          models: _output,
+          onLoop: (int index, AvModel? avModel) async {
 
-        final AvModel? _processes = await processImage(
-          quality: quality,
-          resizeToWidth: resizeToWidth,
-          avModel: avModel,
-          onCrop: null,
-        );
+            final AvModel? _processes = await processImage(
+              quality: quality,
+              resizeToWidth: resizeToWidth,
+              avModel: avModel,
+              onCrop: null,
+            );
 
-        if (_processes != null){
-          _finalList.add(_processes);
-        }
+            if (_processes != null){
+              _finalList.add(_processes);
+            }
 
-      }
+          },
+      );
 
-      return _finalList;
+      _output = _finalList;
 
     }
 
-
-    else {
-      return [];
-    }
-
+    return _output;
   }
   // --------------------------------------------------------------------------
 
   /// FOUNDATION
 
   // --------------------
+  /// TESTED : WORKS PERFECT
   Future<AvModel?> _process({
     required AvModel? avModel,
     required double? resizeToWidth,
@@ -115,7 +117,7 @@ class ImageProcessor {
   /// INITIALIZATION
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<void> readBytesIfAbsent() async {
 
     if (avModel != null){
@@ -143,16 +145,16 @@ class ImageProcessor {
 
   }
   // --------------------
-  /// TASK_DO_ME
+  /// TESTED : WORKS PERFECT
   Future<AvModel?> export() async {
-    return null;
+    return AvOps.completeAv(avModel: avModel, bytesIfExisted: bytes);
   }
   // --------------------------------------------------------------------------
 
   /// STEPS
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<void> _crop({
     required Future<AvModel?> Function(AvModel tempModel)? onCrop,
   }) async {
@@ -172,7 +174,7 @@ class ImageProcessor {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   Future<void> _resize() async {
 
     await readBytesIfAbsent();
@@ -231,7 +233,7 @@ class ImageProcessor {
 
         if (_newBytes != null){
           bytes = _newBytes;
-          avModel = await _AvEdit.overrideBytes(
+          avModel = await _AvUpdate.overrideBytes(
             bytes: bytes,
             avModel: avModel,
             newDims: Dimensions(width: resizeToWidth, height: _resizeToHeight),
@@ -243,7 +245,7 @@ class ImageProcessor {
     }
 
     else {
-      blog('could not resize image');
+      blog('_resize: PASSES . avModel.Exists(${avModel != null}).bytes.Exists(${bytes != null}).resizeToWidth.Exists(${resizeToWidth != null})');
     }
 
   }
@@ -271,16 +273,20 @@ class ImageProcessor {
             // keepExif: true,
           );
 
-        },
-        onError: (String error) async {
+          avModel = await _AvUpdate.overrideBytes(
+            bytes: bytes,
+            avModel: avModel,
+            newDims: Dimensions(width: avModel!.width, height: avModel!.height),
+          );
 
         },
+        // onError: (String error) async {},
       );
 
     }
 
     else {
-      blog('could not compress image');
+      blog('_compress: PASSES . bytes.Exists(${bytes != null}).bytes.compressionQuality(${compressionQuality != null})');
     }
 
   }

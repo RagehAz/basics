@@ -6,11 +6,10 @@ abstract class AvPicking {
   /// IMAGE
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> pickImage({
     required BuildContext context,
     required bool cropAfterPick,
-    required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function (String? title) uploadPathMaker,
@@ -25,7 +24,6 @@ abstract class AvPicking {
     return _PickImageFromGallery.pickAndProcessSingle(
       context: context,
       cropAfterPick: cropAfterPick,
-      appIsLTR: appIsLTR,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
       uploadPathMaker: uploadPathMaker,
@@ -39,7 +37,7 @@ abstract class AvPicking {
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> shootImage({
     required BuildContext context,
     required bool cropAfterPick,
@@ -53,7 +51,6 @@ abstract class AvPicking {
     double? resizeToWidth,
     int? compressWithQuality,
     Function(String? error)? onError,
-    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     return _PickImageFromCamera.shootAndCropCameraPic(
       context: context,
@@ -71,7 +68,7 @@ abstract class AvPicking {
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<List<AvModel>> pickImages({
     required BuildContext context,
     required bool cropAfterPick,
@@ -80,12 +77,12 @@ abstract class AvPicking {
     required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
     required Future<List<AvModel>> Function(List<AvModel> medias) onCrop,
+    required String bobDocName,
     double? resizeToWidth,
     int? compressWithQuality,
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     Function(String? error)? onError,
-    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
     return _PickImageFromGallery.pickAndCropMultiplePics(
       context: context,
@@ -100,6 +97,7 @@ abstract class AvPicking {
       resizeToWidth: resizeToWidth,
       maxAssets: maxAssets,
       selectedAssets: selectedAssets,
+      bobDocName: bobDocName,
     );
   }
   // -----------------------------------------------------------------------------

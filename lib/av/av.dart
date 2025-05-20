@@ -34,6 +34,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as vThumb;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 
 import 'src/c_av_picking/a_picker_config/camera_text_delegates.dart';
 import 'src/c_av_picking/a_picker_config/picker_text_delegates.dart';
@@ -69,25 +70,28 @@ part 'src/c_av_picking/pick_image/pick_image_from_camera.dart';
 part 'src/c_av_picking/pick_image/pick_image_from_gallery.dart';
 part 'src/c_av_picking/pick_video/pick_video_from_camera.dart';
 part 'src/c_av_picking/pick_video/pick_video_from_gallery.dart';
-part 'src/d_av_editing/video_processor.dart';
+part 'src/d_av_processing/video_processor.dart';
 
-part 'src/d_av_editing/image_processor.dart';
+part 'src/d_av_processing/image_processor.dart';
 
-part 'src/b_av_ops/c_update/av_model_editor.dart';
+part 'src/b_av_ops/d_update/av_update.dart';
 part 'src/b_av_ops/a_create/av_from_x_file.dart';
 
 part 'src/b_av_ops/av_ops.dart';
 part 'src/a_models/av_model/av_cipher.dart';
 part 'src/b_av_ops/a_create/av_create_constructor.dart';
-part 'src/b_av_ops/b_read/read_av.dart';
+part 'src/b_av_ops/c_read/av_read.dart';
 
-part 'src/b_av_ops/d_delete/av_delete.dart';
+part 'src/b_av_ops/e_delete/av_delete.dart';
 part 'src/b_av_ops/a_create/av_from_file.dart';
 part 'src/c_av_picking/av_picking.dart';
 
 part 'src/c_av_picking/pick_sound/pick_audio_from_mic.dart';
 part 'src/c_av_picking/pick_pdf/pick_pdf_from_device.dart';
 part 'src/e_av_playing/av_pic_reader.dart';
+part 'src/b_av_ops/b_clone/av_clone.dart';
+
+part 'src/f_av_exporting/av_export.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING

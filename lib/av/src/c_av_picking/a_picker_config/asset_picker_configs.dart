@@ -26,9 +26,9 @@ abstract class WeChatPickerConfigs {
         /// APP BAR BACKGROUND
         surface: Colorz.black255,
         /// BUTTON AND CHECK BACKGROUND COLOR
-        secondary: Colorz.yellow255,
+        secondary: Colorz.black255,
         /// DROPDOWN ARROW
-        primary: Colorz.blue255,
+        primary: Colorz.white255,
         /// ERRORS
         onError: Colorz.red255,
         error: Colorz.red255,

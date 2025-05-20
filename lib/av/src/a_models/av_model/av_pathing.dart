@@ -157,49 +157,6 @@ abstract class AvPathing {
     );
 
   }
-  // --------------------------------------------------------------------------
 
-  /// FILE NAME ADJUSTMENT
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<File?> cloneFileToHaveExtension({
-    required AvModel avModel,
-  }) async {
-    File? _output;
-
-    /// IN SUPER_VIDEO_CONTROLLER FILE MUST HAVE EXTENSION IN FILE NAME INSIDE THE FILE PATH
-
-    final String? _originalPath = avModel.xFilePath;
-
-    if (_originalPath != null){
-
-      final String? _fileName = FileNaming.getNameFromPath(path: _originalPath, withExtension: true);
-      final bool _hasExtension = FileExtensioning.checkNameHasExtension(_fileName);
-
-      if (_hasExtension == true){
-        _output = File(_originalPath);
-      }
-      else {
-
-        final Uint8List? _bytes = await avModel.getBytes();
-
-        final AvModel? _complete = await AvOps.completeAv(
-            avModel: avModel,
-            bytesIfExisted: _bytes,
-        );
-
-        _output = await Filer.createFromBytes(
-          bytes: _bytes,
-          fileName: _complete?.nameWithExtension,
-          includeFileExtension: true,
-        );
-
-      }
-
-    }
-
-    return _output;
-  }
   // --------------------------------------------------------------------------
 }

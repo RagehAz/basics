@@ -740,7 +740,7 @@ class SuperVideoController {
       /// AV MODEL
       else if (object is AvModel){
 
-        final File? _file = await AvPathing.cloneFileToHaveExtension(
+        final File? _file = await AvOps.cloneFileToHaveExtension(
           avModel: object,
         );
 

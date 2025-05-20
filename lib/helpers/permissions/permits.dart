@@ -75,7 +75,7 @@ abstract class Permit {
   /// TESTED : WORKS PERFECT
   static Future<bool> requestPermission({
     required Permission? permission,
-    required Function(Permission permission) onPermissionPermanentlyDenied,
+    required Function(Permission permission)? onPermissionPermanentlyDenied,
     bool showDebugDialog = false,
   }) async {
 
@@ -106,7 +106,7 @@ abstract class Permit {
           //   permission: permission,
           //
           // );
-          await onPermissionPermanentlyDenied(permission);
+          await onPermissionPermanentlyDenied?.call(permission);
           _granted = await permission.isGranted;
           blog('requestPermission: permission is permanently denied and is : _granted : $_granted');
         }

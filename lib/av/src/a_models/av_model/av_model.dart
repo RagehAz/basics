@@ -473,7 +473,7 @@ class AvModel {
     required Uint8List? bytes,
     required Dimensions? newDims,
   }) async {
-    return _AvEdit.overrideBytes(
+    return _AvUpdate.overrideBytes(
       bytes: bytes,
       newDims: newDims,
       avModel: this,
@@ -485,7 +485,7 @@ class AvModel {
     required String? uploadPath
   }) async {
 
-    return _AvEdit.overrideUploadPath(
+    return _AvUpdate.overrideUploadPath(
         avModel: this,
         newUploadPath: uploadPath,
     );
@@ -496,7 +496,7 @@ class AvModel {
   Future<AvModel?> renameFile({
     required String? newName,
   }) async {
-    return _AvEdit.renameFile(
+    return _AvUpdate.renameFile(
       avModel: this,
       newName: newName,
     );
@@ -539,7 +539,7 @@ class AvModel {
   Future<AvModel?> setOriginalURL({
     required String? originalURL,
   }) async {
-    return _AvEdit.metaEdit(
+    return _AvUpdate.metaEdit(
       avModel: this,
       originalURL: originalURL,
     );
@@ -549,7 +549,7 @@ class AvModel {
   Future<AvModel?> setMediaOrigin({
     required AvOrigin? origin,
   }) async {
-    return _AvEdit.metaEdit(
+    return _AvUpdate.metaEdit(
       avModel: this,
       origin: origin,
     );
@@ -559,7 +559,7 @@ class AvModel {
   Future<AvModel?> setOwnersIDs({
     required List<String>? ownersIDs,
   }) async {
-    return _AvEdit.metaEdit(
+    return _AvUpdate.metaEdit(
       avModel: this,
       ownersIDs: ownersIDs,
     );
@@ -569,7 +569,7 @@ class AvModel {
   Future<AvModel?> setCaption({
     required String? caption,
   }) async {
-    return _AvEdit.metaEdit(
+    return _AvUpdate.metaEdit(
       avModel: this,
       caption: caption,
     );

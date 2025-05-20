@@ -1,6 +1,6 @@
 part of av;
-
-class _AvEdit {
+/// => GREAT
+class _AvUpdate {
   // -----------------------------------------------------------------------------
 
   /// OVERRIDE BYTES
@@ -12,12 +12,11 @@ class _AvEdit {
     required Dimensions? newDims,
     required AvModel? avModel,
   }) async {
+    AvModel? _output = avModel;
 
-    if (avModel == null){
-      return null;
-    }
-    else {
-      return _AvFromBytes.createSingle(
+    if (avModel != null && bytes != null){
+
+      _output = await _AvFromBytes.createSingle(
           bytes: bytes,
           data: CreateSingleAVConstructor(
             skipMeta: false,
@@ -36,6 +35,7 @@ class _AvEdit {
       );
     }
 
+    return _output;
   }
   // -----------------------------------------------------------------------------
 

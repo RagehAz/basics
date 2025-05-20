@@ -62,12 +62,12 @@ abstract class _AvFromBytes {
 
         if (data.skipMeta == false){
 
-          _avModel = await _AvEdit.completeAv(
+          _avModel = await _AvUpdate.completeAv(
             avModel: _avModel,
             bytesIfExisted: bytes,
           );
 
-          _avModel = await _AvEdit._fixHeicAndHeif(
+          _avModel = await _AvUpdate._fixHeicAndHeif(
             bytes: bytes,
             avModel: _avModel,
           );

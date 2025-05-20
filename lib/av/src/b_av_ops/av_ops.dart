@@ -107,6 +107,45 @@ abstract class AvOps {
   }
   // -----------------------------------------------------------------------------
 
+  /// CLONE
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> cloneAv({
+    required AvModel? avModel,
+    required String uploadPath,
+    String? bobDocName,
+  }) async {
+    return _AvClone.cloneAv(
+      avModel: avModel,
+      uploadPath: uploadPath,
+      bobDocName: bobDocName,
+    );
+  }
+  // --------------------
+  ///
+  static Future<AvModel?> cloneAvWithNewName({
+    required AvModel? avModel,
+    required String? newName,
+    String? bobDocName,
+  }) async {
+    return _AvClone.cloneAvWithNewName(
+      avModel: avModel,
+      newName: newName,
+      bobDocName: bobDocName,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<File?> cloneFileToHaveExtension({
+    required AvModel avModel,
+  }) async {
+    return _AvClone.cloneFileToHaveExtension(
+        avModel: avModel,
+    );
+  }
+  // -----------------------------------------------------------------------------
+
   /// READ
 
   // --------------------
@@ -148,7 +187,7 @@ abstract class AvOps {
   }
   // -----------------------------------------------------------------------------
 
-  /// UPDATE : OVERRIDE BYTES
+  /// UPDATE
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -157,7 +196,7 @@ abstract class AvOps {
     required Dimensions? newDims,
     required AvModel? avModel,
   }) async {
-    return _AvEdit.overrideBytes(
+    return _AvUpdate.overrideBytes(
       bytes: bytes,
       newDims: newDims,
       avModel: avModel,
@@ -169,7 +208,7 @@ abstract class AvOps {
     required AvModel? avModel,
     required String? newName,
   }) async {
-    return _AvEdit.renameFile(
+    return _AvUpdate.renameFile(
       newName: newName,
       avModel: avModel,
     );
@@ -180,7 +219,7 @@ abstract class AvOps {
     required AvModel? avModel,
     required String? newUploadPath,
   }) async {
-    return _AvEdit.overrideUploadPath(
+    return _AvUpdate.overrideUploadPath(
       newUploadPath: newUploadPath,
       avModel: avModel,
     );
@@ -191,7 +230,7 @@ abstract class AvOps {
     required AvModel? avModel,
     required Uint8List? bytesIfExisted,
   }) async {
-    return _AvEdit.completeAv(
+    return _AvUpdate.completeAv(
       bytesIfExisted: bytesIfExisted,
       avModel: avModel,
     );

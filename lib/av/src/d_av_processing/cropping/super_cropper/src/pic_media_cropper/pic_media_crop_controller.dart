@@ -1,5 +1,5 @@
 part of super_cropper;
-
+/// => TAMAM
 class PicMediaCropController {
   // -----------------------------------------------------------------------------
   final Wire<AvModel?> originalPic = Wire<AvModel?>(null);
@@ -82,25 +82,13 @@ class PicMediaCropController {
 
         if (mounted == true){
 
-          _output = await AvOps.createFromBytes(
+          _output = await _output?.replaceBytes(
             bytes: _cropped,
-            data: CreateSingleAVConstructor(
-              uploadPath: '${originalPic.value!.getUploadPath()}_cropped',
-              skipMeta: false,
-              bobDocName: 'crops',
-              originalURL: _output?.originalURL,
-              ownersIDs: _output?.ownersIDs,
-              origin: _output?.origin,
-              durationMs: _output?.durationMs,
-              // caption: ,
-              // includeFileExtension: ,
-            ),
+            newDims: null,
           );
 
           theCroppedPic.set(value: _output, mounted: mounted);
           isCropping.set(value: false, mounted: mounted);
-
-          _output = await _output?.overrideUploadPath(uploadPath: originalPic.value?.getUploadPath());
 
         }
 
@@ -213,7 +201,7 @@ class PicMediaCropController {
   /// CANVAS SCALING
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Dimensions getImageDimsFitToCanvas({
     required Dimensions? canvasDims,
     required Dimensions? imageDims,

@@ -1,5 +1,5 @@
 part of av;
-
+/// => GREAT
 abstract class _PickImageFromGallery {
   // -----------------------------------------------------------------------------
 
@@ -10,7 +10,6 @@ abstract class _PickImageFromGallery {
   static Future<AvModel?> pickAndProcessSingle({
     required BuildContext context,
     required bool cropAfterPick,
-    required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function (String? title) uploadPathMaker,
@@ -41,16 +40,12 @@ abstract class _PickImageFromGallery {
     else {
 
       _output = await _pickOnSmartPhone(
-        cropAfterPick: cropAfterPick,
-        resizeToWidth: resizeToWidth,
-        compressWithQuality: compressWithQuality,
+        context: context,
         onError: onError,
         ownersIDs: ownersIDs,
         uploadPathMaker: uploadPathMaker,
         langCode: langCode,
         onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
-        context: context,
-        appIsLTR: appIsLTR,
         selectedAsset: selectedAsset,
         bobDocName: bobDocName,
       );
@@ -63,7 +58,7 @@ abstract class _PickImageFromGallery {
         avModel: _output,
         resizeToWidth: resizeToWidth,
         quality: compressWithQuality,
-        onCrop: onCrop,
+        onCrop: cropAfterPick == true ? onCrop : null,
       );
     }
 
@@ -115,27 +110,22 @@ abstract class _PickImageFromGallery {
     return _output;
   }
   // --------------------
-  /// TASK : TEST ME
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> _pickOnSmartPhone({
     required BuildContext context,
-    required bool cropAfterPick,
-    required bool appIsLTR,
     required String langCode,
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function (String? title) uploadPathMaker,
     required List<String>? ownersIDs,
     required String bobDocName,
-    double? resizeToWidth,
-    int? compressWithQuality,
     AssetEntity? selectedAsset,
     Function(String? error)? onError,
   }) async {
-    AvModel? _output;
 
-    final List<AssetEntity> _assets = selectedAsset == null ?
-    <AssetEntity>[]
-        :
-    <AssetEntity>[selectedAsset];
+    final List<AssetEntity> _assets = <AssetEntity>[
+      if (selectedAsset != null)
+      selectedAsset,
+    ];
 
     final List<AvModel> _models = await _pickMultiplePics(
       context: context,
@@ -151,11 +141,7 @@ abstract class _PickImageFromGallery {
       bobDocName: bobDocName,
     );
 
-    if (Lister.checkCanLoop(_models) == true){
-      _output = _models.first;
-    }
-
-    return _output;
+    return _models.firstOrNull;
   }
   // -----------------------------------------------------------------------------
 
@@ -170,55 +156,35 @@ abstract class _PickImageFromGallery {
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
-    required Future<List<AvModel>> Function(List<AvModel> medias) onCrop, double? resizeToWidth,
+    required Future<List<AvModel>> Function(List<AvModel> medias) onCrop,
+    required String bobDocName,
+    double? resizeToWidth,
     int? compressWithQuality,
     int maxAssets = 10,
     List<AssetEntity>? selectedAssets,
     Function(String? error)? onError,
-    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
-    /// FIX_pickAndCropMultiplePics
+    /// PICK
+    final List<AvModel> _mediaModels = await _pickMultiplePics(
+      context: context,
+      maxAssets: maxAssets,
+      selectedAssets: selectedAssets,
+      langCode: langCode,
+      onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+      onError: onError,
+      uploadPathGenerator: uploadPathGenerator,
+      ownersIDs: ownersIDs,
+      bobDocName: bobDocName,
+    );
 
-    // /// PICK
-    // List<AvModel> _mediaModels = await _pickMultiplePics(
-    //   context: context,
-    //   maxAssets: maxAssets,
-    //   selectedAssets: selectedAssets,
-    //   langCode: langCode,
-    //   onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
-    //   onError: onError,
-    //   uploadPathGenerator: uploadPathGenerator,
-    //   ownersIDs: ownersIDs,
-    // );
-    //
-    // /// CROP
-    // if (cropAfterPick == true && Lister.checkCanLoop(_mediaModels) == true){
-    //   _mediaModels = await cropPics(
-    //     mediaModels: _mediaModels,
-    //     onCrop: onCrop,
-    //   );
-    // }
-    //
-    // /// RESIZE
-    // if (resizeToWidth != null && Lister.checkCanLoop(_mediaModels) == true){
-    //   _mediaModels = await resizePics(
-    //     mediaModels: _mediaModels,
-    //     resizeToWidth: resizeToWidth,
-    //     // isFlyerRatio: isFlyerRatio,
-    //   );
-    // }
-    //
-    // /// COMPRESS
-    // if (compressWithQuality != null && Lister.checkCanLoop(_mediaModels) == true){
-    //   _mediaModels = await compressPics(
-    //     mediaModels: _mediaModels,
-    //     quality: compressWithQuality,
-    //     // outputType: outputType,
-    //   );
-    // }
+    return ImageProcessor.processAvModels(
+      avModels: _mediaModels,
+      quality: compressWithQuality,
+      resizeToWidth: resizeToWidth,
+      onCrop: cropAfterPick == true ? onCrop : null,
+    );
 
-    return [];
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -233,8 +199,6 @@ abstract class _PickImageFromGallery {
     required List<String>? ownersIDs,
     required String bobDocName,
   }) async {
-
-    /// FIX__pickMultiplePics
 
     List<AvModel> _output = <AvModel>[];
 
@@ -276,7 +240,6 @@ abstract class _PickImageFromGallery {
               ownersIDs: ownersIDs,
               skipMeta: false,
               bobDocName: bobDocName,
-              // includeFileExtension: ,
             ),
           );
 

@@ -1,5 +1,5 @@
 part of av;
-
+/// => GREAT
 abstract class _PickImageFromCamera {
   // -----------------------------------------------------------------------------
 
@@ -20,13 +20,9 @@ abstract class _PickImageFromCamera {
     double? resizeToWidth,
     int? compressWithQuality,
     Function(String? error)? onError,
-    // CompressFormat outputType = CompressFormat.jpeg,
   }) async {
 
-    AvModel? _output;
-
-    /// SHOOT
-    _output = await _shootCameraPic(
+    final AvModel? _output = await _shootCameraPic(
       context: context,
       langCode: langCode,
       onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
@@ -37,19 +33,12 @@ abstract class _PickImageFromCamera {
       bobDocName: bobDocName,
     );
 
-    /// CROP -> RESIZE -> COMPRESS
-    if (_output != null){
-
-      _output = await ImageProcessor.processImage(
-        avModel: _output,
-        resizeToWidth: resizeToWidth,
-        quality: compressWithQuality,
-        onCrop: onCrop,
-      );
-
-    }
-
-    return _output;
+    return ImageProcessor.processImage(
+      avModel: _output,
+      resizeToWidth: resizeToWidth,
+      quality: compressWithQuality,
+      onCrop: onCrop,
+    );
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -111,6 +100,7 @@ abstract class _PickImageFromCamera {
               ownersIDs: ownersIDs,
               skipMeta: false,
               bobDocName: bobDocName,
+
             ),
           );
 
