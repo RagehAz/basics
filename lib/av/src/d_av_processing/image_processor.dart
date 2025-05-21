@@ -134,7 +134,7 @@ class ImageProcessor {
           fileName: Idifier.createUniqueIDString(),
         );
 
-        avModel = avModel!.copyWith(
+        avModel = avModel!._copyWith(
           width: _dims?.width,
           height: _dims?.height,
         );

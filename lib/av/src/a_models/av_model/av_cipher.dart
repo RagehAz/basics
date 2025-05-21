@@ -91,6 +91,7 @@ abstract class AvCipher {
       case AvOrigin.instagram:   return 'instagram';
       case AvOrigin.amazon:      return 'amazon';
       case AvOrigin.website:     return 'website';
+      case AvOrigin.deviceFiles: return 'deviceFiles';
 
       default: return null;
     }
@@ -110,6 +111,7 @@ abstract class AvCipher {
       case 'instagram':     return    AvOrigin.instagram;
       case 'amazon':        return    AvOrigin.amazon;
       case 'website':       return    AvOrigin.website;
+      case 'deviceFiles':   return    AvOrigin.deviceFiles;
 
       default: return null;
     }

@@ -139,7 +139,7 @@ class _AvUpdate {
           ownersIDs != null
       ){
 
-        final AvModel? _new = avModel.copyWith(
+        final AvModel? _new = avModel._copyWith(
           /// PATHS ARE FIXED
           // xFilePath: ,
           // id: ,
@@ -333,7 +333,7 @@ class _AvUpdate {
 
 
 
-        _output = _output?.copyWith(
+        _output = _output?._copyWith(
           // id: ,
 
           xFilePath: xFilePath,
@@ -412,7 +412,7 @@ class _AvUpdate {
                   _output = _output?.nullifyField(
                     sizeMB: true,
                     sizeB: true,
-                  ).copyWith(
+                  )._copyWith(
                     fileExt: FileExtType.jpeg,
                   );
 

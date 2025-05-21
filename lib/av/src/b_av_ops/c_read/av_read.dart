@@ -52,7 +52,7 @@ class _AvRead {
               docName: docName
           );
 
-          _output = _output?.copyWith(
+          _output = _output?._copyWith(
             xFilePath: _xFilePath,
           );
 

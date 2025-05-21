@@ -11,4 +11,5 @@ enum AvOrigin {
   instagram,
   amazon,
   website,
+  deviceFiles,
 }

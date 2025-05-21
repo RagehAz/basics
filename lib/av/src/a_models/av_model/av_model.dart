@@ -92,7 +92,7 @@ class AvModel {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  AvModel copyWith({
+  AvModel _copyWith({
     String? id,
     String? uploadPath,
     String? xFilePath,
@@ -572,6 +572,28 @@ class AvModel {
     return _AvUpdate.metaEdit(
       avModel: this,
       caption: caption,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> metaEdit({
+    String? caption,
+    AvOrigin? origin,
+    String? originalXFilePath,
+    String? originalURL,
+    Map<String, String>? data,
+    int? durationMs,
+    List<String>? ownersIDs,
+  }) async {
+    return _AvUpdate.metaEdit(
+      avModel: this,
+      caption: caption,
+      ownersIDs: ownersIDs,
+      originalURL: originalURL,
+      durationMs: durationMs,
+      data: data,
+      originalXFilePath: originalXFilePath,
+      origin: origin,
     );
   }
   // --------------------------------------------------------------------------

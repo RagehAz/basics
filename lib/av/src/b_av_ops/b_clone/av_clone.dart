@@ -41,6 +41,7 @@ class _AvClone {
     required AvModel? avModel,
     required String? uploadPath,
     required String? bobDocName,
+    List<String>? ownersIDs,
   }) async {
     AvModel? _output;
 
@@ -63,7 +64,7 @@ class _AvClone {
             height: avModel.height,
             width: avModel.width,
             origin: avModel.origin,
-            ownersIDs: avModel.ownersIDs,
+            ownersIDs: ownersIDs ?? avModel.ownersIDs,
             originalXFilePath: avModel.originalXFilePath,
           ),
         );
@@ -117,5 +118,5 @@ class _AvClone {
 
     return _output;
   }
-  // -----------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 }

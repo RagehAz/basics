@@ -46,6 +46,7 @@ dependencies:
   # ----------------
   flutter_image_compress: 2.4.0
   image_gallery_saver_plus : 4.0.1
+  file_picker: 9.0.2
   # ----------------
   # uses or overrides a deprecated API : SUPPRESSED BY [options.compilerArgs << "-Xlint:none"] in android gradle
   video_editor: 3.0.0

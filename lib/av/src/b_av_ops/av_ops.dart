@@ -115,15 +115,17 @@ abstract class AvOps {
     required AvModel? avModel,
     required String uploadPath,
     String? bobDocName,
+    List<String>? ownersIDs,
   }) async {
     return _AvClone.cloneAv(
       avModel: avModel,
       uploadPath: uploadPath,
       bobDocName: bobDocName,
+      ownersIDs: ownersIDs,
     );
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> cloneAvWithNewName({
     required AvModel? avModel,
     required String? newName,

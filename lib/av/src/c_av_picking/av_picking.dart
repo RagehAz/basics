@@ -184,9 +184,19 @@ abstract class AvPicking {
   /// PDF
 
   // --------------------
-  /// SHOULD_MIGRATE_PDF_TO_BE_AV_MODEL
-  static Future<AvModel?> pickPDF() async {
-    return null;
+  /// TESTED : WORKS PERFECT
+  static Future<AvModel?> pickPDF({
+    required String dialogTitle,
+    required String bobDocName,
+    required String uploadPath,
+    List<String>? ownersIDs,
+  }) async {
+    return _PickPDFFromDevice.pickPDF(
+        dialogTitle: dialogTitle,
+        bobDocName: bobDocName,
+        uploadPath: uploadPath,
+        ownersIDs: ownersIDs,
+    );
   }
   // -----------------------------------------------------------------------------
 }

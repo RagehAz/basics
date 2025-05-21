@@ -43,6 +43,8 @@ import 'package:video_editor/video_editor.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+import 'package:file_picker/file_picker.dart';
+
 // import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 // import 'package:ffmpeg_kit_flutter/log_redirection_strategy.dart';
 // import 'package:ffmpeg_kit_flutter/media_information.dart';
@@ -92,6 +94,7 @@ part 'src/e_av_playing/av_pic_reader.dart';
 part 'src/b_av_ops/b_clone/av_clone.dart';
 
 part 'src/f_av_exporting/av_export.dart';
+part 'src/g_av_builders/av_bob_reader.dart';
 // -----------------------------------------------------------------------------
 /*
 /// GIF THING
