@@ -1,5 +1,5 @@
 part of av;
-
+/// => GREAT
 abstract class AvCipher {
   // --------------------------------------------------------------------------
 
@@ -116,89 +116,195 @@ abstract class AvCipher {
       default: return null;
     }
   }
-  // -----------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
 
-  /// FOR LDB
-
-  // -----------------------------------------------------------------------------
-
-  /// FOR SETTABLE MAP
+  /// String String Cipher
 
   // --------------------
-  ///
-  static Map<String, String>? generateSettableMap({
+  /// TESTED : WORKS PERFECT
+  static Map<String, String>? toStringStringMap({
     required AvModel? avModel,
+    required bool lowerCaseKeys,
   }){
 
-    //   // -----------------------------------------------------------------------------
-//
-//   /// TO SETTABLE MAP
-//
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static Map<String, String>? generateSettableMap({
-//     // required Uint8List? bytes,
-//     required MediaMetaModel? meta,
-//     Map<String, String>? extraData,
-//   }){
-//
-//     /// ASSIGNING NULL TO KEY DELETES PAIR AUTOMATICALLY.
-//     final Map<String, String?>? _metaDataMap = <String, String?>{
-//       'name': meta?.name,
-//       'sizeMB': meta?.sizeMB?.toString(),
-//       'width': meta?.width?.toString(),
-//       'height': meta?.height?.toString(),
-//       'uploadPath': meta?.uploadPath,
-//       'fileType': FileMiming.getMimeByType(meta?.fileExt),
-//     };
-//
-//     /// ADD OWNERS IDS
-//     if (Lister.checkCanLoop(meta?.ownersIDs) == true){
-//       for (final String ownerID in meta!.ownersIDs) {
-//         _metaDataMap?[ownerID] = 'cool';
-//       }
-//     }
-//
-//     Map<String, String>? _output = MapperSS.cleanNullPairs(
-//       map: _metaDataMap,
-//     );
-//
-//     /// ADD META DATA MAP
-//     if (meta?.data != null) {
-//       _output = MapperSS.combineStringStringMap(
-//         baseMap: _output,
-//         replaceDuplicateKeys: true,
-//         insert: meta!.data,
-//       );
-//     }
-//
-//     /// ADD EXTRA DATA MAP
-//     if (extraData != null) {
-//       _output = MapperSS.combineStringStringMap(
-//         baseMap: _output,
-//         replaceDuplicateKeys: true,
-//         insert: extraData,
-//       );
-//     }
-//
-//     return _output;
-//
-//     // return f_s.SettableMetadata(
-//     //   customMetadata: _output,
-//     //   // cacheControl: ,
-//     //   // contentDisposition: ,
-//     //   // contentEncoding: ,
-//     //   // contentLanguage: ,
-//     //   contentType: FileMiming.getMimeByType(meta?.fileExt),
-//     // );
-//
-//   }
+    if (avModel == null){
+      return null;
+    }
 
-    return MapperSS.lowerCaseAllKeys(
-      map: {},
-    );
+    else {
+
+      final Map<String, String?> _nullable = {
+        'id': avModel.id,
+        'uploadPath': avModel.uploadPath,
+        'xFilePath': avModel.xFilePath,
+        // 'ownersIDs': avModel.ownersIDs, /// IS UNFOLDED
+        'width': avModel.width?.toString(),
+        'height': avModel.height?.toString(),
+        'nameWithoutExtension': avModel.nameWithoutExtension,
+        'nameWithExtension': avModel.nameWithExtension,
+        'sizeMB': avModel.sizeMB?.toString(),
+        'sizeB': avModel.sizeB?.toString(),
+        'fileExt': FileMiming.getMimeByType(avModel.fileExt),
+        // 'data': avModel.data, /// IS MERGED SEPARATELY
+        'origin': AvCipher.cipherMediaOrigin(avModel.origin),
+        'originalURL': avModel.originalURL,
+        'caption': avModel.caption,
+        'durationMs': avModel.durationMs?.toString(),
+        'bobDocName': avModel.bobDocName,
+        'originalXFilePath': avModel.originalXFilePath,
+        'lastEdit': Timers.cipherTime(time: avModel.lastEdit, toJSON: true)?.toString(),
+      };
+
+      /// ADD OWNERS IDS
+      Lister.loopSync(
+          models: avModel.ownersIDs,
+          onLoop: (int index, String? ownerID){
+            if (ownerID != null){
+              _nullable[ownerID] = 'cool';
+            }
+          }
+      );
+
+
+      Map<String, String>? _output = MapperSS.cleanNullPairs(
+          map: _nullable,
+      );
+
+      /// ADD EXTRA DATA MAP
+      _output = MapperSS.combineStringStringMap(
+        baseMap: _output,
+        replaceDuplicateKeys: true,
+        insert: avModel.data,
+      );
+
+      if (lowerCaseKeys == true){
+        _output = MapperSS.lowerCaseAllKeys(
+          map: _output,
+        );
+      }
+
+      return _output;
+    }
 
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static AvModel? fromStringStringMap({
+    required String? uploadPath,
+    required String bobDocName,
+    required Map<String, String>? map,
+    String? xFilePath,
+  }){
+
+    if (map == null || uploadPath == null){
+      return null;
+    }
+
+    else {
+
+      return AvModel(
+        id: AvPathing.createID(uploadPath: uploadPath)!,
+        uploadPath: uploadPath,
+        bobDocName: bobDocName,
+        xFilePath: xFilePath,
+        ownersIDs: MapperSS.getKeysHavingThisValue(
+          map: map,
+          value: 'cool',
+        ),
+        fileExt: FileMiming.getTypeByMime(map['fileType'] ?? map['filetype'] ?? map['fileExt'] ?? map['fileext']),
+        width: Numeric.transformStringToDouble(map['width']),
+        height: Numeric.transformStringToDouble(map['height']),
+        nameWithoutExtension: map['name'] ?? map['nameWithoutExtension'] ?? map['namewithoutextension'],
+        sizeMB: Numeric.transformStringToDouble(map['sizeMB'] ?? map['sizemb']),
+        sizeB: Numeric.transformStringToInt(map['sizeB'] ?? map['sizeb']),
+        data: _getRemainingData(map),
+        nameWithExtension: map['nameWithExtension'] ?? map['namewithextension'],
+        origin: AvCipher.decipherMediaOrigin(map['origin'] ?? map['source']),
+        originalURL: map['originalURL'] ?? map['originalurl'],
+        caption: map['caption'],
+        durationMs: Numeric.transformStringToInt(map['durationMs'] ?? map['durationms']),
+        originalXFilePath: map['originalXFilePath'] ?? map['originalxfilepath'],
+        lastEdit: Timers.decipherTime(
+            time: Numeric.transformStringToInt(map['lastEdit'] ?? map['lastedit']),
+            fromJSON: true
+        ),
+      );
+    }
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Map<String, String>? _getRemainingData(Map<String, String>? metaMap){
+    Map<String, String>? _map;
+
+    if (metaMap != null){
+
+      const Map<String, dynamic> _uniqueKeys = {
+        'id': true,
+        'uploadPath': true,
+        'uploadpath': true,
+        'bobDocName': true,
+        'bobDocname': true,
+        'xFilePath': true,
+        'xfilepath': true,
+        'ownersIDs': true,
+        'ownersids': true,
+        'fileType': true,
+        'filetype': true,
+        'fileExt': true,
+        'fileext': true,
+        'width': true,
+        'height': true,
+        'nameWithoutExtension': true,
+        'namewithoutextension': true,
+        'name': true,
+        'nameWithExtension': true,
+        'namewithextension': true,
+        'sizeb': true,
+        'sizeB': true,
+        'sizemb': true,
+        'sizeMB': true,
+        'origin': true,
+        'source': true,
+        'originalURL': true,
+        'originalurl': true,
+        'caption': true,
+        'durationMs': true,
+        'durationms': true,
+        'originalXFilePath': true,
+        'originalxfilepath': true,
+        'lastEdit': true,
+        'lastedit': true,
+      };
+
+      _map = {};
+
+      final List<String> _keys = metaMap.keys.toList();
+
+      if (Lister.checkCanLoop(_keys) == true){
+
+        final List<String> _forbiddenKeys = _uniqueKeys.keys.toList();
+
+        for (final String key in _keys){
+
+          final bool _isForbiddenKey = Stringer.checkStringsContainString(
+            strings: _forbiddenKeys,
+            string: key,
+          );
+
+          final bool _isCool = metaMap[key] == 'cool';
+
+          if (_isForbiddenKey == false && _isCool == false){
+            _map[key] = metaMap[key]!;
+          }
+
+        }
+
+      }
+
+    }
+
+    return _map;
+  }
   // -----------------------------------------------------------------------------
-  void x(){}
 }

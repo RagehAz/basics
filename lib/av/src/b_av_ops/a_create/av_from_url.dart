@@ -23,6 +23,7 @@ class _AvFromUrl {
         bytes: _bytes,
         data: data.copyWith(
           originalURL: url,
+          origin: data.origin ?? AvOrigin.downloaded,
         ),
       );
 

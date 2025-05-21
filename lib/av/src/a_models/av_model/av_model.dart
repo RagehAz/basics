@@ -596,6 +596,13 @@ class AvModel {
       origin: origin,
     );
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  Future<AvModel?> completeXFilePath() async {
+    return _copyWith(
+      xFilePath: await AvPathing.createXFilePath(uploadPath: uploadPath),
+    );
+  }
   // --------------------------------------------------------------------------
 
   /// CHECKERS
@@ -788,6 +795,8 @@ $this
       }
       if (Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == false){
         blog('model1.ownersIDs != model2.ownersIDs');
+        blog('model1.ownersIDs(${model1.ownersIDs })');
+        blog('model1.ownersIDs(${model2.ownersIDs})');
       }
       if (model1.width != model2.width){
         blog('model1.width != model2.width');
@@ -821,6 +830,8 @@ $this
       }
       if (model1.originalURL != model2.originalURL){
         blog('model1.originalURL != model2.originalURL');
+        blog('model1.originalURL(${model1.originalURL})');
+        blog('model2.originalURL(${model2.originalURL})');
       }
       if (model1.caption != model2.caption){
         blog('model1.caption != model2.caption');
