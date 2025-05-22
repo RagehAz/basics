@@ -15,6 +15,7 @@ class CreateSingleAVConstructor {
     this.width,
     this.height,
     this.originalXFilePath,
+    this.data,
   });
   // --------------------
   final String uploadPath;
@@ -29,6 +30,7 @@ class CreateSingleAVConstructor {
   final double? width;
   final double? height;
   final String? originalXFilePath;
+  final Map<String, String>? data;
   // --------------------
   CreateSingleAVConstructor copyWith({
     String? uploadPath,
@@ -43,6 +45,7 @@ class CreateSingleAVConstructor {
     double? width,
     double? height,
     String? originalXFilePath,
+    Map<String, String>? data,
   }) {
     return CreateSingleAVConstructor(
       uploadPath: uploadPath ?? this.uploadPath,
@@ -57,6 +60,7 @@ class CreateSingleAVConstructor {
       width: width ?? this.width,
       height: height ?? this.height,
       originalXFilePath: originalXFilePath ?? this.originalXFilePath,
+      data: data ?? this.data,
     );
   }
   // --------------------------------------------------------------------------

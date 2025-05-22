@@ -214,7 +214,7 @@ abstract class Byter {
    */
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Uint8List?> fromURL(String? url) async {
+  static Future<Uint8List?> fromURL(String? url, {Map<String, String>? headers}) async {
     Uint8List? _uints;
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
@@ -222,6 +222,7 @@ abstract class Byter {
       _uints = await Rest.readBytes(
         rawLink: url!.trim(),
         invoker: 'Byter.fromURL',
+        headers: headers,
       );
 
     }

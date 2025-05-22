@@ -57,7 +57,7 @@ abstract class _AvFromBytes {
           height: data.height,
           originalXFilePath: data.originalXFilePath,
           lastEdit: DateTime.now(),
-          // data: ,
+          data: data.data,
         );
 
         if (data.skipMeta == false){
@@ -78,7 +78,7 @@ abstract class _AvFromBytes {
           model: _avModel,
           docName: data.bobDocName,
         );
-        blog('AvBobOps.insert._success($_success)._fileNameWithoutExtension($_fileNameWithoutExtension)._uploadPath($_uploadPath)');
+        // blog('AvBobOps.insert._success($_success)._fileNameWithoutExtension($_fileNameWithoutExtension)._uploadPath($_uploadPath)');
 
         if (_success == true){
           _output = _avModel;

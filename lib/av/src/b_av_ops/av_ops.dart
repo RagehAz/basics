@@ -50,8 +50,9 @@ abstract class AvOps {
   static Future<AvModel?> createFromURL({
     required String? url,
     required CreateSingleAVConstructor data,
+    Map<String, String>? headers,
   }) async {
-    return _AvFromUrl.createSingle(url: url, data: data);
+    return _AvFromUrl.createSingle(url: url, headers: headers, data: data);
   }
   // -----------------------------------------------------------------------------
 
@@ -239,6 +240,21 @@ abstract class AvOps {
   }
   // -----------------------------------------------------------------------------
 
+  /// MOVE TO BOB
+
+  // --------------------
+  ///
+  static Future<AvModel?> moveToBob({
+    required AvModel? avModel,
+    required String? bobDocName,
+  }) async {
+    return _AvUpdate.moveToBob(
+      bobDocName: bobDocName,
+      avModel: avModel,
+    );
+  }
+  // -----------------------------------------------------------------------------
+
   /// DELETE SINGLE
 
   // --------------------
@@ -287,7 +303,7 @@ abstract class AvOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> checkExists({
     required String docName,
-    required String uploadPath,
+    required String? uploadPath,
   }) async {
     return _AvRead.checkExists(
       uploadPath: uploadPath,

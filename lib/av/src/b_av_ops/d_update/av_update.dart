@@ -27,9 +27,9 @@ class _AvUpdate {
             origin: avModel.origin,
             caption: avModel.caption,
             ownersIDs: avModel.ownersIDs,
-
             width: newDims?.width,
             height: newDims?.height,
+            durationMs: avModel.durationMs,
             // fileExt: may change,
           ),
       );
@@ -101,6 +101,50 @@ class _AvUpdate {
 
         if (_output != null){
           await _AvDelete.deleteSingle(uploadPath: avModel.uploadPath, docName: avModel.bobDocName);
+        }
+
+      }
+
+    }
+
+    return _output;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// MOVE TO BOB
+
+  // --------------------
+  ///
+  static Future<AvModel?> moveToBob({
+    required AvModel? avModel,
+    required String? bobDocName,
+  }) async {
+    AvModel? _output = avModel;
+
+    if (avModel != null && bobDocName != null && avModel.bobDocName != bobDocName){
+
+      final bool _newInserted = await AvBobOps.insert(
+        model: avModel._copyWith(bobDocName: bobDocName),
+        docName: bobDocName,
+      );
+
+      if (_newInserted == true){
+
+        final bool _oldIsDeleted = await AvBobOps.delete(
+            modelID: avModel.id,
+            docName: avModel.bobDocName,
+        );
+
+        if (_oldIsDeleted == true){
+          _output = avModel._copyWith(
+            bobDocName: bobDocName,
+          );
+        }
+        else {
+          await AvBobOps.delete(
+            modelID: avModel.id,
+            docName: bobDocName,
+          );
         }
 
       }

@@ -10,9 +10,10 @@ class _AvFromUrl {
   static Future<AvModel?> createSingle({
     required String? url,
     required CreateSingleAVConstructor data,
+    Map<String, String>? headers,
   }) async {
 
-    final Uint8List? _bytes = await Byter.fromURL(url);
+    final Uint8List? _bytes = await Byter.fromURL(url, headers: headers);
 
     if (_bytes == null){
       return null;

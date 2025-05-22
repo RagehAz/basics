@@ -109,7 +109,7 @@ class _AvRead {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> checkExists({
-    required String uploadPath,
+    required String? uploadPath,
   }) async {
 
     final String? _filePath = await AvPathing.createXFilePath(
