@@ -24,8 +24,8 @@ class _AvFromAssetEntity {
           bytes: _bytes,
           data: data.copyWith(
             fileExt: data.fileExt ?? FileMiming.getTypeByMime(entity.mimeType),
-            width: data.width ?? entity.width.toDouble(),
-            height: data.height ?? entity.height.toDouble(),
+            width: data.width ?? entity.orientatedWidth.toDouble(),
+            height: data.height ?? entity.orientatedHeight.toDouble(),
             durationMs: data.durationMs ?? _getDurationMsFromAssetEntity(entity),
             caption: data.caption ?? entity.title,
             originalXFilePath: data.originalXFilePath ?? entity.relativePath,

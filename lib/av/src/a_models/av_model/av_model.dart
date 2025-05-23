@@ -675,7 +675,7 @@ class AvModel {
 
   }
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static bool checkMediaModelsListsAreIdentical({
     required List<AvModel>? models1,
     required List<AvModel>? models2,
@@ -722,6 +722,58 @@ class AvModel {
 
     return _listsAreIdentical;
 
+  }
+  // --------------------
+  static bool modelsBasicsAreIdentical({
+    required AvModel? model1,
+    required AvModel? model2,
+  }){
+
+    final AvModel? _a = model1?.nullifyField(
+      // id: false, // should compare
+      // xFilePath: false, // should compare
+      // ownersIDs: false, // should compare
+      // width: false, // should compare
+      // height: false, // should compare
+      // nameWithoutExtension: false, // should compare
+      // nameWithExtension: false, // should compare
+      // sizeMB: false, // should compare
+      // sizeB: false, // should compare
+      // fileExt: false, // should compare
+      data: true,
+      // uploadPath: false, // should compare
+      // origin: false, // should compare
+      // originalURL: false, // should compare
+      // caption: false, // should compare
+      // durationMs: false, // should compare
+      // bobDocName: false, // should compare
+      // originalXFilePath: false, // should compare
+      lastEdit: true,
+    );
+
+    final AvModel? _b = model1?.nullifyField(
+      // id: false, // should compare
+      // xFilePath: false, // should compare
+      // ownersIDs: false, // should compare
+      // width: false, // should compare
+      // height: false, // should compare
+      // nameWithoutExtension: false, // should compare
+      // nameWithExtension: false, // should compare
+      // sizeMB: false, // should compare
+      // sizeB: false, // should compare
+      // fileExt: false, // should compare
+      data: true,
+      // uploadPath: false, // should compare
+      // origin: false, // should compare
+      // originalURL: false, // should compare
+      // caption: false, // should compare
+      // durationMs: false, // should compare
+      // bobDocName: false, // should compare
+      // originalXFilePath: false, // should compare
+      lastEdit: true,
+    );
+
+    return _a == _b;
   }
   // --------------------------------------------------------------------------
 
@@ -788,10 +840,10 @@ $this
     if (model1 != null && model2 != null){
 
       if (model1.id != model2.id){
-        blog('model1.id != model2.id');
+        blog('model1.id(${model1.id}) != model2.id(${model2.id})');
       }
       if (model1.xFilePath != model2.xFilePath){
-        blog('model1.xFile != model2.xFile');
+        blog('model1.xFilePath(${model1.xFilePath}) != model2.xFilePath(${model2.xFilePath})');
       }
       if (Lister.checkListsAreIdentical(list1: model1.ownersIDs, list2: model2.ownersIDs) == false){
         blog('model1.ownersIDs != model2.ownersIDs');
@@ -799,48 +851,47 @@ $this
         blog('model1.ownersIDs(${model2.ownersIDs})');
       }
       if (model1.width != model2.width){
-        blog('model1.width != model2.width');
+        blog('model1.width(${model1.width}) != model2.width(${model2.width})');
       }
       if (model1.height != model2.height){
-        blog('model1.height != model2.height');
+        blog('model1.height(${model1.height}) != model2.height(${model2.height})');
       }
       if (model1.nameWithExtension != model2.nameWithExtension){
-        blog('model1.nameWithExtension != model2.nameWithExtension');
+        blog('model1.nameWithExtension(${model1.nameWithExtension}) != model2.nameWithExtension(${model2.nameWithExtension})');
       }
       if (model1.nameWithoutExtension != model2.nameWithoutExtension){
-        blog('model1.nameWithoutExtension != model2.nameWithoutExtension');
+        blog('model1.nameWithoutExtension(${model1.nameWithoutExtension}) != model2.nameWithoutExtension(${model2.nameWithoutExtension})');
       }
       if (model1.sizeMB != model2.sizeMB){
-        blog('model1.sizeMB != model2.sizeMB');
+        blog('model1.sizeMB(${model1.sizeMB}) != model2.sizeMB(${model2.sizeMB})');
       }
       if (model1.sizeB != model2.sizeB){
-        blog('model1.sizeB != model2.sizeB');
+        blog('model1.sizeB(${model1.sizeB}) != model2.sizeB(${model2.sizeB})');
       }
       if (model1.fileExt != model2.fileExt){
-        blog('model1.fileExt != model2.fileExt');
+        blog('model1.fileExt(${model1.fileExt}) != model2.fileExt(${model2.fileExt})');
       }
       if (Mapper.checkMapsAreIdentical(map1: model1.data, map2: model2.data) == false){
-        blog('model1.data != model2.data');
+        blog('model1.data(${model1.data}) != model2.data(${model2.data})');
       }
       if (model1.uploadPath != model2.uploadPath){
-        blog('model1.uploadPath != model2.uploadPath');
+        blog('model1.uploadPath(${model1.uploadPath}) != model2.uploadPath(${model2.uploadPath})');
       }
       if (model1.origin != model2.origin){
-        blog('model1.origin != model2.origin');
+        blog('model1.origin(${model1.origin}) != model2.origin(${model2.origin})');
       }
       if (model1.originalURL != model2.originalURL){
-        blog('model1.originalURL != model2.originalURL');
-        blog('model1.originalURL(${model1.originalURL})');
-        blog('model2.originalURL(${model2.originalURL})');
+        blog('model1.originalURL(${model1.originalURL}) != model2.originalURL(${model2.originalURL})');
+
       }
       if (model1.caption != model2.caption){
-        blog('model1.caption != model2.caption');
+        blog('model1.caption(${model1.caption}) != model2.caption(${model2.caption})');
       }
       if (model1.durationMs != model2.durationMs){
-        blog('model1.durationMs != model2.durationMs');
+        blog('model1.durationMs(${model1.durationMs}) != model2.durationMs(${model2.durationMs})');
       }
       if (model1.originalXFilePath != model2.originalXFilePath){
-        blog('model1.originalXFilePath != model2.originalXFilePath');
+        blog('model1.originalXFilePath(${model1.originalXFilePath}) != model2.originalXFilePath(${model2.originalXFilePath})');
       }
       if (Timers.checkTimesAreIdentical(accuracy: TimeAccuracy.microSecond, time1: model1.lastEdit, time2: model2.lastEdit) == false){
         blog('model1.lastEdit(${model1.lastEdit}) != model2.lastEdit(${model2.lastEdit})');

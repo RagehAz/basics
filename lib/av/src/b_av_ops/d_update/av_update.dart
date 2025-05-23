@@ -79,12 +79,19 @@ class _AvUpdate {
 
     if (avModel != null){
 
-      if (newUploadPath != null){
+      final String _oldPath = avModel.uploadPath;
+      final String? _newPath = newUploadPath;
+
+      if (_oldPath == _newPath){
+        _output = avModel;
+      }
+      
+      else if (_newPath != null){
 
         _output = await AvOps.createFromBytes(
           bytes: await avModel.getBytes(),
           data: CreateSingleAVConstructor(
-            uploadPath: newUploadPath,
+            uploadPath: _newPath,
             bobDocName: avModel.bobDocName,
             skipMeta: false,
             fileExt: avModel.fileExt,
@@ -100,7 +107,7 @@ class _AvUpdate {
         );
 
         if (_output != null){
-          await _AvDelete.deleteSingle(uploadPath: avModel.uploadPath, docName: avModel.bobDocName);
+          await _AvDelete.deleteSingle(uploadPath: _oldPath, docName: avModel.bobDocName);
         }
 
       }
@@ -294,7 +301,7 @@ class _AvUpdate {
           if (_bytes != null){
             _xFile = await XFiler.createFromBytes(
               bytes: _bytes,
-              fileName: nameWithoutExtension,
+              fileName: avModel.id,
               // includeFileExtension: false,
               directoryType: AvBobOps.avDirectory,
               mimeType: FileMiming.getMimeByType(fileExt),

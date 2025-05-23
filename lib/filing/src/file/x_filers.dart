@@ -519,13 +519,14 @@ abstract class XFiler {
           await Directory(file.path).delete(recursive: true);
           await DirectoryOperator.removePath(xFilePath: file.path);
           _success = true;
+          blog('[deleteFile].[DELETED].path(${file.path})');
         },
         onError: (String? error){
           if (TextCheck.stringContainsSubString(string: error, subString: 'PathNotFoundException')){
-            blog('deleteFile: NO FILE TO DELETE IN (${file.path})');
+            blog('[deleteFile].[NOT_FOUND].path(${file.path})');
           }
           else {
-            blog('deleteFile: $error');
+            blog('[deleteFile].[ERROR].path(${file.path})');
           }
         },
       );

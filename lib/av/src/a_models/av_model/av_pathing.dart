@@ -85,7 +85,7 @@ abstract class AvPathing {
   }
   // --------------------------------------------------------------------------
 
-  /// FILE NAME WITHOUT EXTENSION
+  /// FILE NAME
 
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -103,10 +103,6 @@ abstract class AvPathing {
 
     return _output;
   }
-  // --------------------------------------------------------------------------
-
-  /// FILE NAME WITH EXTENSION
-
   // --------------------
   /// TESTED : WORKS PERFECT
   static String? createFileNameWithExtension({
@@ -147,16 +143,168 @@ abstract class AvPathing {
     required String? uploadPath,
   }) async {
 
-    // final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
-    //   uploadPath: uploadPath,
-    // );
-
     return FilePathing.createPathByName(
       fileName: createID(uploadPath: uploadPath),
       directoryType: AvBobOps.avDirectory,
     );
 
   }
+  // --------------------------------------------------------------------------
 
+  /// AMAZON PATH
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? createAmazonPath({
+    required String? path,
+  }) {
+    String? _output;
+
+    if (TextCheck.isEmpty(path) == false) {
+
+      if (checkIsUploadPath(path) == true) {
+        _output = TextMod.removeTextBeforeFirstSpecialCharacter(
+          text: path,
+          specialCharacter: '/',
+        )!;
+      }
+
+      else if (Pathing.checkIsPath(path) == true) {
+        _output = path;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static List<String> createAmazonPaths({
+    required List<String>? paths,
+  }){
+    List<String> _output = [];
+    if (Lister.checkCanLoop(paths) == true){
+      for (final String path in paths!){
+        _output = Stringer.addStringToListIfDoesNotContainIt(
+          strings: _output,
+          stringToAdd: createAmazonPath(path: path),
+        );
+      }
+    }
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getUploadPathFromAmazonPath({
+    required String? amazonPath,
+  }){
+    String? _output = amazonPath;
+
+    if (amazonPath != null){
+      if (checkIsAmazonPath(path: amazonPath) == true){
+        _output = TextMod.removeTextAfterNumberOfCharacters(
+          string: amazonPath,
+          numberOfCharacters: 'storage/'.length,
+        );
+      }
+      else if (checkIsUploadPath(amazonPath) == true){
+        _output = amazonPath;
+      }
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkIsAmazonPath({
+    required String? path,
+  }){
+    bool _isAmazon = false;
+
+    if (Pathing.checkIsPath(path) == true){
+
+      _isAmazon = TextCheck.stringStartsExactlyWith(text: path, startsWith: 'storage/') == false;
+
+    }
+
+    return _isAmazon;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkIsUploadPath(dynamic object){
+    bool _isPicPath = false;
+
+    if (object != null && object is String){
+
+      final String _path = object;
+
+      _isPicPath = TextCheck.stringStartsExactlyWith(text: _path, startsWith: 'storage/');
+
+    }
+
+    return _isPicPath;
+  }
+  // -----------------------------------------------------------------------------
+
+  /// ROOTS
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getRootFolderName({
+    required String? path,
+  }){
+    String? _output;
+
+    final String? _amazonPath = AvPathing.createAmazonPath(
+      path: path,
+    );
+
+    if (_amazonPath != null){
+
+      _output = TextMod.removeTextAfterFirstSpecialCharacter(
+        text: _amazonPath,
+        specialCharacter: '/',
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String? getParentFolderAmazonPath({
+    required List<AvModel> avModels,
+  }){
+    String? _output;
+
+    final List<String> _parentsPaths = AvModel.getMediasParentUploadPaths(
+      avModels: avModels,
+    );
+
+    if (Lister.checkCanLoop(_parentsPaths) == true){
+
+      for (final String _parentPath in _parentsPaths){
+
+        if (_output == null){
+          _output = _parentPath;
+        }
+        else if (_output != _parentPath){
+          _output = null;
+        }
+        else {
+          _output = _parentPath;
+        }
+
+      }
+
+    }
+
+    return AvPathing.createAmazonPath(path: _output);
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool checkAvsAreInSameFolder(List<AvModel> avModels){
+    return getParentFolderAmazonPath(avModels: avModels) != null;
+  }
   // --------------------------------------------------------------------------
 }

@@ -94,7 +94,7 @@ abstract class DimensionsGetter {
           final int? width = _image?.width;
           final int? height = _image?.height;
 
-          blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
+          // blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
 
           if (width != null && height != null){
             _output = Dimensions(
@@ -222,7 +222,7 @@ abstract class DimensionsGetter {
           final int? width = _image?.width;
           final int? height = _image?.height;
 
-          blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
+          // blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
 
           if (width != null && height != null){
             _output = Dimensions(

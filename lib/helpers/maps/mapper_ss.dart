@@ -62,6 +62,7 @@ abstract class MapperSS {
   static List<String> getKeysHavingThisValue({
     required Map<String, String>? map,
     required String? value,
+    String prefix = '',
   }){
     final List<String> _output = <String>[];
 
@@ -73,7 +74,7 @@ abstract class MapperSS {
 
         for (final String key in _keys){
 
-          final String? _mapValue = map[key];
+          final String? _mapValue = map['${prefix}$key'];
 
           if (_mapValue == value){
             _output.add(key);
