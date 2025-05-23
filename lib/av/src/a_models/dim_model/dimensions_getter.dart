@@ -10,7 +10,7 @@ abstract class DimensionsGetter {
   /// TESTED : WORKS PERFECT
   static Future<Dimensions?> fromDynamic({
     required dynamic object,
-    required String fileName,
+    required bool? isVideo,
     required String invoker,
   }) async {
 
@@ -20,22 +20,22 @@ abstract class DimensionsGetter {
 
     /// X FILE
     else if (ObjectCheck.objectIsXFile(object) == true){
-      return fromXFile(xFile: object, invoker: 'DimensionsGetter.fromDynamic.invoker');
+      return fromXFile(xFile: object, isVideo:isVideo, invoker: 'DimensionsGetter.fromDynamic.invoker', bytesIfThere: null);
     }
 
     /// FILE
     else if (ObjectCheck.objectIsFile(object) == true){
-      return fromFile(file: object);
+      return fromFile(file: object, isVideo: isVideo, bytesIfThere: null);
     }
 
     /// BYTES
     else if (ObjectCheck.objectIsUint8List(object) == true){
-      return fromBytes(bytes: object, fileName: fileName, invoker: 'fromDynamic');
+      return fromBytes(bytes: object, invoker: 'fromDynamic', isVideo: isVideo);
     }
 
     /// URL
     else if (ObjectCheck.isAbsoluteURL(object) == true){
-      return fromURL(url: object, fileName: fileName);
+      return fromURL(url: object, isVideo: isVideo);
     }
 
     /// LOCAL ASSET
@@ -57,26 +57,58 @@ abstract class DimensionsGetter {
   /// TASK : WILL_NOT_WORK_ON_WEB
   static Future<Dimensions?> fromBytes({
     required Uint8List? bytes,
-    required String? fileName,
+    required bool? isVideo,
     required String invoker,
   }) async {
     Dimensions? _output;
 
-    // blog('fromBytes : fileName : $fileName');
+    if (bytes != null){
 
-    await XFiler.getOrCreateTempXFile(
-        invoker: 'fromBytes',
-        fileName: fileName,
-        bytes: bytes,
-        ops: (XFile xFile) async {
+      Uint8List? _bytes;
 
-          _output = await fromXFile(
-            xFile: xFile,
-            invoker: 'fromBytes($invoker)',
-          );
+      if (Booler.boolIsTrue(isVideo) == true){
+        await XFiler.getOrCreateTempXFile(
+            invoker: 'fromBytes',
+            fileName: 'temp',
+            bytes: bytes,
+            ops: (XFile xFile) async {
+              _bytes = await Byter.getVideoThumb(filePath: xFile.path);
+              _bytes ??= bytes;
+            });
+      }
+
+      else {
+        _bytes = bytes;
+      }
+
+      if (_bytes != null){
+
+        const bool _isDecodable = true;
+        // Decoding.checkImageIsDecodable(
+        //   bytes: _bytes,
+        // );
+
+        if (_isDecodable == true){
+
+          final img.Image? _image = await Imager.getImgImageFromUint8List(_bytes);
+          final int? width = _image?.width;
+          final int? height = _image?.height;
+
+          blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
+
+          if (width != null && height != null){
+            _output = Dimensions(
+              width: width.toDouble(),
+              height: height.toDouble(),
+            );
+          }
 
         }
-    );
+
+
+      }
+
+    }
 
     return _output;
   }
@@ -92,8 +124,8 @@ abstract class DimensionsGetter {
 
     return fromBytes(
       bytes: _bytes,
-      fileName: FileNaming.getNameFromLocalAsset(localAsset),
       invoker: 'fromLocalAsset',
+      isVideo: false,
     );
   }
   // --------------------
@@ -107,7 +139,7 @@ abstract class DimensionsGetter {
   /// TASK : WILL_NOT_WORK_ON_WEB
   static Future<Dimensions?> fromURL({
     required String? url,
-    required String? fileName,
+    required bool? isVideo,
   }) async {
 
     final Uint8List? _bytes = await Byter.fromURL(url);
@@ -115,13 +147,15 @@ abstract class DimensionsGetter {
     return fromBytes(
       invoker: 'fromURL',
       bytes: _bytes,
-      fileName: fileName,
+      isVideo: isVideo,
     );
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Dimensions?> fromFile({
     required File? file,
+    required bool? isVideo,
+    required Uint8List? bytesIfThere,
   }) async {
     XFile? _xFile;
 
@@ -129,99 +163,26 @@ abstract class DimensionsGetter {
       _xFile = XFiler.readFile(file: file);
     }
 
-    return fromXFile(xFile: _xFile, invoker: 'DG.fromFile');
+    return fromXFile(xFile: _xFile, invoker: 'DG.fromFile', isVideo: isVideo, bytesIfThere: bytesIfThere);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<Dimensions?> fromXFile({
     required XFile? xFile,
     required String invoker,
-    Uint8List? bytesIfThere,
-  }) async {
-
-    final Uint8List? _bytes = bytesIfThere ?? await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
-
-    Dimensions? _output = await _getImageDimensions(
-      bytes: _bytes,
-    );
-
-    _output ??= await _getVideoDimensions(
-      xFile: xFile,
-    );
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// IMAGE
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static Future<Dimensions?> _getImageDimensions({
-    required Uint8List? bytes,
+    required bool? isVideo,
+    required Uint8List? bytesIfThere,
   }) async {
     Dimensions? _output;
 
-    final bool _isDecodable = Decoding.checkImageIsDecodable(
-      bytes: bytes,
-    );
+    if (xFile != null || bytesIfThere != null){
 
-    if (_isDecodable == true){
+      Uint8List? _bytes = bytesIfThere;
 
-      final img.Image? _image = await Imager.getImgImageFromUint8List(bytes);
-      final int? width = _image?.width;
-      final int? height = _image?.height;
-
-      blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
-
-      if (width != null && height != null){
-        _output = Dimensions(
-          width: width.toDouble(),
-          height: height.toDouble(),
-        );
-      }
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// VIDEO
-
-  // --------------------
-  /// NEED_MIGRATION : TEST ME
-  static Future<Dimensions?> _getVideoDimensions({
-    required XFile? xFile,
-  }) async {
-    Dimensions? _output;
-
-    // blog('_getVideoDimensions : xfile(${xFile?.path})');
-
-    if (xFile != null){
-
-      Uint8List? bytes;
-
-      await tryAndCatch(
-          invoker: '_getVideoDimensions',
-          functions: () async {
-
-            bytes = await vThumb.VideoThumbnail.thumbnailData(
-              imageFormat: vThumb.ImageFormat.JPEG,
-              video: xFile.path,
-              // maxHeight: 100,
-            );
-
-            // blog('_getVideoDimensions : got bytes : (${bytes?.length})');
-
-          },
-      );
-
-      _output = await _getImageDimensions(
-        bytes: bytes,
-      );
-
-      /*
+      if (Booler.boolIsTrue(isVideo) == true){
+        _bytes = await Byter.getVideoThumb(filePath: xFile?.path);
+        _bytes ??= bytesIfThere;
+        /*
       final Map<String, dynamic>? _map = await XFiler.readXFileInfo(
         xFile: xFile,
       );
@@ -241,6 +202,39 @@ abstract class DimensionsGetter {
         }
       }
        */
+      }
+
+      else {
+        _bytes = bytesIfThere;
+        _bytes ??= await Byter.fromXFile(xFile, 'DimensionsGetter.fromXFile($invoker})');
+      }
+
+      if (_bytes != null){
+
+        const bool _isDecodable = true;
+        // Decoding.checkImageIsDecodable(
+        //   bytes: _bytes,
+        // );
+
+        if (_isDecodable == true){
+
+          final img.Image? _image = await Imager.getImgImageFromUint8List(_bytes);
+          final int? width = _image?.width;
+          final int? height = _image?.height;
+
+          blog('_getImageDimensions.isDecodable($_isDecodable).width($width).height($height)');
+
+          if (width != null && height != null){
+            _output = Dimensions(
+              width: width.toDouble(),
+              height: height.toDouble(),
+            );
+          }
+
+        }
+
+
+      }
 
     }
 

@@ -27,7 +27,7 @@ abstract class _AvFromBytes {
 
       final XFile? _xFile = await XFiler.createFromBytes(
         bytes: bytes,
-        fileName: _fileNameWithoutExtension,
+        fileName: _id,
         directoryType: AvBobOps.avDirectory,
         mimeType: FileMiming.getMimeByType(data.fileExt),
         // includeFileExtension: false,

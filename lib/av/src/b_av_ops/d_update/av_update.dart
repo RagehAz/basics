@@ -341,6 +341,7 @@ class _AvUpdate {
                   xFile: _xFile,
                   bytesIfThere: _bytes,
                   invoker: 'AvMaker.fromBytes',
+                  isVideo: FileTyper.checkTypeIsVideo(fileExt),
                 );
 
                 width = _dims?.width ?? width;

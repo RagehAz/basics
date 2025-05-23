@@ -191,14 +191,14 @@ class AvModel {
   static Future<void> assertIsUploadable(AvModel? avModel) async {
 
     assert(avModel != null, 'avModel is null');
-    assert(avModel?.width != null, "avModel's width is null");
-    assert(avModel?.height != null, "avModel's height is null");
+    // assert(avModel?.width != null, "avModel's width is null");
+    // assert(avModel?.height != null, "avModel's height is null");
     assert(avModel?.nameWithoutExtension != null, "avModel's name is null");
-    assert(avModel?.sizeMB != null, "avModel's sizeMB is null");
-    assert(avModel?.sizeB != null, "avModel's sizeB is null");
-    assert(avModel?.fileExt != null, "avModel's fileExt is null");
+    // assert(avModel?.sizeMB != null, "avModel's sizeMB is null");
+    // assert(avModel?.sizeB != null, "avModel's sizeB is null");
+    // assert(avModel?.fileExt != null, "avModel's fileExt is null");
     assert(avModel?.uploadPath != null, "avModel's uploadPath is null");
-    assert(avModel?.origin != null, "avModel's origin is null");
+    // assert(avModel?.origin != null, "avModel's origin is null");
 
     // List<String>? ownersIDs; can be null
     // String? originalURL; can be null

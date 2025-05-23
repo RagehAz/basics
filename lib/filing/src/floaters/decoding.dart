@@ -46,7 +46,6 @@ abstract class Decoding {
         functions: () async {
 
           final img.Decoder? _decoder = img.findDecoderForData(bytes);
-
           _output = _decoder != null;
 
         },

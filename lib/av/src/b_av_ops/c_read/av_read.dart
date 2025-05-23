@@ -16,10 +16,6 @@ class _AvRead {
 
     if (uploadPath != null){
 
-      final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
-        uploadPath: uploadPath,
-      );
-
       final String? _xFilePath = await AvPathing.createXFilePath(
         uploadPath: uploadPath,
       );
@@ -34,6 +30,9 @@ class _AvRead {
 
         /// NO META
         if (skipMeta == true){
+          final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
+            uploadPath: uploadPath,
+          );
           _output = AvModel(
             id: _id,
             uploadPath: uploadPath,

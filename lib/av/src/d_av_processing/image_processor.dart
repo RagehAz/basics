@@ -131,7 +131,7 @@ class ImageProcessor {
         final Dimensions? _dims = await DimensionsGetter.fromBytes(
           invoker: 'readBytesIfAbsent',
           bytes: bytes,
-          fileName: Idifier.createUniqueIDString(),
+          isVideo: false,
         );
 
         avModel = avModel!._copyWith(

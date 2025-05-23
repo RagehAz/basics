@@ -55,10 +55,15 @@ extension Extra on XFile {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Dimensions?> readDimensions() async {
+  Future<Dimensions?> readDimensions({
+    required bool? isVideo,
+    Uint8List? bytesIfThere,
+  }) async {
     final Dimensions? _dims =  await DimensionsGetter.fromXFile(
       xFile: this,
       invoker: 'readDimensions',
+      bytesIfThere: bytesIfThere,
+      isVideo: isVideo,
     );
     return _dims;
   }

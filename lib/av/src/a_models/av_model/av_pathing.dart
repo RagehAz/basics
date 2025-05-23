@@ -147,12 +147,12 @@ abstract class AvPathing {
     required String? uploadPath,
   }) async {
 
-    final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
-      uploadPath: uploadPath,
-    );
+    // final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
+    //   uploadPath: uploadPath,
+    // );
 
     return FilePathing.createPathByName(
-      fileName: _fileNameWithoutExtension,
+      fileName: createID(uploadPath: uploadPath),
       directoryType: AvBobOps.avDirectory,
     );
 

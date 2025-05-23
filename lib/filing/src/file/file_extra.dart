@@ -69,9 +69,14 @@ extension FileExtention on File {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<Dimensions?> readDimensions() async {
+  Future<Dimensions?> readDimensions({
+    required bool? isVideo,
+    Uint8List? bytesIfThere,
+  }) async {
     final Dimensions? _dims =  await DimensionsGetter.fromFile(
       file: this,
+      isVideo: isVideo,
+      bytesIfThere: bytesIfThere,
     );
     return _dims;
   }

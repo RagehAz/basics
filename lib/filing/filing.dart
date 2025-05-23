@@ -38,6 +38,7 @@ import 'package:mime/mime.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter/media_information.dart';
 import 'package:ffmpeg_kit_flutter/media_information_session.dart';
+import 'package:video_thumbnail/video_thumbnail.dart' as vThumb;
 
 part 'src/file/filers.dart';
 part 'src/file/x_filers.dart';

@@ -442,9 +442,9 @@ abstract class Byter {
   /// TESTED : WORKS PERFECT
   static Future<Uint8List?> resize({
     required Uint8List? bytes,
-    required String? fileName,
     required double? resizeToWidth,
     required bool isPNG,
+    required bool? isVideo,
     Dimensions? fileDims,
   }) async {
     Uint8List? _output = bytes;
@@ -454,7 +454,7 @@ abstract class Byter {
       final Dimensions? _dims = fileDims ?? await DimensionsGetter.fromBytes(
         invoker: 'resize',
         bytes: bytes,
-        fileName: fileName,
+        isVideo: isVideo,
       );
 
       final bool _canResize = Numeric.isLesserThan(
@@ -603,6 +603,36 @@ abstract class Byter {
           },
       );
     }
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
+  ///
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<Uint8List?> getVideoThumb({
+    required String? filePath,
+    int timeMs = 0,
+  }) async {
+    Uint8List? _output;
+
+    if (filePath != null){
+      await tryAndCatch(
+        invoker: 'getVideoThumb',
+        functions: () async {
+
+          _output = await vThumb.VideoThumbnail.thumbnailData(
+            imageFormat: vThumb.ImageFormat.JPEG,
+            video: filePath,
+            timeMs: timeMs,
+            // maxHeight: 100,
+          );
+
+        },
+      );
+    }
+
     return _output;
   }
   // -----------------------------------------------------------------------------
