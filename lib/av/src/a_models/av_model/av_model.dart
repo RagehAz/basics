@@ -724,7 +724,7 @@ class AvModel {
 
   }
   // --------------------
-  static bool modelsBasicsAreIdentical({
+  static bool checkModelsBasicsAreIdentical({
     required AvModel? model1,
     required AvModel? model2,
   }){
@@ -774,6 +774,24 @@ class AvModel {
     );
 
     return _a == _b;
+  }
+  // --------------------------------------------------------------------------
+
+  /// FOR PDF
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  bool checkSizeLimitReached({
+    required int maxLimit,
+  }){
+
+    bool _bigger = false;
+
+    if (sizeMB != null){
+      _bigger = sizeMB! > maxLimit;
+    }
+
+    return _bigger;
   }
   // --------------------------------------------------------------------------
 
