@@ -255,7 +255,7 @@ abstract class Imager{
           // _identical = XFiler.checkXFilesAreIdentical(file1: image1, file2: image2);
         }
 
-        /// MEDIA FILE
+        /// AV MODEL
         else if (image1 is AvModel){
           _identical = AvModel.checkModelsAreIdentical(model1: image1, model2: image2);
         }

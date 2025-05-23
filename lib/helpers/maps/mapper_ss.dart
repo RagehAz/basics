@@ -74,7 +74,7 @@ abstract class MapperSS {
 
         for (final String key in _keys){
 
-          final String? _mapValue = map['${prefix}$key'];
+          final String? _mapValue = map['$prefix$key'];
 
           if (_mapValue == value){
             _output.add(key);

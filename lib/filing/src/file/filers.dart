@@ -227,34 +227,6 @@ abstract class Filer {
     return _output;
   }
   // ---------------------
-  /// DEPRECATED
-  /*
-  static Future<File?> createFromAvModel({
-    required AvModel? avModel,
-    DirectoryType directoryType = DirectoryType.app,
-    bool includeFileExtension = false,
-  }) async {
-    File? _output;
-
-    if (mediaModel != null){
-
-      _output = await Filer.createFromBytes(
-        bytes: mediaModel.bytes,
-        fileName: mediaModel.getName(withExtension: includeFileExtension),
-        directoryType: directoryType,
-        includeFileExtension: includeFileExtension,
-      );
-
-      if (_output == null && mediaModel.getFilePath() != null){
-        _output = File(mediaModel.getFilePath()!);
-      }
-
-    }
-
-    return _output;
-  }
-   */
-  // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<File?> createFromURL({
     required String? url,

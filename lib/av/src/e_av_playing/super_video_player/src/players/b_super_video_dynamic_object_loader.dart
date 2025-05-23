@@ -6,7 +6,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
     required this.width,
     required this.height,
     required this.cover,
-    this.media,
+    this.video,
     this.corners,
     this.errorIcon,
     this.isMuted = false,
@@ -18,7 +18,7 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   final double height;
   final dynamic corners;
   final String? errorIcon;
-  final dynamic media;
+  final dynamic video;
   final bool isMuted;
   final bool autoPlay;
   final bool loop;
@@ -70,7 +70,7 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
   void didUpdateWidget(_SuperVideoDynamicObjectLoader oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.media != widget.media) {
+    if (oldWidget.video != widget.video) {
       _loadController();
     }
 
@@ -122,8 +122,8 @@ class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObject
 
     _controller = SuperVideoController();
 
-    await _controller!.superLoadMedia(
-      object: widget.media,
+    await _controller!.superLoadVideo(
+      object: widget.video,
       autoPlay: widget.autoPlay,
       loop: widget.loop,
       isMuted: widget.isMuted,

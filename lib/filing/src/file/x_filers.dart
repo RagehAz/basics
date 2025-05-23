@@ -195,28 +195,6 @@ abstract class XFiler {
     return _output;
   }
   // ---------------------
-  /// DEPRECATED
-  /*
-  static Future<XFile?> createFromMediaModel({
-    required MediaModel? mediaModel,
-    DirectoryType directoryType = DirectoryType.app,
-  }) async {
-    XFile? _output;
-
-    if (mediaModel != null){
-
-      _output = await XFiler.createFromBytes(
-        bytes: mediaModel.bytes,
-        fileName: mediaModel.getName(withExtension: false),
-        directoryType: directoryType,
-      );
-
-    }
-
-    return _output;
-  }
-   */
-  // ---------------------
   /// TESTED : WORKS PERFECT
   static Future<XFile?> createFromLocalAsset({
     required String? localAsset,

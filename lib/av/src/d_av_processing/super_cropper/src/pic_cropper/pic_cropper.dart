@@ -1,12 +1,12 @@
 part of super_cropper;
 
-class PicMediaCropper extends StatelessWidget {
+class PicCropper extends StatelessWidget {
   // --------------------------------------------------------------------------
-  const PicMediaCropper({
+  const PicCropper({
     required this.controller,
     required this.canvasHeight,
     required this.canvasWidth,
-    required this.media,
+    required this.avModel,
     required this.loading,
     required this.aspectRatio,
     required this.initialRect,
@@ -14,10 +14,10 @@ class PicMediaCropper extends StatelessWidget {
     super.key
   });
   // --------------------
-  final PicMediaCropController controller;
+  final AvCropController controller;
   final double canvasWidth;
   final double canvasHeight;
-  final AvModel? media;
+  final AvModel? avModel;
   final bool loading;
   final double? aspectRatio;
   final double? initialSize;
@@ -26,8 +26,8 @@ class PicMediaCropper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final Dimensions? _picDims = media?.getDimensions();
-    final Dimensions? _picViewDims = PicMediaCropController.getImageDimsFitToCanvas(
+    final Dimensions? _picDims = avModel?.getDimensions();
+    final Dimensions? _picViewDims = AvCropController.getImageDimsFitToCanvas(
         canvasDims: Dimensions(
           width: canvasWidth,
           height: canvasHeight,
@@ -49,7 +49,7 @@ class PicMediaCropper extends StatelessWidget {
             SuperImage(
               width: _picViewWidth,
               height: _picViewHeight!,
-              pic: media,
+              pic: avModel,
               loading: loading,
             ),
 
@@ -57,13 +57,13 @@ class PicMediaCropper extends StatelessWidget {
             CroppingLayer(
               width: _picViewWidth!,
               height: _picViewHeight!,
-              image: media,
+              image: avModel,
               aspectRatio: aspectRatio,
               initialSize: initialSize,
               initialRect: initialRect,
               onStarted: (Rect newRect){
                 controller.setPicAndRect(
-                  theOriginalPic: media,
+                  theOriginalPic: avModel,
                   theCropRect: newRect,
                   theViewWidth: _picViewWidth,
                   theViewHeight: _picViewHeight,
@@ -72,7 +72,7 @@ class PicMediaCropper extends StatelessWidget {
               },
               onMoved: (Rect newRect){
                 controller.setPicAndRect(
-                  theOriginalPic: media,
+                  theOriginalPic: avModel,
                   theCropRect: newRect,
                   theViewWidth: _picViewWidth,
                   theViewHeight: _picViewHeight,
@@ -81,7 +81,7 @@ class PicMediaCropper extends StatelessWidget {
               },
             ),
 
-          if (media != null)
+          if (avModel != null)
             IgnorePointer(
               child: CroppedImageBuilder(
                 controller: controller,

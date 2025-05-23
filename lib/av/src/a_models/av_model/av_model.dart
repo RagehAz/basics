@@ -326,11 +326,11 @@ class AvModel {
   }
   // --------------------------------------------------------------------------
 
-  /// MEDIAS GETTERS
+  /// AVS GETTERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String> getMediasUploadPaths({
+  static List<String> getAvsUploadPaths({
     required List<AvModel> avModels,
   }){
     List<String> _output = [];
@@ -352,17 +352,17 @@ class AvModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static List<String> getMediasParentUploadPaths({
+  static List<String> getAvsParentUploadPaths({
     required List<AvModel> avModels,
   }){
     List<String> _output = [];
 
     if (Lister.checkCanLoop(avModels) == true){
 
-      for (final AvModel media in avModels){
+      for (final AvModel avModel in avModels){
 
         final String? _parentFolder = Pathing.removeLastPathNode(
-          path: media.uploadPath,
+          path: avModel.uploadPath,
         );
 
         _output = Stringer.addStringToListIfDoesNotContainIt(
@@ -423,8 +423,8 @@ class AvModel {
 
       for (final AvModel avModel in avModels){
 
-        final String? _mediaUploadPath = avModel.uploadPath;
-        if (_mediaUploadPath == uploadPath){
+        final String? _avUploadPath = avModel.uploadPath;
+        if (_avUploadPath == uploadPath){
           _output = avModel;
           break;
         }
@@ -502,39 +502,6 @@ class AvModel {
     );
   }
   // --------------------
-  /// DEPRECATED
-  /*
-  static Future<List<AvModel>> replaceBytezzInMediaModels({
-    required List<MediaModel> mediaModels,
-    required List<Uint8List>? bytezz,
-  }) async {
-    final List<MediaModel> _output = [];
-
-    if (Lister.checkCanLoop(bytezz) == true && Lister.checkCanLoop(mediaModels) == true){
-
-      if (bytezz!.length == mediaModels.length){
-
-        for (int i = 0; i < mediaModels.length; i++){
-
-          MediaModel _model = mediaModels[i];
-          final Uint8List _newBytes = bytezz[i];
-
-          _model = await _model.replaceBytes(
-            bytes: _newBytes,
-          );
-
-          _output.add(_model);
-
-        }
-
-      }
-
-    }
-
-    return _output;
-  }
-   */
-  // --------------------
   /// TESTED : WORKS PERFECT
   Future<AvModel?> setOriginalURL({
     required String? originalURL,
@@ -546,7 +513,7 @@ class AvModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<AvModel?> setMediaOrigin({
+  Future<AvModel?> setAvOrigin({
     required AvOrigin? origin,
   }) async {
     return _AvUpdate.metaEdit(
@@ -676,7 +643,7 @@ class AvModel {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool checkMediaModelsListsAreIdentical({
+  static bool checkListsAreIdentical({
     required List<AvModel>? models1,
     required List<AvModel>? models2,
   }) {
@@ -724,7 +691,7 @@ class AvModel {
 
   }
   // --------------------
-  static bool checkModelsBasicsAreIdentical({
+  static bool checkAvsBasicsAreIdentical({
     required AvModel? model1,
     required AvModel? model2,
   }){
@@ -1027,178 +994,3 @@ AvModel(
       durationMs.hashCode;
   // --------------------------------------------------------------------------
 }
-
-/// OLD META STUFF
-
-//   // -----------------------------------------------------------------------------
-//
-//   /// CYPHERS
-//
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   Map<String, dynamic> cipherToLDB(){
-//     return <String, dynamic>{
-//       'ownersIDs': ownersIDs,
-//       'fileType': FileMiming.getMimeByType(fileExt),
-//       'width': width,
-//       'height': height,
-//       'name': name,
-//       'sizeMB': sizeMB,
-//       'data': data,
-//       'uploadPath': uploadPath,
-//     };
-//   }
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static MediaMetaModel? decipherFromLDB(Map<String, dynamic>? map){
-//     MediaMetaModel? _output;
-//
-//     if (map != null){
-//       _output = MediaMetaModel(
-//         ownersIDs: Stringer.getStringsFromDynamics(map['ownersIDs']),
-//         fileExt: FileMiming.getTypeByMime(map['fileType']),
-//         width: map['width'],
-//         height: map['height'],
-//         name: map['name'],
-//         sizeMB: map['sizeMB'],
-//         data: _getDataMap(map['data']),
-//         uploadPath: map['uploadPath'],
-//       );
-//     }
-//
-//     return _output;
-//   }
-
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static MediaMetaModel? decipherMetaMap({
-//     required Map<String, String>? customMetadata,
-//   }){
-//     MediaMetaModel? _output;
-//
-//     // blog('decipherMetaMap : customMetadata[fileType] : ${customMetadata?['fileType']} : customMetadata[filetype] : ${customMetadata?['filetype']}');
-//
-//     if (customMetadata != null){
-//
-//       _output = MediaMetaModel(
-//         ownersIDs: MapperSS.getKeysHavingThisValue(
-//           map: customMetadata,
-//           value: 'cool',
-//         ),
-//         fileExt: FileMiming.getTypeByMime(customMetadata['fileType'] ?? customMetadata['filetype']),
-//         width: Numeric.transformStringToDouble(customMetadata['width']),
-//         height: Numeric.transformStringToDouble(customMetadata['height']),
-//         name: customMetadata['name'],
-//         sizeMB: Numeric.transformStringToDouble(customMetadata['sizeMB'] ?? customMetadata['sizemb']),
-//         data: _getRemainingData(customMetadata),
-//         uploadPath: customMetadata['uploadPath'] ?? customMetadata['uploadpath'],
-//       );
-//
-//     }
-//
-//     return _output;
-//   }
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static Map<String, String>? _getRemainingData(Map<String, String>? metaMap){
-//     Map<String, String>? _map;
-//
-//     if (metaMap != null){
-//
-//       _map = {};
-//
-//       final List<String> _keys = metaMap.keys.toList();
-//
-//       if (Lister.checkCanLoop(_keys) == true){
-//
-//         for (final String key in _keys){
-//
-//           if (
-//           metaMap[key] != 'cool' &&
-//               key != 'width' &&
-//               key != 'height' &&
-//               key != 'name' &&
-//               key != 'sizeMB' &&
-//               key != 'uploadPath' &&
-//               key != 'fileType'
-//           ){
-//             _map[key] = metaMap[key]!;
-//           }
-//
-//         }
-//
-//       }
-//
-//     }
-//
-//     return _map;
-//   }
-//   // -----------------------------------------------------------------------------
-//
-//
-//
-//   // --------------------
-//   /// TESTED : WORKS PERFECT
-//   static Future<MediaMetaModel?> completeMeta({
-//     required Uint8List? bytes,
-//     required MediaMetaModel? meta,
-//     required String? uploadPath,
-//   }) async {
-//     MediaMetaModel? _output = meta;
-//
-//     /// NAME
-//     if (TextCheck.isEmpty(meta?.name?.trim()) == true && uploadPath != null){
-//
-//       final String? _name = TextMod.removeTextBeforeLastSpecialCharacter(
-//         text: uploadPath,
-//         specialCharacter: '/',
-//       );
-//
-//       if (_name != null){
-//         _output = _output?.copyWith(
-//           name: _name,
-//         );
-//       }
-//
-//     }
-//
-//     /// DIMENSIONS
-//     if (
-//         (meta?.height == null || meta?.width == null)
-//         &&
-//         bytes != null
-//     ){
-//
-//       final Dimensions? _dims = await DimensionsGetter.fromBytes(
-//         invoker: 'completeMeta',
-//           bytes: bytes,
-//           fileName: _output?.name,
-//       );
-//
-//       _output = _output?.copyWith(
-//         width: _dims?.width,
-//         height: _dims?.height,
-//       );
-//
-//     }
-//
-//     /// SIZE
-//     if (meta?.sizeMB == null){
-//
-//       final double? _mega = FileSizer.calculateSize(bytes?.length, FileSizeUnit.megaByte);
-//       _output = _output?.copyWith(
-//         sizeMB: _mega,
-//       );
-//     }
-//
-//     /// UPLOAD PATH
-//     if (TextCheck.isEmpty(meta?.uploadPath) == false){
-//       _output = _output?.copyWith(
-//         uploadPath: uploadPath,
-//       );
-//     }
-//
-//     // blogStorageMetaModel(_output);
-//
-//     return _output;
-//   }

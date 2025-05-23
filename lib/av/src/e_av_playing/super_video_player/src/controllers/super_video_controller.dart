@@ -693,7 +693,7 @@ class SuperVideoController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  Future<void> superLoadMedia({
+  Future<void> superLoadVideo({
     required dynamic object,
     bool autoPlay = true,
     bool loop = false,

@@ -1,6 +1,6 @@
 part of super_cropper;
 /// => TAMAM
-class PicMediaCropController {
+class AvCropController {
   // -----------------------------------------------------------------------------
   final Wire<AvModel?> originalPic = Wire<AvModel?>(null);
   final Wire<AvModel?> theCroppedPic = Wire<AvModel?>(null);
@@ -43,10 +43,10 @@ class PicMediaCropController {
   // --------------------
   /// TESTED : WORKS PERFECT
   static void disposeMultiple({
-    required List<PicMediaCropController> controllers,
+    required List<AvCropController> controllers,
   }){
     if (Lister.checkCanLoop(controllers) == true){
-      for (final PicMediaCropController controller in controllers){
+      for (final AvCropController controller in controllers){
         controller.dispose();
       }
     }

@@ -277,7 +277,7 @@ abstract class AvPathing {
   }){
     String? _output;
 
-    final List<String> _parentsPaths = AvModel.getMediasParentUploadPaths(
+    final List<String> _parentsPaths = AvModel.getAvsParentUploadPaths(
       avModels: avModels,
     );
 

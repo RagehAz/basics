@@ -27,7 +27,7 @@ abstract class AvCipher {
         'sizeB': avModel.sizeB,
         'fileExt': FileMiming.getMimeByType(avModel.fileExt),
         'data': avModel.data,
-        'origin': AvCipher.cipherMediaOrigin(avModel.origin),
+        'origin': AvCipher.cipherAvOrigin(avModel.origin),
         'originalURL': avModel.originalURL,
         'caption': avModel.caption,
         'durationMs': avModel.durationMs,
@@ -61,7 +61,7 @@ abstract class AvCipher {
         sizeB: map['sizeB'],
         fileExt: FileMiming.getTypeByMime(map['fileExt']),
         data: MapperSS.createStringStringMap(hashMap: map['data'], stringifyNonStrings: true),
-        origin: AvCipher.decipherMediaOrigin(map['origin']),
+        origin: AvCipher.decipherAvOrigin(map['origin']),
         originalURL: map['originalURL'],
         caption: map['caption'],
         durationMs: map['durationMs'],
@@ -74,11 +74,11 @@ abstract class AvCipher {
   }
   // --------------------------------------------------------------------------
 
-  /// MEDIA SOURCE CYPHERS
+  /// Av SOURCE CYPHERS
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static String? cipherMediaOrigin(AvOrigin? type){
+  static String? cipherAvOrigin(AvOrigin? type){
     switch (type){
       case AvOrigin.cameraImage:  return 'camera';
       case AvOrigin.galleryImage: return 'gallery';
@@ -98,7 +98,7 @@ abstract class AvCipher {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static AvOrigin? decipherMediaOrigin(String? type){
+  static AvOrigin? decipherAvOrigin(String? type){
     switch (type){
       case 'camera':        return    AvOrigin.cameraImage;
       case 'gallery':       return    AvOrigin.galleryImage;
@@ -146,7 +146,7 @@ abstract class AvCipher {
         'sizeB': avModel.sizeB?.toString(),
         'fileExt': FileMiming.getMimeByType(avModel.fileExt),
         // 'data': avModel.data, /// IS MERGED SEPARATELY
-        'origin': AvCipher.cipherMediaOrigin(avModel.origin),
+        'origin': AvCipher.cipherAvOrigin(avModel.origin),
         'originalURL': avModel.originalURL,
         'caption': avModel.caption,
         'durationMs': avModel.durationMs?.toString(),
@@ -219,7 +219,7 @@ abstract class AvCipher {
         sizeB: Numeric.transformStringToInt(map['sizeB'] ?? map['sizeb']),
         data: _getRemainingData(map),
         nameWithExtension: map['nameWithExtension'] ?? map['namewithextension'],
-        origin: AvCipher.decipherMediaOrigin(map['origin'] ?? map['source']),
+        origin: AvCipher.decipherAvOrigin(map['origin'] ?? map['source']),
         originalURL: map['originalURL'] ?? map['originalurl'],
         caption: map['caption'],
         durationMs: Numeric.transformStringToInt(map['durationMs'] ?? map['durationms']),

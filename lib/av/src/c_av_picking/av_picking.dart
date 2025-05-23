@@ -76,7 +76,7 @@ abstract class AvPicking {
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
-    required Future<List<AvModel>> Function(List<AvModel> medias) onCrop,
+    required Future<List<AvModel>> Function(List<AvModel> avModels) onCrop,
     required String bobDocName,
     double? resizeToWidth,
     int? compressWithQuality,

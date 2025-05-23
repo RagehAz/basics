@@ -156,7 +156,7 @@ abstract class _PickImageFromGallery {
     required Function(Permission) onPermissionPermanentlyDenied,
     required String Function(int index, String? title) uploadPathGenerator,
     required List<String>? ownersIDs,
-    required Future<List<AvModel>> Function(List<AvModel> medias) onCrop,
+    required Future<List<AvModel>> Function(List<AvModel> avModels) onCrop,
     required String bobDocName,
     double? resizeToWidth,
     int? compressWithQuality,
@@ -166,7 +166,7 @@ abstract class _PickImageFromGallery {
   }) async {
 
     /// PICK
-    final List<AvModel> _mediaModels = await _pickMultiplePics(
+    final List<AvModel> _avModels = await _pickMultiplePics(
       context: context,
       maxAssets: maxAssets,
       selectedAssets: selectedAssets,
@@ -179,7 +179,7 @@ abstract class _PickImageFromGallery {
     );
 
     return ImageProcessor.processAvModels(
-      avModels: _mediaModels,
+      avModels: _avModels,
       quality: compressWithQuality,
       resizeToWidth: resizeToWidth,
       onCrop: cropAfterPick == true ? onCrop : null,

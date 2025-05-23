@@ -5,7 +5,7 @@ class SuperVideoPlayer extends StatelessWidget {
   const SuperVideoPlayer({
     required this.width,
     required this.height,
-    this.media,
+    this.video,
     this.corners,
     this.controller,
     this.errorIcon,
@@ -21,7 +21,7 @@ class SuperVideoPlayer extends StatelessWidget {
   final dynamic corners;
   final SuperVideoController? controller;
   final String? errorIcon;
-  final dynamic media;
+  final dynamic video;
   final bool isMuted;
   final bool autoPlay;
   final bool loop;
@@ -36,7 +36,7 @@ class SuperVideoPlayer extends StatelessWidget {
         height: height,
         errorIcon: errorIcon,
         corners: corners,
-        media: media,
+        video: video,
         isMuted: isMuted,
         autoPlay: autoPlay,
         loop: loop,

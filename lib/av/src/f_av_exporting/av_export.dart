@@ -7,7 +7,7 @@ abstract class AvExport {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<Permission> _getMediaPermission() async {
+  static Future<Permission> _getDeviceStoragePermission() async {
 
     if (Platform.isAndroid) {
 
@@ -44,7 +44,7 @@ abstract class AvExport {
 
     if (avModel != null && avModel.xFilePath != null){
 
-      final Permission _permission = await _getMediaPermission();
+      final Permission _permission = await _getDeviceStoragePermission();
 
       final bool hasPermit = await Permit.requestPermission(
         permission: _permission,

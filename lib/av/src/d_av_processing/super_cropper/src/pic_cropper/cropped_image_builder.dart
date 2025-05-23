@@ -7,7 +7,7 @@ class CroppedImageBuilder extends StatelessWidget {
     super.key
   });
   // --------------------
-  final PicMediaCropController controller;
+  final AvCropController controller;
   // --------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {

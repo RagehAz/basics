@@ -587,7 +587,7 @@ abstract class _AvCipher {
         mime: FileMiming.getMimeByType(model.fileExt),
         data: jsonEncode(model.data),
         uploadPath: model.uploadPath,
-        origin: AvCipher.cipherMediaOrigin(model.origin),
+        origin: AvCipher.cipherAvOrigin(model.origin),
         originalURL: model.originalURL,
         caption: model.caption,
         durationMs: model.durationMs,
@@ -622,7 +622,7 @@ abstract class _AvCipher {
         fileExt: FileMiming.getTypeByMime(bob.mime),
         data: MapperSS.createStringStringMap(hashMap: jsonDecode(bob.data ?? ''), stringifyNonStrings: true),
         uploadPath: bob.uploadPath,
-        origin: AvCipher.decipherMediaOrigin(bob.origin),
+        origin: AvCipher.decipherAvOrigin(bob.origin),
         originalURL: bob.originalURL,
         caption: bob.caption,
         durationMs: bob.durationMs,
@@ -648,9 +648,9 @@ abstract class _AvCipher {
 
     if (Lister.checkCanLoop(models) == true){
 
-      for (final AvModel media in models){
+      for (final AvModel avModel in models){
 
-        final AvBob? _bob = toBob(model: media);
+        final AvBob? _bob = toBob(model: avModel);
 
         if (_bob != null){
           _output.add(_bob);
@@ -673,10 +673,10 @@ abstract class _AvCipher {
 
       for (final AvBob bob in bobs){
 
-        final AvModel? _media = toModel(bob: bob);
+        final AvModel? _model = toModel(bob: bob);
 
-        if (_media != null){
-          _output.add(_media);
+        if (_model != null){
+          _output.add(_model);
         }
 
       }
