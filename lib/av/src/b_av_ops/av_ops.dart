@@ -243,7 +243,7 @@ abstract class AvOps {
   /// MOVE TO BOB
 
   // --------------------
-  ///
+  /// TESTED : WORKS PERFECT
   static Future<AvModel?> moveToBob({
     required AvModel? avModel,
     required String? bobDocName,
@@ -261,7 +261,8 @@ abstract class AvOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteSingle({
     required String docName,
-    required String? uploadPath
+    required String? uploadPath,
+    required String invoker,
   }) async {
     return _AvDelete.deleteSingle(uploadPath: uploadPath, docName: docName);
   }
@@ -274,6 +275,7 @@ abstract class AvOps {
   static Future<bool> deleteMany({
     required String docName,
     required List<String> uploadPaths,
+    required String invoker,
   }) async {
 
     return _AvDelete.deleteMany(
@@ -290,6 +292,7 @@ abstract class AvOps {
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteAll({
     required String docName,
+    required String invoker,
   }) async {
     return _AvDelete.deleteAll(
         docName: docName

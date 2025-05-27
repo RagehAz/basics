@@ -17,6 +17,7 @@ class _AvUpdate {
     if (avModel != null && bytes != null){
 
       _output = await _AvFromBytes.createSingle(
+        // invoker: 'overrideBytes',
           bytes: bytes,
           data: CreateSingleAVConstructor(
             skipMeta: false,
@@ -107,7 +108,11 @@ class _AvUpdate {
         );
 
         if (_output != null){
-          await _AvDelete.deleteSingle(uploadPath: _oldPath, docName: avModel.bobDocName);
+          await _AvDelete.deleteSingle(
+              uploadPath: _oldPath,
+              docName: avModel.bobDocName,
+              // invoker: 'overrideUploadPath',
+          );
         }
 
       }
@@ -300,6 +305,7 @@ class _AvUpdate {
         if (xFilePath == null){
           if (_bytes != null){
             _xFile = await XFiler.createFromBytes(
+              invoker: 'completeAv',
               bytes: _bytes,
               fileName: avModel.id,
               // includeFileExtension: false,

@@ -10,6 +10,7 @@ abstract class _AvFromBytes {
   static Future<AvModel?> createSingle({
     required Uint8List? bytes,
     required CreateSingleAVConstructor data,
+    // required String invoker,
   }) async {
     AvModel? _output;
 
@@ -26,6 +27,7 @@ abstract class _AvFromBytes {
       // final FileExtType? _type = data.fileExt ?? detectExtension(...)
 
       final XFile? _xFile = await XFiler.createFromBytes(
+        invoker: '_AvFromBytes.createSingle',
         bytes: bytes,
         fileName: _id,
         directoryType: AvBobOps.avDirectory,
@@ -85,7 +87,7 @@ abstract class _AvFromBytes {
         }
 
         else {
-          await XFiler.deleteFile(_xFile);
+          await XFiler.deleteFile(_xFile, 'createSingle');
         }
 
       }

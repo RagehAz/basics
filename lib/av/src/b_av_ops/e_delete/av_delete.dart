@@ -27,7 +27,7 @@ class _AvDelete {
         );
 
         if (_filePath != null){
-          _deleted = await XFiler.deleteFile(XFile(_filePath));
+          _deleted = await XFiler.deleteFile(XFile(_filePath), 'deleteSingle');
         }
 
       }
@@ -90,7 +90,7 @@ class _AvDelete {
           await Future.wait(<Future>[
 
             if (avModel?.xFilePath != null)
-            XFiler.deleteFile(XFile(avModel!.xFilePath!)),
+            XFiler.deleteFile(XFile(avModel!.xFilePath!), 'deleteAll'),
 
             AvBobOps.delete(modelID: avModel?.id, docName: docName),
 

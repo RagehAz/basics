@@ -28,6 +28,7 @@ abstract class XFiler {
 
     else {
       _xFile = await createFromBytes(
+        invoker: 'getOrCreateTempXFile',
         bytes: bytes,
         fileName: fileName,
         // includeFileExtension: false, // no need + to avoid recursive loop of detection
@@ -47,7 +48,7 @@ abstract class XFiler {
     else {
       // blog('6. getOrCreateTempXFile : file was temp created and new will delete');
       // final bool _fileDeleted =
-      await deleteFile(_xFile);
+      await deleteFile(_xFile, invoker);
       // blog('6. getOrCreateTempXFile : file is deleted ($_fileDeleted)');
     }
 
@@ -112,6 +113,7 @@ abstract class XFiler {
 
         final Uint8List? _emptyData = Byter.fromInts([]);
         _output = await createFromBytes(
+          invoker: 'createEmptyFile',
           bytes: _emptyData,
           fileName: fileName,
           directoryType: directoryType,
@@ -129,6 +131,7 @@ abstract class XFiler {
   static Future<XFile?> createFromBytes({
     required Uint8List? bytes,
     required String? fileName,
+    required String invoker,
     DirectoryType directoryType = DirectoryType.app,
     bool includeFileExtension = false,
     String? mimeType,
@@ -167,7 +170,7 @@ abstract class XFiler {
             );
 
             /// DELETE EXISTING FILE IF EXISTED
-            await deleteFile(_output);
+            // await deleteFile(_output, 'XFiler.createFromBytes($invoker)');
 
             /// CREATE
             _output = XFile.fromData(
@@ -212,6 +215,7 @@ abstract class XFiler {
     );
 
     return createFromBytes(
+      invoker: 'createFromLocalAsset',
       fileName: _fileName,
       bytes: _bytes,
       directoryType: directoryType,
@@ -232,6 +236,7 @@ abstract class XFiler {
       final Uint8List? _bytes = await Byter.fromURL(url);
 
       _output = await createFromBytes(
+        invoker: 'createFromURL',
         bytes: _bytes,
         fileName: fileName,
         directoryType: directoryType,
@@ -261,6 +266,7 @@ abstract class XFiler {
       );
 
       _output = await createFromBytes(
+        invoker: 'createFromAssetEntity',
         bytes: _originBytes,
         fileName: _fileName,
       );
@@ -293,6 +299,7 @@ abstract class XFiler {
           if (_originalBytes != null){
 
             _output = await createFromBytes(
+              invoker: 'cloneFile',
               bytes: _originalBytes,
               fileName: newName,
               directoryType: directoryType,
@@ -428,6 +435,7 @@ abstract class XFiler {
         final String? _fileName = file.fileName;
 
         _output = await createFromBytes(
+          invoker: 'replaceBytes',
           bytes: bytes,
           fileName: _fileName,
           directoryType: _originalDirectory,
@@ -462,9 +470,10 @@ abstract class XFiler {
 
             final Uint8List _originalBytes = await file.readAsBytes();
 
-            await deleteFile(file);
+            await deleteFile(file, 'XFiler.renameFile');
 
             _output = await createFromBytes(
+              invoker: 'renameFile',
               bytes: _originalBytes,
               fileName: newName,
               directoryType: _directoryType,
@@ -486,7 +495,7 @@ abstract class XFiler {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<bool> deleteFile(XFile? file) async {
+  static Future<bool> deleteFile(XFile? file, String invoker) async {
     bool _success = false;
 
     if (file != null){
@@ -497,14 +506,14 @@ abstract class XFiler {
           await Directory(file.path).delete(recursive: true);
           await DirectoryOperator.removePath(xFilePath: file.path);
           _success = true;
-          blog('[deleteFile].[DELETED].path(${file.path})');
+          blog('[deleteFile].[$invoker].[DELETED].path(${file.path})');
         },
         onError: (String? error){
           if (TextCheck.stringContainsSubString(string: error, subString: 'PathNotFoundException')){
-            blog('[deleteFile].[NOT_FOUND].path(${file.path})');
+            blog('[deleteFile].[$invoker].[NOT_FOUND].path(${file.path})');
           }
           else {
-            blog('[deleteFile].[ERROR].path(${file.path})');
+            blog('[deleteFile].[$invoker].[ERROR].path(${file.path})');
           }
         },
       );
@@ -558,7 +567,7 @@ abstract class XFiler {
       );
 
       if (_path != null){
-        _deleted = await deleteFile(XFile(_path));
+        _deleted = await deleteFile(XFile(_path), 'XFiler.deleteFileByName');
       }
 
     }
@@ -592,13 +601,13 @@ abstract class XFiler {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static Future<void> deleteFiles(List<XFile> files) async {
+  static Future<void> deleteFiles(List<XFile> files, String invoker) async {
 
     if (Lister.checkCanLoop(files) == true){
 
       for (final XFile file in files){
 
-        await deleteFile(file);
+        await deleteFile(file, invoker);
 
       }
 
