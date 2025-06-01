@@ -114,7 +114,7 @@ abstract class AvOps {
   /// TESTED : WORKS PERFECT
   static Future<AvModel?> cloneAv({
     required AvModel? avModel,
-    required String uploadPath,
+    required String? uploadPath,
     String? bobDocName,
     List<String>? ownersIDs,
   }) async {
