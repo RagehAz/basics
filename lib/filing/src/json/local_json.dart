@@ -1,6 +1,33 @@
 part of filing;
 
 abstract class LocalJSON {
+  // --------------------------------------------------------------------------
+
+  ///
+
+  // --------------------
+  /// TEST
+  static Future<bool> exportMapNew({
+    required Map<String, dynamic>? map,
+    required String fileName,
+  }) async {
+    bool _success = false;
+
+    if (map != null){
+      await tryAndCatch(
+        invoker: 'LocalJSON.exportMapNew',
+        functions: () async {
+          final Directory? dir = await getExternalStorageDirectory(); // Requires path_provider
+          final String filePath = '${dir!.path}/$fileName.json';
+          final File file = File(filePath);
+          await file.writeAsString(jsonEncode(map));
+          _success = true;
+          },
+      );
+    }
+
+    return _success;
+  }
   // -----------------------------------------------------------------------------
 
   /// FILE

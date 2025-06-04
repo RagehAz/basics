@@ -55,17 +55,28 @@ abstract class AvExport {
 
       if (hasPermit == true) {
 
-        dynamic result;
+        bool? result = false;
 
         await tryAndCatch(
           invoker: 'toDeviceGallery',
           functions: () async {
 
-            result = await ImageGallerySaverPlus.saveFile(
-              avModel.xFilePath!,
-              name: avModel.nameWithExtension,
-              // isReturnImagePathOfIOS: ,
-            );
+
+            if (avModel.isImage() == true){
+              result = await GallerySaver.saveImage(
+                avModel.xFilePath!,
+                // toDcim: avModel.nameWithExtension,
+                // isReturnImagePathOfIOS: ,
+              );
+            }
+            else if (avModel.isVideo() == true){
+              result = await GallerySaver.saveVideo(
+                avModel.xFilePath!,
+
+                // toDcim: avModel.nameWithExtension,
+                // isReturnImagePathOfIOS: ,
+              );
+            }
 
             // final Uint8List? _bytes = await avModel.getBytes();
             // if (_bytes != null){
@@ -81,12 +92,12 @@ abstract class AvExport {
           },
         );
 
-        if (result['isSuccess']) {
+        if (Booler.boolIsTrue(result) == true) {
           _saved = true;
         }
 
         else {
-          blog('Failed to save image to gallery');
+          blog('Failed to save AV MODEL to gallery');
           blog(result);
         }
 

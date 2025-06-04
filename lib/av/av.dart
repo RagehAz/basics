@@ -18,6 +18,7 @@ import 'package:basics/ldbob/bob.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:image/image.dart' as img;
 import 'dart:io';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
@@ -33,8 +34,6 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
-
 import 'src/c_av_picking/a_picker_config/camera_text_delegates.dart';
 import 'src/c_av_picking/a_picker_config/picker_text_delegates.dart';
 import 'package:video_editor/video_editor.dart';
