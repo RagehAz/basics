@@ -38,6 +38,7 @@ class BoxIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    /// LOADING
     if (loading == true){
 
       if (loadingIsPulse == true){
@@ -61,10 +62,12 @@ class BoxIcon extends StatelessWidget {
 
     }
 
+    /// WIDGET
     else if (icon is Widget){
       return icon;
     }
 
+    /// OTHER
     else {
 
       final Color? _iconColor = SuperBoxController.iconColor(

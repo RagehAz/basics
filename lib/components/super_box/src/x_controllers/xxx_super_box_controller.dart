@@ -357,7 +357,7 @@ class SuperBoxController {
     }
 
     else if (greyScale == true){
-      return colorOverride ?? Colorz.white50;
+      return colorOverride;
     }
 
     else {

@@ -68,7 +68,7 @@ class SuperImageBox extends StatelessWidget {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            color: backgroundColor,
+            color: Colorz.nothing, // backgroundColor,
             border: _border,
             borderRadius: _corners,
             // boxShadow: <BoxShadow>[
