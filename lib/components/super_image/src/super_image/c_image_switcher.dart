@@ -184,7 +184,7 @@ class ImageSwitcher extends StatelessWidget {
 
         final AvModel _avModel = pic;
 
-        blog('_avModel.xFilePath(${_avModel.xFilePath})');
+        // blog('_avModel.xFilePath(${_avModel.xFilePath})');
 
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
          if (_avModel.isVideo() == true){
