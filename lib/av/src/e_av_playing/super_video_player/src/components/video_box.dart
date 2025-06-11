@@ -19,13 +19,13 @@ class _VideoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final double _height = SuperVideoController.getHeightByAspectRatio(
+    final double _height = SuperVideoScale.getHeightByAspectRatio(
       aspectRatio: aspectRatio,
       width: width,
       force169: false,
     );
 
-    final BorderRadius _corners = SuperVideoController.getCorners(
+    final BorderRadius _corners = SuperVideoScale.getCorners(
       corners: corners,
       width: width,
     );

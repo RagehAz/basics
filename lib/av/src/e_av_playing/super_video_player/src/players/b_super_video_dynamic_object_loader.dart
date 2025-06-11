@@ -1,10 +1,10 @@
 part of super_video_player;
 
-class _SuperVideoDynamicObjectLoader extends StatefulWidget {
+class _SuperVideoDynamicLoader extends StatefulWidget {
   // --------------------------------------------------------------------------
-  const _SuperVideoDynamicObjectLoader({
-    required this.width,
-    required this.height,
+  const _SuperVideoDynamicLoader({
+    required this.canvasWidth,
+    required this.canvasHeight,
     required this.cover,
     this.video,
     this.corners,
@@ -14,8 +14,8 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
     this.loop = false,
   });
   // --------------------
-  final double width;
-  final double height;
+  final double canvasWidth;
+  final double canvasHeight;
   final dynamic corners;
   final String? errorIcon;
   final dynamic video;
@@ -25,137 +25,91 @@ class _SuperVideoDynamicObjectLoader extends StatefulWidget {
   final dynamic cover;
   // --------------------
   @override
-  _SuperVideoDynamicObjectLoaderState createState() => _SuperVideoDynamicObjectLoaderState();
-// --------------------------------------------------------------------------
+  _SuperVideoDynamicLoaderState createState() => _SuperVideoDynamicLoaderState();
+  // --------------------------------------------------------------------------
 }
 
-class _SuperVideoDynamicObjectLoaderState extends State<_SuperVideoDynamicObjectLoader> {
+class _SuperVideoDynamicLoaderState extends State<_SuperVideoDynamicLoader> {
   // -----------------------------------------------------------------------------
-  SuperVideoController? _controller;
-  // -----------------------------------------------------------------------------
-  /// --- LOADING
-  final ValueNotifier<bool> _loading = ValueNotifier(false);
-  // --------------------
-  Future<void> _triggerLoading({required bool setTo}) async {
-    setNotifier(
-      notifier: _loading,
-      mounted: mounted,
-      value: setTo,
-    );
-  }
+  final SuperVideoController _controller = SuperVideoController();
   // -----------------------------------------------------------------------------
   @override
   void initState() {
     super.initState();
+
+    _controller.onInit(
+      onSetState: () => setState((){}),
+    );
+
   }
   // --------------------
-  bool _isInit = true;
   @override
   void didChangeDependencies() {
 
-    if (_isInit && mounted) {
-      _isInit = false; // good
-
-      asyncInSync(() async {
-
-        await _loadController();
-
-      });
-
-    }
-    super.didChangeDependencies();
-  }
-  // --------------------
-  @override
-  void didUpdateWidget(_SuperVideoDynamicObjectLoader oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.video != widget.video) {
-      _loadController();
-    }
-
-    else if (oldWidget.isMuted != widget.isMuted){
-      _controller?.onMutingTap();
-    }
-
-    else if (oldWidget.loop != widget.loop){
-      _controller?.setLooping(widget.loop);
-    }
-
-    else if (oldWidget.autoPlay != widget.autoPlay){
-      if (widget.autoPlay == true){
-        _controller?.play();
-      }
-      else {
-        _controller?.pause();
-      }
-    }
-
-    else if (
-        oldWidget.width != widget.width ||
-        oldWidget.height != widget.height ||
-        oldWidget.corners != widget.corners ||
-        oldWidget.cover != widget.cover ||
-        oldWidget.errorIcon != widget.errorIcon
-    ){
-      if (mounted == true){
-        setState(() {});
-      }
-    }
-
-  }
-  // --------------------
-  @override
-  void dispose() {
-    _loading.dispose();
-    _controller?.dispose();
-    super.dispose();
-  }
-  // -----------------------------------------------------------------------------
-
-  /// LOAD CONTROLLER
-
-  // --------------------
-  Future<void> _loadController() async {
-
-    await _triggerLoading(setTo: true);
-
-    _controller = SuperVideoController();
-
-    await _controller!.superLoadVideo(
+    _controller.onDidChangeDependencies(
       object: widget.video,
       autoPlay: widget.autoPlay,
       loop: widget.loop,
       isMuted: widget.isMuted,
     );
 
-    if (mounted == true){
-      setState(() {});
-    }
+    super.didChangeDependencies();
+  }
+  // --------------------
+  @override
+  void didUpdateWidget(_SuperVideoDynamicLoader oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-    await _triggerLoading(setTo: false);
+    _controller.onDidUpdateWidget(
 
+      oldVideo: oldWidget.video,
+      newVideo: widget.video,
+
+      oldAutoPlay: oldWidget.autoPlay,
+      newAutoPlay: widget.autoPlay,
+
+      oldLoop: oldWidget.loop,
+      newLoop: widget.loop,
+
+      oldIsMuted: oldWidget.isMuted,
+      newIsMuted: widget.isMuted,
+
+      oldCanvasWidth: oldWidget.canvasWidth,
+      newCanvasWidth: widget.canvasWidth,
+
+      oldCanvasHeight: oldWidget.canvasHeight,
+      newCanvasHeight: widget.canvasHeight,
+
+      oldCanvasCorners: oldWidget.corners,
+      newCanvasCorners: widget.corners,
+
+      oldCover: oldWidget.cover,
+      newCover: widget.cover,
+
+      oldErrorIcon: oldWidget.errorIcon,
+      newErrorIcon: widget.errorIcon,
+
+    );
+
+  }
+  // --------------------
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    /// NULL
-    if (_controller == null){
-      return const SizedBox();
-    }
-    // --------------------
-    /// PLAYER
-    else {
-      return _SuperVideoControllerPlayer(
-        height: widget.height,
-        width: widget.width,
-        superVideoController: _controller,
-        corners: widget.corners,
-        errorIcon: widget.errorIcon,
-        cover: widget.cover,
-      );
-    }
+    return _SuperVideoControllerPlayer(
+      canvasHeight: widget.canvasHeight,
+      canvasWidth: widget.canvasWidth,
+      superVideoController: _controller,
+      corners: widget.corners,
+      errorIcon: widget.errorIcon,
+      cover: widget.cover,
+    );
     // --------------------
   }
 // -----------------------------------------------------------------------------

@@ -947,6 +947,7 @@ AvModel(
   durationMs: $durationMs,
   originalXFilePath: $originalXFilePath,
   lastEdit: $lastEdit,
+  bobDocName: $bobDocName,
 );
 ''';
 

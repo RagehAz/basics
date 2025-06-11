@@ -17,7 +17,7 @@ class _VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final BorderRadius _corners = SuperVideoController.getCorners(
+    final BorderRadius _corners = SuperVideoScale.getCorners(
       corners: corners,
       width: width,
     );

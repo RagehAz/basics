@@ -25,18 +25,18 @@ class _FilePlayer extends StatelessWidget {
       wire: superVideoController.videoValue,
       builder: (VideoPlayerValue? value) {
 
-        final double _videoHeight = SuperVideoController.getHeightOnScreen(
+        final double _videoHeight = SuperVideoScale.getHeightOnScreen(
           videoHeight: value?.size.height ?? height,
           videoWidth: value?.size.width ?? width,
-          areaWidth: width,
-          areaHeight: height,
+          canvasWidth: width,
+          canvasHeight: height,
         );
 
-        final double _videoWidth = SuperVideoController.getWidthOnScreen(
+        final double _videoWidth = SuperVideoScale.getWidthOnScreen(
           videoHeight: value?.size.height ?? height,
           videoWidth: value?.size.width ?? width,
-          areaWidth: width,
-          areaHeight: height,
+          canvasWidth: width,
+          canvasHeight: height,
         );
 
         // final Dimensions _size = Dimensions.fromSize(value?.size);
@@ -62,8 +62,11 @@ class _FilePlayer extends StatelessWidget {
         final bool _hasError = superVideoController.checkHasError();
         final bool _videoInitialized = superVideoController.checkIsInitialed();
 
+        String _fileName = superVideoController._videoFile?.fileName ?? 'x';
+        _fileName = Idifier.idifyString(_fileName)!;
+
         return GestureDetector(
-          key: const ValueKey<String>('_TheVideoPlayer'),
+          key: ValueKey<String>('_TheVideoPlayer_$_fileName'),
           onTap: value == null ? null : superVideoController.onVideoTap,
           child: Stack(
             alignment: Alignment.center,

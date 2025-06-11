@@ -394,6 +394,88 @@ class Dimensions {
    */
   // --------------------------------------------------------------------------
 
+  /// FITTING
+
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Dimensions fitGraphicToCanvas({
+    required Dimensions canvas,
+    required Dimensions graphic,
+    required BoxFit boxFit,
+  }){
+    Dimensions _output = Dimensions.zero;
+
+    final double canvasWidth = canvas.width ?? 0;
+    final double canvasHeight = canvas.height ?? 0;
+    final double graphicWidth = graphic.width ?? 0;
+    final double graphicHeight = graphic.height ?? 0;
+
+    if (graphicWidth == 0 || graphicHeight == 0 || canvasWidth == 0 || canvasHeight == 0) {
+      _output = Dimensions.zero;
+    }
+
+    else {
+
+      final double widthRatio = canvasWidth / graphicWidth;
+      final double heightRatio = canvasHeight / graphicHeight;
+
+      switch (boxFit) {
+
+        /// FIT WIDTH
+        case BoxFit.fitWidth:
+          _output = graphic.resizeToWidth(width: canvasWidth)!;
+
+        /// FIT HEIGHT
+        case BoxFit.fitHeight:
+          _output = graphic.resizeToHeight(height: canvasHeight)!;
+
+        /// CONTAIN
+        case BoxFit.contain:
+          if (widthRatio < heightRatio) {
+            _output = graphic.resizeToWidth(width: canvasWidth)!;
+          } else {
+            _output = graphic.resizeToHeight(height: canvasHeight)!;
+          }
+
+        /// COVER
+        case BoxFit.cover:
+          if (widthRatio > heightRatio) {
+            _output = graphic.resizeToWidth(width: canvasWidth)!;
+          } else {
+            _output = graphic.resizeToHeight(height: canvasHeight)!;
+          }
+
+        /// FILL
+        case BoxFit.fill:
+          _output = Dimensions(width: canvasWidth, height: canvasHeight);
+
+        /// SCALE DOWN
+        case BoxFit.scaleDown:
+          final bool isLargerThanCanvas = graphicWidth > canvasWidth || graphicHeight > canvasHeight;
+          if (isLargerThanCanvas) {
+            _output = fitGraphicToCanvas(
+              canvas: canvas,
+              graphic: graphic,
+              boxFit: BoxFit.contain,
+            );
+          }
+          else {
+            _output = graphic;
+          }
+
+        /// NON
+        case BoxFit.none: _output = graphic;
+
+        ///DEFAULT
+        default: _output = graphic;
+      }
+
+    }
+
+    return _output;
+  }
+  // --------------------------------------------------------------------------
+
   /// OVERRIDES
 
   // --------------------

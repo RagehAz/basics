@@ -3,11 +3,10 @@ part of super_video_player;
 class SuperVideoPlayer extends StatelessWidget {
   // --------------------------------------------------------------------------
   const SuperVideoPlayer({
-    required this.width,
-    required this.height,
+    required this.canvasWidth,
+    required this.canvasHeight,
     this.video,
-    this.corners,
-    this.controller,
+    this.canvasCorners,
     this.errorIcon,
     this.isMuted = false,
     this.autoPlay = true,
@@ -16,46 +15,74 @@ class SuperVideoPlayer extends StatelessWidget {
     super.key
   });
   // --------------------
-  final double width;
-  final double height;
-  final dynamic corners;
-  final SuperVideoController? controller;
+  final double canvasWidth;
+  final double canvasHeight;
+  final dynamic canvasCorners;
   final String? errorIcon;
   final dynamic video;
   final bool isMuted;
   final bool autoPlay;
   final bool loop;
   final dynamic cover;
-  // --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     // --------------------
-    if (controller == null){
-      return _SuperVideoDynamicObjectLoader(
-        width: width,
-        height: height,
-        errorIcon: errorIcon,
-        corners: corners,
-        video: video,
-        isMuted: isMuted,
-        autoPlay: autoPlay,
-        loop: loop,
-        cover: cover,
-        // controller: null,
+    /// NO CONTROLLER GIVEN
+    if (video == null){
+      return _VideoCanvas(
+        canvasWidth: canvasWidth,
+        canvasHeight: canvasHeight,
+        canvasCorners: canvasCorners,
+        child: SuperImage(
+          width: canvasWidth,
+          height: canvasHeight,
+          pic: cover,
+          loading: false,
+          corners: canvasCorners,
+          backgroundColor: Colorz.white20,
+        ),
       );
     }
     // --------------------
+    /// VIDEO DYNAMIC PLAYER
+    else if (video is SuperVideoController){
+      return _VideoCanvas(
+        canvasWidth: canvasWidth,
+        canvasHeight: canvasHeight,
+        canvasCorners: canvasCorners,
+        child: _SuperVideoControllerPlayer(
+          canvasWidth: canvasWidth,
+          canvasHeight: canvasHeight,
+          superVideoController: video,
+          corners: canvasCorners,
+          errorIcon: errorIcon,
+          cover: cover,
+        ),
+      );
+    }
+    // --------------------
+    /// VIDEO CONTROLLER PLAYER
     else {
-      return _SuperVideoControllerPlayer(
-        width: width,
-        height: height,
-        superVideoController: controller,
-        corners: corners,
-        errorIcon: errorIcon,
-        cover: cover,
+      return _VideoCanvas(
+        canvasWidth: canvasWidth,
+        canvasHeight: canvasHeight,
+        canvasCorners: canvasCorners,
+        child: _SuperVideoDynamicLoader(
+          canvasWidth: canvasWidth,
+          canvasHeight: canvasHeight,
+          errorIcon: errorIcon,
+          corners: canvasCorners,
+          video: video,
+          isMuted: isMuted,
+          autoPlay: autoPlay,
+          loop: loop,
+          cover: cover,
+          // controller: null,
+        ),
       );
     }
     // --------------------
   }
-  // --------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------
 }

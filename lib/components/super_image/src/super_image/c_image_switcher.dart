@@ -189,8 +189,8 @@ class ImageSwitcher extends StatelessWidget {
         /// ADD_VIDEO_PLAYER_IN_BASICS_SUPER_IMAGE_FOR_MEDIA_MODEL
          if (_avModel.isVideo() == true){
           return SuperVideoPlayer(
-            width: width!,
-            height: height,
+            canvasWidth: width!,
+            canvasHeight: height,
             video: _avModel,
             isMuted: true,
             loop: true,

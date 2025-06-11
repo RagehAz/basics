@@ -1,28 +1,313 @@
 part of super_video_player;
 ///
 class SuperVideoController {
+  // --------------------
+  VoidCallback? refresh;
+  // --------------------
+  bool mounted = true;
+  // --------------------
+  final Wire<VideoPlayerValue?> _videoValue = Wire<VideoPlayerValue?>(null);
+  Wire<VideoPlayerValue?> get videoValue => _videoValue;
+  // --------------------
+  final Wire<bool> _isChangingVolume = Wire<bool>(false);
+  Wire<bool> get isChangingVolume => _isChangingVolume;
+  // --------------------
+  VideoPlayerController? _videoPlayerController;
+  VideoPlayerController? get videoPlayerController => _videoPlayerController;
+  // --------------------
+  final Wire<double> _volume = Wire<double>(1);
+  Wire<double> get volume => _volume;
+  // --------------------
+  bool _isFile = false;
+  bool get isFile => _isFile;
+  // --------------------
+  bool _isAsset = false;
+  bool get isAsset => _isAsset;
+  // --------------------
+  bool _isVideoURL = false;
+  bool get isVideoURL => _isVideoURL;
+  // --------------------
+  /// TURNED_OFF_YOUTUBE_PLAYER
+  /*
+  bool _isYoutubeURL = false;
+  bool get isYoutubeURL => _isYoutubeURL;
+   */
+  // --------------------
+  File? _videoFile;
+  File? get videoFile => _videoFile;
+  File? _deleteMeOnDispose;
+  // --------------------
+  String? _videoURL;
+  String? get videoURL => _videoURL;
+  // --------------------
+  String? _videoAsset;
+  String? get videoAsset => _videoAsset;
+  // --------------------
+  bool _showVolumeSlider = false;
+  bool get showVolumeSlider => _showVolumeSlider;
+  // --------------------
+  double _volumeBeforeMute = 1;
+  double get volumeBeforeMute => _volumeBeforeMute;
+  // --------------------
+  /// TURNED_OFF_YOUTUBE_PLAYER
+  /*
+  YoutubePlayerController? _youtubeController;
+  YoutubePlayerController? get youtubeController => _youtubeController;
+   */
+  // --------------------
+  bool _isPlaying = false;
+  bool get isPlaying => _isPlaying;
+  // --------------------
+  bool _isAutoPlay = false;
+  bool get isAutoPlay => _isAutoPlay;
+  // --------------------
+  bool _isLoading = false;
+  // --------------------------------------------------------------------------
+
+  /// INIT
+
+  // --------------------
+  ///
+  void onInit({
+    required VoidCallback onSetState,
+  }){
+
+    mounted = true;
+    refresh = onSetState;
+
+  }
+  // --------------------
+  ///
+  bool _isInit = true;
+  Future<void> onDidChangeDependencies({
+    required dynamic object,
+    bool autoPlay = true,
+    bool loop = false,
+    bool showVolumeSlider = false,
+    String? fileNameIfObjectIsBytes,
+    bool isMuted = false,
+  }) async {
+
+    if (_isInit && mounted) {
+      _isInit = false; // good
+
+      /// REBUILD
+      if (mounted == true){
+        _isLoading = true;
+        refresh?.call();
+      }
+
+      if (object != null){
+
+        /// FILE
+        if (object is File){
+          await _loadFile(
+            file: object,
+            autoPlay: autoPlay,
+            showVolumeSlider: showVolumeSlider,
+            loop: loop,
+            isMuted: isMuted,
+          );
+        }
+
+        /// AV MODEL
+        else if (object is AvModel){
+
+          // blog('[superVideoController].starting av');
+          final File? _file = await AvOps.cloneFileToHaveExtension(
+            avModel: object,
+          );
+          blog('[superVideoController].got file(${_file?.path})');
+
+          if (_file != null){
+            _deleteMeOnDispose = _file;
+            await _loadFile(
+              file: _file,
+              loop: loop,
+              showVolumeSlider: showVolumeSlider,
+              autoPlay: autoPlay,
+              isMuted: isMuted,
+            );
+            blog('[superVideoController].file loaded');
+          }
+
+        }
+
+        /// URL
+        else if (ObjectCheck.isAbsoluteURL(object) == true){
+          await _loadURL(
+            url: object,
+            loop: loop,
+            showVolumeSlider: showVolumeSlider,
+            autoPlay: autoPlay,
+            isMuted: isMuted,
+          );
+        }
+
+        /// ASSET
+        else if (object is String){
+          await _loadAsset(
+            asset: object,
+            autoPlay: autoPlay,
+            showVolumeSlider: showVolumeSlider,
+            loop: loop,
+            isMuted: isMuted,
+          );
+        }
+
+        /// BYTES
+        else if (object is Uint8List){
+
+          final File? _file = await Filer.createFromBytes(
+            bytes: object,
+            fileName: fileNameIfObjectIsBytes ?? '${Idifier.createUniqueIDString()}.mp4',
+            includeFileExtension: true, /// breaks on ios if file has no extension
+          );
+
+          if (_file != null){
+            _deleteMeOnDispose = _file;
+            await _loadFile(
+              file: _file,
+              autoPlay: autoPlay,
+              showVolumeSlider: showVolumeSlider,
+              loop: loop,
+              isMuted: isMuted,
+            );
+          }
+
+        }
+
+      }
+
+      /// REBUILD
+      if (mounted == true){
+        _isLoading = false;
+        refresh?.call();
+      }
+
+    }
+
+  }
+  // --------------------
+  void onDidUpdateWidget({
+
+    required dynamic oldVideo,
+    required dynamic newVideo,
+
+    required bool oldAutoPlay,
+    required bool newAutoPlay,
+
+    required bool oldLoop,
+    required bool newLoop,
+
+    required bool oldIsMuted,
+    required bool newIsMuted,
+
+    required double newCanvasWidth,
+    required double oldCanvasWidth,
+
+    required double newCanvasHeight,
+    required double oldCanvasHeight,
+
+    required dynamic newCanvasCorners,
+    required dynamic oldCanvasCorners,
+
+    required dynamic newCover,
+    required dynamic oldCover,
+
+    required String? newErrorIcon,
+    required String? oldErrorIcon,
+
+  }){
+
+    asyncInSync(() async {
+
+      if (oldVideo != newVideo) {
+        dispose();
+        mounted = true;
+        _isInit = true;
+        await onDidChangeDependencies(
+          object: newVideo,
+          autoPlay: newAutoPlay,
+          loop: newLoop,
+          isMuted: newIsMuted,
+        );
+      }
+
+      else if (oldIsMuted != newIsMuted){
+        await onMutingTap();
+      }
+
+      else if (oldLoop != newLoop){
+        await setLooping(newLoop);
+      }
+
+      else if (oldAutoPlay != newAutoPlay){
+        if (newAutoPlay == true){
+          await setLooping(true);
+          await play();
+        }
+        else {
+          await setLooping(false);
+          await pause();
+        }
+      }
+
+      else if (
+          oldCanvasWidth != newCanvasWidth ||
+          oldCanvasHeight != newCanvasHeight ||
+          oldCanvasCorners != newCanvasCorners ||
+          oldCover != newCover ||
+          oldErrorIcon != newErrorIcon
+      ){
+        if (mounted == true){
+          refresh!();
+        }
+      }
+
+    });
+
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  void dispose(){
+    if (mounted == true){
+    blog('[DISPOSING].VIDEO_CONTROLLER.($_deleteMeOnDispose)');
+      mounted = false;
+      _videoPlayerController?.removeListener(_listenToVideo);
+      _videoPlayerController?.dispose();
+      _videoPlayerController = null;
+      _videoValue.dispose();
+      _isChangingVolume.dispose();
+      _volume.dispose();
+      /// TURNED_OFF_YOUTUBE_PLAYER
+      // _youtubeController?.dispose();
+      Filer.deleteFile(_deleteMeOnDispose);
+    }
+  }
   // --------------------------------------------------------------------------
 
   /// LOADING
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void loadFile({
+  Future<void> _loadFile({
     required File? file,
     required bool autoPlay,
     required bool loop,
     required bool showVolumeSlider,
     required bool isMuted,
-  }){
+  }) async {
 
     if (file != null){
 
       final VideoPlayerOptions _options = VideoPlayerOptions(
-        mixWithOthers: true,
+        // mixWithOthers: true,
         // webOptions: VideoPlayerWebOptions(),
         // allowBackgroundPlayback: false,
       );
 
+      // blog('loading file aho ya 3ars $file');
       _videoPlayerController = VideoPlayerController.file(
         file,
         videoPlayerOptions: _options,
@@ -32,7 +317,7 @@ class SuperVideoController {
 
       _videoPlayerController!.addListener(_listenToVideo);
 
-      _setupFilePlayer(
+      await _setupFilePlayer(
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
@@ -47,18 +332,18 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void loadAsset({
+  Future<void> _loadAsset({
     required String? asset,
     required bool autoPlay,
     required bool loop,
     required bool showVolumeSlider,
     required bool isMuted,
-  }){
+  }) async {
 
     if (asset != null){
 
       final VideoPlayerOptions _options = VideoPlayerOptions(
-        mixWithOthers: true,
+        // mixWithOthers: true,
         // webOptions: VideoPlayerWebOptions(),
         // allowBackgroundPlayback: false,
       );
@@ -72,7 +357,7 @@ class SuperVideoController {
 
       _videoPlayerController!.addListener(_listenToVideo);
 
-      _setupFilePlayer(
+      await _setupFilePlayer(
         autoPlay: autoPlay,
         loop: loop,
         showVolumeSlider: showVolumeSlider,
@@ -87,21 +372,21 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void loadURL({
+  Future<void> _loadURL({
     required String? url,
     required bool autoPlay,
     required bool loop,
     required bool showVolumeSlider,
     required bool isMuted,
-  }){
+  }) async {
 
     if (ObjectCheck.isAbsoluteURL(url) == true){
 
-      final bool _isYoutubeLink = checkIsValidYoutubeLink(url);
+      final bool _isYoutubeLink = SuperVideoCheckers.checkIsValidYoutubeLink(url);
 
       /// YOUTUBE URL
       if (_isYoutubeLink == true){
-        _loadYoutubeURL(
+        await _loadYoutubeURL(
           url: url!,
           autoPlay: autoPlay,
           loop: loop,
@@ -111,7 +396,7 @@ class SuperVideoController {
 
       /// VIDEO URL
       else {
-        _loadVideoURL(
+        await _loadVideoURL(
           url: url!,
           autoPlay: autoPlay,
           loop: loop,
@@ -125,12 +410,12 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void _loadYoutubeURL({
+  Future<void> _loadYoutubeURL({
     required String url,
     required bool autoPlay,
     required bool loop,
     required bool isMuted,
-  }){
+  }) async {
 
     /// TURNED_OFF_YOUTUBE_PLAYER
     // final String? _videoID = extractVideoIDFromYoutubeURL(url);
@@ -162,26 +447,36 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void _loadVideoURL({
+  Future<void> _loadVideoURL({
     required String url,
     required bool autoPlay,
     required bool loop,
     required bool showVolumeSlider,
     required bool isMuted,
-  }){
+  }) async {
 
     final VideoPlayerOptions _options = VideoPlayerOptions(
-      mixWithOthers: true,
-      // webOptions: VideoPlayerWebOptions(),
+      // mixWithOthers: false,
+      // webOptions: VideoPlayerWebOptions(
+        // controls: VideoPlayerWebOptionsControls.enabled(
+        //   allowDownload: ,
+        //   allowFullscreen: ,
+        //   allowPictureInPicture: ,
+        //   allowPlaybackRate: ,
+        // ),
+        // allowContextMenu: ,
+        // allowRemotePlayback: ,
+      // ),
       // allowBackgroundPlayback: false,
     );
 
-    blog('_loadVideoURL:url($url)');
+    // blog('_loadVideoURL:url($url)');
 
     _videoPlayerController = VideoPlayerController.networkUrl(
       Uri.parse(url),
       videoPlayerOptions: _options,
       // closedCaptionFile: ,
+      // formatHint: VideoFormat.hls,
       httpHeaders: {
         'Range': 'bytes=0-', // Range request header
       },
@@ -189,7 +484,7 @@ class SuperVideoController {
 
     _videoPlayerController!.addListener(_listenToVideo);
 
-    _setupFilePlayer(
+    await _setupFilePlayer(
       autoPlay: autoPlay,
       loop: loop,
       showVolumeSlider: showVolumeSlider,
@@ -202,30 +497,30 @@ class SuperVideoController {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void _setupFilePlayer({
+  Future<void> _setupFilePlayer({
     required bool loop,
     required bool autoPlay,
     required bool showVolumeSlider,
     required bool isMuted,
-  }){
+  }) async {
 
     if (_videoPlayerController != null){
-      _videoPlayerController!.initialize();
+      await _videoPlayerController!.initialize();
     }
 
-    setVolume(isMuted ? 0 : 1);
+    await setVolume(isMuted ? 0 : 1);
 
     /// LOOP
     if (loop == true){
-      _videoPlayerController?.setLooping(true);
+      await _videoPlayerController?.setLooping(true);
     }
 
     /// AUTO PLAY
     if (autoPlay == true){
-      play();
+      await play();
     }
     else {
-      pause();
+      await pause();
     }
 
     /// SHOW VOLUME SLIDER
@@ -235,101 +530,31 @@ class SuperVideoController {
     _isAutoPlay = autoPlay;
 
   }
-
   // --------------------
   /// TURNED_OFF_YOUTUBE_PLAYER
-  // /// TESTED : WORKS PERFECT
-  // void _setupYoutubePlayer({
-  //   required bool autoPlay,
-  //   required bool isMuted,
-  // }){
-  //
-  //   /// VOLUME
-  //   _youtubeController?.setVolume(isMuted ? 0 : 100);
-  //
-  //   /// AUTO PLAY
-  //   if (autoPlay == true){
-  //     play();
-  //   }
-  //   else {
-  //     pause();
-  //   }
-  //
-  //   /// IS AUTO PLAY
-  //   _isAutoPlay = autoPlay;
-  //
-  // }
-  // --------------------------------------------------------------------------
-
-  /// DISPOSE
-
-  // --------------------
+  /*
   /// TESTED : WORKS PERFECT
-  void dispose(){
-    _videoPlayerController?.removeListener(_listenToVideo);
-    _videoValue.dispose();
-    _isChangingVolume.dispose();
-    _videoPlayerController?.dispose();
-    _volume.dispose();
-    /// TURNED_OFF_YOUTUBE_PLAYER
-    // _youtubeController?.dispose();
-    Filer.deleteFile(_deleteMeOnDispose);
+  void _setupYoutubePlayer({
+    required bool autoPlay,
+    required bool isMuted,
+  }){
+
+    /// VOLUME
+    _youtubeController?.setVolume(isMuted ? 0 : 100);
+
+    /// AUTO PLAY
+    if (autoPlay == true){
+      play();
+    }
+    else {
+      pause();
+    }
+
+    /// IS AUTO PLAY
+    _isAutoPlay = autoPlay;
+
   }
-  // --------------------------------------------------------------------------
-
-  /// VARIABLES
-
-  // --------------------
-  final ValueNotifier<VideoPlayerValue?> _videoValue = ValueNotifier(null);
-  ValueNotifier<VideoPlayerValue?> get videoValue => _videoValue;
-  // --------------------
-  final ValueNotifier<bool> _isChangingVolume = ValueNotifier(false);
-  ValueNotifier<bool> get isChangingVolume => _isChangingVolume;
-  // --------------------
-  VideoPlayerController? _videoPlayerController;
-  VideoPlayerController? get videoPlayerController => _videoPlayerController;
-  // --------------------
-  final ValueNotifier<double> _volume = ValueNotifier(1);
-  ValueNotifier<double> get volume => _volume;
-  // --------------------
-  bool _isFile = false;
-  bool get isFile => _isFile;
-  // --------------------
-  bool _isAsset = false;
-  bool get isAsset => _isAsset;
-  // --------------------
-  bool _isVideoURL = false;
-  bool get isVideoURL => _isVideoURL;
-  // --------------------
-  /// TURNED_OFF_YOUTUBE_PLAYER
-  // bool _isYoutubeURL = false;
-  // bool get isYoutubeURL => _isYoutubeURL;
-  // --------------------
-  File? _videoFile;
-  File? get videoFile => _videoFile;
-  File? _deleteMeOnDispose;
-  // --------------------
-  String? _videoURL;
-  String? get videoURL => _videoURL;
-  // --------------------
-  String? _videoAsset;
-  String? get videoAsset => _videoAsset;
-  // --------------------
-  bool _showVolumeSlider = false;
-  bool get showVolumeSlider => _showVolumeSlider;
-  // --------------------
-  double _volumeBeforeMute = 1;
-  double get volumeBeforeMute => _volumeBeforeMute;
-  // --------------------
-  /// TURNED_OFF_YOUTUBE_PLAYER
-  // YoutubePlayerController? _youtubeController;
-  // YoutubePlayerController? get youtubeController => _youtubeController;
-  // --------------------
-  bool _isPlaying = false;
-  bool get isPlaying => _isPlaying;
-  // --------------------
-  bool _isAutoPlay = false;
-  bool get isAutoPlay => _isAutoPlay;
+   */
   // --------------------------------------------------------------------------
 
   /// LISTENING
@@ -340,7 +565,7 @@ class SuperVideoController {
 
     setNotifier(
       notifier: _videoValue,
-      mounted: true,
+      mounted: mounted,
       value: _videoPlayerController?.value,
       /// the configuration below fixes resetting videoValue while its disposed
       // addPostFrameCallBack: false,
@@ -354,40 +579,43 @@ class SuperVideoController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void onVideoTap(){
+  Future<void> onVideoTap() async {
 
     if (_isPlaying == true){
-      pause();
+      await pause();
     }
     else {
-      play();
+      await play();
     }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void play(){
+  Future<void> play() async {
 
     if (_isPlaying == false){
+      await _videoPlayerController?.play();
       _isPlaying = true;
-      _videoPlayerController?.play();
       /// TURNED_OFF_YOUTUBE_PLAYER
       // _youtubeController?.play();
-      _videoPlayerController?.setLooping(true);
-    }
 
+      /// NO NEED TO RESET LOOPING
+      // await _videoPlayerController?.setLooping(true);
+    }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void pause(){
+  Future<void> pause() async {
 
     if (_isPlaying == true){
+      await _videoPlayerController?.pause();
       _isPlaying = false;
-      _videoPlayerController?.pause();
       /// TURNED_OFF_YOUTUBE_PLAYER
       // _youtubeController?.pause();
-      _videoPlayerController?.setLooping(false);
+
+      /// NO NEED TO RESET LOOPING
+      // await _videoPlayerController?.setLooping(false);
     }
 
   }
@@ -396,16 +624,16 @@ class SuperVideoController {
   /// LOOPING
 
   // --------------------
-  void setLooping(bool setTo){
+  Future<void> setLooping(bool setTo) async {
 
     if (setTo == true){
-      _videoPlayerController?.setLooping(true);
-      play();
+      await _videoPlayerController?.setLooping(true);
+      await play();
     }
 
     else {
-      _videoPlayerController?.setLooping(false);
-      pause();
+      await _videoPlayerController?.setLooping(false);
+      await pause();
     }
 
   }
@@ -415,18 +643,17 @@ class SuperVideoController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void setVolume(double volume){
+  Future<void> setVolume(double volume) async {
 
     if (_volume.value != volume){
 
-      _videoPlayerController?.setVolume(volume);
+      await _videoPlayerController?.setVolume(volume);
 
       /// TURNED_OFF_YOUTUBE_PLAYER
       // _youtubeController?.setVolume((volume * 100).toInt());
 
-      setNotifier(
-          notifier: _volume,
-          mounted: true,
+      _volume.set(
+          mounted: mounted,
           value: volume
       );
 
@@ -437,9 +664,8 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   void onVolumeChangeStarted(double volume) {
 
-    setNotifier(
-      notifier: _isChangingVolume,
-      mounted: true,
+    _isChangingVolume.set(
+      mounted: mounted,
       value: true,
     );
 
@@ -449,9 +675,8 @@ class SuperVideoController {
   Future<void> onVolumeChangeEnded(double volume) async {
 
     await Future.delayed(const Duration(seconds: 1), () async {
-      setNotifier(
-        notifier: _isChangingVolume,
-        mounted: true,
+      _isChangingVolume.set(
+        mounted: mounted,
         value: false,
       );
     });
@@ -463,29 +688,29 @@ class SuperVideoController {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  void onMutingTap(){
+  Future<void> onMutingTap() async {
 
     final bool _isMuted = checkIsMuted();
 
     if (_isMuted){
-      unMute();
+      await unMute();
     }
 
     else {
-      mute();
+      await mute();
     }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void mute(){
+  Future<void> mute() async {
     _volumeBeforeMute = _volume.value;
-    setVolume(0);
+    await setVolume(0);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  void unMute(){
-    setVolume(_volumeBeforeMute);
+  Future<void> unMute() async {
+    await setVolume(_volumeBeforeMute);
   }
   // --------------------------------------------------------------------------
 
@@ -495,32 +720,38 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   bool checkVideoIsLoading(){
 
-    if (_videoValue.value == null) {
-      return true;
-    }
+    return _isLoading;
 
-    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
-      return false;
-    }
-
-    else if (checkIsInitialed() == false) {
-      return true;
-    }
-
-    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
-      return true;
-    }
-
-    else {
-      return false;
-    }
+    // if (_videoValue.value == null) {
+    //   return true;
+    // }
+    //
+    // else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
+    //   return false;
+    // }
+    //
+    // else if (checkIsInitialed() == false) {
+    //   return true;
+    // }
+    //
+    // else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    //   return true;
+    // }
+    //
+    // else {
+    //   return false;
+    // }
 
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkCanShowPlayIcon(){
 
-    if (_videoValue.value == null) {
+    if (_isLoading == true){
+      return false;
+    }
+
+    else if (_videoValue.value == null) {
       return false;
     }
 
@@ -604,270 +835,6 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   bool checkIsMuted(){
     return _volume.value == 0;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// YOUTUBE CHECKERS
-
-  // --------------------
-  /// AI TESTED
-  static bool checkIsValidYoutubeVideoID(String? videoID) {
-    if (videoID == null){
-      return false;
-    }
-    else {
-      final youtubeVideoIdPattern = RegExp(r'^[a-zA-Z0-9_-]+$');
-      return youtubeVideoIdPattern.hasMatch(videoID) && videoID.length <= 11;
-    }
-  }
-  // --------------------
-  /// AI TESTED
-  static bool checkIsValidYoutubeLink(String? link) {
-
-    if (TextCheck.isEmpty(link) == true){
-      return false;
-    }
-
-    else {
-      final youtubeLinkPattern = RegExp(
-          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
-      return youtubeLinkPattern.hasMatch(link!);
-    }
-
-  }
-  // -----------------------------------------------------------------------------
-
-  /// YOUTUBE VIDEO ID
-
-  // --------------------
-  /// AI TESTED
-  static String? extractVideoIDFromYoutubeURL(String? youtubeURL) {
-    String? _output;
-
-    if (checkIsValidYoutubeLink(youtubeURL) == true) {
-
-      final youtubeLinkPattern = RegExp(
-          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
-
-      final match = youtubeLinkPattern.firstMatch(youtubeURL!);
-
-      if (match != null){
-        _output = match.group(3);
-      }
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// YOUTUBE COVER IMAGE
-
-  // --------------------
-  /// TASK : TEST ME
-  String? getYouTubeVideoCoverImageURL(){
-    String? _output;
-
-    /// TURNED_OFF_YOUTUBE_PLAYER
-    // final bool _isYoutubeLink = checkIsValidYoutubeLink(_videoURL);
-    //
-    // if (_youtubeController != null && _isYoutubeLink == true){
-    //
-    //   // final String link = 'https://www.youtube.com/watch?v=$videoID';
-    //   // final meta.MetaDataModel metaData = await meta.YoutubeMetaData.getData(link);
-    //
-    //   final YoutubeMetaData? videoMetaData = _youtubeController?.metadata;
-    //   final String? id = videoMetaData?.videoId;
-    //
-    //   if (id != null){
-    //     _output = 'https://img.youtube.com/vi/$id/0.jpg';
-    //   }
-    //
-    // }
-
-    return _output;
-  }
-  // --------------------------------------------------------------------------
-
-  /// SUPER LOADER
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  Future<void> superLoadVideo({
-    required dynamic object,
-    bool autoPlay = true,
-    bool loop = false,
-    bool showVolumeSlider = false,
-    String? fileNameIfObjectIsBytes,
-    bool isMuted = false,
-  }) async {
-
-    if (object != null){
-
-      /// FILE
-      if (object is File){
-        loadFile(
-          file: object,
-          autoPlay: autoPlay,
-          showVolumeSlider: showVolumeSlider,
-          loop: loop,
-          isMuted: isMuted,
-        );
-      }
-
-      /// URL
-      else if (ObjectCheck.isAbsoluteURL(object) == true){
-        loadURL(
-          url: object,
-          loop: loop,
-          showVolumeSlider: showVolumeSlider,
-          autoPlay: autoPlay,
-          isMuted: isMuted,
-        );
-      }
-
-      /// ASSET
-      else if (object is String){
-        loadAsset(
-          asset: object,
-          autoPlay: autoPlay,
-          showVolumeSlider: showVolumeSlider,
-          loop: loop,
-          isMuted: isMuted,
-        );
-      }
-
-      /// AV MODEL
-      else if (object is AvModel){
-
-        final File? _file = await AvOps.cloneFileToHaveExtension(
-          avModel: object,
-        );
-
-        if (_file != null){
-          _deleteMeOnDispose = _file;
-          loadFile(
-            file: _file,
-            loop: loop,
-            showVolumeSlider: showVolumeSlider,
-            autoPlay: autoPlay,
-            isMuted: isMuted,
-          );
-        }
-
-      }
-
-      /// BYTES
-      else if (object is Uint8List){
-
-        final File? _file = await Filer.createFromBytes(
-          bytes: object,
-          fileName: fileNameIfObjectIsBytes,
-          includeFileExtension: true, /// breaks on ios if file has no extension
-        );
-
-        if (_file != null){
-          loadFile(
-            file: _file,
-            autoPlay: autoPlay,
-            showVolumeSlider: showVolumeSlider,
-            loop: loop,
-            isMuted: isMuted,
-          );
-        }
-
-      }
-
-    }
-
-  }
-  // --------------------------------------------------------------------------
-
-  /// SCALES
-
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double getHeightByAspectRatio({
-    required double? aspectRatio,
-    required double width,
-    required bool force169,
-  }){
-    double _output = width / (16 / 9);
-
-    if (aspectRatio != null && force169 == false) {
-      /// AspectRatio = (widthA / heightA)
-      ///             = (widthB / heightB)
-      ///
-      /// so heightB = widthB / aspectRatio
-      _output = width / aspectRatio;
-    }
-
-    return _output;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static BorderRadius getCorners({
-    required double width,
-    required dynamic corners,
-  }) {
-    return Borderers.superCorners(
-      corners: corners ?? BorderRadius.circular(width * 0.02),
-    );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double getHeightOnScreen({
-    required double videoWidth,
-    required double videoHeight,
-    required double areaWidth,
-    required double areaHeight,
-  }){
-
-    final Dimensions _dims = Dimensions(width: videoWidth, height: videoHeight);
-
-    final double _areaHeight = areaHeight;
-
-    final double _videoRatio = _dims.getAspectRatio();  // w / h
-    final double _areaWidth = areaWidth;
-
-    if (_dims.checkIsSquared() == true){
-      return _areaWidth > _areaHeight ? _areaHeight : _areaWidth;
-    }
-    else if (_dims.checkIsLandscape() == true){
-      return _areaWidth / _videoRatio;
-    }
-    else if (_dims.checkIsPortrait() == true){
-      return _areaHeight;
-    }
-    else {
-      return _areaHeight;
-    }
-
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static double getWidthOnScreen({
-    required double videoWidth,
-    required double videoHeight,
-    required double areaWidth,
-    required double areaHeight,
-  }){
-
-    final Dimensions _dims = Dimensions(width: videoWidth, height: videoHeight);
-    final double _videoRatio = _dims.getAspectRatio();  // w / h
-
-    // blog('===> _cropped : $_dims : $_videoRatio');
-    // final Dimensions _real = Dimensions.fromSize(controller.videoDimension);
-    // blog('===> real : $_real : ${_real.getAspectRatio()}');
-    // blog('===> areaWidth : $areaWidth : areaHeight : $areaHeight');
-
-    return _videoRatio * getHeightOnScreen(
-      videoWidth: videoWidth,
-      videoHeight: videoHeight,
-      areaWidth: areaWidth,
-      areaHeight: areaHeight,
-    );
-
   }
   // --------------------------------------------------------------------------
 }
