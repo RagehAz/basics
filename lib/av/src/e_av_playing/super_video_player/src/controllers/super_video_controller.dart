@@ -6,8 +6,8 @@ class SuperVideoController {
   // --------------------
   bool mounted = true;
   // --------------------
-  final Wire<VideoPlayerValue?> _videoValue = Wire<VideoPlayerValue?>(null);
-  Wire<VideoPlayerValue?> get videoValue => _videoValue;
+  Wire<VideoPlayerValue?>? _videoValue = Wire<VideoPlayerValue?>(null);
+  Wire<VideoPlayerValue?>? get videoValue => _videoValue;
   // --------------------
   final Wire<bool> _isChangingVolume = Wire<bool>(false);
   Wire<bool> get isChangingVolume => _isChangingVolume;
@@ -223,8 +223,6 @@ class SuperVideoController {
     asyncInSync(() async {
 
       if (oldVideo != newVideo) {
-        dispose();
-        mounted = true;
         _isInit = true;
         await onDidChangeDependencies(
           object: newVideo,
@@ -277,7 +275,8 @@ class SuperVideoController {
       _videoPlayerController?.removeListener(_listenToVideo);
       _videoPlayerController?.dispose();
       _videoPlayerController = null;
-      _videoValue.dispose();
+      _videoValue?.dispose();
+      _videoValue = null;
       _isChangingVolume.dispose();
       _volume.dispose();
       /// TURNED_OFF_YOUTUBE_PLAYER
@@ -751,11 +750,11 @@ class SuperVideoController {
       return false;
     }
 
-    else if (_videoValue.value == null) {
+    else if (_videoValue?.value == null) {
       return false;
     }
 
-    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.hasError) == true){
       return false;
     }
 
@@ -763,10 +762,10 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.isBuffering) == true){
       return false;
     }
-    else if (Booler.boolIsTrue(_videoValue.value?.isPlaying) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.isPlaying) == true){
       return false;
     }
     else {
@@ -778,11 +777,11 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   bool checkCanShowVideo(){
 
-    if (_videoValue.value == null || _videoPlayerController == null) {
+    if (_videoValue?.value == null || _videoPlayerController == null) {
       return false;
     }
 
-    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.hasError) == true){
       return false;
     }
 
@@ -798,11 +797,11 @@ class SuperVideoController {
   /// TESTED : WORKS PERFECT
   bool checkShowCover(){
 
-    if (_videoValue.value == null) {
+    if (_videoValue?.value == null) {
       return true;
     }
 
-    else if (Booler.boolIsTrue(_videoValue.value?.hasError) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.hasError) == true){
       return true;
     }
 
@@ -810,10 +809,10 @@ class SuperVideoController {
       return false;
     }
 
-    else if (Booler.boolIsTrue(_videoValue.value?.isBuffering) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.isBuffering) == true){
       return false;
     }
-    else if (Booler.boolIsTrue(_videoValue.value?.isPlaying) == true){
+    else if (Booler.boolIsTrue(_videoValue?.value?.isPlaying) == true){
       return false;
     }
     else {
@@ -824,12 +823,12 @@ class SuperVideoController {
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkHasError(){
-    return _videoValue.value != null && _videoValue.value!.hasError == true;
+    return _videoValue?.value != null && Booler.boolIsTrue(_videoValue?.value?.hasError) == true;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
   bool checkIsInitialed(){
-    return Booler.boolIsTrue(_videoValue.value?.isInitialized);
+    return Booler.boolIsTrue(_videoValue?.value?.isInitialized);
   }
   // --------------------
   /// TESTED : WORKS PERFECT

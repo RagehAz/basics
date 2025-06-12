@@ -116,7 +116,7 @@
     },
     {
       "id": "2:4002406581446843921",
-      "lastPropertyId": "23:3410406792148112493",
+      "lastPropertyId": "24:741348236927069874",
       "name": "BzBob",
       "properties": [
         {
@@ -236,6 +236,11 @@
           "id": "23:3410406792148112493",
           "name": "tendersIDs",
           "type": 30
+        },
+        {
+          "id": "24:741348236927069874",
+          "name": "lastPicChanged",
+          "type": 6
         }
       ],
       "relations": []
