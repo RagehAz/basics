@@ -116,7 +116,7 @@
     },
     {
       "id": "2:4002406581446843921",
-      "lastPropertyId": "24:741348236927069874",
+      "lastPropertyId": "25:7735718649491183773",
       "name": "BzBob",
       "properties": [
         {
@@ -233,14 +233,14 @@
           "type": 30
         },
         {
-          "id": "23:3410406792148112493",
-          "name": "tendersIDs",
-          "type": 30
-        },
-        {
           "id": "24:741348236927069874",
           "name": "lastPicChanged",
           "type": 6
+        },
+        {
+          "id": "25:7735718649491183773",
+          "name": "questionsIDs",
+          "type": 30
         }
       ],
       "relations": []
@@ -464,7 +464,7 @@
     },
     {
       "id": "5:121496023269835284",
-      "lastPropertyId": "28:3119626802281089192",
+      "lastPropertyId": "29:5703694148260328478",
       "name": "UserBob",
       "properties": [
         {
@@ -606,8 +606,8 @@
           "type": 6
         },
         {
-          "id": "28:3119626802281089192",
-          "name": "tendersIDs",
+          "id": "29:5703694148260328478",
+          "name": "questionsIDs",
           "type": 30
         }
       ],
@@ -622,7 +622,10 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    3410406792148112493,
+    3119626802281089192
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

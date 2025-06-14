@@ -28,7 +28,7 @@ class BzBob {
     required this.lastStateChanged,
     required this.lastPicChanged,
     required this.assetsIDs,
-    required this.tendersIDs,
+    required this.questionsIDs,
   });
   // --------------------
   @Id()
@@ -58,7 +58,7 @@ class BzBob {
   final int? lastStateChanged;
   final int? lastPicChanged;
   final List<String>? assetsIDs;
-  final List<String>? tendersIDs;
+  final List<String>? questionsIDs;
   // --------------------------------------------------------------------------
 }
 

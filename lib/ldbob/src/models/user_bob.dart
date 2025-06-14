@@ -32,7 +32,7 @@ class UserBob {
     required this.followedBzz,
     required this.lastSeen,
     required this.appState,
-    required this.tendersIDs,
+    required this.questionsIDs,
   });
   // --------------------------------------------------------------------------
   @Id()
@@ -66,7 +66,7 @@ class UserBob {
   final String? followedBzz;
   final String? appState;
   final int? lastSeen;
-  final List<String>? tendersIDs;
+  final List<String>? questionsIDs;
   // -----------------------------------------------------------------------------
 }
 
