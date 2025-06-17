@@ -58,6 +58,7 @@ class TextFieldBubble extends StatelessWidget {
     this.enabledBorderColor = const Color.fromARGB(125, 255, 255, 255),
     this.fieldColor = const Color.fromARGB(10, 255, 255, 255),
     this.fieldTextWeight = FontWeight.w100,
+    this.hintVerseColor,
 
     this.fieldLetterSpacing,
     this.fieldTextFont,
@@ -119,6 +120,7 @@ class TextFieldBubble extends StatelessWidget {
 
   final double fieldTextHeight;
   final Color? fieldTextColor;
+  final Color? hintVerseColor;
   final ScrollController? fieldScrollController;
   final Color cursorColor;
   final bool fieldTextCentered;
@@ -356,6 +358,7 @@ class TextFieldBubble extends StatelessWidget {
 
                     /// TEXT FIELD
                     SuperTextField(
+                      hintVerseColor: hintVerseColor,
                       height: fieldHeight,
                       textHeight: fieldTextHeight,
                       textColor: fieldTextColor,
