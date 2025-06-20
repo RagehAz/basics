@@ -15,6 +15,7 @@ class SuperBoxContents extends StatelessWidget {
     required this.height,
     required this.width,
     required this.maxWidth,
+    required this.minWidth,
     required this.iconCorners,
     required this.greyScale,
     required this.solidGreyScale,
@@ -51,6 +52,7 @@ class SuperBoxContents extends StatelessWidget {
   final bool loading;
   final double? width;
   final double? maxWidth;
+  final double? minWidth;
   final double height;
   final BorderRadius? iconCorners;
   final bool greyScale;
@@ -138,6 +140,7 @@ class SuperBoxContents extends StatelessWidget {
             height: height,
             width: width,
             maxWidth: maxWidth,
+            minWidth: minWidth,
             greyScale: greyScale,
             iconSizeFactor: iconSizeFactor,
             textScaleFactor: textScaleFactor,

@@ -16,6 +16,7 @@ class SuperTextBox extends StatelessWidget {
     required this.appIsLTR,
     required this.onDoubleTap,
     required this.maxWidth,
+    required this.minWidth,
     super.key
   }); 
   /// --------------------------------------------------------------------------
@@ -31,6 +32,7 @@ class SuperTextBox extends StatelessWidget {
   final TextDirection? textDirection;
   final bool appIsLTR;
   final double? maxWidth;
+  final double? minWidth;
   // --------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
   static MainAxisAlignment _getMainAxisAlignment({
@@ -93,6 +95,30 @@ class SuperTextBox extends StatelessWidget {
           :
       CrossAxisAlignment.center;
   }
+
+  BoxConstraints? _getConstraints(){
+
+    if (maxWidth == null && minWidth == null){
+      return null;
+    }
+    else if (maxWidth == null && minWidth != null){
+      return BoxConstraints(
+        minWidth: minWidth!,
+      );
+    }
+    else if (maxWidth != null && minWidth == null){
+      return BoxConstraints(
+        maxWidth: maxWidth!,
+      );
+    }
+    else {
+      return BoxConstraints(
+        maxWidth: maxWidth!,
+        minWidth: minWidth!,
+      );
+    }
+
+  }
   // -----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
@@ -106,9 +132,7 @@ class SuperTextBox extends StatelessWidget {
       //   appIsLTR: textDirection == TextDirection.ltr,
       // ),
       // color: Colorz.blue80,
-      constraints: maxWidth == null ? null : BoxConstraints(
-        maxWidth: maxWidth!,
-      ),
+      constraints: _getConstraints(),
       child: Row(
         mainAxisAlignment: _getMainAxisAlignment(
           centered: centered,

@@ -51,6 +51,7 @@ class SuperBox extends StatelessWidget {
     this.borderColor,
     this.solidGreyScale = false,
     this.maxWidth,
+    this.minWidth,
     this.loadingIsPulse = false,
     super.key
   }); 
@@ -104,6 +105,7 @@ class SuperBox extends StatelessWidget {
   final Color? borderColor;
   final bool solidGreyScale;
   final double? maxWidth;
+  final double? minWidth;
   final bool loadingIsPulse;
   /// --------------------------------------------------------------------------
   @override
@@ -154,6 +156,7 @@ class SuperBox extends StatelessWidget {
           height: height,
           width: width,
           maxWidth: maxWidth,
+          minWidth: minWidth,
           iconCorners: _borderRadius,
           greyScale: greyscale,
           solidGreyScale: solidGreyScale,

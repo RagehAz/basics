@@ -12,6 +12,7 @@ class SuperBoxTexts extends StatelessWidget {
     required this.height,
     required this.width,
     required this.maxWidth,
+    required this.minWidth,
     required this.greyScale,
     required this.iconSizeFactor,
     required this.textScaleFactor,
@@ -46,6 +47,7 @@ class SuperBoxTexts extends StatelessWidget {
   final FontWeight? textWeight;
   final double? width;
   final double? maxWidth;
+  final double? minWidth;
   final TextDirection textDirection;
   final String? textFont;
   final Color? textColor;
@@ -138,6 +140,7 @@ class SuperBoxTexts extends StatelessWidget {
               child: SuperText(
                 boxWidth: _verseWidth,
                 maxWidth: _maxWidth,
+                minWidth: minWidth,
                 package: package,
                 text: text,
                 textHeight: _mainTextHeight,
@@ -171,6 +174,7 @@ class SuperBoxTexts extends StatelessWidget {
                   text: secondText,
                   weight: FontWeight.w200,
                   maxWidth: _maxWidth,
+                  minWidth: minWidth,
                   textHeight: _mainTextHeight * 0.8 * secondTextScaleFactor,
                   textColor: SuperBoxController.textColor(
                     colorOverride: secondTextColor,

@@ -44,6 +44,7 @@ class SuperText extends StatelessWidget {
     this.package,
 
     this.maxWidth,
+    this.minWidth,
 
     this.style,
     this.labelCorner,
@@ -92,6 +93,7 @@ class SuperText extends StatelessWidget {
   final String? package;
 
   final double? maxWidth;
+  final double? minWidth;
 
   final TextStyle? style;
   final double? labelCorner;
@@ -128,6 +130,7 @@ class SuperText extends StatelessWidget {
         appIsLTR: appIsLTR,
         textDirection: textDirection,
         maxWidth: maxWidth,
+        minWidth: minWidth,
         children: <Widget>[
 
           if (leadingDot == true)
