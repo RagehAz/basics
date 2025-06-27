@@ -61,33 +61,29 @@ abstract class AvExport {
           invoker: 'toDeviceGallery',
           functions: () async {
 
+            final File? _clone = await AvOps.cloneFileToHaveExtension(
+              avModel: avModel,
+            );
 
-            if (avModel.isImage() == true){
-              result = await GallerySaver.saveImage(
-                avModel.xFilePath!,
-                // toDcim: avModel.nameWithExtension,
-                // isReturnImagePathOfIOS: ,
-              );
+            if (_clone != null){
+
+              if (avModel.isImage() == true){
+                result = await GallerySaver.saveImage(
+                  _clone.path,
+                  // toDcim: avModel.nameWithExtension,
+                  // isReturnImagePathOfIOS: ,
+                );
+              }
+
+              else if (avModel.isVideo() == true){
+                result = await GallerySaver.saveVideo(
+                  _clone.path,
+                  // toDcim: avModel.nameWithExtension,
+                  // isReturnImagePathOfIOS: ,
+                );
+              }
+
             }
-            else if (avModel.isVideo() == true){
-              result = await GallerySaver.saveVideo(
-                avModel.xFilePath!,
-
-                // toDcim: avModel.nameWithExtension,
-                // isReturnImagePathOfIOS: ,
-              );
-            }
-
-            // final Uint8List? _bytes = await avModel.getBytes();
-            // if (_bytes != null){
-              // result = await ImageGallerySaverPlus.saveImage(
-              //   _bytes,
-              //   quality: 100,
-              //   name: avModel.nameWithExtension,
-              //   // isReturnImagePathOfIOS: ,
-              // );
-            //   blog(result);
-            // }
 
           },
         );
