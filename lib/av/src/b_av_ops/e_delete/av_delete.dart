@@ -15,6 +15,12 @@ class _AvDelete {
 
     if (docName != null && uploadPath != null){
 
+      final AvModel? _avModel = await _AvRead.readSingle(
+        uploadPath: uploadPath,
+        docName: docName,
+        skipMeta: false,
+      );
+
       final bool _bobDeleted = await AvBobOps.delete(
           modelID: AvPathing.createID(uploadPath: uploadPath),
           docName: docName,
@@ -22,9 +28,7 @@ class _AvDelete {
 
       if (_bobDeleted == true){
 
-        final String? _filePath = await AvPathing.createXFilePath(
-          uploadPath: uploadPath,
-        );
+        final String? _filePath = _avModel?.xFilePath;
 
         if (_filePath != null){
           _deleted = await XFiler.deleteFile(XFile(_filePath), 'deleteSingle');

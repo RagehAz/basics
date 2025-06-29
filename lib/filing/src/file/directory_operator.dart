@@ -103,10 +103,11 @@ class DirectoryOperator {
     }
     else {
       final List<String> _allPaths = await getPaths();
-      return Stringer.checkStringsContainString(
+      final List<String> _matches = TextCheck.getStringsContainingThis(
         strings: _allPaths,
-        string: xFilePath,
+        subString: xFilePath,
       );
+      return _matches.isNotEmpty;
     }
 
   }

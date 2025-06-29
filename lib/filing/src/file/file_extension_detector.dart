@@ -142,23 +142,28 @@ abstract class FormatDetector {
   }) async {
     FileExtType? _type;
 
+    /// MIME BY PATH ONLY
+    String? _mime = lookupMimeType('', headerBytes: bytes);
+    _type = FileMiming.getTypeByMime(_mime);
+
+    if (_type == null){
+      await XFiler.getOrCreateTempXFile(
+          invoker: 'detectBytes',
+          fileName: fileName,
+          bytes: bytes,
+          ops: (XFile xFile) async {
+
+            // blog('2. detectBytes : xFile : $xFile');
+
+            _type = await detectXFile(xFile: xFile, invoker: 'detectBytes(getOrCreateTempXFile)');
+
+            // blog('3. detectBytes : _type : $_type');
+
+          }
+      );
+    }
+
     // blog('1. detectBytes : START');
-
-    await XFiler.getOrCreateTempXFile(
-      invoker: 'detectBytes',
-      fileName: fileName,
-      bytes: bytes,
-      ops: (XFile xFile) async {
-
-        // blog('2. detectBytes : xFile : $xFile');
-
-        _type = await detectXFile(xFile: xFile, invoker: 'detectBytes(getOrCreateTempXFile)');
-
-        // blog('3. detectBytes : _type : $_type');
-
-      }
-    );
-
     // blog('4. detectBytes : output : $_type');
 
     return _type ?? FileExtType.unknown;

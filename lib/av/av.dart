@@ -9,7 +9,6 @@ import 'package:basics/helpers/maps/mapper_ss.dart';
 import 'package:basics/helpers/nums/booler.dart';
 import 'package:basics/helpers/permissions/permits.dart';
 import 'package:basics/helpers/permissions/permits_protocols.dart';
-import 'package:basics/helpers/strings/idifier.dart';
 import 'package:basics/helpers/strings/pathing.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';

@@ -90,22 +90,25 @@ class _AvClone {
     await tryAndCatch(
       invoker: 'AvClone.cloneFileToHaveExtension',
       functions: () async {
-        final String _unitId = Idifier.createUniqueIDString();
-        final String? _cloneUploadPath = FilePathing.replaceFileNameInPath(
-          oldPath: avModel.uploadPath,
-          fileName: 'clone_${_unitId}_${avModel.nameWithExtension}',
-        );
-        blog('cloneFileToHaveExtension._cloneUploadPath($_cloneUploadPath)');
-        final File? _file = avModel.getFile();
-        blog('cloneFileToHaveExtension._file($_file)');
-        final String? _cloneXFilePathWithout = await AvPathing.createXFilePath(uploadPath: _cloneUploadPath);
-        final String? _ext = FileExtensioning.getExtensionByType(avModel.fileExt);
-        final String _cloneXFilePath = '$_cloneXFilePathWithout.$_ext';
-        blog('cloneFileToHaveExtension._cloneXFilePath($_cloneXFilePath)');
-        if (_cloneXFilePathWithout != null){
-          _output = await _file?.copy(_cloneXFilePath);
-          blog('cloneFileToHaveExtension._output($_output)');
-          await DirectoryOperator.addPath(xFilePath: _cloneXFilePath);
+        // final String _unitId = Idifier.createUniqueIDString();
+        // final String? _cloneUploadPath = FilePathing.replaceFileNameInPath(
+        //   oldPath: avModel.uploadPath,
+        //   fileName: 'clone_${_unitId}_${avModel.nameWithExtension}',
+        // );
+        // blog('cloneFileToHaveExtension._cloneUploadPath($_cloneUploadPath)');
+        // final File? _file = avModel.getFile();
+        // blog('cloneFileToHaveExtension._file($_file)');
+        // final String? _cloneXFilePathWithout = await AvPathing.createXFilePath(uploadPath: _cloneUploadPath);
+        // final String? _ext = FileExtensioning.getExtensionByType(avModel.fileExt);
+        // final String _cloneXFilePath = '$_cloneXFilePathWithout.$_ext';
+        // blog('cloneFileToHaveExtension._cloneXFilePath($_cloneXFilePath)');
+        // if (_cloneXFilePathWithout != null){
+        //   _output = await _file?.copy(_cloneXFilePath);
+        //   blog('cloneFileToHaveExtension._output($_output)');
+        //   await DirectoryOperator.addPath(xFilePath: _cloneXFilePath);
+        // }
+        if (avModel.xFilePath != null){
+          _output = File(avModel.xFilePath!);
         }
       },
     );

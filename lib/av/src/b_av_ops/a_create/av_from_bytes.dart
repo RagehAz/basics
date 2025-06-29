@@ -32,7 +32,7 @@ abstract class _AvFromBytes {
         fileName: _id,
         directoryType: AvBobOps.avDirectory,
         mimeType: FileMiming.getMimeByType(data.fileExt),
-        // includeFileExtension: false,
+        includeFileExtension: true,
       );
 
       if (_xFile != null){

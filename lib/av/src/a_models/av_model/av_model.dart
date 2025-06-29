@@ -240,6 +240,25 @@ class AvModel {
 
   }
   // --------------------
+  ///
+  Future<String?> getXFileName() async {
+
+    final String? _path = await AvPathing.createXFilePath(
+      uploadPath: uploadPath,
+      type: fileExt,
+    );
+
+    return FileNaming.getNameFromPath(path: _path, withExtension: true);
+
+    // final String? _ext = FileExtensioning.getExtensionByType(fileExt);
+    // if (_ext == null || id == null){
+    //   return null;
+    // }
+    // else {
+    //   return '$id.$_ext';
+    // }
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   Dimensions? getDimensions(){
 
@@ -567,7 +586,10 @@ class AvModel {
   /// TESTED : WORKS PERFECT
   Future<AvModel?> completeXFilePath() async {
     return _copyWith(
-      xFilePath: await AvPathing.createXFilePath(uploadPath: uploadPath),
+      xFilePath: await AvPathing.createXFilePath(
+        uploadPath: uploadPath,
+        type: fileExt,
+      ),
     );
   }
   // --------------------------------------------------------------------------

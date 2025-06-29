@@ -350,9 +350,9 @@ abstract class Director {
           specialCharacter: '.',
       );
 
-      final List<String> _matches = Pathing.findPathsHavingLastNodeEqual(
-        paths: _allPaths,
-        lastNode: _nameWithoutExtension,
+      final List<String> _matches = TextCheck.getStringsContainingThis(
+        strings: _allPaths,
+        subString: _nameWithoutExtension,
       );
 
       // xBlog('findFilePathByName: _matches : $_matches');

@@ -16,46 +16,18 @@ class _AvRead {
 
     if (uploadPath != null){
 
-      final String? _xFilePath = await AvPathing.createXFilePath(
+      final bool _exists = await _AvRead.checkExists(
         uploadPath: uploadPath,
-      );
-
-      final bool _exists = await DirectoryOperator.checkExists(
-        xFilePath: _xFilePath,
       );
 
       final String _id = AvPathing.createID(uploadPath: uploadPath)!;
 
       if (_exists == true){
 
-        /// NO META
-        if (skipMeta == true){
-          final String? _fileNameWithoutExtension = AvPathing.createFileNameWithoutExtension(
-            uploadPath: uploadPath,
-          );
-          _output = AvModel(
-            id: _id,
-            uploadPath: uploadPath,
-            xFilePath: _xFilePath,
-            bobDocName: docName,
-            nameWithoutExtension: _fileNameWithoutExtension,
-
-          );
-        }
-
-        /// WITH META
-        else {
-
-          _output = await AvBobOps.findByModelID(
-              modelID: _id,
-              docName: docName
-          );
-
-          _output = _output?._copyWith(
-            xFilePath: _xFilePath,
-          );
-
-        }
+        _output = await AvBobOps.findByModelID(
+            modelID: _id,
+            docName: docName
+        );
 
       }
 
@@ -111,12 +83,8 @@ class _AvRead {
     required String? uploadPath,
   }) async {
 
-    final String? _filePath = await AvPathing.createXFilePath(
-      uploadPath: uploadPath,
-    );
-
     return DirectoryOperator.checkExists(
-        xFilePath: _filePath,
+        xFilePath: AvPathing.createID(uploadPath: uploadPath),
     );
 
   }

@@ -308,7 +308,7 @@ class _AvUpdate {
               invoker: 'completeAv',
               bytes: _bytes,
               fileName: avModel.id,
-              // includeFileExtension: false,
+              includeFileExtension: true,
               directoryType: AvBobOps.avDirectory,
               mimeType: FileMiming.getMimeByType(fileExt),
             );

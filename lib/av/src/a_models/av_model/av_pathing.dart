@@ -17,8 +17,8 @@ abstract class AvPathing {
   /// extension is removed to be able to generate the path without predicting file type
   ///
   /// XFilePath
-  /// directory/ldbDoc/fileNameWithOUTExtension
-  /// file extension TO BE NEGLECTED to be able to check if file exists
+  /// directory/ldbDoc/fileNameWithExtension
+  /// file extension IS MANDATORY
   ///
   /// * ID is non nullable
   /// - EXAMPLE :-
@@ -26,7 +26,7 @@ abstract class AvPathing {
   /// fileName     = 'file_name_without_extension';
   /// id           = 'folder_subFolder_file_name_without_extension';
   /// avsDirectory = 'avs';
-  /// xFilePath    = 'avsDirectory/uploadPath';
+  /// xFilePath    = 'avsDirectory/uploadPath.ext';
   ///
   /// we only use the uploadPath outside the package as the AV main identifier
   // --------------------------------------------------------------------------
@@ -141,13 +141,23 @@ abstract class AvPathing {
   /// TESTED : WORKS PERFECT
   static Future<String?> createXFilePath({
     required String? uploadPath,
+    required FileExtType? type,
   }) async {
+    String? _output;
 
-    return FilePathing.createPathByName(
-      fileName: createID(uploadPath: uploadPath),
-      directoryType: AvBobOps.avDirectory,
-    );
+    final String? _fileNameWithoutExt = createID(uploadPath: uploadPath);
+    final String? _ext = FileExtensioning.getExtensionByType(type);
 
+    if (_fileNameWithoutExt != null && _ext != null){
+
+      _output = await FilePathing.createPathByName(
+        fileName: '$_fileNameWithoutExt.$_ext',
+        directoryType: AvBobOps.avDirectory,
+      );
+
+    }
+
+    return _output;
   }
   // --------------------------------------------------------------------------
 
