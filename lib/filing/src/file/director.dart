@@ -373,6 +373,7 @@ abstract class Director {
   /// TESTED : WORKS PERFECT
   static Future<void> deleteAllDirectoryFiles({
     required DirectoryType? directoryType,
+    List<String> exclude = const <String>[],
   }) async {
 
     if (kIsWeb == false && directoryType != null){
@@ -396,10 +397,18 @@ abstract class Director {
       // );
 
       for (int i = 0; i <_all.length; i++){
+
         final File _file = _all[i];
-        // blog('blogging file index [$i]');
-        // Filer.blogFile(file: _file);
-        await Filer.deleteFile(_file);
+
+        final bool _shouldExclud = TextCheck.checkStringContainAnyOfSubStrings(
+            string: _file.path,
+            subStrings: exclude,
+        );
+
+        if (_shouldExclud == false){
+          await Filer.deleteFile(_file);
+        }
+
       }
 
     }
@@ -467,8 +476,6 @@ abstract class Director {
                 recursive: true,
             );
           });
-
-
 
     }
 

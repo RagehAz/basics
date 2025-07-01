@@ -11,6 +11,8 @@ class SembastInit {
   SembastInit.singleton();
   static final SembastInit _singleton = SembastInit.singleton();
   static SembastInit get instance => _singleton;
+  // --------------------
+  static String dbName = 'sembast.db';
   // -----------------------------------------------------------------------------
 
   /// DATABASE SINGLETON
@@ -84,8 +86,8 @@ class SembastInit {
       functions: () async {
         final Directory? _appDocDir = await getApplicationDocumentsDirectory();
         await _appDocDir?.create(recursive: true);
-        final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-        final String _dbPath = path.join(_appDocDir!.path, _packageInfo.packageName);
+        // final PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+        final String _dbPath = path.join(_appDocDir!.path, dbName);
         _db = await databaseFactoryIo.openDatabase(_dbPath);
       },
       onError: (String? error) async {
@@ -98,6 +100,7 @@ class SembastInit {
       docName: '...',
       key: '...',
     );
+
     return _db;
   }
   // -----------------------------------------------------------------------------
