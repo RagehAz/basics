@@ -67,7 +67,7 @@ dependencies:
   image_editor: 1.6.0
   flutter_udid: 4.0.0
   # related to pdfx
-  device_info_plus: 11.3.0
+  device_info_plus: 10.1.2
   # ----------------
   # COOL
   image: 4.5.4
