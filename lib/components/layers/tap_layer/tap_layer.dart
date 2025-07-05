@@ -2,6 +2,7 @@ library tap_layer;
 
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 part 'src/tap_box.dart';
 part 'src/tap_layer.dart';

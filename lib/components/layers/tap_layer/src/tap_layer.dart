@@ -1,5 +1,13 @@
 part of tap_layer;
 
+enum VibrationType {
+  heavy,
+  medium,
+  light,
+  selection,
+  vibration,
+}
+
 /// => TAMAM
 class TapLayer extends StatelessWidget {
   // -----------------------------------------------------------------------------
@@ -22,6 +30,7 @@ class TapLayer extends StatelessWidget {
     this.margin,
     this.borderColor,
     this.customBorder,
+    this.vibrationType = VibrationType.medium,
     super.key
   });
   // --------------------
@@ -43,6 +52,7 @@ class TapLayer extends StatelessWidget {
   final Alignment? alignment;
   final Color? borderColor;
   final ShapeBorder? customBorder;
+  final VibrationType vibrationType;
   // --------------------
   static const double borderThickness = 0.75;
   // --------------------
@@ -62,6 +72,27 @@ class TapLayer extends StatelessWidget {
         onTapUp == null &&
         onTapDown == null &&
         onLongTap == null;
+  }
+  // --------------------
+  Future<void> _tapWithVibration({
+    required Function? onTap,
+    VibrationType? type,
+  }) async {
+
+    if (onTap != null){
+
+      switch (type ?? vibrationType){
+        case VibrationType.heavy: await HapticFeedback.heavyImpact();
+        case VibrationType.medium: await HapticFeedback.mediumImpact();
+        case VibrationType.light: await HapticFeedback.lightImpact();
+        case VibrationType.selection: await HapticFeedback.selectionClick();
+        case VibrationType.vibration: await HapticFeedback.vibrate();
+      }
+
+      await onTap();
+
+    }
+
   }
   // -----------------------------------------------------------------------------
   @override
@@ -88,7 +119,7 @@ class TapLayer extends StatelessWidget {
       return _TapStateDisabled(
         width: width,
         height: height,
-        onDisabledTap: onDisabledTap,
+        onDisabledTap: () => _tapWithVibration(onTap: onDisabledTap, type: VibrationType.light),
         corners: corners,
         boxColor: boxColor,
         alignment: alignment,
@@ -117,8 +148,8 @@ class TapLayer extends StatelessWidget {
           onTap: onTap,
           splashColor: splashColor,
           onTapCancel: onTapCancel,
-          onLongTap: onLongTap,
-          onDoubleTap: onDoubleTap,
+          onLongTap: () => _tapWithVibration(onTap: onLongTap),
+          onDoubleTap: () => _tapWithVibration(onTap: onDoubleTap),
           customBorder: customBorder,
           child: child,
         );
@@ -140,11 +171,11 @@ class TapLayer extends StatelessWidget {
           onTap: onTap,
           splashColor: splashColor,
           onTapCancel: onTapCancel,
-          onLongTap: onLongTap,
-          onDoubleTap: onDoubleTap,
+          onLongTap: () => _tapWithVibration(onTap: onLongTap),
+          onDoubleTap: () => _tapWithVibration(onTap: onDoubleTap),
           customBorder: customBorder,
-          onTapUp: onTap,
-          onTapDown: onTapDown,
+          onTapUp: () => _tapWithVibration(onTap: onTapUp),
+          onTapDown: () => _tapWithVibration(onTap: onTapDown),
           child: child,
         );
 
