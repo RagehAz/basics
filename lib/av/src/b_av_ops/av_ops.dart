@@ -260,7 +260,7 @@ abstract class AvOps {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteSingle({
-    required String docName,
+    required String? docName,
     required String? uploadPath,
     required String invoker,
   }) async {

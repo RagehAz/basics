@@ -41,6 +41,45 @@ abstract class Rest {
 
     return _response;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static Future<http.Response?> putBytes({
+    required Uint8List? bytes,
+    required String? rawLink,
+    Map<String, String>? headers,
+    Encoding? encoding,
+    int timeoutSeconds = 30,
+    String invoker = 'Rest.putBytes',
+  }) async {
+    http.Response? _response;
+
+    if (bytes != null && rawLink != null){
+
+      await tryAndCatch(
+        invoker: 'REST : put : $invoker',
+        functions: () async {
+
+          /// POST REQUEST
+          _response = await http.put(
+            Uri.parse(rawLink),
+            body: bytes,
+            headers: headers,
+            encoding: encoding,
+          ).timeout(
+              Duration(seconds: timeoutSeconds),
+              onTimeout: () async {
+                blog('Rest.putBytes timeout occurred');
+                return http.Response('Rest.putBytes timeout occurred', 408);
+              }
+          );
+
+        },
+      );
+
+    }
+
+    return _response;
+  }
   // -----------------------------------------------------------------------------
 
   /// READ
