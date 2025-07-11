@@ -84,7 +84,7 @@ dependencies:
   cross_file: 0.3.4+2
   flutter_svg: 2.1.0
   websafe_svg: 3.0.1+10
-  cloud_firestore: 5.6.10
+  cloud_firestore: 5.6.11
   pinch_zoom_release_unzoom: 2.0.0
   http: 1.4.0
   # related to firebase_ui_auth
