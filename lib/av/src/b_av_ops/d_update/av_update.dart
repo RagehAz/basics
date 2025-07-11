@@ -460,25 +460,30 @@ class _AvUpdate {
                   // keepExif: true,
                 );
 
-                final XFile? _file = await XFiler.replaceBytes(
-                  file: avModel.getXFile(),
+                final FileExtType _type = await FormatDetector.detectBytes(
                   bytes: _newBytes,
+                  fileName: 'theNewBytesTemp',
                 );
 
-                if (_file != null){
-
-                  _output = _output?.nullifyField(
-                    sizeMB: true,
-                    sizeB: true,
-                  )._copyWith(
-                    fileExt: FileExtType.jpeg,
+                if (_type == FileExtType.jpeg){
+                  _output = await _AvFromBytes.createSingle(
+                    bytes: _newBytes,
+                    data: CreateSingleAVConstructor(
+                      bobDocName: avModel.bobDocName,
+                      skipMeta: false,
+                      uploadPath: avModel.uploadPath,
+                      durationMs: avModel.durationMs,
+                      ownersIDs: avModel.ownersIDs,
+                      data: avModel.data,
+                      originalURL: avModel.originalURL,
+                      originalXFilePath: avModel.originalXFilePath,
+                      origin: avModel.origin,
+                      height: _dims.height,
+                      width: _dims.width,
+                      caption: avModel.caption,
+                      fileExt: FileExtType.jpeg,
+                    ),
                   );
-
-                  _output = await completeAv(
-                    avModel: _output,
-                    bytesIfExisted: _newBytes,
-                  );
-
                 }
 
               },
