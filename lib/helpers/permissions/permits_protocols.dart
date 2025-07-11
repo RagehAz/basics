@@ -113,12 +113,11 @@ abstract class PermitProtocol {
   }) async {
 
     // CameraPicker().pickerConfig.
-
-    // /// IOS HANDLES PERMISSION DIALOG NATIVELY
-    // if (DeviceChecker.deviceIsIOS() == true){
-    //   return true;
-    // }
-    // else {
+    /// IOS HANDLES PERMISSION DIALOG NATIVELY
+    if (DeviceChecker.deviceIsIOS() == true){
+      return true;
+    }
+    else {
 
       final bool _permissionGranted = await Permit.requestPermission(
         permission: Permission.camera,
@@ -127,7 +126,7 @@ abstract class PermitProtocol {
 
       return _permissionGranted;
 
-    // }
+    }
 
   }
   // -----------------------------------------------------------------------------
