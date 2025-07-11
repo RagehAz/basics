@@ -39,19 +39,26 @@ abstract class AvExport {
     required AvModel? avModel,
     required Function(Permission permission)? onPermissionPermanentlyDenied,
     required Function(Permission permission)? onPermissionDenied,
+    required Function(String error)? onError,
   }) async {
     bool _saved = false;
 
     if (avModel != null && avModel.xFilePath != null){
 
-      final Permission _permission = await _getDeviceStoragePermission();
+      bool hasPermit = true;
 
-      final bool hasPermit = await Permit.requestPermission(
-        permission: _permission,
-        onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
-      );
+      if (DeviceChecker.deviceIsAndroid() == true){
 
-      blog('hasPermit($hasPermit).permission($_permission)');
+        final Permission _permission = await _getDeviceStoragePermission();
+
+        hasPermit = await Permit.requestPermission(
+          permission: _permission,
+          onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+        );
+
+        blog('hasPermit($hasPermit).permission($_permission)');
+
+      }
 
       if (hasPermit == true) {
 
@@ -83,6 +90,28 @@ abstract class AvExport {
                 );
               }
 
+            }
+
+          },
+          onError: (String error) async {
+
+            final bool isPermissionError = error.toLowerCase().contains('permission') ||
+                error.toLowerCase().contains('access denied') ||
+                error.toLowerCase().contains('not authorized');
+
+            if (isPermissionError) {
+
+              final Permission permission = await _getDeviceStoragePermission();
+
+              hasPermit = await Permit.requestPermission(
+                permission: permission,
+                onPermissionPermanentlyDenied: onPermissionPermanentlyDenied,
+              );
+
+            }
+
+            else {
+              await onError?.call(error);
             }
 
           },
