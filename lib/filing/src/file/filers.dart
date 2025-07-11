@@ -333,6 +333,7 @@ abstract class Filer {
   static Future<File?> cloneFile({
     required File? file,
     required String? newName,
+    required bool includeFileExtension,
     DirectoryType directoryType = DirectoryType.app,
   }) async {
     File? _output;
@@ -340,7 +341,7 @@ abstract class Filer {
     final String? _fileName = await FormatDetector.fixFileNameByFile(
       rename: newName,
       file: file,
-      includeFileExtension: false,
+      includeFileExtension: includeFileExtension,
     );
 
     if (file != null && _fileName != null && _fileName != file.fileName){
