@@ -1,6 +1,6 @@
 part of super_video_player;
 
-class SuperYoutubeMethods {
+abstract class SuperYoutubeMethods {
   // -----------------------------------------------------------------------------
 
   /// YOUTUBE VIDEO ID

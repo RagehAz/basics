@@ -1,6 +1,6 @@
 part of super_video_player;
 /// => TAMAM
-class SuperVideoCheckers {
+abstract class SuperVideoCheckers {
 
   // -----------------------------------------------------------------------------
 

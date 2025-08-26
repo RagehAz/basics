@@ -4,7 +4,7 @@ class SuperVideoController {
   // --------------------
   VoidCallback? refresh;
   // --------------------
-  bool mounted = true;
+  Wire<bool> mounted = Wire<bool>(true);
   // --------------------
   Wire<VideoPlayerValue?>? _videoValue = Wire<VideoPlayerValue?>(null);
   Wire<VideoPlayerValue?>? get videoValue => _videoValue;
@@ -72,7 +72,7 @@ class SuperVideoController {
     required VoidCallback onSetState,
   }){
 
-    mounted = true;
+    mounted.set(value: true);
     refresh = onSetState;
 
   }
@@ -88,11 +88,11 @@ class SuperVideoController {
     bool isMuted = false,
   }) async {
 
-    if (_isInit && mounted) {
+    if (_isInit && mounted.value == true) {
       _isInit = false; // good
 
       /// REBUILD
-      if (mounted == true){
+      if (mounted.value == true){
         _isLoading = true;
         refresh?.call();
       }
@@ -180,7 +180,7 @@ class SuperVideoController {
       }
 
       /// REBUILD
-      if (mounted == true){
+      if (mounted.value == true){
         _isLoading = false;
         refresh?.call();
       }
@@ -258,7 +258,7 @@ class SuperVideoController {
           oldCover != newCover ||
           oldErrorIcon != newErrorIcon
       ){
-        if (mounted == true){
+        if (mounted.value == true){
           refresh!();
         }
       }
@@ -269,9 +269,9 @@ class SuperVideoController {
   // --------------------
   /// TESTED : WORKS PERFECT
   void dispose(){
-    if (mounted == true){
+    if (mounted.value == true){
     blog('[DISPOSING].VIDEO_CONTROLLER.($_deleteMeOnDispose)');
-      mounted = false;
+      mounted.set(value: false, mounted: true);
       _videoPlayerController?.removeListener(_listenToVideo);
       _videoPlayerController?.dispose();
       _videoPlayerController = null;
@@ -564,7 +564,7 @@ class SuperVideoController {
 
     setNotifier(
       notifier: _videoValue,
-      mounted: mounted,
+      mounted: mounted.value,
       value: _videoPlayerController?.value,
       /// the configuration below fixes resetting videoValue while its disposed
       // addPostFrameCallBack: false,
@@ -652,7 +652,7 @@ class SuperVideoController {
       // _youtubeController?.setVolume((volume * 100).toInt());
 
       _volume.set(
-          mounted: mounted,
+          mounted: mounted.value,
           value: volume
       );
 
@@ -664,7 +664,7 @@ class SuperVideoController {
   void onVolumeChangeStarted(double volume) {
 
     _isChangingVolume.set(
-      mounted: mounted,
+      mounted: mounted.value,
       value: true,
     );
 
@@ -675,7 +675,7 @@ class SuperVideoController {
 
     await Future.delayed(const Duration(seconds: 1), () async {
       _isChangingVolume.set(
-        mounted: mounted,
+        mounted: mounted.value,
         value: false,
       );
     });
