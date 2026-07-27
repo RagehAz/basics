@@ -89,7 +89,7 @@ class ZGridController {
     required double gridHeight,
     required int columnCount,
     required double itemAspectRatio,
-    required bool mounted,
+    required bool Function() mounted,
     required ZGridController zGridController,
     required bool hasResponsiveSideMargin,
   }) async {
@@ -106,7 +106,7 @@ class ZGridController {
 
     setNotifier(
         notifier: zGridController.lastOffset,
-        mounted: mounted,
+        mounted: mounted(),
         value: zGridController.scrollController.offset,
     );
 
@@ -150,7 +150,7 @@ class ZGridController {
   static Future<void> zoomIn({
     required BuildContext context,
     required int itemIndex,
-    required bool mounted,
+    required bool Function() mounted,
     required Function? onZoomInStart,
     required Function? onZoomInEnd,
     required ZGridController zGridController,
@@ -201,7 +201,7 @@ class ZGridController {
 
     setNotifier(
       notifier: zGridController.isZoomed,
-      mounted: mounted,
+      mounted: mounted(),
       value: true,
     );
 
@@ -212,7 +212,7 @@ class ZGridController {
   }
   // --------------------
   static Future<void> zoomOut({
-    required bool mounted,
+    required bool Function() mounted,
     required  Function? onZoomOutStart,
     required  Function? onZoomOutEnd,
     required ZGridController zGridController,
@@ -224,7 +224,7 @@ class ZGridController {
 
     setNotifier(
       notifier: zGridController.isZoomed,
-      mounted: mounted,
+      mounted: mounted(),
       value: false,
     );
 
@@ -249,7 +249,7 @@ class ZGridController {
   static Future<void> onDismissBigItem({
     required Function? onZoomOutStart,
     required Function? onZoomOutEnd,
-    required bool mounted,
+    required bool Function() mounted,
     required ZGridController zGridController,
   }) async {
 
@@ -259,7 +259,7 @@ class ZGridController {
 
     setNotifier(
       notifier: zGridController.isZoomed,
-      mounted: mounted,
+      mounted: mounted(),
       value: false,
     );
 

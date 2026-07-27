@@ -21,7 +21,7 @@ class ZGrid extends StatelessWidget {
   final ZGridScale gridScale;
   final ZGridController controller;
   final int itemCount;
-  final bool mounted;
+  final bool Function() mounted;
   final bool blurBackgroundOnZoomedIn;
   final Function onZoomOutStart;
   final Function onZoomOutEnd;
@@ -201,7 +201,7 @@ class _BigItemOnZoomIn extends StatelessWidget {
   final ZGridScale gridScale;
   final ZGridController controller;
   final int itemCount;
-  final bool mounted;
+  final bool Function() mounted;
   final bool blurBackgroundOnZoomedIn;
   final Function onZoomOutStart;
   final Function onZoomOutEnd;
