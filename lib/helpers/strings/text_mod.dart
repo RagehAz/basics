@@ -424,31 +424,7 @@ abstract class TextMod {
     String? _output;
 
     if (string != null) {
-      /// solution 1,, won't work, not tested
-      // string.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
-      /// solution 2
-      // string.replaceAll(new RegExp(r"\s+"), "");
-      /// solution 3
-      // string.replaceAll(' ', '');
-      /// solution 4
-      // string.split(" ").join("");
-      /// solution 5
       _output = string.replaceAll(' ', '');
-
-      /// solution 6
-      /// String replaceWhitespacesUsingRegex(String s, String replace) {
-      ///   if (s == null) {
-      ///     return null;
-      ///   }
-      ///
-      ///   // This pattern means "at least one space, or more"
-      ///   // \\s : space
-      ///   // +   : one or more
-      ///   final pattern = RegExp('\\s+');
-      ///   return s.replaceAll(pattern, replace);
-      ///
-      /// ---> I'm just going to shortcut the above method here below
-      // string?.replaceAll(new RegExp('\\s+'),'');
       _output = _output.replaceAll('‎', '');
       _output = _output.replaceAll('‏', '');
       _output = _output.replaceAll('‎ ', '');

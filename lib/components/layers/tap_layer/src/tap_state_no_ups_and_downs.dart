@@ -42,7 +42,7 @@ class _TapStateNoUpsAndDowns extends StatelessWidget {
     // --------------------
     return _TapBox(
       key: key,
-      hasMaterial: true,
+      hasMaterial: false,
       boxColor: boxColor,
       corners: _corners,
       width: width,

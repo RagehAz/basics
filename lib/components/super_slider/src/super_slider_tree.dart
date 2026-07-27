@@ -81,7 +81,7 @@ class SuperSlider extends StatelessWidget {
       /// VALUE INDICATOR
       valueIndicatorColor: draggerColor.withAlpha(50),
       valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-      showValueIndicator: showIndicator == true ? ShowValueIndicator.always : ShowValueIndicator.never,
+      showValueIndicator: showIndicator == true ? ShowValueIndicator.onDrag : ShowValueIndicator.never,
       valueIndicatorTextStyle: textStyle,
 
       /// THUMB

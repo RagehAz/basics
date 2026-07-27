@@ -368,7 +368,7 @@ class _LoadingBuilder extends StatelessWidget {
     required this.width,
     required this.height,
     required this.backgroundColor,
-    super.key
+    // super.key
   });
   // --------------------
   final Widget? child;
