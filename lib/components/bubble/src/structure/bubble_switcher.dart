@@ -76,7 +76,7 @@ class _BubbleSwitcherState extends State<BubbleSwitcher> {
 
             return Switch(
               /// COLORS
-              activeColor: widget.switchActiveColor,
+              activeThumbColor: widget.switchActiveColor,
               focusColor: widget.switchFocusColor,
               // overlayColor: ,
               /// SIZING

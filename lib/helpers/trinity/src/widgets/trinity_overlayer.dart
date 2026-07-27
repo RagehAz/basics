@@ -149,14 +149,14 @@ class OverLayLayer extends StatelessWidget {
             controller: controller,
             builder: (Matrix4 viewMatrix) {
 
-              viewMatrix = NeoMove.move(
+              final Matrix4 _movedViewMatrix = NeoMove.move(
                   matrix: viewMatrix,
                   x: position?.dx ?? 0,
                   y: position?.dy ?? 0,
               );
 
               return Transform(
-                transform: viewMatrix,
+                transform: _movedViewMatrix,
                 child: child,
                 // child: SuperImage(
                 //   loading: false,

@@ -465,9 +465,6 @@ class Dimensions {
 
         /// NON
         case BoxFit.none: _output = graphic;
-
-        ///DEFAULT
-        default: _output = graphic;
       }
 
     }

@@ -379,7 +379,6 @@ abstract class MapPathing {
     String? _output;
 
     if (TextCheck.isEmpty(newKey) == false){
-      newKey = newKey;
       _output = '$path$newKey/';
     }
 

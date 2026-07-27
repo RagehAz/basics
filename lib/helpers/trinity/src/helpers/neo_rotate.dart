@@ -163,7 +163,7 @@ abstract class NeoRotate {
 
     final Matrix4 rotationMatrix = Matrix4.rotationZ(rotation);
     final Matrix4 _matrix = Matrix4.identity()
-      ..scale(scaleX, scaleY, scaleZ)
+      ..scaleByDouble(scaleX, scaleY, scaleZ, 1)
       ..setTranslation(translation)
       ..multiply(rotationMatrix)
     ;

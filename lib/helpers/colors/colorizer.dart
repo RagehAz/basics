@@ -319,6 +319,18 @@ import 'package:basics/helpers/checks/tracers.dart';
 abstract class Colorizer {
   // -----------------------------------------------------------------------------
 
+  /// CHANNEL CONVERSION
+
+  // --------------------
+  /// converts a 0.0-1.0 color component into its 0-255 byte value
+  static int? _channelToByte(double? component) {
+    if (component == null){
+      return null;
+    }
+    return (component * 255.0).round().clamp(0, 255);
+  }
+  // -----------------------------------------------------------------------------
+
   /// CYPHERS
 
   // --------------------
@@ -382,10 +394,10 @@ abstract class Colorizer {
     else {
 
       final Color _color = color;
-      final int _alpha = _color.alpha;
-      final int _r = _color.red;
-      final int _g = _color.green;
-      final int _b = _color.blue;
+      final int _alpha = _channelToByte(_color.a)!;
+      final int _r = _channelToByte(_color.r)!;
+      final int _g = _channelToByte(_color.g)!;
+      final int _b = _channelToByte(_color.b)!;
 
       /// PLAN : CREATE FUNCTION THAT VALIDATES THIS REGEX PATTERN ON DECIPHER COLOR METHOD
       final String _string = '$_alpha*$_r*$_g*$_b';
@@ -459,9 +471,9 @@ abstract class Colorizer {
     required double opacity,
   }) {
     return Color.fromRGBO(
-        color.red,
-        color.green,
-        color.blue,
+        _channelToByte(color.r)!,
+        _channelToByte(color.g)!,
+        _channelToByte(color.b)!,
         opacity
     );
   }
@@ -476,9 +488,9 @@ abstract class Colorizer {
     const Color _black = Color.fromARGB(255, 0, 0, 0);
 
     if (color != null &&
-        color.red == _black.red &&
-        color.green == _black.green &&
-        color.blue == _black.blue) {
+        _channelToByte(color.r) == _channelToByte(_black.r) &&
+        _channelToByte(color.g) == _channelToByte(_black.g) &&
+        _channelToByte(color.b) == _channelToByte(_black.b)) {
       _isBlack = true;
     }
 
@@ -495,10 +507,10 @@ abstract class Colorizer {
     else if (color1 != null && color2 != null){
 
       if (
-      color1.alpha == color2.alpha &&
-          color1.red == color2.red &&
-          color1.green == color2.green &&
-          color1.blue == color2.blue
+      _channelToByte(color1.a) == _channelToByte(color2.a) &&
+          _channelToByte(color1.r) == _channelToByte(color2.r) &&
+          _channelToByte(color1.g) == _channelToByte(color2.g) &&
+          _channelToByte(color1.b) == _channelToByte(color2.b)
       ) {
         _areIdentical = true;
       }
@@ -610,9 +622,10 @@ abstract class Colorizer {
     }
     else {
 
-      final int red = (color.value >> 16) & 0xFF;
-      final int green = (color.value >> 8) & 0xFF;
-      final int blue = color.value & 0xFF;
+      final int argb = color.toARGB32();
+      final int red = (argb >> 16) & 0xFF;
+      final int green = (argb >> 8) & 0xFF;
+      final int blue = argb & 0xFF;
 
       return '#${red.toRadixString(16).padLeft(2, '0')}'
           '${green.toRadixString(16).padLeft(2, '0')}'
@@ -640,7 +653,7 @@ abstract class Colorizer {
   // --------------------
   ///
   static void blogColor(Color? color){
-    blog('Color.r(${color?.red}).g(${color?.green}).b(${color?.blue}).o(${color?.opacity})');
+    blog('Color.r(${_channelToByte(color?.r)}).g(${_channelToByte(color?.g)}).b(${_channelToByte(color?.b)}).o(${color?.a})');
   }
 // -----------------------------------------------------------------------------
 }
