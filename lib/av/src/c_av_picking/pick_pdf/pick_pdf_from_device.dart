@@ -16,7 +16,7 @@ abstract class _PickPDFFromDevice {
 
     AvModel? _output;
 
-    final FilePickerResult? result = await FilePicker.platform.pickFiles(
+    final FilePickerResult? result = await FilePicker.pickFiles(
       type: FileType.custom,
       // allowCompression: true,
       // allowMultiple: false,
