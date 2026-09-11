@@ -1,5 +1,13 @@
 part of ldb;
 /// => TAMAM
+/// Storage-agnostic finder/filter search API on top of `LDBOps`'s
+/// ObjectBox-backed store -- every method here fetches the full
+/// (docName-scoped) record set via `LdbBobOps.readAll` then evaluates the
+/// same sembast `Finder`/`Filter`/`SortOrder` objects against it via
+/// `LdbFinderEngine.apply` (see `ldb_finder_engine.dart`). This keeps
+/// `LDBSearch` reading from the exact same backing store that `LDBOps`
+/// writes to (closing the sembast/ObjectBox split-brain that existed while
+/// only `LDBOps` had been migrated).
 abstract class LDBSearch {
   // -----------------------------------------------------------------------------
 
@@ -10,10 +18,10 @@ abstract class LDBSearch {
   static Future<List<Map<String, dynamic>>> byFinder({
     required Finder finder,
     required String? docName,
-  }) => SembastSearch.searchMaps(
-    docName: docName,
-    finder: finder,
-  );
+  }) async {
+    final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
+    return LdbFinderEngine.apply(maps: _maps, finder: finder);
+  }
   // -----------------------------------------------------------------------------
 
   /// FOR MAP
@@ -34,9 +42,9 @@ abstract class LDBSearch {
         docName != null
     ) {
 
-      _output = await SembastSearch.searchFirst(
-        docName: docName,
-        invoker: invoker,
+      final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
+      final List<Map<String, dynamic>> _result = LdbFinderEngine.apply(
+        maps: _maps,
         finder: Finder(
           filter: Filter.equals(field, value, anyInList: false),
           // sortOrders: <SortOrder>[
@@ -44,6 +52,7 @@ abstract class LDBSearch {
           // ],
         ),
       );
+      _output = _result.isNotEmpty ? _result.first : null;
 
     }
 
@@ -71,8 +80,9 @@ abstract class LDBSearch {
         docName != null
     ){
 
-      _output = await SembastSearch.searchMaps(
-        docName: docName,
+      final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
+      _output = LdbFinderEngine.apply(
+        maps: _maps,
         finder: Finder(
           filter: Filter.equals(field, value, anyInList: fieldIsList),
           sortOrders: <SortOrder>[SortOrder(sortByField)],
@@ -109,8 +119,9 @@ abstract class LDBSearch {
         sortByField != null
     ){
 
-      _output = await SembastSearch.searchMaps(
-        docName: docName,
+      final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
+      _output = LdbFinderEngine.apply(
+        maps: _maps,
         finder: Finder(
           filter: Filter.inList(field, <Object>[...list!]),
           sortOrders: <SortOrder>[SortOrder(sortByField)],
@@ -148,8 +159,9 @@ abstract class LDBSearch {
         _value = TextMod.replaceAllCharacters(characterToReplace: r'\', replacement: '', input: _value.trim());
       }
 
-      _output = await SembastSearch.searchMaps(
-        docName: docName,
+      final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
+      _output = LdbFinderEngine.apply(
+        maps: _maps,
         finder: Finder(
           filter: Filter.matches(_field, _value, anyInList: true),
           sortOrders: <SortOrder>[

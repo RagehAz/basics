@@ -1,5 +1,11 @@
 part of ldb;
 /// => TAMAM
+/// Storage-agnostic key-value document API -- every method here is scoped
+/// purely by `docName` + `primaryKey`, with no sembast- or ObjectBox-
+/// specific concept leaking through. That's what made it possible to swap
+/// the entire backing store from sembast to ObjectBox (see LdbBobOps in
+/// basics/lib/ldbob/src/models/ldb_bob.dart) without touching any of this
+/// class's 30+ callers across the app.
 abstract class LDBOps {
   // -----------------------------------------------------------------------------
 
@@ -12,7 +18,7 @@ abstract class LDBOps {
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
-  }) => SembastInsertSingle.insert(
+  }) => LdbBobOps.insert(
     map: input,
     docName: docName,
     primaryKey: primaryKey,
@@ -25,7 +31,7 @@ abstract class LDBOps {
     required String? docName,
     required String? primaryKey,
     bool allowDuplicateIDs = false,
-  }) => SembastInsertMultiple.insertAll(
+  }) => LdbBobOps.insertMany(
     maps: inputs,
     docName: docName,
     primaryKey: primaryKey,
@@ -37,12 +43,12 @@ abstract class LDBOps {
 
   // --------------------
   /// TESTED : WORKS PERFECT
-  static dynamic readField({
+  static Future<dynamic> readField({
     required String? docName,
     required String? id,
     required String? fieldName,
     required String? primaryKey,
-  }) => SembastRead.readField(
+  }) => LdbBobOps.readField(
     docName: docName,
     id: id,
     primaryKey: primaryKey,
@@ -54,7 +60,7 @@ abstract class LDBOps {
     required String? docName,
     required String? id,
     required String? primaryKey,
-  }) => SembastRead.readMap(
+  }) => LdbBobOps.readMap(
     docName: docName,
     id: id,
     primaryKey: primaryKey,
@@ -65,7 +71,7 @@ abstract class LDBOps {
     required List<String>? ids,
     required String? docName,
     required String? primaryKey,
-  }) => SembastRead.readMaps(
+  }) => LdbBobOps.readMaps(
     primaryKey: primaryKey,
     ids: ids,
     docName: docName,
@@ -74,7 +80,7 @@ abstract class LDBOps {
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readAllMaps({
     required String? docName,
-  }) => SembastRead.readAll(
+  }) => LdbBobOps.readAll(
     docName: docName,
   );
   // -----------------------------------------------------------------------------
@@ -87,7 +93,7 @@ abstract class LDBOps {
     required String? objectID,
     required String? docName,
     required String? primaryKey,
-  }) => SembastDelete.deleteMap(
+  }) => LdbBobOps.deleteMap(
     docName: docName,
     id: objectID,
     primaryKey: primaryKey,
@@ -98,30 +104,16 @@ abstract class LDBOps {
     required List<String>? ids,
     required String? docName,
     required String? primaryKey,
-  }) => SembastDelete.deleteMaps(
+  }) => LdbBobOps.deleteMaps(
     docName: docName,
     primaryKey: primaryKey,
     ids: ids,
   );
   // --------------------
-  /// DEPRECATED
-  /*
-  /// TESTED : WORKS PERFECT
-  static Future<void> deleteAllMapsOneByOne({
-    required String docName,
-  }) async {
-
-    await Sembast.deleteAllOneByOne(
-      docName: docName,
-    );
-
-  }
-   */
-  // --------------------
   /// TESTED : WORKS PERFECT
   static Future<bool> deleteAllMapsAtOnce({
     required String? docName,
-  }) => SembastDelete.deleteAllAtOnce(
+  }) => LdbBobOps.deleteAllAtOnce(
       docName: docName
   );
   // -----------------------------------------------------------------------------
@@ -134,7 +126,7 @@ abstract class LDBOps {
     required String? id,
     required String? docName,
     required String? primaryKey,
-  }) => SembastCheck.checkMapExists(
+  }) => LdbBobOps.checkMapExists(
     docName: docName,
     id: id,
     primaryKey: primaryKey,

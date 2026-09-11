@@ -3,7 +3,7 @@
 // with `dart run build_runner build`.
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
-// ignore_for_file: avoid_js_rounded_ints, camel_case_types, depend_on_referenced_packages
+// ignore_for_file: camel_case_types, depend_on_referenced_packages
 // coverage:ignore-file
 
 import 'dart:typed_data';
@@ -740,6 +740,42 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(6, 1191506801724220736),
+    name: 'LdbBob',
+    lastPropertyId: const obx_int.IdUid(4, 2211157649427674943),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 7671737207746709916),
+        name: 'bobID',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 6161425564542331608),
+        name: 'docName',
+        type: 9,
+        flags: 2048,
+        indexId: const obx_int.IdUid(6, 6925338489205362936),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 3987018499047982129),
+        name: 'recordID',
+        type: 9,
+        flags: 2048,
+        indexId: const obx_int.IdUid(7, 1365451645623757286),
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 2211157649427674943),
+        name: 'jsonValue',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -785,8 +821,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(5, 121496023269835284),
-    lastIndexId: const obx_int.IdUid(5, 5847640084985929942),
+    lastEntityId: const obx_int.IdUid(6, 1191506801724220736),
+    lastIndexId: const obx_int.IdUid(7, 1365451645623757286),
     lastRelationId: const obx_int.IdUid(0, 0),
     lastSequenceId: const obx_int.IdUid(0, 0),
     retiredEntityUids: const [],
@@ -1788,6 +1824,54 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    LdbBob: obx_int.EntityDefinition<LdbBob>(
+      model: _entities[5],
+      toOneRelations: (LdbBob object) => [],
+      toManyRelations: (LdbBob object) => {},
+      getId: (LdbBob object) => object.bobID,
+      setId: (LdbBob object, int id) {
+        object.bobID = id;
+      },
+      objectToFB: (LdbBob object, fb.Builder fbb) {
+        final docNameOffset = fbb.writeString(object.docName);
+        final recordIDOffset = fbb.writeString(object.recordID);
+        final jsonValueOffset = fbb.writeString(object.jsonValue);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.bobID);
+        fbb.addOffset(1, docNameOffset);
+        fbb.addOffset(2, recordIDOffset);
+        fbb.addOffset(3, jsonValueOffset);
+        fbb.finish(fbb.endTable());
+        return object.bobID;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final bobIDParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final docNameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final recordIDParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final jsonValueParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final object = LdbBob(
+          bobID: bobIDParam,
+          docName: docNameParam,
+          recordID: recordIDParam,
+          jsonValue: jsonValueParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -2356,5 +2440,28 @@ class UserBob_ {
   /// See [UserBob.questionsIDs].
   static final questionsIDs = obx.QueryStringVectorProperty<UserBob>(
     _entities[4].properties[27],
+  );
+}
+
+/// [LdbBob] entity fields to define ObjectBox queries.
+class LdbBob_ {
+  /// See [LdbBob.bobID].
+  static final bobID = obx.QueryIntegerProperty<LdbBob>(
+    _entities[5].properties[0],
+  );
+
+  /// See [LdbBob.docName].
+  static final docName = obx.QueryStringProperty<LdbBob>(
+    _entities[5].properties[1],
+  );
+
+  /// See [LdbBob.recordID].
+  static final recordID = obx.QueryStringProperty<LdbBob>(
+    _entities[5].properties[2],
+  );
+
+  /// See [LdbBob.jsonValue].
+  static final jsonValue = obx.QueryStringProperty<LdbBob>(
+    _entities[5].properties[3],
   );
 }

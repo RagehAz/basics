@@ -27,3 +27,4 @@ part 'src/models/fish_bob.dart';
 part 'src/models/flyer_bob.dart';
 part 'src/models/user_bob.dart';
 part 'src/models/av_bob.dart';
+part 'src/models/ldb_bob.dart';

@@ -288,12 +288,23 @@ abstract class _AvFoundation {
   }) async {
     List<AvBob>? _output = [];
 
+    /// all AvBob docNames now share one Box<AvBob> (see BobInit) --
+    /// bobDocName is what keeps this docName's records apart from every
+    /// other docName's records living in the same box.
     await tryAndCatch(
       invoker: r'AvFoundation.readAll',
       timeout: BobInfo.theTimeOutS,
       functions: () async {
+
         final Box<AvBob>? _box = await _getStoreBox(docName);
-        _output = cleanNullModels(_box?.getAll());
+
+        if (_box != null){
+          final Condition<AvBob> _condition = AvBob_.bobDocName.equals(docName, caseSensitive: true);
+          final Query<AvBob> _query = _box.query(_condition).build();
+          _output = cleanNullModels(_query.find());
+          _query.close();
+        }
+
       },
     );
 
@@ -324,7 +335,7 @@ abstract class _AvFoundation {
             final Condition<AvBob> _condition = AvBob_.id.equals(modelID,
               caseSensitive: true, /// if it's a string use a case-sensitive condition, to speed up lookups.
               // alias:  , // future version thing
-            );
+            ) & AvBob_.bobDocName.equals(docName, caseSensitive: true);
             final Query<AvBob> _query = (_box.query(_condition)..order(AvBob_.id)).build();
             _output =  _query.findUnique();
             _query.close();
@@ -363,7 +374,7 @@ abstract class _AvFoundation {
               /// if it's a string use a case-sensitive condition, to speed up lookups.
               caseSensitive: true,
               // alias:  , // future version thing
-            );
+            ) & AvBob_.bobDocName.equals(docName, caseSensitive: true);
             final Query<AvBob> _query = (_box.query(_condition)..order(AvBob_.id)).build();
             _output = _query.find();
             _query.close();
@@ -487,6 +498,8 @@ abstract class _AvFoundation {
   }) async {
     bool _success = false;
 
+    /// all AvBob docNames now share one Box<AvBob> (see BobInit) -- must
+    /// only remove THIS docName's records, not every docName's at once.
     await tryAndCatch(
       invoker: r'AvFoundation.deleteAll',
       timeout: BobInfo.theTimeOutS,
@@ -495,7 +508,10 @@ abstract class _AvFoundation {
         final Box<AvBob>? _box = await _getStoreBox(docName);
 
         if (_box != null){
-          final int _count = _box.removeAll();
+          final Condition<AvBob> _condition = AvBob_.bobDocName.equals(docName, caseSensitive: true);
+          final Query<AvBob> _query = _box.query(_condition).build();
+          final int _count = _query.remove();
+          _query.close();
           _success = _count >= 0;
         }
 
@@ -514,7 +530,14 @@ abstract class _AvFoundation {
     required String docName,
   }) async {
     final Box<AvBob>? _box = await _getStoreBox(docName);
-    return _box?.count();
+    if (_box == null){
+      return null;
+    }
+    final Condition<AvBob> _condition = AvBob_.bobDocName.equals(docName, caseSensitive: true);
+    final Query<AvBob> _query = _box.query(_condition).build();
+    final int _count = _query.count();
+    _query.close();
+    return _count;
   }
   // --------------------------------------------------------------------------
 
@@ -541,7 +564,7 @@ abstract class _AvFoundation {
             final Condition<AvBob> _condition = AvBob_.id.equals(modelID,
               caseSensitive: true, /// if it's a string use a case-sensitive condition, to speed up lookups.
               // alias:  , // future version thing
-            );
+            ) & AvBob_.bobDocName.equals(docName, caseSensitive: true);
             final Query<AvBob> _query = (_box.query(_condition)..order(AvBob_.id)).build();
             final int _count = _query.count();
             _output = _count > 0;

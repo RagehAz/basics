@@ -29,14 +29,23 @@ import 'package:basics/layouts/handlers/max_bounce_navigator.dart';
 import 'package:basics/layouts/layouts/basic_layout.dart';
 import 'package:basics/layouts/nav/nav.dart';
 import 'package:basics/layouts/views/floating_list.dart';
+import 'package:basics/ldbob/bob.dart' show LdbBobOps;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-// import 'package:sembast/sembast.dart';
+import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:sembast_web/sembast_web.dart';
+// ignore: implementation_imports
+import 'package:sembast/src/api/protected/filter.dart' show SembastFilter;
+// ignore: implementation_imports
+import 'package:sembast/src/api/protected/type.dart' as sembast_type show Key, Value;
+// ignore: implementation_imports
+import 'package:sembast/src/finder_impl.dart' show SembastFinder;
+// ignore: implementation_imports
+import 'package:sembast/src/sort_order_impl.dart' show SembastSortOrderBase;
 
 export 'package:sembast/sembast.dart';
 export 'package:sembast/src/api/filter.dart';
@@ -49,6 +58,12 @@ part 'src/ldb_viewer/value_box.dart';
 part 'src/models/ldb_mapper.dart';
 part 'src/ops/ldb_ops.dart';
 part 'src/ops/ldb_search.dart';
+part 'src/foundation/ldb_finder_engine.dart';
+/// NOTE : bldrs_app's own LDBOps/LDBSearch no longer call into the sembast
+/// parts below (see ldb_ops.dart/ldb_search.dart, both now ObjectBox-backed
+/// via LdbBobOps/LdbFinderEngine) -- but this `basics` package is shared
+/// with another project that still uses these sembast classes directly.
+/// DO NOT DELETE.
 part 'src/foundation/sembast_insert_multiple.dart';
 part 'src/foundation/sembast_read.dart';
 part 'src/foundation/sembast_delete.dart';

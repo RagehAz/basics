@@ -612,10 +612,43 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "6:1191506801724220736",
+      "lastPropertyId": "4:2211157649427674943",
+      "name": "LdbBob",
+      "properties": [
+        {
+          "id": "1:7671737207746709916",
+          "name": "bobID",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6161425564542331608",
+          "name": "docName",
+          "indexId": "6:6925338489205362936",
+          "type": 9,
+          "flags": 2048
+        },
+        {
+          "id": "3:3987018499047982129",
+          "name": "recordID",
+          "indexId": "7:1365451645623757286",
+          "type": 9,
+          "flags": 2048
+        },
+        {
+          "id": "4:2211157649427674943",
+          "name": "jsonValue",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "5:121496023269835284",
-  "lastIndexId": "5:5847640084985929942",
+  "lastEntityId": "6:1191506801724220736",
+  "lastIndexId": "7:1365451645623757286",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
