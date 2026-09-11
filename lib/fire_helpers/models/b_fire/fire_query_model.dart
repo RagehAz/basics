@@ -12,12 +12,16 @@ class FireQueryModel {
     this.doc,
     this.subColl,
     this.idFieldName ='id',
-    this.limit,
+    this.limit = defaultLimit,
     this.orderBy,
     this.finders,
     this.initialMaps,
   });
   /// --------------------------------------------------------------------------
+  /// safety net so a caller can't accidentally open a truly unbounded
+  /// Firestore read/listener just by forgetting to pass `limit` -- pass
+  /// `limit: null` explicitly if a query genuinely needs every doc.
+  static const int defaultLimit = 50;
   final String coll;
   final String? doc;
   final String? subColl;
