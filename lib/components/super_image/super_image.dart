@@ -2,6 +2,7 @@
 library super_image;
 // --------------------------------------------------------------------------
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -11,6 +12,7 @@ import 'package:basics/components/animators/widget_fader.dart';
 import 'package:basics/bldrs_theme/classes/colorz.dart';
 import 'package:basics/filing/filing.dart';
 import 'package:basics/helpers/checks/tracers.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:flutter/material.dart';

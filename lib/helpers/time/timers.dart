@@ -83,6 +83,9 @@ abstract class Timers {
   /// "2019-07-19 8:40:23"
   static intl.DateFormat utcDateFormat = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
   static intl.DateFormat localDateFormat = intl.DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  static intl.DateFormat dayNameFormat = intl.DateFormat('EEEE');
+  static intl.DateFormat hourFormat = intl.DateFormat('h');
+  static intl.DateFormat ampmFormat = intl.DateFormat('a');
   // --------------------
   static DateTime? simplifyTime(DateTime? time){
     if (time == null){
@@ -436,7 +439,7 @@ abstract class Timers {
       return null;
     }
     else {
-      return intl.DateFormat('EEEE').format(time);
+      return dayNameFormat.format(time);
     }
 
   }
@@ -471,9 +474,9 @@ abstract class Timers {
     }
 
     else {
-      final String _hh = intl.DateFormat('h').format(time);
+      final String _hh = hourFormat.format(time);
       final String? _mm = Numeric.formatIntWithinDigits(num: time.minute, digits: 2);
-      final String _ampm = intl.DateFormat('a').format(time);
+      final String _ampm = ampmFormat.format(time);
       return '$_hh:$_mm $_ampm';
     }
 
@@ -512,9 +515,9 @@ abstract class Timers {
       );
 
       if (_timeIsEmpty == false) {
-        final String? _hh = intl.DateFormat('h').format(time);
+        final String? _hh = hourFormat.format(time);
         final String? _mm = Numeric.formatIntWithinDigits(num: time.minute, digits: 2);
-        final String? _ampm = intl.DateFormat('a').format(time);
+        final String? _ampm = ampmFormat.format(time);
         final String? _day = generateDayName(time);
         final String? _dd = '${time.day}';
         final String? _MM = time.month.toString();

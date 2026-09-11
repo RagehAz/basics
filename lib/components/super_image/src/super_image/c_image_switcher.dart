@@ -135,15 +135,18 @@ class ImageSwitcher extends StatelessWidget {
       /// URL
       else if (ObjectCheck.isAbsoluteURL(pic) == true){
 
-        return Image.network(
-          pic.trim(),
+        /// GOES THROUGH flutter_cache_manager's DISK CACHE INSTEAD OF Image.network's
+        /// IN-MEMORY-ONLY CACHE, SO REPEAT VIEWS (INCLUDING ACROSS COLD APP STARTS)
+        /// DON'T RE-DOWNLOAD THE SAME REMOTE IMAGE.
+        return _CachedNetworkImage(
           key: const ValueKey<String>('SuperImage_url'),
+          url: pic.trim(),
           fit: _boxFit,
           width: width,
           height: height,
+          backgroundColor: backgroundColor,
           errorBuilder: _errorBuilder,
           gaplessPlayback: _gaplessPlayback,
-          loadingBuilder: _getLoadingBuilder,
         );
 
       }
@@ -424,6 +427,130 @@ class _LoadingBuilder extends StatelessWidget {
 
     }
     // --------------------
+  }
+  // -----------------------------------------------------------------------------
+}
+
+/// NETWORK IMAGE SERVED THROUGH flutter_cache_manager's DISK CACHE, SO THE
+/// SAME URL ISN'T RE-DOWNLOADED ON EVERY COLD APP START LIKE Image.network
+/// (WHICH ONLY GETS FLUTTER'S IN-MEMORY ImageCache).
+class _CachedNetworkImage extends StatefulWidget {
+  // --------------------------------------------------------------------------
+  const _CachedNetworkImage({
+    required this.url,
+    required this.width,
+    required this.height,
+    required this.fit,
+    required this.backgroundColor,
+    required this.gaplessPlayback,
+    required this.errorBuilder,
+    super.key,
+  });
+  // --------------------
+  final String url;
+  final double? width;
+  final double height;
+  final BoxFit fit;
+  final Color? backgroundColor;
+  final bool gaplessPlayback;
+  final ImageErrorWidgetBuilder errorBuilder;
+  // -----------------------------------------------------------------------------
+  @override
+  State<_CachedNetworkImage> createState() => _CachedNetworkImageState();
+}
+
+class _CachedNetworkImageState extends State<_CachedNetworkImage> {
+  // --------------------
+  File? _file;
+  double? _progress;
+  Object? _error;
+  StreamSubscription<FileResponse>? _subscription;
+  // -----------------------------------------------------------------------------
+  @override
+  void initState() {
+    super.initState();
+    _listen();
+  }
+  // --------------------
+  @override
+  void didUpdateWidget(covariant _CachedNetworkImage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.url != widget.url){
+      unawaited(_subscription?.cancel());
+      _file = null;
+      _progress = null;
+      _error = null;
+      _listen();
+    }
+  }
+  // --------------------
+  void _listen(){
+    _subscription = DefaultCacheManager()
+        .getFileStream(widget.url, withProgress: true)
+        .listen(
+      (FileResponse response) {
+        if (mounted == true){
+          if (response is FileInfo){
+            setState(() {
+              _file = response.file;
+              _progress = null;
+            });
+          }
+          else if (response is DownloadProgress){
+            setState(() {
+              _progress = response.progress;
+            });
+          }
+        }
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        blog('SUPER_IMAGE_CACHED_NETWORK_ERROR:url(${widget.url}).error($error)');
+        if (mounted == true){
+          setState(() {
+            _error = error;
+          });
+        }
+      },
+    );
+  }
+  // --------------------
+  @override
+  void dispose() {
+    unawaited(_subscription?.cancel());
+    super.dispose();
+  }
+  // -----------------------------------------------------------------------------
+  @override
+  Widget build(BuildContext context) {
+
+    if (_error != null){
+      return widget.errorBuilder(context, _error!, null);
+    }
+
+    else if (_file != null){
+      return Image.file(
+        _file!,
+        fit: widget.fit,
+        width: widget.width,
+        height: widget.height,
+        errorBuilder: widget.errorBuilder,
+        gaplessPlayback: widget.gaplessPlayback,
+      );
+    }
+
+    else {
+      return _LoadingBuilder(
+        width: widget.width,
+        height: widget.height,
+        backgroundColor: widget.backgroundColor,
+        imageChunkEvent: _progress == null ? null : ImageChunkEvent(
+          cumulativeBytesLoaded: (_progress! * 1000).round(),
+          expectedTotalBytes: 1000,
+        ),
+        child: null,
+      );
+    }
+
   }
   // -----------------------------------------------------------------------------
 }
