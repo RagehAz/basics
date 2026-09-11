@@ -11,6 +11,9 @@ abstract class TextCheck {
 
   // --------------------
   static const String urlPattern = r'((https?:www\.)|(https?:\/\/)|(www\.))[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9]{1,6}(\/[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)?';
+  static final RegExp _englishLetterWithUnicodeExp = RegExp('[a-zA-Z]', multiLine: true, unicode: true);
+  static final RegExp _arabicExp = RegExp(r'^[؀-ۿ]+$', multiLine: true);
+  static final RegExp _englishLetterExp = RegExp(r'[a-zA-Z]', multiLine: true);
   // -----------------------------------------------------------------------------
 
   /// BAD WORDS
@@ -54,7 +57,7 @@ abstract class TextCheck {
     }
 
     else {
-    final RegExp exp = RegExp('[a-zA-Z]', multiLine: true, unicode: true);
+    final RegExp exp = _englishLetterWithUnicodeExp;
     bool textIsEnglish = true;
 
     /// if you want to check the last character input by user let the [characterNumber = val.length-1;]
@@ -95,9 +98,7 @@ abstract class TextCheck {
       // "[\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufc3f]|[\ufe70-\ufefc]"
 
       /// This works for Arabic/Persian even numbers.
-      const String _reg = r'^[؀-ۿ]+$';
-
-      final RegExp _exp = RegExp(_reg, multiLine: true);
+      final RegExp _exp = _arabicExp;
       // bool isArabic;
 
       final String? _firstCharacter = TextMod.cutFirstCharacterAfterRemovingSpacesFromAString(val);
@@ -118,8 +119,7 @@ abstract class TextCheck {
   // --------------------
   /// AI TESTED
   static bool textStartsInEnglish(String? val) {
-    const String _reg = r'[a-zA-Z]';
-    final RegExp _exp = RegExp(_reg, multiLine: true);
+    final RegExp _exp = _englishLetterExp;
     final String? _firstCharacter = TextMod.cutFirstCharacterAfterRemovingSpacesFromAString(val);
 
     bool _startsInEnglish = true;

@@ -13,6 +13,9 @@ import 'package:cross_file/cross_file.dart';
 
 abstract class ObjectCheck {
   // -----------------------------------------------------------------------------
+  static final RegExp _urlExp = RegExp(TextCheck.urlPattern);
+  static final RegExp _base64Exp = RegExp(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$');
+  // -----------------------------------------------------------------------------
 
   /// URL
 
@@ -57,8 +60,7 @@ abstract class ObjectCheck {
 
     if (object != null && object is String) {
 
-      final RegExp regExp = RegExp(TextCheck.urlPattern);
-      _isURLFormat = regExp.hasMatch(object);
+      _isURLFormat = _urlExp.hasMatch(object);
 
     }
 
@@ -89,8 +91,7 @@ abstract class ObjectCheck {
           final List<int> decodedBytes = base64.decode(trimmedValue);
 
           if (decodedBytes.length % 3 == 0) {
-            final RegExp base64Regex = RegExp(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$');
-            _output = base64Regex.hasMatch(trimmedValue);
+            _output = _base64Exp.hasMatch(trimmedValue);
           }
           else {
             _output = false;

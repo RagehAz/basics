@@ -5,6 +5,9 @@ import 'package:basics/helpers/strings/text_mod.dart';
 /// => TAMAM
 abstract class TextFind {
   // -----------------------------------------------------------------------------
+  static final RegExp _hashtagWithDashExp = RegExp(r'\B#[\w-]+');
+  static final RegExp _hashtagWithoutDashExp = RegExp(r'\B#\w\w+');
+  // -----------------------------------------------------------------------------
 
   /// REG EX
 
@@ -227,17 +230,7 @@ abstract class TextFind {
 
     if (text != null && text.isNotEmpty == true){
 
-      String _rawExp;
-      /// CONSIDER DASH
-      if (considerDash == true){
-        _rawExp = r'\B#[\w-]+';
-      }
-      /// IGNORE DASH
-      else {
-        _rawExp = r'\B#\w\w+';
-      }
-
-      final RegExp exp = RegExp(_rawExp);
+      final RegExp exp = considerDash == true ? _hashtagWithDashExp : _hashtagWithoutDashExp;
       exp.allMatches(text).forEach((match){
 
         final String? _match = match.group(0);

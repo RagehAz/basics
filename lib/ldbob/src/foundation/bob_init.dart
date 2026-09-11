@@ -18,6 +18,11 @@ class BobInit {
 
   // --------------------
   final List<StoreModel> _stores = [];
+  // --------------------
+  /// one Completer per docName currently being opened -- concurrent callers
+  /// await the SAME Completer instead of busy-polling every 100ms until it
+  /// shows up in _stores.
+  final Map<String, Completer<Store?>> _storeCreationCompleters = {};
   // -----------------------------------------------------------------------------
 
   /// GET STORE
@@ -28,42 +33,45 @@ class BobInit {
     required String docName,
   }) async {
 
-    StoreModel? _storeModel = StoreModel.getStoreByDocName(
+    final StoreModel? _cachedStoreModel = StoreModel.getStoreByDocName(
       stores: _stores,
       docName: docName,
     );
 
-    if (_storeModel == null){
-
-      /// IS CREATING
-      if (_checkIsCreatingStore(docName) == true){
-
-        await Future.delayed(const Duration(milliseconds: 100));
-
-        return getStoreRecursive(docName: docName);
-
-      }
-
-      /// IS NOT CREATING IT
-      else {
-
-        _markStoreInCreation(docName);
-
-        _storeModel = await StoreModel.createNewModel(
-            docName: docName
-        );
-
-        if (_storeModel != null){
-          _stores.add(_storeModel);
-        }
-
-        _removeStoreFromInCreation(docName);
-
-      }
-
+    if (_cachedStoreModel != null){
+      return _cachedStoreModel.store;
     }
 
-    return  _storeModel?.store;
+    /// ALREADY BEING OPENED BY ANOTHER CALLER -- WAIT ON THE SAME COMPLETER
+    final Completer<Store?>? _inProgress = _storeCreationCompleters[docName];
+    if (_inProgress != null){
+      return _inProgress.future;
+    }
+
+    final Completer<Store?> _completer = Completer<Store?>();
+    _storeCreationCompleters[docName] = _completer;
+
+    try {
+
+      final StoreModel? _storeModel = await StoreModel.createNewModel(
+          docName: docName
+      );
+
+      if (_storeModel != null){
+        _stores.add(_storeModel);
+      }
+
+      _completer.complete(_storeModel?.store);
+
+    }
+    catch (error, stackTrace){
+      _completer.completeError(error, stackTrace);
+    }
+    finally {
+      _storeCreationCompleters.remove(docName);
+    }
+
+    return _completer.future;
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -79,33 +87,6 @@ class BobInit {
     );
 
     return _store;
-  }
-  // -----------------------------------------------------------------------------
-
-  /// STORES IN CREATION
-
-  // --------------------
-  List<String> _storesInCreation = [];
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  void _markStoreInCreation(String docName){
-    _storesInCreation = Stringer.addStringToListIfDoesNotContainIt(
-      strings: _storesInCreation,
-      stringToAdd: docName,
-    );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  void _removeStoreFromInCreation(String docName){
-    _storesInCreation = Stringer.removeStringFromStrings(
-      removeFrom: _storesInCreation,
-      removeThis: docName,
-    );
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  bool _checkIsCreatingStore(String docName){
-    return Stringer.checkStringsContainString(strings: _storesInCreation, string: docName);
   }
   // -----------------------------------------------------------------------------
 

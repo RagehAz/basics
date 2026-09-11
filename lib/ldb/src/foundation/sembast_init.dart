@@ -22,43 +22,45 @@ class SembastInit {
   Future<Database?> get database async =>  _database ??= await _createDatabaseRecursive();
   static Future<Database?> _getTheDatabase() => SembastInit.instance.database;
   static StoreRef<int, Map<String, dynamic>> _getTheStore(String? docName) => intMapStoreFactory.store(docName);
-  bool _isCreatingDB = false;
+  /// concurrent callers await this SAME Completer instead of busy-polling
+  /// every 100ms until _database shows up.
+  Completer<Database?>? _creationCompleter;
   // --------------------
   /// TESTED : WORKS PERFECT
   Future<Database?> _createDatabaseRecursive() async {
-    Database? _output = _database;
 
-    if (_database == null){
-
-      /// IS CREATING
-      if (_isCreatingDB == true){
-        await Future.delayed(const Duration(milliseconds: 100));
-        return _createDatabaseRecursive();
-      }
-
-      /// IS NOT CREATING IT
-      else {
-
-        _isCreatingDB = true;
-
-        if (kIsWeb){
-          _output = await _createWebDatabase();
-        }
-        else {
-          _output = await _createSmartPhoneDatabase();
-        }
-
-        if (_output != null){
-          _database = _output;
-        }
-
-        _isCreatingDB = false;
-
-      }
-
+    if (_database != null){
+      return _database;
     }
 
-    return _output;
+    if (_creationCompleter != null){
+      return _creationCompleter!.future;
+    }
+
+    final Completer<Database?> _completer = Completer<Database?>();
+    _creationCompleter = _completer;
+
+    try {
+
+      final Database? _output = kIsWeb
+          ? await _createWebDatabase()
+          : await _createSmartPhoneDatabase();
+
+      if (_output != null){
+        _database = _output;
+      }
+
+      _completer.complete(_output);
+
+    }
+    catch (error, stackTrace){
+      _completer.completeError(error, stackTrace);
+    }
+    finally {
+      _creationCompleter = null;
+    }
+
+    return _completer.future;
   }
   // --------------------
   /// TESTED : WORKS PERFECT

@@ -144,6 +144,27 @@ abstract class Mapper {
   }
    */
   // --------------------
+  /// Deep-copies [value] while converting every nested map (Realtime
+  /// Database returns loosely-typed `LinkedHashMap<Object?, Object?>`
+  /// trees) into `Map<String, dynamic>` at every level, and every nested
+  /// list into `List<dynamic>`. Same structural guarantee as
+  /// `jsonDecode(jsonEncode(value))`, without the string-serialization
+  /// round trip. Primitives (String/num/bool/null) are immutable in Dart,
+  /// so reusing those references is still a safe deep copy.
+  static dynamic _deepConvertIHLMOOValue(dynamic value){
+    if (value is Map){
+      return value.map<String, dynamic>(
+          (dynamic key, dynamic val) => MapEntry<String, dynamic>(key.toString(), _deepConvertIHLMOOValue(val))
+      );
+    }
+    else if (value is List){
+      return value.map(_deepConvertIHLMOOValue).toList();
+    }
+    else {
+      return value;
+    }
+  }
+  // --------------------
   /// MANUALLY TESTED : WORKS PERFECT
   static Map<String, dynamic>? getMapFromIHLMOO({
     required dynamic ihlmoo,
@@ -153,8 +174,7 @@ abstract class Mapper {
     /// NOTE : IHLMOO = Internal Hash Linked Map Object Object
 
     if (ihlmoo != null){
-      _output = jsonDecode(jsonEncode(ihlmoo));
-      // _output = Map<String, dynamic>.from(internalHashLinkedMapObjectObject);
+      _output = _deepConvertIHLMOOValue(ihlmoo) as Map<String, dynamic>;
     }
 
     return _output;
@@ -171,14 +191,12 @@ abstract class Mapper {
 
     if (ihlmoo != null){
 
-      final Map<String, dynamic> _bigMap = jsonDecode(jsonEncode(ihlmoo));
-      // Map.from(internalHashLinkedMapObjectObject);
+      final Map<String, dynamic> _bigMap = _deepConvertIHLMOOValue(ihlmoo) as Map<String, dynamic>;
       final List<String> _ids = _bigMap.keys.toList();
 
       for (final String id in _ids){
 
-        Map<String, dynamic> _map = jsonDecode(jsonEncode(_bigMap[id]));
-        // Map.from();
+        Map<String, dynamic> _map = _deepConvertIHLMOOValue(_bigMap[id]) as Map<String, dynamic>;
 
         if (addChildrenIDs == true){
           _map = insertPairInMap(
