@@ -958,13 +958,22 @@ abstract class Indexer {
   }) {
     final List<int> _indexes = <int>[];
 
+    /// tracks the same values as [_indexes] but as a Set, so each
+    /// collision check below is O(1) instead of routing through
+    /// createUniqueIndex's List.contains (O(n) against the growing
+    /// _indexes list, making this loop O(n^2) overall).
+    final Set<int> _usedIndexes = <int>{};
+
     for (int i = 0; i < numberOfIndexes; i++) {
 
-      final int _newIndex = createUniqueIndex(
-          existingIndexes: _indexes,
-          maxIndex: maxIndex
-      );
+      /// same retry-on-collision logic as createUniqueIndex, inlined here
+      /// against [_usedIndexes] instead of [_indexes].
+      int _newIndex = math.Random().nextInt(maxIndex + 1);
+      while (_usedIndexes.contains(_newIndex)) {
+        _newIndex = math.Random().nextInt(maxIndex + 1);
+      }
 
+      _usedIndexes.add(_newIndex);
       _indexes.add(_newIndex);
     }
     return _indexes;

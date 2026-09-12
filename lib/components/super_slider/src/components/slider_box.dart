@@ -26,6 +26,11 @@ class _SliderBox extends StatelessWidget {
     final double _sideMargin = _half - _dotRadius;
     final double _lineZoneWidth = width - (2 * _sideMargin);
 
+    /// computed once per build instead of inside the dot-generation loop
+    /// below, so each dot's membership check is an O(1) Set lookup instead
+    /// of an O(n) List scan.
+    final Set<dynamic>? _onValues = values?.toSet();
+
     return SizedBox(
       width: width,
       height: height,
@@ -55,7 +60,7 @@ class _SliderBox extends StatelessWidget {
                         if (Lister.checkCanLoop(values) == true)
                           ...List.generate(values!.last+1, (index){
 
-                            final bool _isOn = values!.contains(index);
+                            final bool _isOn = _onValues!.contains(index);
 
                             return Container(
                               width: _dotRadius * 2,
