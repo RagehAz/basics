@@ -10,14 +10,12 @@ abstract class SembastInfo {
 
       final DBModel? _ldbModel = await SembastInit.getDBModel(docName);
 
-      String? _thing = _ldbModel?.database.toString();
-
-      _thing = TextMod.removeTextBeforeFirstSpecialCharacter(text: _thing, specialCharacter: docName);
-      _thing = TextMod.removeTextAfterFirstSpecialCharacter(text: _thing, specialCharacter: '}');
-      _thing = TextMod.removeTextBeforeFirstSpecialCharacter(text: _thing, specialCharacter: ':');
-      _thing = TextMod.removeSpacesFromAString(_thing);
-
-      _output = Numeric.transformStringToInt(_thing);
+      /// StoreRef.count() instead of stringifying the whole database
+      /// (toJson of every store) and text-mangling the docName's count back
+      /// out of it.
+      if (_ldbModel != null){
+        _output = await _ldbModel.doc.count(_ldbModel.database);
+      }
 
     }
 

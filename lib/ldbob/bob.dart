@@ -19,7 +19,6 @@ import 'package:objectbox/objectbox.dart';
 import 'src/generated/objectbox.g.dart';
 
 part 'src/foundation/bob_init.dart';
-part 'src/models/bob_model.dart';
 part 'src/foundation/bob_info.dart';
 part 'src/foundation/store_model.dart';
 part 'src/models/bz_bob.dart';

@@ -464,17 +464,36 @@ abstract class FlyerBobFoundation {
     required List<String>? modelsIDs,
     required String docName,
   }) async {
+    bool _success = false;
 
-    final List<FlyerBob> _bobs = await findBobsByModelsIDs(
-      modelsIDs: modelsIDs,
-      docName: docName,
-    );
+    if (Lister.checkCanLoop(modelsIDs) == true){
 
-    return deleteByBobIDs(
-      bobsIDs: getBobsIDs(_bobs),
-      docName: docName,
-    );
+      /// single query + remove instead of finding (decoding every matching
+      /// record) then removing by the found bobIDs -- avoids materializing
+      /// records we're only about to discard.
+      await tryAndCatch(
+        invoker: r'FlyerBobFoundation.deleteByModelsIDs',
+        timeout: BobInfo.theTimeOutS,
+        functions: () async {
 
+          final Box<FlyerBob>? _box = await _getStoreBox(docName);
+
+          if (_box != null){
+            final Condition<FlyerBob> _condition = FlyerBob_.id.oneOf(modelsIDs!,
+              caseSensitive: true,
+            );
+            final Query<FlyerBob> _query = _box.query(_condition).build();
+            final int _count = _query.remove();
+            _query.close();
+            _success = _count >= 0;
+          }
+
+        },
+      );
+
+    }
+
+    return _success;
   }
   // --------------------------------------------------------------------------
 

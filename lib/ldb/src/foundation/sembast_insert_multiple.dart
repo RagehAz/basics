@@ -34,39 +34,6 @@ abstract class SembastInsertMultiple {
 
     return _success;
   }
-  // --------------------
-  /// DEPRECATED
-  /*
-  static Future<void> _updateMaps({
-    required List<Map<String, dynamic>> maps,
-    required String docName,
-    required String primaryKey,
-  }) async {
-
-    final List<Map<String, dynamic>> _cleanedMaps = Mapper.cleanMapsOfDuplicateIDs(
-      maps: maps,
-      idFieldName: primaryKey,
-    );
-
-    await Future.wait([
-
-      ...List.generate(_cleanedMaps.length, (index){
-
-        final Map<String, dynamic> _map = _cleanedMaps[index];
-
-        return SembastInsertSingle.insert(
-          map: _map,
-          docName: docName,
-          primaryKey: primaryKey,
-          allowDuplicateIDs: false,
-        );
-
-      }),
-
-    ]);
-
-  }
-   */
   // -----------------------------------------------------------------------------
 
   /// INSERT ON CLEAN SLATE

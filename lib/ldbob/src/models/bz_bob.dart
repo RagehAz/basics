@@ -461,17 +461,36 @@ abstract class BzBobFoundation {
     required List<String>? modelsIDs,
     required String docName,
   }) async {
+    bool _success = false;
 
-    final List<BzBob> _bobs = await findBobsByModelsIDs(
-      modelsIDs: modelsIDs,
-      docName: docName,
-    );
+    if (Lister.checkCanLoop(modelsIDs) == true){
 
-    return deleteByBobIDs(
-      bobsIDs: getBobsIDs(_bobs),
-      docName: docName,
-    );
+      /// single query + remove instead of finding (decoding every matching
+      /// record) then removing by the found bobIDs -- avoids materializing
+      /// records we're only about to discard.
+      await tryAndCatch(
+        invoker: r'BzBobFoundation.deleteByModelsIDs',
+        timeout: BobInfo.theTimeOutS,
+        functions: () async {
 
+          final Box<BzBob>? _box = await _getStoreBox(docName);
+
+          if (_box != null){
+            final Condition<BzBob> _condition = BzBob_.id.oneOf(modelsIDs!,
+              caseSensitive: true,
+            );
+            final Query<BzBob> _query = _box.query(_condition).build();
+            final int _count = _query.remove();
+            _query.close();
+            _success = _count >= 0;
+          }
+
+        },
+      );
+
+    }
+
+    return _success;
   }
   // --------------------------------------------------------------------------
 

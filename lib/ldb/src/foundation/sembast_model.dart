@@ -22,7 +22,18 @@ class DBModel {
     required DBModel? model1,
     required DBModel? model2,
   }){
-    return model1?.toString() == model2?.toString();
+    if (model1 == null || model2 == null){
+      return model1 == model2;
+    }
+
+    /// compare the 3 fields directly instead of building and comparing two
+    /// multi-line toString() templates -- also fixes a hashCode/== contract
+    /// risk: hashCode is field-based while database's toString() calls
+    /// toJson() (not identity-based), so the old string comparison could
+    /// disagree with hashCode for objects considered unequal by identity.
+    return model1.docName == model2.docName &&
+        model1.doc == model2.doc &&
+        model1.database == model2.database;
   }
   // -----------------------------------------------------------------------------
 

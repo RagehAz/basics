@@ -28,3 +28,11 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
+
+# ObjectBox native library for host `flutter test` runs -- platform-specific
+# binary, downloaded locally via objectbox-c's install script, never checked in.
+/objectbox.dll
+/objectbox.lib
+/objectbox.so
+/libobjectbox.so
+/libobjectbox.dylib
