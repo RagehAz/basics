@@ -1,5 +1,6 @@
 library super_video_player;
 
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:basics/av/av.dart';

@@ -29,7 +29,7 @@ class _SuperVideoDynamicLoader extends StatefulWidget {
   // --------------------------------------------------------------------------
 }
 
-class _SuperVideoDynamicLoaderState extends State<_SuperVideoDynamicLoader> {
+class _SuperVideoDynamicLoaderState extends State<_SuperVideoDynamicLoader> with WidgetsBindingObserver {
   // -----------------------------------------------------------------------------
   final SuperVideoController _controller = SuperVideoController();
   // -----------------------------------------------------------------------------
@@ -37,10 +37,32 @@ class _SuperVideoDynamicLoaderState extends State<_SuperVideoDynamicLoader> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
+
     _controller.onInit(
       onSetState: () => setState((){}),
     );
 
+  }
+  // --------------------
+  /// pauses playback the moment the app is backgrounded -- otherwise a
+  /// playing flyer video (and its audio) keeps running behind the lock
+  /// screen/home screen, since video_player has no such awareness on its
+  /// own. Deliberately doesn't auto-resume on `resumed`: matches the
+  /// existing play/pause model where resuming is always an explicit user
+  /// tap (`onVideoTap`), never automatic.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+
+    if (
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden
+    ) {
+      unawaited(_controller.pause());
+    }
+
+    super.didChangeAppLifecycleState(state);
   }
   // --------------------
   @override
@@ -95,6 +117,7 @@ class _SuperVideoDynamicLoaderState extends State<_SuperVideoDynamicLoader> {
   // --------------------
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
