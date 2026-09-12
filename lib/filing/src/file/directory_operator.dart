@@ -14,8 +14,20 @@ class DirectoryOperator {
   /// DATABASE SINGLETON
 
   // --------------------
-  List<String>? _paths;
-  Future<List<String>> get paths async =>  _paths ??= await _readAllPaths();
+  /// canonical storage is a `Set` (a `LinkedHashSet`, so insertion order is
+  /// preserved) for O(1) add/remove/contains in [addPath]/[removePath]
+  /// below, instead of the O(n) list-copy-and-scan the old `List<String>`
+  /// storage needed on every single file create/delete. The public
+  /// surface (`getPaths()`/`setPaths()`) still speaks `List<String>`,
+  /// converted at the boundary.
+  Set<String>? _paths;
+  Future<void> _ensureLoaded() async {
+    _paths ??= Set<String>.from(await _readAllPaths());
+  }
+  Future<List<String>> get paths async {
+    await _ensureLoaded();
+    return _paths!.toList();
+  }
   static Future<List<String>> getPaths() => DirectoryOperator.instance.paths;
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -31,7 +43,7 @@ class DirectoryOperator {
   // --------------------
   /// TESTED : WORKS PERFECT
   void setThePaths(List<String> newPaths){
-    _paths = newPaths;
+    _paths = Set<String>.from(newPaths);
   }
   // --------------------
   /// TESTED : WORKS PERFECT
@@ -51,20 +63,9 @@ class DirectoryOperator {
   }) async {
     if (xFilePath != null){
 
-      final List<String> _allPaths = await getPaths();
-
-      final bool _exists = Stringer.checkStringsContainString(
-          strings: _allPaths,
-          string: xFilePath,
-      );
-
-      if (_exists == false){
-
-        setPaths(
-          newPaths: [..._allPaths, xFilePath],
-        );
-
-      }
+      final DirectoryOperator _instance = DirectoryOperator.instance;
+      await _instance._ensureLoaded();
+      _instance._paths!.add(xFilePath);
 
     }
   }
@@ -75,16 +76,9 @@ class DirectoryOperator {
   }) async {
     if (xFilePath != null){
 
-      List<String> _allPaths = await getPaths();
-
-      _allPaths = Stringer.removeStringFromStrings(
-        removeFrom: _allPaths,
-        removeThis: xFilePath,
-      );
-
-      setPaths(
-        newPaths: _allPaths,
-      );
+      final DirectoryOperator _instance = DirectoryOperator.instance;
+      await _instance._ensureLoaded();
+      _instance._paths!.remove(xFilePath);
 
     }
   }
