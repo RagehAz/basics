@@ -115,12 +115,19 @@ abstract class Stringer {
 
     if (Lister.checkCanLoop(listToAdd) == true){
 
+      /// one copy + a Set for O(1) membership checks, instead of calling
+      /// addStringToListIfDoesNotContainIt per item -- that helper copies
+      /// the whole accumulator AND linear-scans it on every call, making
+      /// this loop O(n^2) for large lists.
+      _output = <String>[..._output];
+      final Set<String> _seen = Set<String>.from(_output);
+
       for (final String string in listToAdd!){
 
-        _output = addStringToListIfDoesNotContainIt(
-            strings: _output,
-            stringToAdd: string
-        );
+        if (_seen.contains(string) == false){
+          _output.add(string);
+          _seen.add(string);
+        }
 
       }
 
@@ -456,6 +463,13 @@ abstract class Stringer {
       final List<String> _splitWords = _lowerCased.trim().split(' ');
       _trigram.addAll(_splitWords);
 
+      /// tracks everything already added to _trigram (word splits + trigram
+      /// substrings) for an O(1) membership check below, instead of the
+      /// O(n) list-copy-and-scan addStringToListIfDoesNotContainIt does per
+      /// call -- the loop below can call it thousands of times for one
+      /// long input.
+      final Set<String> _seen = Set<String>.from(_trigram);
+
       /// 2 - start trigramming after clearing spaces
       String? _withoutSpaces = TextMod.removeSpacesFromAString(_lowerCased);
       if (removeSpaces == true){
@@ -486,10 +500,10 @@ abstract class Stringer {
             }
 
             /// 7 - add combination
-            _trigram = Stringer.addStringToListIfDoesNotContainIt(
-              strings: _trigram,
-              stringToAdd: _combined,
-            );
+            if (_seen.contains(_combined) == false){
+              _trigram.add(_combined);
+              _seen.add(_combined);
+            }
           }
         }
       }
