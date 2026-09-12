@@ -99,7 +99,9 @@
         {
           "id": "18:9181893264594360523",
           "name": "bobDocName",
-          "type": 9
+          "indexId": "8:3494364111075418292",
+          "type": 9,
+          "flags": 2048
         },
         {
           "id": "19:4681360931323172796",
@@ -648,7 +650,7 @@
     }
   ],
   "lastEntityId": "6:1191506801724220736",
-  "lastIndexId": "7:1365451645623757286",
+  "lastIndexId": "8:3494364111075418292",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

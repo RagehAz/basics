@@ -58,6 +58,8 @@ class AvBob {
   final String? caption;
   final String? data;
   final int? durationMs;
+
+  @Index()
   final String bobDocName;
   final String? originalXFilePath;
 
