@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:flutter/material.dart';
@@ -34,17 +33,13 @@ abstract class ObjectCheck {
 
       if (_slashesAreGood == true){
 
-        tryAndCatch(
-            invoker: 'ObjectCheck.isAbsoluteURL',
-            functions: () async {
-              final parsedUri = Uri.parse(_url);
-              _isValidURL = parsedUri.isAbsolute || (parsedUri.scheme.isNotEmpty && parsedUri.host.isNotEmpty);
-            },
-            onError: (String? error){
-              // blog('1/2: ObjectCheck.isAbsoluteURL : tryAndCatch ERROR : $error');
-              // blog('2/2: ObjectCheck.isAbsoluteURL : object : $object');
-            }
-        );
+        try {
+          final Uri parsedUri = Uri.parse(_url);
+          _isValidURL = parsedUri.isAbsolute || (parsedUri.scheme.isNotEmpty && parsedUri.host.isNotEmpty);
+        } catch (error) {
+          // blog('1/2: ObjectCheck.isAbsoluteURL : ERROR : $error');
+          // blog('2/2: ObjectCheck.isAbsoluteURL : object : $object');
+        }
 
       }
 
