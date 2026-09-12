@@ -29,13 +29,25 @@ abstract class VideoProcessor {
         trimThumbnailsQuality: 100,
       );
 
-      await _controller.initialize(aspectRatio: aspectRatio).catchError(
-            (error) {
-              onError?.call(error);
-              // handle minimum duration bigger than video duration error
-            },
-        test: (e) => e is VideoMinDurationError,
-      );
+      /// try/catch instead of .catchError(test: ...) -- behaviorally
+      /// identical (only VideoMinDurationError is handled here, anything
+      /// else rethrows), but avoids relying on .catchError() at all after
+      /// finding it can fail to complete/catch correctly on at least one
+      /// other Future type (rootBundle.load(), see Iconz.checkAssetExists).
+      try {
+        await _controller.initialize(aspectRatio: aspectRatio);
+      } catch (error) {
+        if (error is VideoMinDurationError) {
+          /// onError expects a String -- the original passed the raw
+          /// error object here, which only "compiled" because the old
+          /// .catchError() closure's parameter was untyped (dynamic); it
+          /// would have thrown a runtime type error if ever invoked.
+          onError?.call(error.toString());
+          // handle minimum duration bigger than video duration error
+        } else {
+          rethrow;
+        }
+      }
 
     }
 

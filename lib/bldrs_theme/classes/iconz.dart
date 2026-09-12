@@ -37,11 +37,16 @@ abstract class Iconz {
     /// This method should check if bldrs_theme asset exists or not
     /// and to be called from the project that depends on bldrs_theme
     if (bldrsThemeAsset != null) {
-      await rootBundle.load(bldrsThemeAsset).then((_) {
+      /// try/catch instead of .then().catchError() -- the latter can hang
+      /// indefinitely on the Future rootBundle.load() returns even when
+      /// the load succeeds and no error ever occurs (verified empirically;
+      /// plain Dart Futures don't exhibit this with .catchError()).
+      try {
+        await rootBundle.load(bldrsThemeAsset);
         _exists = true;
-      }).catchError((error) {
+      } catch (error) {
         _exists = false;
-      });
+      }
     }
 
     return _exists;

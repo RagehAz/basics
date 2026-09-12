@@ -164,21 +164,13 @@ abstract class FilePathing {
     if (asset is String){
       if (TextCheck.isEmpty(asset) == false){
 
+        /// Byter.byteDataFromLocalAsset already wraps its rootBundle.load
+        /// call in tryAndCatch, which never rethrows -- so a .catchError()
+        /// here could never actually fire, and its effect on _isFound was
+        /// unconditionally overwritten by the very next line anyway. Dead
+        /// code removed; behavior (_isFound = _bytes != null) is unchanged.
         final ByteData? _bytes = await Byter.byteDataFromLocalAsset(
           pathOrURL: asset,
-        ).catchError(
-              (Object? error) {
-            // blog('LocalAssetChecker : _checkAsset : error : ${error.toString()}');
-
-            if (error == null) {
-              _isFound = true;
-            }
-            else {
-              _isFound = false;
-            }
-
-            return null;
-          },
         );
 
         _isFound = _bytes != null;
