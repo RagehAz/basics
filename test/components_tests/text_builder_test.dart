@@ -68,6 +68,28 @@ void main() {
       expect(find.byKey(const ValueKey<String>('TextBuilder')), findsNothing);
     });
 
+    testWidgets('Gives the leading and trailing non-highlighted spans the same style', (tester) async {
+      const style = TextStyle(fontSize: 22, color: Colors.blue);
+      final highlight = ValueNotifier<dynamic>('lo Wo');
+
+      await tester.pumpWidget(MaterialApp(
+        home: Row(children: [TextBuilder(text: 'Hello World', style: style, highlight: highlight)]),
+      ));
+
+      final richText = tester.widget<RichText>(find.byType(RichText));
+      final span = richText.text as TextSpan;
+      final children = span.children!.cast<TextSpan>();
+
+      final leading = children.first;
+      final trailing = children.last;
+
+      expect(leading.text, 'Hel');
+      expect(trailing.text, 'rld');
+      expect(leading.style!.fontSize, style.fontSize);
+      expect(trailing.style!.fontSize, style.fontSize);
+      expect(trailing.style!.color, style.color);
+    });
+
     testWidgets('Updates the rendered spans when the highlight value changes', (tester) async {
       final highlight = ValueNotifier<dynamic>('');
 

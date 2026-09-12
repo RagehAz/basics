@@ -58,13 +58,16 @@ class TextBuilder extends StatelessWidget {
 
     else {
 
-      final Iterable<Match> matches = highlighted.toLowerCase().allMatches(_lowerVerse);
+      /// materialized once instead of leaving it as a lazy Iterable -- both
+      /// `.length` in the loop condition and `.elementAt(i)` in the body
+      /// re-walk a plain Iterable from the start on every call.
+      final List<Match> matches = highlighted.toLowerCase().allMatches(_lowerVerse).toList();
       int lastMatchEnd = 0;
 
       final List<TextSpan> children = <TextSpan>[];
 
       for (var i = 0; i < matches.length; i++) {
-        final Match match = matches.elementAt(i);
+        final Match match = matches[i];
 
         if (match.start != lastMatchEnd) {
 
@@ -88,7 +91,7 @@ class TextBuilder extends StatelessWidget {
           children.add(
               TextSpan(
                 text: _verse.substring(match.end, _verse.length),
-                style: defaultStyle,
+                style: _defaultStyle,
               )
           );
         }
