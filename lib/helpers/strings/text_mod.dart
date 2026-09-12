@@ -640,6 +640,71 @@ abstract class TextMod {
   }
   // --------------------
   /// AI TESTED
+  /// hoisted out of fixCountryName -- previously rebuilt (39 nested Map
+  /// literals) on every single call. Mapper.insertMapInMap always clones
+  /// its baseMap before merging (cleanByDecoding defaults to true), so
+  /// sharing this one const instance across calls is safe: nothing below
+  /// ever mutates it directly.
+  ///
+  /// NOTE: the exact key order here is load-bearing, not cosmetic -- e.g.
+  /// 'double space' can only ever fire if something later re-introduces a
+  /// literal double space, since 'space' (which runs first) already
+  /// replaces every single space; the 5x-repeated 'double underscore'
+  /// entries exist specifically to collapse a run of underscores through
+  /// several rounds of pairwise "__" -> "_" replacement (one pass only
+  /// halves a run's length). Do not reorder or dedupe without re-deriving
+  /// the resulting string for every existing caller, including ones that
+  /// pass `addTheseChars` (e.g. TextFind.phones, which appends its own
+  /// entries -- including one that runs last and converts every
+  /// underscore back to a space).
+  static const Map<String, dynamic> _fixCountryNameCharsToMove = {
+    'space'             : {'char': ' '    ,'replacement': '_'},
+    'double space'      : {'char': '  '   ,'replacement': '_'},
+    'dash'              : {'char': '-'    ,'replacement': '_'},
+    'plus'              : {'char': '+'    ,'replacement': '_'},
+    'tilde'             : {'char': '~'    ,'replacement': '_'},
+    'dollar'            : {'char': r'$'    ,'replacement': '_'},
+    'equal'             : {'char': '='    ,'replacement': '_'},
+    'comma'             : {'char': ','    ,'replacement': ''},
+    'left parenthesis'  : {'char': '('    ,'replacement': ''},
+    'right parenthesis' : {'char': ')'    ,'replacement': ''},
+    'left sq par'       : {'char': '['    ,'replacement': '_'},
+    'right sq par'      : {'char': ']'    ,'replacement': '_'},
+    'left x par'        : {'char': '{'    ,'replacement': '_'},
+    'right x par'       : {'char': '}'    ,'replacement': '_'},
+    'bigger'            : {'char': '>'    ,'replacement': '_'},
+    'smaller'           : {'char': '<'    ,'replacement': '_'},
+    'apostrophe'        : {'char': '’'    ,'replacement': ''},
+    'double_quote'      : {'char': '"'    ,'replacement': ''},
+    'single_quote'      : {'char': "'"    ,'replacement': ''},
+    'o_circumflex'      : {'char': 'ô'    ,'replacement': 'o'},
+    'backtick'          : {'char': '`'    ,'replacement': ''},
+    'period'            : {'char': '.'    ,'replacement': '_'},
+    'forward_slash'     : {'char': '/'    ,'replacement': '_'},
+    'back_slash'        : {'char': r'\'    ,'replacement': '_'},
+    'line'              : {'char': r'|'    ,'replacement': '_'},
+    'semi_colon'        : {'char': ';'    ,'replacement': '_'},
+    'colon'             : {'char': ':'    ,'replacement': '_'},
+    'hash'              : {'char': '#'    ,'replacement': ''},
+    'at'                : {'char': '@'    ,'replacement': ''},
+    'exclamation'       : {'char': '!'    ,'replacement': ''},
+    'question'          : {'char': '?'    ,'replacement': ''},
+    'percent'           : {'char': '%'    ,'replacement': ''},
+    'bo2loz'            : {'char': '^'    ,'replacement': ''},
+    'star'              : {'char': '*'    ,'replacement': ''},
+    'space1'            : {'char': '‎'  ,'replacement': '_'},
+    'space2'            : {'char': '‏'  ,'replacement': '_'},
+    'space3'            : {'char': '‎ ' ,'replacement': '_'},
+    'space4'            : {'char': ' ‏' ,'replacement': '_'},
+    'space5'            : {'char': '​' ,'replacement': '_'},
+    'double underscore' : {'char': '__'   ,'replacement': '_'},
+    'double underscore2': {'char': '__'   ,'replacement': '_'},
+    'double underscore3': {'char': '__'   ,'replacement': '_'},
+    'double underscore4': {'char': '__'   ,'replacement': '_'},
+    'double underscore5': {'char': '__'   ,'replacement': '_'},
+    // Add more character replacements as needed
+  };
+  // --------------------
   static String? fixCountryName({
     required String? input,
     Map<String, dynamic>? addTheseChars,
@@ -651,55 +716,8 @@ abstract class TextMod {
 
       _output = input.toLowerCase().trim();
 
-      Map<String, dynamic> _charsToMove = {
-        'space'             : {'char': ' '    ,'replacement': '_'},
-        'double space'      : {'char': '  '   ,'replacement': '_'},
-        'dash'              : {'char': '-'    ,'replacement': '_'},
-        'plus'              : {'char': '+'    ,'replacement': '_'},
-        'tilde'             : {'char': '~'    ,'replacement': '_'},
-        'dollar'            : {'char': r'$'    ,'replacement': '_'},
-        'equal'             : {'char': '='    ,'replacement': '_'},
-        'comma'             : {'char': ','    ,'replacement': ''},
-        'left parenthesis'  : {'char': '('    ,'replacement': ''},
-        'right parenthesis' : {'char': ')'    ,'replacement': ''},
-        'left sq par'       : {'char': '['    ,'replacement': '_'},
-        'right sq par'      : {'char': ']'    ,'replacement': '_'},
-        'left x par'        : {'char': '{'    ,'replacement': '_'},
-        'right x par'       : {'char': '}'    ,'replacement': '_'},
-        'bigger'            : {'char': '>'    ,'replacement': '_'},
-        'smaller'           : {'char': '<'    ,'replacement': '_'},
-        'apostrophe'        : {'char': '’'    ,'replacement': ''},
-        'double_quote'      : {'char': '"'    ,'replacement': ''},
-        'single_quote'      : {'char': "'"    ,'replacement': ''},
-        'o_circumflex'      : {'char': 'ô'    ,'replacement': 'o'},
-        'backtick'          : {'char': '`'    ,'replacement': ''},
-        'period'            : {'char': '.'    ,'replacement': '_'},
-        'forward_slash'     : {'char': '/'    ,'replacement': '_'},
-        'back_slash'        : {'char': r'\'    ,'replacement': '_'},
-        'line'              : {'char': r'|'    ,'replacement': '_'},
-        'semi_colon'        : {'char': ';'    ,'replacement': '_'},
-        'colon'             : {'char': ':'    ,'replacement': '_'},
-        'hash'              : {'char': '#'    ,'replacement': ''},
-        'at'                : {'char': '@'    ,'replacement': ''},
-        'exclamation'       : {'char': '!'    ,'replacement': ''},
-        'question'          : {'char': '?'    ,'replacement': ''},
-        'percent'           : {'char': '%'    ,'replacement': ''},
-        'bo2loz'            : {'char': '^'    ,'replacement': ''},
-        'star'              : {'char': '*'    ,'replacement': ''},
-        'space1'            : {'char': '‎'  ,'replacement': '_'},
-        'space2'            : {'char': '‏'  ,'replacement': '_'},
-        'space3'            : {'char': '‎ ' ,'replacement': '_'},
-        'space4'            : {'char': ' ‏' ,'replacement': '_'},
-        'space5'            : {'char': '​' ,'replacement': '_'},
-        'double underscore' : {'char': '__'   ,'replacement': '_'},
-        'double underscore2': {'char': '__'   ,'replacement': '_'},
-        'double underscore3': {'char': '__'   ,'replacement': '_'},
-        'double underscore4': {'char': '__'   ,'replacement': '_'},
-        'double underscore5': {'char': '__'   ,'replacement': '_'},
-        // Add more character replacements as needed
-      };
-      _charsToMove = Mapper.insertMapInMap(
-        baseMap: _charsToMove,
+      final Map<String, dynamic> _charsToMove = Mapper.insertMapInMap(
+        baseMap: _fixCountryNameCharsToMove,
         insert: addTheseChars,
         // replaceDuplicateKeys: true,
       );

@@ -10,7 +10,10 @@ img.Pixel _makePixel({
   required int b,
   required int a,
 }) {
-  final image = img.Image(width: 1, height: 1);
+  /// numChannels defaults to 3 (RGB only, no alpha channel) -- without
+  /// requesting 4 channels here, setPixelRgba's alpha argument is
+  /// silently discarded and every pixel reads back as fully opaque.
+  final image = img.Image(width: 1, height: 1, numChannels: 4);
   image.setPixelRgba(0, 0, r, g, b, a);
   return image.getPixel(0, 0);
 }

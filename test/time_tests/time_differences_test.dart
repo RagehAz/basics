@@ -38,7 +38,11 @@ void main() {
       final DateTime now = DateTime.now();
       final utc = now.toUtc();
 
-      final String _ciphered = Timers.cipherTime(time: utc, toJSON: true);
+      /// cipherTime(toJSON: true) returns an int (epoch microseconds), not
+      /// a String -- this used to be typed `String`, which "compiled"
+      /// only because cipherTime's return type is `dynamic`, then threw a
+      /// runtime type error the moment it ran.
+      final dynamic _ciphered = Timers.cipherTime(time: utc, toJSON: true);
       final DateTime? _deciphered = Timers.decipherTime(time: _ciphered, fromJSON: true);
 
       final bool identical2 = Timers.checkTimesAreIdentical(
@@ -52,7 +56,7 @@ void main() {
     test('3', () {
       final DateTime now = DateTime.now();
       final utc = now.toUtc();
-      final String _ciphered = Timers.cipherTime(time: utc, toJSON: true);
+      final dynamic _ciphered = Timers.cipherTime(time: utc, toJSON: true);
       final DateTime? _deciphered = Timers.decipherTime(time: _ciphered, fromJSON: true);
       expect(_deciphered, now);
       expect(_deciphered, utc.toLocal());

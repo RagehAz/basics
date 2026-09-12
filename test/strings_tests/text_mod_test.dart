@@ -953,6 +953,50 @@ void main() {
       final result = TextMod.fixCountryName(input: input);
       expect(result, equals(expectedOutput));
     });
+
+    /// --------------------------------------------------------------------
+    /// Regression guards for the hoisted `static const` base map -- these
+    /// pin down the order-dependent, multi-pass collapsing behavior so a
+    /// future change to the map's key order (or a naive single-pass
+    /// rewrite) gets caught immediately.
+    /// --------------------------------------------------------------------
+
+    test('collapses a run of dashes down to a single underscore (multi-pass "__"->"_" collapsing)', () {
+      expect(TextMod.fixCountryName(input: 'A---B'), 'a_b');
+    });
+
+    test('collapses a run of 4 spaces down to a single underscore', () {
+      expect(TextMod.fixCountryName(input: 'A    B'), 'a_b');
+    });
+
+    test('removes a run of removal-mapped characters entirely (no underscore left behind)', () {
+      expect(TextMod.fixCountryName(input: 'A!!!!B'), 'ab');
+    });
+
+    test("addTheseChars overriding an existing key replaces that key's behavior", () {
+      final result = TextMod.fixCountryName(
+        input: 'A-B',
+        addTheseChars: {
+          'dash': {'char': '-', 'replacement': 'DASH'},
+        },
+      );
+      expect(result, 'aDASHb');
+    });
+
+    test('addTheseChars targeting a character already claimed by an earlier base entry has no effect '
+        '(new keys are appended at the end, so an earlier entry for the same character wins)', () {
+      final result = TextMod.fixCountryName(
+        input: 'A#B',
+        addTheseChars: {
+          /// '#' is already removed by the base map's 'hash' entry, which
+          /// runs first -- adding a *different* key for the same
+          /// character does not override it, since insertMapInMap merges
+          /// by key name, not by the 'char' value.
+          'newkey': {'char': '#', 'replacement': 'NEW'},
+        },
+      );
+      expect(result, 'ab');
+    });
   });
 
   group('fixSearchText', () {
