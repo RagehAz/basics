@@ -296,6 +296,49 @@ abstract class LdbBobOps {
     return _output;
   }
   // --------------------
+  /// Decodes this docName's records one at a time and returns the first one
+  /// for which [test] returns true, stopping immediately instead of
+  /// JSON-decoding every remaining record (unlike [readAll] + a Dart-side
+  /// filter, which always decodes the whole docName first). Same result as
+  /// that pattern, just without the wasted work once a match is found.
+  static Future<Map<String, dynamic>?> readFirstMatching({
+    required String? docName,
+    required bool Function(Map<String, dynamic> map) test,
+  }) async {
+    Map<String, dynamic>? _output;
+
+    if (docName != null){
+
+      await tryAndCatch(
+        invoker: 'LdbBobOps.readFirstMatching',
+        timeout: BobInfo.theTimeOutS,
+        functions: () async {
+
+          final Box<LdbBob>? _box = await _getBox();
+
+          if (_box != null){
+            final Condition<LdbBob> _condition = LdbBob_.docName.equals(docName);
+            final Query<LdbBob> _query = _box.query(_condition).build();
+            final List<LdbBob> _found = _query.find();
+            _query.close();
+
+            for (final LdbBob bob in _found){
+              final Map<String, dynamic> _map = _decode(bob.jsonValue);
+              if (test(_map)){
+                _output = _map;
+                break;
+              }
+            }
+          }
+
+        },
+      );
+
+    }
+
+    return _output;
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Map<String, dynamic>>> readAll({
     required String? docName,

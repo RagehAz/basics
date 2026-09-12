@@ -42,17 +42,19 @@ abstract class LDBSearch {
         docName != null
     ) {
 
-      final List<Map<String, dynamic>> _maps = await LdbBobOps.readAll(docName: docName);
-      final List<Map<String, dynamic>> _result = LdbFinderEngine.apply(
-        maps: _maps,
-        finder: Finder(
-          filter: Filter.equals(field, value, anyInList: false),
-          // sortOrders: <SortOrder>[
-          //   SortOrder(fieldToSortBy)
-          // ],
-        ),
+      /// no sortOrders/offset/limit involved -- only the first match is
+      /// wanted, so decode+test records lazily instead of decoding the
+      /// whole docName upfront via LdbBobOps.readAll.
+      final Filter _filter = Filter.equals(field, value, anyInList: false);
+
+      _output = await LdbBobOps.readFirstMatching(
+        docName: docName,
+        test: (Map<String, dynamic> map) {
+          return (_filter as SembastFilter).matchesRecord(
+            _LdbRecordSnapshot(key: 0, value: map),
+          );
+        },
       );
-      _output = _result.isNotEmpty ? _result.first : null;
 
     }
 
