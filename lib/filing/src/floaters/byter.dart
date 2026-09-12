@@ -13,15 +13,16 @@ abstract class Byter {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>> fromAvModels(List<AvModel> models) async {
-    final List<Uint8List> _output = [];
+    List<Uint8List> _output = [];
 
     if (Lister.checkCanLoop(models) == true){
-      for (final AvModel model in models){
-        final Uint8List? _bytes = await fromXFile(model.getXFile(), 'fromAvModels');
-        if (_bytes != null){
-          _output.add(_bytes);
-        }
-      }
+      /// reads every model's bytes concurrently instead of one at a time --
+      /// each read is an independent file I/O call, so serializing them
+      /// only adds up their latencies for no benefit.
+      final List<Uint8List?> _results = await Future.wait(
+        models.map((AvModel model) => fromXFile(model.getXFile(), 'fromAvModels')),
+      );
+      _output = _results.whereType<Uint8List>().toList();
     }
 
     return _output;
@@ -99,15 +100,14 @@ abstract class Byter {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<List<Uint8List>> fromFiles(List<File>? files) async {
-    final List<Uint8List> _screenShots = <Uint8List>[];
+    List<Uint8List> _screenShots = <Uint8List>[];
 
     if (kIsWeb == false && Lister.checkCanLoop(files) == true) {
-      for (final File file in files!) {
-        final Uint8List? _uInt = await fromFile(file);
-        if (_uInt != null){
-          _screenShots.add(_uInt);
-        }
-      }
+      /// reads every file's bytes concurrently instead of one at a time.
+      final List<Uint8List?> _results = await Future.wait(
+        files!.map(fromFile),
+      );
+      _screenShots = _results.whereType<Uint8List>().toList();
     }
 
     return _screenShots;
@@ -238,21 +238,15 @@ abstract class Byter {
   static Future<List<Uint8List>?> fromLocalAssets({
     required List<String>? localAssets,
   }) async {
-    final List<Uint8List> _outputs = <Uint8List>[];
+    List<Uint8List> _outputs = <Uint8List>[];
 
     if (Lister.checkCanLoop(localAssets) == true){
 
-      for (final String asset in localAssets!){
-
-        final Uint8List? _bytes = await fromLocalAsset(
-          localAsset: asset,
-        );
-
-        if (_bytes != null){
-          _outputs.add(_bytes);
-        }
-
-      }
+      /// loads every asset concurrently instead of one at a time.
+      final List<Uint8List?> _results = await Future.wait(
+        localAssets!.map((String asset) => fromLocalAsset(localAsset: asset)),
+      );
+      _outputs = _results.whereType<Uint8List>().toList();
 
     }
 
