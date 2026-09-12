@@ -667,16 +667,19 @@ class Phrase {
   /// TESTED : WORKS PERFECT
   static List<String> getPhrasesIDs(List<Phrase>? phrases){
 
-    List<String> _output = <String>[];
+    final List<String> _output = <String>[];
 
     if (Lister.checkCanLoop(phrases) == true){
 
+      final Set<String> _seen = <String>{};
+
       for (final Phrase phrase in phrases!){
 
-        _output = Stringer.addStringToListIfDoesNotContainIt(
-          strings: _output,
-          stringToAdd: phrase.id,
-        );
+        final String? _id = phrase.id;
+
+        if (_id != null && _seen.add(_id)) {
+          _output.add(_id);
+        }
 
       }
 

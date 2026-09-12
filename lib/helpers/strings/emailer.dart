@@ -1,5 +1,4 @@
 import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 import 'package:email_validator/email_validator.dart';
@@ -55,9 +54,11 @@ abstract class Emailer {
   static List<String> extractEmailsDomains({
     required List<String> emails,
   }){
-    List<String> _output = [];
+    final List<String> _output = [];
 
     if (Lister.checkCanLoop(emails) == true){
+
+      final Set<String> _seen = <String>{};
 
       for (final String email in emails) {
 
@@ -66,10 +67,10 @@ abstract class Emailer {
         );
 
         if (domain != null) {
-          _output = Stringer.addStringToListIfDoesNotContainIt(
-              strings: _output,
-              stringToAdd: domain.toLowerCase()
-          );
+          final String _lowerDomain = domain.toLowerCase();
+          if (_seen.add(_lowerDomain)) {
+            _output.add(_lowerDomain);
+          }
         }
       }
 

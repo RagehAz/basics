@@ -99,4 +99,43 @@ void main() {
 
   });
 
+  group('generatePathAncestry', () {
+
+    test('Generates full ancestry from deepest to shallowest', () {
+      final result = Pathing.generatePathAncestry(path: 'grand/parent/son/bobo');
+      expect(result, ['grand/parent/son/bobo', 'grand/parent/son/', 'grand/parent/', 'grand/']);
+    });
+
+    test('Returns just the path itself for a single-node path', () {
+      final result = Pathing.generatePathAncestry(path: 'grand');
+      expect(result, ['grand']);
+    });
+
+    test('Returns an empty list for a null path', () {
+      final result = Pathing.generatePathAncestry(path: null);
+      expect(result, <String>[]);
+    });
+
+    test('Does not produce duplicate ancestors', () {
+      final result = Pathing.generatePathAncestry(path: 'grand/parent/son/bobo');
+      expect(result.toSet().length, result.length);
+    });
+
+    test('Generates ancestry for a two-node path', () {
+      final result = Pathing.generatePathAncestry(path: 'parent/son');
+      expect(result, ['parent/son', 'parent/']);
+    });
+
+    test('The first entry is always the exact input path', () {
+      final result = Pathing.generatePathAncestry(path: 'a/b/c');
+      expect(result.first, 'a/b/c');
+    });
+
+    test('The last entry is always the shallowest single-node ancestor', () {
+      final result = Pathing.generatePathAncestry(path: 'a/b/c/d/e');
+      expect(result.last, 'a/');
+    });
+
+  });
+
 }

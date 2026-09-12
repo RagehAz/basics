@@ -419,17 +419,16 @@ abstract class Pathing {
 
       _output = [path];
 
+      final Set<String> _seen = <String>{path};
+
       final List<String> _nodes = splitPathNodes(path);
 
       if (_nodes.length > 1){
         String? _path = path;
         for (int i = 0; i < _nodes.length; i++){
           _path = removeLastPathNode(path: _path);
-          if (TextCheck.isEmpty(_path) == false){
-            _output = Stringer.addStringToListIfDoesNotContainIt(
-                strings: _output,
-                stringToAdd: _path,
-            );
+          if (TextCheck.isEmpty(_path) == false && _seen.add(_path!)){
+            _output.add(_path);
           }
         }
       }

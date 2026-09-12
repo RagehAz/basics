@@ -192,13 +192,14 @@ abstract class AvPathing {
   static List<String> createAmazonPaths({
     required List<String>? paths,
   }){
-    List<String> _output = [];
+    final List<String> _output = [];
     if (Lister.checkCanLoop(paths) == true){
+      final Set<String> _seen = <String>{};
       for (final String path in paths!){
-        _output = Stringer.addStringToListIfDoesNotContainIt(
-          strings: _output,
-          stringToAdd: createAmazonPath(path: path),
-        );
+        final String? _amazonPath = createAmazonPath(path: path);
+        if (_amazonPath != null && _seen.add(_amazonPath)) {
+          _output.add(_amazonPath);
+        }
       }
     }
     return _output;

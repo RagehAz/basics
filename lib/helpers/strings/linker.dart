@@ -1,6 +1,5 @@
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/maps/mapper_ss.dart';
-import 'package:basics/helpers/strings/stringer.dart';
 import 'package:basics/helpers/strings/text_check.dart';
 import 'package:basics/helpers/strings/text_mod.dart';
 /// => TAMAM
@@ -86,18 +85,17 @@ abstract class Linker {
   static List<String> extractWebsitesDomains({
     required List<String> links,
   }){
-    List<String> _output = [];
+    final List<String> _output = [];
 
     if (Lister.checkCanLoop(links) == true){
+
+      final Set<String> _seen = <String>{};
 
       for (final String link in links){
 
         final String? _domain = extractWebsiteDomain(link: link);
-        if (_domain != null){
-          _output = Stringer.addStringToListIfDoesNotContainIt(
-              strings: _output,
-              stringToAdd: _domain,
-          );
+        if (_domain != null && _seen.add(_domain)){
+          _output.add(_domain);
         }
 
       }

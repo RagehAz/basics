@@ -352,16 +352,17 @@ class AvModel {
   static List<String> getAvsUploadPaths({
     required List<AvModel> avModels,
   }){
-    List<String> _output = [];
+    final List<String> _output = [];
 
     if (Lister.checkCanLoop(avModels) == true){
 
+      final Set<String> _seen = <String>{};
+
       for (final AvModel avModel in avModels){
 
-        _output = Stringer.addStringToListIfDoesNotContainIt(
-          strings: _output,
-          stringToAdd: avModel.uploadPath,
-        );
+        if (_seen.add(avModel.uploadPath)) {
+          _output.add(avModel.uploadPath);
+        }
 
       }
 
@@ -374,9 +375,11 @@ class AvModel {
   static List<String> getAvsParentUploadPaths({
     required List<AvModel> avModels,
   }){
-    List<String> _output = [];
+    final List<String> _output = [];
 
     if (Lister.checkCanLoop(avModels) == true){
+
+      final Set<String> _seen = <String>{};
 
       for (final AvModel avModel in avModels){
 
@@ -384,10 +387,9 @@ class AvModel {
           path: avModel.uploadPath,
         );
 
-        _output = Stringer.addStringToListIfDoesNotContainIt(
-          strings: _output,
-          stringToAdd: _parentFolder,
-        );
+        if (_parentFolder != null && _seen.add(_parentFolder)) {
+          _output.add(_parentFolder);
+        }
 
       }
 

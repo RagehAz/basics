@@ -44,4 +44,46 @@ void main() {
       expect(Linker.extractWebsiteDomain(link:'invalid-url-format'), 'invalid-url-format');
     });
   });
+
+  group('extractWebsitesDomains', () {
+    test('Extracts domains from a list of links', () {
+      final result = Linker.extractWebsitesDomains(links: ['https://www.example.com', 'https://sub.other.com']);
+      expect(result, ['example.com', 'sub.other.com']);
+    });
+
+    test('Deduplicates repeated domains, keeping first-occurrence order', () {
+      final result = Linker.extractWebsitesDomains(links: ['https://example.com/a', 'https://other.com', 'https://example.com/b']);
+      expect(result, ['example.com', 'other.com']);
+    });
+
+    test('Skips empty links that resolve to null domains', () {
+      final result = Linker.extractWebsitesDomains(links: ['', 'https://example.com']);
+      expect(result, ['example.com']);
+    });
+
+    test('Returns an empty list for an empty input list', () {
+      final result = Linker.extractWebsitesDomains(links: []);
+      expect(result, <String>[]);
+    });
+
+    test('Treats differently-cased domains as distinct (case-sensitive)', () {
+      final result = Linker.extractWebsitesDomains(links: ['https://Example.com', 'https://example.com']);
+      expect(result, ['Example.com', 'example.com']);
+    });
+
+    test('Returns a single-element list for one link', () {
+      final result = Linker.extractWebsitesDomains(links: ['https://example.com']);
+      expect(result, ['example.com']);
+    });
+
+    test('Preserves order across a longer list with scattered duplicates', () {
+      final result = Linker.extractWebsitesDomains(links: [
+        'https://zeta.com',
+        'https://alpha.com',
+        'https://zeta.com/path',
+        'https://beta.com',
+      ]);
+      expect(result, ['zeta.com', 'alpha.com', 'beta.com']);
+    });
+  });
 }
