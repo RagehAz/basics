@@ -57,7 +57,10 @@ class _TapStateDisabled extends StatelessWidget {
         alignment: alignment,
         borderColor: borderColor,
         child: GestureDetector(
-          onTap: () => onDisabledTap!.call(),
+          /// cast instead of a wrapping closure -- onDisabledTap is always
+          /// a zero-arg void callback in practice, and is guaranteed
+          /// non-null in this branch.
+          onTap: onDisabledTap as VoidCallback,
           child: child,
         ),
       );

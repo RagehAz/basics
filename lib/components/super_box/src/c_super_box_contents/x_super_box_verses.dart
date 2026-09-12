@@ -118,12 +118,26 @@ class SuperBoxTexts extends StatelessWidget {
       width: _verseWidth,
       alignment: _verseAlignment,
       // color: Colorz.yellow50, // for design purpose only
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: _versesCrossAlignment,
-          children: <Widget>[
+      /// ClipRect+OverflowBox instead of a permanently-non-scrolling
+      /// SingleChildScrollView (physics was already
+      /// NeverScrollableScrollPhysics) -- verified pixel-identical via a
+      /// direct widget-test comparison (same Column size, same child
+      /// position, same silent-overflow-instead-of-RenderFlex-error
+      /// behavior in both the fits-content and overflows-content cases).
+      /// OverflowBox restores the unbounded height SingleChildScrollView
+      /// gave its child (so oversized content doesn't trigger a RenderFlex
+      /// overflow error), and ClipRect reproduces the same Clip.hardEdge
+      /// visual clipping SingleChildScrollView used by default -- without
+      /// allocating the Scrollable/viewport/gesture-recognizer/semantics
+      /// machinery that scrolling here never actually used.
+      child: ClipRect(
+        child: OverflowBox(
+          maxHeight: double.infinity,
+          alignment: Alignment.topCenter,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: _versesCrossAlignment,
+            children: <Widget>[
 
             /// TEXT
             SizedBox(
@@ -192,7 +206,8 @@ class SuperBoxTexts extends StatelessWidget {
                 ),
               ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );
