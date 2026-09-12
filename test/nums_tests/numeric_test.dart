@@ -539,12 +539,38 @@ void main() {
       expect(Set<int>.from(list).length, 5);
     });
 
-    // test('returns list filled with indexes in range [0, maxIndex)', () {
-    //   final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
-    //   for (int i = 0; i < 5; i++) {
-    //     expect(list[i], inExclusiveRange(0, 10));
-    //   }
-    // });
+    test('returns list filled with indexes in the inclusive range [0, maxIndex]', () {
+      final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 10);
+      for (final index in list) {
+        expect(index, greaterThanOrEqualTo(0));
+        expect(index, lessThanOrEqualTo(10));
+      }
+    });
+
+    test('returns an empty list when numberOfIndexes is 0', () {
+      final list = Indexer.createRandomIndexes(numberOfIndexes: 0, maxIndex: 10);
+      expect(list, <int>[]);
+    });
+
+    test('returns unique indexes even when numberOfIndexes exhausts the whole range', () {
+      /// maxIndex 4 => 5 possible values (0..4 inclusive); requesting all 5
+      /// forces every collision-retry path to eventually succeed.
+      final list = Indexer.createRandomIndexes(numberOfIndexes: 5, maxIndex: 4);
+      expect(list.length, 5);
+      expect(Set<int>.from(list).toList()..sort(), [0, 1, 2, 3, 4]);
+    });
+
+    test('stays correct across repeated calls (randomized, checked on invariants not values)', () {
+      for (int i = 0; i < 20; i++) {
+        final list = Indexer.createRandomIndexes(numberOfIndexes: 8, maxIndex: 50);
+        expect(list.length, 8);
+        expect(Set<int>.from(list).length, 8);
+        for (final index in list) {
+          expect(index, greaterThanOrEqualTo(0));
+          expect(index, lessThanOrEqualTo(50));
+        }
+      }
+    });
 
   });
   // -----------------------------------------------------------------------------

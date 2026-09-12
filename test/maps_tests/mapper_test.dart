@@ -2215,4 +2215,123 @@ void main() {
     });
 
   });
+  // -----------------------------------------------------------------------------
+
+  /// getMapsFromDynamics
+
+  // --------------------
+  group('Mapper.getMapsFromDynamics', () {
+
+    test('Returns empty list when dynamics is null', () {
+      final result = Mapper.getMapsFromDynamics(dynamics: null);
+      expect(result, <Map<String, dynamic>>[]);
+    });
+
+    test('Returns empty list when dynamics is not a List', () {
+      final result = Mapper.getMapsFromDynamics(dynamics: {'a': 1});
+      expect(result, <Map<String, dynamic>>[]);
+    });
+
+    test('Returns empty list when dynamics is an empty List', () {
+      final result = Mapper.getMapsFromDynamics(dynamics: <dynamic>[]);
+      expect(result, <Map<String, dynamic>>[]);
+    });
+
+    test('Converts a list of maps to List<Map<String, dynamic>>', () {
+      final result = Mapper.getMapsFromDynamics(dynamics: <dynamic>[
+        {'id': '1', 'name': 'a'},
+        {'id': '2', 'name': 'b'},
+      ]);
+      expect(result.length, 2);
+      expect(result[0]['id'], '1');
+      expect(result[1]['name'], 'b');
+    });
+
+    test('Skips non-Map elements in the list', () {
+      final result = Mapper.getMapsFromDynamics(dynamics: <dynamic>[
+        {'id': '1'},
+        'not a map',
+        42,
+        null,
+        {'id': '2'},
+      ]);
+      expect(result.length, 2);
+      expect(result[0]['id'], '1');
+      expect(result[1]['id'], '2');
+    });
+
+    test('Deep-converts nested maps and lists, coercing keys to String', () {
+      final Map<dynamic, dynamic> nested = <dynamic, dynamic>{'child': 'value'};
+      final result = Mapper.getMapsFromDynamics(dynamics: <dynamic>[
+        <dynamic, dynamic>{
+          'id': 1,
+          'nested': nested,
+          'list': <dynamic>[1, 2, <dynamic, dynamic>{'x': 'y'}],
+        },
+      ]);
+      expect(result.length, 1);
+      expect(result[0]['nested'], isA<Map<String, dynamic>>());
+      expect(result[0]['nested']['child'], 'value');
+      expect(result[0]['list'][2], isA<Map<String, dynamic>>());
+      expect(result[0]['list'][2]['x'], 'y');
+    });
+
+  });
+  // -----------------------------------------------------------------------------
+
+  /// cloneMap
+
+  // --------------------
+  group('Mapper.cloneMap', () {
+
+    test('Returns null when map is null', () {
+      final result = Mapper.cloneMap(null);
+      expect(result, isNull);
+    });
+
+    test('Returns an empty map when map is empty', () {
+      final result = Mapper.cloneMap(<String, dynamic>{});
+      expect(result, <String, dynamic>{});
+    });
+
+    test('Returns a map with the same content as the original', () {
+      final original = {'a': 1, 'b': 'two', 'c': true};
+      final result = Mapper.cloneMap(original);
+      expect(result, original);
+    });
+
+    test('Returned map is a different instance from the original', () {
+      final original = {'a': 1};
+      final result = Mapper.cloneMap(original);
+      expect(identical(result, original), false);
+    });
+
+    test('Mutating the clone does not affect the original (top-level)', () {
+      final original = {'a': 1};
+      final result = Mapper.cloneMap(original)!;
+      result['a'] = 2;
+      expect(original['a'], 1);
+    });
+
+    test('Deep-copies nested maps so mutating the clone does not affect the original', () {
+      final original = {'nested': {'a': 1}};
+      final result = Mapper.cloneMap(original)!;
+      (result['nested'] as Map<String, dynamic>)['a'] = 999;
+      expect((original['nested'] as Map<String, dynamic>)['a'], 1);
+    });
+
+    test('Preserves lists and nested lists of maps', () {
+      final original = {
+        'items': [
+          {'id': 1},
+          {'id': 2},
+        ],
+      };
+      final result = Mapper.cloneMap(original)!;
+      expect(result['items'], isA<List<dynamic>>());
+      expect(result['items'][0]['id'], 1);
+      expect(result['items'][1]['id'], 2);
+    });
+
+  });
 }
