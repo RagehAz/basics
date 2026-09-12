@@ -298,6 +298,76 @@ void main() {
       final result2 = Numeric.formatNumToCounterCaliber(x: 1000000, thousand: 'k', million: 'm');
       expect(result2, '1 m');
     });
+
+    /// --------------------------------------------------------------------
+    /// REGRESSION -- these numbers used to be silently corrupted by an
+    /// unescaped '.' in a RegExp (matched ANY character, not just a
+    /// literal dot), which deleted the wrong 3 characters whenever the
+    /// calibrated value's integer part contained an internal "0<digit>0"
+    /// substring not touching the decimal point.
+    /// --------------------------------------------------------------------
+
+    test('does not corrupt a million-range value with an internal "0X0" digit pattern', () {
+      /// x / 1e6 = 1030.0 -- old buggy regex matched "030" (chars 1-3 of
+      /// "1030.0"), turning "1030 million" into "10 million".
+      expect(Numeric.formatNumToCounterCaliber(x: 1030000000), '1030 million');
+    });
+
+    test('does not corrupt several other "0X0"-pattern billions', () {
+      expect(Numeric.formatNumToCounterCaliber(x: 2050000000), '2050 million');
+      expect(Numeric.formatNumToCounterCaliber(x: 5060000000), '5060 million');
+      expect(Numeric.formatNumToCounterCaliber(x: 1090000000), '1090 million');
+      expect(Numeric.formatNumToCounterCaliber(x: 3010000000), '3010 million');
+    });
+
+    test('keeps a genuine non-zero fraction on a value with a "0X0" digit pattern', () {
+      /// x / 1e6 = 1030.5 -- the fraction is real (not a trailing ".0"),
+      /// so it must survive.
+      expect(Numeric.formatNumToCounterCaliber(x: 1030500000), '1030.5 million');
+    });
+
+    test('boundary: last thousand-branch value vs first "round to thousand" value', () {
+      expect(Numeric.formatNumToCounterCaliber(x: 99994), '100 thousand');
+      expect(Numeric.formatNumToCounterCaliber(x: 99995), '100 thousand');
+    });
+
+    test('boundary: last "round to thousand" value vs first million-branch value', () {
+      expect(Numeric.formatNumToCounterCaliber(x: 999444), '999 thousand');
+      expect(Numeric.formatNumToCounterCaliber(x: 999445), '1 million');
+    });
+
+    /// --------------------------------------------------------------------
+    /// PROPERTY-BASED CHECK -- for many random values landing in the
+    /// million branch (including ones deliberately constructed to contain
+    /// an internal "0<digit>0" pattern), verifies the numeric prefix of
+    /// the result, scaled back up by 1e6, reconstructs the original value
+    /// within the rounding tolerance the formatter itself uses (1 decimal
+    /// place on the millions figure = up to 50,000 either way). This
+    /// directly catches any digit-corruption bug, independent of hardcoded
+    /// expected strings.
+    /// --------------------------------------------------------------------
+
+    test('property: the million-branch numeric prefix always reconstructs the original value', () {
+      final random = math.Random(7);
+
+      for (int i = 0; i < 500; i++) {
+        /// bias towards constructing "0<digit>0" internal patterns (the
+        /// bug trigger) alongside plain random values.
+        final int millions = random.nextBool()
+            ? (random.nextInt(9) + 1) * 1000 + random.nextInt(10) * 10 // e.g. 1030, 5060, 9090
+            : random.nextInt(9000) + 1000; // plain random 4-digit millions
+        final int x = millions * 1000000 + 999445; // stays safely in the million branch
+
+        final String result = Numeric.formatNumToCounterCaliber(x: x);
+        expect(result.endsWith(' million'), true, reason: 'x=$x result=$result');
+
+        final String numericPart = result.replaceAll(' million', '');
+        final double parsedMillions = double.parse(numericPart);
+
+        expect((parsedMillions - x / 1000000).abs(), lessThan(0.06),
+            reason: 'x=$x result=$result parsedMillions=$parsedMillions');
+      }
+    });
   });
   // -----------------------------------------------------------------------------
 

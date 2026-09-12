@@ -64,6 +64,17 @@ abstract class Numeric {
   }
   // --------------------
   /// AI TESTED
+  /// FIXED BUG: both branches below used to also do
+  /// `.replaceAll(RegExp('0.0'), '0')` before the current `.replaceAll`.
+  /// That RegExp's '.' is an unescaped wildcard (matches ANY character,
+  /// not just a literal dot), so for any calibrated value whose integer
+  /// part contains an internal "0<digit>0" pattern not touching the
+  /// decimal point (e.g. 1030.0, from x = 1'030'000'000), it deleted the
+  /// wrong 3 characters -- turning "1030 million" into "10 million", a
+  /// ~100x error. The following plain-string `.replaceAll('.0', '')` on
+  /// its own already correctly strips a trailing ".0", making the RegExp
+  /// step both redundant (in every case it doesn't corrupt) and actively
+  /// wrong (in the cases it does) -- removed entirely rather than fixed.
   static String formatNumToCounterCaliber({
     required int? x,
     String thousand = 'thousand',
@@ -80,7 +91,7 @@ abstract class Numeric {
       /// FROM 1000 TO 99995
       else if (x >= 1000 && x < 99995) {
         _stringOfCalibratedNumber =
-        '${(x / 1000).toStringAsFixed(1).replaceAll(RegExp('0.0'), '0').replaceAll(r'.0', '')}'
+        '${(x / 1000).toStringAsFixed(1).replaceAll('.0', '')}'
             ' $thousand';
       }
 
@@ -93,7 +104,7 @@ abstract class Numeric {
       /// FROM 999445 TO INFINITY
       else if (x >= 999445) {
         _stringOfCalibratedNumber =
-        '${(x / 1000000).toStringAsFixed(1).replaceAll(RegExp('0.0'), '0').replaceAll(r'.0', '')}'
+        '${(x / 1000000).toStringAsFixed(1).replaceAll('.0', '')}'
             ' $million';
       } else {
         _stringOfCalibratedNumber = x.toStringAsFixed(0);
