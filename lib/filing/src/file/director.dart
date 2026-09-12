@@ -174,10 +174,10 @@ abstract class Director {
           invoker: 'readDirectoryFilesPaths',
           functions: () async {
 
-            _fileSystemEntities = Directory(_path).listSync(
+            _fileSystemEntities = await Directory(_path).list(
               // followLinks: ,
               recursive: true,
-            );
+            ).toList();
 
             _output = await _getOnlyFilesPaths(
               fileSystemEntities: _fileSystemEntities,
@@ -261,10 +261,10 @@ abstract class Director {
             invoker: 'readSubDirectoryFilesPaths',
             functions: () async {
 
-              _fileSystemEntities = Directory(path).listSync(
+              _fileSystemEntities = await Directory(path).list(
                 // followLinks: ,
                 // recursive: false,
-              );
+              ).toList();
 
               _output = await _getOnlyFilesPaths(
                 fileSystemEntities: _fileSystemEntities,
