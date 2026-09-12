@@ -202,7 +202,11 @@ void main(){
 
     test('Extracts phone number with country code', () {
       final List<String> result = TextFind.phones(text: 'Call +1234567890');
-      expect(result, contains('001234567890'));
+      /// Phoner.cleanNumber's last step (plusifyPhone) normalizes a
+      /// zero-prefixed international number back to +-prefixed -- the
+      /// original text's '+' becomes '00' via fixCountryName before the
+      /// digits are matched, then plusifyPhone converts it back to '+'.
+      expect(result, contains('+1234567890'));
     });
 
 
@@ -215,7 +219,8 @@ void main(){
     test('Handles multiple phone numbers in text', () {
       final List<String> result = TextFind.phones(text: 'Call 123-456-7890 or +9876543210');
       expect(result, contains('1234567890'));
-      expect(result, contains('009876543210'));
+      /// see the note in 'Extracts phone number with country code' above.
+      expect(result, contains('+9876543210'));
     });
 
     test('Replaces specified characters in text', () {

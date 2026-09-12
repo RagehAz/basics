@@ -7,6 +7,9 @@ abstract class TextFind {
   // -----------------------------------------------------------------------------
   static final RegExp _hashtagWithDashExp = RegExp(r'\B#[\w-]+');
   static final RegExp _hashtagWithoutDashExp = RegExp(r'\B#\w\w+');
+  static final RegExp _moreThan5NumbersExp = RegExp(r'\b\d{6,}\b');
+  static final RegExp _urlExp = RegExp(r'\bhttps?:\/\/[\w\-_]+(\.[\w\-_]+)+[\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#]');
+  static final RegExp _emailExp = RegExp(r'\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b');
   // -----------------------------------------------------------------------------
 
   /// REG EX
@@ -42,6 +45,18 @@ abstract class TextFind {
     }
 
     return _output;
+  }
+  // --------------------
+  /// Same match-extraction as [getStringsByRegEx], but against an already
+  /// hoisted `RegExp` instead of compiling one from a literal pattern on
+  /// every call -- for the fixed patterns `phones`/`urls`/`emails` reuse
+  /// below.
+  static List<String> _matchesOf(RegExp pattern, String? text) {
+    if (TextCheck.isEmpty(text) == true) {
+      return [];
+    }
+
+    return pattern.allMatches(text!).map((match) => match.group(0)!).toList();
   }
   // -----------------------------------------------------------------------------
 
@@ -129,10 +144,7 @@ abstract class TextFind {
         //   pattern: r'\b[+]*[(]{0,1}[6-9]{1,4}[)]{0,1}[-\s\.0-9]*\b',
         // );
 
-        final List<String> _moreThan5Numbers = getStringsByRegEx(
-          text: _cleaned,
-          pattern: r'\b\d{6,}\b',
-        );
+        final List<String> _moreThan5Numbers = _matchesOf(_moreThan5NumbersExp, _cleaned);
 
         phoneNumbers = Stringer.addStringsToStringsIfDoNotContainThem(
           listToTake: phoneNumbers,
@@ -162,21 +174,14 @@ abstract class TextFind {
 
     if (TextCheck.isEmpty(text) == false){
 
-      if (TextCheck.isEmpty(text) == false){
+      final List<String> _matches = _matchesOf(_urlExp, text);
 
-        final List<String> _matches = getStringsByRegEx(
-          text: text,
-          pattern: r'\bhttps?:\/\/[\w\-_]+(\.[\w\-_]+)+[\w\-.,@?^=%&:/~+#]*[\w\-@?^=%&/~+#]',
-        );
-
-        _output = Stringer.addStringsToStringsIfDoNotContainThem(
-          listToTake: _output,
-          listToAdd: [
-            ..._matches,
-          ],
-        );
-
-      }
+      _output = Stringer.addStringsToStringsIfDoNotContainThem(
+        listToTake: _output,
+        listToAdd: [
+          ..._matches,
+        ],
+      );
 
     }
 
@@ -195,21 +200,14 @@ abstract class TextFind {
 
     if (TextCheck.isEmpty(text) == false){
 
-      if (TextCheck.isEmpty(text) == false){
+      final List<String> _matches = _matchesOf(_emailExp, text);
 
-        final List<String> _matches = getStringsByRegEx(
-          text: text,
-          pattern: r'\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b',
-        );
-
-        _output = Stringer.addStringsToStringsIfDoNotContainThem(
-          listToTake: _output,
-          listToAdd: [
-            ..._matches,
-          ],
-        );
-
-      }
+      _output = Stringer.addStringsToStringsIfDoNotContainThem(
+        listToTake: _output,
+        listToAdd: [
+          ..._matches,
+        ],
+      );
 
     }
 
