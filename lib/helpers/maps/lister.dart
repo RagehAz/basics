@@ -242,8 +242,7 @@ abstract class Lister {
     }
 
     for (int i = 0; i < list.length; i++){
-      _output.removeAt(i);
-      _output.insert(i, list[i]);
+      _output[i] = list[i];
     }
 
     return _output;
