@@ -62,14 +62,10 @@ class ZGridScale {
       hasResponsiveSideMargin: hasResponsiveSideMargin,
     );
 
-    final double _smallItemHeight = getSmallItemHeight(
-      context: context,
-      gridWidth: gridWidth,
-      columnCount: columnCount,
-      itemAspectRatio: itemAspectRatio,
-      gridHeight: gridHeight,
-      hasResponsiveSideMargin: hasResponsiveSideMargin,
-    );
+    /// derived directly from the width just computed above instead of
+    /// calling getSmallItemHeight(), which would otherwise redo the exact
+    /// same getGridSideMargin()+width computation from scratch
+    final double _smallItemHeight = _smallItemWidth / itemAspectRatio;
 
     final double _bigItemWidth = getBigItemWidth(
       context: context,
@@ -78,12 +74,10 @@ class ZGridScale {
       itemAspectRatio: itemAspectRatio,
     );
 
-    final double _bigItemHeight = getBigItemHeight(
-      context: context,
-      gridWidth: gridWidth,
-      gridHeight: gridHeight,
-      itemAspectRatio: itemAspectRatio,
-    );
+    /// derived directly from the width just computed above instead of
+    /// calling getBigItemHeight(), which would otherwise redo the exact
+    /// same getBigItemWidth() computation from scratch
+    final double _bigItemHeight = _bigItemWidth / itemAspectRatio;
 
     return ZGridScale(
       gridWidth: gridWidth,
@@ -187,20 +181,6 @@ class ZGridScale {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
-  static bool _gridWidthIsNarrow({
-    required BuildContext context,
-    required double gridWidth,
-    required double? gridHeight,
-    required double itemAspectRatio, // a = w / h
-  }) {
-    final double _widthAtMaxGridHeight = _getBigItemWidthByGridHeight(
-      gridHeight: gridHeight ?? Scale.screenHeight(context),
-      itemAspectRatio: itemAspectRatio,
-    );
-    return gridWidth < _widthAtMaxGridHeight;
-  }
-  // --------------------
-  /// TESTED : WORKS PERFECT
   static double getBigItemWidth({
     required BuildContext context,
     required double gridWidth,
@@ -208,12 +188,16 @@ class ZGridScale {
     required double itemAspectRatio, // a = w / h
   }){
 
-    final bool _gridIsNarrow = _gridWidthIsNarrow(
-      context: context,
-      itemAspectRatio: itemAspectRatio,
+    /// computed once and reused for both the narrow-check and the
+    /// non-narrow return below -- previously computed twice (once inside
+    /// the old _gridWidthIsNarrow helper just to check the condition, then
+    /// discarded and recomputed again here)
+    final double _widthAtMaxGridHeight = _getBigItemWidthByGridHeight(
       gridHeight: gridHeight,
-      gridWidth: gridWidth,
+      itemAspectRatio: itemAspectRatio,
     );
+
+    final bool _gridIsNarrow = gridWidth < _widthAtMaxGridHeight;
 
     if (_gridIsNarrow == true){
       /// ITEM CAN NOT TAKE MAXIMUM POSSIBLE HEIGHT ANYMORE
@@ -223,10 +207,7 @@ class ZGridScale {
       );
     }
     else {
-      return _getBigItemWidthByGridHeight(
-        gridHeight: gridHeight,
-        itemAspectRatio: itemAspectRatio,
-      );
+      return _widthAtMaxGridHeight;
     }
 
     // return getBigFlyerWidth(
