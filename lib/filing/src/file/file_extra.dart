@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_catches_without_on_clauses
 part of filing;
 /// TAMAM
 extension FileExtention on File {
@@ -60,8 +61,21 @@ extension FileExtention on File {
   Future<double?> readSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
-    final Uint8List? _bytes = await Byter.fromFile(this);
-    return FileSizer.calculateSize(_bytes?.length, fileSizeUnit);
+    /// File.length() is a lightweight filesystem stat call -- this used to
+    /// read the entire file into memory via Byter.fromFile() just to check
+    /// its byte count, which for a large photo/video allocates a full
+    /// in-memory copy for no reason.
+    int? _length;
+
+    try {
+      _length = await length();
+    } catch (error) {
+      // file may not exist -- leave _length null, matching the old
+      // behavior where a failed read left _bytes null too.
+      blog('File.readSize : tryAndCatch ERROR : $error');
+    }
+
+    return FileSizer.calculateSize(_length, fileSizeUnit);
   }
   // -----------------------------------------------------------------------------
 

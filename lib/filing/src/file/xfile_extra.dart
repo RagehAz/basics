@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_catches_without_on_clauses
 part of filing;
 /// TAMAM
 extension Extra on XFile {
@@ -46,8 +47,19 @@ extension Extra on XFile {
   Future<double?> readSize({
     FileSizeUnit fileSizeUnit = FileSizeUnit.megaByte,
   }) async {
-    final Uint8List? _bytes = await Byter.fromXFile(this, 'readSize');
-    return FileSizer.calculateSize(_bytes?.length, fileSizeUnit);
+    /// XFile.length() is a lightweight stat call (or an already-cached
+    /// value) -- this used to read the entire file into memory via
+    /// Byter.fromXFile() just to check its byte count, same anti-pattern
+    /// already fixed on File.readSize.
+    int? _length;
+
+    try {
+      _length = await length();
+    } catch (error) {
+      blog('XFile.readSize : tryAndCatch ERROR : $error');
+    }
+
+    return FileSizer.calculateSize(_length, fileSizeUnit);
   }
   // -----------------------------------------------------------------------------
 
