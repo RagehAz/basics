@@ -617,11 +617,12 @@ String generateStringsList_index_hh_i_mm_i_ss({
     required int minute,
     int? second,
   }){
+    final DateTime _now = DateTime.now().toLocal();
     return
       createDateTime(
-        year: DateTime.now().toLocal().year,
-        month: DateTime.now().toLocal().month,
-        day: DateTime.now().toLocal().day,
+        year: _now.year,
+        month: _now.month,
+        day: _now.day,
         hour: hour,
         minute: minute,
         second: second ?? 0,//DateTime.now().toLocal().second,

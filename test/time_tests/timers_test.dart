@@ -149,6 +149,19 @@ void main() {
       expect(result.second, 15);
     });
 
+    test("createClock stamps today's local year/month/day", () {
+      final DateTime _now = DateTime.now().toLocal();
+      final result = Timers.createClock(hour: 10, minute: 30, second: 15);
+      expect(result.year, _now.year);
+      expect(result.month, _now.month);
+      expect(result.day, _now.day);
+    });
+
+    test('createClock defaults second to 0 when omitted', () {
+      final result = Timers.createClock(hour: 5, minute: 45);
+      expect(result.second, 0);
+    });
+
   });
   // -----------------------------------------------------------------------------
 
