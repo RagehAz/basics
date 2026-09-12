@@ -10,7 +10,7 @@ import 'package:basics/helpers/nums/booler.dart';
 void main() {
   // -----------------------------------------------------------------------------
 
-  /// checkStringsContainString
+  /// formatNumToSeparatedKilos
 
   // --------------------
   group('formatNumToSeparatedKilos() tests', () {
@@ -76,6 +76,168 @@ void main() {
 
     test('null case', () {
       expect(Numeric.formatNumToSeparatedKilos(number: null), '0');
+    });
+
+    /// --------------------------------------------------------------------
+    /// EXPANDED COVERAGE -- explicit boundary values around every power of
+    /// 1000, verified by hand (not by re-running the code under test).
+    /// --------------------------------------------------------------------
+
+    test('boundary: exactly at every power-of-1000 threshold (positive)', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: 999, fractions: 0), '999');
+      expect(Numeric.formatNumToSeparatedKilos(number: 1000, fractions: 0), "1'000");
+      expect(Numeric.formatNumToSeparatedKilos(number: 999999, fractions: 0), "999'999");
+      expect(Numeric.formatNumToSeparatedKilos(number: 1000000, fractions: 0), "1'000'000");
+      expect(Numeric.formatNumToSeparatedKilos(number: 999999999, fractions: 0), "999'999'999");
+      expect(Numeric.formatNumToSeparatedKilos(number: 1000000000, fractions: 0),
+          "1'000'000'000");
+    });
+
+    test('boundary: exactly at every power-of-1000 threshold (negative)', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: -999, fractions: 0), '-999');
+      expect(Numeric.formatNumToSeparatedKilos(number: -1000, fractions: 0), "-1'000");
+      expect(Numeric.formatNumToSeparatedKilos(number: -999999, fractions: 0), "-999'999");
+      expect(Numeric.formatNumToSeparatedKilos(number: -1000000, fractions: 0), "-1'000'000");
+    });
+
+    test('groups a 1-digit remainder correctly (leading group smaller than 3)', () {
+      /// 7 digits: leading group is "1", then two full groups of 3.
+      expect(Numeric.formatNumToSeparatedKilos(number: 1234567, fractions: 0), "1'234'567");
+    });
+
+    test('groups a 2-digit remainder correctly (leading group smaller than 3)', () {
+      /// 8 digits: leading group is "12", then two full groups of 3.
+      expect(Numeric.formatNumToSeparatedKilos(number: 12345678, fractions: 0), "12'345'678");
+    });
+
+    test('groups an exact multiple of 3 digits correctly (leading group is full)', () {
+      /// 9 digits: three full groups of 3, no partial leading group.
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456789, fractions: 0), "123'456'789");
+    });
+
+    test('works with an empty-string separator (no visual grouping, but no crash)', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456789, fractions: 0, separator: ''),
+          '123456789');
+    });
+
+    test('works with a multi-character separator', () {
+      expect(
+          Numeric.formatNumToSeparatedKilos(number: 123456789, fractions: 0, separator: ' - '),
+          '123 - 456 - 789');
+    });
+
+    test('works with a space separator', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456789, fractions: 0, separator: ' '),
+          '123 456 789');
+    });
+
+    test('works with a unicode separator (Arabic thousands separator)', () {
+      expect(
+          Numeric.formatNumToSeparatedKilos(number: 123456789, fractions: 0, separator: '٬'),
+          '123٬456٬789');
+    });
+
+    test('does not pad the fraction string when it is naturally shorter than `fractions`', () {
+      /// 123456.789 already has 3 significant decimal digits; asking for 4
+      /// does not pad it to "7890" -- it stays "789" (documents the
+      /// underlying getFractionStringWithoutZero behavior: trims from the
+      /// end when longer than requested, never pads when shorter).
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456.789, fractions: 4),
+          "123'456.789");
+    });
+
+    test('drops a trailing zero fraction produced by rounding', () {
+      /// 123456.70 rounds cleanly and Dart's double.toString() drops the
+      /// trailing zero ("123456.7"), so only one fraction digit shows.
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456.70, fractions: 2),
+          "123'456.7");
+    });
+
+    test('omits the fraction entirely when it rounds to all zeros', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: 123456.001, fractions: 2), "123'456");
+      expect(Numeric.formatNumToSeparatedKilos(number: 123000.00, fractions: 2), "123'000");
+    });
+
+    test('handles a very large number within double-integer precision', () {
+      /// 10 digits: four groups (1 + 3 + 3 + 3).
+      expect(Numeric.formatNumToSeparatedKilos(number: 1234567890, fractions: 0),
+          "1'234'567'890");
+    });
+
+    test('handles single- and double-digit numbers (no grouping needed)', () {
+      expect(Numeric.formatNumToSeparatedKilos(number: 5, fractions: 0), '5');
+      expect(Numeric.formatNumToSeparatedKilos(number: 42, fractions: 0), '42');
+      expect(Numeric.formatNumToSeparatedKilos(number: -7, fractions: 0), '-7');
+    });
+
+    /// --------------------------------------------------------------------
+    /// PROPERTY-BASED CHECK -- verifies the thousands-grouping algorithm's
+    /// mathematical invariant directly (separator placement + digit
+    /// preservation), independent of the fraction-formatting quirks above,
+    /// across many random integers and several separators. This does not
+    /// re-implement the function under test -- it checks a property that
+    /// must hold for ANY correct grouping, however it's implemented.
+    /// --------------------------------------------------------------------
+
+    /// splits a digit string into groups of (at most) 3, counting from the
+    /// right -- e.g. "1234567" -> ["1", "234", "567"].
+    List<String> expectedGroupsFromRight(String digits) {
+      final List<String> groups = [];
+      int end = digits.length;
+      while (end > 0) {
+        final int start = (end - 3) > 0 ? end - 3 : 0;
+        groups.insert(0, digits.substring(start, end));
+        end = start;
+      }
+      return groups;
+    }
+
+    test('property: separators land every 3 digits from the right, for many random integers', () {
+      final random = math.Random(2026);
+
+      for (final separator in ["'", ':', ' ', '_', '-']) {
+        for (int i = 0; i < 500; i++) {
+          /// stays well within double-integer precision (2^53) so no
+          /// floating-point artifacts leak into the comparison.
+          final int magnitude = random.nextInt(999999999) + 1;
+          final int signedNumber = random.nextBool() ? magnitude : -magnitude;
+
+          final String result = Numeric.formatNumToSeparatedKilos(
+            number: signedNumber,
+            fractions: 0,
+            separator: separator,
+          );
+
+          final bool isNegative = signedNumber < 0;
+          final String digits = magnitude.toString();
+          final String expected =
+              (isNegative ? '-' : '') + expectedGroupsFromRight(digits).join(separator);
+
+          expect(result, expected,
+              reason: 'formatNumToSeparatedKilos(number: $signedNumber, separator: "$separator")');
+        }
+      }
+    });
+
+    test('property: stripping the separator reproduces the original digits, for many random integers', () {
+      final random = math.Random(99);
+
+      for (int i = 0; i < 300; i++) {
+        final int magnitude = random.nextInt(999999999) + 1;
+        final int signedNumber = random.nextBool() ? magnitude : -magnitude;
+
+        final String result = Numeric.formatNumToSeparatedKilos(
+          number: signedNumber,
+          fractions: 0,
+          separator: "'",
+        );
+
+        final String digitsOnly = result.replaceAll("'", '').replaceAll('-', '');
+        expect(digitsOnly, magnitude.toString(),
+            reason: 'formatNumToSeparatedKilos(number: $signedNumber)');
+        expect(result.startsWith('-'), signedNumber < 0,
+            reason: 'formatNumToSeparatedKilos(number: $signedNumber)');
+      }
     });
   });
   // -----------------------------------------------------------------------------
