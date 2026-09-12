@@ -153,18 +153,16 @@ abstract class Imager{
 
     if (imgImage != null){
 
-      await tryAndCatch(
-        invoker: 'Imager.resizeImgImage',
-        functions: () async {
-
-          _output = img.copyResize(imgImage,
-            width: width,
-            height: height,
-            // interpolation: Interpolation.cubic,
-          );
-
-          },
-      );
+      /// per-pixel interpolation across the whole image, run off the UI
+      /// isolate -- mirrors getImgImageFromUint8List's existing Isolate.run
+      /// pattern above, which this sibling function didn't have.
+      _output = await Isolate.run(() {
+        return img.copyResize(imgImage,
+          width: width,
+          height: height,
+          // interpolation: Interpolation.cubic,
+        );
+      });
     }
 
     return _output;

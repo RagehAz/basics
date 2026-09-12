@@ -90,7 +90,13 @@ abstract class DimensionsGetter {
 
         if (_isDecodable == true){
 
-          final img.Image? _image = await Imager.getImgImageFromUint8List(_bytes);
+          /// getUiImageFromBytes uses the native Skia decoder
+          /// (decodeImageFromList) instead of Imager.getImgImageFromUint8List's
+          /// pure-Dart img.decodePng/decodeImage -- both return width/height,
+          /// but the native path never materializes a full uncompressed pixel
+          /// buffer just to read two ints, which is a real CPU/memory cost
+          /// for a typical photo (tens of MB).
+          final _image = await Imager.getUiImageFromBytes(_bytes);
           final int? width = _image?.width;
           final int? height = _image?.height;
 
@@ -218,7 +224,8 @@ abstract class DimensionsGetter {
 
         if (_isDecodable == true){
 
-          final img.Image? _image = await Imager.getImgImageFromUint8List(_bytes);
+          /// same native-decode swap as fromBytes above.
+          final _image = await Imager.getUiImageFromBytes(_bytes);
           final int? width = _image?.width;
           final int? height = _image?.height;
 

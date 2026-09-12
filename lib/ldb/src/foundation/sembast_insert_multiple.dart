@@ -117,7 +117,6 @@ abstract class SembastInsertMultiple {
 class _SembastInsertionPreventingDuplicateID {
   // --------------------
   List<Map<String, dynamic>> _allMaps = [];
-  String? _docName;
   String? _primaryKey;
   DBModel? _dbModel;
   // --------------------
@@ -148,7 +147,6 @@ class _SembastInsertionPreventingDuplicateID {
           maps: maps,
           idFieldName: primaryKey!,
         );
-        _docName = docName!;
         _primaryKey = primaryKey;
 
         await _filterEachMapByExistence();
@@ -207,40 +205,51 @@ class _SembastInsertionPreventingDuplicateID {
   }
   // --------------------
   ///
+  /// one Filter.inList query for the whole batch instead of one
+  /// findRecordKey query per map (each of which ran its own Filter.equals
+  /// linear scan against the whole store) -- same fix already applied to
+  /// LdbBobOps.insertMany on the ObjectBox side, mirroring the
+  /// Filter.inList pattern already used by this file's sibling,
+  /// SembastDelete.deleteMaps.
   Future<void> _filterEachMapByExistence() async {
 
-    await Future.wait(<Future>[
+    final List<String> _ids = _allMaps
+        .map((Map<String, dynamic> map) => map[_primaryKey].toString())
+        .toList();
 
-      ...List.generate(_allMaps.length, (int index){
+    List<RecordSnapshot<int, Map<String, dynamic>>> _existingRecords = [];
 
-        return awaiter(
-          wait: true,
-          function: () async {
-
-            final Map<String, dynamic> map = _allMaps[index];
-
-            final int? _recordNumber = await SembastSearch.findRecordKey(
-                docName: _docName,
-                primaryKey: _primaryKey!,
-                id: map[_primaryKey]
-            );
-
-            /// NOT FOUND
-            if (_recordNumber == null){
-              _addMapToTheNotFound(map);
-            }
-
-            /// FOUND
-            else {
-              _addMapToTheFounds(_recordNumber, map);
-            }
-
-          },
+    await tryAndCatch(
+      invoker: '_filterEachMapByExistence',
+      timeout: SembastInfo.theTimeOutS,
+      functions: () async {
+        _existingRecords = await _dbModel!.doc.find(
+          _dbModel!.database,
+          finder: Finder(filter: Filter.inList(_primaryKey!, _ids)),
         );
+      },
+    );
 
-      }),
+    final Map<String, int> _existingKeyByID = {
+      for (final RecordSnapshot<int, Map<String, dynamic>> record in _existingRecords)
+        record.value[_primaryKey].toString(): record.key,
+    };
 
-    ]);
+    for (final Map<String, dynamic> map in _allMaps){
+
+      final int? _recordNumber = _existingKeyByID[map[_primaryKey].toString()];
+
+      /// NOT FOUND
+      if (_recordNumber == null){
+        _addMapToTheNotFound(map);
+      }
+
+      /// FOUND
+      else {
+        _addMapToTheFounds(_recordNumber, map);
+      }
+
+    }
 
   }
   // --------------------

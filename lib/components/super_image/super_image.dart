@@ -17,7 +17,6 @@ import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/space/borderers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_editor/image_editor.dart' as image_editor;
 import 'package:matrix2d/matrix2d.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 import 'package:basics/av/src/e_av_playing/super_video_player/super_video_player.dart';

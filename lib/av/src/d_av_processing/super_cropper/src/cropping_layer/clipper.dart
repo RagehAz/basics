@@ -31,5 +31,6 @@ class _CropAreaClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+  bool shouldReclip(covariant _CropAreaClipper oldClipper) =>
+      oldClipper.rect != rect || oldClipper.radius != radius;
 }

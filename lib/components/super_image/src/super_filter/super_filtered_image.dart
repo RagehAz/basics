@@ -83,62 +83,6 @@ class _FilteredImage extends StatefulWidget {
   final dynamic corners;
   // -----------------------------------------------------------------------------
   /// TESTED : WORKS PERFECT
-  static Future<ui.Image?> processImage({
-    required dynamic input,
-    required ImageFilterModel? filterModel,
-  }) async {
-
-    ui.Image? _output;
-
-    // blog('processImage : input : ${input.runtimeType} : input is Uint8List ${input is Uint8List}');
-
-    if (
-        input != null &&
-        filterModel != null &&
-        Lister.checkCanLoop(filterModel.matrixes) == true
-    ){
-
-      Uint8List? _bytes = input is Uint8List ? input
-          :
-      await Byter.fromUiImage(_output);
-
-      if (_bytes != null){
-
-        final image_editor.ImageEditorOption option = image_editor.ImageEditorOption();
-
-        // blog('processImage : filterModel : ${filterModel.id} : matrixes : ${filterModel.matrixes}');
-
-        final List<double>? _combinedMatrix = ImageFilterModel.combineMatrixes(
-          matrixes: filterModel.matrixes,
-        );
-
-        if (_combinedMatrix != null){
-
-          option.addOption(
-            image_editor.ColorOption(matrix: _combinedMatrix),
-          );
-
-          _bytes = await image_editor.ImageEditor.editImage(
-            image: _bytes,
-            imageEditorOption: option,
-          );
-
-          if (_bytes != null) {
-            _output = await Imager.getUiImageFromBytes(_bytes);
-          }
-
-        }
-      }
-
-
-      // blog('processImage : uint8list is : ${input?.length} bytes');
-
-    }
-
-    return _output;
-  }
-  // -----------------------------------------------------------------------------
-  /// TESTED : WORKS PERFECT
   static Widget _createTree({
     required Widget child,
     required List<List<double>>? matrixes,
@@ -181,12 +125,20 @@ class _FilteredImageState extends State<_FilteredImage> {
 
       if (widget.filterModel != null){
 
+        /// decodes the raw image only -- the filter itself is applied once,
+        /// live, by _createTree's ColorFiltered wrapping in build() below.
+        /// This used to call _FilteredImage.processImage, which baked the
+        /// filter into the pixels via image_editor.ImageEditor.editImage
+        /// AND THEN build() wrapped that already-filtered image in
+        /// _createTree again -- applying the same color matrix twice
+        /// (visually wrong, since matrix operations aren't generally
+        /// idempotent) and paying for both a pixel-level rewrite and a
+        /// per-frame GPU compositing pass for a static image. didUpdateWidget
+        /// below already only ever called getUiImageFromDynamic (no baking),
+        /// so this brings the initial-load path in line with the update path.
         asyncInSync(() async {
 
-          final ui.Image? uiImage = await _FilteredImage.processImage(
-            input: widget.pic,
-            filterModel: widget.filterModel,
-          );
+          final ui.Image? uiImage = await getUiImageFromDynamic(widget.pic);
 
           if (mounted == true){
             setState(() {

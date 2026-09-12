@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_catches_without_on_clauses
 part of filing;
 /// => TAMAM
 abstract class Decoding {
@@ -14,14 +15,11 @@ abstract class Decoding {
 
     if (bytes != null){
 
-      tryAndCatch(
-          invoker: 'getImageDecoderFromBytes',
-          functions: () async {
-
-            _output = img.findDecoderForData(bytes);
-
-          },
-      );
+      try {
+        _output = img.findDecoderForData(bytes);
+      } catch (error) {
+        // do not blog
+      }
 
     }
 
@@ -41,18 +39,12 @@ abstract class Decoding {
 
     if (bytes != null){
 
-      tryAndCatch(
-        invoker: 'getImageDecoderFromBytes',
-        functions: () async {
-
-          final img.Decoder? _decoder = img.findDecoderForData(bytes);
-          _output = _decoder != null;
-
-        },
-        onError: (String? error){
-          /// do not blog
-        }
-      );
+      try {
+        final img.Decoder? _decoder = img.findDecoderForData(bytes);
+        _output = _decoder != null;
+      } catch (error) {
+        /// do not blog
+      }
 
     }
 
