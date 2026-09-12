@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
 import 'package:basics/helpers/nums/numeric.dart';
@@ -63,10 +61,8 @@ abstract class Mapper {
       if (Lister.checkCanLoop(_list) == true) {
         for (final dynamic object in _list) {
           if (object != null && object is Map){
-            final Map<String, dynamic>? _map = jsonDecode(jsonEncode(object));
-            if (_map != null){
-              _output.add(_map);
-            }
+            final Map<String, dynamic> _map = _deepConvertIHLMOOValue(object) as Map<String, dynamic>;
+            _output.add(_map);
           }
         }
       }
@@ -1325,7 +1321,11 @@ abstract class Mapper {
       return null;
     }
     else {
-      return jsonDecode(jsonEncode(map));
+      /// deep-copies without the string-serialization round trip (see
+      /// _deepConvertIHLMOOValue's doc comment) -- also avoids throwing on
+      /// a value jsonEncode can't serialize, which a real "clone" of an
+      /// already-in-memory map should never do.
+      return _deepConvertIHLMOOValue(map) as Map<String, dynamic>;
     }
   }
   // --------------------
