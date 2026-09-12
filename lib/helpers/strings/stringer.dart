@@ -314,24 +314,18 @@ abstract class Stringer {
 
     if (Lister.checkCanLoop(inputList) == true) {
 
-      _output = <String>[...inputList!];
+      /// decorate-sort-undecorate: lowercase each element once up front
+      /// instead of calling toLowerCase() on both sides of every comparison
+      /// the sort makes.
+      final List<MapEntry<String, String>> _decorated = inputList!
+          .map((String value) => MapEntry<String, String>(value, value.toLowerCase()))
+          .toList();
 
-      _output.sort((String? a, String? b){
-
-        final String? _a = a?.toLowerCase();
-        final String? _b = b?.toLowerCase();
-
-        if (_a == null){
-          return 1;
-        }
-        else if (_b == null){
-          return -1;
-        }
-        else {
-          return _a.compareTo(_b);
-        }
-        
+      _decorated.sort((MapEntry<String, String> a, MapEntry<String, String> b) {
+        return a.value.compareTo(b.value);
       });
+
+      _output = _decorated.map((MapEntry<String, String> e) => e.key).toList();
 
     }
 

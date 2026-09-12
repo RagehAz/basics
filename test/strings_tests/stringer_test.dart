@@ -608,6 +608,25 @@ void main(){
       expect(output, expectedOutput);
     });
 
+    test('does not mutate the original input list', () {
+      final input = ['c', 'a', 'b'];
+      Stringer.sortAlphabetically(input);
+      expect(input, ['c', 'a', 'b']);
+    });
+
+    test('keeps case-insensitive duplicates (same word, different casing)', () {
+      final input = ['banana', 'Apple', 'apple', 'Banana'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output.map((s) => s.toLowerCase()).toList(), ['apple', 'apple', 'banana', 'banana']);
+      expect(output.toSet(), {'banana', 'Apple', 'apple', 'Banana'});
+    });
+
+    test('preserves original casing of every element after sorting', () {
+      final input = ['Zebra', 'apple', 'MANGO'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, ['apple', 'MANGO', 'Zebra']);
+    });
+
   });
   // -----------------------------------------------------------------------------
 
