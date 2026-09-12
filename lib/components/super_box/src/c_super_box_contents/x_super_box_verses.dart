@@ -11,6 +11,8 @@ class SuperBoxTexts extends StatelessWidget {
     required this.loading,
     required this.height,
     required this.width,
+    required this.graphicWidth,
+    required this.iconMargin,
     required this.maxWidth,
     required this.minWidth,
     required this.greyScale,
@@ -40,6 +42,8 @@ class SuperBoxTexts extends StatelessWidget {
   final bool textCentered;
   final dynamic icon;
   final bool loading;
+  final double graphicWidth;
+  final double iconMargin;
   final double? iconSizeFactor;
   final String? text;
   final String? secondText;
@@ -74,25 +78,13 @@ class SuperBoxTexts extends StatelessWidget {
         icon: icon,
     );
     // --------------------
-    final double _graphicWidth = SuperBoxController.graphicWidth(
-      icon: icon,
-      height: height,
-      loading: loading,
-      iconSizeFactor: iconSizeFactor,
-    );
-    // --------------------
-    final double _iconMargin = SuperBoxController.iconMargin(
-      height: height,
-      icon: icon,
-      text: text,
-      iconSizeFactor: iconSizeFactor,
-      loading: loading,
-    );
-    // --------------------
+    /// graphicWidth/iconMargin are computed once by the parent
+    /// (SuperBoxContents) and passed in, instead of being recomputed here
+    /// with the exact same inputs.
     final double? _verseWidth = SuperBoxController.verseWidth(
-      graphicWidth: _graphicWidth,
+      graphicWidth: graphicWidth,
       width: width,
-      iconMargin: _iconMargin,
+      iconMargin: iconMargin,
       hasIcon: icon != null,
     );
     // --------------------
@@ -116,8 +108,8 @@ class SuperBoxTexts extends StatelessWidget {
     // --------------------
     final double? _maxWidth = SuperBoxController.verseMaxWidth(
       maxWidth: maxWidth,
-      iconMargin: _iconMargin,
-      graphicWidth: _graphicWidth,
+      iconMargin: iconMargin,
+      graphicWidth: graphicWidth,
       hasIcon: icon != null,
     );
     // --------------------

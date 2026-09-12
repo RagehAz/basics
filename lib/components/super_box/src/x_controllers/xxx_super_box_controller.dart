@@ -235,6 +235,31 @@ class SuperBoxController {
     required String? text,
     required bool loading,
   }) {
+    return iconMarginFromGraphicWidth(
+      graphicWidth: graphicWidth(
+        icon: icon,
+        height: height,
+        iconSizeFactor: iconSizeFactor,
+        loading: loading,
+      ),
+      icon: icon,
+      height: height,
+      text: text,
+      loading: loading,
+    );
+  }
+  // --------------------
+  /// Same as [iconMargin], but takes an already-computed [graphicWidth]
+  /// instead of recomputing it -- use this when the caller (or a sibling
+  /// widget receiving the same inputs) already computed it once, instead
+  /// of paying for graphicWidth()'s computation again.
+  static double iconMarginFromGraphicWidth({
+    required double graphicWidth,
+    required dynamic icon,
+    required double? height,
+    required String? text,
+    required bool loading,
+  }) {
 
     final bool _hasIcon = icon != null || loading == true;
 
@@ -243,15 +268,7 @@ class SuperBoxController {
     }
 
     else {
-
-    final double _graphicWidth = graphicWidth(
-        icon: icon,
-        height: height,
-        iconSizeFactor: iconSizeFactor,
-        loading: loading,
-      );
-
-      return (height - _graphicWidth) / 2;
+      return (height - graphicWidth) / 2;
     }
 
   }

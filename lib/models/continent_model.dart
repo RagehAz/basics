@@ -1,7 +1,6 @@
 import 'package:basics/bldrs_theme/classes/iconz.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/models/region_model.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -42,24 +41,16 @@ class Continent {
 
   // --------------------
   static Map<String, dynamic> cipherContinents(List<Continent> continents) {
-    Map<String, dynamic> _map = <String, dynamic>{};
+    final Map<String, dynamic> _map = <String, dynamic>{};
 
     if (Lister.checkCanLoop(continents)) {
+      /// direct assignment instead of insertPairInMap per entry -- that
+      /// copies the whole accumulator map on every call, O(n^2).
       for (final Continent continent in continents) {
-        _map = Mapper.insertPairInMap(
-          map: _map,
-          key: continent.name,
-          value: continent.toMap(),
-          overrideExisting: true,
-        );
+        _map[continent.name] = continent.toMap();
       }
 
-      _map = Mapper.insertPairInMap(
-        map: _map,
-        key: 'id',
-        value: continentsMapID,
-        overrideExisting: true,
-      );
+      _map['id'] = continentsMapID;
     }
 
     return _map;

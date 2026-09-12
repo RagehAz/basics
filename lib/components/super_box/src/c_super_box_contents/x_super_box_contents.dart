@@ -85,11 +85,20 @@ class SuperBoxContents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // --------------------
-    final double _iconMargin = SuperBoxController.iconMargin(
-      height: height,
+    /// computed once here and threaded down to SuperBoxTexts, which
+    /// previously recomputed both of these itself with the exact same
+    /// inputs -- graphicWidth() ended up called 3 times per build overall.
+    final double _graphicWidth = SuperBoxController.graphicWidth(
       icon: icon,
-      text: text,
+      height: height,
+      loading: loading,
       iconSizeFactor: iconSizeFactor,
+    );
+    final double _iconMargin = SuperBoxController.iconMarginFromGraphicWidth(
+      graphicWidth: _graphicWidth,
+      icon: icon,
+      height: height,
+      text: text,
       loading: loading,
     );
     // --------------------
@@ -139,6 +148,8 @@ class SuperBoxContents extends StatelessWidget {
             loading: loading,
             height: height,
             width: width,
+            graphicWidth: _graphicWidth,
+            iconMargin: _iconMargin,
             maxWidth: maxWidth,
             minWidth: minWidth,
             greyScale: greyScale,

@@ -605,11 +605,8 @@ abstract class XFiler {
 
     if (Lister.checkCanLoop(files) == true){
 
-      for (final XFile file in files){
-
-        await deleteFile(file, invoker);
-
-      }
+      /// deletes concurrently instead of one file at a time.
+      await Future.wait(files.map((XFile file) => deleteFile(file, invoker)));
 
     }
 

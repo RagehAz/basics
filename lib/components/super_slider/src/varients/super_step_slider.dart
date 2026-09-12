@@ -133,8 +133,6 @@ class _SuperStepSliderState extends State<SuperStepSlider> {
   // --------------------
   void _onChange(double value) {
 
-    _getValueToSnapTo(value);
-
     if (mounted == true){
       setState(() {
         _live = value;

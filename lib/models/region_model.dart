@@ -1,5 +1,4 @@
 import 'package:basics/helpers/maps/lister.dart';
-import 'package:basics/helpers/maps/mapper.dart';
 import 'package:basics/helpers/strings/stringer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +38,13 @@ class Region {
   }
   // --------------------
   static Map<String, dynamic> cipherRegions(List<Region> regions) {
-    Map<String, dynamic> _map = <String, dynamic>{};
+    final Map<String, dynamic> _map = <String, dynamic>{};
 
+    /// direct assignment instead of insertPairInMap per entry -- that
+    /// copies the whole accumulator map on every call, O(n^2).
     if (Lister.checkCanLoop(regions)) {
       for (final Region region in regions) {
-        _map = Mapper.insertPairInMap(
-          map: _map,
-          value: region.toMap(),
-          key: region.name,
-          overrideExisting: true,
-        );
+        _map[region.name] = region.toMap();
       }
     }
 

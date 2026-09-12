@@ -423,22 +423,19 @@ abstract class Mapper {
 
     if (insert != null){
 
-      final List<String> _keys = insert.keys.toList();
+      /// one pass with direct assignment instead of calling
+      /// insertPairInMap per key -- that copies the whole accumulator map
+      /// on every call, making this O(n^2) for a large `insert` map. Same
+      /// per-key semantics as insertPairInMap: set if absent, or always
+      /// when replaceDuplicateKeys is true.
+      _output ??= <String, dynamic>{};
+      final Map<String, dynamic> _base = _output;
 
-      if (Lister.checkCanLoop(_keys) == true){
-
-        for (final String key in _keys){
-
-            _output = insertPairInMap(
-              map: _output,
-              key: key,
-              value: insert[key],
-              overrideExisting: replaceDuplicateKeys,
-            );
-
+      insert.forEach((String key, dynamic value) {
+        if (replaceDuplicateKeys == true || _base[key] == null){
+          _base[key] = value;
         }
-
-      }
+      });
 
     }
 

@@ -83,7 +83,10 @@ abstract class TextCasing {
 
       if (Lister.checkCanLoop(_words) == true){
 
-        _output = '';
+        /// StringBuffer instead of repeated `'$_output $_capitalized'`
+        /// concatenation -- that's O(n^2) in word count since Dart strings
+        /// are immutable (each concat allocates a whole new string).
+        final StringBuffer _buffer = StringBuffer();
 
         Lister.loopSync(
             models: _words,
@@ -100,12 +103,10 @@ abstract class TextCasing {
 
                 if (TextCheck.isEmpty(_capitalized) == false){
 
-                  if (_output == ''){
-                    _output = _capitalized;
+                  if (_buffer.isNotEmpty){
+                    _buffer.write(' ');
                   }
-                  else {
-                    _output = '$_output $_capitalized';
-                  }
+                  _buffer.write(_capitalized);
 
                 }
 
@@ -113,6 +114,8 @@ abstract class TextCasing {
 
             }
         );
+
+        _output = _buffer.toString();
 
       }
 

@@ -401,20 +401,15 @@ abstract class Director {
       //   },
       // );
 
-      for (int i = 0; i <_all.length; i++){
+      final List<File> _toDelete = _all.where((File file) {
+        return TextCheck.checkStringContainAnyOfSubStrings(
+          string: file.path,
+          subStrings: exclude,
+        ) == false;
+      }).toList();
 
-        final File _file = _all[i];
-
-        final bool _shouldExclud = TextCheck.checkStringContainAnyOfSubStrings(
-            string: _file.path,
-            subStrings: exclude,
-        );
-
-        if (_shouldExclud == false){
-          await Filer.deleteFile(_file);
-        }
-
-      }
+      /// deletes concurrently instead of one file at a time.
+      await Future.wait(_toDelete.map(Filer.deleteFile));
 
     }
 

@@ -112,6 +112,10 @@ class AppVersionBuilder extends StatelessWidget {
     return _isBigger;
   }
   // --------------------
+  /// hoisted instead of compiling a fresh RegExp on every call -- this is
+  /// invoked on every AppVersionBuilder rebuild.
+  static final RegExp _appVersionPattern = RegExp(r'^\d+\.\d+\.\d+(\+\d+)?$');
+  // --------------------
   /// AI TESTED
   static bool appVersionIsValid(String? version) {
 
@@ -120,9 +124,7 @@ class AppVersionBuilder extends StatelessWidget {
     }
 
     else {
-      const pattern = r'^\d+\.\d+\.\d+(\+\d+)?$';
-      final regex = RegExp(pattern);
-      return regex.hasMatch(version);
+      return _appVersionPattern.hasMatch(version);
     }
 
   }

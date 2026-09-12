@@ -206,6 +206,11 @@ abstract class Phoner {
     return _output;
   }
   // --------------------
+  /// matches every character `cleanNumber` used to strip via 8 sequential
+  /// `replaceAllCharacters` calls -- one single-pass replace instead of 8
+  /// full-string passes.
+  static final RegExp _cleanNumberCharsToStrip = RegExp(r'[()\[\]. _-]');
+  // --------------------
   /// TESTED : WORKS PERFECT
   static String? cleanNumber({
     required String? phone,
@@ -221,14 +226,7 @@ abstract class Phoner {
         specialCharacter: ':',
       )?.toLowerCase();
 
-      value = TextMod.replaceAllCharacters(characterToReplace: '(', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: ')', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: '[', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: ']', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: '.', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: ' ', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: '-', replacement: '', input: value);
-      value = TextMod.replaceAllCharacters(characterToReplace: '_', replacement: '', input: value);
+      value = value?.replaceAll(_cleanNumberCharsToStrip, '');
       value = plusifyPhone(phone: value);
       // if (TextCheck.stringStartsExactlyWith(text: value, startsWith: '00') == true){
       //   final String _n = TextMod.removeNumberOfCharactersFromBeginningOfAString(string: value, numberOfCharacters: 2)!;

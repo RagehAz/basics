@@ -231,21 +231,21 @@ abstract class Timers {
 
   }
   // --------------------
+  /// patternA : 1987-06-09 21:00:00.000Z
+  static final RegExp _timestampPatternWithZ = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}Z');
+  /// patternB : 1987-06-09 21:00:00.000
+  static final RegExp _timestampPatternWithoutZ = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}');
+  // --------------------
   /// TESTED : WORKS PERFECT
   static bool _hasTheStringPattern(dynamic input) {
-
-    /// patternA : 1987-06-09 21:00:00.000Z
-    /// patternB : 1987-06-09 21:00:00.000
 
     if (input == null){
       return false;
     }
     else {
 
-      final RegExp regexA = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}Z');
-      final bool aHasMatch = regexA.firstMatch(input?.toString() ??'') != null;
-      final RegExp regexB = RegExp(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}');
-      final bool bHasMatch = regexB.firstMatch(input?.toString() ?? '') != null;
+      final bool aHasMatch = _timestampPatternWithZ.firstMatch(input?.toString() ??'') != null;
+      final bool bHasMatch = _timestampPatternWithoutZ.firstMatch(input?.toString() ?? '') != null;
 
       if (aHasMatch == true || bHasMatch == true) {
         return true;

@@ -448,15 +448,26 @@ class PaginationController {
 
       if (paginatorMaps.value.isNotEmpty == true){
 
-        List<Map<String, dynamic>> _maps = [];
-        _maps = <Map<String, dynamic>>[...paginatorMaps.value];
+        /// counts how many occurrences of each id to remove, matching the
+        /// old per-id loop (which called removeMapFromMapsByIdField once
+        /// per id, each removing only the first remaining match) -- a
+        /// single O(n) pass replaces what used to be an O(ids * n) scan.
+        final Map<String, int> _remainingRemovals = <String, int>{};
+        for (final String id in ids){
+          _remainingRemovals[id] = (_remainingRemovals[id] ?? 0) + 1;
+        }
 
-       for (final String id in ids){
-         _maps = Mapper.removeMapFromMapsByIdField(
-           baseMaps: _maps,
-           mapIDToRemove: id,
-         );
-       }
+        final List<Map<String, dynamic>> _maps = <Map<String, dynamic>>[];
+        for (final Map<String, dynamic> map in paginatorMaps.value){
+          final dynamic _id = map[idFieldName];
+          final int _remaining = _remainingRemovals[_id] ?? 0;
+          if (_remaining > 0){
+            _remainingRemovals[_id] = _remaining - 1;
+          }
+          else {
+            _maps.add(map);
+          }
+        }
 
        setNotifier(
            notifier: paginatorMaps,
@@ -513,34 +524,83 @@ class PaginationController {
     required bool mounted,
   }){
 
-    List<Map<String, dynamic>>? _combinedMaps = [...?controller?.paginatorMaps.value];
+    final List<Map<String, dynamic>> _combinedMaps = [...?controller?.paginatorMaps.value];
 
     if (Lister.checkCanLoop(mapsToAdd) == true && controller != null){
 
+      final String _idField = controller.idFieldName;
+
+      /// one O(n) pass to index existing maps by id, instead of running an
+      /// O(n) checkMapsContainMapWithID scan + O(n)
+      /// replaceMapInMapsWithSameIDField scan PER incoming map (this used
+      /// to be O(M*N) for M incoming maps against N already-loaded ones,
+      /// and N only grows as the user scrolls further).
+      final Map<dynamic, int> _idToIndex = <dynamic, int>{};
+      bool _hasNullID = false;
+      for (int i = 0; i < _combinedMaps.length; i++){
+        final dynamic _id = _combinedMaps[i][_idField];
+        if (_id == null){
+          _hasNullID = true;
+        }
+        else {
+          /// first-occurrence wins, matching indexWhere's behavior in the
+          /// old checkMapsContainMapWithID/replaceMapInMapsWithSameIDField
+          /// (relevant only if _combinedMaps ever ends up with duplicate
+          /// ids, which this function is otherwise trying to prevent).
+          _idToIndex.putIfAbsent(_id, () => i);
+        }
+      }
+
+      /// new maps are buffered here instead of individually inserted at
+      /// the front (which would shift every existing index on every
+      /// single insert) -- applied to _combinedMaps in one shot below.
+      final List<Map<String, dynamic>> _newMaps = <Map<String, dynamic>>[];
+      final Map<dynamic, int> _pendingIndex = <dynamic, int>{};
+
       for (final Map<String, dynamic>? mapToInsert in mapsToAdd!) {
 
-        final bool _contains = Mapper.checkMapsContainMapWithID(
-          maps: _combinedMaps,
-          map: mapToInsert,
-          idFieldName: controller.idFieldName,
-        );
+        final dynamic _insertID = mapToInsert?[_idField];
+        final bool _matchesPending = _insertID != null && _pendingIndex.containsKey(_insertID);
+        final bool _matchesExisting = _insertID != null && _idToIndex.containsKey(_insertID);
 
-        /// SHOULD REPLACE EXISTING MAP
+        /// mirrors the old checkMapsContainMapWithID's `==` semantics
+        /// (null == null counts as "contains") combined with
+        /// replaceMapInMapsWithSameIDField's null-guarded replace (a null
+        /// id is never actually found/replaced) -- so once any null-id
+        /// map exists, a later null-id mapToInsert is silently a no-op,
+        /// exactly like the old per-item loop.
+        final bool _contains = _insertID != null
+            ? (_matchesPending || _matchesExisting)
+            : _hasNullID;
+
+        /// SHOULD REPLACE EXISTING/PENDING MAP
         if (_contains == true) {
-          _combinedMaps = Mapper.replaceMapInMapsWithSameIDField(
-            baseMaps: _combinedMaps,
-            mapToReplace: mapToInsert,
-            idFieldName: controller.idFieldName,
-          );
+          if (_matchesPending){
+            _newMaps[_pendingIndex[_insertID]!] = mapToInsert!;
+          }
+          else if (_matchesExisting){
+            _combinedMaps[_idToIndex[_insertID]!] = mapToInsert!;
+          }
+          /// else: null id "contains" but never actually replaced -- no-op.
         }
 
         /// SHOULD ADD NEW MAP
         else {
-          if (controller.addExtraMapsAtEnd == true) {
-            _combinedMaps = [...?_combinedMaps, mapToInsert!];
-          } else {
-            _combinedMaps = [mapToInsert!, ...?_combinedMaps];
+          _pendingIndex[_insertID] = _newMaps.length;
+          _newMaps.add(mapToInsert!);
+          if (_insertID == null){
+            _hasNullID = true;
           }
+        }
+      }
+
+      if (_newMaps.isNotEmpty){
+        if (controller.addExtraMapsAtEnd == true) {
+          _combinedMaps.addAll(_newMaps);
+        } else {
+          /// matches the old per-item `[mapToInsert!, ...?_combinedMaps]`
+          /// loop, which ends up with the LAST-processed new item first.
+          _combinedMaps.insertAll(0, _newMaps.reversed);
         }
       }
 

@@ -10,12 +10,14 @@ abstract class SuperYoutubeMethods {
   static String? extractVideoIDFromYoutubeURL(String? youtubeURL) {
     String? _output;
 
-    if (SuperVideoCheckers.checkIsValidYoutubeLink(youtubeURL) == true) {
+    if (TextCheck.isEmpty(youtubeURL) == false) {
 
-      final youtubeLinkPattern = RegExp(
-          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
-
-      final match = youtubeLinkPattern.firstMatch(youtubeURL!);
+      /// reuses the already-validated match instead of first calling
+      /// checkIsValidYoutubeLink (a separate hasMatch call) and then
+      /// re-matching the same pattern again here -- also uses
+      /// SuperVideoCheckers' hoisted RegExp instead of compiling a fresh
+      /// one on every call.
+      final match = SuperVideoCheckers.youtubeLinkPattern.firstMatch(youtubeURL!);
 
       if (match != null){
         _output = match.group(3);
@@ -59,29 +61,15 @@ abstract class SuperYoutubeMethods {
 
   // --------------------
   /// AI TESTED
+  /// delegates to SuperVideoCheckers (same library) instead of maintaining
+  /// a byte-for-byte duplicate RegExp/implementation here.
   static bool checkIsValidYoutubeVideoID(String? videoID) {
-    if (videoID == null){
-      return false;
-    }
-    else {
-      final youtubeVideoIdPattern = RegExp(r'^[a-zA-Z0-9_-]+$');
-      return youtubeVideoIdPattern.hasMatch(videoID) && videoID.length <= 11;
-    }
+    return SuperVideoCheckers.checkIsValidYoutubeVideoID(videoID);
   }
   // --------------------
   /// AI TESTED
   static bool checkIsValidYoutubeLink(String? link) {
-
-    if (TextCheck.isEmpty(link) == true){
-      return false;
-    }
-
-    else {
-      final youtubeLinkPattern = RegExp(
-          r'^(https?\:\/\/)?(www\.youtube\.com\/watch\?v=|m\.youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)');
-      return youtubeLinkPattern.hasMatch(link!);
-    }
-
+    return SuperVideoCheckers.checkIsValidYoutubeLink(link);
   }
   // --------------------------------------------------------------------------
 }

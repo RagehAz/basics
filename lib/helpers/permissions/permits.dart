@@ -18,7 +18,7 @@ abstract class Permit {
   /// TESTED : WORKS PERFECT
   static List<Map<String, dynamic>?> allPermissionsMaps(){
 
-    return [
+    return const [
       null,
       {'permission': Permission.camera, 'name': 'camera',},
       {'permission': Permission.mediaLibrary, 'name': 'mediaLibrary',},

@@ -254,6 +254,11 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   late TransformationController transformationController;
   late AnimationController animationController;
   Animation<Matrix4>? animation;
+  /// cached across resetAnimation() calls -- only depends on
+  /// animationController (stable for the State's lifetime) and
+  /// widget.resetCurve (invalidated in didUpdateWidget if it changes),
+  /// so there's no need to allocate a new one on every pinch-zoom reset.
+  CurvedAnimation? _resetCurvedAnimation;
   OverlayEntry? entry;
   List<OverlayEntry> overlayEntries = [];
   double scale = 1;
@@ -277,9 +282,19 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
   }
   // --------------------
   @override
+  void didUpdateWidget(_ZoomableChild oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.resetCurve != widget.resetCurve){
+      _resetCurvedAnimation?.dispose();
+      _resetCurvedAnimation = null;
+    }
+  }
+  // --------------------
+  @override
   void dispose() {
     transformationController.dispose();
     animationController.dispose();
+    _resetCurvedAnimation?.dispose();
 
     super.dispose();
   }
@@ -380,7 +395,7 @@ class _ZoomableChildState extends State<_ZoomableChild> with TickerProviderState
 
     if (mounted) {
 
-      final CurvedAnimation _curvedAnimation = CurvedAnimation(
+      final CurvedAnimation _curvedAnimation = _resetCurvedAnimation ??= CurvedAnimation(
         parent: animationController,
         curve: widget.resetCurve,
       );

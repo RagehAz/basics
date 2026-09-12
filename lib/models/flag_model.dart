@@ -459,20 +459,23 @@ class Flag {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  /// `allFlags` is a compile-time const, so this map's content never
+  /// changes at runtime -- cache it instead of rebuilding it (previously
+  /// via `insertPairInMap` in a loop, which copies the whole accumulator
+  /// map per flag, O(n^2)) on every single search call.
+  static Map<String, dynamic>? _countriesPhonesMapCache;
   static Map<String, dynamic> _createCountriesPhonesMap(){
-    Map<String, dynamic> _output = {};
-
-    for (final Flag flag in allFlags){
-
-      _output = Mapper.insertPairInMap(
-          map: _output,
-          key: flag.id,
-          value: flag.phoneCode,
-          overrideExisting: true,
-      );
-
+    if (_countriesPhonesMapCache != null){
+      return _countriesPhonesMapCache!;
     }
 
+    final Map<String, dynamic> _output = {};
+
+    for (final Flag flag in allFlags){
+      _output[flag.id] = flag.phoneCode;
+    }
+
+    _countriesPhonesMapCache = _output;
     return _output;
   }
   // --------------------

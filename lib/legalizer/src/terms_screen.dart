@@ -19,7 +19,12 @@ class TermsScreen extends StatelessWidget {
     required String langCode,
   }){
 
-    final List<Widget> _englishTerms = <Widget>[
+    /// builds only the requested language's list instead of always
+    /// building both (~150 widgets each, with many string-interpolated
+    /// allocations) and discarding the unused one.
+    if (langCode != 'ar'){
+
+    return <Widget>[
       const SmallText('Last updated: 2022-08-01'),
       const BigText('1. Introduction'),
       MediumText('Welcome to $company (“Company”, “we”, “our”, “us”)!'),
@@ -180,7 +185,9 @@ class TermsScreen extends StatelessWidget {
       MediumText('These Terms of Service were created for $domain by PolicyMaker.io on 2022-08-01.'),
     ];
 
-    final List<Widget> _arabicTerms = <Widget>[
+    }
+
+    return <Widget>[
       const SmallText('آخر تحديث: 2022-08-01'),
       const BigText('1 المقدمة'),
       MediumText('مرحبًا بك في $company ("الشركة" ، "نحن" ، "لدينا" ، "نحن")!'),
@@ -336,8 +343,6 @@ class TermsScreen extends StatelessWidget {
           '.'),
       MediumText('تم إنشاء شروط الخدمة هذه لـ $domain بواسطة PolicyMaker.io في 2022-08-01.'),
     ];
-
-    return langCode == 'ar' ? _arabicTerms : _englishTerms;
   }
   // --------------------------------------------------------------------------
   @override

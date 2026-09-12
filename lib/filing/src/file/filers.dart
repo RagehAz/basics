@@ -176,23 +176,19 @@ abstract class Filer {
     }
 
     else {
-      final List<File> _output = <File>[];
+      List<File> _output = <File>[];
 
       if (Lister.checkCanLoop(bytezz) == true){
 
-        for (int i = 0; i < bytezz.length; i++){
-
-          final File? _file = await createFromBytes(
+        /// creates every file concurrently instead of one at a time.
+        final List<File?> _results = await Future.wait(
+          List.generate(bytezz.length, (int i) => createFromBytes(
             bytes: bytezz[i],
             fileName: filesNames[i],
             directoryType: directoryType,
-          );
-
-          if (_file != null){
-            _output.add(_file);
-          }
-
-        }
+          )),
+        );
+        _output = _results.whereType<File>().toList();
 
       }
 
@@ -608,11 +604,8 @@ abstract class Filer {
 
     if (Lister.checkCanLoop(files) == true){
 
-      for (final File file in files){
-
-        await deleteFile(file);
-
-      }
+      /// deletes concurrently instead of one file at a time.
+      await Future.wait(files.map(deleteFile));
 
     }
 
@@ -788,9 +781,11 @@ abstract class Filer {
 
       if (_path != null){
         final File _file = File(_path);
-        _exists = await _file.exists();
+        /// one stat() syscall answers both questions instead of exists()
+        /// + stat() -- notFound means it doesn't exist.
         final FileStat _stat = await _file.stat();
         _type = _stat.type;
+        _exists = _type != FileSystemEntityType.notFound;
       }
 
       blog('checkFileExistsByName.type($_type).name($name).exists($_exists).path($_path)');

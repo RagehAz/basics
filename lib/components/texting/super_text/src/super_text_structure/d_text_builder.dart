@@ -48,14 +48,17 @@ class TextBuilder extends StatelessWidget {
 
     final String _verse = verse ?? '';
     final TextStyle _defaultStyle = defaultStyle ?? const TextStyle();
+    /// computed once and reused below instead of twice -- same value both
+    /// times since `_verse` doesn't change in between.
+    final String _lowerVerse = _verse.toLowerCase();
 
-    if (highlighted == null || highlighted.isEmpty || !_verse.toLowerCase().contains(highlighted.trim().toLowerCase())) {
+    if (highlighted == null || highlighted.isEmpty || !_lowerVerse.contains(highlighted.trim().toLowerCase())) {
       return [ TextSpan(text: _verse) ];
     }
 
     else {
 
-      final Iterable<Match> matches = highlighted.toLowerCase().allMatches(_verse.toLowerCase());
+      final Iterable<Match> matches = highlighted.toLowerCase().allMatches(_lowerVerse);
       int lastMatchEnd = 0;
 
       final List<TextSpan> children = <TextSpan>[];
