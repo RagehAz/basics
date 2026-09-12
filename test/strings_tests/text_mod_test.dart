@@ -486,6 +486,21 @@ void main() {
       final result = TextMod.removeSpacesFromAString('HelloWorld');
       expect(result, equals('HelloWorld'));
     });
+
+    test('Removes LRM immediately followed by a visible space', () {
+      final result = TextMod.removeSpacesFromAString('Hello‎ World');
+      expect(result, equals('HelloWorld'));
+    });
+
+    test('Removes a visible space immediately followed by RLM', () {
+      final result = TextMod.removeSpacesFromAString('Hello World‏');
+      expect(result, equals('HelloWorld'));
+    });
+
+    test('Removes runs of LRM/RLM interleaved with visible spaces', () {
+      final result = TextMod.removeSpacesFromAString('  ‎ ‏  Hello   World  ‎‏  ');
+      expect(result, equals('HelloWorld'));
+    });
   });
 
   group('removeTextAfterFirstSpecialCharacter', () {

@@ -424,11 +424,14 @@ abstract class TextMod {
     String? _output;
 
     if (string != null) {
+      /// the plain-space pass strips every U+0020 first, so the two
+      /// LRM+space/space+RLM combo passes that used to follow could never
+      /// match anything (they each require a literal U+0020 that is already
+      /// gone by then) -- confirmed dead since the function's original
+      /// implementation, not a behavior change.
       _output = string.replaceAll(' ', '');
       _output = _output.replaceAll('‎', '');
       _output = _output.replaceAll('‏', '');
-      _output = _output.replaceAll('‎ ', '');
-      _output = _output.replaceAll(' ‏', '');
     }
 
     return _output;
