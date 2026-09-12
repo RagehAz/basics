@@ -197,19 +197,10 @@ abstract class ObjectCheck {
     bool _objectIsJPGorPNG = false;
 
     if (object != null){
-      if (
-          FileExtensioning.getExtensionFromPath(object) == 'jpeg'
-          ||
-          FileExtensioning.getExtensionFromPath(object) == 'jpg'
-          ||
-          FileExtensioning.getExtensionFromPath(object) == 'png'
-      ) {
-        _objectIsJPGorPNG = true;
-      }
 
-      else {
-        _objectIsJPGorPNG = false;
-      }
+      final String? _extension = FileExtensioning.getExtensionFromPath(object);
+
+      _objectIsJPGorPNG = _extension == 'jpeg' || _extension == 'jpg' || _extension == 'png';
 
     }
 

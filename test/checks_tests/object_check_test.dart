@@ -217,4 +217,48 @@ void main (){
 
   });
 
+  group('ObjectCheck.objectIsJPGorPNG', () {
+
+    test('Returns true for a .jpg path', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo.jpg'), isTrue);
+    });
+
+    test('Returns true for a .jpeg path', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo.jpeg'), isTrue);
+    });
+
+    test('Returns true for a .png path', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo.png'), isTrue);
+    });
+
+    test('Returns true for a full absolute path with a valid extension', () {
+      expect(ObjectCheck.objectIsJPGorPNG('/home/user/pictures/vacation.PNG'.toLowerCase()), isTrue);
+    });
+
+    test('Returns false for a .gif path', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo.gif'), isFalse);
+    });
+
+    test('Returns false for a .webp path', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo.webp'), isFalse);
+    });
+
+    test('Returns false for a path with no extension', () {
+      expect(ObjectCheck.objectIsJPGorPNG('photo'), isFalse);
+    });
+
+    test('Returns false for null', () {
+      expect(ObjectCheck.objectIsJPGorPNG(null), isFalse);
+    });
+
+    test('Returns false for a non-string object', () {
+      expect(ObjectCheck.objectIsJPGorPNG(12345), isFalse);
+    });
+
+    test('Returns false for an empty string', () {
+      expect(ObjectCheck.objectIsJPGorPNG(''), isFalse);
+    });
+
+  });
+
 }
