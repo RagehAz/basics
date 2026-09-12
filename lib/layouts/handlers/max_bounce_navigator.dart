@@ -78,8 +78,9 @@ class _MaxBounceNavigatorState extends State<MaxBounceNavigator> {
 
     if (widget.isOn == true){
 
-      final double _height = widget.boxDistance ?? Scale.screenHeight(context);
-      final double _width = widget.boxDistance ?? Scale.screenHeight(context);
+      final double _screenHeight = Scale.screenHeight(context);
+      final double _height = widget.boxDistance ?? _screenHeight;
+      final double _width = widget.boxDistance ?? _screenHeight;
       final double _boxDistance = widget.axis == Axis.vertical ? _height : _width;
 
       return NotificationListener<ScrollUpdateNotification>(

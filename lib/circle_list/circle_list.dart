@@ -213,7 +213,7 @@ class _CircleListState extends State<CircleList>
         }
       });
       _controller!.addListener(() {
-        if (mounted == true){
+        if (mounted == true && isAnimationStop != false){
           setState(() {
             isAnimationStop = false;
           });

@@ -22,7 +22,7 @@ class AutoScrollingBar extends StatefulWidget {
 
 class _AutoScrollingBarState extends State<AutoScrollingBar> {
   // -----------------------------------------------------------------------------
-  final ValueNotifier<Map<String, dynamic>?> _scroll = ValueNotifier(null);
+  final ValueNotifier<ScrollDirection> _direction = ValueNotifier(ScrollDirection.idle);
   // -----------------------------------------------------------------------------
   @override
   void initState() {
@@ -65,19 +65,16 @@ class _AutoScrollingBarState extends State<AutoScrollingBar> {
   @override
   void dispose() {
     widget.scrollController?.removeListener(_scrollListener);
-    _scroll.dispose();
+    _direction.dispose();
     super.dispose();
   }
   // -----------------------------------------------------------------------------
   void _scrollListener() {
 
     setNotifier(
-      notifier: _scroll,
+      notifier: _direction,
       mounted: mounted,
-      value: {
-        'offset': widget.scrollController?.offset,
-        'direction': widget.scrollController?.positions.first.userScrollDirection,
-      },
+      value: widget.scrollController?.positions.first.userScrollDirection ?? ScrollDirection.idle,
     );
 
   }
@@ -86,21 +83,19 @@ class _AutoScrollingBarState extends State<AutoScrollingBar> {
   Widget build(BuildContext context) {
     // --------------------
     return ValueListenableBuilder(
-      valueListenable: _scroll,
-      builder: (_, Map<String, dynamic>? scroll, Widget? child) {
-
-        final ScrollDirection _direction = scroll?['direction'] ?? ScrollDirection.idle;
+      valueListenable: _direction,
+      builder: (_, ScrollDirection direction, Widget? child) {
 
         /// this goes between 0 and (-_barHeight)
         double _barPosition = 0;
 
         /// WHEN GOING UP
-        if (_direction == ScrollDirection.forward){
+        if (direction == ScrollDirection.forward){
           _barPosition = 0;
         }
 
         /// WHEN GOING DOWN
-        else if (_direction == ScrollDirection.reverse){
+        else if (direction == ScrollDirection.reverse){
           _barPosition = -widget.height;
         }
 

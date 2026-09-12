@@ -1,6 +1,6 @@
+// ignore_for_file: avoid_catches_without_on_clauses
 import 'dart:typed_data';
 import 'package:basics/filing/filing.dart';
-import 'package:basics/helpers/checks/error_helpers.dart';
 import 'package:basics/helpers/checks/tracers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -84,23 +84,19 @@ abstract class Pixelizer {
         }
       }
 
-      tryAndCatch(
-          invoker: 'getPixelColor',
-          functions: () async {
+      try {
 
-            _output = Color.fromARGB(
-              _calculate(pixel.a, pixel.maxIndexValue),
-              _calculate(pixel.r, pixel.maxIndexValue),
-              _calculate(pixel.g, pixel.maxIndexValue),
-              _calculate(pixel.b, pixel.maxIndexValue),
-            );
+        _output = Color.fromARGB(
+          _calculate(pixel.a, pixel.maxIndexValue),
+          _calculate(pixel.r, pixel.maxIndexValue),
+          _calculate(pixel.g, pixel.maxIndexValue),
+          _calculate(pixel.b, pixel.maxIndexValue),
+        );
 
-          },
-        // onError: (String error){
-        //     blog('error : $error');
-        //     blog('pixel.a(${pixel.a}) pixel.maxIndexValue(${pixel.maxIndexValue})');
-        // }
-      );
+      } catch (error) {
+        // blog('error : $error');
+        // blog('pixel.a(${pixel.a}) pixel.maxIndexValue(${pixel.maxIndexValue})');
+      }
 
       return _output;
     }
