@@ -174,23 +174,69 @@ abstract class LdbBobOps {
 
       }
 
-      /// INSERT-OR-REPLACE PER ITEM : each item may or may not already exist
+      /// INSERT-OR-REPLACE PER ITEM, BATCHED : one query to find which of
+      /// this batch's recordIDs already exist, then one putMany -- instead
+      /// of insert()'s N existence-check-then-put round trips. Duplicate
+      /// recordIDs within [maps] keep the LAST occurrence, matching the
+      /// N-inserts loop this replaces (later ones overwrite earlier ones).
       else {
 
-        _success = true;
-
+        final Map<String, Map<String, dynamic>> _byRecordID = <String, Map<String, dynamic>>{};
+        bool _allHaveIDs = true;
         for (final Map<String, dynamic> map in maps!){
-
-          final bool _thisSuccess = await insert(
-            map: map,
-            docName: docName,
-            primaryKey: primaryKey,
-            allowDuplicateIDs: false,
-          );
-
-          _success = _success && _thisSuccess;
-
+          final dynamic _idValue = map[primaryKey];
+          if (_idValue != null){
+            _byRecordID[_idValue.toString()] = map;
+          }
+          else {
+            /// matches insert()'s per-item behavior: a map with no value at
+            /// [primaryKey] is silently skipped (not persisted) and fails
+            /// the batch's overall success flag, same as the old loop's
+            /// `_success = _success && _thisSuccess` reduction.
+            _allHaveIDs = false;
+          }
         }
+
+        await tryAndCatch(
+          invoker: 'LdbBobOps.insertMany.insertOrReplace',
+          timeout: BobInfo.theTimeOutS,
+          functions: () async {
+
+            final Box<LdbBob>? _box = await _getBox();
+
+            if (_box != null){
+
+              if (_byRecordID.isNotEmpty){
+
+                final Condition<LdbBob> _condition = LdbBob_.docName.equals(docName)
+                    & LdbBob_.recordID.oneOf(_byRecordID.keys.toList());
+                final Query<LdbBob> _query = _box.query(_condition).build();
+                final List<LdbBob> _existing = _query.find();
+                _query.close();
+
+                final Map<String, int> _existingBobIDs = <String, int>{
+                  for (final LdbBob bob in _existing) bob.recordID: bob.bobID,
+                };
+
+                final List<LdbBob> _bobs = _byRecordID.entries.map((MapEntry<String, Map<String, dynamic>> entry) {
+                  return LdbBob(
+                    bobID: _existingBobIDs[entry.key] ?? 0,
+                    docName: docName,
+                    recordID: entry.key,
+                    jsonValue: _encode(entry.value),
+                  );
+                }).toList();
+
+                _box.putMany(_bobs);
+
+              }
+
+              _success = _allHaveIDs;
+
+            }
+
+          },
+        );
 
       }
 
