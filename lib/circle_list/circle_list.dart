@@ -238,6 +238,14 @@ class _CircleListState extends State<CircleList>
     final double outerRadius = widget.outerRadius ?? outCircleDiameter / 2;
     final double innerRadius = widget.innerRadius ?? outerRadius / 2;
     final double betweenRadius = (outerRadius + innerRadius) / 2;
+    /// hoisted here instead of inside the per-child List.generate loop
+    /// below -- this value doesn't depend on `index`, so it was being
+    /// recomputed identically for every child on every rebuild (including
+    /// every drag-update/animation tick, even though it only actually
+    /// changes when the child count/radius/padding change).
+    final double _childrenDiameter =
+        2 * pi * betweenRadius / widget.children.length -
+            widget.childrenPadding;
     final rotateMode = widget.rotateMode ?? RotateMode.onlyChildrenRotate;
     final dragAngleRange = widget.dragAngleRange;
     // --------------------
@@ -336,25 +344,29 @@ class _CircleListState extends State<CircleList>
                       widget.initialAngle),
                   child: Stack(
                     children: List.generate(widget.children.length, (index) {
-                      final double childrenDiameter =
-                          2 * pi * betweenRadius / widget.children.length -
-                              widget.childrenPadding;
                       final Offset childPoint = getChildPoint(
                           index,
                           widget.children.length,
                           betweenRadius,
-                          childrenDiameter);
+                          _childrenDiameter);
                       return Positioned(
                         left: outerRadius + childPoint.dx,
                         top: outerRadius + childPoint.dy,
-                        child: Transform.rotate(
-                          angle: widget.isChildrenVertical ? (-dragModel.angleDiff - widget.initialAngle)
-                              : ((dragModel.angleDiff) + widget.initialAngle),
-                          child: Container(
-                              width: childrenDiameter,
-                              height: childrenDiameter,
-                              alignment: Alignment.center,
-                              child: widget.children[index]),
+                        /// isolates each child's paint layer so the
+                        /// rotation below is handled by the compositor
+                        /// (translate/rotate a cached layer) instead of
+                        /// forcing Flutter to re-record this child's paint
+                        /// commands on every drag/animation tick.
+                        child: RepaintBoundary(
+                          child: Transform.rotate(
+                            angle: widget.isChildrenVertical ? (-dragModel.angleDiff - widget.initialAngle)
+                                : ((dragModel.angleDiff) + widget.initialAngle),
+                            child: Container(
+                                width: _childrenDiameter,
+                                height: _childrenDiameter,
+                                alignment: Alignment.center,
+                                child: widget.children[index]),
+                          ),
                         ),
                       );
                     }),
