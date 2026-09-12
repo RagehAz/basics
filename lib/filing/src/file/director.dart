@@ -339,9 +339,14 @@ abstract class Director {
 
       // xBlog('findFilePathByName: searching for : $name');
 
-      final List<String> _allPaths = await Director.readDirectoryFilesPaths(
-        type: directoryType,
-      );
+      /// `DirectoryOperator` keeps an in-memory cache of `DirectoryType.app`'s
+      /// paths, updated incrementally on every file create/delete -- reuse it
+      /// instead of re-scanning the filesystem on every single lookup.
+      final List<String> _allPaths = directoryType == DirectoryType.app
+          ? await DirectoryOperator.getPaths()
+          : await Director.readDirectoryFilesPaths(
+              type: directoryType,
+            );
 
       // xBlog('findFilePathByName: found : $_allPaths');
 
