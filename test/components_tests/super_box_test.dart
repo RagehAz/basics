@@ -66,6 +66,43 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
+    /// REGRESSION TEST: width == null is how every auto-sizing pill/chip
+    /// button (search tabs, keyword buttons, suggestion chips) uses
+    /// SuperBox -- none of the tests above cover it, they all pass an
+    /// explicit width. Several auto-width SuperBoxes side by side in a Row
+    /// (not wrapped in Expanded/Flexible, matching real usage) must not
+    /// overflow -- each one has to shrink-wrap to its own text instead of
+    /// claiming the Row's full available width.
+    testWidgets('Multiple auto-width (width: null) SuperBoxes in a Row do not overflow', (tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        home: Scaffold(
+          body: Row(
+            key: Key('testRow'),
+            children: <Widget>[
+              SuperBox(height: 40, text: 'Keywords'),
+              SuperBox(height: 40, text: 'Flyers'),
+              SuperBox(height: 40, text: 'Companies'),
+              SuperBox(height: 40, text: 'Authors'),
+            ],
+          ),
+        ),
+      ));
+
+      expect(tester.takeException(), isNull);
+
+      final double _rowWidth = tester.getSize(find.byKey(const Key('testRow'))).width;
+      final double _totalBoxesWidth = tester
+          .getSize(find.byType(SuperBox).at(0)).width
+          + tester.getSize(find.byType(SuperBox).at(1)).width
+          + tester.getSize(find.byType(SuperBox).at(2)).width
+          + tester.getSize(find.byType(SuperBox).at(3)).width;
+
+      /// each box must shrink-wrap to its own content, not claim the Row's
+      /// full available width -- otherwise 4 boxes side by side would each
+      /// try to be as wide as the whole Row and overflow.
+      expect(_totalBoxesWidth, lessThanOrEqualTo(_rowWidth));
+    });
+
   });
 
 }

@@ -118,23 +118,24 @@ class SuperBoxTexts extends StatelessWidget {
       width: _verseWidth,
       alignment: _verseAlignment,
       // color: Colorz.yellow50, // for design purpose only
-      /// ClipRect+OverflowBox instead of a permanently-non-scrolling
-      /// SingleChildScrollView (physics was already
-      /// NeverScrollableScrollPhysics) -- verified pixel-identical via a
-      /// direct widget-test comparison (same Column size, same child
-      /// position, same silent-overflow-instead-of-RenderFlex-error
-      /// behavior in both the fits-content and overflows-content cases).
-      /// OverflowBox restores the unbounded height SingleChildScrollView
-      /// gave its child (so oversized content doesn't trigger a RenderFlex
-      /// overflow error), and ClipRect reproduces the same Clip.hardEdge
-      /// visual clipping SingleChildScrollView used by default -- without
-      /// allocating the Scrollable/viewport/gesture-recognizer/semantics
-      /// machinery that scrolling here never actually used.
-      child: ClipRect(
-        child: OverflowBox(
-          maxHeight: double.infinity,
-          alignment: Alignment.topCenter,
-          child: Column(
+      /// REVERTED the ClipRect+OverflowBox swap (from a prior session) --
+      /// when width is null (auto-sizing pill/chip buttons -- the common
+      /// case, verseWidth() returns null whenever no explicit width was
+      /// given), this Container passes an unbounded width straight through.
+      /// SingleChildScrollView shrink-wraps to its child's actual width in
+      /// that case; OverflowBox does NOT -- it reports the *maximum
+      /// available* width instead, since its own size comes from its
+      /// incoming constraints, not from its child's rendered size. With
+      /// several auto-width SuperBoxes in a Row (search tabs, keyword
+      /// buttons, suggestion chips), each one then claims more horizontal
+      /// space than it needs and the Row overflows on the right -- this is
+      /// the actual bug report that led to finding this. The prior
+      /// widget-test verification apparently only covered the
+      /// explicit-width case, where Container's own width already masks
+      /// the difference.
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: _versesCrossAlignment,
             children: <Widget>[
@@ -209,7 +210,6 @@ class SuperBoxTexts extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
   // -----------------------------------------------------------------------------
