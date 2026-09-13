@@ -207,6 +207,17 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
   @override
   Widget build(BuildContext context) {
 
+    /// ISOLATES THE FADED CONTENT'S OWN PAINT INTO ITS OWN LAYER SO THE
+    /// FadeTransition/AnimatedBuilder BELOW ONLY HAS TO RE-COMPOSITE A
+    /// CACHED LAYER AT A NEW ALPHA EACH ANIMATION FRAME, INSTEAD OF
+    /// RE-RECORDING THE CHILD'S ENTIRE PAINT OUTPUT ON EVERY TICK OF THE
+    /// FADE. MOSTLY MATTERS FOR NON-LIST CHILDREN -- ListView.builder/
+    /// GridView.builder ITEMS ALREADY GET THIS FOR FREE VIA FLUTTER'S OWN
+    /// DEFAULT addRepaintBoundaries.
+    final Widget? _boundedChild = widget.child == null ? null : RepaintBoundary(
+      child: widget.child,
+    );
+
     return IgnorePointer(
         ignoring: widget.ignorePointer,
         child:
@@ -215,14 +226,14 @@ class _AnimatedFadeState extends State<_AnimatedFade> with SingleTickerProviderS
 
         FadeTransition(
           opacity: _animation!.parent,
-          child: widget.child,
+          child: _boundedChild,
         )
 
             :
 
         AnimatedBuilder(
             animation: _animation!.parent,
-            child: widget.child,
+            child: _boundedChild,
             builder: (_, Widget? child){
 
               if (widget.builder == null) {
