@@ -559,13 +559,41 @@ class SuperVideoController {
   /// LISTENING
 
   // --------------------
+  /// video_player polls native position on a 100ms Timer while playing and
+  /// notifies unconditionally, even though position/caption/duration aren't
+  /// consumed anywhere downstream (_FilePlayer's checkers + dimension-fit
+  /// calc only ever read isInitialized/hasError/isBuffering/isPlaying/size/
+  /// volume). Without this gate, every playing video rebuilds its whole
+  /// overlay Stack 10x/sec for the entire duration of playback for a value
+  /// nothing displays.
+  bool _relevantValueChanged(VideoPlayerValue? oldValue, VideoPlayerValue? newValue){
+
+    if (oldValue == null || newValue == null){
+      return oldValue != newValue;
+    }
+
+    return oldValue.isInitialized != newValue.isInitialized
+        || oldValue.hasError != newValue.hasError
+        || oldValue.isBuffering != newValue.isBuffering
+        || oldValue.isPlaying != newValue.isPlaying
+        || oldValue.size != newValue.size
+        || oldValue.volume != newValue.volume;
+
+  }
+  // --------------------
   /// TESTED : WORKS PERFECT
   void _listenToVideo(){
+
+    final VideoPlayerValue? _newValue = _videoPlayerController?.value;
+
+    if (_relevantValueChanged(_videoValue?.value, _newValue) == false){
+      return;
+    }
 
     setNotifier(
       notifier: _videoValue,
       mounted: mounted.value,
-      value: _videoPlayerController?.value,
+      value: _newValue,
       /// the configuration below fixes resetting videoValue while its disposed
       // addPostFrameCallBack: false,
       shouldHaveListeners: true,
